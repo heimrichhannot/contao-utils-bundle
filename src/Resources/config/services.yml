@@ -1,0 +1,13 @@
+services:
+    huh.utils.choice.field:
+        class: HeimrichHannot\UtilsBundle\Choice\FieldChoice
+        arguments:
+            - "@contao.framework"
+    huh.utils.choice.data_container:
+        class: HeimrichHannot\UtilsBundle\Choice\DataContainerChoice
+        arguments:
+            - "@contao.framework"
+    huh.utils.choice.message:
+        class: HeimrichHannot\UtilsBundle\Choice\MessageChoice
+        arguments:
+            - "@contao.framework"
