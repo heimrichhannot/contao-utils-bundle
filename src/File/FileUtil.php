@@ -13,7 +13,6 @@ use Contao\DataContainer;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
-use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 
@@ -39,30 +38,30 @@ class FileUtil
      */
     public function getUniqueFileNameWithinTarget($target, $prefix = null, $i = 0)
     {
-        $objFile = new \File($target, true);
+        $file = new File($target, true);
 
         $target = ltrim(str_replace(TL_ROOT, '', $target), '/');
-        $strPath = str_replace('.'.$objFile->extension, '', $target);
+        $path = str_replace('.'.$file->extension, '', $target);
 
-        if ($prefix && false !== ($pos = strpos($strPath, $prefix))) {
-            $strPath = str_replace(substr($strPath, $pos, strlen($strPath)), '', $strPath);
-            $target = $strPath.'.'.$objFile->extension;
+        if ($prefix && false !== ($pos = strpos($path, $prefix))) {
+            $path = str_replace(substr($path, $pos, strlen($path)), '', $path);
+            $target = $path.'.'.$file->extension;
         }
 
         // Create the parent folder
-        if (!file_exists($objFile->dirname)) {
-            $objFolder = new \Folder(ltrim(str_replace(TL_ROOT, '', $objFile->dirname), '/'));
+        if (!file_exists($file->dirname)) {
+            $folder = new Folder(ltrim(str_replace(TL_ROOT, '', $file->dirname), '/'));
 
             // something went wrong with folder creation
-            if (null === $objFolder->getModel()) {
+            if (null === $folder->getModel()) {
                 return false;
             }
         }
 
         if (file_exists(TL_ROOT.'/'.$target)) {
             // remove suffix
-            if ($i > 0 && StringUtil::endsWith($strPath, '_'.$i)) {
-                $strPath = rtrim($strPath, '_'.$i);
+            if ($i > 0 && System::getContainer()->get('huh.utils.string')->endsWith($path, '_'.$i)) {
+                $path = rtrim($path, '_'.$i);
             }
 
             // increment counter & add extension again
@@ -70,10 +69,10 @@ class FileUtil
 
             // for performance reasons, add new unique id to path to make recursion come to end after 100 iterations
             if ($i > 100) {
-                return static::getUniqueFileNameWithinTarget(static::addUniqIdToFilename($strPath.'.'.$objFile->extension, null, false));
+                return $this->getUniqueFileNameWithinTarget($this->addUniqueIdToFilename($path.'.'.$file->extension, null, false));
             }
 
-            return static::getUniqueFileNameWithinTarget($strPath.'_'.$i.'.'.$objFile->extension, $prefix, $i);
+            return $this->getUniqueFileNameWithinTarget($path.'_'.$i.'.'.$file->extension, $prefix, $i);
         }
 
         return $target;
@@ -82,40 +81,46 @@ class FileUtil
     /**
      * Returns the file list for a given directory.
      *
-     * @param string $strDir           - the absolute local path to the directory (e.g. /dir/mydir)
+     * @param string $dir              - the absolute local path to the directory (e.g. /dir/mydir)
      * @param string $baseUrl          - the relative uri (e.g. /tl_files/mydir)
      * @param string $protectedBaseUrl - domain + request uri -> absUrl will be domain + request uri + ?file=$baseUrl/filename.ext
      *
      * @return array file list containing file objects
      */
-    public function getFileList($strDir, $baseUrl, $protectedBaseUrl = null)
+    public function getFileList($dir, $baseUrl, $protectedBaseUrl = null)
     {
-        $arrResult = [];
-        if (is_dir($strDir)) {
-            if ($handler = opendir($strDir)) {
-                while (false !== ($strFile = readdir($handler))) {
-                    if ('.' == substr($strFile, 0, 1)) {
+        $results = [];
+
+        if (is_dir($dir)) {
+            if ($handler = opendir($dir)) {
+                while (false !== ($file = readdir($handler))) {
+                    if ('.' == substr($file, 0, 1)) {
                         continue;
                     }
-                    $arrFile = [];
-                    $arrFile['filename'] = htmlentities($strFile);
-                    if ($protectedBaseUrl) {
-                        $arrFile['absUrl'] = $protectedBaseUrl.(empty($_GET) ? '?' : '&').'file='.urlencode($arrFile['absUrl']);
-                    } else {
-                        $arrFile['absUrl'] = str_replace('\\', '/', str_replace('//', '', $baseUrl.'/'.$strFile));
-                    }
-                    $arrFile['path'] = str_replace($arrFile['filename'], '', $arrFile['absUrl']);
-                    $arrFile['filesize'] =
-                        self::formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $strDir.'/'.$strFile))), true);
 
-                    $arrResult[] = $arrFile;
+                    $fileArray = [];
+                    $fileArray['filename'] = htmlentities($file);
+
+                    if ($protectedBaseUrl) {
+                        $fileArray['absUrl'] = $protectedBaseUrl.(empty($_GET) ? '?' : '&').'file='.urlencode($fileArray['absUrl']);
+                    } else {
+                        $fileArray['absUrl'] = str_replace('\\', '/', str_replace('//', '', $baseUrl.'/'.$file));
+                    }
+
+                    $fileArray['path'] = str_replace($fileArray['filename'], '', $fileArray['absUrl']);
+                    $fileArray['filesize'] =
+                        $this->formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $dir.'/'.$file))), true);
+
+                    $results[] = $fileArray;
                 }
+
                 closedir($handler);
             }
         }
-        Arrays::aasort($arrResult, 'filename');
 
-        return $arrResult;
+        System::getContainer()->get('huh.utils.array')->aasort($results, 'filename');
+
+        return $results;
     }
 
     public function formatSizeUnits($bytes, $keepTogether = false)
@@ -137,33 +142,33 @@ class FileUtil
         return $bytes;
     }
 
-    public function getPathWithoutFilename($strPathToFile)
+    public function getPathWithoutFilename($pathToFile)
     {
-        $path = pathinfo($strPathToFile);
+        $path = pathinfo($pathToFile);
 
         return $path['dirname'];
     }
 
-    public function getFileExtension($strPath)
+    public function getFileExtension($path)
     {
-        return pathinfo($strPath, PATHINFO_EXTENSION);
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**
-     * @param      $varUuid
-     * @param bool $blnCheckExists
+     * @param      $uuid
+     * @param bool $checkIfExists
      *
      * @return null|string Return the path of the file, or null if not exists
      */
-    public function getPathFromUuid($varUuid, $blnCheckExists = true)
+    public function getPathFromUuid($uuid, $checkIfExists = true)
     {
-        if (null !== ($objFile = \FilesModel::findByUuid($varUuid))) {
-            if (!$blnCheckExists) {
-                return $objFile->path;
+        if (null !== ($file = \FilesModel::findByUuid($uuid))) {
+            if (!$checkIfExists) {
+                return $file->path;
             }
 
-            if (file_exists(TL_ROOT.'/'.$objFile->path)) {
-                return $objFile->path;
+            if (file_exists(TL_ROOT.'/'.$file->path)) {
+                return $file->path;
             }
         }
 
@@ -171,32 +176,32 @@ class FileUtil
     }
 
     /**
-     * @param      $varUuid
-     * @param bool $blnDoNotCreate
+     * @param      $uuid
+     * @param bool $doNotCreate
      *
-     * @return \File|null Return the file object
+     * @return File|null Return the file object
      */
-    public function getFileFromUuid($varUuid, $blnDoNotCreate = true)
+    public function getFileFromUuid($uuid, $doNotCreate = true)
     {
-        if ($strPath = static::getPathFromUuid($varUuid)) {
-            if (is_dir(TL_ROOT.DIRECTORY_SEPARATOR.$strPath)) {
+        if ($path = $this->getPathFromUuid($uuid)) {
+            if (is_dir(TL_ROOT.DIRECTORY_SEPARATOR.$path)) {
                 return null;
             }
 
-            return new \File($strPath, $blnDoNotCreate);
+            return new File($path, $doNotCreate);
         }
     }
 
     /**
-     * @param      $varUuid
-     * @param bool $blnDoNotCreate
+     * @param      $uuid
+     * @param bool $doNotCreate
      *
      * @return bool|Folder Return the folder object
      */
-    public function getFolderFromUuid($varUuid, $blnDoNotCreate = true)
+    public function getFolderFromUuid($uuid, $doNotCreate = true)
     {
-        if ($path = static::getPathFromUuid($varUuid)) {
-            return new Folder($path, $blnDoNotCreate);
+        if ($path = $this->getPathFromUuid($uuid)) {
+            return new Folder($path, $doNotCreate);
         }
 
         return false;

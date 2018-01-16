@@ -16,6 +16,10 @@ services:
         class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
         arguments:
             - "@contao.framework"
+    huh.utils.file:
+        class: HeimrichHannot\UtilsBundle\File\FileUtil
+        arguments:
+            - "@contao.framework"
     huh.utils.form:
         class: HeimrichHannot\UtilsBundle\Form\FormUtil
         arguments:

@@ -13,6 +13,8 @@ use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
 use Contao\Date;
+use Contao\Encryption;
+use Contao\Environment;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
@@ -37,7 +39,7 @@ class FormUtil
                 $value[$k] = $this->prepareSpecialValueForOutput($field, $v, $dc, $skipDcaLoading);
             }
 
-            return $value;
+            return implode(', ', $value);
         }
 
         $table = $dc->table;
@@ -94,51 +96,8 @@ class FormUtil
                 $value = implode(', ', $rows);
             }
         } elseif (Validator::isBinaryUuid($value)) {
-            $strPath = Files::getPathFromUuid($value);
-            $value = $strPath ? (\Environment::get('url').'/'.$strPath) : \StringUtil::binToUuid($value);
-        } elseif (is_array($value)) {
-            $value = Arrays::flattenArray($value);
-            $value = array_filter($value); // remove empty elements
-
-            // transform binary uuids to paths
-            $value = array_map(
-                function ($varValue) {
-                    if (\Validator::isBinaryUuid($varValue)) {
-                        $strPath = Files::getPathFromUuid($varValue);
-
-                        if ($strPath) {
-                            return \Environment::get('url').'/'.$strPath;
-                        }
-
-                        return \StringUtil::binToUuid($varValue);
-                    }
-
-                    return $varValue;
-                },
-                $value
-            );
-
-            if (!$reference) {
-                $value = array_map(
-                    function ($varValue) use ($options) {
-                        return isset($options[$varValue]) ? $options[$varValue] : $varValue;
-                    },
-                    $value
-                );
-            }
-
-            $value = array_map(
-                function ($varValue) use ($reference) {
-                    if (is_array($reference)) {
-                        return isset($reference[$varValue]) ? ((is_array(
-                            $reference[$varValue]
-                        )) ? $reference[$varValue][0] : $reference[$varValue]) : $varValue;
-                    }
-
-                    return $varValue;
-                },
-                $value
-            );
+            $strPath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($value);
+            $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
         }
         // Replace boolean checkbox value with "yes" and "no"
         else {
@@ -146,19 +105,17 @@ class FormUtil
                 $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
             } elseif (is_array($options) && array_is_assoc($options)) {
                 $value = isset($options[$value]) ? $options[$value] : $value;
-            } elseif (is_array($reference)) {
-                $value = isset($reference[$value]) ? ((is_array(
-                    $reference[$value]
-                )) ? $reference[$value][0] : $reference[$value]) : $value;
             }
         }
 
-        if (is_array($value)) {
-            $value = implode(', ', $value);
+        if (is_array($reference)) {
+            $value = isset($reference[$value]) ? ((is_array(
+                $reference[$value]
+            )) ? $reference[$value][0] : $reference[$value]) : $value;
         }
 
         if ($data['eval']['encrypt']) {
-            $value = \Encryption::decrypt($value);
+            $value = Encryption::decrypt($value);
         }
 
         // Convert special characters (see #1890)
