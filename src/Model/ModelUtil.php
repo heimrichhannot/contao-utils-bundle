@@ -8,27 +8,33 @@
 
 namespace HeimrichHannot\UtilsBundle\Model;
 
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Model;
 
 class ModelUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     /**
-     * @param ContaoFramework|ContaoFrameworkInterface $framework
-     * @param string                                   $table
-     * @param mixed                                    $pk
-     * @param array                                    $options
+     * @param string $table
+     * @param mixed  $pk
+     * @param array  $options
      *
      * @return mixed
      */
-    public static function findModelInstanceByPk(ContaoFramework $framework, string $table, $pk, array $options = [])
+    public function findModelInstanceByPk(string $table, $pk, array $options = [])
     {
         if (!($modelClass = Model::getClassFromTable($table))) {
             return null;
         }
 
-        if (null === ($adapter = $framework->getAdapter($modelClass))) {
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
 
@@ -36,21 +42,20 @@ class ModelUtil
     }
 
     /**
-     * @param ContaoFramework|ContaoFrameworkInterface $framework
-     * @param string                                   $table
-     * @param array                                    $columns
-     * @param array                                    $values
-     * @param array                                    $options
+     * @param string $table
+     * @param array  $columns
+     * @param array  $values
+     * @param array  $options
      *
      * @return mixed
      */
-    public static function findModelInstanceBy(ContaoFramework $framework, string $table, array $columns, array $values, array $options = [])
+    public function findModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
         if (!($modelClass = Model::getClassFromTable($table))) {
             return null;
         }
 
-        if (null === ($adapter = $framework->getAdapter($modelClass))) {
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
 
@@ -58,15 +63,15 @@ class ModelUtil
     }
 
     /**
-     * @param ContaoFramework|ContaoFrameworkInterface $framework
-     * @param string                                   $table
-     * @param array                                    $columns
-     * @param array                                    $values
-     * @param array                                    $options
+     * @param ContaoFrameworkInterface $framework
+     * @param string                   $table
+     * @param array                    $columns
+     * @param array                    $values
+     * @param array                    $options
      *
      * @return mixed
      */
-    public static function findOneModelInstanceBy(ContaoFramework $framework, string $table, array $columns, array $values, array $options = [])
+    public static function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
         if (!($modelClass = Model::getClassFromTable($table))) {
             return null;

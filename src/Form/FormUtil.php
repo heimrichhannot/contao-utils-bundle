@@ -9,14 +9,36 @@
 namespace HeimrichHannot\UtilsBundle\Form;
 
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
 use Contao\StringUtil;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
 class FormUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     public static function prepareSpecialValueForOutput($field, $value, DataContainer $dc, $skipDcaLoading = false)
     {
+        $value = StringUtil::deserialize($value);
+
+        // Recursively apply logic to array
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = static::prepareSpecialValueForOutput($field, $v, $dc, $skipDcaLoading);
+            }
+
+            return $value;
+        }
+
         $table = $dc->table;
 
         if (!$skipDcaLoading) {
@@ -25,50 +47,26 @@ class FormUtil
         }
 
         $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
-        $value = StringUtil::deserialize($value);
-        $arrOptions = $data['options'];
-        $arrReference = $data['reference'];
-        $strRegExp = $data['eval']['rgxp'];
-
-        // get options
-        if ((is_array($data['options_callback']) || is_callable($data['options_callback'])) && !$data['reference']) {
-            $arrOptionsCallback = null;
-
-            // TODO use getConfigByArrayOrCallbackOrFunction
-            if (is_array($data['options_callback'])) {
-                $strClass = $data['options_callback'][0];
-                $strMethod = $data['options_callback'][1];
-
-                $objInstance = \Controller::importStatic($strClass);
-
-                $arrOptionsCallback = @$objInstance->{$strMethod}($dc);
-            } elseif (is_callable($data['options_callback'])) {
-                $arrOptionsCallback = @$data['options_callback']($dc);
-            }
-
-            $arrOptions = !is_array($value) ? [$value] : $value;
-
-            if (null !== $value && is_array($arrOptionsCallback) && array_is_assoc($arrOptionsCallback)) {
-                $value = array_intersect_key($arrOptionsCallback, array_flip($arrOptions));
-            }
-        }
+        $options = DcaUtil::getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+        $reference = $data['reference'];
+        $rgxp = $data['eval']['rgxp'];
 
         // foreignKey
-        if (isset($data['foreignKey']) && !is_array($value)) {
-            list($strForeignTable, $strForeignField) = explode('.', $data['foreignKey']);
+        if (isset($data['foreignKey'])) {
+            list($foreignTable, $foreignField) = explode('.', $data['foreignKey']);
 
-            if (null !== ($objInstance = General::getModelInstance($strForeignTable, $value))) {
-                $value = $objInstance->{$strForeignField};
+            if (null !== ($instance = ModelUtil::findModelInstanceByPk($foreignTable, $value))) {
+                $value = $instance->{$foreignField};
             }
         }
 
         if ('explanation' == $data['inputType']) {
             $value = $data['eval']['text'];
-        } elseif ('date' == $strRegExp) {
+        } elseif ('date' == $rgxp) {
             $value = \Date::parse(\Config::get('dateFormat'), $value);
-        } elseif ('time' == $strRegExp) {
+        } elseif ('time' == $rgxp) {
             $value = \Date::parse(\Config::get('timeFormat'), $value);
-        } elseif ('datim' == $strRegExp) {
+        } elseif ('datim' == $rgxp) {
             $value = \Date::parse(\Config::get('datimFormat'), $value);
         } elseif ('multiColumnEditor' == $data['inputType'] && in_array('multi_column_editor', \ModuleLoader::getActive(), true)) {
             if (is_array($value)) {
@@ -93,10 +91,6 @@ class FormUtil
                 }
 
                 $value = implode(', ', $arrRows);
-            }
-        } elseif ('tag' == $data['inputType'] && in_array('tags_plus', \ModuleLoader::getActive(), true)) {
-            if (null !== ($arrTags = \HeimrichHannot\TagsPlus\TagsPlus::loadTags($table, $objItem->id))) {
-                $value = $arrTags;
             }
         } elseif (!is_array($value) && \Validator::isBinaryUuid($value)) {
             $strPath = Files::getPathFromUuid($value);
@@ -123,21 +117,21 @@ class FormUtil
                 $value
             );
 
-            if (!$arrReference) {
+            if (!$reference) {
                 $value = array_map(
-                    function ($varValue) use ($arrOptions) {
-                        return isset($arrOptions[$varValue]) ? $arrOptions[$varValue] : $varValue;
+                    function ($varValue) use ($options) {
+                        return isset($options[$varValue]) ? $options[$varValue] : $varValue;
                     },
                     $value
                 );
             }
 
             $value = array_map(
-                function ($varValue) use ($arrReference) {
-                    if (is_array($arrReference)) {
-                        return isset($arrReference[$varValue]) ? ((is_array(
-                            $arrReference[$varValue]
-                        )) ? $arrReference[$varValue][0] : $arrReference[$varValue]) : $varValue;
+                function ($varValue) use ($reference) {
+                    if (is_array($reference)) {
+                        return isset($reference[$varValue]) ? ((is_array(
+                            $reference[$varValue]
+                        )) ? $reference[$varValue][0] : $reference[$varValue]) : $varValue;
                     }
 
                     return $varValue;
@@ -149,12 +143,12 @@ class FormUtil
         else {
             if ($data['eval']['isBoolean'] || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
                 $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
-            } elseif (is_array($arrOptions) && array_is_assoc($arrOptions)) {
-                $value = isset($arrOptions[$value]) ? $arrOptions[$value] : $value;
-            } elseif (is_array($arrReference)) {
-                $value = isset($arrReference[$value]) ? ((is_array(
-                    $arrReference[$value]
-                )) ? $arrReference[$value][0] : $arrReference[$value]) : $value;
+            } elseif (is_array($options) && array_is_assoc($options)) {
+                $value = isset($options[$value]) ? $options[$value] : $value;
+            } elseif (is_array($reference)) {
+                $value = isset($reference[$value]) ? ((is_array(
+                    $reference[$value]
+                )) ? $reference[$value][0] : $reference[$value]) : $value;
             }
         }
 

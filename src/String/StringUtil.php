@@ -8,8 +8,18 @@
 
 namespace HeimrichHannot\UtilsBundle\String;
 
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+
 class StringUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     /**
      * Check for the occurrence at the start of the string.
      *

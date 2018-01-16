@@ -8,8 +8,18 @@
 
 namespace HeimrichHannot\UtilsBundle\Date;
 
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+
 class DateUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     public static function getTimePeriodInSeconds($timePeriod)
     {
         $timePeriod = deserialize($timePeriod, true);

@@ -8,10 +8,19 @@
 
 namespace HeimrichHannot\UtilsBundle\Arrays;
 
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 
 class ArrayUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     /**
      * Filter an Array by given prefixes.
      *

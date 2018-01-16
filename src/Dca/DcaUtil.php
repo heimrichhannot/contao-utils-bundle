@@ -9,9 +9,18 @@
 namespace HeimrichHannot\UtilsBundle\Dca;
 
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 
 class DcaUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     /**
      * Retrieves an array from a dca config (in most cases eval) in the following priorities:.
      *

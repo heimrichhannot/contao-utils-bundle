@@ -1,4 +1,38 @@
 services:
+    # util services
+    huh.utils.array:
+        class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
+        arguments:
+            - "@contao.framework"
+    huh.utils.container:
+        class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
+        arguments:
+            - "@contao.framework"
+    huh.utils.date:
+        class: HeimrichHannot\UtilsBundle\Date\DateUtil
+        arguments:
+            - "@contao.framework"
+    huh.utils.dca:
+        class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
+        arguments:
+            - "@contao.framework"
+    huh.utils.form:
+        class: HeimrichHannot\UtilsBundle\Form\FormUtil
+        arguments:
+            - "@contao.framework"
+    huh.utils.model:
+        class: HeimrichHannot\UtilsBundle\Model\ModelUtil
+        arguments:
+            - "@contao.framework"
+    huh.utils.string:
+        class: HeimrichHannot\UtilsBundle\String\StringUtil
+        arguments:
+            - "@contao.framework"
+    huh.utils.url:
+        class: HeimrichHannot\UtilsBundle\Url\UrlUtil
+        arguments:
+            - "@contao.framework"
+    # choice
     huh.utils.choice.field:
         class: HeimrichHannot\UtilsBundle\Choice\FieldChoice
         arguments:

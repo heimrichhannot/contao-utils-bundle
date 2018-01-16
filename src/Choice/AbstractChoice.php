@@ -46,11 +46,6 @@ abstract class AbstractChoice
      */
     protected $framework;
 
-    /**
-     * Constructor.
-     *
-     * @param ContaoFrameworkInterface $framework
-     */
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;

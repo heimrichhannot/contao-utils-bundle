@@ -9,11 +9,20 @@
 namespace HeimrichHannot\UtilsBundle\Url;
 
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Environment;
 use Contao\PageModel;
 
 class UrlUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     /**
      * Add a query string to the given URI string or page ID.
      *

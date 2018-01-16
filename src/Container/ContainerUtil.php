@@ -8,10 +8,19 @@
 
 namespace HeimrichHannot\UtilsBundle\Container;
 
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 
 class ContainerUtil
 {
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     /**
      * Returns the active bundles.
      *
