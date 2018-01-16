@@ -44,7 +44,9 @@ class FieldChoice extends AbstractChoice
             }
         }
 
-        asort($choices);
+        if ($context['sort']) {
+            asort($choices);
+        }
 
         return $choices;
     }
