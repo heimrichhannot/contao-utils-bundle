@@ -29,7 +29,7 @@ class ArrayUtil
      *
      * @return array the filtered array or $arrData if $prefix is empty
      */
-    public static function filterByPrefixes(array $data = [], $prefixes = [])
+    public function filterByPrefixes(array $data = [], $prefixes = [])
     {
         $extract = [];
 

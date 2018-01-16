@@ -26,7 +26,7 @@ class ContainerUtil
      *
      * @return array
      */
-    public static function getActiveBundles(): array
+    public function getActiveBundles(): array
     {
         return System::getContainer()->getParameter('kernel.bundles');
     }
@@ -38,7 +38,7 @@ class ContainerUtil
      *
      * @return bool
      */
-    public static function isBundleActive($bundleName)
+    public function isBundleActive($bundleName)
     {
         return in_array($bundleName, static::getActiveBundles(), true);
     }

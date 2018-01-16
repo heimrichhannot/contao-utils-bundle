@@ -20,7 +20,7 @@ class DateUtil
         $this->framework = $framework;
     }
 
-    public static function getTimePeriodInSeconds($timePeriod)
+    public function getTimePeriodInSeconds($timePeriod)
     {
         $timePeriod = deserialize($timePeriod, true);
 

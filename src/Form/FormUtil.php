@@ -8,13 +8,14 @@
 
 namespace HeimrichHannot\UtilsBundle\Form;
 
+use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
+use Contao\Date;
 use Contao\StringUtil;
 use Contao\System;
-use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use Contao\Validator;
 
 class FormUtil
 {
@@ -26,14 +27,14 @@ class FormUtil
         $this->framework = $framework;
     }
 
-    public static function prepareSpecialValueForOutput($field, $value, DataContainer $dc, $skipDcaLoading = false)
+    public function prepareSpecialValueForOutput($field, $value, DataContainer $dc, $skipDcaLoading = false)
     {
         $value = StringUtil::deserialize($value);
 
         // Recursively apply logic to array
         if (is_array($value)) {
             foreach ($value as $k => $v) {
-                $value[$k] = static::prepareSpecialValueForOutput($field, $v, $dc, $skipDcaLoading);
+                $value[$k] = $this->prepareSpecialValueForOutput($field, $v, $dc, $skipDcaLoading);
             }
 
             return $value;
@@ -47,7 +48,7 @@ class FormUtil
         }
 
         $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
-        $options = DcaUtil::getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+        $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
         $reference = $data['reference'];
         $rgxp = $data['eval']['rgxp'];
 
@@ -55,7 +56,7 @@ class FormUtil
         if (isset($data['foreignKey'])) {
             list($foreignTable, $foreignField) = explode('.', $data['foreignKey']);
 
-            if (null !== ($instance = ModelUtil::findModelInstanceByPk($foreignTable, $value))) {
+            if (null !== ($instance = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($foreignTable, $value))) {
                 $value = $instance->{$foreignField};
             }
         }
@@ -63,36 +64,36 @@ class FormUtil
         if ('explanation' == $data['inputType']) {
             $value = $data['eval']['text'];
         } elseif ('date' == $rgxp) {
-            $value = \Date::parse(\Config::get('dateFormat'), $value);
+            $value = Date::parse(Config::get('dateFormat'), $value);
         } elseif ('time' == $rgxp) {
-            $value = \Date::parse(\Config::get('timeFormat'), $value);
+            $value = Date::parse(Config::get('timeFormat'), $value);
         } elseif ('datim' == $rgxp) {
-            $value = \Date::parse(\Config::get('datimFormat'), $value);
-        } elseif ('multiColumnEditor' == $data['inputType'] && in_array('multi_column_editor', \ModuleLoader::getActive(), true)) {
+            $value = Date::parse(Config::get('datimFormat'), $value);
+        } elseif ('multiColumnEditor' == $data['inputType'] && System::getContainer()->get('huh.utils.container')
+                ->isBundleActive('multi_column_editor')) {
             if (is_array($value)) {
-                $arrRows = [];
+                $rows = [];
 
-                foreach ($value as $arrRow) {
-                    $arrFields = [];
+                foreach ($value as $row) {
+                    $fields = [];
 
-                    foreach ($arrRow as $strField => $varFieldValue) {
-                        $arrDca = $data['eval']['multiColumnEditor']['fields'][$strField];
+                    foreach ($row as $fieldName => $fieldValue) {
+                        $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        $arrFields[] = ($arrDca['label'][0] ?: $strField).': '.static::prepareSpecialValueForPrint(
-                                $varFieldValue,
-                                $arrDca,
-                                $table,
-                                $dc,
-                                $objItem
+                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput(
+                            $fieldName,
+                            $fieldValue,
+                            $dc,
+                            $skipDcaLoading
                             );
                     }
 
-                    $arrRows[] = '['.implode(', ', $arrFields).']';
+                    $rows[] = '['.implode(', ', $fields).']';
                 }
 
-                $value = implode(', ', $arrRows);
+                $value = implode(', ', $rows);
             }
-        } elseif (!is_array($value) && \Validator::isBinaryUuid($value)) {
+        } elseif (Validator::isBinaryUuid($value)) {
             $strPath = Files::getPathFromUuid($value);
             $value = $strPath ? (\Environment::get('url').'/'.$strPath) : \StringUtil::binToUuid($value);
         } elseif (is_array($value)) {

@@ -34,7 +34,7 @@ class DcaUtil
      *
      * @return mixed|null The value retrieved in the way mentioned above or null
      */
-    public static function getConfigByArrayOrCallbackOrFunction(array $array, $property, array $arguments = [])
+    public function getConfigByArrayOrCallbackOrFunction(array $array, $property, array $arguments = [])
     {
         if (isset($array[$property])) {
             return $array[$property];

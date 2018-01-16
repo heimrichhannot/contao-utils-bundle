@@ -28,12 +28,12 @@ class StringUtil
      *
      * @return bool
      */
-    public static function startsWith($haystack, $needle)
+    public function startsWith($haystack, $needle)
     {
         return '' === $needle || false !== strrpos($haystack, $needle, -strlen($haystack));
     }
 
-    public static function camelCaseToDashed($value)
+    public function camelCaseToDashed($value)
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
     }

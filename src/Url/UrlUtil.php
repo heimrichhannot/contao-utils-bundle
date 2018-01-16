@@ -33,7 +33,7 @@ class UrlUtil
      *
      * @return string
      */
-    public static function addQueryString($query, $url = null)
+    public function addQueryString($query, $url = null)
     {
         $url = static::prepareUrl($url);
         $query = trim(ampersand($query, false), '&');
@@ -65,7 +65,7 @@ class UrlUtil
      *
      * @return string
      */
-    public static function removeQueryString(array $params, $url = null)
+    public function removeQueryString(array $params, $url = null)
     {
         $strUrl = static::prepareUrl($url);
 
@@ -96,7 +96,7 @@ class UrlUtil
      *
      * @return string
      */
-    protected static function prepareUrl($url)
+    protected function prepareUrl($url)
     {
         if (null === $url) {
             $url = Environment::get('request');

@@ -71,13 +71,13 @@ class ModelUtil
      *
      * @return mixed
      */
-    public static function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
+    public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
         if (!($modelClass = Model::getClassFromTable($table))) {
             return null;
         }
 
-        if (null === ($adapter = $framework->getAdapter($modelClass))) {
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
 
