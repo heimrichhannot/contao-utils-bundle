@@ -8,7 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Choice;
 
-use HeimrichHannot\FilterBundle\Choice\AbstractChoice;
+use HeimrichHannot\UtilsBundle\Choice\AbstractChoice;
 
 class DataContainerChoice extends AbstractChoice
 {
