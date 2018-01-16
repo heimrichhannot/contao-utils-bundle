@@ -11,7 +11,9 @@ namespace HeimrichHannot\UtilsBundle\Url;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Environment;
+use Contao\Model;
 use Contao\PageModel;
+use Contao\System;
 
 class UrlUtil
 {
@@ -21,6 +23,17 @@ class UrlUtil
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
+    }
+
+    public function getCurrentUrl(array $options)
+    {
+        $url = Environment::get('url').Environment::get('requestUri');
+
+        if ($options['skipParams']) {
+            $url = Environment::get('url').parse_url(Environment::get('uri'), PHP_URL_PATH);
+        }
+
+        return $url;
     }
 
     /**
@@ -87,6 +100,18 @@ class UrlUtil
         }
 
         return $script.$href;
+    }
+
+    public function getJumpToPageObject(int $jumpTo, bool $fallbackToObjPage = true): Model
+    {
+        global $objPage;
+
+        if ($jumpTo && $jumpTo != $objPage->id && null !== ($jumpToPage =
+                System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_page', $jumpTo))) {
+            return $jumpToPage;
+        }
+
+        return $fallbackToObjPage ? $objPage : null;
     }
 
     /**

@@ -37,6 +37,11 @@ class FieldChoice extends AbstractChoice
         }
 
         foreach ($GLOBALS['TL_DCA'][$dataContainer]['fields'] as $name => $data) {
+            // restrict to certain input types
+            if (is_array($context['inputTypes']) && !empty($context['inputTypes']) && !in_array($data['inputType'], $context['inputTypes'], true)) {
+                continue;
+            }
+
             if (!$context['localizeLabels']) {
                 $choices[$name] = $name;
             } else {

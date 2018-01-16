@@ -18,6 +18,7 @@ use Contao\Environment;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use HeimrichHannot\Request\Request;
 
 class FormUtil
 {
@@ -120,5 +121,26 @@ class FormUtil
 
         // Convert special characters (see #1890)
         return specialchars($value);
+    }
+
+    public function escapeAllHtmlEntities($table, $field, $value)
+    {
+        Controller::loadDataContainer($table);
+
+        $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
+
+        $preservedTags = isset($data['eval']['allowedTags']) ? $data['eval']['allowedTags'] : \Config::get('allowedTags');
+
+        if ($data['eval']['allowHtml'] || strlen($data['eval']['rte']) || $data['eval']['preserveTags']) {
+            // always decode entities if HTML is allowed
+            $value = Request::cleanHtml($value, true, true, $preservedTags);
+        } elseif (is_array($data['options']) || isset($data['options_callback']) || isset($data['foreignKey'])) {
+            // options should not be strict cleaned, as they might contain html tags like <strong>
+            $value = Request::cleanHtml($value, true, true, $preservedTags);
+        } else {
+            $value = Request::clean($value, $data['eval']['decodeEntities'], true);
+        }
+
+        return $value;
     }
 }
