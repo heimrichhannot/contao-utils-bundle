@@ -18,13 +18,13 @@ use Contao\System;
 
 class Image
 {
-    public static function addToTemplateData(array &$templateData, array $item, int $maxWidth = null, string $lightboxId = null,
+    public function addToTemplateData(string $imageField, string $imageSelectorField, array &$templateData, array $item, int $maxWidth = null, string $lightboxId = null,
         string $lightboxName = null, FilesModel $model = null)
     {
         $containerUtil = System::getContainer()->get('huh.utils.container');
 
         try {
-            $file = new File($item['singleSRC']);
+            $file = new File($item[$imageField]);
         } catch (\Exception $e) {
             $file = new \stdClass();
             $file->imageSize = false;
@@ -82,19 +82,19 @@ class Image
 
         try {
             $src =
-                System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$item['singleSRC'], $size)->getUrl(TL_ROOT);
-            $picture = System::getContainer()->get('contao.image.picture_factory')->create(TL_ROOT.'/'.$item['singleSRC'], $size);
+                System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$item[$imageField], $size)->getUrl(TL_ROOT);
+            $picture = System::getContainer()->get('contao.image.picture_factory')->create(TL_ROOT.'/'.$item[$imageField], $size);
 
             $picture = [
                 'img' => $picture->getImg(TL_ROOT, TL_FILES_URL),
                 'sources' => $picture->getSources(TL_ROOT, TL_FILES_URL),
             ];
 
-            if ($src !== $item['singleSRC']) {
+            if ($src !== $item[$imageField]) {
                 $file = new File(rawurldecode($src));
             }
         } catch (\Exception $e) {
-            System::log('Image "'.$item['singleSRC'].'" could not be processed: '.$e->getMessage(), __METHOD__, TL_ERROR);
+            System::log('Image "'.$item[$imageField].'" could not be processed: '.$e->getMessage(), __METHOD__, TL_ERROR);
 
             $src = '';
             $picture = ['img' => ['src' => '', 'srcset' => ''], 'sources' => []];
@@ -201,7 +201,7 @@ class Image
 
         // Fullsize view
         elseif ($item['fullsize'] && $containerUtil->isFrontend()) {
-            $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($item['singleSRC']);
+            $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($item[$imageField]);
             $templateData['attributes'] = ' data-lightbox="'.substr($lightboxId, 9, -1).'"';
         }
 
@@ -212,11 +212,11 @@ class Image
 
         // Do not urlEncode() here because getImage() already does (see #3817)
         $templateData['src'] = TL_FILES_URL.$src;
-        $templateData['singleSRC'] = $item['singleSRC'];
+        $templateData[$imageField] = $item[$imageField];
         $templateData['linkTitle'] = $item['linkTitle'] ?: $item['title'];
         $templateData['fullsize'] = $item['fullsize'] ? true : false;
         $templateData['addBefore'] = ('below' != $item['floating']);
         $templateData['margin'] = Controller::generateMargin($marginArray);
-        $templateData['addImage'] = true;
+        $templateData[$imageSelectorField] = true;
     }
 }
