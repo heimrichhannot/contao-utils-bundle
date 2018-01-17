@@ -49,7 +49,7 @@ class ModelUtil
      *
      * @return mixed
      */
-    public function findModelInstanceBy(string $table, array $columns, array $values, array $options = [])
+    public function findModelInstancesBy(string $table, array $columns, array $values, array $options = [])
     {
         if (!($modelClass = Model::getClassFromTable($table))) {
             return null;

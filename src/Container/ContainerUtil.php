@@ -9,7 +9,9 @@
 namespace HeimrichHannot\UtilsBundle\Container;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
+use Psr\Log\LogLevel;
 
 class ContainerUtil
 {
@@ -34,12 +36,58 @@ class ContainerUtil
     /**
      * Checks if some bundle is active. Pass in the class name (e.g. 'HeimrichHannot\FilterBundle\HeimrichHannotContaoFilterBundle').
      *
-     * @param $bundleName
+     * @param string $bundleName
      *
      * @return bool
      */
-    public function isBundleActive($bundleName)
+    public function isBundleActive(string $bundleName)
     {
-        return in_array($bundleName, static::getActiveBundles(), true);
+        return in_array($bundleName, $this->getActiveBundles(), true);
+    }
+
+    public function isBackend()
+    {
+        if ($request = $this->getCurrentRequest()) {
+            return System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request);
+        }
+
+        return false;
+    }
+
+    public function isFrontend()
+    {
+        if ($request = $this->getCurrentRequest()) {
+            return System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest($request);
+        }
+
+        return false;
+    }
+
+    public function getCurrentRequest()
+    {
+        return System::getContainer()->get('request_stack')->getCurrentRequest();
+    }
+
+    /**
+     * @param string $text
+     * @param string $function
+     * @param string $category Use constants in ContaoContext
+     */
+    public function log(string $text, string $function, string $category)
+    {
+        $level = (ContaoContext::ERROR === $category ? LogLevel::ERROR : LogLevel::INFO);
+        $logger = System::getContainer()->get('monolog.logger.contao');
+
+        $logger->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
+    }
+
+    public function getProjectDir()
+    {
+        return System::getContainer()->getParameter('kernel.project_dir');
+    }
+
+    public function getWebDir()
+    {
+        return System::getContainer()->getParameter('contao.web_dir');
     }
 }

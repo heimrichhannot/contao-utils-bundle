@@ -24,6 +24,10 @@ services:
         class: HeimrichHannot\UtilsBundle\Form\FormUtil
         arguments:
             - "@contao.framework"
+    huh.utils.image:
+        class: HeimrichHannot\UtilsBundle\Image\Image
+        arguments:
+            - "@contao.framework"
     huh.utils.model:
         class: HeimrichHannot\UtilsBundle\Model\ModelUtil
         arguments:

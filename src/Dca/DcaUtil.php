@@ -10,6 +10,9 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\Database;
+use Contao\DataContainer;
+use Contao\System;
 
 class DcaUtil
 {
@@ -51,5 +54,37 @@ class DcaUtil
         }
 
         return null;
+    }
+
+    /**
+     * Sets the current date as the date added -> usually used on submit.
+     *
+     * @param DataContainer $dc
+     */
+    public function setDateAdded(DataContainer $dc)
+    {
+        $modelUtil = System::getContainer()->get('huh.utils.model');
+
+        if (null === $dc || null === ($model = $modelUtil->findModelInstanceByPk($dc->table, $dc->id)) || $model->dateAdded > 0) {
+            return;
+        }
+
+        Database::getInstance()->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $dc->id);
+    }
+
+    /**
+     * Sets the current date as the date added -> usually used on copy.
+     *
+     * @param DataContainer $dc
+     */
+    public function setDateAddedOnCopy($insertId, DataContainer $dc)
+    {
+        $modelUtil = System::getContainer()->get('huh.utils.model');
+
+        if (null === $dc || null === ($model = $modelUtil->findModelInstanceByPk($dc->table, $insertId)) || $model->dateAdded > 0) {
+            return;
+        }
+
+        Database::getInstance()->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $insertId);
     }
 }
