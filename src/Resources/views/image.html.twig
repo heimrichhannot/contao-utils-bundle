@@ -1,18 +1,18 @@
-<figure class="image_container{{ floatClass|default('') }}"{% if margin %} style="{{ margin }}"{% endif %} itemscope itemtype="http://schema.org/ImageObject"
+<figure class="image_container{{ floatClass|default('') }}"{% if margin|default() %} style="{{ margin }}"{% endif %} itemscope itemtype="http://schema.org/ImageObject"
         itemprop="associatedMedia">
 
-    {% if href is defined and href %}
-        <a href="{{ href }}"{% if linkTitle %} title="{{ linkTitle }}"{% endif %}{{ attributes }} itemprop="contentUrl">
+    {% if href|default() %}
+        <a href="{{ href }}"{% if linkTitle|default() %} title="{{ linkTitle }}"{% endif %}{{ attributes }} itemprop="contentUrl">
     {% endif %}
 
     {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture) }}
 
 
-    {% if href is defined and href %}
+    {% if href|default() %}
         </a>
     {% endif %}
 
-    {% if caption %}
+    {% if caption|default() %}
         <figcaption class="caption" itemprop="caption">{{ caption }}</figcaption>
     {% endif %}
 

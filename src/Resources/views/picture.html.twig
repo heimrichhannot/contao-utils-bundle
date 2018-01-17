@@ -3,12 +3,12 @@
     <!--[if IE 9]><video style="display: none;"><![endif]-->
 
     {% for source in sources %}
-      <source srcset="{{ source.srcset }}"{% if source.sizes is defined and source.sizes %} sizes="{{ source.sizes }}"{% endif %}{% if source.media is defined and source.media %} media="{{ source.media }}" {% endif %}>
+      <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
     {% endfor %}
     <!--[if IE 9]></video><![endif]-->
 {% endif %}
 
-<img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes is defined and img.sizes %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title %} title="{{ title }}"{% endif %}{% if class|default() or img.class is defined and img.class %} class="{{ class|default() ? class|trim : '' }} {{ img.class is defined and img.class ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }} itemprop="image">
+<img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }} itemprop="image">
 
 {% if sources %}
   </picture>
