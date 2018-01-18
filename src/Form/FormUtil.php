@@ -18,7 +18,6 @@ use Contao\Environment;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
-use Haste\Model\Relations;
 use HeimrichHannot\NewsBundle\Model\CfgTagModel;
 use HeimrichHannot\Request\Request;
 
@@ -27,40 +26,67 @@ class FormUtil
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
+    /** @var array */
+    protected $optionsCache;
+
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
     }
 
-    public function prepareSpecialValueForOutput($field, $value, DataContainer $dc, $skipDcaLoading = false)
+    /**
+     * Prepares a special field's value. If an array is inserted, the function will call itself recursively.
+     *
+     * @param string        $field
+     * @param               $value
+     * @param DataContainer $dc
+     * @param array         $config
+     *
+     * @return string
+     */
+    public function prepareSpecialValueForOutput(string $field, $value, DataContainer $dc, array $config = [])
     {
         $value = StringUtil::deserialize($value);
 
         // Recursively apply logic to array
         if (is_array($value)) {
             foreach ($value as $k => $v) {
-                $result = $this->prepareSpecialValueForOutput($field, $v, $dc, $skipDcaLoading);
-                if (null !== $result && !empty($result)) {
+                $result = $this->prepareSpecialValueForOutput($field, $v, $dc, $config);
+
+                if ($config['preserveEmptyArrayValues']) {
                     $value[$k] = $result;
                 } else {
-                    unset($value[$k]);
+                    if (null !== $result && !empty($result)) {
+                        $value[$k] = $result;
+                    } else {
+                        unset($value[$k]);
+                    }
                 }
             }
+
+            // reset caches
+            $this->optionsCache = null;
 
             return implode(', ', $value);
         }
 
         $table = $dc->table;
 
-        if (!$skipDcaLoading) {
+        if (!$config['skipDcaLoading']) {
             Controller::loadDataContainer($table);
             System::loadLanguageFile($table);
         }
 
-        $data      = $GLOBALS['TL_DCA'][$table]['fields'][$field];
-        $options   = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+        $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
         $reference = $data['reference'];
-        $rgxp      = $data['eval']['rgxp'];
+        $rgxp = $data['eval']['rgxp'];
+
+        if (!$config['skipOptionCaching'] && null !== $this->optionsCache) {
+            $options = $this->optionsCache;
+        } else {
+            $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+            $this->optionsCache = $options;
+        }
 
         // foreignKey
         if (isset($data['foreignKey'])) {
@@ -75,10 +101,11 @@ class FormUtil
             $value = $data['eval']['text'];
         } elseif ('cfgTags' == $data['inputType']) {
             $collection = CfgTagModel::findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
-            $value      = null;
+            $value = null;
+
             if (null !== $collection) {
                 $result = $collection->fetchEach('name');
-                $value  = implode('', $result);
+                $value = implode('', $result);
             }
         } elseif ('date' == $rgxp) {
             $value = Date::parse(Config::get('dateFormat'), $value);
@@ -97,17 +124,17 @@ class FormUtil
                     foreach ($row as $fieldName => $fieldValue) {
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        $fields[] = ($dca['label'][0] ?: $fieldName) . ': ' . $this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $skipDcaLoading);
+                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $skipDcaLoading);
                     }
 
-                    $rows[] = '[' . implode(', ', $fields) . ']';
+                    $rows[] = '['.implode(', ', $fields).']';
                 }
 
                 $value = implode(', ', $rows);
             }
         } elseif (Validator::isBinaryUuid($value)) {
             $strPath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($value);
-            $value   = $strPath ? Environment::get('url') . '/' . $strPath : StringUtil::binToUuid($value);
+            $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
             if ($data['eval']['isBoolean'] || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
