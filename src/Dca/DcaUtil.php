@@ -87,4 +87,35 @@ class DcaUtil
 
         Database::getInstance()->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $insertId);
     }
+
+    public function getFields($table, array $options = []): array
+    {
+        $fields = [];
+
+        Controller::loadDataContainer($table);
+        System::loadLanguageFile($table);
+
+        if (!isset($GLOBALS['TL_DCA'][$table]['fields'])) {
+            return $fields;
+        }
+
+        foreach ($GLOBALS['TL_DCA'][$table]['fields'] as $name => $data) {
+            // restrict to certain input types
+            if (is_array($options['inputTypes']) && !empty($options['inputTypes']) && !in_array($data['inputType'], $options['inputTypes'], true)) {
+                continue;
+            }
+
+            if (!$options['localizeLabels']) {
+                $fields[$name] = $name;
+            } else {
+                $fields[$name] = ($data['label'][0] ?: $name).($data['label'][0] ? ' ['.$name.']' : '');
+            }
+        }
+
+        if ($options['sort']) {
+            asort($fields);
+        }
+
+        return $fields;
+    }
 }
