@@ -18,6 +18,8 @@ use Contao\Environment;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Haste\Model\Relations;
+use HeimrichHannot\NewsBundle\Model\CfgTagModel;
 use HeimrichHannot\Request\Request;
 
 class FormUtil
@@ -37,7 +39,12 @@ class FormUtil
         // Recursively apply logic to array
         if (is_array($value)) {
             foreach ($value as $k => $v) {
-                $value[$k] = $this->prepareSpecialValueForOutput($field, $v, $dc, $skipDcaLoading);
+                $result = $this->prepareSpecialValueForOutput($field, $v, $dc, $skipDcaLoading);
+                if (null !== $result && !empty($result)) {
+                    $value[$k] = $result;
+                } else {
+                    unset($value[$k]);
+                }
             }
 
             return implode(', ', $value);
@@ -50,10 +57,10 @@ class FormUtil
             System::loadLanguageFile($table);
         }
 
-        $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
-        $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+        $data      = $GLOBALS['TL_DCA'][$table]['fields'][$field];
+        $options   = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
         $reference = $data['reference'];
-        $rgxp = $data['eval']['rgxp'];
+        $rgxp      = $data['eval']['rgxp'];
 
         // foreignKey
         if (isset($data['foreignKey'])) {
@@ -66,14 +73,21 @@ class FormUtil
 
         if ('explanation' == $data['inputType']) {
             $value = $data['eval']['text'];
+        } elseif ('cfgTags' == $data['inputType']) {
+            $collection = CfgTagModel::findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
+            $value      = null;
+            if (null !== $collection) {
+                $result = $collection->fetchEach('name');
+                $value  = implode('', $result);
+            }
         } elseif ('date' == $rgxp) {
             $value = Date::parse(Config::get('dateFormat'), $value);
         } elseif ('time' == $rgxp) {
             $value = Date::parse(Config::get('timeFormat'), $value);
         } elseif ('datim' == $rgxp) {
             $value = Date::parse(Config::get('datimFormat'), $value);
-        } elseif ('multiColumnEditor' == $data['inputType'] && System::getContainer()->get('huh.utils.container')
-                ->isBundleActive('multi_column_editor')) {
+        } elseif ('multiColumnEditor' == $data['inputType']
+                  && System::getContainer()->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
             if (is_array($value)) {
                 $rows = [];
 
@@ -83,24 +97,18 @@ class FormUtil
                     foreach ($row as $fieldName => $fieldValue) {
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput(
-                            $fieldName,
-                            $fieldValue,
-                            $dc,
-                            $skipDcaLoading
-                            );
+                        $fields[] = ($dca['label'][0] ?: $fieldName) . ': ' . $this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $skipDcaLoading);
                     }
 
-                    $rows[] = '['.implode(', ', $fields).']';
+                    $rows[] = '[' . implode(', ', $fields) . ']';
                 }
 
                 $value = implode(', ', $rows);
             }
         } elseif (Validator::isBinaryUuid($value)) {
             $strPath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($value);
-            $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
-        }
-        // Replace boolean checkbox value with "yes" and "no"
+            $value   = $strPath ? Environment::get('url') . '/' . $strPath : StringUtil::binToUuid($value);
+        } // Replace boolean checkbox value with "yes" and "no"
         else {
             if ($data['eval']['isBoolean'] || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
                 $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
@@ -110,9 +118,7 @@ class FormUtil
         }
 
         if (is_array($reference)) {
-            $value = isset($reference[$value]) ? ((is_array(
-                $reference[$value]
-            )) ? $reference[$value][0] : $reference[$value]) : $value;
+            $value = isset($reference[$value]) ? ((is_array($reference[$value])) ? $reference[$value][0] : $reference[$value]) : $value;
         }
 
         if ($data['eval']['encrypt']) {
