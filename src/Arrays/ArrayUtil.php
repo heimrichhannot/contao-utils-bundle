@@ -53,7 +53,7 @@ class ArrayUtil
      *
      * @param array $array
      */
-    public static function aasort(&$array, $key)
+    public function aasort(&$array, $key)
     {
         $sorter = [];
         $ret = [];
@@ -70,5 +70,24 @@ class ArrayUtil
         }
 
         $array = $ret;
+    }
+
+    /**
+     * Removes a value in an array.
+     *
+     * @param       $value
+     * @param array $array
+     *
+     * @return bool Returns true if the value has been found and removed, false in other cases
+     */
+    public function removeValue($value, array &$array): bool
+    {
+        if (false !== ($intPosition = array_search($value, $array, true))) {
+            unset($array[$intPosition]);
+
+            return true;
+        }
+
+        return false;
     }
 }
