@@ -124,7 +124,7 @@ class FormUtil
                     foreach ($row as $fieldName => $fieldValue) {
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $skipDcaLoading);
+                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $config);
                     }
 
                     $rows[] = '['.implode(', ', $fields).']';

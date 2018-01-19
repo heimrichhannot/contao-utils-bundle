@@ -12,6 +12,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
 use Psr\Log\LogLevel;
+use Symfony\Component\Yaml\Yaml;
 
 class ContainerUtil
 {
@@ -89,5 +90,30 @@ class ContainerUtil
     public function getWebDir()
     {
         return System::getContainer()->getParameter('contao.web_dir');
+    }
+
+    /**
+     * Recursively merges a config.yml with a $extensionConfigs array in the context of ExtensionPluginInterface::getExtensionConfig().
+     *
+     * @param string $activeExtensionName
+     * @param string $extensionName
+     * @param array  $extensionConfigs
+     * @param string $configFile
+     *
+     * @return array
+     */
+    public function mergeConfigFile(
+        string $activeExtensionName,
+        string $extensionName,
+        array $extensionConfigs,
+        string $configFile = __DIR__.'/../Resources/config/config.yml'
+    ) {
+        if ($activeExtensionName === $extensionName) {
+            $config = Yaml::parseFile($configFile);
+
+            $extensionConfigs = array_merge_recursive($extensionConfigs, $config);
+        }
+
+        return $extensionConfigs;
     }
 }
