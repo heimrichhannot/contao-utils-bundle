@@ -77,6 +77,10 @@ class FormUtil
             System::loadLanguageFile($table);
         }
 
+        if (!isset($GLOBALS['TL_DCA'][$table]['fields'][$field]) || !is_array($GLOBALS['TL_DCA'][$table]['fields'][$field])) {
+            return $value;
+        }
+
         $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
         $reference = $data['reference'];
         $rgxp = $data['eval']['rgxp'];
