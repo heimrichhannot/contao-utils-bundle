@@ -8,6 +8,10 @@ services:
         class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
         arguments:
             - "@contao.framework"
+    huh.utils.database:
+        class: HeimrichHannot\UtilsBundle\Database\DatabaseUtil
+        arguments:
+            - "@contao.framework"
     huh.utils.date:
         class: HeimrichHannot\UtilsBundle\Date\DateUtil
         arguments:

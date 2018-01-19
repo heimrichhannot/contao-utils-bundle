@@ -112,7 +112,7 @@ class DcaUtil
             }
         }
 
-        if ($options['sort']) {
+        if (!$options['skipSorting']) {
             asort($fields);
         }
 
