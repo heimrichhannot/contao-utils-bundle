@@ -76,7 +76,7 @@ class ContainerUtil
      */
     public function log(string $text, string $function, string $category)
     {
-        $level = (ContaoContext::ERROR === $category ? LogLevel::ERROR : LogLevel::INFO);
+        $level  = (ContaoContext::ERROR === $category ? LogLevel::ERROR : LogLevel::INFO);
         $logger = System::getContainer()->get('monolog.logger.contao');
 
         $logger->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
@@ -94,6 +94,7 @@ class ContainerUtil
 
     /**
      * Recursively merges a config.yml with a $extensionConfigs array in the context of ExtensionPluginInterface::getExtensionConfig().
+     * Must be static, because on Plugin::getExtensionConfig() no contao.framework nor service huh.utils.container is available
      *
      * @param string $activeExtensionName
      * @param string $extensionName
@@ -102,11 +103,11 @@ class ContainerUtil
      *
      * @return array
      */
-    public function mergeConfigFile(
+    public static function mergeConfigFile(
         string $activeExtensionName,
         string $extensionName,
         array $extensionConfigs,
-        string $configFile = __DIR__.'/../Resources/config/config.yml'
+        string $configFile
     ) {
         if ($activeExtensionName === $extensionName) {
             $config = Yaml::parseFile($configFile);
