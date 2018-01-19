@@ -5,7 +5,7 @@ $date = date('Y');
 $header = <<<EOF
 Copyright (c) $date Heimrich & Hannot GmbH
 
-@license LGPL-3.0+
+@license LGPL-3.0-or-later
 EOF;
 
 $finder = PhpCsFixer\Finder::create()

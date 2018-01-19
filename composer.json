@@ -2,7 +2,7 @@
   "name": "heimrichhannot/contao-utils-bundle",
   "type": "contao-bundle",
   "description": "This bundle offers various utility functionality for the Contao CMS.",
-  "license": "LGPL-3.0+",
+  "license": "LGPL-3.0-or-later",
   "require": {
     "php": ">=7.1.0",
     "contao/core-bundle": "^4.4",
