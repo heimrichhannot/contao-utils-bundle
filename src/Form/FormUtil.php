@@ -44,14 +44,14 @@ class FormUtil
      *
      * @return string
      */
-    public function prepareSpecialValueForOutput(string $field, $value, DataContainer $dc, array $config = [])
+    public function prepareSpecialValueForOutput(string $field, $value, DataContainer $dc, array $config = [], bool $isRecursiveCall = false)
     {
         $value = StringUtil::deserialize($value);
 
         // Recursively apply logic to array
         if (is_array($value)) {
             foreach ($value as $k => $v) {
-                $result = $this->prepareSpecialValueForOutput($field, $v, $dc, $config);
+                $result = $this->prepareSpecialValueForOutput($field, $v, $dc, $config, true);
 
                 if ($config['preserveEmptyArrayValues']) {
                     $value[$k] = $result;
@@ -154,6 +154,11 @@ class FormUtil
 
         if ($data['eval']['encrypt']) {
             $value = Encryption::decrypt($value);
+        }
+
+        // reset caches
+        if (!$isRecursiveCall) {
+            $this->optionsCache = null;
         }
 
         // Convert special characters (see #1890)
