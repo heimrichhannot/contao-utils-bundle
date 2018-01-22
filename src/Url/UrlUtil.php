@@ -102,7 +102,13 @@ class UrlUtil
         return $script.$href;
     }
 
-    public function getJumpToPageObject(int $jumpTo, bool $fallbackToObjPage = true): Model
+    /**
+     * @param int  $jumpTo
+     * @param bool $fallbackToObjPage
+     *
+     * @return PageModel|null
+     */
+    public function getJumpToPageObject(int $jumpTo, bool $fallbackToObjPage = true)
     {
         global $objPage;
 
