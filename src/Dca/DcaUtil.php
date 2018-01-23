@@ -118,4 +118,100 @@ class DcaUtil
 
         return $fields;
     }
+
+    public function addOverridableFields(array $fields, string $sourceTable, string $destinationTable, array $options = [])
+    {
+        Controller::loadDataContainer($sourceTable);
+        System::loadLanguageFile($sourceTable);
+        $sourceDca = $GLOBALS['TL_DCA'][$sourceTable];
+
+        Controller::loadDataContainer($destinationTable);
+        System::loadLanguageFile($destinationTable);
+        $destinationDca = &$GLOBALS['TL_DCA'][$destinationTable];
+
+        foreach ($fields as $field) {
+            // add override boolean field
+            $overrideFieldname = 'override'.ucfirst($field);
+
+            $destinationDca['fields'][$overrideFieldname] = [
+                'label' => &$GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname],
+                'exclude' => true,
+                'inputType' => 'checkbox',
+                'eval' => ['tl_class' => 'w50', 'submitOnChange' => true],
+                'sql' => "char(1) NOT NULL default ''",
+            ];
+
+            if ($options['checkboxDcaEvalOverride']) {
+                $destinationDca['fields'][$overrideFieldname]['eval'] = array_merge(
+                    $destinationDca['fields'][$overrideFieldname]['eval'],
+                    $options['checkboxDcaEvalOverride']
+                );
+            }
+
+            // important: nested selectors need to be in reversed order -> see DC_Table::getPalette()
+            $destinationDca['palettes']['__selector__'] = array_merge([$overrideFieldname], $destinationDca['palettes']['__selector__']);
+
+            // copy field
+            $destinationDca['fields'][$field] = $sourceDca['fields'][$field];
+
+            // subpalette
+            $destinationDca['subpalettes'][$overrideFieldname] = $field;
+
+            if (!$options['skipLocalization']) {
+                $GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname] = [
+                    System::getContainer()->get('translator')->trans(
+                        'huh.utils.misc.override.label',
+                        [
+                            '%fieldname%' => $GLOBALS['TL_LANG'][$sourceTable][$field][0],
+                        ]
+                    ),
+                    System::getContainer()->get('translator')->trans(
+                        'huh.utils.misc.override.desc',
+                        [
+                            '%fieldname%' => $GLOBALS['TL_LANG'][$sourceTable][$field][0],
+                        ]
+                    ),
+                ];
+            }
+        }
+    }
+
+    /**
+     * Retrieves a property of given contao model instances by *ascending* priority, i.e. the last instance of $instances
+     * will have the highest priority.
+     *
+     * CAUTION: This function assumes that you have used addOverridableFields() in this class!! That means, that a value in a
+     * model instance is only used if it's either the first instance in $arrInstances or "overrideFieldname" is set to true
+     * in the instance.
+     *
+     * @param string $property  The property name to retrieve
+     * @param array  $instances An array of instances in ascending priority. Instances can be passed in the following form:
+     *                          ['tl_some_table', $instanceId] or $objInstance
+     *
+     * @return mixed
+     */
+    public function getOverridableProperty(string $property, array $instances)
+    {
+        $result = null;
+        $preparedInstances = [];
+
+        // prepare instances
+        foreach ($instances as $instance) {
+            if (is_array($instance)) {
+                if (null !== ($objInstance = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($instance[0], $instance[1]))) {
+                    $preparedInstances[] = $objInstance;
+                }
+            } elseif ($instance instanceof \Model) {
+                $preparedInstances[] = $instance;
+            }
+        }
+
+        foreach ($preparedInstances as $i => $preparedInstance) {
+            if (0 == $i || $preparedInstance->{'override'.ucfirst($property)}) {
+                $result = $preparedInstance->{$property};
+            }
+        }
+
+        return $result;
+    }
 }
