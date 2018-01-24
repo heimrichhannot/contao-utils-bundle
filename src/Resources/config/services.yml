@@ -57,3 +57,11 @@ services:
         class: HeimrichHannot\UtilsBundle\Choice\MessageChoice
         arguments:
             - "@contao.framework"
+    huh.utils.routing:
+      class: HeimrichHannot\UtilsBundle\Request\RoutingUtil
+      public: true
+      arguments:
+        - "@router"
+        - "@request_stack"
+        - "@security.csrf.token_manager"
+        - "%contao.csrf_token_name%"
