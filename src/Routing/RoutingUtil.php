@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Request;
-
 
 use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -48,15 +44,13 @@ class RoutingUtil
 
     public function generateBackendRoute(array $params = [], $addToken = true, $addReferer = true)
     {
-        if ($addToken)
-        {
+        if ($addToken) {
             $params['rt'] = $this->tokenManager->getToken($this->token)->getValue();
         }
-        if ($addReferer)
-        {
+        if ($addReferer) {
             $params['ref'] = $this->request->getCurrentRequest()->get('_contao_referer_id');
         }
+
         return $this->router->generate('contao_backend', $params);
     }
-
 }
