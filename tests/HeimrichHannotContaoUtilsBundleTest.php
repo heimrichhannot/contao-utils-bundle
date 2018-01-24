@@ -6,9 +6,10 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle;
+namespace HeimrichHannot\UtilsBundle\Tests;
 
 use HeimrichHannot\UtilsBundle\DependencyInjection\UtilsExtension;
+use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
 use PHPUnit\Framework\TestCase;
 
 class HeimrichHannotContaoUtilsBundleTest extends TestCase

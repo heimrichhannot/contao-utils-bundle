@@ -9,8 +9,8 @@
 namespace HeimrichHannot\UtilsBundle\Request;
 
 use Psr\Container\ContainerInterface;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 class RoutingUtil
@@ -21,7 +21,7 @@ class RoutingUtil
     protected $container;
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     protected $router;
     /**
@@ -34,7 +34,7 @@ class RoutingUtil
      */
     private $request;
 
-    public function __construct(Router $router, RequestStack $request, CsrfTokenManager $tokenManager, $token)
+    public function __construct(RouterInterface $router, RequestStack $request, CsrfTokenManager $tokenManager, $token)
     {
         $this->router = $router;
         $this->tokenManager = $tokenManager;
@@ -42,6 +42,15 @@ class RoutingUtil
         $this->request = $request;
     }
 
+    /**
+     * Generate a backend route with token and referer.
+     *
+     * @param array $params     Url-Parameters
+     * @param bool  $addToken
+     * @param bool  $addReferer
+     *
+     * @return string The backend route url
+     */
     public function generateBackendRoute(array $params = [], $addToken = true, $addReferer = true)
     {
         if ($addToken) {

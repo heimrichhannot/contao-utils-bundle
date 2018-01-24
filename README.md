@@ -6,3 +6,11 @@
 [![](https://img.shields.io/coveralls/heimrichhannot/contao-utils-bundle/master.svg)](https://coveralls.io/github/heimrichhannot/contao-head-bundle)
 
 This bundle offers various utility functionality for the Contao CMS.
+
+## Utils
+
+### Routing `huh.utils.routing`
+
+Method               | Description
+---------------------|------------
+generateBackendRoute | Generate a backend Route with request token and referer.

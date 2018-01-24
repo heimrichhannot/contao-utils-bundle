@@ -2,3 +2,5 @@
 Thumbs.db
 .DS_Store
 .sass-cache
+vendor
+composer.lock
