@@ -100,6 +100,10 @@ class DcaUtil
     {
         $fields = [];
 
+        if (!$table) {
+            return $fields;
+        }
+
         Controller::loadDataContainer($table);
         System::loadLanguageFile($table);
 
@@ -235,43 +239,22 @@ class DcaUtil
      * This function transforms an entity's palette (that can also contain sub palettes and concatenated type selectors) to a flatten
      * palette where every field can be overridden.
      *
+     * CAUTION: This function assumes that you have used addOverridableFields() for adding the fields that are overridable. The latter ones
+     * are $overridableFields
+     *
      * This function is useful if you want to adjust a palette for sub entities that can override properties of their ancestor(s).
      * Use $this->getOverridableProperty() for computing the correct value respecting the entity hierarchy.
      *
      * @param string $table
      */
-    public function flattenPaletteForSubEntities(string $table)
+    public function flattenPaletteForSubEntities(string $table, $overridableFields)
     {
         Controller::loadDataContainer($table);
 
         $dca = &$GLOBALS['TL_DCA'][$table];
         $arrayUtil = System::getContainer()->get('huh.utils.array');
 
-        $overridableFields = [];
-
-        foreach ($dca['fields'] as $field => $data) {
-            if (isset($data['eval']['notOverridable'])) {
-                continue;
-            }
-
-            $overridableFields[] = $field;
-        }
-
-        $this->addOverridableFields(
-            $overridableFields,
-            $table,
-            $table,
-            [
-                'checkboxDcaEvalOverride' => [
-                    'tl_class' => 'w50 clr',
-                ],
-            ]
-        );
-
         // palette
-        // remove data container
-        unset($dca['fields']['dataContainer']);
-
         foreach ($overridableFields as $field) {
             if ($dca['fields'][$field]['eval']['submitOnChange'] === true) {
                 unset($dca['fields'][$field]['eval']['submitOnChange']);
