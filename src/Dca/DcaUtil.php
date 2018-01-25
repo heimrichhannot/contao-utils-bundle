@@ -88,7 +88,15 @@ class DcaUtil
         Database::getInstance()->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $insertId);
     }
 
-    public function getFields($table, array $options = []): array
+    /**
+     * Returns a list of fields as an option array for dca fields.
+     *
+     * @param string $table
+     * @param array  $options
+     *
+     * @return array
+     */
+    public function getFields(string $table, array $options = []): array
     {
         $fields = [];
 
@@ -119,6 +127,14 @@ class DcaUtil
         return $fields;
     }
 
+    /**
+     * Adds an override selector to every field in $fields to the dca associated with $destinationTable.
+     *
+     * @param array  $fields
+     * @param string $sourceTable
+     * @param string $destinationTable
+     * @param array  $options
+     */
     public function addOverridableFields(array $fields, string $sourceTable, string $destinationTable, array $options = [])
     {
         Controller::loadDataContainer($sourceTable);
@@ -213,5 +229,87 @@ class DcaUtil
         }
 
         return $result;
+    }
+
+    /**
+     * This function transforms an entity's palette (that can also contain sub palettes and concatenated type selectors) to a flatten
+     * palette where every field can be overridden.
+     *
+     * This function is useful if you want to adjust a palette for sub entities that can override properties of their ancestor(s).
+     * Use $this->getOverridableProperty() for computing the correct value respecting the entity hierarchy.
+     *
+     * @param string $table
+     */
+    public function flattenPaletteForSubEntities(string $table)
+    {
+        Controller::loadDataContainer($table);
+
+        $dca = &$GLOBALS['TL_DCA'][$table];
+        $arrayUtil = System::getContainer()->get('huh.utils.array');
+
+        $overridableFields = [];
+
+        foreach ($dca['fields'] as $field => $data) {
+            if (isset($data['eval']['notOverridable'])) {
+                continue;
+            }
+
+            $overridableFields[] = $field;
+        }
+
+        $this->addOverridableFields(
+            $overridableFields,
+            $table,
+            $table,
+            [
+                'checkboxDcaEvalOverride' => [
+                    'tl_class' => 'w50 clr',
+                ],
+            ]
+        );
+
+        // palette
+        // remove data container
+        unset($dca['fields']['dataContainer']);
+
+        foreach ($overridableFields as $field) {
+            if ($dca['fields'][$field]['eval']['submitOnChange'] === true) {
+                unset($dca['fields'][$field]['eval']['submitOnChange']);
+
+                if (in_array($field, $dca['palettes']['__selector__'], true)) {
+                    // flatten concatenated type selectors
+                    foreach ($dca['subpalettes'] as $selector => $subPaletteFields) {
+                        if (false !== strpos($selector, $field.'_')) {
+                            if ($dca['subpalettes'][$selector]) {
+                                $subPaletteFields = explode(',', $dca['subpalettes'][$selector]);
+
+                                foreach (array_reverse($subPaletteFields) as $subPaletteField) {
+                                    $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
+                                }
+                            }
+
+                            // remove nested field in order to avoid its normal "selector" behavior
+                            $arrayUtil->removeValue($field, $dca['palettes']['__selector__']);
+                            unset($dca['subpalettes'][$selector]);
+                        }
+                    }
+
+                    // flatten sub palettes
+                    if (isset($dca['subpalettes'][$field]) && $dca['subpalettes'][$field]) {
+                        $subPaletteFields = explode(',', $dca['subpalettes'][$field]);
+
+                        foreach (array_reverse($subPaletteFields) as $subPaletteField) {
+                            $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
+                        }
+
+                        // remove nested field in order to avoid its normal "selector" behavior
+                        $arrayUtil->removeValue($field, $dca['palettes']['__selector__']);
+                        unset($dca['subpalettes'][$field]);
+                    }
+                }
+            }
+
+            $dca['palettes']['default'] = str_replace($field, 'override'.ucfirst($field), $dca['palettes']['default']);
+        }
     }
 }
