@@ -83,4 +83,43 @@ class ModelUtil
 
         return $adapter->findOneBy($columns, $values, $options);
     }
+
+    /**
+     * Recursively finds the root parent.
+     *
+     * @param string $parentProperty
+     * @param string $table
+     * @param Model  $instance
+     * @param bool   $returnInstanceIfNoParent
+     *
+     * @return Model
+     */
+    public function findRootParentRecursively(string $parentProperty, string $table, Model $instance, bool $returnInstanceIfNoParent = true)
+    {
+        if (!$instance->{$parentProperty} || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))) {
+            return $returnInstanceIfNoParent ? $instance : null;
+        }
+
+        return $this->findRootParentRecursively($parentProperty, $table, $parentInstance);
+    }
+
+    /**
+     * Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
+     *
+     * @param string $parentProperty
+     * @param string $table
+     * @param Model  $instance
+     *
+     * @return array
+     */
+    public function findParentsRecursively(string $parentProperty, string $table, Model $instance): array
+    {
+        $parents = [];
+
+        if (!$instance->{$parentProperty} || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))) {
+            return $parents;
+        }
+
+        return array_merge([$parentInstance], $this->findParentsRecursively($parentProperty, $table, $parentInstance));
+    }
 }

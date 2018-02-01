@@ -157,7 +157,7 @@ class DcaUtil
                 'label' => &$GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname],
                 'exclude' => true,
                 'inputType' => 'checkbox',
-                'eval' => ['tl_class' => 'w50', 'submitOnChange' => true],
+                'eval' => ['tl_class' => 'w50', 'submitOnChange' => true, 'isOverrideSelector' => true],
                 'sql' => "char(1) NOT NULL default ''",
             ];
 
