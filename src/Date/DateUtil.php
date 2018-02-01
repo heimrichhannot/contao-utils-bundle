@@ -83,6 +83,7 @@ class DateUtil
             'i' => 'mm', // Minutes with leading zeros (00 to 59)
             's' => 'ss', // Seconds, with leading zeros (00 to 59)
             'u' => '', // Not supported yet: Microseconds (added in PHP 5.2.2). Note that date() will always generate 000000 since it takes an integer parameter, whereas DateTime::format() does support microseconds if DateTime was created with microseconds. (Example: 654321)
+            // TODO: add remaining formats from http://php.net/manual/en/function.date.php#refsect1-function.date-parameters
         ];
 
         $chunks = str_split($format);
