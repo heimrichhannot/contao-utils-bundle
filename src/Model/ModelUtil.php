@@ -22,6 +22,9 @@ class ModelUtil
     }
 
     /**
+     * Returns a model instance if for a given table and id(primary key).
+     * Return null, if model type or model instance with given id not exist.
+     *
      * @param string $table
      * @param mixed  $pk
      * @param array  $options
@@ -30,7 +33,7 @@ class ModelUtil
      */
     public function findModelInstanceByPk(string $table, $pk, array $options = [])
     {
-        if (!($modelClass = Model::getClassFromTable($table))) {
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
