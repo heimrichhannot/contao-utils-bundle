@@ -9,6 +9,12 @@ This bundle offers various utility functionality for the Contao CMS.
 
 ## Utils
 
+### Models `huh.utils.model`
+
+Method                | Description
+----------------------|------------
+findModelInstanceByPk | Returns a model instance if for a given table and id or null if not exist.
+
 ### Routing `huh.utils.routing`
 
 Method               | Description

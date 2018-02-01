@@ -2,6 +2,7 @@ services:
     # util services
     huh.utils.array:
         class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.container:
@@ -11,6 +12,7 @@ services:
             - "@contao.framework"
     huh.utils.database:
         class: HeimrichHannot\UtilsBundle\Database\DatabaseUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.date:
