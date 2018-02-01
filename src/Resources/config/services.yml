@@ -6,6 +6,7 @@ services:
             - "@contao.framework"
     huh.utils.container:
         class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.database:
@@ -14,47 +15,58 @@ services:
             - "@contao.framework"
     huh.utils.date:
         class: HeimrichHannot\UtilsBundle\Date\DateUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.dca:
         class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.file:
         class: HeimrichHannot\UtilsBundle\File\FileUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.form:
         class: HeimrichHannot\UtilsBundle\Form\FormUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.image:
         class: HeimrichHannot\UtilsBundle\Image\Image
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.model:
         class: HeimrichHannot\UtilsBundle\Model\ModelUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.string:
         class: HeimrichHannot\UtilsBundle\String\StringUtil
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.url:
         class: HeimrichHannot\UtilsBundle\Url\UrlUtil
+        public: true
         arguments:
             - "@contao.framework"
     # choice
     huh.utils.choice.field:
         class: HeimrichHannot\UtilsBundle\Choice\FieldChoice
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.choice.data_container:
         class: HeimrichHannot\UtilsBundle\Choice\DataContainerChoice
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.choice.message:
         class: HeimrichHannot\UtilsBundle\Choice\MessageChoice
+        public: true
         arguments:
             - "@contao.framework"
     huh.utils.routing:

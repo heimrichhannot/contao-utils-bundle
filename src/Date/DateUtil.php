@@ -46,13 +46,35 @@ class DateUtil
     }
 
     /**
+     * Format a php date formate pattern to an RFC3339 compliant format
+     *
+     * @param string $format The php date format (see: http://php.net/manual/de/function.date.php#refsect1-function.date-parameters)
+     *
+     * @return string The RFC3339 compliant format (see: http://userguide.icu-project.org/formatparse/datetime)
+     */
+    public function formatPhpDateToRFC3339(string $format): string
+    {
+        $mapping = [
+            'd' => 'dd',  //Day of the month, 2 digits with leading zeros (01 to 31)
+            'D' => 'E', // A textual representation of a day, three letters (Mon through Sun)
+            'j' => 'd', // Day of the month without leading zeros (1 to 31)
+            'l' => 'EEEE', // A full textual representation of the day of the week (Sunday through Saturday)
+            'N' => 'd', // ISO-8601 numeric representation of the day of the week (added in PHP 5.1.0) (1 (for Monday) through 7 (for Sunday))
+            'S' => '', // English ordinal suffix for the day of the month, 2 characters (st, nd, rd or th. Works well with j)
+            'w' => 'e', // Numeric representation of the day of the week (0 (for Sunday) through 6 (for Saturday))
+        ];
+
+        return str_replace(array_keys($mapping), array_values($mapping), $format);
+    }
+
+    /**
      * Format a php date format string to javascript compatible date format string.
      *
      * @param string $php_format The date format (e.g. "d.m.y H:i")
      *
      * @return string The formatted js date string
      */
-    public static function formatPhpDateToJsDate($php_format)
+    public function formatPhpDateToJsDate($php_format)
     {
         $SYMBOLS_MATCHING = [
             // Day
@@ -91,7 +113,7 @@ class DateUtil
         ];
 
         $replacement = '';
-        $escaping = false;
+        $escaping    = false;
 
         for ($i = 0; $i < strlen($php_format); ++$i) {
             $char = $php_format[$i];
@@ -100,13 +122,13 @@ class DateUtil
                 if ($escaping) {
                     $replacement .= $php_format[$i];
                 } else {
-                    $replacement .= '\''.$php_format[$i];
+                    $replacement .= '\'' . $php_format[$i];
                 }
                 $escaping = true;
             } else {
                 if ($escaping) {
                     $replacement .= "'";
-                    $escaping = false;
+                    $escaping    = false;
                 }
                 if (isset($SYMBOLS_MATCHING[$char])) {
                     $replacement .= $SYMBOLS_MATCHING[$char];
