@@ -4,6 +4,7 @@ php:
 - 7.2
 env:
 - CONTAO_VERSION="4.4.*"
+- CONTAO_VERSION="4.5.*"
 install:
 - composer require contao/core-bundle:${CONTAO_VERSION}
 sudo: false
