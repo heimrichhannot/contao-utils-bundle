@@ -124,7 +124,7 @@ class DateUtilTest extends ContaoTestCase
             ['m', 'en-EN', $date, '04'],
             ['M', 'en-EN', $date, 'Apr'],
             ['M', 'en-EN', $date, 'Apr'],
-            ['n', 'en-EN', $date, '04'],
+            ['n', 'en-EN', $date, '4'],
             ['t', 'en-EN', $date, ''],
             ['L', 'en-EN', $date, ''],
             ['o', 'en-EN', $date, '2018'],
