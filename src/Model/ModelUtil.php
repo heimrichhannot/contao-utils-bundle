@@ -45,6 +45,8 @@ class ModelUtil
     }
 
     /**
+     * Returns model instances by given table and search criteria.
+     *
      * @param string $table
      * @param array  $columns
      * @param array  $values
@@ -54,7 +56,10 @@ class ModelUtil
      */
     public function findModelInstancesBy(string $table, array $columns, array $values, array $options = [])
     {
-        if (!($modelClass = Model::getClassFromTable($table))) {
+        /*
+         * @var Model
+         */
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
@@ -66,17 +71,21 @@ class ModelUtil
     }
 
     /**
-     * @param ContaoFrameworkInterface $framework
-     * @param string                   $table
-     * @param array                    $columns
-     * @param array                    $values
-     * @param array                    $options
+     * Return a single model instance by table and search criteria.
+     *
+     * @param string $table
+     * @param array  $columns
+     * @param array  $values
+     * @param array  $options
      *
      * @return mixed
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
-        if (!($modelClass = Model::getClassFromTable($table))) {
+        /*
+         * @var Model
+         */
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
