@@ -56,7 +56,7 @@ class ModelUtil
      */
     public function findModelInstancesBy(string $table, array $columns, array $values, array $options = [])
     {
-        /**
+        /*
          * @var Model
          */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
@@ -82,7 +82,7 @@ class ModelUtil
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
-        /**
+        /*
          * @var Model
          */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {

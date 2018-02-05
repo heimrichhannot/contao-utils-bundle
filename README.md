@@ -7,6 +7,12 @@
 
 This bundle offers various utility functionality for the Contao CMS.
 
+## Install 
+
+```
+composer require heimrichhannot/contao-utils-bundle
+```
+
 ## Utils
 
 ### Models `huh.utils.model`
