@@ -5,7 +5,7 @@
   "license": "LGPL-3.0-or-later",
   "require": {
     "php": ">=7.1.0",
-    "contao/core-bundle": "^4.4",
+    "contao/core-bundle": "^4.5",
     "heimrichhannot/contao-request": "^1.2"
   },
   "require-dev": {
@@ -13,7 +13,8 @@
     "friendsofphp/php-cs-fixer": "^2.2",
     "phpunit/phpunit": "^6.0",
     "satooshi/php-coveralls": "^1.0",
-    "contao/test-case": "^1.1"
+    "contao/test-case": "^1.1",
+    "php-http/guzzle6-adapter": "^1.1"
   },
   "autoload": {
     "psr-4": {
