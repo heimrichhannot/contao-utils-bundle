@@ -87,6 +87,16 @@ class DateUtilTest extends ContaoTestCase
             ['i', 'mm'],
             ['s', 'ss'],
             ['u', ''],
+            ['v', ''],
+            ['e', 'VV'],
+            ['I', ''],
+            ['O', 'xx'],
+            ['P', 'xxx'],
+            ['T', ''],
+            ['Z', ''],
+            ['c', "yyyy-MM-dd'T'HH:mm:ssxxx"],
+            ['r', ''],
+            ['U', ''],
         ];
     }
 
@@ -95,25 +105,26 @@ class DateUtilTest extends ContaoTestCase
      */
     public function transformPhpDateFormatToRFC3339Provider()
     {
-        $date = new \DateTime();
-        $date->setTimezone(new \DateTimeZone('UTC'));
-        $date->setDate('2018', '02', '04');
+        $timeZone = 'Europe/Berlin';
+        $date     = new \DateTime();
+        $date->setTimezone(new \DateTimeZone($timeZone));
+        $date->setDate('2018', '04', '04');
         $date->setTime('16', '09', '02', '1234');
 
         return [
             ['d', 'en-EN', $date, '04'],
-            ['D', 'en-EN', $date, 'Sun'],
+            ['D', 'en-EN', $date, 'Wed'],
             ['j', 'en-EN', $date, '4'],
             ['N', 'en-EN', $date, '4'],
             ['S', 'en-EN', $date, ''],
-            ['w', 'en-EN', $date, '7'],
-            ['z', 'en-EN', $date, '35'],
-            ['W', 'en-EN', $date, '5'],
-            ['F', 'en-EN', $date, 'February'],
-            ['m', 'en-EN', $date, '02'],
-            ['M', 'en-EN', $date, 'Feb'],
-            ['M', 'en-EN', $date, 'Feb'],
-            ['n', 'en-EN', $date, '2'],
+            ['w', 'en-EN', $date, '3'],
+            ['z', 'en-EN', $date, '94'],
+            ['W', 'en-EN', $date, '14'],
+            ['F', 'en-EN', $date, 'April'],
+            ['m', 'en-EN', $date, '04'],
+            ['M', 'en-EN', $date, 'Apr'],
+            ['M', 'en-EN', $date, 'Apr'],
+            ['n', 'en-EN', $date, '04'],
             ['t', 'en-EN', $date, ''],
             ['L', 'en-EN', $date, ''],
             ['o', 'en-EN', $date, '2018'],
@@ -130,6 +141,22 @@ class DateUtilTest extends ContaoTestCase
             ['i', 'en-EN', $date, '09'],
             ['s', 'en-EN', $date, '02'],
             ['u', 'en-EN', $date, ''],
+            ['v', 'en-EN', $date, ''],
+            ['e', 'en-EN', $date, $timeZone],
+            ['I', 'en-EN', $date, ''],
+            ['O', 'en-EN', $date, '+0200'],
+            ['P', 'en-EN', $date, '+02:00'],
+            ['T', 'en-EN', $date, ''],
+            ['Z', 'en-EN', $date, ''],
+            ['c', 'en-EN', $date, '2018-04-04T16:09:02+02:00'],
+            ['r', 'en-EN', $date, ''],
+            ['U', 'en-EN', $date, ''],
+            ['d.m.Y H:i', 'en-EN', $date, '04.04.2018 16:09'],
+            ['d.m.Y', 'en-EN', $date, '04.04.2018'],
+            ['H:i', 'en-EN', $date, '16:09'],
+            ['Y-m-d H.i', 'en-EN', $date, '2018-04-04 16.09'],
+            ['Y-m-d', 'en-EN', $date, '2018-04-04'],
+            ['H.i', 'en-EN', $date, '16.09'],
         ];
     }
 

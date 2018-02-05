@@ -50,7 +50,7 @@ class DateUtil
      *
      * @param string $format The php date format (see: http://php.net/manual/de/function.date.php#refsect1-function.date-parameters)
      *
-     * @return string The RFC3339 compliant format (see: http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)
+     * @return string The RFC3339 compliant format (see: http://userguide.icu-project.org/formatparse/datetime#TOC-Date-Time-Format-Syntax or http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)
      */
     public function transformPhpDateFormatToRFC3339(string $format): string
     {
@@ -83,7 +83,16 @@ class DateUtil
             'i' => 'mm', // Minutes with leading zeros (00 to 59)
             's' => 'ss', // Seconds, with leading zeros (00 to 59)
             'u' => '', // Not supported yet: Microseconds (added in PHP 5.2.2). Note that date() will always generate 000000 since it takes an integer parameter, whereas DateTime::format() does support microseconds if DateTime was created with microseconds. (Example: 654321)
-            // TODO: add remaining formats from http://php.net/manual/en/function.date.php#refsect1-function.date-parameters
+            'v' => '', // Not supported yet: Milliseconds (added in PHP 7.0.0). Same note applies as for u. (Example: 654)
+            'e' => 'VV', // Timezone identifier (added in PHP 5.1.0) (Examples: UTC, GMT, Atlantic/Azores)
+            'I' => '', // Not supported yet: Whether or not the date is in daylight saving time (1 if Daylight Saving Time, 0 otherwise.)
+            'O' => 'xx', // Difference to Greenwich time (GMT) in hours (Example: +0200)
+            'P' => 'xxx', // Difference to Greenwich time (GMT) with colon between hours and minutes (added in PHP 5.1.3) (Example: +02:00)
+            'T' => '',  // Not supported yet: Timezone abbreviation	(Examples: EST, MDT)
+            'Z' => '', // Not supported yet: Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive. (-43200 through 50400)
+            'c' => "yyyy-MM-dd'T'HH:mm:ssxxx", // ISO 8601 date (added in PHP 5) (2004-02-12T15:19:21+00:00)
+            'r' => '', // Not supported yet: » RFC 2822 formatted date (Example: Thu, 21 Dec 2000 16:01:07 +0200)
+            'U' => '', // Not supported yet: Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
         ];
 
         $chunks = str_split($format);
