@@ -106,7 +106,7 @@ class DateUtilTest extends ContaoTestCase
     public function transformPhpDateFormatToRFC3339Provider()
     {
         $timeZone = 'Europe/Berlin';
-        $date     = new \DateTime();
+        $date = new \DateTime();
         $date->setTimezone(new \DateTimeZone($timeZone));
         $date->setDate('2018', '04', '04');
         $date->setTime('16', '09', '02', '1234');

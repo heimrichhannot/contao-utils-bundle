@@ -261,40 +261,38 @@ class DatabaseUtil
     }
 
     /**
-     * Create a where condition for fields that contain serialized.
+     * Create a where condition for a field that contains a serialized blob.
      *
-     * @param string $field     The field the condition should be checked against accordances
-     * @param array  $values    The values array to check the field against
-     * @param string $condition SQL_CONDITION_OR | SQL_CONDITION_AND
-     * @param bool   $fallback  set to false if field you know the field was no array in past
+     * @param string $field      The field the condition should be checked against accordances
+     * @param array  $values     The values array to check the field against
+     * @param string $connective SQL_CONDITION_OR | SQL_CONDITION_AND
      *
-     * @return string
+     * @return array
      */
-    public function createWhereForSerializedBlob(string $field, array $values, string $condition = self::SQL_CONDITION_OR, bool $fallback = true)
+    public function createWhereForSerializedBlob(string $field, array $values, string $connective = self::SQL_CONDITION_OR)
     {
         $where = null;
+        $returnValues = [];
 
-        if (!in_array($condition, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND], true)) {
-            return '';
+        if (!in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND], true)) {
+            throw new \Exception('Unknown sql junctor');
         }
 
         foreach ($values as $val) {
             if (null !== $where) {
-                $where .= " $condition ";
+                $where .= " $connective ";
             }
 
-            $where .= self::SQL_CONDITION_AND == $condition ? '(' : '';
+            $where .= self::SQL_CONDITION_AND == $connective ? '(' : '';
 
-            $where .= "$field REGEXP (':\"$val\"')";
+            $where .= "$field REGEXP (?)";
 
-            if ($fallback) {
-                $where .= " OR $field='$val'"; // backwards compatibility (if field was no array before)
-            }
+            $where .= self::SQL_CONDITION_AND == $connective ? ')' : '';
 
-            $where .= self::SQL_CONDITION_AND == $condition ? ')' : '';
+            $returnValues[] = "':\"$val\"'";
         }
 
-        return "($where)";
+        return ["($where)", $returnValues];
     }
 
     /**
