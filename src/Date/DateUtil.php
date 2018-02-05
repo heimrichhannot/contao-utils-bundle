@@ -46,7 +46,7 @@ class DateUtil
     }
 
     /**
-     * Format a php date formate pattern to an RFC3339 compliant format
+     * Format a php date formate pattern to an RFC3339 compliant format.
      *
      * @param string $format The php date format (see: http://php.net/manual/de/function.date.php#refsect1-function.date-parameters)
      *
@@ -145,7 +145,7 @@ class DateUtil
         ];
 
         $replacement = '';
-        $escaping    = false;
+        $escaping = false;
 
         for ($i = 0; $i < strlen($php_format); ++$i) {
             $char = $php_format[$i];
@@ -154,13 +154,13 @@ class DateUtil
                 if ($escaping) {
                     $replacement .= $php_format[$i];
                 } else {
-                    $replacement .= '\'' . $php_format[$i];
+                    $replacement .= '\''.$php_format[$i];
                 }
                 $escaping = true;
             } else {
                 if ($escaping) {
                     $replacement .= "'";
-                    $escaping    = false;
+                    $escaping = false;
                 }
                 if (isset($SYMBOLS_MATCHING[$char])) {
                     $replacement .= $SYMBOLS_MATCHING[$char];

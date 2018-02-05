@@ -1,9 +1,9 @@
 <?php
-/**
+
+/*
  * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * @author Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\UtilsBundle\Tests;
@@ -18,9 +18,9 @@ class DateUtilTest extends ContaoTestCase
      */
     public function testCanBeInstantiated()
     {
-        $instance = new DateUtilTest();
+        $instance = new self();
 
-        $this->assertInstanceOf(DateUtilTest::class, $instance);
+        $this->assertInstanceOf(self::class, $instance);
     }
 
     /**
@@ -30,7 +30,7 @@ class DateUtilTest extends ContaoTestCase
     {
         $instance = new DateUtil($this->mockContaoFramework());
 
-        $this->assertEquals($expected, $instance->transformPhpDateFormatToRFC3339($format));
+        $this->assertSame($expected, $instance->transformPhpDateFormatToRFC3339($format));
     }
 
     /**
@@ -38,23 +38,23 @@ class DateUtilTest extends ContaoTestCase
      */
     public function testTransformPhpDateFormatToRFC3339WithDate($format, $locale, \DateTime $date, $expected)
     {
-        $timezone   = $date->getTimezone()->getName();
-        $calendar   = \IntlDateFormatter::GREGORIAN;
-        $pattern    = null;
+        $timezone = $date->getTimezone()->getName();
+        $calendar = \IntlDateFormatter::GREGORIAN;
+        $pattern = null;
         $dateFormat = \IntlDateFormatter::MEDIUM; // default from Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer
         $timeFormat = \IntlDateFormatter::SHORT; // default from Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer
 
-        $utils         = new DateUtil($this->mockContaoFramework());
+        $utils = new DateUtil($this->mockContaoFramework());
         $rfc3339Format = $utils->transformPhpDateFormatToRFC3339($format);
 
         $intlDateFormatter = new \IntlDateFormatter($locale, $dateFormat, $timeFormat, $timezone, $calendar, $pattern);
         $intlDateFormatter->setPattern($rfc3339Format);
 
-        $this->assertEquals($expected, $intlDateFormatter->format($date));
+        $this->assertSame($expected, $intlDateFormatter->format($date));
     }
 
     /**
-     * The php to rfc3339 test data provider
+     * The php to rfc3339 test data provider.
      */
     public function phpDateRFC3339Provider()
     {
@@ -91,7 +91,7 @@ class DateUtilTest extends ContaoTestCase
     }
 
     /**
-     * The php to rfc3339 test data provider
+     * The php to rfc3339 test data provider.
      */
     public function transformPhpDateFormatToRFC3339Provider()
     {
@@ -132,5 +132,4 @@ class DateUtilTest extends ContaoTestCase
             ['u', 'en-EN', $date, ''],
         ];
     }
-
 }

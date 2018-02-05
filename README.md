@@ -14,6 +14,10 @@ This bundle offers various utility functionality for the Contao CMS.
 Method                | Description
 ----------------------|------------
 findModelInstanceByPk | Returns a model instance if for a given table and id or null if not exist.
+findModelInstancesBy  | Returns model instances by given table and search criteria. 
+findOneModelInstanceBy | Return a single model instance by table and search criteria.
+findRootParentRecursively | Recursively finds the root parent.
+findParentsRecursively |Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
 
 ### Routing `huh.utils.routing`
 
