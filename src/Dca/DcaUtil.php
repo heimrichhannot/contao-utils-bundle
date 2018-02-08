@@ -301,11 +301,11 @@ class DcaUtil
     /**
      * Generate an alias.
      *
-     * @param $alias mixed The current alias (if available)
-     * @param $$id    int The entity's id
-     * @param $table string The entity's table
-     * @param $title string The value to use as a base for the alias
-     * @param $keepUmlauts bool Set to true if German umlauts should be kept
+     * @param mixed  $alias       The current alias (if available)
+     * @param int    $id          The entity's id
+     * @param string $table       The entity's table
+     * @param string $title       The value to use as a base for the alias
+     * @param bool   $keepUmlauts Set to true if German umlauts should be kept
      *
      * @throws \Exception
      *
