@@ -11,7 +11,9 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
+use Contao\Database\Result;
 use Contao\DataContainer;
+use Contao\StringUtil;
 use Contao\System;
 
 class DcaUtil
@@ -294,5 +296,60 @@ class DcaUtil
 
             $dca['palettes']['default'] = str_replace($field, 'override'.ucfirst($field), $dca['palettes']['default']);
         }
+    }
+
+    /**
+     * Generate an alias.
+     *
+     * @param $alias mixed The current alias (if available)
+     * @param $$id    int The entity's id
+     * @param $table string The entity's table
+     * @param $title string The value to use as a base for the alias
+     * @param $keepUmlauts bool Set to true if German umlauts should be kept
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function generateAlias(string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+    {
+        $autoAlias = false;
+
+        // Generate alias if there is none
+        if (empty($alias)) {
+            $autoAlias = true;
+            $alias = StringUtil::generateAlias($title);
+        }
+
+        if (!$keepUmlauts) {
+            $alias = preg_replace(
+                ['/ä/i', '/ö/i', '/ü/i', '/ß/i'],
+                ['ae', 'oe', 'ue', 'ss'],
+                $alias
+            );
+        }
+
+        /**
+         * @var Result
+         */
+        $existingAlias = $this->framework->getAdapter(Database::class)->getInstance()
+            ->prepare("SELECT id FROM $table WHERE alias=?")
+            ->execute($alias);
+
+        if ($existingAlias->id == $id) {
+            return $alias;
+        }
+
+        // Check whether the alias exists
+        if ($existingAlias->numRows > 0 && !$autoAlias) {
+            throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
+        }
+
+        // Add ID to alias
+        if ($existingAlias->numRows && $existingAlias->id != $id && $autoAlias || !$alias) {
+            $alias .= '-'.$id;
+        }
+
+        return $alias;
     }
 }

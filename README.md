@@ -7,13 +7,28 @@
 
 This bundle offers various utility functionality for the Contao CMS.
 
+
 ## Install 
 
 ```
 composer require heimrichhannot/contao-utils-bundle
 ```
 
+
 ## Utils
+
+### DCA `huh.utils.dca`
+
+Method                | Description
+----------------------|------------
+getConfigByArrayOrCallbackOrFunction |
+setDateAdded |
+setDateAddedOnCopy |
+getFields |
+addOverridableFields |
+getOverridableProperty |
+flattenPaletteForSubEntities | 
+generateAlias | Generate a unique alias or check if given alias is unique
 
 ### Models `huh.utils.model`
 
