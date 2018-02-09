@@ -54,7 +54,7 @@ class ModelUtil
      *
      * @return mixed
      */
-    public function findModelInstancesBy(string $table, array $columns, array $values, array $options = [])
+    public function findModelInstancesBy(string $table, array $columns = null, array $values = null, array $options = [])
     {
         /*
          * @var Model
