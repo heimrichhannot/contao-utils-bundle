@@ -13,6 +13,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Model;
 use Contao\System;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 class DatabaseUtil
 {
@@ -29,6 +30,9 @@ class DatabaseUtil
     const OPERATOR_GREATER_EQUAL = 'greaterequal';
     const OPERATOR_IN = 'in';
     const OPERATOR_NOT_IN = 'notin';
+    const OPERATOR_IS_NULL = 'isnull';
+    const OPERATOR_IS_NOT_NULL = 'isnotnull';
+    const OPERATOR_REGEXP = 'regexp';
 
     const ON_DUPLICATE_KEY_IGNORE = 'IGNORE';
     const ON_DUPLICATE_KEY_UPDATE = 'UPDATE';
@@ -44,6 +48,27 @@ class DatabaseUtil
         self::OPERATOR_GREATER_EQUAL,
         self::OPERATOR_IN,
         self::OPERATOR_NOT_IN,
+        self::OPERATOR_IS_NULL,
+        self::OPERATOR_IS_NOT_NULL,
+        self::OPERATOR_REGEXP,
+    ];
+
+    /**
+     * Maps operators of this class to its corresponding Doctrine ExpressionBuilder method.
+     */
+    const OPERATOR_MAPPING = [
+        self::OPERATOR_LIKE => 'like',
+        self::OPERATOR_UNLIKE => 'notLike',
+        self::OPERATOR_EQUAL => 'eq',
+        self::OPERATOR_UNEQUAL => 'neq',
+        self::OPERATOR_LOWER => 'lt',
+        self::OPERATOR_LOWER_EQUAL => 'lte',
+        self::OPERATOR_GREATER => 'gt',
+        self::OPERATOR_GREATER_EQUAL => 'gte',
+        self::OPERATOR_IN => 'in',
+        self::OPERATOR_NOT_IN => 'notIn',
+        self::OPERATOR_IS_NULL => 'isNull',
+        self::OPERATOR_IS_NOT_NULL => 'isNotNull',
     ];
 
     /** @var ContaoFrameworkInterface */
@@ -165,7 +190,9 @@ class DatabaseUtil
 
         $i = 0;
 
-        $columnWildcards = array_map(function ($val) { return '?'; }, $fields);
+        $columnWildcards = array_map(function ($val) {
+            return '?';
+        }, $fields);
 
         foreach ($data as $key => $varData) {
             if (0 == $i) {
@@ -335,6 +362,10 @@ class DatabaseUtil
                 break;
             case static::OPERATOR_NOT_IN:
                 return 'NOT IN';
+            case static::OPERATOR_IS_NULL:
+                return 'NOT IN';
+            case static::OPERATOR_IS_NOT_NULL:
+                return 'IS NOT NULL';
                 break;
         }
 
@@ -416,6 +447,12 @@ class DatabaseUtil
                         )
                     ).')';
                 break;
+            case static::OPERATOR_IS_NULL:
+                $pattern = '';
+                break;
+            case static::OPERATOR_IS_NOT_NULL:
+                $pattern = '';
+                break;
             default:
                 $values[] = '%'.($addQuotes ? '"'.$value.'"' : $value).'%';
                 break;
@@ -424,5 +461,83 @@ class DatabaseUtil
         $operator = $this->transformVerboseOperator($operator);
 
         return ["$field $operator $pattern", $values];
+    }
+
+    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca, $value = null)
+    {
+        $wildcard = ':'.$field;
+        $where = '';
+
+        switch ($operator) {
+            case self::OPERATOR_LIKE:
+                $where = $queryBuilder->expr()->like($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, '%'.$value.'%');
+                break;
+            case self::OPERATOR_UNLIKE:
+                $where = $queryBuilder->expr()->notLike($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, '%'.$value.'%');
+                break;
+            case self::OPERATOR_EQUAL:
+                $where = $queryBuilder->expr()->eq($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, $value);
+                break;
+            case self::OPERATOR_UNEQUAL:
+                $where = $queryBuilder->expr()->neq($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, $value);
+                break;
+            case self::OPERATOR_LOWER:
+                $where = $queryBuilder->expr()->lt($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, $value);
+                break;
+            case self::OPERATOR_LOWER_EQUAL:
+                $where = $queryBuilder->expr()->lte($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, $value);
+                break;
+            case self::OPERATOR_GREATER:
+                $where = $queryBuilder->expr()->gt($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, $value);
+                break;
+            case self::OPERATOR_GREATER_EQUAL:
+                $where = $queryBuilder->expr()->gte($field, $wildcard);
+                $queryBuilder->setParameter($wildcard, $value);
+                break;
+            case self::OPERATOR_IN:
+                $where = $queryBuilder->expr()->in($field, $wildcard);
+                // always handle array items as strings
+                $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
+                break;
+            case self::OPERATOR_NOT_IN:
+                $where = $queryBuilder->expr()->in($field, $wildcard);
+                // always handle array items as strings
+                $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
+                break;
+            case self::OPERATOR_IS_NULL:
+                $where = $queryBuilder->expr()->isNull($field);
+                break;
+            case self::OPERATOR_IS_NOT_NULL:
+                $where = $queryBuilder->expr()->isNotNull($field);
+                break;
+            case self::OPERATOR_REGEXP:
+                $where = $field.' REGEXP '.$wildcard;
+
+                if (isset($dca['eval']['multiple']) && $dca['eval']['multiple']) {
+                    // match a serialized blob
+                    if (is_array($value)) {
+                        // build a regexp alternative, e.g. (:"1";|:"2";)
+                        $queryBuilder->setParameter($wildcard, '('.implode('|', array_map(function ($val) {
+                            return ':"'.$val.'";';
+                        }, $value)).')');
+                    } else {
+                        $queryBuilder->setParameter($wildcard, ':"'.$value.'";');
+                    }
+                } else {
+                    // TODO: this makes no sense, yet
+                    $queryBuilder->setParameter($wildcard, $value);
+                }
+
+                break;
+        }
+
+        return $where;
     }
 }

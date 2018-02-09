@@ -93,6 +93,8 @@ $GLOBALS['TL_LANG']['MSC']['operators'] = [
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER_EQUAL => '&gt;=',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IN            => 'in',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_NOT_IN        => 'not in',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NULL       => 'is null',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_NULL   => 'is not null',
 ];
 
 $GLOBALS['TL_LANG']['MSC']['connectives'] = [

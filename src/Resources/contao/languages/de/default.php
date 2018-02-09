@@ -3,16 +3,16 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['MSC']['alias']                                                                                                                      =
+$GLOBALS['TL_LANG']['MSC']['alias']                                                                                                                                   =
     ['Alias', 'Der Alias ist eine eindeutige Referenz, die anstelle der numerischen ID aufgerufen werden kann.'];
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE]                                                        =
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE]                                                              =
     ['Autorentyp', 'Wählen Sie hier den Typ des Autoren aus.'];
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_NONE]   = 'Kein Autor';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_MEMBER] = 'Mitglied (Frontend)';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_USER]   = 'Benutzer (Backend)';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR]                                                             =
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR]                                                                   =
     ['Autor', 'Dieses Feld beinhaltet den Autoren des Datensatzes.'];
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_SESSION_ID]                                                         =
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_SESSION_ID]                                                               =
     ['Session-ID', 'Dieses Feld beinhaltet die Session-ID des berechtigten Bearbeiters.'];
 
 
@@ -99,6 +99,8 @@ $GLOBALS['TL_LANG']['MSC']['operators'] = [
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER_EQUAL => '&gt;=',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IN            => 'in',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_NOT_IN        => 'nicht in',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NULL       => 'ist Null',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_NULL   => 'ist nicht Null',
 ];
 
 $GLOBALS['TL_LANG']['MSC']['connectives'] = [
