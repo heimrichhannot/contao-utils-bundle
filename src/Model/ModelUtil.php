@@ -108,7 +108,7 @@ class ModelUtil
      */
     public function findRootParentRecursively(string $parentProperty, string $table, Model $instance, bool $returnInstanceIfNoParent = true)
     {
-        if (!$instance->{$parentProperty} || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))) {
+        if (!$instance || !$instance->{$parentProperty} || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))) {
             return $returnInstanceIfNoParent ? $instance : null;
         }
 
