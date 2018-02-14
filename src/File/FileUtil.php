@@ -287,7 +287,7 @@ class FileUtil
         } elseif (is_callable($folder) && null !== $dc) {
             $method = $folder;
             $folder = $method($dc);
-        } else {
+        } elseif (is_string($folder)) {
             if (false !== strpos($folder, '../')) {
                 throw new \Exception("Invalid target path $folder");
             }
@@ -295,10 +295,8 @@ class FileUtil
 
         if ($folder instanceof File) {
             $folder = $folder->value;
-        } else {
-            if ($folder instanceof FilesModel) {
-                $folder = $folder->path;
-            }
+        } elseif ($folder instanceof FilesModel) {
+            $folder = $folder->path;
         }
 
         if (Validator::isUuid($folder)) {

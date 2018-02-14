@@ -272,4 +272,25 @@ class FileUtilTest extends ContaoTestCase
         $lines = $fileUtil->getFileLineCount('foo');
         $this->assertSame('fopen(/foo): failed to open stream: No such file or directory', $lines);
     }
+
+    public function testGetFolderFromDca()
+    {
+        $framework = $this->mockContaoFramework();
+        $fileUtil = new FileUtil($framework);
+        $folder = $fileUtil->getFolderFromDca($this->getTempDir().'/files');
+        $this->assertSame($this->getTempDir().'/files', $folder);
+
+        $folder = $fileUtil->getFolderFromDca('3712c116-1193-11e8-b642-0ed5f89f718b');
+        $this->assertSame($this->getTempDir().'/files', $folder);
+
+        $file = new File($this->getTempDir().'/files/dcaFile');
+        $folder = $fileUtil->getFolderFromDca($file);
+        $this->assertSame($this->getTempDir().'/files/dcaFile', $folder);
+
+        try {
+            $fileUtil->getFolderFromDca('dlfjn../ds');
+        } catch (\Exception $exception) {
+            $this->assertSame('Invalid target path dlfjn../ds', $exception->getMessage());
+        }
+    }
 }
