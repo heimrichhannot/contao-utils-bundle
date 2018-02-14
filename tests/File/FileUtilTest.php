@@ -32,7 +32,7 @@ class FileUtilTest extends ContaoTestCase
         parent::setUp();
 
         if (!defined('TL_ROOT')) {
-            \define('TL_ROOT', __DIR__);
+            \define('TL_ROOT', '');
         }
 
         $fs = new Filesystem();
@@ -97,9 +97,22 @@ class FileUtilTest extends ContaoTestCase
     {
         $framework = $this->mockContaoFramework();
         $fileUtil = new FileUtil($framework);
-        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/testfile.txt');
 
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test');
+        $this->assertSame(ltrim($this->getTempDir().'/files/test', '/'), $fileName);
+
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test', 'te');
+        $this->assertSame(ltrim($this->getTempDir().'/files/_1.', '/'), $fileName);
+
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/test/test/test');
         $this->assertFalse($fileName);
+
+        file_put_contents($this->getTempDir().'/files/test', 'test');
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test');
+        $this->assertSame(ltrim($this->getTempDir().'/files/test_1.', '/'), $fileName);
+
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test', null, 100);
+        $this->assertNotSame(ltrim($this->getTempDir().'/files/test', '/'), $fileName);
     }
 
     public function testFormatSizeUnits()
@@ -195,7 +208,7 @@ class FileUtilTest extends ContaoTestCase
         $file = $fileUtil->getFileFromUuid('uuid');
         $this->assertNull($file);
 
-        file_put_contents(TL_ROOT.'/'.$this->getTempDir().'/files/testFile', 'test');
+        file_put_contents($this->getTempDir().'/files/testFile', 'test');
         $container = System::getContainer();
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'/files/testFile']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
@@ -248,7 +261,7 @@ class FileUtilTest extends ContaoTestCase
 
     public function testGetFileLineCount()
     {
-        file_put_contents(TL_ROOT.'/'.$this->getTempDir().'/files/testFile', 'test');
+        file_put_contents($this->getTempDir().'/files/testFile', 'test');
 
         $framework = $this->mockContaoFramework();
         $fileUtil = new FileUtil($framework);
@@ -257,6 +270,6 @@ class FileUtilTest extends ContaoTestCase
         $this->assertSame(1, $lines);
 
         $lines = $fileUtil->getFileLineCount('foo');
-        $this->assertSame('fopen(/home/kwagner/Kunden/github/contao-utils-bundle/tests/File/foo): failed to open stream: No such file or directory', $lines);
+        $this->assertSame('fopen(/foo): failed to open stream: No such file or directory', $lines);
     }
 }
