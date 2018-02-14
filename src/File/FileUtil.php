@@ -165,7 +165,7 @@ class FileUtil
      */
     public function getPathFromUuid($uuid, $checkIfExists = true)
     {
-        if (null !== ($file = \FilesModel::findByUuid($uuid))) {
+        if (null !== ($file = System::getContainer()->get('contao.framework')->getAdapter(FilesModel::class)->findByUuid($uuid))) {
             if (!$checkIfExists) {
                 return $file->path;
             }
@@ -309,10 +309,19 @@ class FileUtil
         return $folder;
     }
 
+    /**
+     * @param $file
+     *
+     * @return int|string
+     */
     public function getFileLineCount($file)
     {
         $count = 0;
-        $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'r');
+        try {
+            $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'r');
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
 
         while (!feof($handle)) {
             $line = fgets($handle);

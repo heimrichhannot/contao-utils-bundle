@@ -8,11 +8,16 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\File;
 
+use Contao\File;
+use Contao\FilesModel;
+use Contao\Folder;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
+use HeimrichHannot\UtilsBundle\String\StringUtil;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class FileUtilTest extends ContaoTestCase
 {
@@ -36,7 +41,30 @@ class FileUtilTest extends ContaoTestCase
         $arrayUtils = new ArrayUtil($this->mockContaoFramework());
         $container = $this->mockContainer();
         $container->set('huh.utils.array', $arrayUtils);
+
+        $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'/files']);
+        $filesAdapter = $this->mockAdapter(['findByUuid']);
+        $filesAdapter->method('findByUuid')->willReturn($filesModel);
+        $container->set('contao.framework', $this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $container->set('request_stack', $this->createRequestStackMock());
+
+        $utilsString = new StringUtil($this->mockContaoFramework());
+        $container->set('huh.utils.string', $utilsString);
         System::setContainer($container);
+
+        if (!\function_exists('standardize')) {
+            include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
+        }
+    }
+
+    public function createRequestStackMock()
+    {
+        $requestStack = new RequestStack();
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->attributes->set('_contao_referer_id', 'foobar');
+        $requestStack->push($request);
+
+        return $requestStack;
     }
 
     public function testGetFileList()
@@ -145,5 +173,90 @@ class FileUtilTest extends ContaoTestCase
 
         $file = $fileUtil->addUniqueIdToFilename('testFile');
         $this->assertNotSame('testFile', $file);
+    }
+
+    public function testSanitizeFileName()
+    {
+        $framework = $this->mockContaoFramework();
+        $fileUtil = new FileUtil($framework);
+
+        $fileName = $fileUtil->sanitizeFileName('fileName');
+        $this->assertSame('filename', $fileName);
+
+        $fileName = $fileUtil->sanitizeFileName('fileName', 3);
+        $this->assertSame('fi', $fileName);
+    }
+
+    public function testGetFilesFromUuid()
+    {
+        $framework = $this->mockContaoFramework();
+        $fileUtil = new FileUtil($framework);
+
+        $file = $fileUtil->getFileFromUuid('uuid');
+        $this->assertNull($file);
+
+        file_put_contents(TL_ROOT.'/'.$this->getTempDir().'/files/testFile', 'test');
+        $container = System::getContainer();
+        $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'/files/testFile']);
+        $filesAdapter = $this->mockAdapter(['findByUuid']);
+        $filesAdapter->method('findByUuid')->willReturn($filesModel);
+        $container->set('contao.framework', $this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        System::setContainer($container);
+
+        $file = $fileUtil->getFileFromUuid('uuid');
+        $this->assertInstanceOf(File::class, $file);
+    }
+
+    public function testGetPathFromUuid()
+    {
+        $framework = $this->mockContaoFramework();
+        $fileUtil = new FileUtil($framework);
+
+        $path = $fileUtil->getPathFromUuid($this->getTempDir().'/files', true);
+        $this->assertSame($this->getTempDir().'/files', $path);
+
+        $path = $fileUtil->getPathFromUuid($this->getTempDir().'/files');
+        $this->assertSame($this->getTempDir().'/files', $path);
+
+        $container = System::getContainer();
+        $filesAdapter = $this->mockAdapter(['findByUuid']);
+        $filesAdapter->method('findByUuid')->willReturn(null);
+        $container->set('contao.framework', $this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        System::setContainer($container);
+
+        $path = $fileUtil->getPathFromUuid($this->getTempDir().'/files');
+        $this->assertNull($path);
+    }
+
+    public function testGetFolderFromUuid()
+    {
+        $framework = $this->mockContaoFramework();
+        $fileUtil = new FileUtil($framework);
+
+        $path = $fileUtil->getFolderFromUuid('uuid');
+        $this->assertInstanceOf(Folder::class, $path);
+
+        $container = System::getContainer();
+        $filesAdapter = $this->mockAdapter(['findByUuid']);
+        $filesAdapter->method('findByUuid')->willReturn(null);
+        $container->set('contao.framework', $this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        System::setContainer($container);
+
+        $path = $fileUtil->getFolderFromUuid('uuid');
+        $this->assertFalse($path);
+    }
+
+    public function testGetFileLineCount()
+    {
+        file_put_contents(TL_ROOT.'/'.$this->getTempDir().'/files/testFile', 'test');
+
+        $framework = $this->mockContaoFramework();
+        $fileUtil = new FileUtil($framework);
+
+        $lines = $fileUtil->getFileLineCount($this->getTempDir().'/files/testFile');
+        $this->assertSame(1, $lines);
+
+        $lines = $fileUtil->getFileLineCount('foo');
+        $this->assertSame('fopen(/home/kwagner/Kunden/github/contao-utils-bundle/tests/File/foo): failed to open stream: No such file or directory', $lines);
     }
 }

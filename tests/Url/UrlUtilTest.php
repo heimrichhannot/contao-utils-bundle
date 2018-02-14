@@ -37,7 +37,6 @@ class UrlUtilTest extends ContaoTestCase
         $container->set('huh.utils.model', $utilsModelAdapter);
 
         System::setContainer($container);
-        // required within Contao\Widget::getAttributesFromDca()
         if (!\function_exists('ampersand')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
         }
