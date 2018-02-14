@@ -194,13 +194,13 @@ class DcaUtil
                     System::getContainer()->get('translator')->trans(
                         'huh.utils.misc.override.label',
                         [
-                            '%fieldname%' => $GLOBALS['TL_LANG'][$sourceTable][$field][0],
+                            '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
                         ]
                     ),
                     System::getContainer()->get('translator')->trans(
                         'huh.utils.misc.override.desc',
                         [
-                            '%fieldname%' => $GLOBALS['TL_LANG'][$sourceTable][$field][0],
+                            '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
                         ]
                     ),
                 ];
