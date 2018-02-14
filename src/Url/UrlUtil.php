@@ -92,7 +92,7 @@ class UrlUtil
             return $strUrl;
         }
 
-        $explodedUrl = explode('?', $url, 2);
+        $explodedUrl = explode('?', $strUrl, 2);
 
         if (2 === count($explodedUrl)) {
             list($script, $queryString) = $explodedUrl;
