@@ -8,16 +8,26 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
+use Contao\BackendUser;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Database\Result;
 use Contao\DataContainer;
+use Contao\FrontendUser;
 use Contao\StringUtil;
 use Contao\System;
 
 class DcaUtil
 {
+    const PROPERTY_SESSION_ID = 'sessionID';
+    const PROPERTY_AUTHOR = 'author';
+    const PROPERTY_AUTHOR_TYPE = 'authorType';
+
+    const AUTHOR_TYPE_NONE = 'none';
+    const AUTHOR_TYPE_MEMBER = 'member';
+    const AUTHOR_TYPE_USER = 'user';
+
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
@@ -351,5 +361,112 @@ class DcaUtil
         }
 
         return $alias;
+    }
+
+    public function addAuthorFieldAndCallback(string $table)
+    {
+        Controller::loadDataContainer($table);
+
+        // callbacks
+        $GLOBALS['TL_DCA'][$table]['config']['oncreate_callback']['setAuthorIDOnCreate'] = ['huh.utils.dca', 'setAuthorIDOnCreate'];
+        $GLOBALS['TL_DCA'][$table]['config']['onload_callback']['modifyAuthorPaletteOnLoad'] = ['huh.utils.dca', 'modifyAuthorPaletteOnLoad', true];
+
+        // fields
+        $GLOBALS['TL_DCA'][$table]['fields'][static::PROPERTY_AUTHOR_TYPE] = [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['authorType'],
+            'exclude' => true,
+            'filter' => true,
+            'default' => static::AUTHOR_TYPE_NONE,
+            'inputType' => 'select',
+            'options' => [
+                static::AUTHOR_TYPE_NONE,
+                static::AUTHOR_TYPE_MEMBER,
+                static::AUTHOR_TYPE_USER,
+            ],
+            'reference' => $GLOBALS['TL_LANG']['MSC']['utilsBundle']['authorType'],
+            'eval' => ['doNotCopy' => true, 'submitOnChange' => true, 'mandatory' => true, 'tl_class' => 'w50 clr'],
+            'sql' => "varchar(255) NOT NULL default 'none'",
+        ];
+
+        $GLOBALS['TL_DCA'][$table]['fields'][static::PROPERTY_AUTHOR] = [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['author'],
+            'exclude' => true,
+            'search' => true,
+            'filter' => true,
+            'inputType' => 'select',
+            'options_callback' => function () {
+                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices(
+                    [
+                        'dataContainer' => 'tl_member',
+                        'labelPattern' => '%firstname% %lastname% (ID %id%)',
+                    ]
+                );
+            },
+            'eval' => [
+                'doNotCopy' => true,
+                'chosen' => true,
+                'includeBlankOption' => true,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "int(10) unsigned NOT NULL default '0'",
+        ];
+    }
+
+    public function setAuthorIDOnCreate(string $table, int $id, array $row, DataContainer $dc)
+    {
+        $model = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($table, $id);
+        $db = Database::getInstance();
+
+        if (null === $model
+            || !$db->fieldExists(static::PROPERTY_AUTHOR_TYPE, $table)
+            || !$db->fieldExists(static::PROPERTY_AUTHOR, $table)
+        ) {
+            return false;
+        }
+
+        if (System::getContainer()->get('huh.utils.container')->isFrontend()) {
+            if (FE_USER_LOGGED_IN) {
+                $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_MEMBER;
+                $model->{static::PROPERTY_AUTHOR} = FrontendUser::getInstance()->id;
+                $model->save();
+            }
+        } else {
+            $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_USER;
+            $model->{static::PROPERTY_AUTHOR} = BackendUser::getInstance()->id;
+            $model->save();
+        }
+    }
+
+    public function modifyAuthorPaletteOnLoad(DataContainer $dc)
+    {
+        if (!System::getContainer()->get('huh.utils.container')->isBackend()) {
+            return false;
+        }
+
+        if (null === $dc || !$dc->id) {
+            return false;
+        }
+
+        if (null === ($model = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($dc->table, $dc->id))) {
+            return false;
+        }
+
+        $dca = &$GLOBALS['TL_DCA'][$dc->table];
+
+        // author handling
+        if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_NONE) {
+            unset($dca['fields']['author']);
+        }
+
+        if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_USER) {
+            $dca['fields']['author']['options_callback'] = function () {
+                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices(
+                    [
+                        'dataContainer' => 'tl_user',
+                        'labelPattern' => '%name% (ID %id%)',
+                    ]
+                );
+            };
+        }
     }
 }

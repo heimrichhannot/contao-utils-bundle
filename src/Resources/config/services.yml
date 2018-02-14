@@ -71,6 +71,11 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.choice.model_instance:
+        class: HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice
+        public: true
+        arguments:
+            - "@contao.framework"
     huh.utils.routing:
       class: HeimrichHannot\UtilsBundle\Request\RoutingUtil
       public: true
