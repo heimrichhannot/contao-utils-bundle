@@ -11,7 +11,6 @@ namespace HeimrichHannot\UtilsBundle\Url;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Environment;
-use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
 
@@ -48,10 +47,17 @@ class UrlUtil
      */
     public function addQueryString($query, $url = null)
     {
+        $queryString = '';
         $url = static::prepareUrl($url);
         $query = trim(ampersand($query, false), '&');
 
-        list($script, $queryString) = explode('?', $url, 2);
+        $explodedUrl = explode('?', $url, 2);
+
+        if (2 === count($explodedUrl)) {
+            list($script, $queryString) = $explodedUrl;
+        } else {
+            list($script) = $explodedUrl;
+        }
 
         parse_str($queryString, $queries);
 
@@ -86,7 +92,15 @@ class UrlUtil
             return $strUrl;
         }
 
-        list($script, $queryString) = explode('?', $strUrl, 2);
+        $explodedUrl = explode('?', $url, 2);
+
+        if (2 === count($explodedUrl)) {
+            list($script, $queryString) = $explodedUrl;
+        } else {
+            list($script) = $explodedUrl;
+
+            return $script;
+        }
 
         parse_str($queryString, $queries);
 
@@ -112,8 +126,8 @@ class UrlUtil
     {
         global $objPage;
 
-        if ($jumpTo && $jumpTo != $objPage->id && null !== ($jumpToPage =
-                System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_page', $jumpTo))) {
+        if ($jumpTo && $jumpTo != $objPage->id
+            && null !== ($jumpToPage = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_page', $jumpTo))) {
             return $jumpToPage;
         }
 

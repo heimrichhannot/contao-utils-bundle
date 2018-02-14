@@ -38,7 +38,7 @@ class FileUtil
      */
     public function getUniqueFileNameWithinTarget($target, $prefix = null, $i = 0)
     {
-        $file = new File($target, true);
+        $file = new File($target);
 
         $target = ltrim(str_replace(TL_ROOT, '', $target), '/');
         $path = str_replace('.'.$file->extension, '', $target);
@@ -108,8 +108,7 @@ class FileUtil
                     }
 
                     $fileArray['path'] = str_replace($fileArray['filename'], '', $fileArray['absUrl']);
-                    $fileArray['filesize'] =
-                        $this->formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $dir.'/'.$file))), true);
+                    $fileArray['filesize'] = $this->formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $dir.'/'.$file))), true);
 
                     $results[] = $fileArray;
                 }
@@ -123,7 +122,7 @@ class FileUtil
         return $results;
     }
 
-    public function formatSizeUnits($bytes, $keepTogether = false)
+    public function formatSizeUnits(int $bytes, $keepTogether = false)
     {
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 2).($keepTogether ? '&nbsp;' : ' ').'GB';
@@ -145,6 +144,10 @@ class FileUtil
     public function getPathWithoutFilename($pathToFile)
     {
         $path = pathinfo($pathToFile);
+
+        if (!isset($path['dirname'])) {
+            return '';
+        }
 
         return $path['dirname'];
     }
@@ -181,14 +184,14 @@ class FileUtil
      *
      * @return File|null Return the file object
      */
-    public function getFileFromUuid($uuid, $doNotCreate = true)
+    public function getFileFromUuid($uuid)
     {
         if ($path = $this->getPathFromUuid($uuid)) {
             if (is_dir(TL_ROOT.DIRECTORY_SEPARATOR.$path)) {
                 return null;
             }
 
-            return new File($path, $doNotCreate);
+            return new File($path);
         }
     }
 
@@ -198,10 +201,10 @@ class FileUtil
      *
      * @return bool|Folder Return the folder object
      */
-    public function getFolderFromUuid($uuid, $doNotCreate = true)
+    public function getFolderFromUuid($uuid)
     {
         if ($path = $this->getPathFromUuid($uuid)) {
-            return new Folder($path, $doNotCreate);
+            return new Folder($path);
         }
 
         return false;
@@ -219,12 +222,11 @@ class FileUtil
      */
     public function addUniqueIdToFilename($fileName, $prefix = null, $moreEntropy = true)
     {
-        $file = new File($fileName, true);
+        $file = new File($fileName);
 
         $directory = ltrim(str_replace(TL_ROOT, '', $file->dirname), '/');
 
-        return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).
-               ($file->extension ? '.'.$file->extension : '');
+        return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).($file->extension ? '.'.$file->extension : '');
     }
 
     /**
@@ -238,7 +240,7 @@ class FileUtil
      */
     public function sanitizeFileName($fileName, $maxCount = 0, $preserveUppercase = false)
     {
-        $file = new \File($fileName, true);
+        $file = new File($fileName);
 
         $name = $file->filename;
 
@@ -276,7 +278,7 @@ class FileUtil
      *
      * @return mixed|null The folder path or null
      */
-    public function getFolderFromDca($folder, DataContainer $dc = null, $doNotCreate = true)
+    public function getFolderFromDca($folder, DataContainer $dc = null)
     {
         // upload folder
         if (is_array($folder) && null !== $dc) {
@@ -300,7 +302,7 @@ class FileUtil
         }
 
         if (Validator::isUuid($folder)) {
-            $folderObj = $this->getFolderFromUuid($folder, $doNotCreate);
+            $folderObj = $this->getFolderFromUuid($folder);
             $folder = $folderObj->value;
         }
 
