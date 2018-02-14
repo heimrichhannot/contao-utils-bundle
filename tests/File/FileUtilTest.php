@@ -52,13 +52,13 @@ class FileUtilTest extends ContaoTestCase
         $this->assertCount(3, $fileList);
         $this->assertArrayHasKey(0, $fileList);
         $this->assertArrayHasKey('filename', $fileList[0]);
-        $this->assertSame('testfile3', $fileList[0]['filename']);
+        $this->assertNotSame('', $fileList[0]['filename']);
         $this->assertArrayHasKey(1, $fileList);
         $this->assertArrayHasKey('filename', $fileList[1]);
-        $this->assertSame('testfile2', $fileList[1]['filename']);
+        $this->assertNotSame('', $fileList[1]['filename']);
         $this->assertArrayHasKey(2, $fileList);
         $this->assertArrayHasKey('filename', $fileList[2]);
-        $this->assertSame('testfile1', $fileList[2]['filename']);
+        $this->assertNotSame('', $fileList[2]['filename']);
 
         $fileList = $fileUtil->getFileList($this->getTempDir().'/fileList', __DIR__);
 
