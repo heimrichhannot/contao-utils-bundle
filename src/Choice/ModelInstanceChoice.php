@@ -12,6 +12,11 @@ use Contao\System;
 
 class ModelInstanceChoice extends AbstractChoice
 {
+    const TITLE_FIELDS = [
+        'name',
+        'title',
+    ];
+
     /**
      * @return array
      */
@@ -32,17 +37,35 @@ class ModelInstanceChoice extends AbstractChoice
         }
 
         while ($instances->next()) {
-            $label = $instances->id;
+            $labelPattern = $context['labelPattern'];
 
-            if ($context['labelPattern']) {
-                $label = preg_replace_callback(
-                    '@%([^%]+)%@i',
-                    function ($matches) use ($instances) {
-                        return $instances->{$matches[1]};
-                    },
-                    $context['labelPattern']
-                );
+            if (!$labelPattern) {
+                $labelPattern = 'ID %id%';
+
+                switch ($context['dataContainer']) {
+                    case 'tl_member':
+                        $labelPattern = '%firstname% %lastname% (ID %id%)';
+
+                        break;
+                    default:
+                        foreach (static::TITLE_FIELDS as $titleField) {
+                            if (isset($GLOBALS['TL_DCA'][$context['dataContainer']]['fields'][$titleField])) {
+                                $labelPattern = '%'.$titleField.'%';
+                                break;
+                            }
+                        }
+
+                        break;
+                }
             }
+
+            $label = preg_replace_callback(
+                '@%([^%]+)%@i',
+                function ($matches) use ($instances) {
+                    return $instances->{$matches[1]};
+                },
+                $labelPattern
+            );
 
             $choices[$instances->id] = $label;
         }
