@@ -154,20 +154,40 @@ class ImageTest extends TestCaseEnvironment
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
         $image = new Image();
-        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, 12, 'lightBoxName', $model);
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 4, 12, 'lightBoxName', $model);
         $this->assertSame('', $templateData['src']);
+        $this->assertSame('margin-top:10px;margin-bottom:10px;', $templateData['margin']);
 
-        $imageArray['singleSRC'] = '';
         $templateData = [];
         $templateData['href'] = true;
+        $templateData['singleSRC'] = [];
+
+        $imageArray['singleSRC'] = '';
         $imageArray['overwriteMeta'] = true;
         $imageArray['fullsize'] = true;
         $imageArray['imageUrl'] = __DIR__.'/../data/screensho';
-        $templateData['singleSRC'] = [];
 
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, 12, 'lightBoxName', $model);
         $this->assertNull($templateData['width']);
         $this->assertNull($templateData['height']);
         $this->assertSame(' target="_blank"', $templateData['attributes']);
+
+        $container = System::getContainer();
+        $utilsContainer = $this->mockAdapter(['isBackend', 'isFrontend']);
+        $utilsContainer->method('isBackend')->willReturn(true);
+        $utilsContainer->method('isFrontend')->willReturn(false);
+        $container->set('huh.utils.container', $utilsContainer);
+        System::setContainer($container);
+
+        $templateData = [];
+        $templateData['href'] = true;
+        $templateData['singleSRC'] = [];
+
+        $imageArray['imageUrl'] = __DIR__.'/../data/screenshot.jpg';
+        $imageArray['singleSRC'] = __DIR__.'/../data/screenshot.jpg';
+        $imageArray['size'] = 12;
+
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 4, 12, 'lightBoxName', $model);
+        $this->assertSame('', $templateData['margin']);
     }
 }

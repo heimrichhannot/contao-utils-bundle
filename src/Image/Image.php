@@ -52,7 +52,7 @@ class Image
             $maxWidth = ($containerUtil->isBackend()) ? 320 : Config::get('maxImageWidth');
         }
 
-        $marginArray = ($containerUtil->isBackend()) ? [] : StringUtil::deserialize($item['imagemargin']);
+        $marginArray = ($containerUtil->isBackend()) ? '' : StringUtil::deserialize($item['imagemargin']);
 
         // Store the original dimensions
         $templateData['width'] = $imgSize[0];
