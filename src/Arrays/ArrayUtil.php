@@ -53,7 +53,7 @@ class ArrayUtil
      *
      * @param array $array
      */
-    public function aasort(&$array, $key)
+    public function aasort(array &$array, $key)
     {
         $sorter = [];
         $ret = [];

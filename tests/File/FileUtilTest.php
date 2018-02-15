@@ -12,14 +12,13 @@ use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\System;
-use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\RequestStack;
 
-class FileUtilTest extends ContaoTestCase
+class FileUtilTest extends TestCaseEnvironment
 {
     public static function tearDownAfterClass(): void
     {
@@ -46,7 +45,6 @@ class FileUtilTest extends ContaoTestCase
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
         $container->set('contao.framework', $this->mockContaoFramework([FilesModel::class => $filesAdapter]));
-        $container->set('request_stack', $this->createRequestStackMock());
 
         $utilsString = new StringUtil($this->mockContaoFramework());
         $container->set('huh.utils.string', $utilsString);
@@ -55,16 +53,6 @@ class FileUtilTest extends ContaoTestCase
         if (!\function_exists('standardize')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
         }
-    }
-
-    public function createRequestStackMock()
-    {
-        $requestStack = new RequestStack();
-        $request = new \Symfony\Component\HttpFoundation\Request();
-        $request->attributes->set('_contao_referer_id', 'foobar');
-        $requestStack->push($request);
-
-        return $requestStack;
     }
 
     public function testGetFileList()

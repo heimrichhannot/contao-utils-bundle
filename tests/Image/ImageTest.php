@@ -1,0 +1,101 @@
+<?php
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
+ */
+
+namespace HeimrichHannot\UtilsBundle\Tests\Image;
+
+use Contao\FilesModel;
+use Contao\Image\ImageInterface;
+use Contao\Image\Picture;
+use Contao\System;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Image\Image;
+use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+
+class ImageTest extends TestCaseEnvironment
+{
+    public function setUp()
+    {
+        parent::setUp();
+
+        if (!defined('TL_FILES_URL')) {
+            define('TL_FILES_URL', '');
+        }
+
+        if (!defined('TL_ERROR')) {
+            define('TL_ERROR', 'ERROR: ');
+        }
+
+        if (!isset($GLOBALS['TL_LANGUAGE'])) {
+            $GLOBALS['TL_LANGUAGE'] = 'de';
+        }
+
+        $container = System::getContainer();
+        $utilsContainer = new ContainerUtil($this->mockContaoFramework());
+        $container->set('huh.utils.container', $utilsContainer);
+
+        $imageAdapter = $this->mockAdapter(['getUrl']);
+        $imageAdapter->method('getUrl')->willReturn(__DIR__.'/../data/screenshot.jpg');
+        $imageFactoryAdapter = $this->mockAdapter(['create']);
+        $imageFactoryAdapter->method('create')->willReturn($imageAdapter);
+        $container->set('contao.image.image_factory', $imageFactoryAdapter);
+
+        $imageMock = $this->createMock(ImageInterface::class);
+        $pictureMock = new Picture(['src' => $imageMock, 'srcset' => []], []);
+        $pictureFactoryAdapter = $this->mockAdapter(['create']);
+        $pictureFactoryAdapter->method('create')->willReturn($pictureMock);
+        $container->set('contao.image.picture_factory', $pictureFactoryAdapter);
+        System::setContainer($container);
+    }
+
+    public function testAddToTemplateDataWithoutModel()
+    {
+        $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";s:0:"";s:4:"left";s:0:"";s:5:"right";s:0:"";s:3:"top";s:0:"";s:4:"unit";s:0:"";}';
+        $imageArray['singleSRC'] = __DIR__.'/../data/screenshot.jpg';
+        $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
+        $imageArray['alt'] = '';
+        $imageArray['fullsize'] = false;
+        $imageArray['floating'] = false;
+        $imageArray['imageUrl'] = __DIR__.'/../data/screenshot.jpg';
+        $imageArray['linkTitle'] = true;
+
+        $templateData['href'] = true;
+        $templateData['images']['singleSRC'] = [];
+
+        $image = new Image();
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray);
+
+        $this->assertNotSame(['href' => true, 'images' => ['singleSRC' => []]], $templateData);
+    }
+
+    public function testAddToTemplateDataWithModel()
+    {
+        $GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields'] = [];
+
+        $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";s:0:"";s:4:"left";s:0:"";s:5:"right";s:0:"";s:3:"top";s:0:"";s:4:"unit";s:0:"";}';
+        $imageArray['singleSRC'] = __DIR__.'/../data/screenshot.jpg';
+        $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
+        $imageArray['alt'] = '';
+        $imageArray['fullsize'] = false;
+        $imageArray['floating'] = false;
+        $imageArray['imageUrl'] = __DIR__.'/../data/screenshot.jpg';
+        $imageArray['linkTitle'] = true;
+        $imageArray['overwriteMeta'] = true;
+        $imageArray['caption'] = [];
+        $imageArray['imageTitle'] = 'imageTitle';
+
+        $templateData['href'] = true;
+        $templateData['images']['singleSRC'] = [];
+
+        $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
+
+        $image = new Image();
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, null, null, null, $model);
+
+        $this->assertNotSame(['href' => true, 'images' => ['singleSRC' => []]], $templateData);
+    }
+}
