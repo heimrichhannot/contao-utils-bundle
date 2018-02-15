@@ -12,6 +12,13 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 
 class StringUtil
 {
+    const CAPITAL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const CAPITAL_LETTERS_NONAMBIGUOUS = 'ABCDEFGHJKLMNPQRSTUVWX';
+    const SMALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz';
+    const SMALL_LETTERS_NONAMBIGUOUS = 'abcdefghjkmnpqrstuvwx';
+    const NUMBERS = '0123456789';
+    const NUMBERS_NONAMBIGUOUS = '23456789';
+
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
@@ -50,5 +57,63 @@ class StringUtil
     public function camelCaseToDashed($value)
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
+    }
+
+    /**
+     * @param bool $includeAmbiguousChars
+     *
+     * @return mixed
+     */
+    public function randomChar(bool $includeAmbiguousChars = false)
+    {
+        if ($includeAmbiguousChars) {
+            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS.static::NUMBERS;
+        } else {
+            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS.static::NUMBERS_NONAMBIGUOUS;
+        }
+
+        return $chars[rand(0, $includeAmbiguousChars ? 61 : 50)];
+    }
+
+    /**
+     * @param bool $includeAmbiguousChars
+     *
+     * @return mixed
+     */
+    public function randomLetter(bool $includeAmbiguousChars = false)
+    {
+        if ($includeAmbiguousChars) {
+            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS;
+        } else {
+            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS;
+        }
+
+        return $chars[rand(0, $includeAmbiguousChars ? 51 : 42)];
+    }
+
+    /**
+     * @param bool $includeAmbiguousChars
+     *
+     * @return mixed
+     */
+    public function randomNumber(bool $includeAmbiguousChars = false)
+    {
+        if ($includeAmbiguousChars) {
+            $chars = static::NUMBERS;
+        } else {
+            $chars = static::NUMBERS_NONAMBIGUOUS;
+        }
+
+        return $chars[rand(0, $includeAmbiguousChars ? 9 : 7)];
+    }
+
+    /**
+     * @param string $charList
+     *
+     * @return mixed
+     */
+    public function random(string $charList)
+    {
+        return $charList[rand(0, strlen($charList) - 1)];
     }
 }

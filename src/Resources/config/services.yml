@@ -5,6 +5,11 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.code:
+        class: HeimrichHannot\UtilsBundle\Code\CodeUtil
+        public: true
+        arguments:
+            - "@contao.framework"
     huh.utils.container:
         class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
         public: true
