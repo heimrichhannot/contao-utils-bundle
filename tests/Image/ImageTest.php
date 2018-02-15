@@ -11,8 +11,8 @@ namespace HeimrichHannot\UtilsBundle\Tests\Image;
 use Contao\FilesModel;
 use Contao\Image\ImageInterface;
 use Contao\Image\Picture;
+use Contao\PageModel;
 use Contao\System;
-use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Image\Image;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 
@@ -35,7 +35,10 @@ class ImageTest extends TestCaseEnvironment
         }
 
         $container = System::getContainer();
-        $utilsContainer = new ContainerUtil($this->mockContaoFramework());
+
+        $utilsContainer = $this->mockAdapter(['isBackend', 'isFrontend']);
+        $utilsContainer->method('isBackend')->willReturn(false);
+        $utilsContainer->method('isFrontend')->willReturn(true);
         $container->set('huh.utils.container', $utilsContainer);
 
         $imageAdapter = $this->mockAdapter(['getUrl']);
@@ -63,39 +66,48 @@ class ImageTest extends TestCaseEnvironment
         $imageArray['imageUrl'] = __DIR__.'/../data/screenshot.jpg';
         $imageArray['linkTitle'] = true;
 
-        $templateData['href'] = true;
+        $templateData['images']['href'] = true;
         $templateData['images']['singleSRC'] = [];
 
         $image = new Image();
-        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray);
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData['images'], $imageArray);
 
-        $this->assertNotSame(['href' => true, 'images' => ['singleSRC' => []]], $templateData);
+        $this->assertNotSame(['images' => ['href' => true, 'singleSRC' => []]], $templateData);
+        $this->assertSame(__DIR__.'/../data/screenshot.jpg', $templateData['images']['singleSRC']);
     }
 
     public function testAddToTemplateDataWithModel()
     {
-        $GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields'] = [];
+        global $objPage;
 
-        $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";s:0:"";s:4:"left";s:0:"";s:5:"right";s:0:"";s:3:"top";s:0:"";s:4:"unit";s:0:"";}';
+        $objPage = $this->mockClassWithProperties(PageModel::class, ['language' => 'de', 'rootFallbackLanguage' => 'de']);
+
+        $GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields'] = ['title' => 'maxlenght="255"', 'alt' => 'maxlenght="255"', 'link' => 'maxlenght="255"', 'caption' => 'maxlenght="255"'];
+
+        $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";i:10;s:4:"left";i:10;s:5:"right";i:10;s:3:"top";i:10;s:4:"unit";s:2:"px";}';
         $imageArray['singleSRC'] = __DIR__.'/../data/screenshot.jpg';
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
-        $imageArray['fullsize'] = false;
+        $imageArray['fullsize'] = true;
         $imageArray['floating'] = false;
         $imageArray['imageUrl'] = __DIR__.'/../data/screenshot.jpg';
-        $imageArray['linkTitle'] = true;
-        $imageArray['overwriteMeta'] = true;
+        $imageArray['linkTitle'] = 'linkTitle';
+        $imageArray['overwriteMeta'] = false;
         $imageArray['caption'] = [];
+        $imageArray['id'] = 12;
         $imageArray['imageTitle'] = 'imageTitle';
 
-        $templateData['href'] = true;
-        $templateData['images']['singleSRC'] = [];
+        $data['images']['href'] = true;
+        $data['images']['singleSRC'] = [];
 
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
         $image = new Image();
-        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, null, null, null, $model);
+        $image->addToTemplateData('singleSRC', 'addImage', $data['images'], $imageArray, 400, null, null, $model);
 
-        $this->assertNotSame(['href' => true, 'images' => ['singleSRC' => []]], $templateData);
+        $this->assertNotSame(['images' => ['href' => true, 'singleSRC' => []]], $data);
+        $this->assertSame(__DIR__.'/../data/screenshot.jpg', $data['images']['singleSRC']);
+        $this->assertSame('margin:10px;', $data['images']['margin']);
+        $this->assertSame('Diebstahl', $data['images']['imageTitle']);
     }
 }
