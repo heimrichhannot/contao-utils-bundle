@@ -18,9 +18,16 @@ use Contao\System;
 
 class Image
 {
-    public function addToTemplateData(string $imageField, string $imageSelectorField, array &$templateData, array $item, int $maxWidth = null, string $lightboxId = null,
-        string $lightboxName = null, FilesModel $model = null)
-    {
+    public function addToTemplateData(
+        string $imageField,
+        string $imageSelectorField,
+        array &$templateData,
+        array $item,
+        int $maxWidth = null,
+        string $lightboxId = null,
+        string $lightboxName = null,
+        FilesModel $model = null
+    ) {
         $containerUtil = System::getContainer()->get('huh.utils.container');
 
         try {
@@ -81,8 +88,7 @@ class Image
         }
 
         try {
-            $src =
-                System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$item[$imageField], $size)->getUrl(TL_ROOT);
+            $src = System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$item[$imageField], $size)->getUrl(TL_ROOT);
             $picture = System::getContainer()->get('contao.image.picture_factory')->create(TL_ROOT.'/'.$item[$imageField], $size);
 
             $picture = [
@@ -101,7 +107,7 @@ class Image
         }
 
         // Image dimensions
-        if ($file->exists() && false !== ($imgSize = $file->imageSize)) {
+        if (false !== ($imgSize = $file->imageSize) && $file->exists()) {
             $templateData['arrSize'] = $imgSize;
             $templateData['imgSize'] = ' width="'.$imgSize[0].'" height="'.$imgSize[1].'"';
         }
@@ -197,9 +203,7 @@ class Image
                     $templateData['attributes'] = ' target="_blank"';
                 }
             }
-        }
-
-        // Fullsize view
+        } // Fullsize view
         elseif ($item['fullsize'] && $containerUtil->isFrontend()) {
             $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($item[$imageField]);
             $templateData['attributes'] = ' data-lightbox="'.substr($lightboxId, 9, -1).'"';

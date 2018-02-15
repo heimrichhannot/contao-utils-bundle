@@ -62,10 +62,12 @@ class ImageTest extends TestCaseEnvironment
         $imageArray['singleSRC'] = __DIR__.'/../data/screenshot.jpg';
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
-        $imageArray['fullsize'] = false;
+        $imageArray['fullsize'] = true;
         $imageArray['floating'] = false;
         $imageArray['imageUrl'] = __DIR__.'/../data/screenshot.jpg';
-        $imageArray['linkTitle'] = true;
+        $imageArray['imageTitle'] = 'imageTitle';
+        $imageArray['linkTitle'] = false;
+        $imageArray['id'] = 12;
 
         $templateData['href'] = true;
         $templateData['singleSRC'] = [];
@@ -75,6 +77,9 @@ class ImageTest extends TestCaseEnvironment
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
         $this->assertSame(__DIR__.'/../data/screenshot.jpg', $templateData['singleSRC']);
+        $this->assertSame('imageTitle', $templateData['linkTitle']);
+        $this->assertSame(__DIR__.'/../data/screenshot.jpg', $templateData['imageHref']);
+        $this->assertSame(' data-lightbox="5dc05b"', $templateData['attributes']);
     }
 
     public function testAddToTemplateDataWithModel()
@@ -91,9 +96,9 @@ class ImageTest extends TestCaseEnvironment
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
-        $imageArray['floating'] = false;
         $imageArray['imageUrl'] = __DIR__.'/../data/screenshot.jpg';
         $imageArray['linkTitle'] = 'linkTitle';
+        $imageArray['floating'] = 'floating';
         $imageArray['overwriteMeta'] = false;
         $imageArray['caption'] = [];
         $imageArray['id'] = 12;
@@ -111,6 +116,7 @@ class ImageTest extends TestCaseEnvironment
         $this->assertSame(__DIR__.'/../data/screenshot.jpg', $templateData['singleSRC']);
         $this->assertSame('margin:10px;', $templateData['margin']);
         $this->assertSame('Diebstahl', $templateData['imageTitle']);
+        $this->assertSame(' float_floating', $templateData['floatClass']);
     }
 
     public function testAddToTemplateDataError()
@@ -150,5 +156,18 @@ class ImageTest extends TestCaseEnvironment
         $image = new Image();
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, 12, 'lightBoxName', $model);
         $this->assertSame('', $templateData['src']);
+
+        $imageArray['singleSRC'] = '';
+        $templateData = [];
+        $templateData['href'] = true;
+        $imageArray['overwriteMeta'] = true;
+        $imageArray['fullsize'] = true;
+        $imageArray['imageUrl'] = __DIR__.'/../data/screensho';
+        $templateData['singleSRC'] = [];
+
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, 12, 'lightBoxName', $model);
+        $this->assertNull($templateData['width']);
+        $this->assertNull($templateData['height']);
+        $this->assertSame(' target="_blank"', $templateData['attributes']);
     }
 }
