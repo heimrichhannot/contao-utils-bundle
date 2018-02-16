@@ -401,7 +401,7 @@ class DatabaseUtil
             case static::OPERATOR_UNLIKE:
                 if (is_array($value)) {
                     foreach ($value as $val) {
-                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $value).'%';
+                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $val).'%';
                     }
                     break;
                 }
@@ -449,7 +449,7 @@ class DatabaseUtil
             default:
                 if (is_array($value)) {
                     foreach ($value as $val) {
-                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $value).'%';
+                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $val).'%';
                     }
                     break;
                 }

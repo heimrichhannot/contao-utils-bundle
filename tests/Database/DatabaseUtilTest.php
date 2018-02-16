@@ -142,6 +142,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $result = $databaseUtil->doBulkInsert('table', $data, ['name' => 'Max'], 'UPDATE', 'is_array', function ($return, $fields, $varData) { return $varData; }, 2);
         $this->assertNull($result);
 
+        $result = $databaseUtil->doBulkInsert('table', $data, ['name' => 'Max'], 'UPDATE', 'is_array', function ($return, $fields, $varData) { return $varData; }, 2);
+        $this->assertNull($result);
+
         // names != name
         $data = [['names' => 'DEFAULT', 'dates' => time()]];
         $result = $databaseUtil->doBulkInsert('table', $data, ['name' => 'Max'], 'UPDATE', 'is_array', function ($return, $fields, $varData) { return $varData; }, -1);
@@ -210,6 +213,10 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $this->assertCount(2, $result);
 
         $result = $databaseUtil->computeCondition('field', 'unlike', 'value');
+        $this->assertSame(['field NOT LIKE ?', ['%value%']], $result);
+        $this->assertCount(2, $result);
+
+        $result = $databaseUtil->computeCondition('field', 'unlike', ['value']);
         $this->assertSame(['field NOT LIKE ?', ['%value%']], $result);
         $this->assertCount(2, $result);
 
