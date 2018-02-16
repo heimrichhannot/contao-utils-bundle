@@ -92,7 +92,8 @@ class DatabaseUtil
      */
     public function processInPieces(string $countQuery, string $query, $callback = null, string $key = null, int $bulkSize = 5000)
     {
-        $database = Database::getInstance();
+        /** @var Database $database */
+        $database = $this->framework->getAdapter(Database::class);
         $total = $database->execute($countQuery);
 
         if ($total->total < 1) {
@@ -115,7 +116,9 @@ class DatabaseUtil
 
                 while (false !== ($row = $result->fetchAssoc())) {
                     if ($key) {
-                        $return[$row[$key]] = $row;
+                        if (isset($row[$key])) {
+                            $return[$row[$key]] = $row;
+                        }
                         continue;
                     }
 
@@ -154,7 +157,8 @@ class DatabaseUtil
         int $bulkSize = 100,
         string $pk = 'id'
     ) {
-        $database = Database::getInstance();
+        /** @var Database $database */
+        $database = $this->framework->getAdapter(Database::class);
 
         if (!$database->tableExists($table) || empty($data)) {
             return null;
@@ -168,24 +172,13 @@ class DatabaseUtil
 
         $query = '';
         $duplicateKey = '';
-        $startQuery = sprintf(
-            'INSERT %s INTO %s (%s) VALUES ',
-            self::ON_DUPLICATE_KEY_IGNORE == $onDuplicateKey ? 'IGNORE' : '',
-            $table,
-            implode(',', $fields)
-        );
+        $startQuery = sprintf('INSERT %s INTO %s (%s) VALUES ', self::ON_DUPLICATE_KEY_IGNORE == $onDuplicateKey ? 'IGNORE' : '', $table, implode(',', $fields));
 
         if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
-            $duplicateKey = ' ON DUPLICATE KEY UPDATE '.implode(
-                    ',',
-                    array_map(
-                        function ($val) {
-                            // escape double quotes
-                            return $val.' = VALUES('.$val.')';
-                        },
-                        $fields
-                    )
-                );
+            $duplicateKey = ' ON DUPLICATE KEY UPDATE '.implode(',', array_map(function ($val) {
+                // escape double quotes
+                return $val.' = VALUES('.$val.')';
+            }, $fields));
         }
 
         $i = 0;
@@ -377,7 +370,7 @@ class DatabaseUtil
      *
      * @param string $field
      * @param string $operator
-     * @param $value
+     * @param        $value
      *
      * @return array Returns array($strQuery, $arrValues)
      */
@@ -426,26 +419,14 @@ class DatabaseUtil
                 $values[] = $value;
                 break;
             case static::OPERATOR_IN:
-                $pattern = '('.implode(
-                        ',',
-                        array_map(
-                            function ($value) {
-                                return '\''.$value.'\'';
-                            },
-                            explode(',', $value)
-                        )
-                    ).')';
+                $pattern = '('.implode(',', array_map(function ($value) {
+                    return '\''.$value.'\'';
+                }, explode(',', $value))).')';
                 break;
             case static::OPERATOR_NOT_IN:
-                $pattern = '('.implode(
-                        ',',
-                        array_map(
-                            function ($value) {
-                                return '\''.$value.'\'';
-                            },
-                            explode(',', $value)
-                        )
-                    ).')';
+                $pattern = '('.implode(',', array_map(function ($value) {
+                    return '\''.$value.'\'';
+                }, explode(',', $value))).')';
                 break;
             case static::OPERATOR_IS_NULL:
                 $pattern = '';
