@@ -506,7 +506,7 @@ class DatabaseUtil
                 $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
                 break;
             case self::OPERATOR_NOT_IN:
-                $where = $queryBuilder->expr()->in($field, $wildcard);
+                $where = $queryBuilder->expr()->notIn($field, $wildcard);
                 // always handle array items as strings
                 $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
                 break;

@@ -209,6 +209,10 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $this->assertSame(['field LIKE ?', ['%"value"%']], $result);
         $this->assertCount(2, $result);
 
+        $result = $databaseUtil->computeCondition('field', 'unlike', 'value');
+        $this->assertSame(['field NOT LIKE ?', ['%value%']], $result);
+        $this->assertCount(2, $result);
+
         $result = $databaseUtil->computeCondition('field', 'equal', 'value');
         $this->assertSame(['field = ?', ['value']], $result);
         $this->assertCount(2, $result);
@@ -253,5 +257,83 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $result = $databaseUtil->computeCondition('field', 'like', ['value'], 'table');
         $this->assertSame(['field LIKE ?', ['%"value"%']], $result);
         $this->assertCount(2, $result);
+    }
+
+    public function testComposeWhereForQueryBuilder()
+    {
+        $databaseUtil = new DatabaseUtil($this->mockContaoFramework());
+
+        // perfect run
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'like', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('LIKE', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'unlike', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('NOT LIKE', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'in', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('IN', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'notin', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('NOT IN', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'isnull', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('IS NULL', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'isnotnull', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('IS NOT NULL', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'greaterequal', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('>=', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'greater', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('>', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'lowerequal', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('<=', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'lower', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('<', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'unequal', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('<>', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'equal', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('=', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'regexp', ['eval' => ['multiple' => []]], null);
+        $this->assertSame('field REGEXP :field', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'regexp', ['eval' => ['multiple' => true]], ['array']);
+        $this->assertSame('field REGEXP :field', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'regexp', ['eval' => ['multiple' => true]], 'array');
+        $this->assertSame('field REGEXP :field', $result);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'boo', ['eval' => ['multiple' => true]], 'array');
+        $this->assertSame('', $result);
+    }
+
+    /**
+     * @return \Doctrine\DBAL\Query\QueryBuilder|\PHPUnit_Framework_MockObject_MockObject
+     */
+    public function getQueryBuilderMock()
+    {
+        $mock = $this->getMockBuilder(\Doctrine\DBAL\Query\QueryBuilder::class)->disableOriginalConstructor()->setMethods([
+            'expr',
+            'like',
+            'notLike',
+            'in',
+            'notIn',
+            'isNull',
+            'isNotNull',
+            'gte',
+            'gt',
+            'lte',
+            'lt',
+            'neq',
+            'eq',
+            'setParameter',
+        ])->getMock();
+        $mock->expects($this->any())->method('expr')->willReturnSelf();
+        $mock->expects($this->any())->method('like')->willReturn('LIKE');
+        $mock->expects($this->any())->method('notLike')->willReturn('NOT LIKE');
+        $mock->expects($this->any())->method('in')->willReturn('IN');
+        $mock->expects($this->any())->method('notIn')->willReturn('NOT IN');
+        $mock->expects($this->any())->method('isNull')->willReturn('IS NULL');
+        $mock->expects($this->any())->method('isNotNull')->willReturn('IS NOT NULL');
+        $mock->expects($this->any())->method('gte')->willReturn('>=');
+        $mock->expects($this->any())->method('gt')->willReturn('>');
+        $mock->expects($this->any())->method('lte')->willReturn('<=');
+        $mock->expects($this->any())->method('lt')->willReturn('<');
+        $mock->expects($this->any())->method('neq')->willReturn('<>');
+        $mock->expects($this->any())->method('eq')->willReturn('=');
+        $mock->expects($this->any())->method('setParameter');
+
+        return $mock;
     }
 }
