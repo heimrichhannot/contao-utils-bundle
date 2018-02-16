@@ -201,6 +201,9 @@ class DatabaseUtil
             }
 
             foreach ($fields as $n => $strField) {
+                if (!isset($varData[$strField])) {
+                    continue;
+                }
                 $varValue = $varData[$strField] ?: 'DEFAULT';
 
                 if (in_array($strField, array_keys($fixedValues), true)) {
@@ -218,6 +221,9 @@ class DatabaseUtil
 
             // manipulate the item
             if (is_callable($itemCallback)) {
+                if (!isset($return[$i])) {
+                    continue;
+                }
                 $varCallback = call_user_func_array($itemCallback, [$return[$i], $fields, $varData]);
 
                 if (!is_array($varCallback)) {
@@ -393,6 +399,12 @@ class DatabaseUtil
 
         switch ($operator) {
             case static::OPERATOR_UNLIKE:
+                if (is_array($value)) {
+                    foreach ($value as $val) {
+                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $value).'%';
+                    }
+                    break;
+                }
                 $values[] = '%'.($addQuotes ? '"'.$value.'"' : $value).'%';
                 break;
             case static::OPERATOR_EQUAL:
@@ -435,6 +447,12 @@ class DatabaseUtil
                 $pattern = '';
                 break;
             default:
+                if (is_array($value)) {
+                    foreach ($value as $val) {
+                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $value).'%';
+                    }
+                    break;
+                }
                 $values[] = '%'.($addQuotes ? '"'.$value.'"' : $value).'%';
                 break;
         }
