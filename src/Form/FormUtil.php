@@ -37,10 +37,10 @@ class FormUtil
     /**
      * Prepares a special field's value. If an array is inserted, the function will call itself recursively.
      *
-     * @param string        $field
+     * @param string $field
      * @param               $value
      * @param DataContainer $dc
-     * @param array         $config
+     * @param array $config
      *
      * @return string
      */
@@ -81,14 +81,14 @@ class FormUtil
             return $value;
         }
 
-        $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
+        $data      = $GLOBALS['TL_DCA'][$table]['fields'][$field];
         $reference = $data['reference'];
-        $rgxp = $data['eval']['rgxp'];
+        $rgxp      = $data['eval']['rgxp'];
 
         if (!$config['skipOptionCaching'] && null !== $this->optionsCache) {
             $options = $this->optionsCache;
         } else {
-            $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+            $options            = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
             $this->optionsCache = $options;
         }
 
@@ -105,11 +105,11 @@ class FormUtil
             $value = $data['eval']['text'];
         } elseif ('cfgTags' == $data['inputType']) {
             $collection = CfgTagModel::findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
-            $value = null;
+            $value      = null;
 
             if (null !== $collection) {
                 $result = $collection->fetchEach('name');
-                $value = implode('', $result);
+                $value  = implode('', $result);
             }
         } elseif ('date' == $rgxp) {
             $value = Date::parse(Config::get('dateFormat'), $value);
@@ -118,7 +118,7 @@ class FormUtil
         } elseif ('datim' == $rgxp) {
             $value = Date::parse(Config::get('datimFormat'), $value);
         } elseif ('multiColumnEditor' == $data['inputType']
-                  && System::getContainer()->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
+            && System::getContainer()->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
             if (is_array($value)) {
                 $rows = [];
 
@@ -128,17 +128,17 @@ class FormUtil
                     foreach ($row as $fieldName => $fieldValue) {
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $config);
+                        $fields[] = ($dca['label'][0] ?: $fieldName) . ': ' . $this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $config);
                     }
 
-                    $rows[] = '['.implode(', ', $fields).']';
+                    $rows[] = '[' . implode(', ', $fields) . ']';
                 }
 
                 $value = implode(', ', $rows);
             }
         } elseif (Validator::isBinaryUuid($value)) {
             $strPath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($value);
-            $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
+            $value   = $strPath ? Environment::get('url') . '/' . $strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
             if ($data['eval']['isBoolean'] || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
@@ -167,6 +167,10 @@ class FormUtil
 
     public function escapeAllHtmlEntities($table, $field, $value)
     {
+        if (!$value) {
+            return $value;
+        }
+
         Controller::loadDataContainer($table);
 
         $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
@@ -180,7 +184,7 @@ class FormUtil
             // options should not be strict cleaned, as they might contain html tags like <strong>
             $value = Request::cleanHtml($value, true, true, $preservedTags);
         } else {
-            $value = Request::clean($value, $data['eval']['decodeEntities'], true);
+            $value = Request::clean($value, $data['eval']['decodeEntities'] ?? false, true);
         }
 
         return $value;
