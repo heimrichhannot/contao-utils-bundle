@@ -401,7 +401,7 @@ class DatabaseUtil
             case static::OPERATOR_UNLIKE:
                 if (is_array($value)) {
                     foreach ($value as $val) {
-                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $value).'%';
+                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $val).'%';
                     }
                     break;
                 }
@@ -449,7 +449,7 @@ class DatabaseUtil
             default:
                 if (is_array($value)) {
                     foreach ($value as $val) {
-                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $value).'%';
+                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $val).'%';
                     }
                     break;
                 }
@@ -506,7 +506,7 @@ class DatabaseUtil
                 $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
                 break;
             case self::OPERATOR_NOT_IN:
-                $where = $queryBuilder->expr()->in($field, $wildcard);
+                $where = $queryBuilder->expr()->notIn($field, $wildcard);
                 // always handle array items as strings
                 $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
                 break;
