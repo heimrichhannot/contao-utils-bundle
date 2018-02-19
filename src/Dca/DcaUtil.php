@@ -137,18 +137,18 @@ class DcaUtil
 
         foreach ($GLOBALS['TL_DCA'][$table]['fields'] as $name => $data) {
             // restrict to certain input types
-            if (is_array($options['inputTypes']) && !empty($options['inputTypes']) && !in_array($data['inputType'], $options['inputTypes'], true)) {
+            if (isset($options['inputTypes']) && is_array($options['inputTypes']) && !empty($options['inputTypes']) && !in_array($data['inputType'], $options['inputTypes'], true)) {
                 continue;
             }
 
-            if (!$options['localizeLabels']) {
+            if (isset($options['localizeLabels']) && !$options['localizeLabels']) {
                 $fields[$name] = $name;
             } else {
                 $fields[$name] = ($data['label'][0] ?: $name).($data['label'][0] ? ' ['.$name.']' : '');
             }
         }
 
-        if (!$options['skipSorting']) {
+        if (isset($options['skipSorting']) && !$options['skipSorting']) {
             asort($fields);
         }
 
@@ -185,7 +185,7 @@ class DcaUtil
                 'sql' => "char(1) NOT NULL default ''",
             ];
 
-            if ($options['checkboxDcaEvalOverride']) {
+            if (isset($options['checkboxDcaEvalOverride']) && is_array($options['checkboxDcaEvalOverride'])) {
                 $destinationDca['fields'][$overrideFieldname]['eval'] = array_merge($destinationDca['fields'][$overrideFieldname]['eval'], $options['checkboxDcaEvalOverride']);
             }
 
@@ -198,7 +198,7 @@ class DcaUtil
             // subpalette
             $destinationDca['subpalettes'][$overrideFieldname] = $field;
 
-            if (!$options['skipLocalization']) {
+            if (isset($options['skipLocalization']) && !$options['skipLocalization']) {
                 $GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname] = [
                     System::getContainer()->get('translator')->trans('huh.utils.misc.override.label', [
                         '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
@@ -262,7 +262,7 @@ class DcaUtil
      *
      * @param string $table
      */
-    public function flattenPaletteForSubEntities(string $table, $overridableFields)
+    public function flattenPaletteForSubEntities(string $table, array $overridableFields)
     {
         Controller::loadDataContainer($table);
 
@@ -410,7 +410,8 @@ class DcaUtil
     public function setAuthorIDOnCreate(string $table, int $id, array $row, DataContainer $dc)
     {
         $model = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($table, $id);
-        $db = Database::getInstance();
+        /** @var Database $db */
+        $db = $this->framework->getAdapter(Database::class)->getInstance();
 
         if (null === $model
             || !$db->fieldExists(static::PROPERTY_AUTHOR_TYPE, $table)
@@ -421,12 +422,12 @@ class DcaUtil
         if (System::getContainer()->get('huh.utils.container')->isFrontend()) {
             if (FE_USER_LOGGED_IN) {
                 $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_MEMBER;
-                $model->{static::PROPERTY_AUTHOR} = FrontendUser::getInstance()->id;
+                $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(FrontendUser::class)->getInstance()->id;
                 $model->save();
             }
         } else {
             $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_USER;
-            $model->{static::PROPERTY_AUTHOR} = BackendUser::getInstance()->id;
+            $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(BackendUser::class)->getInstance()->id;
             $model->save();
         }
     }
@@ -437,7 +438,7 @@ class DcaUtil
             return false;
         }
 
-        if (null === $dc || !$dc->id) {
+        if (null === $dc || !$dc->id || !$dc->table) {
             return false;
         }
 
