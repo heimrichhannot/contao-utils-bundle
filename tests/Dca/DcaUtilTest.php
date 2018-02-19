@@ -338,7 +338,10 @@ class DcaUtilTest extends TestCaseEnvironment
         $dcaUtil = new DcaUtil($this->mockContaoFramework());
         $dcaUtil->addAuthorFieldAndCallback('testTable');
 
-        $this->assertSame($array['TL_DCA']['testTable']['fields']['author'], $GLOBALS['TL_DCA']['testTable']['fields']['author']);
+        $this->assertSame($array['TL_DCA']['testTable']['fields']['author']['label'], $GLOBALS['TL_DCA']['testTable']['fields']['author']['label']);
+        $this->assertSame($array['TL_DCA']['testTable']['fields']['author']['eval'], $GLOBALS['TL_DCA']['testTable']['fields']['author']['eval']);
+        $this->assertSame($array['TL_DCA']['testTable']['fields']['author']['sql'], $GLOBALS['TL_DCA']['testTable']['fields']['author']['sql']);
+        $this->assertSame($array['TL_DCA']['testTable']['fields']['author']['inputType'], $GLOBALS['TL_DCA']['testTable']['fields']['author']['inputType']);
         $this->assertSame($array['TL_DCA']['testTable']['fields']['authorType'], $GLOBALS['TL_DCA']['testTable']['fields']['authorType']);
         $this->assertSame($array['TL_DCA']['testTable']['config']['onload_callback']['modifyAuthorPaletteOnLoad'], $GLOBALS['TL_DCA']['testTable']['config']['onload_callback']['modifyAuthorPaletteOnLoad']);
         $this->assertSame($array['TL_DCA']['testTable']['config']['oncreate_callback']['setAuthorIDOnCreate'], $GLOBALS['TL_DCA']['testTable']['config']['oncreate_callback']['setAuthorIDOnCreate']);
