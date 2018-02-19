@@ -102,7 +102,7 @@ class FileUtil
                     $fileArray['filename'] = htmlentities($file);
 
                     if ($protectedBaseUrl) {
-                        $fileArray['absUrl'] = $protectedBaseUrl.(empty($_GET) ? '?' : '&').'file='.urlencode($fileArray['absUrl']);
+                        $fileArray['absUrl'] = $protectedBaseUrl.(empty($_GET) ? '?' : '&').'file='.str_replace('//', '', $baseUrl.'/'.$file);
                     } else {
                         $fileArray['absUrl'] = str_replace('\\', '/', str_replace('//', '', $baseUrl.'/'.$file));
                     }
@@ -165,7 +165,7 @@ class FileUtil
      */
     public function getPathFromUuid($uuid, $checkIfExists = true)
     {
-        if (null !== ($file = System::getContainer()->get('contao.framework')->getAdapter(FilesModel::class)->findByUuid($uuid))) {
+        if (null !== ($file = $this->framework->getAdapter(FilesModel::class)->findByUuid($uuid))) {
             if (!$checkIfExists) {
                 return $file->path;
             }
