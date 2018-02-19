@@ -409,6 +409,10 @@ class DcaUtilTest extends TestCaseEnvironment
         $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
         $this->assertFalse($result);
 
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock(false));
+        $this->assertFalse($result);
+
         $containerUtils = $this->mockAdapter(['isFrontend', 'isBackend']);
         $containerUtils->method('isFrontend')->willReturn(true);
         $containerUtils->method('isBackend')->willReturn(false);
@@ -417,10 +421,6 @@ class DcaUtilTest extends TestCaseEnvironment
 
         $dcaUtil = new DcaUtil($this->mockContaoFramework());
         $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
-        $this->assertFalse($result);
-
-        $dcaUtil = new DcaUtil($this->mockContaoFramework());
-        $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock(false));
         $this->assertFalse($result);
     }
 
