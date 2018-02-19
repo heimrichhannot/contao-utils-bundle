@@ -6,7 +6,7 @@ services:
         arguments:
             - "@contao.framework"
     huh.utils.code:
-        class: HeimrichHannot\UtilsBundle\Code\CodeUtil
+        class: HeimrichHannot\UtilsBundle\Security\CodeUtil
         public: true
         arguments:
             - "@contao.framework"

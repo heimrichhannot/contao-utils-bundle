@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Code;
+namespace HeimrichHannot\UtilsBundle\Security;
 
 use Contao\System;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
