@@ -82,7 +82,7 @@ class FileUtilTest extends TestCaseEnvironment
         $this->assertCount(0, $fileList);
 
         $fileList = $fileUtil->getFileList($this->getTempDir().'/files', __DIR__, 'protectBaseUrl');
-        $this->assertSame('protectBaseUrl?file=/home/kwagner/Kunden/github/contao-utils-bundle/tests/File/testfile1', $fileList[2]['absUrl']);
+        $this->assertSame('protectBaseUrl?file='.__DIR__.'/testfile1', $fileList[2]['absUrl']);
     }
 
     public function testGetUniqueFileNameWithinTarget()
@@ -198,7 +198,7 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testGetFilesFromUuid()
     {
-        $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'/files/testFile']);
+        $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'/files']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
         $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
@@ -207,12 +207,10 @@ class FileUtilTest extends TestCaseEnvironment
         $this->assertNull($file);
 
         file_put_contents($this->getTempDir().'/files/testFile', 'test');
-        $container = System::getContainer();
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'/files/testFile']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
-        $container->set('contao.framework', $this->mockContaoFramework([FilesModel::class => $filesAdapter]));
-        System::setContainer($container);
+        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
 
         $file = $fileUtil->getFileFromUuid('uuid');
         $this->assertInstanceOf(File::class, $file);
