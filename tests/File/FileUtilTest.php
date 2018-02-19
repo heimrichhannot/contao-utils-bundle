@@ -58,12 +58,15 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testGetFileList()
     {
+        $fileUtil = new FileUtil($this->mockContaoFramework());
         file_put_contents($this->getTempDir().'/files/testfile1', 'test');
+
+        $fileList = $fileUtil->getFileList($this->getTempDir().'/files', __DIR__, 'protectBaseUrl');
+        $this->assertSame('protectBaseUrl?file='.__DIR__.'/testfile1', $fileList[0]['absUrl']);
+
         file_put_contents($this->getTempDir().'/files/testfile2', 'test');
         file_put_contents($this->getTempDir().'/files/testfile3', 'test');
 
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
         $fileList = $fileUtil->getFileList($this->getTempDir().'/files', __DIR__);
 
         $this->assertCount(3, $fileList);
@@ -80,9 +83,6 @@ class FileUtilTest extends TestCaseEnvironment
         $fileList = $fileUtil->getFileList($this->getTempDir().'/fileList', __DIR__);
 
         $this->assertCount(0, $fileList);
-
-        $fileList = $fileUtil->getFileList($this->getTempDir().'/files', __DIR__, 'protectBaseUrl');
-        $this->assertSame('protectBaseUrl?file='.__DIR__.'/testfile1', $fileList[2]['absUrl']);
     }
 
     public function testGetUniqueFileNameWithinTarget()
