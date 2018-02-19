@@ -55,10 +55,22 @@ class DcaUtil
             return $array[$property];
         }
 
+        if (!isset($array[$property.'_callback'])) {
+            return null;
+        }
+
         if (is_array($array[$property.'_callback'])) {
             $callback = $array[$property.'_callback'];
 
+            if (!isset($callback[0]) || !isset($callback[1]) || !class_exists($callback[0])) {
+                return null;
+            }
+
             $instance = Controller::importStatic($callback[0]);
+
+            if (!method_exists($instance, $callback[1])) {
+                return null;
+            }
 
             return call_user_func_array([$instance, $callback[1]], $arguments);
         } elseif (is_callable($array[$property.'_callback'])) {
@@ -78,10 +90,10 @@ class DcaUtil
         $modelUtil = System::getContainer()->get('huh.utils.model');
 
         if (null === $dc || null === ($model = $modelUtil->findModelInstanceByPk($dc->table, $dc->id)) || $model->dateAdded > 0) {
-            return;
+            return null;
         }
 
-        Database::getInstance()->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $dc->id);
+        $this->framework->getAdapter(Database::class)->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $dc->id);
     }
 
     /**
@@ -94,10 +106,10 @@ class DcaUtil
         $modelUtil = System::getContainer()->get('huh.utils.model');
 
         if (null === $dc || null === ($model = $modelUtil->findModelInstanceByPk($dc->table, $insertId)) || $model->dateAdded > 0) {
-            return;
+            return null;
         }
 
-        Database::getInstance()->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $insertId);
+        $this->framework->getAdapter(Database::class)->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $insertId);
     }
 
     /**
@@ -174,10 +186,7 @@ class DcaUtil
             ];
 
             if ($options['checkboxDcaEvalOverride']) {
-                $destinationDca['fields'][$overrideFieldname]['eval'] = array_merge(
-                    $destinationDca['fields'][$overrideFieldname]['eval'],
-                    $options['checkboxDcaEvalOverride']
-                );
+                $destinationDca['fields'][$overrideFieldname]['eval'] = array_merge($destinationDca['fields'][$overrideFieldname]['eval'], $options['checkboxDcaEvalOverride']);
             }
 
             // important: nested selectors need to be in reversed order -> see DC_Table::getPalette()
@@ -191,18 +200,12 @@ class DcaUtil
 
             if (!$options['skipLocalization']) {
                 $GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname] = [
-                    System::getContainer()->get('translator')->trans(
-                        'huh.utils.misc.override.label',
-                        [
-                            '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
-                        ]
-                    ),
-                    System::getContainer()->get('translator')->trans(
-                        'huh.utils.misc.override.desc',
-                        [
-                            '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
-                        ]
-                    ),
+                    System::getContainer()->get('translator')->trans('huh.utils.misc.override.label', [
+                        '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
+                    ]),
+                    System::getContainer()->get('translator')->trans('huh.utils.misc.override.desc', [
+                        '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
+                    ]),
                 ];
             }
         }
@@ -332,19 +335,13 @@ class DcaUtil
         }
 
         if (!$keepUmlauts) {
-            $alias = preg_replace(
-                ['/ä/i', '/ö/i', '/ü/i', '/ß/i'],
-                ['ae', 'oe', 'ue', 'ss'],
-                $alias
-            );
+            $alias = preg_replace(['/ä/i', '/ö/i', '/ü/i', '/ß/i'], ['ae', 'oe', 'ue', 'ss'], $alias);
         }
 
         /**
          * @var Result
          */
-        $existingAlias = $this->framework->getAdapter(Database::class)->getInstance()
-            ->prepare("SELECT id FROM $table WHERE alias=?")
-            ->execute($alias);
+        $existingAlias = $this->framework->getAdapter(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
 
         if ($existingAlias->id == $id) {
             return $alias;
@@ -395,12 +392,10 @@ class DcaUtil
             'filter' => true,
             'inputType' => 'select',
             'options_callback' => function () {
-                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices(
-                    [
-                        'dataContainer' => 'tl_member',
-                        'labelPattern' => '%firstname% %lastname% (ID %id%)',
-                    ]
-                );
+                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
+                    'dataContainer' => 'tl_member',
+                    'labelPattern' => '%firstname% %lastname% (ID %id%)',
+                ]);
             },
             'eval' => [
                 'doNotCopy' => true,
@@ -419,8 +414,7 @@ class DcaUtil
 
         if (null === $model
             || !$db->fieldExists(static::PROPERTY_AUTHOR_TYPE, $table)
-            || !$db->fieldExists(static::PROPERTY_AUTHOR, $table)
-        ) {
+            || !$db->fieldExists(static::PROPERTY_AUTHOR, $table)) {
             return false;
         }
 
@@ -460,12 +454,10 @@ class DcaUtil
 
         if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_USER) {
             $dca['fields']['author']['options_callback'] = function () {
-                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices(
-                    [
-                        'dataContainer' => 'tl_user',
-                        'labelPattern' => '%name% (ID %id%)',
-                    ]
-                );
+                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
+                    'dataContainer' => 'tl_user',
+                    'labelPattern' => '%name% (ID %id%)',
+                ]);
             };
         }
     }
