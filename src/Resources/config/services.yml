@@ -10,6 +10,11 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.encryption:
+        class: HeimrichHannot\UtilsBundle\Security\EncryptionUtil
+        public: true
+        arguments:
+            - "@contao.framework"
     huh.utils.container:
         class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
         public: true

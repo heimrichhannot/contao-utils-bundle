@@ -190,12 +190,11 @@ class FormUtil
         }
 
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
-            // Ignored since Contao doesn't offer a non-deprecated encryption class
-            // -> would throw an Exception in PHP 7.2 else since mcrypt is removed in PHP 7.2 */
+            list($encrypted, $iv) = explode('.', $value);
 
-            /* @codeCoverageIgnoreStart */
-            $value = \Encryption::decrypt($value);
-            /* @codeCoverageIgnoreEnd */
+            $value = System::getContainer()->get('huh.utils.encryption')->decrypt(
+                $encrypted, $iv
+            );
         }
 
         // reset caches
