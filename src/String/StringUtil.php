@@ -60,6 +60,8 @@ class StringUtil
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param bool $includeAmbiguousChars
      *
      * @return mixed
@@ -76,6 +78,8 @@ class StringUtil
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param bool $includeAmbiguousChars
      *
      * @return mixed
@@ -92,6 +96,8 @@ class StringUtil
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param bool $includeAmbiguousChars
      *
      * @return mixed
@@ -108,6 +114,8 @@ class StringUtil
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param string $charList
      *
      * @return mixed
