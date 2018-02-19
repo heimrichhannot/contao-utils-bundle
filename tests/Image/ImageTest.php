@@ -84,6 +84,7 @@ class ImageTest extends TestCaseEnvironment
 
     public function testAddToTemplateDataWithModel()
     {
+        $GLOBALS['TL_LANG']['MSC']['deleteConfirmFile'] = 'delete';
         $templateData = [];
         global $objPage;
 

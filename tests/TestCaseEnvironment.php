@@ -21,7 +21,7 @@ abstract class TestCaseEnvironment extends ContaoTestCase
 
         $container = $this->mockContainer();
         $container->set('request_stack', $this->createRequestStackMock());
-
+        $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
         $logger = new Logger();
         $container->set('monolog.logger.contao', $logger);
         System::setContainer($container);
