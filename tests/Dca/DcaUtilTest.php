@@ -161,6 +161,12 @@ class DcaUtilTest extends TestCaseEnvironment
 
     public function testGetFields()
     {
+        $GLOBALS['TL_LANGUAGE'] = 'de';
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+
+        $fields = $dcaUtil->getFields('bllaa');
+        $this->assertSame([], $fields);
+
         $GLOBALS['TL_DCA']['table']['fields'] = [
             'title' => [
                 'label' => ['this is a title'],
@@ -179,8 +185,6 @@ class DcaUtilTest extends TestCaseEnvironment
                 'sql' => "char(1) NOT NULL default ''",
             ],
         ];
-        $GLOBALS['TL_LANGUAGE'] = 'de';
-        $dcaUtil = new DcaUtil($this->mockContaoFramework());
 
         $fields = $dcaUtil->getFields(false);
         $this->assertSame([], $fields);
@@ -404,6 +408,20 @@ class DcaUtilTest extends TestCaseEnvironment
         $dcaUtil = new DcaUtil($this->mockContaoFramework());
         $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
         $this->assertFalse($result);
+
+        $containerUtils = $this->mockAdapter(['isFrontend', 'isBackend']);
+        $containerUtils->method('isFrontend')->willReturn(true);
+        $containerUtils->method('isBackend')->willReturn(false);
+        $container->set('huh.utils.container', $containerUtils);
+        System::setContainer($container);
+
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
+        $this->assertFalse($result);
+
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock(false));
+        $this->assertFalse($result);
     }
 
     public function getDatabaseMock()
@@ -437,8 +455,12 @@ class DcaUtilTest extends TestCaseEnvironment
     /**
      * @return DataContainer|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function getDataContainerMock()
+    public function getDataContainerMock($properties = true)
     {
-        return $this->mockClassWithProperties(DataContainer::class, ['id' => 1, 'table' => 'testTable']);
+        if ($properties) {
+            return $this->mockClassWithProperties(DataContainer::class, ['id' => 1, 'table' => 'testTable']);
+        }
+
+        return $this->createMock(DataContainer::class);
     }
 }
