@@ -13,13 +13,12 @@ use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
 use Contao\Date;
-use Contao\Encryption;
 use Contao\Environment;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
-use HeimrichHannot\NewsBundle\Model\CfgTagModel;
 use HeimrichHannot\Request\Request;
+use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 
 class FormUtil
 {
@@ -42,18 +41,30 @@ class FormUtil
      * @param DataContainer $dc
      * @param array         $config
      *
+     * Possible config options:
+     *   - preserveEmptyArrayValues -> preserves array values even if they're empty
+     *   - skipLocalization -> skips usage of "reference" array defined in the field's dca
+     *   - skipDcaLoading -> skip calling Controller::loadDataContainer on $dc->table
+     *   - skipOptionCaching -> skip caching options if $value is an array
+     *
      * @return string
      */
     public function prepareSpecialValueForOutput(string $field, $value, DataContainer $dc, array $config = [], bool $isRecursiveCall = false)
     {
         $value = StringUtil::deserialize($value);
 
+        /** @var Controller $controller */
+        $controller = $this->framework->getAdapter(Controller::class);
+
+        /** @var System $system */
+        $system = $this->framework->getAdapter(System::class);
+
         // Recursively apply logic to array
         if (is_array($value)) {
             foreach ($value as $k => $v) {
                 $result = $this->prepareSpecialValueForOutput($field, $v, $dc, $config, true);
 
-                if ($config['preserveEmptyArrayValues']) {
+                if (isset($config['preserveEmptyArrayValues']) && $config['preserveEmptyArrayValues']) {
                     $value[$k] = $result;
                 } else {
                     if (null !== $result && !empty($result)) {
@@ -72,9 +83,9 @@ class FormUtil
 
         $table = $dc->table;
 
-        if (!$config['skipDcaLoading']) {
-            Controller::loadDataContainer($table);
-            System::loadLanguageFile($table);
+        if (!isset($config['skipDcaLoading']) || $config['skipDcaLoading']) {
+            $controller->loadDataContainer($table);
+            $system->loadLanguageFile($table);
         }
 
         if (!isset($GLOBALS['TL_DCA'][$table]['fields'][$field]) || !is_array($GLOBALS['TL_DCA'][$table]['fields'][$field])) {
@@ -82,10 +93,20 @@ class FormUtil
         }
 
         $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
-        $reference = $data['reference'];
-        $rgxp = $data['eval']['rgxp'];
 
-        if (!$config['skipOptionCaching'] && null !== $this->optionsCache) {
+        $reference = null;
+
+        if (isset($data['reference']) && (!isset($config['skipLocalization']) || !$config['skipLocalization'])) {
+            $reference = $data['reference'];
+        }
+
+        $rgxp = null;
+
+        if (isset($data['eval']['rgxp'])) {
+            $rgxp = $data['eval']['rgxp'];
+        }
+
+        if ((!isset($config['skipOptionCaching']) || !$config['skipOptionCaching']) && null !== $this->optionsCache) {
             $options = $this->optionsCache;
         } else {
             $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
@@ -102,7 +123,9 @@ class FormUtil
         }
 
         if ('explanation' == $data['inputType']) {
-            $value = $data['eval']['text'];
+            if (isset($data['eval']['text'])) {
+                return $data['eval']['text'];
+            }
         } elseif ('cfgTags' == $data['inputType']) {
             $collection = CfgTagModel::findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
             $value = null;
@@ -141,7 +164,7 @@ class FormUtil
             $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
-            if ($data['eval']['isBoolean'] || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
+            if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
                 $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
             } elseif (is_array($options) && array_is_assoc($options)) {
                 $value = isset($options[$value]) ? $options[$value] : $value;
@@ -152,8 +175,8 @@ class FormUtil
             $value = isset($reference[$value]) ? ((is_array($reference[$value])) ? $reference[$value][0] : $reference[$value]) : $value;
         }
 
-        if ($data['eval']['encrypt']) {
-            $value = Encryption::decrypt($value);
+        if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
+            $value = @\Encryption::decrypt($value);
         }
 
         // reset caches
