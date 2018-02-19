@@ -11,8 +11,10 @@ namespace HeimrichHannot\UtilsBundle\Tests\String;
 use Contao\Config;
 use Contao\Controller;
 use Contao\DataContainer;
+use Contao\Environment;
 use Contao\Model;
 use Contao\Model\Collection;
+use Contao\StringUtil;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
@@ -83,63 +85,87 @@ class FormUtilTest extends ContaoTestCase
         }
 
         $dcaUtil = $this->mockAdapter(['getConfigByArrayOrCallbackOrFunction']);
-        $dcaUtil->method('getConfigByArrayOrCallbackOrFunction')->willReturn(false);
+        $dcaUtil->method('getConfigByArrayOrCallbackOrFunction')->willReturn(null);
         $this->container->set('huh.utils.dca', $dcaUtil);
 
-        $foreignKeyInstance1 = $this->createMock(Model::class);
-        $foreignKeyInstance1->method('__get')->willReturnCallback(function ($key) {
-            switch ($key) {
-                case 'title':
-                    return 'Foreign key title 1';
-            }
+        $fileUtil = $this->mockAdapter(['getPathFromUuid']);
+        $fileUtil->method('getPathFromUuid')->willReturn('files/themes/img/myimage.png');
+        $this->container->set('huh.utils.file', $fileUtil);
 
-            return '';
-        });
+        $containerUtil = $this->mockAdapter(['isBundleActive']);
+        $containerUtil->method('isBundleActive')->willReturn(true);
+        $this->container->set('huh.utils.container', $containerUtil);
+
+        $foreignKeyInstance1 = $this->createMock(Model::class);
+        $foreignKeyInstance1->method('__get')->willReturnCallback(
+            function ($key) {
+                switch ($key) {
+                    case 'title':
+                        return 'Foreign key title 1';
+                }
+
+                return '';
+            }
+        );
 
         $foreignKeyInstance3 = $this->createMock(Model::class);
-        $foreignKeyInstance3->method('__get')->willReturnCallback(function ($key) {
-            switch ($key) {
-                case 'title':
-                    return 'Foreign key title 3';
-            }
+        $foreignKeyInstance3->method('__get')->willReturnCallback(
+            function ($key) {
+                switch ($key) {
+                    case 'title':
+                        return 'Foreign key title 3';
+                }
 
-            return '';
-        });
+                return '';
+            }
+        );
 
         $modelUtil = $this->mockAdapter(['findModelInstanceByPk']);
-        $modelUtil->method('findModelInstanceByPk')->willReturnCallback(function ($table, $id) use ($foreignKeyInstance1, $foreignKeyInstance3) {
-            switch ($id) {
-                case 'first':
-                    return $foreignKeyInstance1;
-                case 'third':
-                    return $foreignKeyInstance3;
-            }
+        $modelUtil->method('findModelInstanceByPk')->willReturnCallback(
+            function ($table, $id) use ($foreignKeyInstance1, $foreignKeyInstance3) {
+                switch ($id) {
+                    case 'first':
+                        return $foreignKeyInstance1;
+                    case 'third':
+                        return $foreignKeyInstance3;
+                }
 
-            return null;
-        });
+                return null;
+            }
+        );
         $this->container->set('huh.utils.model', $modelUtil);
 
         // mock data container
         $this->dc = $this->getMockBuilder(DC_Table_Utils::class)->disableOriginalConstructor()->getMock();
-        $this->dc->method('__get')->willReturnCallback(function ($key) {
-            switch ($key) {
-                case 'table':
-                    return 'tl_test';
-                case 'id':
-                    return 1;
-                case 'field':
-                    return 'myField';
-            }
+        $this->dc->method('__get')->willReturnCallback(
+            function ($key) {
+                switch ($key) {
+                    case 'table':
+                        return 'tl_test';
+                    case 'id':
+                        return 1;
+                    case 'field':
+                        return 'myField';
+                }
 
-            return '';
-        });
+                return '';
+            }
+        );
 
         // mock language
         $GLOBALS['TL_LANG']['tl_test']['myField'] = ['My field', 'This field is the test field.'];
+        $GLOBALS['TL_LANG']['tl_test']['firstname'] = ['Firstname', ''];
+        $GLOBALS['TL_LANG']['tl_test']['lastname'] = ['Lastname', ''];
+        $GLOBALS['TL_LANG']['tl_test']['language'] = ['Language', ''];
         $GLOBALS['TL_LANG']['tl_test']['myFieldExplanation'] = '<h1>Mein Feld</h1>';
         $GLOBALS['TL_LANG']['tl_test']['reference'] = [
             'first' => 'Erster',
+            'de' => 'Deutsch',
+            'en' => 'Englisch',
         ];
+
+        $GLOBALS['TL_LANG']['MSC']['yes'] = 'Ja';
+        $GLOBALS['TL_LANG']['MSC']['no'] = 'Nein';
 
         System::setContainer($this->container);
     }
@@ -203,45 +229,61 @@ class FormUtilTest extends ContaoTestCase
         ];
 
         // test with removing empty values
-        $result = $this->formUtil->prepareSpecialValueForOutput('myField', [
-            'first', '', 'third',
-        ], $this->dc);
-
-        $this->assertSame('Erster, third', $result);
-
-        // test without option caching
-        $result = $this->formUtil->prepareSpecialValueForOutput('myField', [
-            'first', '', 'third',
-        ], $this->dc, [
-            'skipOptionCaching' => true,
-        ]);
+        $result = $this->formUtil->prepareSpecialValueForOutput(
+            'myField',
+            [
+                'first',
+                '',
+                'third',
+            ],
+            $this->dc
+        );
 
         $this->assertSame('Erster, third', $result);
 
         // test with skipping localization
-        $result = $this->formUtil->prepareSpecialValueForOutput('myField', [
-            'first', '', 'third',
-        ], $this->dc, [
-            'skipLocalization' => true,
-        ]);
+        $result = $this->formUtil->prepareSpecialValueForOutput(
+            'myField',
+            [
+                'first',
+                '',
+                'third',
+            ],
+            $this->dc,
+            [
+                'skipLocalization' => true,
+            ]
+        );
 
         $this->assertSame('first, third', $result);
 
         // test with removing empty values
-        $result = $this->formUtil->prepareSpecialValueForOutput('myField', [
-            'first', '', 'third',
-        ], $this->dc, [
-            'preserveEmptyArrayValues' => true,
-        ]);
+        $result = $this->formUtil->prepareSpecialValueForOutput(
+            'myField',
+            [
+                'first',
+                '',
+                'third',
+            ],
+            $this->dc,
+            [
+                'preserveEmptyArrayValues' => true,
+            ]
+        );
 
         $this->assertSame('Erster, , third', $result);
 
         // test foreignKey
         $GLOBALS['TL_DCA']['tl_test']['fields']['myField']['foreignKey'] = 'tl_test2.title';
 
-        $result = $this->formUtil->prepareSpecialValueForOutput('myField', [
-            'first', 'third',
-        ], $this->dc);
+        $result = $this->formUtil->prepareSpecialValueForOutput(
+            'myField',
+            [
+                'first',
+                'third',
+            ],
+            $this->dc
+        );
 
         $this->assertSame('Foreign key title 1, Foreign key title 3', $result);
     }
@@ -278,5 +320,100 @@ class FormUtilTest extends ContaoTestCase
         $result = $this->formUtil->prepareSpecialValueForOutput('myField', '', $this->dc);
 
         $this->assertSame('First tag, Third tag', $result);
+    }
+
+    public function testPrepareSpecialValueForOutputUuid()
+    {
+        $value = StringUtil::uuidToBin('82f9119db59b11e787f2a08cfddc0261');
+        Environment::set('url', 'http://localhost');
+
+        // mock dca
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'fileTree',
+        ];
+
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', $value, $this->dc);
+
+        $this->assertSame('http://localhost/files/themes/img/myimage.png', $result);
+    }
+
+    public function testPrepareSpecialValueForOutputIsBoolean()
+    {
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'checkbox',
+            'eval' => [
+                'multiple' => true,
+            ],
+        ];
+
+        // dca util
+        $dcaUtil = $this->mockAdapter(['getConfigByArrayOrCallbackOrFunction']);
+        $dcaUtil->method('getConfigByArrayOrCallbackOrFunction')->willReturn(
+            [
+                'first' => 'Erster',
+                'third' => 'Dritter',
+            ],
+            [
+                'skipOptionCaching' => true,
+            ]
+        );
+        $this->container->set('huh.utils.dca', $dcaUtil);
+
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', ['first', 'third'], $this->dc);
+        $this->assertSame('Erster, Dritter', $result);
+
+        // mock dca
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'checkbox',
+            'eval' => [
+                'isBoolean' => true,
+            ],
+        ];
+
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', '1', $this->dc);
+        $this->assertSame('Ja', $result);
+
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', '', $this->dc);
+        $this->assertSame('Nein', $result);
+    }
+
+    public function testPrepareSpecialValueForOutputMultiColumnEditor()
+    {
+        $value = [
+            ['firstname' => 'John1', 'lastname' => 'Doe1', 'language' => 'de'],
+            ['firstname' => 'John2', 'lastname' => 'Doe2', 'language' => 'en'],
+        ];
+
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'multiColumnEditor',
+            'eval' => [
+                'multiColumnEditor' => [
+                    'fields' => [
+                        'firstname' => [
+                            'label' => &$GLOBALS['TL_LANG']['tl_test']['firstname'],
+                            'inputType' => 'text',
+                        ],
+                        'lastname' => [
+                            'label' => &$GLOBALS['TL_LANG']['tl_test']['lastname'],
+                            'inputType' => 'text',
+                        ],
+                        'language' => [
+                            'label' => &$GLOBALS['TL_LANG']['tl_test']['language'],
+                            'inputType' => 'select',
+                            'options' => ['de', 'en'],
+                            'reference' => &$GLOBALS['TL_LANG']['tl_test']['reference'],
+                        ],
+                    ],
+                ],
+            ],
+            'sql' => 'blob NULL',
+        ];
+
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', $value, $this->dc);
+        $this->assertSame('[Firstname: John1, Lastname: Doe1, Language: Deutsch], [Firstname: John2, Lastname: Doe2, Language: Englisch]', $result);
     }
 }

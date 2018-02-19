@@ -62,6 +62,49 @@ class FormUtil
         /** @var CfgTagModel $cfgTagModel */
         $cfgTagModel = $this->framework->getAdapter(CfgTagModel::class);
 
+        // prepare data
+        $table = $dc->table;
+
+        if (!isset($config['skipDcaLoading']) || $config['skipDcaLoading']) {
+            $controller->loadDataContainer($table);
+            $system->loadLanguageFile($table);
+        }
+
+        // dca can be overridden from outside
+        if (isset($config['_dcaOverride']) && is_array($config['_dcaOverride'])) {
+            $data = $config['_dcaOverride'];
+        } elseif (!isset($GLOBALS['TL_DCA'][$table]['fields'][$field]) || !is_array($GLOBALS['TL_DCA'][$table]['fields'][$field])) {
+            return $value;
+        } else {
+            $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
+        }
+
+        // multicolumneditor
+        if ('multiColumnEditor' == $data['inputType']
+            && System::getContainer()->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
+            if (is_array($value)) {
+                $rows = [];
+
+                foreach ($value as $row) {
+                    $fields = [];
+
+                    foreach ($row as $fieldName => $fieldValue) {
+                        $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
+
+                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
+                            '_dcaOverride' => $dca,
+                            ]));
+                    }
+
+                    $rows[] = '['.implode(', ', $fields).']';
+                }
+
+                $value = implode(', ', $rows);
+
+                return $value;
+            }
+        }
+
         // Recursively apply logic to array
         if (is_array($value)) {
             foreach ($value as $k => $v) {
@@ -83,19 +126,6 @@ class FormUtil
 
             return implode(', ', $value);
         }
-
-        $table = $dc->table;
-
-        if (!isset($config['skipDcaLoading']) || $config['skipDcaLoading']) {
-            $controller->loadDataContainer($table);
-            $system->loadLanguageFile($table);
-        }
-
-        if (!isset($GLOBALS['TL_DCA'][$table]['fields'][$field]) || !is_array($GLOBALS['TL_DCA'][$table]['fields'][$field])) {
-            return $value;
-        }
-
-        $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
 
         $reference = null;
 
@@ -143,25 +173,6 @@ class FormUtil
             $value = Date::parse(Config::get('timeFormat'), $value);
         } elseif ('datim' == $rgxp) {
             $value = Date::parse(Config::get('datimFormat'), $value);
-        } elseif ('multiColumnEditor' == $data['inputType']
-            && System::getContainer()->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
-            if (is_array($value)) {
-                $rows = [];
-
-                foreach ($value as $row) {
-                    $fields = [];
-
-                    foreach ($row as $fieldName => $fieldValue) {
-                        $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
-
-                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, $config);
-                    }
-
-                    $rows[] = '['.implode(', ', $fields).']';
-                }
-
-                $value = implode(', ', $rows);
-            }
         } elseif (Validator::isBinaryUuid($value)) {
             $strPath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($value);
             $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
@@ -179,9 +190,10 @@ class FormUtil
         }
 
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
+            // Ignored since Contao doesn't offer a non-deprecated encryption class
+            // -> would throw an Exception in PHP 7.2 else since mcrypt is removed in PHP 7.2 */
+
             /* @codeCoverageIgnoreStart */
-            /* Ignored since Contao deosn't offer a non-deprecated encryption class
-               -> would throw an Exception in PHP 7.2 else since mcrypt is removed in PHP 7.2 */
             $value = \Encryption::decrypt($value);
             /* @codeCoverageIgnoreEnd */
         }
