@@ -12,10 +12,12 @@ use Contao\Config;
 use Contao\Controller;
 use Contao\DataContainer;
 use Contao\Model;
+use Contao\Model\Collection;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use HeimrichHannot\UtilsBundle\Form\FormUtil;
+use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FormUtilTest extends ContaoTestCase
@@ -49,11 +51,25 @@ class FormUtilTest extends ContaoTestCase
             ]
         );
 
+        $cfgTagModel = $this->mockAdapter(
+            [
+                'findBy',
+            ]
+        );
+
+        $tagModelCollection = $this->createMock(Collection::class);
+        $tagModelCollection->method('fetchEach')->willReturn(
+            ['First tag', 'Third tag']
+        );
+
+        $cfgTagModel->method('findBy')->willReturn($tagModelCollection);
+
         $this->formUtil = new FormUtil(
             $this->mockContaoFramework(
                 [
                     Controller::class => $controller,
                     System::class => $system,
+                    CfgTagModel::class => $cfgTagModel,
                 ]
             )
         );
@@ -173,14 +189,6 @@ class FormUtilTest extends ContaoTestCase
         $result = $this->formUtil->prepareSpecialValueForOutput('myField', $time, $this->dc);
 
         $this->assertSame(date('H:i', $time), $result);
-
-        // test encryption
-        unset($GLOBALS['TL_DCA']['tl_test']['fields']['myField']['eval']['rgxp']);
-        $GLOBALS['TL_DCA']['tl_test']['fields']['myField']['eval']['encrypt'] = true;
-
-        $result = $this->formUtil->prepareSpecialValueForOutput('myField', @\Encryption::encrypt('myValue'), $this->dc);
-
-        $this->assertSame('myValue', $result);
     }
 
     public function testPrepareSpecialValueForOutputArray()
@@ -250,5 +258,25 @@ class FormUtilTest extends ContaoTestCase
         $result = $this->formUtil->prepareSpecialValueForOutput('myField', '', $this->dc);
 
         $this->assertSame('<h1>Mein Feld</h1>', $result);
+    }
+
+    public function testPrepareSpecialValueForOutputCfgTags()
+    {
+        // mock dca
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'cfgTags',
+            'eval' => [
+                'tagsManager' => 'app.test',
+            ],
+            'relation' => [
+                'relationTable' => 'tl_test_tags',
+            ],
+            'foreignKey' => 'tl_cfg_tag.name', // required for back end filter value to name conversion
+        ];
+
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', '', $this->dc);
+
+        $this->assertSame('First tag, Third tag', $result);
     }
 }

@@ -59,6 +59,9 @@ class FormUtil
         /** @var System $system */
         $system = $this->framework->getAdapter(System::class);
 
+        /** @var CfgTagModel $cfgTagModel */
+        $cfgTagModel = $this->framework->getAdapter(CfgTagModel::class);
+
         // Recursively apply logic to array
         if (is_array($value)) {
             foreach ($value as $k => $v) {
@@ -127,12 +130,12 @@ class FormUtil
                 return $data['eval']['text'];
             }
         } elseif ('cfgTags' == $data['inputType']) {
-            $collection = CfgTagModel::findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
+            $collection = $cfgTagModel->findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
             $value = null;
 
             if (null !== $collection) {
                 $result = $collection->fetchEach('name');
-                $value = implode('', $result);
+                $value = implode(', ', $result);
             }
         } elseif ('date' == $rgxp) {
             $value = Date::parse(Config::get('dateFormat'), $value);
@@ -176,7 +179,11 @@ class FormUtil
         }
 
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
-            $value = @\Encryption::decrypt($value);
+            /* @codeCoverageIgnoreStart */
+            /* Ignored since Contao deosn't offer a non-deprecated encryption class
+               -> would throw an Exception in PHP 7.2 else since mcrypt is removed in PHP 7.2 */
+            $value = \Encryption::decrypt($value);
+            /* @codeCoverageIgnoreEnd */
         }
 
         // reset caches
