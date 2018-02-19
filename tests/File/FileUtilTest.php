@@ -76,7 +76,6 @@ class FileUtilTest extends TestCaseEnvironment
         $this->assertArrayHasKey(2, $fileList);
         $this->assertArrayHasKey('filename', $fileList[2]);
         $this->assertNotSame('', $fileList[2]['filename']);
-        $this->assertSame('/home/kwagner/Kunden/github/contao-utils-bundle/tests/File/testfile1', $fileList[2]['absUrl']);
 
         $fileList = $fileUtil->getFileList($this->getTempDir().'/fileList', __DIR__);
 
