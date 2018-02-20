@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Security;
 
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 
@@ -31,8 +32,15 @@ class CodeUtil
     ];
 
     const DEFAULT_ALLOWED_SPECIAL_CHARS = '[=<>()#/]';
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
 
     protected static $blnPreventAmbiguous = true;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
 
     /**
      * Generates a code by certain criteria.

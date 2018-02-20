@@ -47,6 +47,8 @@ class DcaUtil
      * @param       $property
      * @param array $arguments
      *
+     * @throws \ErrorException When the callback has not enough context, for example no BackendUser is available
+     *
      * @return mixed|null The value retrieved in the way mentioned above or null
      */
     public function getConfigByArrayOrCallbackOrFunction(array $array, $property, array $arguments = [])

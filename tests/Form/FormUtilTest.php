@@ -215,6 +215,19 @@ class FormUtilTest extends ContaoTestCase
         $result = $this->formUtil->prepareSpecialValueForOutput('myField', $time, $this->dc);
 
         $this->assertSame(date('H:i', $time), $result);
+
+        // test encryption
+        unset($GLOBALS['TL_DCA']['tl_test']['fields']['myField']['eval']['rgxp']);
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField']['eval']['encrypt'] = true;
+
+        $plain = 'This is a test :-)(/$§()$/$=)___  fds';
+        list($encrypted, $iv) = System::getContainer()->get('huh.utils.encryption')->encrypt($plain);
+
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', $encrypted.'.'.$iv, $this->dc);
+
+        $this->assertSame(System::getContainer()->get('huh.utils.encryption')->decrypt(
+            $plain, $iv
+        ), $result);
     }
 
     public function testPrepareSpecialValueForOutputArray()

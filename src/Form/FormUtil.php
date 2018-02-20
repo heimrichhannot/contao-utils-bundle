@@ -92,7 +92,7 @@ class FormUtil
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
                         $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
-                            '_dcaOverride' => $dca,
+                                '_dcaOverride' => $dca,
                             ]));
                     }
 
@@ -142,8 +142,13 @@ class FormUtil
         if ((!isset($config['skipOptionCaching']) || !$config['skipOptionCaching']) && null !== $this->optionsCache) {
             $options = $this->optionsCache;
         } else {
-            $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
-            $this->optionsCache = $options;
+            try {
+                $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+            } catch (\ErrorException $e) {
+                $options = [];
+            }
+
+            $this->optionsCache = !is_array($options) ? [] : $options;
         }
 
         // foreignKey
@@ -190,12 +195,11 @@ class FormUtil
         }
 
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
-            // Ignored since Contao doesn't offer a non-deprecated encryption class
-            // -> would throw an Exception in PHP 7.2 else since mcrypt is removed in PHP 7.2 */
+            list($encrypted, $iv) = explode('.', $value);
 
-            /* @codeCoverageIgnoreStart */
-            $value = \Encryption::decrypt($value);
-            /* @codeCoverageIgnoreEnd */
+            $value = System::getContainer()->get('huh.utils.encryption')->decrypt(
+                $encrypted, $iv
+            );
         }
 
         // reset caches
