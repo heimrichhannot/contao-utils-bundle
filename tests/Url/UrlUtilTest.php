@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Url;
 
+use Contao\Controller;
 use Contao\Environment;
 use Contao\Model;
 use Contao\PageModel;
@@ -15,6 +16,7 @@ use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Url\UrlUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 
 class UrlUtilTest extends ContaoTestCase
 {
@@ -35,7 +37,7 @@ class UrlUtilTest extends ContaoTestCase
         $utilsModelAdapter = $this->mockAdapter(['findModelInstanceByPk']);
         $utilsModelAdapter->method('findModelInstanceByPk')->willReturn($jumpToPage);
         $container->set('huh.utils.model', $utilsModelAdapter);
-
+        $container->set('router', $this->createRouterMock());
         System::setContainer($container);
         if (!\function_exists('ampersand')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
@@ -82,6 +84,9 @@ class UrlUtilTest extends ContaoTestCase
 
         $url = $urlUtil->removeQueryString([], 'http://localhost');
         $this->assertSame('http://localhost', $url);
+
+        $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&blaaa=fuuu');
+        $this->assertSame('http://localhost?blaaa=fuuu', $url);
     }
 
     public function testGetJumpToPageObject()
@@ -112,6 +117,38 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertNull($jumpToPage);
     }
 
+    public function testPrepareUrl()
+    {
+        if (!defined('TL_MODE')) {
+            define('TL_MODE', 'BE');
+        }
+        $pageModel = $this->createMock(PageModel::class);
+        $pageModel->method('row')->willReturn(['id' => 1, 'rootId' => 12, 'alias' => 'alias']);
+
+        $pageModelAdapter = $this->mockAdapter(['findByPk']);
+        $pageModelAdapter->method('findByPk')->willReturn(null);
+        $urlUtil = new UrlUtil($this->mockContaoFramework([PageModel::class => $pageModelAdapter]));
+        try {
+            $url = $urlUtil->removeQueryString([], 1);
+        } catch (\Exception $exception) {
+            $this->assertSame('Given page id does not exist.', $exception->getMessage());
+        }
+
+        $controllerAdapter = $this->mockAdapter(['generateFrontendUrl']);
+        $controllerAdapter->method('generateFrontendUrl')->willReturn('www.localhost.de/page');
+        $pageModelAdapter = $this->mockAdapter(['findByPk']);
+        $pageModelAdapter->method('findByPk')->willReturn($pageModel);
+        $urlUtil = new UrlUtil($this->mockContaoFramework([PageModel::class => $pageModelAdapter, Controller::class => $controllerAdapter]));
+        $url = $urlUtil->removeQueryString([], 1);
+        $this->assertSame('www.localhost.de/page?answer=12', $url);
+    }
+
+    public function testRedirect()
+    {
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil->redirect('www.google.de');
+    }
+
     public function createRequestStackMock()
     {
         $requestStack = new RequestStack();
@@ -120,5 +157,25 @@ class UrlUtilTest extends ContaoTestCase
         $requestStack->push($request);
 
         return $requestStack;
+    }
+
+    public function createRouterMock()
+    {
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->with('contao_backend', $this->anything())->will($this->returnCallback(function ($route, $params = []) {
+            $url = '/contao';
+            if (!empty($params)) {
+                $count = 0;
+                foreach ($params as $key => $value) {
+                    $url .= (0 === $count ? '?' : '&');
+                    $url .= $key.'='.$value;
+                    ++$count;
+                }
+            }
+
+            return $url;
+        }));
+
+        return $router;
     }
 }
