@@ -143,12 +143,6 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertSame('www.localhost.de/page?answer=12', $url);
     }
 
-    public function testRedirect()
-    {
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
-        $urlUtil->redirect('www.google.de');
-    }
-
     public function createRequestStackMock()
     {
         $requestStack = new RequestStack();
