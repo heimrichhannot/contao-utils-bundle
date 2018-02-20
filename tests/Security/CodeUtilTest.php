@@ -36,7 +36,7 @@ class CodeUtilTest extends TestCaseEnvironment
     public function testGenerate()
     {
         $codeUtil = new CodeUtil($this->mockContaoFramework());
-        $code = $codeUtil::generate();
+        $code = $codeUtil::generate(8);
         $this->assertSame(8, strlen($code));
 
         $code = $codeUtil::generate(16);
