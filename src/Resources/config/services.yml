@@ -17,7 +17,7 @@ services:
         arguments:
             - "@contao.framework"
     huh.utils.curl:
-        class: HeimrichHannot\UtilsBundle\Curl\Curl
+        class: HeimrichHannot\UtilsBundle\Curl\CurlUtil
         public: true
         arguments:
             - "@contao.framework"

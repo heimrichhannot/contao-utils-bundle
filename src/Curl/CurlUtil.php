@@ -10,7 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Curl;
 
 use Contao\Config;
 
-class Curl
+class CurlUtil
 {
     public static function recursivelyGetRequest($intMaxRecursionCount, $funcTerminationCondition, $strUrl, array $arrRequestHeaders = [], $blnReturnResponseHeaders = false)
     {
@@ -27,6 +27,13 @@ class Curl
         return $varResult;
     }
 
+    /**
+     * @param $strUrl
+     * @param array $arrRequestHeaders
+     * @param bool  $blnReturnResponseHeaders
+     *
+     * @return array|mixed
+     */
     public function request($strUrl, array $arrRequestHeaders = [], $blnReturnResponseHeaders = false)
     {
         $objCurl = static::createCurlObject($strUrl);
