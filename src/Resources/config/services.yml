@@ -5,8 +5,19 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.cache.remote_image_cache:
+        class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@service_container"
     huh.utils.code:
         class: HeimrichHannot\UtilsBundle\Security\CodeUtil
+        public: true
+        arguments:
+            - "@contao.framework"
+    huh.utils.curl:
+        class: HeimrichHannot\UtilsBundle\Curl\Curl
         public: true
         arguments:
             - "@contao.framework"

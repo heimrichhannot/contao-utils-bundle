@@ -20,13 +20,13 @@ use Contao\System;
 
 class DcaUtil
 {
-    const PROPERTY_SESSION_ID  = 'sessionID';
-    const PROPERTY_AUTHOR      = 'author';
+    const PROPERTY_SESSION_ID = 'sessionID';
+    const PROPERTY_AUTHOR = 'author';
     const PROPERTY_AUTHOR_TYPE = 'authorType';
 
-    const AUTHOR_TYPE_NONE   = 'none';
+    const AUTHOR_TYPE_NONE = 'none';
     const AUTHOR_TYPE_MEMBER = 'member';
-    const AUTHOR_TYPE_USER   = 'user';
+    const AUTHOR_TYPE_USER = 'user';
 
     /** @var ContaoFrameworkInterface */
     protected $framework;
@@ -47,9 +47,9 @@ class DcaUtil
      * @param       $property
      * @param array $arguments
      *
-     * @return mixed|null The value retrieved in the way mentioned above or null
-     *
      * @throws \ErrorException When the callback has not enough context, for example no BackendUser is available
+     *
+     * @return mixed|null The value retrieved in the way mentioned above or null
      */
     public function getConfigByArrayOrCallbackOrFunction(array $array, $property, array $arguments = [])
     {
@@ -57,12 +57,12 @@ class DcaUtil
             return $array[$property];
         }
 
-        if (!isset($array[$property . '_callback'])) {
+        if (!isset($array[$property.'_callback'])) {
             return null;
         }
 
-        if (is_array($array[$property . '_callback'])) {
-            $callback = $array[$property . '_callback'];
+        if (is_array($array[$property.'_callback'])) {
+            $callback = $array[$property.'_callback'];
 
             if (!isset($callback[0]) || !isset($callback[1]) || !class_exists($callback[0])) {
                 return null;
@@ -75,8 +75,8 @@ class DcaUtil
             }
 
             return call_user_func_array([$instance, $callback[1]], $arguments);
-        } elseif (is_callable($array[$property . '_callback'])) {
-            return call_user_func_array($array[$property . '_callback'], $arguments);
+        } elseif (is_callable($array[$property.'_callback'])) {
+            return call_user_func_array($array[$property.'_callback'], $arguments);
         }
 
         return null;
@@ -118,7 +118,7 @@ class DcaUtil
      * Returns a list of fields as an option array for dca fields.
      *
      * @param string $table
-     * @param array $options
+     * @param array  $options
      *
      * @return array
      */
@@ -146,7 +146,7 @@ class DcaUtil
             if (isset($options['localizeLabels']) && !$options['localizeLabels']) {
                 $fields[$name] = $name;
             } else {
-                $fields[$name] = ($data['label'][0] ?: $name) . ($data['label'][0] ? ' [' . $name . ']' : '');
+                $fields[$name] = ($data['label'][0] ?: $name).($data['label'][0] ? ' ['.$name.']' : '');
             }
         }
 
@@ -160,10 +160,10 @@ class DcaUtil
     /**
      * Adds an override selector to every field in $fields to the dca associated with $destinationTable.
      *
-     * @param array $fields
+     * @param array  $fields
      * @param string $sourceTable
      * @param string $destinationTable
-     * @param array $options
+     * @param array  $options
      */
     public function addOverridableFields(array $fields, string $sourceTable, string $destinationTable, array $options = [])
     {
@@ -177,14 +177,14 @@ class DcaUtil
 
         foreach ($fields as $field) {
             // add override boolean field
-            $overrideFieldname = 'override' . ucfirst($field);
+            $overrideFieldname = 'override'.ucfirst($field);
 
             $destinationDca['fields'][$overrideFieldname] = [
-                'label'     => &$GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname],
-                'exclude'   => true,
+                'label' => &$GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname],
+                'exclude' => true,
                 'inputType' => 'checkbox',
-                'eval'      => ['tl_class' => 'w50', 'submitOnChange' => true, 'isOverrideSelector' => true],
-                'sql'       => "char(1) NOT NULL default ''",
+                'eval' => ['tl_class' => 'w50', 'submitOnChange' => true, 'isOverrideSelector' => true],
+                'sql' => "char(1) NOT NULL default ''",
             ];
 
             if (isset($options['checkboxDcaEvalOverride']) && is_array($options['checkboxDcaEvalOverride'])) {
@@ -221,15 +221,15 @@ class DcaUtil
      * model instance is only used if it's either the first instance in $arrInstances or "overrideFieldname" is set to true
      * in the instance.
      *
-     * @param string $property The property name to retrieve
-     * @param array $instances An array of instances in ascending priority. Instances can be passed in the following form:
+     * @param string $property  The property name to retrieve
+     * @param array  $instances An array of instances in ascending priority. Instances can be passed in the following form:
      *                          ['tl_some_table', $instanceId] or $objInstance
      *
      * @return mixed
      */
     public function getOverridableProperty(string $property, array $instances)
     {
-        $result            = null;
+        $result = null;
         $preparedInstances = [];
 
         // prepare instances
@@ -244,7 +244,7 @@ class DcaUtil
         }
 
         foreach ($preparedInstances as $i => $preparedInstance) {
-            if (0 == $i || $preparedInstance->{'override' . ucfirst($property)}) {
+            if (0 == $i || $preparedInstance->{'override'.ucfirst($property)}) {
                 $result = $preparedInstance->{$property};
             }
         }
@@ -268,7 +268,7 @@ class DcaUtil
     {
         Controller::loadDataContainer($table);
 
-        $dca       = &$GLOBALS['TL_DCA'][$table];
+        $dca = &$GLOBALS['TL_DCA'][$table];
         $arrayUtil = System::getContainer()->get('huh.utils.array');
 
         // palette
@@ -279,12 +279,12 @@ class DcaUtil
                 if (in_array($field, $dca['palettes']['__selector__'], true)) {
                     // flatten concatenated type selectors
                     foreach ($dca['subpalettes'] as $selector => $subPaletteFields) {
-                        if (false !== strpos($selector, $field . '_')) {
+                        if (false !== strpos($selector, $field.'_')) {
                             if ($dca['subpalettes'][$selector]) {
                                 $subPaletteFields = explode(',', $dca['subpalettes'][$selector]);
 
                                 foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                                    $dca['palettes']['default'] = str_replace($field, $field . ',' . $subPaletteField, $dca['palettes']['default']);
+                                    $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
                                 }
                             }
 
@@ -299,7 +299,7 @@ class DcaUtil
                         $subPaletteFields = explode(',', $dca['subpalettes'][$field]);
 
                         foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                            $dca['palettes']['default'] = str_replace($field, $field . ',' . $subPaletteField, $dca['palettes']['default']);
+                            $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
                         }
 
                         // remove nested field in order to avoid its normal "selector" behavior
@@ -309,18 +309,18 @@ class DcaUtil
                 }
             }
 
-            $dca['palettes']['default'] = str_replace($field, 'override' . ucfirst($field), $dca['palettes']['default']);
+            $dca['palettes']['default'] = str_replace($field, 'override'.ucfirst($field), $dca['palettes']['default']);
         }
     }
 
     /**
      * Generate an alias.
      *
-     * @param mixed $alias The current alias (if available)
-     * @param int $id The entity's id
-     * @param string $table The entity's table
-     * @param string $title The value to use as a base for the alias
-     * @param bool $keepUmlauts Set to true if German umlauts should be kept
+     * @param mixed  $alias       The current alias (if available)
+     * @param int    $id          The entity's id
+     * @param string $table       The entity's table
+     * @param string $title       The value to use as a base for the alias
+     * @param bool   $keepUmlauts Set to true if German umlauts should be kept
      *
      * @throws \Exception
      *
@@ -333,7 +333,7 @@ class DcaUtil
         // Generate alias if there is none
         if (empty($alias)) {
             $autoAlias = true;
-            $alias     = StringUtil::generateAlias($title);
+            $alias = StringUtil::generateAlias($title);
         }
 
         if (!$keepUmlauts) {
@@ -356,7 +356,7 @@ class DcaUtil
 
         // Add ID to alias
         if ($existingAlias->numRows && $existingAlias->id != $id && $autoAlias || !$alias) {
-            $alias .= '-' . $id;
+            $alias .= '-'.$id;
         }
 
         return $alias;
@@ -367,45 +367,45 @@ class DcaUtil
         Controller::loadDataContainer($table);
 
         // callbacks
-        $GLOBALS['TL_DCA'][$table]['config']['oncreate_callback']['setAuthorIDOnCreate']     = ['huh.utils.dca', 'setAuthorIDOnCreate'];
+        $GLOBALS['TL_DCA'][$table]['config']['oncreate_callback']['setAuthorIDOnCreate'] = ['huh.utils.dca', 'setAuthorIDOnCreate'];
         $GLOBALS['TL_DCA'][$table]['config']['onload_callback']['modifyAuthorPaletteOnLoad'] = ['huh.utils.dca', 'modifyAuthorPaletteOnLoad', true];
 
         // fields
         $GLOBALS['TL_DCA'][$table]['fields'][static::PROPERTY_AUTHOR_TYPE] = [
-            'label'     => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['authorType'],
-            'exclude'   => true,
-            'filter'    => true,
-            'default'   => static::AUTHOR_TYPE_NONE,
+            'label' => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['authorType'],
+            'exclude' => true,
+            'filter' => true,
+            'default' => static::AUTHOR_TYPE_NONE,
             'inputType' => 'select',
-            'options'   => [
+            'options' => [
                 static::AUTHOR_TYPE_NONE,
                 static::AUTHOR_TYPE_MEMBER,
                 static::AUTHOR_TYPE_USER,
             ],
             'reference' => $GLOBALS['TL_LANG']['MSC']['utilsBundle']['authorType'],
-            'eval'      => ['doNotCopy' => true, 'submitOnChange' => true, 'mandatory' => true, 'tl_class' => 'w50 clr'],
-            'sql'       => "varchar(255) NOT NULL default 'none'",
+            'eval' => ['doNotCopy' => true, 'submitOnChange' => true, 'mandatory' => true, 'tl_class' => 'w50 clr'],
+            'sql' => "varchar(255) NOT NULL default 'none'",
         ];
 
         $GLOBALS['TL_DCA'][$table]['fields'][static::PROPERTY_AUTHOR] = [
-            'label'            => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['author'],
-            'exclude'          => true,
-            'search'           => true,
-            'filter'           => true,
-            'inputType'        => 'select',
+            'label' => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['author'],
+            'exclude' => true,
+            'search' => true,
+            'filter' => true,
+            'inputType' => 'select',
             'options_callback' => function () {
                 return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_member',
-                    'labelPattern'  => '%firstname% %lastname% (ID %id%)',
+                    'labelPattern' => '%firstname% %lastname% (ID %id%)',
                 ]);
             },
-            'eval'             => [
-                'doNotCopy'          => true,
-                'chosen'             => true,
+            'eval' => [
+                'doNotCopy' => true,
+                'chosen' => true,
                 'includeBlankOption' => true,
-                'tl_class'           => 'w50',
+                'tl_class' => 'w50',
             ],
-            'sql'              => "int(10) unsigned NOT NULL default '0'",
+            'sql' => "int(10) unsigned NOT NULL default '0'",
         ];
     }
 
@@ -424,12 +424,12 @@ class DcaUtil
         if (System::getContainer()->get('huh.utils.container')->isFrontend()) {
             if (FE_USER_LOGGED_IN) {
                 $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_MEMBER;
-                $model->{static::PROPERTY_AUTHOR}      = $this->framework->getAdapter(FrontendUser::class)->getInstance()->id;
+                $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(FrontendUser::class)->getInstance()->id;
                 $model->save();
             }
         } else {
             $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_USER;
-            $model->{static::PROPERTY_AUTHOR}      = $this->framework->getAdapter(BackendUser::class)->getInstance()->id;
+            $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(BackendUser::class)->getInstance()->id;
             $model->save();
         }
     }
@@ -459,7 +459,7 @@ class DcaUtil
             $dca['fields']['author']['options_callback'] = function () {
                 return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_user',
-                    'labelPattern'  => '%name% (ID %id%)',
+                    'labelPattern' => '%name% (ID %id%)',
                 ]);
             };
         }

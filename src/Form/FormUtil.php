@@ -36,10 +36,10 @@ class FormUtil
     /**
      * Prepares a special field's value. If an array is inserted, the function will call itself recursively.
      *
-     * @param string $field
+     * @param string        $field
      * @param               $value
      * @param DataContainer $dc
-     * @param array $config
+     * @param array         $config
      *
      * Possible config options:
      *   - preserveEmptyArrayValues -> preserves array values even if they're empty
@@ -91,12 +91,12 @@ class FormUtil
                     foreach ($row as $fieldName => $fieldValue) {
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        $fields[] = ($dca['label'][0] ?: $fieldName) . ': ' . $this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
+                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
                                 '_dcaOverride' => $dca,
                             ]));
                     }
 
-                    $rows[] = '[' . implode(', ', $fields) . ']';
+                    $rows[] = '['.implode(', ', $fields).']';
                 }
 
                 $value = implode(', ', $rows);
@@ -166,11 +166,11 @@ class FormUtil
             }
         } elseif ('cfgTags' == $data['inputType']) {
             $collection = $cfgTagModel->findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
-            $value      = null;
+            $value = null;
 
             if (null !== $collection) {
                 $result = $collection->fetchEach('name');
-                $value  = implode(', ', $result);
+                $value = implode(', ', $result);
             }
         } elseif ('date' == $rgxp) {
             $value = Date::parse(Config::get('dateFormat'), $value);
@@ -180,7 +180,7 @@ class FormUtil
             $value = Date::parse(Config::get('datimFormat'), $value);
         } elseif (Validator::isBinaryUuid($value)) {
             $strPath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($value);
-            $value   = $strPath ? Environment::get('url') . '/' . $strPath : StringUtil::binToUuid($value);
+            $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
             if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
