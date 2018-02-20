@@ -195,11 +195,11 @@ class UrlUtil
         if (null === $url) {
             $url = Environment::get('requestUri');
         } elseif (is_numeric($url)) {
-            if (null === ($jumpTo = PageModel::findByPk($url))) {
+            if (null === ($jumpTo = $this->framework->getAdapter(PageModel::class)->findByPk($url))) {
                 throw new \InvalidArgumentException('Given page id does not exist.');
             }
 
-            $url = Controller::generateFrontendUrl($jumpTo->row());
+            $url = $this->framework->getAdapter(Controller::class)->generateFrontendUrl($jumpTo->row());
 
             list(, $queryString) = explode('?', Environment::get('request'), 2);
 

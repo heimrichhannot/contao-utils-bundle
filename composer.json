@@ -6,7 +6,8 @@
   "require": {
     "php": ">=7.1.0",
     "contao/core-bundle": "^4.4",
-    "heimrichhannot/contao-request": "^1.2"
+    "heimrichhannot/contao-request": "^1.2",
+    "roderik/pwgen-php": ">=0.1.5"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.0",
