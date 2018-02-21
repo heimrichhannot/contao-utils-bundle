@@ -10,11 +10,32 @@ namespace HeimrichHannot\UtilsBundle\Tests;
 
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Log\Logger;
 
 abstract class TestCaseEnvironment extends ContaoTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    public static function tearDownAfterClass(): void
+    {
+        parent::tearDownAfterClass();
+
+        $tmpDir = self::getTempDir();
+
+        $fs = new Filesystem();
+
+        if ($fs->exists($tmpDir)) {
+            $fs->remove($tmpDir);
+        }
+
+        if ($fs->exists(TL_ROOT.'/tmp')) {
+            $fs->remove(TL_ROOT.'/tmp');
+        }
+    }
+
     public function setUp()
     {
         parent::setUp();

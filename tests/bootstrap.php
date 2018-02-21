@@ -17,6 +17,10 @@ if (!defined('PHPUNIT_COMPOSER_INSTALL')) {
     define('PHPUNIT_COMPOSER_INSTALL', __DIR__.'/../vendor/autoload.php');
 }
 
+if (!defined('TL_ROOT')) {
+    define('TL_ROOT', __DIR__);
+}
+
 if (false === ($loader = $include(__DIR__.'/../vendor/autoload.php'))
     && false === ($loader = $include(__DIR__.'/../../../autoload.php'))
     && false === ($loader = $include(dirname(dirname(getenv('PWD'))).'/autoload.php'))) {
