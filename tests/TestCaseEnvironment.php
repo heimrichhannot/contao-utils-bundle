@@ -23,13 +23,7 @@ abstract class TestCaseEnvironment extends ContaoTestCase
     {
         parent::tearDownAfterClass();
 
-        $tmpDir = self::getTempDir();
-
         $fs = new Filesystem();
-
-        if ($fs->exists($tmpDir)) {
-            $fs->remove($tmpDir);
-        }
 
         if ($fs->exists(TL_ROOT.'/tmp')) {
             $fs->remove(TL_ROOT.'/tmp');

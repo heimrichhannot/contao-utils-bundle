@@ -268,7 +268,7 @@ class FileUtilTest extends TestCaseEnvironment
         $this->assertSame(1, $lines);
 
         $lines = $fileUtil->getFileLineCount('foo');
-        $this->assertSame('fopen(/home/kwagner/Kunden/github/contao-utils-bundle/tests/foo): failed to open stream: No such file or directory', $lines);
+        $this->assertSame('fopen('.TL_ROOT.'/foo): failed to open stream: No such file or directory', $lines);
     }
 
     public function testGetFolderFromDca()
