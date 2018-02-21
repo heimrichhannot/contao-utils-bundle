@@ -96,6 +96,10 @@ class RemoteImageCacheTest extends TestCaseEnvironment
             $this->tempPath.'/test02.jpg',
             $cache->get('test02', $this->tempPath, 'http://www.google.de')
         );
+
+        $this->assertFalse(
+            $cache->get('test03', $this->tempPath, 'remoteFalse')
+        );
     }
 
     public function prepareContainer($framework)
