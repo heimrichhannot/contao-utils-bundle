@@ -22,9 +22,9 @@ class RemoteImageCacheTest extends TestCaseEnvironment
     {
         parent::setUp();
 
-//        if (!defined('TL_ROOT')) {
-//            define('TL_ROOT', __DIR__);
-//        }
+        if (!defined('TL_ROOT')) {
+            define('TL_ROOT', __DIR__);
+        }
 
         $key = basename(strtr(static::class, '\\', '/'));
         $this->tempPath = uniqid($key.'_');
@@ -34,10 +34,8 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $fs->mkdir(TL_ROOT.DIRECTORY_SEPARATOR.'system/tmp');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
-        parent::tearDown();
-
         $fs = new Filesystem();
         $fs->remove(TL_ROOT.DIRECTORY_SEPARATOR.$this->tempPath);
         $fs->remove(TL_ROOT.DIRECTORY_SEPARATOR.'system');
@@ -84,11 +82,24 @@ class RemoteImageCacheTest extends TestCaseEnvironment
 
         $cache = new RemoteImageCache($framework, $container);
 
-        $this->assertSame($this->tempPath.'/test01.jpg', $cache->get('test01', $this->tempPath, 'http://www.google.de'));
-        $this->assertSame($this->tempPath.'/test01.jpg', $cache->get('test01', 'fade6980-1641-11e8-b642-0ed5f89f718b', 'http://www.google.de'));
+        $this->assertSame(
+            $this->tempPath.'/test01.jpg',
+            $cache->get('test01', $this->tempPath, 'http://www.google.de')
+        );
+        $this->assertSame(
+            $this->tempPath.'/test01.jpg',
+            $cache->get('test01', 'fade6980-1641-11e8-b642-0ed5f89f718b', 'http://www.google.de')
+        );
         $this->assertFalse($cache->get('test01', '0c23ab88-1642-11e8-b642-0ed5f89f718b', 'http://www.google.de'));
 
-        $this->assertSame($this->tempPath.'/test02.jpg', $cache->get('test02', $this->tempPath, 'http://www.google.de'));
+        $this->assertSame(
+            $this->tempPath.'/test02.jpg',
+            $cache->get('test02', $this->tempPath, 'http://www.google.de')
+        );
+
+        $this->assertFalse(
+            $cache->get('test03', $this->tempPath, 'remoteFalse')
+        );
     }
 
     public function prepareContainer($framework)
