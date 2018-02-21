@@ -29,9 +29,6 @@ class HeimrichHannotContaoUtilsBundleTest extends TestCase
     public function testReturnsTheContainerExtension()
     {
         $bundle = new HeimrichHannotContaoUtilsBundle();
-        $this->assertInstanceOf(
-            UtilsExtension::class,
-            $bundle->getContainerExtension()
-        );
+        $this->assertInstanceOf(UtilsExtension::class, $bundle->getContainerExtension());
     }
 }

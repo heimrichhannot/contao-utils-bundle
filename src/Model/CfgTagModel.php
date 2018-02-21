@@ -8,6 +8,9 @@
 
 namespace HeimrichHannot\UtilsBundle\Model;
 
+use Contao\Database;
+use Contao\System;
+
 class CfgTagModel extends \Model
 {
     protected static $strTable = 'tl_cfg_tag';
@@ -36,7 +39,7 @@ class CfgTagModel extends \Model
     public static function getSourcesAsOptions(\DataContainer $dc)
     {
         $options = [];
-        $tags = \Database::getInstance()->prepare('SELECT source FROM tl_cfg_tag GROUP BY source')->execute();
+        $tags = System::getContainer()->get('contao.framework')->getAdapter(Database::class)->getInstance()->prepare('SELECT source FROM tl_cfg_tag GROUP BY source')->execute();
 
         if (null !== $tags) {
             $options = $tags->fetchEach('source');
