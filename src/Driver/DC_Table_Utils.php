@@ -24,8 +24,6 @@ class DC_Table_Utils extends DC_Table
      */
     public function __construct($strTable, $arrModule = [])
     {
-        parent::__construct($strTable, $arrModule);
-
         DataContainer::__construct();
 
         /** @var SessionInterface $objSession */

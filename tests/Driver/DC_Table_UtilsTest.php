@@ -10,21 +10,39 @@ namespace HeimrichHannot\UtilsBundle\Tests\Driver;
 
 use Contao\Model;
 use Contao\System;
+use Contao\TestCase\ContaoTestCase;
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
-use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\Routing\RouterInterface;
 
-class DC_Table_UtilsTest extends TestCaseEnvironment
+class DC_Table_UtilsTest extends ContaoTestCase
 {
-    public function setUp()
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp(): void
     {
         parent::setUp();
 
-        $container = System::getContainer();
+        if (!defined('TL_MODE')) {
+            define('TL_MODE', 'BE');
+        }
 
-        $adapter = $this->mockAdapter(['getParams']);
-        $adapter->method('getParams')->willReturn([]);
-        $container->set('doctrine.dbal.default_connection', $adapter);
+        $container = $this->mockContainer();
+
+        $container->set('database_connection', $this->createMock(Connection::class));
+        $container->set('request_stack', $this->createRequestStackMock());
+        $container->set('router', $this->createRouterMock());
+        $container->set('contao.framework', $this->mockContaoFramework());
+        $container->set('session', new Session(new MockArraySessionStorage()));
+
+        $dbalAdapter = $this->mockAdapter(['getParams']);
+        $dbalAdapter->method('getParams')->willReturn([]);
+        $container->set('doctrine.dbal.default_connection', $dbalAdapter);
 
         $modelUtilsAdapter = $this->mockAdapter(['findModelInstanceByPk']);
         $modelUtilsAdapter->method('findModelInstanceByPk')->willReturn($this->createMock(Model::class));
@@ -35,6 +53,40 @@ class DC_Table_UtilsTest extends TestCaseEnvironment
         if (!interface_exists('listable')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/interface.php';
         }
+
+        if (!\function_exists('standardize')) {
+            include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
+        }
+    }
+
+    public function createRequestStackMock()
+    {
+        $requestStack = new RequestStack();
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $request->attributes->set('_contao_referer_id', 'foobar');
+        $requestStack->push($request);
+
+        return $requestStack;
+    }
+
+    public function createRouterMock()
+    {
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->with('contao_backend', $this->anything())->will($this->returnCallback(function ($route, $params = []) {
+            $url = '/contao';
+            if (!empty($params)) {
+                $count = 0;
+                foreach ($params as $key => $value) {
+                    $url .= (0 === $count ? '?' : '&');
+                    $url .= $key.'='.$value;
+                    ++$count;
+                }
+            }
+
+            return $url;
+        }));
+
+        return $router;
     }
 
     public function testInstantiation()
