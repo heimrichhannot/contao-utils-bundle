@@ -24,10 +24,12 @@ class DC_Table_Utils extends DC_Table
      */
     public function __construct($strTable, $arrModule = [])
     {
+        parent::__construct($strTable, $arrModule);
+
         DataContainer::__construct();
 
         /** @var SessionInterface $objSession */
-        $objSession = \System::getContainer()->get('session');
+        $objSession = System::getContainer()->get('session');
 
         // Check the request token (see #4007)
         if (isset($_GET['act'])) {
@@ -103,26 +105,16 @@ class DC_Table_Utils extends DC_Table
 
             // Unless there are any root records specified, use all records with parent ID 0
             if (!isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) || $GLOBALS['TL_DCA'][$table]['list']['sorting']['root'] === false) {
-                $objIds = $this->Database->prepare(
-                    'SELECT id FROM '.$table.' WHERE pid=?'.($this->Database->fieldExists('sorting', $table) ? ' ORDER BY sorting' : '')
-                )->execute(0);
+                $objIds = $this->Database->prepare('SELECT id FROM '.$table.' WHERE pid=?'.($this->Database->fieldExists('sorting', $table) ? ' ORDER BY sorting' : ''))->execute(0);
 
                 if ($objIds->numRows > 0) {
                     $this->root = $objIds->fetchEach('id');
                 }
-            }
-
-            // Get root records from global configuration file
+            } // Get root records from global configuration file
             elseif (\is_array($GLOBALS['TL_DCA'][$table]['list']['sorting']['root'])) {
-                $this->root = $this->eliminateNestedPages(
-                    $GLOBALS['TL_DCA'][$table]['list']['sorting']['root'],
-                    $table,
-                    $this->Database->fieldExists('sorting', $table)
-                );
+                $this->root = $this->eliminateNestedPages($GLOBALS['TL_DCA'][$table]['list']['sorting']['root'], $table, $this->Database->fieldExists('sorting', $table));
             }
-        }
-
-        // Get the IDs of all root records (list view or parent view)
+        } // Get the IDs of all root records (list view or parent view)
         elseif (\is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'])) {
             $this->root = array_unique($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']);
         }
@@ -132,8 +124,7 @@ class DC_Table_Utils extends DC_Table
 
         // Store the current referer
         if (!empty($this->ctable) && !\Input::get('act') && !\Input::get('key') && !\Input::get('token') && 'contao_backend' == $route
-            && !\Environment::get('isAjaxRequest')
-        ) {
+            && !\Environment::get('isAjaxRequest')) {
             $strKey = \Input::get('popup') ? 'popupReferer' : 'referer';
             $strRefererId = \System::getContainer()->get('request_stack')->getCurrentRequest()->attributes->get('_contao_referer_id');
 

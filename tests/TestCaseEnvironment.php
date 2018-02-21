@@ -10,9 +10,13 @@ namespace HeimrichHannot\UtilsBundle\Tests;
 
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpKernel\Log\Logger;
+use Symfony\Component\Routing\RouterInterface;
 
 abstract class TestCaseEnvironment extends ContaoTestCase
 {
@@ -38,7 +42,11 @@ abstract class TestCaseEnvironment extends ContaoTestCase
         $container->set('request_stack', $this->createRequestStackMock());
         $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
         $logger = new Logger();
+        $container->set('contao.framework', $this->mockContaoFramework());
         $container->set('monolog.logger.contao', $logger);
+        $container->set('session', new Session(new MockArraySessionStorage()));
+        $container->set('router', $this->createRouterMock());
+        $container->set('database_connection', $this->createMock(Connection::class));
         System::setContainer($container);
     }
 
@@ -50,5 +58,25 @@ abstract class TestCaseEnvironment extends ContaoTestCase
         $requestStack->push($request);
 
         return $requestStack;
+    }
+
+    public function createRouterMock()
+    {
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->with('contao_backend', $this->anything())->will($this->returnCallback(function ($route, $params = []) {
+            $url = '/contao';
+            if (!empty($params)) {
+                $count = 0;
+                foreach ($params as $key => $value) {
+                    $url .= (0 === $count ? '?' : '&');
+                    $url .= $key.'='.$value;
+                    ++$count;
+                }
+            }
+
+            return $url;
+        }));
+
+        return $router;
     }
 }
