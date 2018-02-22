@@ -25,12 +25,7 @@ class ModelInstanceChoice extends AbstractChoice
         $context = $this->getContext();
         $choices = [];
 
-        $instances = System::getContainer()->get('huh.utils.model')->findModelInstancesBy(
-            $context['dataContainer'],
-            $context['columns'] ?: null,
-            $context['values'] ?: null,
-            is_array($context['options']) ? $context['options'] : []
-        );
+        $instances = System::getContainer()->get('huh.utils.model')->findModelInstancesBy($context['dataContainer'], $context['columns'] ?: null, $context['values'] ?: null, is_array($context['options']) ? $context['options'] : []);
 
         if (null === $instances) {
             return $choices;
@@ -59,13 +54,9 @@ class ModelInstanceChoice extends AbstractChoice
                 }
             }
 
-            $label = preg_replace_callback(
-                '@%([^%]+)%@i',
-                function ($matches) use ($instances) {
-                    return $instances->{$matches[1]};
-                },
-                $labelPattern
-            );
+            $label = preg_replace_callback('@%([^%]+)%@i', function ($matches) use ($instances) {
+                return $instances->{$matches[1]};
+            }, $labelPattern);
 
             $choices[$instances->id] = $label;
         }

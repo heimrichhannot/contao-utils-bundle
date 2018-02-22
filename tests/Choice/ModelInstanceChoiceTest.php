@@ -8,10 +8,11 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Choice;
 
+use Contao\Model;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ModelInstanceChoiceTest extends ContaoTestCase
@@ -28,17 +29,21 @@ class ModelInstanceChoiceTest extends ContaoTestCase
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir());
 
-//        $container = $this->mockContainer();
-//
-//        $kernel = $this->mockAdapter(['getCacheDir', 'isDebug']);
-//        $kernel->method('getCacheDir')->willReturn($this->getTempDir());
-//        $kernel->method('isDebug')->willReturn(false);
-//        $container->set('kernel', $kernel);
-//
-//        $instance1 = $this->mockClassWithProperties(ModelUtil::class, ['id' => 12]);
-//        $instance1->method('next')->willReturnSelf();
-//
-//        System::setContainer($container);
+        $container = $this->mockContainer();
+
+        $kernel = $this->mockAdapter(['getCacheDir', 'isDebug']);
+        $kernel->method('getCacheDir')->willReturn($this->getTempDir());
+        $kernel->method('isDebug')->willReturn(false);
+        $container->set('kernel', $kernel);
+
+        $modelInstances = $this->mockClassWithProperties(CfgTagModel::class, ['id' => 12]);
+        $collection = $this->mockClassWithProperties(Model\Collection::class, ['id' => 12]);
+        $collection->method('next')->willReturn($modelInstances, $modelInstances);
+        $modelUtilAdapter = $this->mockAdapter(['findModelInstancesBy']);
+        $modelUtilAdapter->method('findModelInstancesBy')->willReturn($collection);
+        $container->set('huh.utils.model', $modelUtilAdapter);
+
+        System::setContainer($container);
     }
 
     public function testCanBeInstantiated()
@@ -46,5 +51,19 @@ class ModelInstanceChoiceTest extends ContaoTestCase
         $choice = new ModelInstanceChoice($this->mockContaoFramework());
 
         $this->assertInstanceOf(ModelInstanceChoice::class, $choice);
+    }
+
+    public function testCollect()
+    {
+        $choice = new ModelInstanceChoice($this->mockContaoFramework());
+        $choices = $choice->getChoices(['dataContainer' => 'tl_member', 'columns' => [], 'values' => [], 'options' => [], 'labelPattern' => false, 'skipSorting' => true]);
+        $this->assertSame(['12' => '  (ID 12)'], $choices);
+    }
+
+    public function testCollectDefault()
+    {
+        $choice = new ModelInstanceChoice($this->mockContaoFramework());
+        $choices = $choice->getChoices();
+        $this->assertSame(['12' => 'ID 12'], $choices);
     }
 }
