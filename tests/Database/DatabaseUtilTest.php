@@ -57,7 +57,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $limitAdapter = $this->mockAdapter(['execute']);
         $limitAdapter->method('execute')->willReturn($result);
         $databaseAdapter->method('limit')->willReturn($limitAdapter);
-        $databaseUtil = new DatabaseUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $databaseUtil = new DatabaseUtil($framework);
 
         $result = $databaseUtil->processInPieces($countQuery, $query, 'array_keys', 'row');
         $this->assertSame(10, $result);
@@ -67,7 +69,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $databaseAdapter = $this->mockAdapter(['execute', 'prepare', 'limit']);
         $databaseAdapter->method('execute')->willReturn($total);
 
-        $databaseUtil = new DatabaseUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $databaseUtil = new DatabaseUtil($framework);
         $result = $databaseUtil->processInPieces($countQuery, $query, 'array_keys');
         $this->assertFalse($result);
 
@@ -80,7 +84,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $limitAdapter = $this->mockAdapter(['execute']);
         $limitAdapter->method('execute')->willReturn($result);
         $databaseAdapter->method('limit')->willReturn($limitAdapter);
-        $databaseUtil = new DatabaseUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $databaseUtil = new DatabaseUtil($framework);
 
         $result = $databaseUtil->processInPieces($countQuery, $query, 'array_keys', 'row');
         $this->assertFalse($result);
@@ -95,7 +101,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $limitAdapter = $this->mockAdapter(['execute']);
         $limitAdapter->method('execute')->willReturn($result);
         $databaseAdapter->method('limit')->willReturn($limitAdapter);
-        $databaseUtil = new DatabaseUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $databaseUtil = new DatabaseUtil($framework);
 
         $result = $databaseUtil->processInPieces($countQuery, $query, 'is_array');
         $this->assertSame(10, $result);
@@ -110,7 +118,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $limitAdapter = $this->mockAdapter(['execute']);
         $limitAdapter->method('execute')->willReturn($result);
         $databaseAdapter->method('limit')->willReturn($limitAdapter);
-        $databaseUtil = new DatabaseUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $databaseUtil = new DatabaseUtil($framework);
 
         $result = $databaseUtil->processInPieces($countQuery, $query, null, null, -10);
         $this->assertSame(10, $result);
@@ -124,10 +134,12 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $databaseAdapter = $this->mockAdapter(['tableExists', 'getFieldNames', 'execute', 'prepare']);
         $databaseAdapter->method('tableExists')->willReturn(true);
         $databaseAdapter->method('getFieldNames')->willReturn(['id', 'name', 'date']);
-        $databaseAdapter->method('prepare')->willReturn($databaseAdapter);
+        $databaseAdapter->method('prepare')->willReturnSelf();
 
         // return null
-        $databaseUtil = new DatabaseUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $databaseUtil = new DatabaseUtil($framework);
         $result = $databaseUtil->doBulkInsert('table', []);
         $this->assertNull($result);
 

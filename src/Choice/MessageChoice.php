@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Choice;
 
+use Contao\System;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 
 class MessageChoice extends AbstractChoice
@@ -35,7 +36,7 @@ class MessageChoice extends AbstractChoice
             return $choices;
         }
 
-        $choices = ArrayUtil::filterByPrefixes($messages, $prefixes);
+        $choices = System::getContainer()->get('contao.framework')->getAdapter(ArrayUtil::class)->filterByPrefixes($messages, $prefixes);
 
         foreach ($choices as $key => $value) {
             $choices[$key] = $value.'['.$key.']';

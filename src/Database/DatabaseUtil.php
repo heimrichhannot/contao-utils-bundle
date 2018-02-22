@@ -93,7 +93,7 @@ class DatabaseUtil
     public function processInPieces(string $countQuery, string $query, $callback = null, string $key = null, int $bulkSize = 5000)
     {
         /** @var Database $database */
-        $database = $this->framework->getAdapter(Database::class);
+        $database = $this->framework->createInstance(Database::class);
         $total = $database->execute($countQuery);
 
         if ($total->total < 1) {
@@ -158,7 +158,7 @@ class DatabaseUtil
         string $pk = 'id'
     ) {
         /** @var Database $database */
-        $database = $this->framework->getAdapter(Database::class);
+        $database = $this->framework->createInstance(Database::class);
 
         if (!$database->tableExists($table) || empty($data)) {
             return null;

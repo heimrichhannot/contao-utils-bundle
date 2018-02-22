@@ -9,7 +9,6 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Dca;
 
 use Contao\BackendUser;
-use Contao\Database;
 use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Model;
@@ -103,7 +102,10 @@ class DcaUtilTest extends TestCaseEnvironment
         $databaseAdapter->method('prepare')->willReturnSelf();
         $databaseAdapter->method('execute');
 
-        $dcaUtil = new DcaUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $dcaUtil = new DcaUtil($framework);
+
         $dcaUtil->setDateAdded($this->getDataContainerMock());
 
         // fail run
@@ -119,7 +121,9 @@ class DcaUtilTest extends TestCaseEnvironment
         $databaseAdapter->method('prepare')->willReturnSelf();
         $databaseAdapter->method('execute');
 
-        $dcaUtil = new DcaUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $dcaUtil = new DcaUtil($framework);
         $result = $dcaUtil->setDateAdded($this->getDataContainerMock());
         $this->assertNull($result);
     }
@@ -138,7 +142,9 @@ class DcaUtilTest extends TestCaseEnvironment
         $databaseAdapter->method('prepare')->willReturnSelf();
         $databaseAdapter->method('execute');
 
-        $dcaUtil = new DcaUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $dcaUtil = new DcaUtil($framework);
         $dcaUtil->setDateAddedOnCopy(1, $this->getDataContainerMock());
 
         // fail run
@@ -154,7 +160,9 @@ class DcaUtilTest extends TestCaseEnvironment
         $databaseAdapter->method('prepare')->willReturnSelf();
         $databaseAdapter->method('execute');
 
-        $dcaUtil = new DcaUtil($this->mockContaoFramework([Database::class => $databaseAdapter]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($databaseAdapter);
+        $dcaUtil = new DcaUtil($framework);
         $result = $dcaUtil->setDateAddedOnCopy(1, $this->getDataContainerMock());
         $this->assertNull($result);
     }
@@ -278,9 +286,9 @@ class DcaUtilTest extends TestCaseEnvironment
 
     public function testGenerateAlias()
     {
-        $util = new DcaUtil($this->mockContaoFramework([
-            Database::class => $this->getDatabaseMock(),
-        ]));
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturn($this->getDatabaseMock());
+        $util = new DcaUtil($framework);
 
         $this->assertSame('alias', $util->generateAlias('alias', 15, 'tl_table', 'Alias'));
         $this->assertSame('alias', $util->generateAlias('', 15, 'tl_table', 'Alias'));
@@ -356,7 +364,10 @@ class DcaUtilTest extends TestCaseEnvironment
         $frontendUserModel = $this->mockClassWithProperties(FrontendUser::class, ['id' => 2]);
         $frontendUser = $this->mockAdapter(['getInstance']);
         $frontendUser->method('getInstance')->willReturn($frontendUserModel);
-        $dcaUtil = new DcaUtil($this->mockContaoFramework([Database::class => $this->getDatabaseMock(), FrontendUser::class => $frontendUser]));
+
+        $framework = $this->mockContaoFramework([FrontendUser::class => $frontendUser]);
+        $framework->method('createInstance')->willReturn($this->getDatabaseMock());
+        $dcaUtil = new DcaUtil($framework);
         $dcaUtil->setAuthorIDOnCreate('table', 2, ['row'], $this->getDataContainerMock());
 
         $container = System::getContainer();
@@ -368,7 +379,10 @@ class DcaUtilTest extends TestCaseEnvironment
         $backendUserModel = $this->mockClassWithProperties(FrontendUser::class, ['id' => 2]);
         $backendUser = $this->mockAdapter(['getInstance']);
         $backendUser->method('getInstance')->willReturn($backendUserModel);
-        $dcaUtil = new DcaUtil($this->mockContaoFramework([Database::class => $this->getDatabaseMock(), BackendUser::class => $backendUser]));
+
+        $framework = $this->mockContaoFramework([BackendUser::class => $backendUser]);
+        $framework->method('createInstance')->willReturn($this->getDatabaseMock());
+        $dcaUtil = new DcaUtil($framework);
         $dcaUtil->setAuthorIDOnCreate('table', 2, ['row'], $this->getDataContainerMock());
 
         $container = System::getContainer();

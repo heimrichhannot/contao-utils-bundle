@@ -10,12 +10,17 @@ namespace HeimrichHannot\UtilsBundle\Tests\Choice;
 
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Choice\MessageChoice;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Translation\Translator;
 
 class MessageChoiceTest extends ContaoTestCase
 {
+    public static function tearDownAfterClass(): void
+    {
+        parent::tearDownAfterClass();
+    }
+
     public function setUp()
     {
         parent::setUp();
@@ -43,5 +48,20 @@ class MessageChoiceTest extends ContaoTestCase
         $choice = new MessageChoice($this->mockContaoFramework());
         $choices = $choice->getChoices();
         $this->assertSame([], $choices);
+
+        $container = System::getContainer();
+        $translator = $this->mockAdapter(['getCatalogue', 'all']);
+        $translator->method('getCatalogue')->willReturnSelf();
+        $translator->method('all')->willReturn(['messages' => ['all' => '41']]);
+        $container->set('translator', $translator);
+
+        $array = $this->mockAdapter(['filterByPrefixes']);
+        $array->method('filterByPrefixes')->willReturn(['all' => '41']);
+        $container->set('contao.framework', $this->mockContaoFramework([ArrayUtil::class => $array]));
+        System::setContainer($container);
+
+        $choice = new MessageChoice($this->mockContaoFramework());
+        $choices = $choice->getChoices();
+        $this->assertSame(['all' => '41[all]'], $choices);
     }
 }

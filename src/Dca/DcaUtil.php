@@ -95,7 +95,7 @@ class DcaUtil
             return null;
         }
 
-        $this->framework->getAdapter(Database::class)->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $dc->id);
+        $this->framework->createInstance(Database::class)->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $dc->id);
     }
 
     /**
@@ -111,7 +111,7 @@ class DcaUtil
             return null;
         }
 
-        $this->framework->getAdapter(Database::class)->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $insertId);
+        $this->framework->createInstance(Database::class)->prepare("UPDATE $dc->table SET dateAdded=? WHERE id=? AND dateAdded = 0")->execute(time(), $insertId);
     }
 
     /**
@@ -343,7 +343,7 @@ class DcaUtil
         /**
          * @var Result
          */
-        $existingAlias = $this->framework->getAdapter(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
+        $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
 
         if ($existingAlias->id == $id) {
             return $alias;
@@ -413,7 +413,7 @@ class DcaUtil
     {
         $model = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($table, $id);
         /** @var Database $db */
-        $db = $this->framework->getAdapter(Database::class)->getInstance();
+        $db = $this->framework->createInstance(Database::class);
 
         if (null === $model
             || !$db->fieldExists(static::PROPERTY_AUTHOR_TYPE, $table)
