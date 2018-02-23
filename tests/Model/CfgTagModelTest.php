@@ -48,4 +48,15 @@ class CfgTagModelTest extends ContaoTestCase
     {
         return $this->createMock(DataContainer::class);
     }
+
+    public function testFindAllBySource()
+    {
+        $model = $this->createMock(CfgTagModel::class);
+        $adapter = $this->mockAdapter(['findBy']);
+        $adapter->method('findBy')->willReturn($model);
+
+        $cfgTagModel = new CfgTagModel($this->mockContaoFramework([CfgTagModel::class => $adapter]));
+        $result = $cfgTagModel->findAllBySource('source');
+        $this->assertInstanceOf(CfgTagModel::class, $result);
+    }
 }
