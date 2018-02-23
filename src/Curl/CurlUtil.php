@@ -21,6 +21,10 @@ class CurlUtil
         while ($i++ < $intMaxRecursionCount && !$blnTerminate) {
             $varResult = static::request($strUrl, $arrRequestHeaders, $blnReturnResponseHeaders);
 
+            if (!is_callable($funcTerminationCondition)) {
+                continue;
+            }
+
             $blnTerminate = $funcTerminationCondition($varResult, $strUrl, $arrRequestHeaders, $blnReturnResponseHeaders, $intMaxRecursionCount);
         }
 
@@ -28,7 +32,7 @@ class CurlUtil
     }
 
     /**
-     * @param $strUrl
+     * @param       $strUrl
      * @param array $arrRequestHeaders
      * @param bool  $blnReturnResponseHeaders
      *
@@ -70,6 +74,9 @@ class CurlUtil
         while ($i++ < $intMaxRecursionCount && !$blnTerminate) {
             $varResult = static::postRequest($strUrl, $arrRequestHeaders, $arrPost, $blnReturnResponseHeaders);
 
+            if (!is_callable($funcTerminationCondition)) {
+                continue;
+            }
             $blnTerminate = $funcTerminationCondition($varResult, $strUrl, $arrRequestHeaders, $arrPost, $blnReturnResponseHeaders, $intMaxRecursionCount);
         }
 
