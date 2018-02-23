@@ -143,6 +143,18 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertSame('www.localhost.de/page?answer=12', $url);
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testRedirect()
+    {
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil->redirect('www.localhost.de/page?answer=12');
+        $headersList = headers_list();
+        $this->assertSame('HTTP/1.1 303 See Other', $headersList);
+    }
+
     public function createRequestStackMock()
     {
         $requestStack = new RequestStack();
