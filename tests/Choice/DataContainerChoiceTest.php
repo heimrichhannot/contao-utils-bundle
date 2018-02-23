@@ -53,5 +53,15 @@ class DataContainerChoiceTest extends ContaoTestCase
         $choice = new DataContainerChoice($this->mockContaoFramework());
         $choices = $choice->getChoices();
         $this->assertSame(['basename'], $choices);
+
+        $container = System::getContainer();
+        $finder = $this->mockAdapter(['findIn', 'name']);
+        $finder->method('findIn')->willReturnSelf();
+        $finder->method('name')->willThrowException(new \InvalidArgumentException());
+        $container->set('contao.resource_finder', $finder);
+        System::setContainer($container);
+
+        $choices = $choice->getChoices();
+        $this->assertSame([], $choices);
     }
 }
