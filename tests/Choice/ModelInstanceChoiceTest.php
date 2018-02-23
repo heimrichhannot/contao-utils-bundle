@@ -56,7 +56,7 @@ class ModelInstanceChoiceTest extends ContaoTestCase
     public function testCollect()
     {
         $choice = new ModelInstanceChoice($this->mockContaoFramework());
-        $choices = $choice->getChoices(['dataContainer' => 'tl_member', 'columns' => [], 'values' => [], 'options' => [], 'labelPattern' => false, 'skipSorting' => true]);
+        $choices = $choice->getChoices(['dataContainer' => 'tl_member', 'columns' => [], 'values' => [], 'options' => [], 'labelPattern' => false, 'skipSorting' => false]);
         $this->assertSame(['12' => '  (ID 12)'], $choices);
     }
 
@@ -65,7 +65,7 @@ class ModelInstanceChoiceTest extends ContaoTestCase
         $GLOBALS['TL_DCA']['tl_test']['fields']['name'] = 'name';
 
         $choice = new ModelInstanceChoice($this->mockContaoFramework());
-        $choices = $choice->getChoices(['dataContainer' => 'tl_test', 'columns' => [], 'values' => [], 'options' => [], 'labelPattern' => false, 'skipSorting' => true]);
+        $choices = $choice->getChoices(['dataContainer' => 'tl_test', 'columns' => [], 'values' => [], 'options' => [], 'labelPattern' => false, 'skipSorting' => false]);
         $this->assertSame(['12' => ''], $choices);
 
         $container = System::getContainer();

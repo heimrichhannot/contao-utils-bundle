@@ -392,4 +392,43 @@ class FormUtilTest extends ContaoTestCase
         $result = $this->formUtil->prepareSpecialValueForOutput('myField', $value, $this->dc);
         $this->assertSame('[Firstname: John1, Lastname: Doe1, Language: Deutsch], [Firstname: John2, Lastname: Doe2, Language: Englisch]', $result);
     }
+
+    public function testEscapeAllHtmlEntities()
+    {
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'multiColumnEditor',
+            'eval' => ['allowHtml' => true],
+            'options' => ['test', 'test'],
+            'sql' => 'blob NULL',
+        ];
+
+        $result = $this->formUtil->escapeAllHtmlEntities('tl_test', 'myField', '<script>alert()</script>');
+        $this->assertSame('&#60;script&#62;alert()&#60;/script&#62;', $result);
+
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'multiColumnEditor',
+            'eval' => ['allowHtml' => false, 'rte' => '', 'preserveTags' => ''],
+            'options' => ['test', 'test'],
+            'sql' => 'blob NULL',
+        ];
+
+        $result = $this->formUtil->escapeAllHtmlEntities('tl_test', 'myField', '<script>alert()</script>');
+        $this->assertSame('&#60;script&#62;alert()&#60;/script&#62;', $result);
+
+        $GLOBALS['TL_DCA']['tl_test']['fields']['myField'] = [
+            'label' => &$GLOBALS['TL_LANG']['tl_test']['myField'],
+            'inputType' => 'multiColumnEditor',
+            'eval' => ['allowHtml' => false, 'rte' => '', 'preserveTags' => '', 'decodeEntities' => true],
+            'options' => 'test',
+            'sql' => 'blob NULL',
+        ];
+
+        $result = $this->formUtil->escapeAllHtmlEntities('tl_test', 'myField', '<script>alert()</script>');
+        $this->assertSame('&#60;script&#62;alert&#40;&#41;&#60;/script&#62;', $result);
+
+        $result = $this->formUtil->escapeAllHtmlEntities('tl_test', 'myField', false);
+        $this->assertFalse($result);
+    }
 }
