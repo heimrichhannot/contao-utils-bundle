@@ -13,6 +13,7 @@ use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 class ContainerUtilTest extends ContaoTestCase
 {
@@ -29,6 +30,8 @@ class ContainerUtilTest extends ContaoTestCase
         $scopeAdapter->method('isBackendRequest')->willReturn(true);
         $scopeAdapter->method('isFrontendRequest')->willReturn(true);
         $container->set('contao.routing.scope_matcher', $scopeAdapter);
+
+        $container->set('monolog.logger.contao', new Logger());
 
         System::setContainer($container);
     }
@@ -102,6 +105,27 @@ class ContainerUtilTest extends ContaoTestCase
         $this->assertFalse($result);
         $result = $containerUtil->isBackend();
         $this->assertFalse($result);
+    }
+
+    public function testLog()
+    {
+        $utils = new ContainerUtil($this->mockContaoFramework());
+        try {
+            $utils->log('log', '', 'WARNING');
+        } catch (\Exception $exception) {
+            $this->assertInstanceOf(\InvalidArgumentException::class, $exception);
+        }
+    }
+
+    public function testMergeConfigFile()
+    {
+        $configFile = ['config' => 'config'];
+
+        $config = ContainerUtil::mergeConfigFile('yml', 'yml', $configFile, TL_ROOT.'/../src/Resources/config/services.yml');
+        $this->assertNotSame($configFile, $config);
+        $this->assertArrayHasKey('services', $config);
+        $this->assertArrayHasKey('huh.utils.array', $config['services']);
+        $this->assertCount(20, $config['services']);
     }
 
     public function createRequestStackMock()

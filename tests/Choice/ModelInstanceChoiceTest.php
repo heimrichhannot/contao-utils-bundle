@@ -62,8 +62,19 @@ class ModelInstanceChoiceTest extends ContaoTestCase
 
     public function testCollectDefault()
     {
+        $GLOBALS['TL_DCA']['tl_test']['fields']['name'] = 'name';
+
         $choice = new ModelInstanceChoice($this->mockContaoFramework());
+        $choices = $choice->getChoices(['dataContainer' => 'tl_test', 'columns' => [], 'values' => [], 'options' => [], 'labelPattern' => false, 'skipSorting' => true]);
+        $this->assertSame(['12' => ''], $choices);
+
+        $container = System::getContainer();
+        $modelUtilAdapter = $this->mockAdapter(['findModelInstancesBy']);
+        $modelUtilAdapter->method('findModelInstancesBy')->willReturn(null);
+        $container->set('huh.utils.model', $modelUtilAdapter);
+        System::setContainer($container);
+
         $choices = $choice->getChoices();
-        $this->assertSame(['12' => 'ID 12'], $choices);
+        $this->assertSame([], $choices);
     }
 }

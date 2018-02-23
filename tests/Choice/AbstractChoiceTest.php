@@ -63,9 +63,15 @@ class AbstractChoiceTest extends ContaoTestCase
 
     public function testGetCachedChoices()
     {
+        $container = System::getContainer();
+        $dcaAdapter = $this->mockAdapter(['getFields']);
+        $dcaAdapter->method('getFields')->willReturn('success');
+        $container->set('huh.utils.dca', $dcaAdapter);
+        System::setContainer($container);
+
         $fieldChoice = new FieldChoice($this->mockContaoFramework());
         $cachedChoices = $fieldChoice->getCachedChoices(['dataContainer' => 'success']);
-        $this->assertSame(['success'], $cachedChoices);
+        $this->assertSame([], $cachedChoices);
 
         $container = System::getContainer();
         $kernel = $this->mockAdapter(['getCacheDir', 'isDebug']);
@@ -76,6 +82,6 @@ class AbstractChoiceTest extends ContaoTestCase
 
         $fieldChoice = new FieldChoice($this->mockContaoFramework());
         $cachedChoices = $fieldChoice->getCachedChoices(['dataContainer' => 'success']);
-        $this->assertSame(['success'], $cachedChoices);
+        $this->assertSame('success', $cachedChoices);
     }
 }
