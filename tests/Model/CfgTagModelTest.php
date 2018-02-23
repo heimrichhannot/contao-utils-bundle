@@ -58,5 +58,9 @@ class CfgTagModelTest extends ContaoTestCase
         $cfgTagModel = new CfgTagModel($this->mockContaoFramework([CfgTagModel::class => $adapter]));
         $result = $cfgTagModel->findAllBySource('source');
         $this->assertInstanceOf(CfgTagModel::class, $result);
+
+        $cfgTagModel = new CfgTagModel($this->mockContaoFramework([CfgTagModel::class => null]));
+        $result = $cfgTagModel->findAllBySource('source');
+        $this->assertNull($result);
     }
 }
