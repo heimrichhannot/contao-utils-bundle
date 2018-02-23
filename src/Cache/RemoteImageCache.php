@@ -59,7 +59,7 @@ class RemoteImageCache
             return $returnUuid ? $objFile->getModel()->uuid : $objFile->path;
         }
 
-        $strContent = $this->container->get('huh.utils.curl')->request($remoteUrl);
+        $strContent = $this->container->get('huh.utils.request.curl')->request($remoteUrl);
 
         if (!$strContent || !is_string($strContent)) {
             return false;

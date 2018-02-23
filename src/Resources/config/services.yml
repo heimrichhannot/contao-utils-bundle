@@ -16,11 +16,6 @@ services:
         public: true
         arguments:
             - "@contao.framework"
-    huh.utils.curl:
-        class: HeimrichHannot\UtilsBundle\Curl\CurlUtil
-        public: true
-        arguments:
-            - "@contao.framework"
     huh.utils.encryption:
         class: HeimrichHannot\UtilsBundle\Security\EncryptionUtil
         public: true
@@ -66,6 +61,12 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.request.curl:
+        class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
+        public: true
+        arguments:
+            - "@contao.framework"
+            - "@service_container"
     huh.utils.string:
         class: HeimrichHannot\UtilsBundle\String\StringUtil
         public: true
