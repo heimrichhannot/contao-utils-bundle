@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Model;
 
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\System;
 
@@ -15,25 +16,28 @@ class CfgTagModel extends \Model
 {
     protected static $strTable = 'tl_cfg_tag';
 
-    public static function findAll(array $arrOptions = [])
+    /** @var ContaoFrameworkInterface */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
     {
-        return parent::findAll($arrOptions);
+        $this->framework = $framework;
     }
 
     /**
      * @param       $source
      * @param array $arrOptions
      *
-     * @return @return static|Model\Collection|null A model, model collection or null if the result is empty
+     * @return \Contao\Model\Collection|null|static
      */
-    public static function findAllBySource($source, array $arrOptions = [])
+    public function findAllBySource($source, array $arrOptions = [])
     {
-        return parent::findBy('source', $source, $arrOptions);
-    }
+        /** @var CfgTagModel $adapter */
+        if (null === ($adapter = $this->framework->getAdapter(self::class))) {
+            return null;
+        }
 
-    public static function findBy($column, $value, array $arrOptions = [])
-    {
-        return parent::findBy($column, $value, $arrOptions);
+        return $adapter->findBy('source', $source, $arrOptions);
     }
 
     public static function getSourcesAsOptions(\DataContainer $dc)

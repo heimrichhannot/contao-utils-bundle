@@ -63,4 +63,24 @@ class CodeUtilTest extends TestCaseEnvironment
         $code = $codeUtil::generate(16, true, ['capitalLetters', 'specialChars'], null, '$%&?!');
         $this->assertSame(16, strlen($code));
     }
+
+    public function testGenerateRegex()
+    {
+        $container = System::getContainer();
+
+        $stringUtil = $this->mockAdapter(['random']);
+        $stringUtil->method('random')->willReturn('Aa2');
+        $container->set('huh.utils.string', $stringUtil);
+
+        System::setContainer($container);
+
+        $codeUtil = new CodeUtil($this->mockContaoFramework());
+        $code = $codeUtil::generate(16, false, ['capitalLetters']);
+        $this->assertGreaterThan(16, strlen($code));
+        $this->assertSame(1, preg_match('@Aa2@', $code));
+
+        $code = $codeUtil::generate(16, false, ['capitalLetters', 'specialChars']);
+        $this->assertGreaterThan(16, strlen($code));
+        $this->assertSame(1, preg_match('@Aa2@', $code));
+    }
 }

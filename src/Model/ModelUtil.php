@@ -33,6 +33,7 @@ class ModelUtil
      */
     public function findModelInstanceByPk(string $table, $pk, array $options = [])
     {
+        /* @var Model $adapter */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
@@ -56,9 +57,7 @@ class ModelUtil
      */
     public function findModelInstancesBy(string $table, array $columns = null, array $values = null, array $options = [])
     {
-        /*
-         * @var Model
-         */
+        /* @var Model $adapter */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
@@ -82,9 +81,7 @@ class ModelUtil
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
-        /*
-         * @var Model
-         */
+        /* @var Model $adapter */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }

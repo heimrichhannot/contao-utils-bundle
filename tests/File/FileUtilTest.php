@@ -86,11 +86,8 @@ class FileUtilTest extends TestCaseEnvironment
         $framework = $this->mockContaoFramework();
         $fileUtil = new FileUtil($framework);
 
-//        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir() . '/files/test');
-//        $this->assertSame(ltrim($this->getTempDir() . '/files/test', '/'), $fileName);
-//
-//        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir() . '/files/test', 'te');
-//        $this->assertSame(ltrim($this->getTempDir() . '/files/_1.', '/'), $fileName);
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test', 'te');
+        $this->assertSame(ltrim($this->getTempDir().'/files/_1.', '/'), $fileName);
 
         $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/test/test/test');
         $this->assertFalse($fileName);

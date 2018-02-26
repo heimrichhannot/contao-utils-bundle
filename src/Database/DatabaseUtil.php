@@ -201,10 +201,7 @@ class DatabaseUtil
             }
 
             foreach ($fields as $n => $strField) {
-                if (!isset($varData[$strField])) {
-                    continue;
-                }
-                $varValue = $varData[$strField] ?: 'DEFAULT';
+                $varValue = isset($varData[$strField]) ? $varData[$strField] : 'DEFAULT';
 
                 if (in_array($strField, array_keys($fixedValues), true)) {
                     $varValue = $fixedValues[$strField];
@@ -231,7 +228,7 @@ class DatabaseUtil
                 }
 
                 foreach ($fields as $n => $strField) {
-                    $varValue = $varCallback[$strField] ?: 'DEFAULT';
+                    $varValue = isset($varCallback[$strField]) ? $varCallback[$strField] : 'DEFAULT';
 
                     // replace SQL Keyword DEFAULT within wildcards ?
                     if ('DEFAULT' == $varValue) {

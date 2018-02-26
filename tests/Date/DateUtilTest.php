@@ -159,4 +159,38 @@ class DateUtilTest extends ContaoTestCase
             ['H.i', 'en-EN', $date, '16.09'],
         ];
     }
+
+    public function testGetTimePeriodInSeconds()
+    {
+        if (!\function_exists('deserialize')) {
+            include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
+        }
+        $date = new DateUtil($this->mockContaoFramework());
+
+        $timePeriod = serialize(['unit' => 'h', 'value' => 12]);
+        $result = $date->getTimePeriodInSeconds($timePeriod);
+        $this->assertSame(43200, $result);
+
+        $timePeriod = serialize(['unit' => 'm', 'value' => 12]);
+        $result = $date->getTimePeriodInSeconds($timePeriod);
+        $this->assertSame(720, $result);
+
+        $timePeriod = serialize(['unit' => 'd', 'value' => 12]);
+        $result = $date->getTimePeriodInSeconds($timePeriod);
+        $this->assertSame(1036800, $result);
+
+        $timePeriod = serialize(['units' => 'h', 'value' => 12]);
+        $result = $date->getTimePeriodInSeconds($timePeriod);
+        $this->assertNull($result);
+    }
+
+    public function testFormatPhpDateToJsDate()
+    {
+        $date = new DateUtil($this->mockContaoFramework());
+        $result = $date->formatPhpDateToJsDate('d.m.y H:i');
+        $this->assertSame('DD.MM.y HH:mm', $result);
+
+        $result = $date->formatPhpDateToJsDate('d.m.Y \m \i\s\ \m\o\n\t\h');
+        $this->assertSame("DD.MM.YYYY 'm' 'is month", $result);
+    }
 }

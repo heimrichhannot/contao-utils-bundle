@@ -114,7 +114,7 @@ class DC_Table_UtilsTest extends ContaoTestCase
     public function getModel()
     {
         $this->createGlobalDca('tl_cfg_tag');
-        $model = new CfgTagModel();
+        $model = new CfgTagModel($this->mockContaoFramework());
 
         return $model;
     }

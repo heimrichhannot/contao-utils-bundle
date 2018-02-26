@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Model;
 use Contao\ContentModel;
 use Contao\Model;
 use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
 class ModelUtilTest extends ContaoTestCase
@@ -41,23 +42,97 @@ class ModelUtilTest extends ContaoTestCase
         $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['pid'], [3])->current()->id);
     }
 
+    public function testFindOneModelInstanceBy()
+    {
+        $util = new ModelUtil($this->prepareFramework());
+        $result = $util->findOneModelInstanceBy('tl_content', [], []);
+        $this->assertInstanceOf(ContentModel::class, $result);
+
+        $result = $util->findOneModelInstanceBy('null', [], []);
+        $this->assertNull($result);
+
+        $result = $util->findOneModelInstanceBy('tl_cfg_tag', [], []);
+        $this->assertNull($result);
+    }
+
+    public function testFindRootParentRecursively()
+    {
+        $modelAdapter = $this->mockAdapter([
+            'getClassFromTable',
+        ]);
+        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(function ($table) {
+            switch ($table) {
+                case 'tl_content':
+                    return ContentModel::class;
+                case 'tl_null_class':
+                    return 'Huh\Null\Class\Nullclass';
+                case 'tl_cfg_tag':
+                    return CfgTagModel::class;
+                case 'null':
+                    return null;
+                default:
+                    return null;
+            }
+        });
+        $contentModelAdapter = $this->mockAdapter([
+            'findByPk',
+        ]);
+        $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
+        $util = new ModelUtil($this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]));
+        $result = $util->findRootParentRecursively('id', 'tl_content', $this->getModel());
+        $this->assertInstanceOf(\Contao\Model::class, $result);
+    }
+
+    public function testFindParentsRecursively()
+    {
+        $modelAdapter = $this->mockAdapter([
+            'getClassFromTable',
+        ]);
+        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(function ($table) {
+            switch ($table) {
+                case 'tl_content':
+                    return ContentModel::class;
+                case 'tl_null_class':
+                    return 'Huh\Null\Class\Nullclass';
+                case 'tl_cfg_tag':
+                    return CfgTagModel::class;
+                case 'null':
+                    return null;
+                default:
+                    return null;
+            }
+        });
+        $contentModelAdapter = $this->mockAdapter([
+            'findByPk',
+        ]);
+        $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
+        $util = new ModelUtil($this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]));
+        $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
+        $this->assertInstanceOf(\PHPUnit_Framework_MockObject_MockObject::class, $result[0]);
+
+        $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel(true));
+        $this->assertSame([], $result);
+    }
+
     public function prepareFramework()
     {
         $modelAdapter = $this->mockAdapter([
             'getClassFromTable',
         ]);
-        $modelAdapter
-            ->method('getClassFromTable')
-            ->with($this->anything())->willReturnCallback(function ($table) {
-                switch ($table) {
-                    case 'tl_content':
-                        return ContentModel::class;
-                    case 'tl_null_class':
-                        return 'Huh\Null\Class\Nullclass';
-                    default:
-                        return null;
-                }
-            });
+        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(function ($table) {
+            switch ($table) {
+                case 'tl_content':
+                    return ContentModel::class;
+                case 'tl_null_class':
+                    return 'Huh\Null\Class\Nullclass';
+                case 'tl_cfg_tag':
+                    return CfgTagModel::class;
+                case 'null':
+                    return null;
+                default:
+                    return null;
+            }
+        });
 
         $contentModel = $this->mockClassWithProperties(ContentModel::class, [
             'id' => 5,
@@ -70,6 +145,7 @@ class ModelUtilTest extends ContaoTestCase
         $framework = $this->mockContaoFramework([
             Model::class => $modelAdapter,
             ContentModel::class => $contentModelAdapter,
+            CfgTagModel::class => null,
         ]);
 
         return $framework;
@@ -80,36 +156,46 @@ class ModelUtilTest extends ContaoTestCase
         $contentModelAdapter = $this->mockAdapter([
             'findByPk',
             'findBy',
+            'findOneBy',
         ]);
-        $contentModelAdapter
-            ->method('findByPk')
-            ->with($this->anything(), $this->anything())
-            ->willReturnCallback(function ($pk, $option) use ($contentModel) {
-                switch ($pk) {
-                    case 'alias':
-                        return $contentModel;
-                    case 5:
-                        return $contentModel;
-                    default:
-                        return null;
-                }
-            });
-        $contentModelAdapter
-            ->method('findBy')
-            ->with($this->anything(), $this->anything(), $this->anything())
-            ->willReturnCallback(function ($columns, $values, $options = []) use ($contentModel) {
-                if ('id' === $columns[0] && 5 === $values[0]) {
+        $contentModelAdapter->method('findByPk')->with($this->anything(), $this->anything())->willReturnCallback(function ($pk, $option) use ($contentModel) {
+            switch ($pk) {
+                case 'alias':
                     return $contentModel;
-                }
-                if ('pid' === $columns[0] && 3 === $values[0]) {
-                    $collection = new Model\Collection([$contentModel], 'tl_content');
+                case 5:
+                    return $contentModel;
+                default:
+                    return null;
+            }
+        });
+        $contentModelAdapter->method('findBy')->with($this->anything(), $this->anything(), $this->anything())->willReturnCallback(function ($columns, $values, $options = []) use ($contentModel) {
+            if ('id' === $columns[0] && 5 === $values[0]) {
+                return $contentModel;
+            }
+            if ('pid' === $columns[0] && 3 === $values[0]) {
+                $collection = new Model\Collection([$contentModel], 'tl_content');
 
-                    return $collection;
-                }
+                return $collection;
+            }
 
-                return null;
-            });
+            return null;
+        });
+
+        $model = $this->createMock(ContentModel::class);
+        $contentModelAdapter->method('findOneBy')->willReturn($model);
 
         return $contentModelAdapter;
+    }
+
+    /**
+     * @return \Contao\Model | \PHPUnit_Framework_MockObject_MockObject
+     */
+    public function getModel($idNull = false)
+    {
+        if ($idNull) {
+            return $this->mockClassWithProperties(Model::class, ['id' => null]);
+        }
+
+        return $this->mockClassWithProperties(Model::class, ['id' => 5]);
     }
 }

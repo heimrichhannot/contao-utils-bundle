@@ -305,7 +305,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $util->generateAlias('existing-alias', 5, 'tl_table', 'Existing Alias');
     }
 
-    public function testAddAuthorFiledAndCallback()
+    public function testAddAuthorFieldAndCallback()
     {
         $array['TL_DCA']['testTable']['config']['oncreate_callback']['setAuthorIDOnCreate'] = ['huh.utils.dca', 'setAuthorIDOnCreate'];
         $array['TL_DCA']['testTable']['config']['onload_callback']['modifyAuthorPaletteOnLoad'] = ['huh.utils.dca', 'modifyAuthorPaletteOnLoad', true];
