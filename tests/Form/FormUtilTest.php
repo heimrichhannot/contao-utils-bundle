@@ -391,6 +391,13 @@ class FormUtilTest extends ContaoTestCase
 
         $result = $this->formUtil->prepareSpecialValueForOutput('myField', $value, $this->dc);
         $this->assertSame('[Firstname: John1, Lastname: Doe1, Language: Deutsch], [Firstname: John2, Lastname: Doe2, Language: Englisch]', $result);
+
+        $adapter = $this->mockAdapter(['getConfigByArrayOrCallbackOrFunction']);
+        $adapter->method('getConfigByArrayOrCallbackOrFunction')->willThrowException(new \ErrorException('This is an error exception'));
+
+        $this->container->set('huh.utils.dca', $adapter);
+        $result = $this->formUtil->prepareSpecialValueForOutput('myField', $value, $this->dc);
+        $this->assertSame('[Firstname: John1, Lastname: Doe1, Language: Deutsch], [Firstname: John2, Lastname: Doe2, Language: Englisch]', $result);
     }
 
     public function testEscapeAllHtmlEntities()

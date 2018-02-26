@@ -133,7 +133,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
     {
         $databaseAdapter = $this->mockAdapter(['tableExists', 'getFieldNames', 'execute', 'prepare']);
         $databaseAdapter->method('tableExists')->willReturn(true);
-        $databaseAdapter->method('getFieldNames')->willReturn(['id', 'name', 'date']);
+        $databaseAdapter->method('getFieldNames')->willReturn(['id', 'name', 'date', 'test']);
         $databaseAdapter->method('prepare')->willReturnSelf();
 
         // return null
@@ -147,7 +147,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $model = $this->createMock(Model::class);
         $model->method('row')->willReturn(['name' => 'max', 'date' => time()]);
 
-        $data = [['name' => 'DEFAULT', 'date' => time()], ['name' => 'max', 'date' => time()], $model];
+        $data = [['name' => 'DEFAULT', 'date' => time(), 'test' => 'DEFAULT'], ['name' => 'max', 'date' => time()], $model];
 
         $result = $databaseUtil->doBulkInsert('table', $data, ['name' => 'Max'], 'UPDATE', 'is_array', function ($return, $fields, $varData) { return null; }, 2);
         $this->assertNull($result);
