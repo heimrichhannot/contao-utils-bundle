@@ -35,11 +35,11 @@ class CurlRequestUtil
     }
 
     /**
-     * Executes a curl request while taking
+     * Executes a curl request while taking.
      *
      * @param $url
      * @param array $requestHeaders
-     * @param bool $returnResponseHeaders
+     * @param bool  $returnResponseHeaders
      *
      * @return array|mixed
      */
@@ -47,28 +47,67 @@ class CurlRequestUtil
     {
         $handle = $this->createCurlHandle($url);
 
-        if ($proxy = Config::get('hpProxy'))
-        {
+        if ($proxy = Config::get('hpProxy')) {
             $handle->setOption(CURLOPT_PROXY, $proxy);
         }
 
-        if (!empty($requestHeaders))
-        {
-            static::setHeaders($handle, $requestHeaders);
+        if (!empty($requestHeaders)) {
+            $handle->setOption(CURLOPT_HTTPHEADER, $this->prepareHeaders($requestHeaders));
         }
 
-        if ($returnResponseHeaders)
-        {
+        if ($returnResponseHeaders) {
             $handle->setOption(CURLOPT_HEADER, true);
         }
 
-        $response   = $handle->execute();
+        $response = $handle->execute();
         $statusCode = $handle->getInfo(CURLINFO_HTTP_CODE);
         $handle->close();
 
-        if ($returnResponseHeaders)
-        {
-            return static::splitResponseHeaderAndBody($response, $statusCode);
+        if ($response && $returnResponseHeaders) {
+            return $this->splitResponseHeaderAndBody($response, $statusCode);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Create a curl post request.
+     *
+     * @param string $url
+     * @param array  $requestHeaders
+     * @param array  $postFields
+     * @param bool   $returnResponseHeaders
+     *
+     * @return array|mixed
+     */
+    public function postRequest(string $url, array $requestHeaders = [], array $postFields = [], bool $returnResponseHeaders = false)
+    {
+        $handle = $this->createCurlHandle($url);
+
+        if (Config::get('hpProxy')) {
+            $handle->setOption(CURLOPT_PROXY, Config::get('hpProxy'));
+        }
+
+        if ($returnResponseHeaders) {
+            $handle->setOption(CURLOPT_HEADER, true);
+        }
+
+        if (!empty($requestHeaders)) {
+            $handle->setOption(CURLOPT_HTTPHEADER, $this->prepareHeaders($requestHeaders));
+        }
+
+        if (!empty($postFields)) {
+            $handle->setOption(CURLOPT_POST, true);
+            $handle->setOption(CURLOPT_POSTFIELDS, http_build_query($postFields));
+        }
+
+        $response = $handle->execute();
+
+        $statusCode = $handle->getInfo(CURLINFO_HTTP_CODE);
+        $handle->close();
+
+        if ($response && $returnResponseHeaders) {
+            return $this->splitResponseHeaderAndBody($response, $statusCode);
         }
 
         return $response;
@@ -77,25 +116,24 @@ class CurlRequestUtil
     /**
      * Recursivly send get request and terminates if termination condition is given or max request count is reached.
      *
-     * @param int $maxRecursionCount
-     * @param callable $callback Termination condition callback. Return true to terminate.
-     * @param string $url
-     * @param array $requestHeaders
-     * @param bool $returnResponseHeaders
+     * @param int      $maxRecursionCount
+     * @param callable $callback              Termination condition callback. Return true to terminate.
+     * @param string   $url
+     * @param array    $requestHeaders
+     * @param bool     $returnResponseHeaders
      *
      * @return array|mixed|null
      */
     public function recursiveGetRequest(int $maxRecursionCount, callable $callback, string $url, array $requestHeaders = [], bool $returnResponseHeaders = false)
     {
-        $i            = 0;
+        $i = 0;
         $terminate = false;
-        $result    = null;
+        $result = null;
 
-        while ($i++ < $maxRecursionCount && !$terminate)
-        {
+        while ($i++ < $maxRecursionCount && !$terminate) {
             $result = $this->request($url, $requestHeaders, $returnResponseHeaders);
 
-            $terminate = $callback($result, $url, $requestHeaders, $returnResponseHeaders, $maxRecursionCount);
+            $terminate = $callback($result, $url, $requestHeaders, $returnResponseHeaders, $maxRecursionCount, $i);
         }
 
         return $result;
@@ -104,133 +142,127 @@ class CurlRequestUtil
     /**
      * Recursivly send post request and terminates if termination condition is given or max request count is reached.
      *
-     * @param int $maxRecursionCount
+     * @param int      $maxRecursionCount
      * @param callable $callback
-     * @param string $url
-     * @param array $requestHeaders
-     * @param array $post
-     * @param bool $returnResponseHeaders
+     * @param string   $url
+     * @param array    $requestHeaders
+     * @param array    $post
+     * @param bool     $returnResponseHeaders
+     *
      * @return array|mixed|null
      */
     public function recursivePostRequest(int $maxRecursionCount, callable $callback, string $url, array $requestHeaders = [], array $post = [], bool $returnResponseHeaders = false)
     {
-        $i            = 0;
+        $i = 0;
         $terminate = false;
-        $result    = null;
+        $result = null;
 
-        while ($i++ < $maxRecursionCount && !$terminate)
-        {
+        while ($i++ < $maxRecursionCount && !$terminate) {
             $result = $this->postRequest($url, $requestHeaders, $post, $returnResponseHeaders);
 
-            $terminate = $callback($result, $url, $requestHeaders, $post, $returnResponseHeaders, $maxRecursionCount);
+            $terminate = $callback($result, $url, $requestHeaders, $post, $returnResponseHeaders, $maxRecursionCount, $i);
         }
 
         return $result;
     }
 
-    public function postRequest($strUrl, array $arrRequestHeaders = [], array $arrPost = [], $blnReturnResponseHeaders = false)
+    /**
+     * @param string $response
+     * @param int    $statusCode
+     *
+     * @return array
+     */
+    public function splitResponseHeaderAndBody(string $response, int $statusCode)
     {
-        $objCurl = static::createCurlHandle($strUrl);
+        $headers = [];
 
-        if (Config::get('hpProxy'))
-        {
-            curl_setopt($objCurl, CURLOPT_PROXY, Config::get('hpProxy'));
-        }
+        $split = strpos($response, "\r\n\r\n");
+        $header = substr($response, 0, $split);
+        $body = str_replace($header."\r\n\r\n", '', $response);
 
-        if ($blnReturnResponseHeaders)
-        {
-            curl_setopt($objCurl, CURLOPT_HEADER, true);
-        }
-
-        if (!empty($arrRequestHeaders))
-        {
-            static::setHeaders($objCurl, $arrRequestHeaders);
-        }
-
-        if (!empty($arrPost))
-        {
-            curl_setopt($objCurl, CURLOPT_POST, true);
-            curl_setopt($objCurl, CURLOPT_POSTFIELDS, http_build_query($arrPost));
-        }
-
-        $strResponse   = curl_exec($objCurl);
-        $intStatusCode = curl_getinfo($objCurl, CURLINFO_HTTP_CODE);
-        curl_close($objCurl);
-
-        if ($blnReturnResponseHeaders)
-        {
-            return static::splitResponseHeaderAndBody($strResponse, $intStatusCode);
-        }
-
-        return $strResponse;
-    }
-
-    public function createCurlHandle($url)
-    {
-        $handle = $this->handle ?: new CurlRequest();
-        $handle->init($url);
-        $handle->setOption(CURLOPT_RETURNTRANSFER, true);
-        $handle->setOption(CURLOPT_TIMEOUT, 10);
-        return $handle;
-    }
-
-    public static function setHeaders($objCurl, array $arrHeaders)
-    {
-        $arrPrepared = [];
-
-        foreach ($arrHeaders as $strName => $varValue)
-        {
-            $arrPrepared[] = $strName . ': ' . $varValue;
-        }
-
-        curl_setopt($objCurl, CURLOPT_HTTPHEADER, $arrPrepared);
-    }
-
-    public static function splitResponseHeaderAndBody($strResponse, $intStatusCode)
-    {
-        $arrHeaders = [];
-
-        $intSplit  = strpos($strResponse, "\r\n\r\n");
-        $strHeader = substr($strResponse, 0, $intSplit);
-        $strBody   = str_replace($strHeader . "\r\n\r\n", '', $strResponse);
-
-        foreach (explode("\r\n", $strHeader) as $i => $strLine)
-        {
-            if (0 === $i)
-            {
-                $arrHeaders['http_code'] = $intStatusCode;
-            } else
-            {
+        foreach (explode("\r\n", $header) as $i => $strLine) {
+            if (0 === $i) {
+                $headers['http_code'] = $statusCode;
+            } else {
                 list($strKey, $varValue) = explode(': ', $strLine);
-                $arrHeaders[$strKey] = $varValue;
+                $headers[$strKey] = $varValue;
             }
         }
 
-        return [$arrHeaders, trim($strBody)];
+        return [$headers, trim($body)];
     }
 
     /**
      * Creates a linebreak separated list of the headers in $arrHeaders -> see request() and postRequest().
      *
-     * @param array $arrHeaders
+     * @param array $headers
      *
      * @return string
      */
-    public static function prepareHeaderArrayForPrint(array $arrHeaders)
+    public function prepareHeaderArrayForPrint(array $headers)
     {
-        $strResult = '';
-        $i         = 0;
+        $result = '';
+        $i = 0;
 
-        foreach ($arrHeaders as $strKey => $strValue)
-        {
-            $strResult .= "$strKey: $strValue";
+        foreach ($headers as $strKey => $strValue) {
+            $result .= "$strKey: $strValue";
 
-            if ($i++ != count($arrHeaders) - 1)
-            {
-                $strResult .= PHP_EOL;
+            if ($i++ != count($headers) - 1) {
+                $result .= PHP_EOL;
             }
         }
 
-        return $strResult;
+        return $result;
+    }
+
+    /**
+     * @return HttpRequestInterface|null
+     */
+    public function getHandle()
+    {
+        return $this->handle;
+    }
+
+    /**
+     * @param HttpRequestInterface $handle
+     */
+    public function setHandle(HttpRequestInterface $handle)
+    {
+        $this->handle = $handle;
+    }
+
+    /**
+     * Create the curl handle.
+     *
+     * @param $url
+     *
+     * @return CurlRequest
+     */
+    protected function createCurlHandle($url)
+    {
+        $handle = $this->handle ?: new CurlRequest();
+        $handle->init($url);
+        $handle->setOption(CURLOPT_RETURNTRANSFER, true);
+        $handle->setOption(CURLOPT_TIMEOUT, 10);
+
+        return $handle;
+    }
+
+    /**
+     * Prepare headers for curl handle.
+     *
+     * @param array $headers
+     *
+     * @return array
+     */
+    protected function prepareHeaders(array $headers)
+    {
+        $preparedHeaders = [];
+
+        foreach ($headers as $strName => $varValue) {
+            $preparedHeaders[] = $strName.': '.$varValue;
+        }
+
+        return $preparedHeaders;
     }
 }

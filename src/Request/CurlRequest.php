@@ -1,40 +1,51 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Request;
-
 
 class CurlRequest implements HttpRequestInterface
 {
     private $handle = null;
 
-    public function init($url)
+    /**
+     * CurlRequest constructor.
+     */
+    public function __construct()
+    {
+        return $this;
+    }
+
+    public function init($url): HttpRequestInterface
     {
         $this->handle = curl_init($url);
+
+        return $this;
     }
 
-    public function setOption($name, $value) {
+    public function setOption($name, $value): HttpRequestInterface
+    {
         curl_setopt($this->handle, $name, $value);
+
+        return $this;
     }
 
-    public function execute() {
+    public function execute()
+    {
         return curl_exec($this->handle);
     }
 
-    public function getInfo($name) {
+    public function getInfo($name)
+    {
         return curl_getinfo($this->handle, $name);
     }
 
-    public function close() {
+    public function close()
+    {
         curl_close($this->handle);
     }
-
 }

@@ -30,6 +30,7 @@ if (false === ($loader = $include(__DIR__.'/../vendor/autoload.php'))
 }
 
 require 'TestCaseEnvironment.php';
+require 'Request/StubCurlRequest.php';
 
 // Handle classes in the global namespace
 $legacyLoader = function ($class) {
