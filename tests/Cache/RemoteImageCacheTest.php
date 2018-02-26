@@ -9,8 +9,8 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Cache;
 
 use HeimrichHannot\UtilsBundle\Cache\RemoteImageCache;
-use HeimrichHannot\UtilsBundle\Curl\CurlUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
+use HeimrichHannot\UtilsBundle\Request\CurlRequestUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -49,7 +49,7 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $framework = $this->mockContaoFramework();
         $container = $this->prepareContainer($framework);
 
-        $curlMock = $this->createMock(CurlUtil::class);
+        $curlMock = $this->createMock(CurlRequestUtil::class);
         $curlMock->method('request')->willReturnCallback(function ($argument) {
             switch ($argument) {
                 case 'remoteNull':
@@ -108,7 +108,7 @@ class RemoteImageCacheTest extends TestCaseEnvironment
 
         $container->set('contao.framework', $framework);
 
-        $curlMock = $this->createMock(CurlUtil::class);
+        $curlMock = $this->createMock(CurlRequestUtil::class);
         $curlMock->method('request')->willReturnCallback(function ($argument) {
             switch ($argument) {
                 case 'remoteNull':
@@ -122,7 +122,7 @@ class RemoteImageCacheTest extends TestCaseEnvironment
                     return 'test02';
             }
         });
-        $container->set('huh.utils.curl', $curlMock);
+        $container->set('huh.utils.request.curl', $curlMock);
 
         $fileUtilMock = $this->createMock(FileUtil::class);
         $fileUtilMock->method('getFolderFromUuid')->willReturnCallback(function ($argument) {
