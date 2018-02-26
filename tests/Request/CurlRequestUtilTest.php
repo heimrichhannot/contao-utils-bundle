@@ -52,7 +52,7 @@ class CurlRequestUtilTest extends ContaoTestCase
         $curl = new CurlRequestUtil($this->mockContaoFramework(), $this->mockContainer());
 
         $curl->setHandle($this->createNewHandle());
-        $result = $curl->postRequest('https://www.heimrich-hannot.de', [], ['test' => 'test'], true);
+        $result = $curl->postRequest('https://www.heimrich-hannot.de', [CURLINFO_CONTENT_TYPE => 'text/html; charset=utf-8'], ['test' => 'test'], true);
         $this->assertArrayHasKey(0, $result);
         $this->assertArrayHasKey(1, $result);
         $this->assertSame(200, $result[0]['http_code']);
