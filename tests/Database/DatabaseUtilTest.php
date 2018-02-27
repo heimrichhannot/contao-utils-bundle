@@ -155,7 +155,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $result = $databaseUtil->doBulkInsert('table', $data, ['name' => 'Max'], 'UPDATE', 'is_array', function ($return, $fields, $varData) { return $varData; }, 2);
         $this->assertNull($result);
 
-        $result = $databaseUtil->doBulkInsert('table', $data, ['name' => 'Max'], 'UPDATE', 'is_array', function ($return, $fields, $varData) { return $varData; }, 2);
+        $result = $databaseUtil->doBulkInsert('table', $data, ['test' => 'DEFAULT', 'name' => 'DEFAULT', 'date' => 'DEFAULT'], 'UPDATE', 'is_array', function ($return, $fields, $varData) { return $varData; }, 2);
         $this->assertNull($result);
 
         // names != name

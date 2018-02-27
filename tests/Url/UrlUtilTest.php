@@ -56,17 +56,6 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertSame('http://localhost?answer=12', $url);
     }
 
-    /**
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     * @doesNotPerformAssertions
-     */
-    public function testRedirect()
-    {
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
-        $urlUtil->redirect('https://heimrich-hannot.de');
-    }
-
     public function testAddQueryString()
     {
         $framework = $this->mockContaoFramework();
