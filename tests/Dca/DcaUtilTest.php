@@ -198,16 +198,19 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertSame([], $fields);
 
         $fields = $dcaUtil->getFields('table');
-        $this->assertSame(['title' => 'this is a title [title]', 'addSubmission' => 'this is a title [addSubmission]'], $fields);
+        $this->assertSame(['addSubmission' => 'this is a title [addSubmission]', 'title' => 'this is a title [title]'], $fields);
 
         $fields = $dcaUtil->getFields('table', ['inputTypes' => ['select']]);
         $this->assertSame([], $fields);
 
         $fields = $dcaUtil->getFields('table', ['localizeLabels' => false]);
-        $this->assertSame(['title' => 'title', 'addSubmission' => 'addSubmission'], $fields);
+        $this->assertSame(['addSubmission' => 'addSubmission', 'title' => 'title'], $fields);
 
         $fields = $dcaUtil->getFields('table', ['skipSorting' => false]);
         $this->assertSame(['addSubmission' => 'this is a title [addSubmission]', 'title' => 'this is a title [title]'], $fields);
+
+        $fields = $dcaUtil->getFields('table', ['skipSorting' => true]);
+        $this->assertSame(['title' => 'this is a title [title]', 'addSubmission' => 'this is a title [addSubmission]'], $fields);
     }
 
     public function testAddOverridableFields()
@@ -239,7 +242,9 @@ class DcaUtilTest extends TestCaseEnvironment
         $GLOBALS['TL_DCA']['destinationTable'] = ['palettes' => ['__selector__' => [], 'default' => '{general_legend},title, text;{submission_legend},addSubmission;{publish_legend},published'], 'subpalettes' => ['overrideTitle_test' => 'title', 'addSubmission']];
 
         $dcaUtil = new DcaUtil($this->mockContaoFramework());
-        $dcaUtil->addOverridableFields(['title', 'addSubmission'], 'sourceTable', 'destinationTable');
+        $dcaUtil->addOverridableFields(['title', 'addSubmission'], 'sourceTable', 'destinationTable', [
+            'skipLocalization' => true,
+        ]);
 
         $this->assertSame($GLOBALS['TL_DCA']['sourceTable']['fields']['title'], $GLOBALS['TL_DCA']['destinationTable']['fields']['title']);
         $this->assertSame($GLOBALS['TL_DCA']['sourceTable']['fields']['addSubmission'], $GLOBALS['TL_DCA']['destinationTable']['fields']['addSubmission']);

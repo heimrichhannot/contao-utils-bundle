@@ -187,7 +187,7 @@ class DcaUtil
                 'sql' => "char(1) NOT NULL default ''",
             ];
 
-            if (!isset($options['checkboxDcaEvalOverride']) || isset($options['checkboxDcaEvalOverride']) && is_array($options['checkboxDcaEvalOverride'])) {
+            if (isset($options['checkboxDcaEvalOverride']) && is_array($options['checkboxDcaEvalOverride'])) {
                 $destinationDca['fields'][$overrideFieldname]['eval'] = array_merge($destinationDca['fields'][$overrideFieldname]['eval'], $options['checkboxDcaEvalOverride']);
             }
 
