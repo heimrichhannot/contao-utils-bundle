@@ -61,7 +61,7 @@ class ModelInstanceChoice extends AbstractChoice
             $choices[$instances->id] = $label;
         }
 
-        if (!$context['skipSorting']) {
+        if (!isset($context['skipSorting']) || !$context['skipSorting']) {
             asort($choices);
         }
 

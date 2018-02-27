@@ -65,7 +65,7 @@ class FormUtil
         // prepare data
         $table = $dc->table;
 
-        if (!isset($config['skipDcaLoading']) || $config['skipDcaLoading']) {
+        if (!isset($config['skipDcaLoading']) || !$config['skipDcaLoading']) {
             $controller->loadDataContainer($table);
             $system->loadLanguageFile($table);
         }

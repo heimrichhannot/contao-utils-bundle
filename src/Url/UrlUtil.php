@@ -28,7 +28,7 @@ class UrlUtil
     {
         $url = Environment::get('url').Environment::get('requestUri');
 
-        if ($options['skipParams']) {
+        if (isset($options['skipParams']) && $options['skipParams']) {
             $url = Environment::get('url').parse_url(Environment::get('uri'), PHP_URL_PATH);
         }
 

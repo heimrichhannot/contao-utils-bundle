@@ -150,7 +150,7 @@ class DcaUtil
             }
         }
 
-        if (isset($options['skipSorting']) && !$options['skipSorting']) {
+        if (!isset($options['skipSorting']) || !$options['skipSorting']) {
             asort($fields);
         }
 
@@ -187,7 +187,7 @@ class DcaUtil
                 'sql' => "char(1) NOT NULL default ''",
             ];
 
-            if (isset($options['checkboxDcaEvalOverride']) && is_array($options['checkboxDcaEvalOverride'])) {
+            if (!isset($options['checkboxDcaEvalOverride']) || isset($options['checkboxDcaEvalOverride']) && is_array($options['checkboxDcaEvalOverride'])) {
                 $destinationDca['fields'][$overrideFieldname]['eval'] = array_merge($destinationDca['fields'][$overrideFieldname]['eval'], $options['checkboxDcaEvalOverride']);
             }
 
@@ -200,7 +200,7 @@ class DcaUtil
             // subpalette
             $destinationDca['subpalettes'][$overrideFieldname] = $field;
 
-            if (isset($options['skipLocalization']) && !$options['skipLocalization']) {
+            if (!isset($options['skipLocalization']) || !$options['skipLocalization']) {
                 $GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname] = [
                     System::getContainer()->get('translator')->trans('huh.utils.misc.override.label', [
                         '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
