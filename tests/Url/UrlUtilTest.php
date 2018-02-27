@@ -59,6 +59,7 @@ class UrlUtilTest extends ContaoTestCase
     /**
      * @preserveGlobalState disabled
      * @runInSeparateProcess
+     * @doesNotPerformAssertions
      */
     public function testRedirect()
     {
