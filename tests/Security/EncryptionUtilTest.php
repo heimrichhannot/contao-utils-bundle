@@ -37,7 +37,7 @@ class EncryptionUtilTest extends ContaoTestCase
         $this->assertFalse($result);
 
         $result = $encrypt->encrypt('plain');
-        $this->assertSame(openssl_encrypt('plain', 'aes-256-ctr', System::getContainer()->getParameter('secret'), 0, $result[1]), $result[0]);
+        $this->assertSame(openssl_encrypt('plain', 'aes-256-ctr', System::getContainer()->getParameter('secret'), 0, base64_decode($result[1], true)), $result[0]);
         $this->assertSame('plain', $encrypt->decrypt($result[0], $result[1]));
     }
 }

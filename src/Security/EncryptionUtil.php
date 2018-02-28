@@ -29,7 +29,7 @@ class EncryptionUtil
             $ivLength = openssl_cipher_iv_length($cipher);
             $iv = openssl_random_pseudo_bytes($ivLength);
 
-            return [openssl_encrypt($plain, $cipher, $key, $options, $iv), $iv];
+            return [openssl_encrypt($plain, $cipher, $key, $options, $iv), base64_encode($iv)];
         }
 
         return false;
@@ -39,6 +39,6 @@ class EncryptionUtil
     {
         $key = '' !== $key ? $key : System::getContainer()->getParameter('secret');
 
-        return openssl_decrypt($encrypted, $cipher, $key, $options, $iv);
+        return openssl_decrypt($encrypted, $cipher, $key, $options, base64_decode($iv, true));
     }
 }
