@@ -10,22 +10,19 @@ namespace HeimrichHannot\UtilsBundle\Cache;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\File;
+use Contao\System;
 use Contao\Validator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RemoteImageCache
 {
-    /** @var ContaoFrameworkInterface */
-    protected $framework;
     /**
-     * @var ContainerInterface
+     * @var ContaoFrameworkInterface
      */
-    private $container;
+    protected $framework;
 
-    public function __construct(ContaoFrameworkInterface $framework, ContainerInterface $container)
+    public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
-        $this->container = $container;
     }
 
     /**
@@ -46,7 +43,7 @@ class RemoteImageCache
         $strFilename = $identifier.'.jpg';
 
         if (Validator::isUuid($folder)) {
-            $objFolder = $this->container->get('huh.utils.file')->getFolderFromUuid($folder);
+            $objFolder = System::getContainer()->get('huh.utils.file')->getFolderFromUuid($folder);
             if (false === $objFolder) {
                 return false;
             }
@@ -59,7 +56,7 @@ class RemoteImageCache
             return $returnUuid ? $objFile->getModel()->uuid : $objFile->path;
         }
 
-        $strContent = $this->container->get('huh.utils.request.curl')->request($remoteUrl);
+        $strContent = System::getContainer()->get('huh.utils.request.curl')->request($remoteUrl);
 
         if (!$strContent || !is_string($strContent)) {
             return false;

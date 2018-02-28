@@ -15,6 +15,7 @@ use Contao\PageModel;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Image\Image;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use Psr\Log\NullLogger;
 
 class ImageTest extends TestCaseEnvironment
 {
@@ -128,6 +129,9 @@ class ImageTest extends TestCaseEnvironment
         $pictureFactoryAdapter->method('create')->willThrowException($exception);
         $container->set('contao.image.picture_factory', $pictureFactoryAdapter);
         System::setContainer($container);
+
+        // suppress Image xyz could not be processed from Image::addToTemplateData()
+        System::getContainer()->set('monolog.logger.contao', new NullLogger());
 
         $templateData = [];
         global $objPage;

@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Cache;
 
+use Contao\FilesModel;
+use Contao\System;
 use HeimrichHannot\UtilsBundle\Cache\RemoteImageCache;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\Request\CurlRequestUtil;
@@ -64,23 +66,51 @@ class RemoteImageCacheTest extends TestCaseEnvironment
             }
         });
 
-        $container->set('huh.utils.curl', $curlMock);
-        $instance = new RemoteImageCache($framework, $container);
+        System::getContainer()->set('huh.utils.curl', $curlMock);
+
+        $instance = new RemoteImageCache($framework);
         $this->assertInstanceOf(RemoteImageCache::class, $instance);
     }
 
     public function testGet()
     {
-        $framework = $this->mockContaoFramework();
-        $container = $this->prepareContainer($framework);
-
         $path = TL_ROOT.DIRECTORY_SEPARATOR.$this->tempPath;
         $testFile = $path.'/test01.jpg';
+
+        $filesModel = new \stdClass();
+        $filesModel->path = str_replace(TL_ROOT.DIRECTORY_SEPARATOR, '', $path);
+        $filesModel->uuid = 'fade6980-1641-11e8-b642-0ed5f89f718b';
+
+        $filesModelAdapter = $this->mockAdapter(['findByUuid']);
+        $filesModelAdapter->method('findByUuid')->willReturn($filesModel);
+
+        $curlMock = $this->createMock(CurlRequestUtil::class);
+        $curlMock->method('request')->willReturnCallback(function ($argument) {
+            switch ($argument) {
+                case 'remoteNull':
+                    return null;
+                case 'remoteFalse':
+                    return false;
+                case 'remoteEmpty':
+                    return 'null';
+                case 'remoteImage':
+                default:
+                    return 'test01';
+            }
+        });
+
+        System::getContainer()->set('huh.utils.request.curl', $curlMock);
+
+        $framework = $this->mockContaoFramework([
+            FilesModel::class => $filesModelAdapter,
+        ]);
+
+        System::getContainer()->set('huh.utils.file', new FileUtil($framework));
 
         $fs = new Filesystem();
         $fs->dumpFile($testFile, 'test01');
 
-        $cache = new RemoteImageCache($framework, $container);
+        $cache = new RemoteImageCache($framework);
 
         $this->assertSame(
             $this->tempPath.'/test01.jpg',
@@ -90,7 +120,6 @@ class RemoteImageCacheTest extends TestCaseEnvironment
             $this->tempPath.'/test01.jpg',
             $cache->get('test01', 'fade6980-1641-11e8-b642-0ed5f89f718b', 'http://www.google.de')
         );
-        $this->assertFalse($cache->get('test01', '0c23ab88-1642-11e8-b642-0ed5f89f718b', 'http://www.google.de'));
 
         $this->assertSame(
             $this->tempPath.'/test02.jpg',
@@ -100,6 +129,17 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $this->assertFalse(
             $cache->get('test03', $this->tempPath, 'remoteFalse')
         );
+
+        $filesModelAdapter = $this->mockAdapter(['findByUuid']);
+        $filesModelAdapter->method('findByUuid')->willReturn(null);
+
+        $framework = $this->mockContaoFramework([
+            FilesModel::class => $filesModelAdapter,
+        ]);
+
+        System::getContainer()->set('huh.utils.file', new FileUtil($framework));
+
+        $this->assertFalse($cache->get('test01', '0c23ab88-1642-11e8-b642-0ed5f89f718b', 'http://www.google.de'));
     }
 
     public function prepareContainer($framework)
@@ -122,7 +162,8 @@ class RemoteImageCacheTest extends TestCaseEnvironment
                     return 'test02';
             }
         });
-        $container->set('huh.utils.request.curl', $curlMock);
+
+        System::getContainer()->set('huh.utils.request.curl', $curlMock);
 
         $fileUtilMock = $this->createMock(FileUtil::class);
         $fileUtilMock->method('getFolderFromUuid')->willReturnCallback(function ($argument) {
@@ -137,7 +178,8 @@ class RemoteImageCacheTest extends TestCaseEnvironment
                     return $folder;
             }
         });
-        $container->set('huh.utils.file', $fileUtilMock);
+
+        System::getContainer()->set('huh.utils.file', $fileUtilMock);
 
         return $container;
     }

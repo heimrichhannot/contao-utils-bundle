@@ -10,7 +10,6 @@ services:
         public: true
         arguments:
             - "@contao.framework"
-            - "@service_container"
     huh.utils.code:
         class: HeimrichHannot\UtilsBundle\Security\CodeUtil
         public: true
