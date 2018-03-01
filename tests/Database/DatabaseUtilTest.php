@@ -222,7 +222,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
 
         // perfect run
         $result = $databaseUtil->computeCondition('field', 'like', 'value', 'table');
-        $this->assertSame(['field LIKE ?', ['%"value"%']], $result);
+        $this->assertSame(['table.field LIKE ?', ['%"value"%']], $result);
         $this->assertCount(2, $result);
 
         $result = $databaseUtil->computeCondition('field', 'unlike', 'value');
@@ -275,7 +275,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
 
         // error handling
         $result = $databaseUtil->computeCondition('field', 'like', ['value'], 'table');
-        $this->assertSame(['field LIKE ?', ['%"value"%']], $result);
+        $this->assertSame(['table.field LIKE ?', ['%"value"%']], $result);
         $this->assertCount(2, $result);
     }
 

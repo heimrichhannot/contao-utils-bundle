@@ -377,7 +377,7 @@ class DatabaseUtil
      *
      * @return array Returns array($strQuery, $arrValues)
      */
-    public function computeCondition(string $field, string $operator, $value, string $table = null)
+    public function computeCondition(string $field, string $operator, $value, string $table = null, bool $skipTablePrefix = false)
     {
         $operator = trim(strtolower($operator));
         $values = [];
@@ -456,7 +456,7 @@ class DatabaseUtil
 
         $operator = $this->transformVerboseOperator($operator);
 
-        return ["$field $operator $pattern", $values];
+        return [(!$skipTablePrefix && $table ? $table.'.' : '')."$field $operator $pattern", $values];
     }
 
     public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca, $value = null)

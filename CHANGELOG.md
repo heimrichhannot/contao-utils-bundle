@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2018-03-01
+
+### Fixed
+- default table prefixing in DatabaseUtil::computeCondition()
+
 ## [1.0.1] - 2018-02-28
 
 ### Fixed
