@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 2018-03-02
+
+### Changed
+- reference `$GLOBALS['TL_LANG']['MSC']['operators']` to `$GLOBALS['TL_LANG']['MSC']['databaseOperators']`
+
 ## [1.0.3] - 2018-03-02
 
 ### Fixed

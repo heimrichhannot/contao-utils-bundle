@@ -88,7 +88,7 @@ $GLOBALS['TL_LANG']['COUNTIES']['de']['th'] = 'Thüringen';
 /**
  * Logic
  */
-$GLOBALS['TL_LANG']['MSC']['operators'] = [
+$GLOBALS['TL_LANG']['MSC']['databaseOperators'] = [
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LIKE          => 'enthält',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNLIKE        => 'enthält nicht',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_EQUAL         => '=',

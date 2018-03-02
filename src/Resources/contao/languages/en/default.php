@@ -82,9 +82,9 @@ $GLOBALS['TL_LANG']['COUNTIES']['de']['th'] = 'Thuringia';
 /**
  * Logic
  */
-$GLOBALS['TL_LANG']['MSC']['operators'] = [
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LIKE          => 'contains',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNLIKE        => 'doesn\'t contain',
+$GLOBALS['TL_LANG']['MSC']['databaseOperators'] = [
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LIKE          => 'like',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNLIKE        => 'not like',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_EQUAL         => '=',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNEQUAL       => '!=',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER         => '&lt;',
