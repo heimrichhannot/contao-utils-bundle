@@ -88,8 +88,8 @@ abstract class AbstractChoice
         $this->cacheKey = 'choice.'.str_replace('Choice', '', (new \ReflectionClass($this))->getShortName());
 
         // add unique identifier based on context
-        if (null !== $context && false !== ($json = json_encode($context))) {
-            $this->cacheKey .= '.'.sha1($json);
+        if (null !== $context && false !== ($hash = serialize($context))) {
+            $this->cacheKey .= '.'.sha1($hash);
         }
 
         $cache = $this->cache->getItem($this->cacheKey);
