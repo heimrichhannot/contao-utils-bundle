@@ -51,7 +51,7 @@ services:
         arguments:
             - "@contao.framework"
     huh.utils.image:
-        class: HeimrichHannot\UtilsBundle\Image\Image
+        class: HeimrichHannot\UtilsBundle\Image\ImageUtil
         public: true
         arguments:
             - "@contao.framework"

@@ -10,14 +10,25 @@ namespace HeimrichHannot\UtilsBundle\Image;
 
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\StringUtil;
 use Contao\System;
 
-class Image
+class ImageUtil
 {
+    /**
+     * @var ContaoFrameworkInterface
+     */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
+
     public function addToTemplateData(
         string $imageField,
         string $imageSelectorField,

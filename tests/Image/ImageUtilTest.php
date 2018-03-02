@@ -14,10 +14,10 @@ use Contao\Image\Picture;
 use Contao\PageModel;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Image\Image;
+use HeimrichHannot\UtilsBundle\Image\ImageUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
-use Psr\Log\NullLogger;
 
-class ImageTest extends TestCaseEnvironment
+class ImageUtilTest extends TestCaseEnvironment
 {
     public function setUp()
     {
@@ -73,7 +73,7 @@ class ImageTest extends TestCaseEnvironment
         $templateData['href'] = true;
         $templateData['singleSRC'] = [];
 
-        $image = new Image();
+        $image = new ImageUtil($this->mockContaoFramework());
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
@@ -111,7 +111,7 @@ class ImageTest extends TestCaseEnvironment
 
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
-        $image = new Image();
+        $image = new ImageUtil($this->mockContaoFramework());
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, null, null, $model);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
@@ -129,9 +129,6 @@ class ImageTest extends TestCaseEnvironment
         $pictureFactoryAdapter->method('create')->willThrowException($exception);
         $container->set('contao.image.picture_factory', $pictureFactoryAdapter);
         System::setContainer($container);
-
-        // suppress Image xyz could not be processed from Image::addToTemplateData()
-        System::getContainer()->set('monolog.logger.contao', new NullLogger());
 
         $templateData = [];
         global $objPage;
@@ -158,7 +155,7 @@ class ImageTest extends TestCaseEnvironment
 
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
-        $image = new Image();
+        $image = new ImageUtil($this->mockContaoFramework());
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 4, 12, 'lightBoxName', $model);
         $this->assertSame('', $templateData['src']);
         $this->assertSame('margin-top:10px;margin-bottom:10px;', $templateData['margin']);
