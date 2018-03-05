@@ -4,5 +4,3 @@ Installing dependencies (including require-dev) from lock file
 Nothing to install or update
 Package guzzle/guzzle is abandoned, you should avoid using it. Use guzzlehttp/guzzle instead.
 Generating autoload files
-ocramius/package-versions:  Generating version class...
-ocramius/package-versions: ...done generating version class
