@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1520246565">
-  <project timestamp="1520246565">
+<coverage generated="1520246570">
+  <project timestamp="1520246570">
     <package name="HeimrichHannot\UtilsBundle\Arrays">
       <file name="/home/travis/build/heimrichhannot/contao-utils-bundle/src/Arrays/ArrayUtil.php">
         <class name="HeimrichHannot\UtilsBundle\Arrays\ArrayUtil" namespace="HeimrichHannot\UtilsBundle\Arrays">
@@ -1082,7 +1082,7 @@
     <package name="HeimrichHannot\UtilsBundle\Image">
       <file name="/home/travis/build/heimrichhannot/contao-utils-bundle/src/Image/ImageUtil.php">
         <class name="HeimrichHannot\UtilsBundle\Image\ImageUtil" namespace="HeimrichHannot\UtilsBundle\Image">
-          <metrics complexity="55" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="102" coveredstatements="102" elements="104" coveredelements="104"/>
+          <metrics complexity="55" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="103" coveredstatements="103" elements="105" coveredelements="105"/>
         </class>
         <line num="27" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="3"/>
         <line num="29" type="stmt" count="3"/>
@@ -1148,6 +1148,7 @@
         <line num="153" type="stmt" count="2"/>
         <line num="156" type="stmt" count="2"/>
         <line num="157" type="stmt" count="2"/>
+        <line num="158" type="stmt" count="2"/>
         <line num="159" type="stmt" count="2"/>
         <line num="160" type="stmt" count="2"/>
         <line num="161" type="stmt" count="2"/>
@@ -1188,7 +1189,7 @@
         <line num="234" type="stmt" count="3"/>
         <line num="235" type="stmt" count="3"/>
         <line num="236" type="stmt" count="3"/>
-        <metrics loc="237" ncloc="189" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="102" coveredstatements="102" elements="104" coveredelements="104"/>
+        <metrics loc="237" ncloc="189" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="103" coveredstatements="103" elements="105" coveredelements="105"/>
       </file>
     </package>
     <package name="HeimrichHannot\UtilsBundle\Model">
@@ -1559,6 +1560,6 @@
         <metrics loc="215" ncloc="166" classes="1" methods="7" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="54" elements="83" coveredelements="60"/>
       </file>
     </package>
-    <metrics files="28" loc="3946" ncloc="2881" classes="27" methods="128" coveredmethods="122" conditionals="0" coveredconditionals="0" statements="1227" coveredstatements="1155" elements="1355" coveredelements="1277"/>
+    <metrics files="28" loc="3946" ncloc="2881" classes="27" methods="128" coveredmethods="122" conditionals="0" coveredconditionals="0" statements="1228" coveredstatements="1156" elements="1356" coveredelements="1278"/>
   </project>
 </coverage>
