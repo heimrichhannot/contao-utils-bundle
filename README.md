@@ -18,6 +18,13 @@ composer require heimrichhannot/contao-utils-bundle
 
 All Utils can are public symfony services and can be called from the service container or be injected.
 
-Services are nme
+Services are named by the pattern `huh_utils_[optional:namesspace_][utils class]` (in a good IDE, just type `huh_utils` and you will see all options).
 
-[API Documentation]
+Examples:
+* `huh.utils.cache.remote_image_cache`
+* `huh.utils.curl`
+* `huh.utils.dca`
+* `huh.utils.model`
+* `huh.utils.routing`
+
+[API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/)
