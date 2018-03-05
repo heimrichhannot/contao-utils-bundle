@@ -1,6 +1,0 @@
-Root package is not of type "project", we will not installing Contao extensions.
-Loading composer repositories with package information
-Installing dependencies (including require-dev) from lock file
-Nothing to install or update
-Package guzzle/guzzle is abandoned, you should avoid using it. Use guzzlehttp/guzzle instead.
-Generating autoload files
