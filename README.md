@@ -27,4 +27,8 @@ Examples:
 * `huh.utils.model`
 * `huh.utils.routing`
 
+See all services in the [Service definition](src/Resources/config/services.yml)
+
+## Documentation
+
 [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/)
