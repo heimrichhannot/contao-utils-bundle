@@ -19,6 +19,6 @@ $iterator = Finder::create()
 
 return new Sami($iterator, [
     'title' => 'Contao Utils Bundle',
-    'build_dir' => __DIR__.'/../api',
+    'build_dir' => __DIR__.'/../build',
     'cache_dir' => __DIR__.'/../cache',
 ]);
