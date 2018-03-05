@@ -30,6 +30,6 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
-  directory: docs/build
+  local-dir: docs/build
   on:
     branch: master

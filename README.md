@@ -14,56 +14,10 @@ This bundle offers various utility functionality for the Contao CMS.
 composer require heimrichhannot/contao-utils-bundle
 ```
 
+## Usage
 
-## Utils
+All Utils can are public symfony services and can be called from the service container or be injected.
 
-### Cache
+Services are nme
 
-#### Remote image cache `huh.utils.cache.remote_image_cache`
-
-Method     | Description
------------|------------
-get        | Get a remote file from cache and cache file, if not already in cache.
-
-### Curl `huh.utils.curl`
-
-Method                     | Description
----------------------------|------------
-recursivelyGetRequest      |
-request                    | 
-recursivelyPostRequest     |
-postRequest                |
-createCurlObject           |
-setHeaders                 |
-splitResponseHeaderAndBody |
-prepareHeaderArrayForPrint |
-
-
-### DCA `huh.utils.dca`
-
-Method                               | Description
--------------------------------------|------------
-getConfigByArrayOrCallbackOrFunction |
-setDateAdded                         |
-setDateAddedOnCopy                   |
-getFields                            |
-addOverridableFields                 |
-getOverridableProperty               |
-flattenPaletteForSubEntities         | 
-generateAlias                        | Generate a unique alias or check if given alias is unique
-
-### Models `huh.utils.model`
-
-Method                    | Description
---------------------------|------------
-findModelInstanceByPk     | Returns a model instance if for a given table and id or null if not exist.
-findModelInstancesBy      | Returns model instances by given table and search criteria. 
-findOneModelInstanceBy    | Return a single model instance by table and search criteria.
-findRootParentRecursively | Recursively finds the root parent.
-findParentsRecursively    |Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
-
-### Routing `huh.utils.routing`
-
-Method               | Description
----------------------|------------
-generateBackendRoute | Generate a backend Route with request token and referer.
+[API Documentation]
