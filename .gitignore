@@ -6,3 +6,5 @@ vendor
 composer.lock
 composer.json~
 composer.phar
+
+docs/cache
