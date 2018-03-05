@@ -23,7 +23,7 @@ before_script:
 script:
   - mkdir -p build/logs
   - php vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-  - php sami.phar update config/sami.php
+  - php sami.phar update ./docs/config/SamiDocConfig.php
 after_script:
   - php vendor/bin/coveralls
 
