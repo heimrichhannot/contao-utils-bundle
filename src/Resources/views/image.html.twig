@@ -1,0 +1,19 @@
+<figure class="image_container{{ floatClass|default('') }}"{% if margin|default() %} style="{{ margin }}"{% endif %} itemscope itemtype="http://schema.org/ImageObject"
+        itemprop="associatedMedia">
+
+    {% if href|default() %}
+        <a href="{{ href }}"{% if linkTitle|default() %} title="{{ linkTitles }}"{% endif %}{{ attributes|default()|raw }} itemprop="contentUrl">
+    {% endif %}
+
+    {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture) }}
+
+
+    {% if href|default() %}
+        </a>
+    {% endif %}
+
+    {% if caption|default() %}
+        <figcaption class="caption" itemprop="caption">{{ caption }}</figcaption>
+    {% endif %}
+
+</figure>

@@ -1,0 +1,23 @@
+{% if sources|default() %}
+  <picture>
+    <!--[if IE 9]><video style="display: none;"><![endif]-->
+
+    {% for source in sources %}
+      <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
+    {% endfor %}
+    <!--[if IE 9]></video><![endif]-->
+{% endif %}
+
+<img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }} itemprop="image">
+
+{% if sources %}
+  </picture>
+{% endif %}
+
+{% if sources|default() or img.src != img.srcset %}
+  <script>
+    window.respimage && window.respimage({
+      elements: [document.images[document.images.length - 1]]
+    });
+  </script>
+{% endif %}

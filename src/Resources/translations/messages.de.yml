@@ -1,0 +1,6 @@
+# misc
+huh.utils:
+  misc:
+    override:
+      label: '"%fieldname%" überschreiben'
+      desc: 'Klicken Sie hier, um "%fieldname%" zu überschreiben'
