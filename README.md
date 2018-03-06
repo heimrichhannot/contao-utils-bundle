@@ -16,19 +16,31 @@ composer require heimrichhannot/contao-utils-bundle
 
 ## Usage
 
-All Utils can are public symfony services and can be called from the service container or be injected.
+All utils are public symfony services and can be called from the service container or be injected.
 
-Services are named by the pattern `huh_utils_[optional:namesspace_][utils class]` (in a good IDE, just type `huh_utils` and you will see all options).
+Available [Service](src/Resources/config/services.yml) (as at version 1.0.4):
 
-Examples:
+* `huh.utils.array`
 * `huh.utils.cache.remote_image_cache`
-* `huh.utils.curl`
+* `huh.utils.code`
+* `huh.utils.encryption`
+* `huh.utils.container`
+* `huh.utils.database`
+* `huh.utils.date`
 * `huh.utils.dca`
+* `huh.utils.file`
+* `huh.utils.form`
+* `huh.utils.image`
 * `huh.utils.model`
+* `huh.utils.request.curl`
+* `huh.utils.string`
+* `huh.utils.url`
+* `huh.utils.choice.field`
+* `huh.utils.choice.data_container`
+* `huh.utils.choice.message`
+* `huh.utils.choice.model_instance`
 * `huh.utils.routing`
-
-See all services in the [Service definition](src/Resources/config/services.yml)
 
 ## Documentation
 
-[API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/)
+You'll find all available util mehthods in the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/).
