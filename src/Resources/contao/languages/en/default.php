@@ -113,3 +113,4 @@ $GLOBALS['TL_LANG']['ERR']['posFloat']['noFloat'] = 'Please enter a positive flo
  */
 $GLOBALS['TL_LANG']['MSC']['yes'] = 'Yes';
 $GLOBALS['TL_LANG']['MSC']['no'] = 'No';
+$GLOBALS['TL_LANG']['MSC']['page'] = 'Page';

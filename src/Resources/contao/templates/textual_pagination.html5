@@ -1,0 +1,21 @@
+
+<!-- indexer::stop -->
+<div class="textual-pagination block">
+    <ul>
+        <?php foreach ($this->pages as $page): ?>
+            <?php if ($page['href'] === null): ?>
+                <li>
+                    <span class="active">
+                        <?= $GLOBALS['TL_LANG']['MSC']['page'] ?> <?= $page['page'] ?> – <?= $page['text'] ?>
+                    </span>
+                </li>
+            <?php else: ?>
+                <li>
+                    <a href="<?= $page['href'] ?>" class="link" title="<?= $page['title'] ?>"><?= $GLOBALS['TL_LANG']['MSC']['page'] ?> <?= $page['page'] ?></a>
+                    – <?= $page['text'] ?>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<!-- indexer::continue -->

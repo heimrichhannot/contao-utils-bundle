@@ -121,3 +121,4 @@ $GLOBALS['TL_LANG']['ERR']['price']                  = 'Bitte geben Sie einen g√
  */
 $GLOBALS['TL_LANG']['MSC']['yes'] = 'Ja';
 $GLOBALS['TL_LANG']['MSC']['no']  = 'Nein';
+$GLOBALS['TL_LANG']['MSC']['page'] = 'Seite';
