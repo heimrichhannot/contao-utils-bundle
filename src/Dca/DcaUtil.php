@@ -464,4 +464,25 @@ class DcaUtil
             };
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getDataContainers()
+    {
+        $dca = [];
+        foreach ($GLOBALS['BE_MOD'] as $arrSection) {
+            foreach ($arrSection as $strModule => $arrModule) {
+                foreach ($arrModule as $strKey => $varValue) {
+                    if (is_array($arrModule['tables'])) {
+                        $dca = array_merge($dca, $arrModule['tables']);
+                    }
+                }
+            }
+        }
+        $dca = array_unique($dca);
+        asort($dca);
+
+        return array_values($dca);
+    }
 }

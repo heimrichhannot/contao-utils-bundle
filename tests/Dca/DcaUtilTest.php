@@ -443,6 +443,28 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertFalse($result);
     }
 
+    public function testGetDataContainers()
+    {
+        $GLOBALS['BE_MOD'] = [
+            [
+                [
+                    'tables' => [
+                        'tl_news',
+                    ],
+                ],
+                [
+                    'tables' => [
+                        'tl_members',
+                    ],
+                ],
+            ],
+        ];
+
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $result = $dcaUtil->getDataContainers();
+        $this->assertSame(['tl_members', 'tl_news'], $result);
+    }
+
     public function getDatabaseMock()
     {
         $databaseAdapter = $this->mockAdapter([
