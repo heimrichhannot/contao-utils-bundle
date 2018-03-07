@@ -47,6 +47,7 @@ script:
 after_script:
   - if [[ "$COVERAGE" = "1" ]]; then travis_retry php vendor/bin/php-coveralls -v; fi
 
+if [[ "$COVERAGE" = "1" ]]
 deploy:
   provider: pages
   skip-cleanup: true
@@ -55,3 +56,4 @@ deploy:
   local-dir: docs/build
   on:
     branch: master
+    condition: $UPDATEDOC = 1
