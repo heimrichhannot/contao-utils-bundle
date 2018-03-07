@@ -55,4 +55,4 @@ deploy:
   local-dir: docs/build
   on:
     branch: master
-    condition: "$UPDATEDOC = 1"
+    condition: "$UPDATEDOC == '1'"
