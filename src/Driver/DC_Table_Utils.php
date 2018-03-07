@@ -12,6 +12,7 @@ use Contao\DataContainer;
 use Contao\DC_Table;
 use Contao\Model;
 use Contao\System;
+use HeimrichHannot\Request\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class DC_Table_Utils extends DC_Table
@@ -30,17 +31,17 @@ class DC_Table_Utils extends DC_Table
         $objSession = System::getContainer()->get('session');
 
         // Check the request token (see #4007)
-        if (isset($_GET['act'])) {
-            if (!isset($_GET['rt']) || !\RequestToken::validate(\Input::get('rt'))) {
+        if (Request::hasGet('act')) {
+            if (!Request::hasGet('rt') || !\RequestToken::validate(Request::getGet('rt'))) {
                 $objSession->set('INVALID_TOKEN_URL', \Environment::get('request'));
                 $this->redirect('contao/confirm.php');
             }
         }
 
-        $this->intId = \Input::get('id');
+        $this->intId = Request::getGet('id');
 
         // Clear the clipboard
-        if (isset($_GET['clipboard'])) {
+        if (Request::hasGet('clipboard')) {
             $objSession->set('CLIPBOARD', []);
             $this->redirect($this->getReferer());
         }
@@ -52,8 +53,8 @@ class DC_Table_Utils extends DC_Table
         }
 
         // Set IDs and redirect
-        if ('tl_select' == \Input::post('FORM_SUBMIT')) {
-            $ids = \Input::post('IDS');
+        if ('tl_select' == Request::getPost('FORM_SUBMIT')) {
+            $ids = Request::getPost('IDS');
 
             if (empty($ids) || !\is_array($ids)) {
                 $this->reload();
@@ -63,24 +64,24 @@ class DC_Table_Utils extends DC_Table
             $session['CURRENT']['IDS'] = $ids;
             $objSession->replace($session);
 
-            if (isset($_POST['edit'])) {
+            if (Request::hasPost('edit')) {
                 $this->redirect(str_replace('act=select', 'act=editAll', \Environment::get('request')));
-            } elseif (isset($_POST['delete'])) {
+            } elseif (Request::hasPost('delete')) {
                 $this->redirect(str_replace('act=select', 'act=deleteAll', \Environment::get('request')));
-            } elseif (isset($_POST['override'])) {
+            } elseif (Request::hasPost('override')) {
                 $this->redirect(str_replace('act=select', 'act=overrideAll', \Environment::get('request')));
-            } elseif (isset($_POST['cut']) || isset($_POST['copy'])) {
+            } elseif (Request::hasPost('cut') || Request::hasPost('copy')) {
                 $arrClipboard = $objSession->get('CLIPBOARD');
 
                 $arrClipboard[$strTable] = [
                     'id' => $ids,
-                    'mode' => (isset($_POST['cut']) ? 'cutAll' : 'copyAll'),
+                    'mode' => (Request::hasPost('cut') ? 'cutAll' : 'copyAll'),
                 ];
 
                 $objSession->set('CLIPBOARD', $arrClipboard);
 
                 // Support copyAll in the list view (see #7499)
-                if (isset($_POST['copy']) && $GLOBALS['TL_DCA'][$strTable]['list']['sorting']['mode'] < 4) {
+                if (Request::hasPost('copy') && $GLOBALS['TL_DCA'][$strTable]['list']['sorting']['mode'] < 4) {
                     $this->redirect(str_replace('act=select', 'act=copyAll', \Environment::get('request')));
                 }
 
@@ -89,9 +90,9 @@ class DC_Table_Utils extends DC_Table
         }
 
         $this->strTable = $strTable;
-        $this->ptable = $GLOBALS['TL_DCA'][$this->strTable]['config']['ptable'];
-        $this->ctable = $GLOBALS['TL_DCA'][$this->strTable]['config']['ctable'];
-        $this->treeView = \in_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'], [5, 6], true);
+        $this->ptable = $GLOBALS['TL_DCA'][$this->strTable]['config']['ptable'] ?? null;
+        $this->ctable = $GLOBALS['TL_DCA'][$this->strTable]['config']['ctable'] ?? null;
+        $this->treeView = isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode']) && \in_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'], [5, 6], true);
         $this->root = null;
         $this->arrModule = $arrModule;
 
@@ -102,18 +103,18 @@ class DC_Table_Utils extends DC_Table
             $table = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6) ? $this->ptable : $this->strTable;
 
             // Unless there are any root records specified, use all records with parent ID 0
-            if (!isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) || $GLOBALS['TL_DCA'][$table]['list']['sorting']['root'] === false) {
+            if (!isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) || (isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$table]['list']['sorting']['root'] === false)) {
                 $objIds = $this->Database->prepare('SELECT id FROM '.$table.' WHERE pid=?'.($this->Database->fieldExists('sorting', $table) ? ' ORDER BY sorting' : ''))->execute(0);
 
                 if ($objIds->numRows > 0) {
                     $this->root = $objIds->fetchEach('id');
                 }
             } // Get root records from global configuration file
-            elseif (\is_array($GLOBALS['TL_DCA'][$table]['list']['sorting']['root'])) {
+            elseif (isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) && \is_array($GLOBALS['TL_DCA'][$table]['list']['sorting']['root'])) {
                 $this->root = $this->eliminateNestedPages($GLOBALS['TL_DCA'][$table]['list']['sorting']['root'], $table, $this->Database->fieldExists('sorting', $table));
             }
         } // Get the IDs of all root records (list view or parent view)
-        elseif (\is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'])) {
+        elseif (isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']) && \is_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root'])) {
             $this->root = array_unique($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']);
         }
 
@@ -121,9 +122,9 @@ class DC_Table_Utils extends DC_Table
         $route = $request->attributes->get('_route');
 
         // Store the current referer
-        if (!empty($this->ctable) && !\Input::get('act') && !\Input::get('key') && !\Input::get('token') && 'contao_backend' == $route
+        if (!empty($this->ctable) && !Request::getGet('act') && !Request::getGet('key') && !Request::getGet('token') && 'contao_backend' == $route
             && !\Environment::get('isAjaxRequest')) {
-            $strKey = \Input::get('popup') ? 'popupReferer' : 'referer';
+            $strKey = Request::getGet('popup') ? 'popupReferer' : 'referer';
             $strRefererId = \System::getContainer()->get('request_stack')->getCurrentRequest()->attributes->get('_contao_referer_id');
 
             $session = $objSession->get($strKey);
@@ -166,8 +167,12 @@ class DC_Table_Utils extends DC_Table
         $dc = new static($table);
 
         $dc->strTable = $table;
-        $dc->activeRecord = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($table, $modelData['id']);
-        $dc->intId = $modelData['id'];
+        $dc->activeRecord = null;
+
+        if (isset($modelData['id']) && $modelData['id'] > 0) {
+            $dc->activeRecord = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($table, $modelData['id']);
+            $dc->intId = $modelData['id'];
+        }
 
         if ($field) {
             $dc->strField = $field;

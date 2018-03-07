@@ -265,7 +265,7 @@ class FileUtilTest extends TestCaseEnvironment
         $this->assertSame(1, $lines);
 
         $lines = $fileUtil->getFileLineCount('foo');
-        $this->assertSame('fopen('.TL_ROOT.'/foo): failed to open stream: No such file or directory', $lines);
+        $this->assertTrue(false !== strpos($lines, 'fopen('.TL_ROOT.'/foo): failed to open stream:'));
     }
 
     public function testGetFolderFromDca()
@@ -288,7 +288,9 @@ class FileUtilTest extends TestCaseEnvironment
         $folder = $fileUtil->getFolderFromDca($file);
         $this->assertSame($this->getTempDir().'/files/dcaFile', $folder);
 
-        $folder = $fileUtil->getFolderFromDca(function ($dca) { return $this->getTempDir().'/files/dcaFile'; }, $this->getDataContainerMock());
+        $folder = $fileUtil->getFolderFromDca(function ($dca) {
+            return $this->getTempDir().'/files/dcaFile';
+        }, $this->getDataContainerMock());
         $this->assertSame($this->getTempDir().'/files/dcaFile', $folder);
 
         $folder = $fileUtil->getFolderFromDca([self::class, 'getFolder'], $this->getDataContainerMock());

@@ -1,14 +1,34 @@
 language: php
-php:
-  - 7.1
-  - 7.2
-env:
-  - CONTAO_VERSION="4.4.*"
-  - CONTAO_VERSION="4.5.*"
-install:
-  - composer require contao/core-bundle:${CONTAO_VERSION}
-  - wget -O sami.phar http://get.sensiolabs.org/sami.phar
+git:
+  depth: 1
+cache:
+  directories:
+  - "$HOME/.composer/cache"
 sudo: false
+env:
+  global:
+  - COMPOSER_ALLOW_XDEBUG=0
+matrix:
+  include:
+    - php: 7.1
+      env: CONTAO_VERSION='4.4.*'
+    - php: 7.2
+      env: CONTAO_VERSION='4.4.*'
+    - php: 7.1
+      env: CONTAO_VERSION='4.5.*'
+    - php: 7.2
+      env: CONTAO_VERSION='4.5.*'
+    - php: 7.2
+      env: COVERAGE=1 UPDATEDOC=1 CONTAO_VERSION='4.5.*'
+  allow_failures:
+    - env: COVERAGE=1 UPDATEDOC=1 DEFAULT=0
+  fast_finish: true
+before_install:
+- if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || true; fi
+install:
+  - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then composer update --no-interaction --quiet; fi
+  - composer update $COMPOSER_FLAGS --no-interaction --no-suggest
+  - if [[ "$UPDATEDOC" = "1" ]]; then wget -O sami.phar http://get.sensiolabs.org/sami.phar; fi
 notifications:
   email:
     recipients:
@@ -21,11 +41,11 @@ notifications:
 before_script:
   - travis_wait composer install --no-interaction
 script:
-  - mkdir -p build/logs
-  - php vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-  - php sami.phar update ./docs/config/SamiDocConfig.php
+  - if [[ "$COVERAGE" = "1" ]]; then travis_retry mkdir -p build/logs; fi
+  - if [[ "$COVERAGE" = "1" ]]; then travis_retry php vendor/bin/phpunit --coverage-clover build/logs/clover.xml || true; fi
+  - if [[ "$UPDATEDOC" = "1" ]]; then travis_retry php sami.phar update ./docs/config/SamiDocConfig.php || true; fi
 after_script:
-  - php vendor/bin/coveralls
+  - if [[ "$COVERAGE" = "1" ]]; then travis_retry php vendor/bin/php-coveralls -v; fi
 
 deploy:
   provider: pages
