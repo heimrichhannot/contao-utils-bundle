@@ -398,43 +398,43 @@ class DatabaseUtil
             case static::OPERATOR_UNLIKE:
                 if (is_array($value)) {
                     foreach ($value as $val) {
-                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $val).'%';
+                        $values[] = Controller::replaceInsertTags('%'.($addQuotes ? '"'.$val.'"' : $val).'%', false);
                     }
                     break;
                 }
-                $values[] = '%'.($addQuotes ? '"'.$value.'"' : $value).'%';
+                $values[] = Controller::replaceInsertTags('%'.($addQuotes ? '"'.$value.'"' : $value).'%', false);
                 break;
             case static::OPERATOR_EQUAL:
-                $values[] = $value;
+                $values[] = Controller::replaceInsertTags($value, false);
                 break;
             case static::OPERATOR_UNEQUAL:
             case '<>':
-                $values[] = $value;
+                $values[] = Controller::replaceInsertTags($value, false);
                 break;
             case static::OPERATOR_LOWER:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = $value;
+                $values[] = Controller::replaceInsertTags($value, false);
                 break;
             case static::OPERATOR_GREATER:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = $value;
+                $values[] = Controller::replaceInsertTags($value, false);
                 break;
             case static::OPERATOR_LOWER_EQUAL:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = $value;
+                $values[] = Controller::replaceInsertTags($value, false);
                 break;
             case static::OPERATOR_GREATER_EQUAL:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = $value;
+                $values[] = Controller::replaceInsertTags($value, false);
                 break;
             case static::OPERATOR_IN:
                 $pattern = '('.implode(',', array_map(function ($value) {
-                    return '\''.$value.'\'';
+                    return Controller::replaceInsertTags('\''.$value.'\'', false);
                 }, explode(',', $value))).')';
                 break;
             case static::OPERATOR_NOT_IN:
                 $pattern = '('.implode(',', array_map(function ($value) {
-                    return '\''.$value.'\'';
+                    return Controller::replaceInsertTags('\''.$value.'\'', false);
                 }, explode(',', $value))).')';
                 break;
             case static::OPERATOR_IS_NULL:
@@ -446,11 +446,11 @@ class DatabaseUtil
             default:
                 if (is_array($value)) {
                     foreach ($value as $val) {
-                        $values[] = '%'.($addQuotes ? '"'.$val.'"' : $val).'%';
+                        $values[] = Controller::replaceInsertTags('%'.($addQuotes ? '"'.$val.'"' : $val).'%', false);
                     }
                     break;
                 }
-                $values[] = '%'.($addQuotes ? '"'.$value.'"' : $value).'%';
+                $values[] = Controller::replaceInsertTags('%'.($addQuotes ? '"'.$value.'"' : $value).'%', false);
                 break;
         }
 
