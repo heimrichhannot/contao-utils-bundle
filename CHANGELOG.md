@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2018-03-08
+
+### Changed
+- added `DatabaseUtil::computeCondition` remove table name from field name if already set mistakenly
+
 ## [1.1.1] - 2018-03-07
 
 ### Fixed
