@@ -40,9 +40,9 @@ notifications:
 before_script:
   - travis_wait composer install --no-interaction
 script:
-  - if [[ "$COVERAGE" = "1" ]]; then travis_retry mkdir -p build/logs; fi
-  - if [[ "$COVERAGE" = "1" ]]; then travis_retry php vendor/bin/phpunit --coverage-clover build/logs/clover.xml || true; fi
-  - if [[ "$UPDATEDOC" = "1" ]]; then travis_retry php sami.phar update ./docs/config/SamiDocConfig.php || true; fi
+  - if [[ "$COVERAGE" = "1" ]]; then mkdir -p build/logs; fi
+  - if [[ "$COVERAGE" = "1" ]]; then php vendor/bin/phpunit --coverage-clover build/logs/clover.xml || true; fi
+  - if [[ "$UPDATEDOC" = "1" ]]; then php sami.phar update ./docs/config/SamiDocConfig.php || true; fi
 after_script:
   - if [[ "$COVERAGE" = "1" ]]; then travis_retry php vendor/bin/php-coveralls -v; fi
 
