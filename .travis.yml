@@ -10,27 +10,23 @@ env:
   - COMPOSER_ALLOW_XDEBUG=0
 matrix:
   include:
-    # Latest dependencies with all PHP versions
     - php: 7.1
+      env: CONTAO_VERSION='4.4.*'
     - php: 7.2
-
-    # Generate the coverage with the latest PHP version and update documentation
-    - php: 7.2
-      env: COVERAGE=1 UPDATEDOC=1'
-
-    # Lowest dependencies with the oldest and latest PHP versions
+      env: CONTAO_VERSION='4.4.*'
     - php: 7.1
-      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER='weak_vendors'
+      env: CONTAO_VERSION='4.5.*'
     - php: 7.2
-      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable' SYMFONY_DEPRECATIONS_HELPER='weak_vendors'
+      env: CONTAO_VERSION='4.5.*'
+    - php: 7.2
+      env: COVERAGE=1 UPDATEDOC=1 CONTAO_VERSION='4.5.*'
   allow_failures:
     - env: COVERAGE=1 UPDATEDOC=1 DEFAULT=0
   fast_finish: true
 before_install:
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || true; fi
 install:
-  - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then composer update --no-interaction --quiet; fi
-  - composer update $COMPOSER_FLAGS --no-interaction --no-suggest
+  - composer require contao/core-bundle:${CONTAO_VERSION}
   - if [[ "$UPDATEDOC" = "1" ]]; then wget -O sami.phar http://get.sensiolabs.org/sami.phar; fi
 notifications:
   email:
