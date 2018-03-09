@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.5] - 2018-03-09
+
+### Fixed
+-  travis build and composer dependencies
+
 ## [1.1.4] - 2018-03-09
 
 ### Fixed
