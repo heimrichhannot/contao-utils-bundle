@@ -17,7 +17,6 @@ use Contao\Environment;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
-use HeimrichHannot\Request\Request;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 
 class FormUtil
@@ -197,9 +196,7 @@ class FormUtil
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
             list($encrypted, $iv) = explode('.', $value);
 
-            $value = System::getContainer()->get('huh.utils.encryption')->decrypt(
-                $encrypted, $iv
-            );
+            $value = System::getContainer()->get('huh.utils.encryption')->decrypt($encrypted, $iv);
         }
 
         // reset caches
@@ -225,12 +222,12 @@ class FormUtil
 
         if ($data['eval']['allowHtml'] || strlen($data['eval']['rte']) || $data['eval']['preserveTags']) {
             // always decode entities if HTML is allowed
-            $value = Request::cleanHtml($value, true, true, $preservedTags);
+            $value = System::getContainer()->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
         } elseif (is_array($data['options']) || isset($data['options_callback']) || isset($data['foreignKey'])) {
             // options should not be strict cleaned, as they might contain html tags like <strong>
-            $value = Request::cleanHtml($value, true, true, $preservedTags);
+            $value = System::getContainer()->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
         } else {
-            $value = Request::clean($value, $data['eval']['decodeEntities'] ?? false, true);
+            $value = System::getContainer()->get('huh.request')->clean($value, $data['eval']['decodeEntities'] ?? false, true);
         }
 
         return $value;

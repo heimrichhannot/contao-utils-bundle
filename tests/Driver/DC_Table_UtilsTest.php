@@ -8,12 +8,15 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Driver;
 
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\Model;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use Doctrine\DBAL\Connection;
+use HeimrichHannot\RequestBundle\Component\HttpFoundation\Request;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
+use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
@@ -33,6 +36,18 @@ class DC_Table_UtilsTest extends ContaoTestCase
         }
 
         $container = $this->mockContainer();
+
+        $requestStack = new RequestStack();
+        $requestStack->push(new \Symfony\Component\HttpFoundation\Request());
+
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher);
+
+        $container->set('huh.request', $request);
 
         $container->set('database_connection', $this->createMock(Connection::class));
         $container->set('request_stack', $this->createRequestStackMock());

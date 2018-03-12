@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2018-03-12
+
+### Changed
+-  replaced `heimrichhannot/contao-request` with `heimrichhannot/contao-requets-bundle`
+
 ## [1.1.5] - 2018-03-09
 
 ### Fixed

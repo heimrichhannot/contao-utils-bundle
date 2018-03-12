@@ -7,8 +7,8 @@
     "php": "^7.1",
     "contao/core-bundle": "^4.4",
     "symfony/framework-bundle": "^3.4",
-    "heimrichhannot/contao-request": "^1.2",
-    "roderik/pwgen-php": ">=0.1.5"
+    "roderik/pwgen-php": ">=0.1.5",
+    "heimrichhannot/contao-request-bundle": "^1.0"
   },
   "require-dev": {
     "contao/test-case": "^1.1",
@@ -44,5 +44,8 @@
   },
   "extra": {
     "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin"
+  },
+  "replace": {
+    "heimrichhannot/contao-utils-bundle": "self.version"
   }
 }

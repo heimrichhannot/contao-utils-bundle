@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\String;
 
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\DataContainer;
 use Contao\Environment;
 use Contao\Model;
@@ -17,11 +18,14 @@ use Contao\Model\Collection;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\RequestBundle\Component\HttpFoundation\Request;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use HeimrichHannot\UtilsBundle\Form\FormUtil;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Security\EncryptionUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestMatcher;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class FormUtilTest extends ContaoTestCase
 {
@@ -38,6 +42,18 @@ class FormUtilTest extends ContaoTestCase
     {
         $this->container = $this->mockContainer();
         $this->container->set('contao.framework', $this->mockContaoFramework());
+
+        $requestStack = new RequestStack();
+        $requestStack->push(new \Symfony\Component\HttpFoundation\Request());
+
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher);
+
+        $this->container->set('huh.request', $request);
 
         // setup prepareSpecialValueForOutput
 
