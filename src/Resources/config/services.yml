@@ -105,3 +105,6 @@ services:
         - "@request_stack"
         - "@security.csrf.token_manager"
         - "%contao.csrf_token_name%"
+    huh.utils.choice.class:
+        class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
+        public: true

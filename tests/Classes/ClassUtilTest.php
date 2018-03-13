@@ -11,7 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Classes;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
-use HeimrichHannot\UtilsBundle\Classes\ClassUtil\ClassUtil;
+use HeimrichHannot\UtilsBundle\Classes\ClassUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 
 class ClassUtilTest extends ContaoTestCase
