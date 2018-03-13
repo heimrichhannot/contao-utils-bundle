@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2018-03-13
+
+### added
+-  added ClassUtil class with test class
+
 ## [2.0.1] - 2018-03-12
 
 ### fixed
