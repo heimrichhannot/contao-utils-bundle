@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.5] - 2018-03-14
+
+### fixed
+-  `AbstractChoice` debug check
+
 ## [2.0.4] - 2018-03-13
 
 ### fixed

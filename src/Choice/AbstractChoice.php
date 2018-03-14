@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Choice;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\System;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 abstract class AbstractChoice
@@ -81,7 +82,7 @@ abstract class AbstractChoice
     public function getCachedChoices($context = null)
     {
         // disable cache while in debug mode
-        if (\System::getContainer()->get('kernel')->isDebug()) {
+        if (true === System::getContainer()->getParameter('kernel.debug')) {
             return $this->getChoices($context);
         }
 
