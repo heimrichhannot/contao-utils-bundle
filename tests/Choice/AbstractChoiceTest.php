@@ -68,6 +68,7 @@ class AbstractChoiceTest extends ContaoTestCase
         $dcaAdapter = $this->mockAdapter(['getFields']);
         $dcaAdapter->method('getFields')->willReturn('success');
         $container->set('huh.utils.dca', $dcaAdapter);
+        $container->setParameter('kernel.debug', false);
         System::setContainer($container);
 
         $fieldChoice = new FieldChoice($this->mockContaoFramework());
@@ -77,7 +78,8 @@ class AbstractChoiceTest extends ContaoTestCase
         $container = System::getContainer();
         $kernel = $this->mockAdapter(['getCacheDir', 'isDebug']);
         $kernel->method('getCacheDir')->willReturn($this->getTempDir());
-        $kernel->method('isDebug')->willReturn(true);
+        $kernel->method('isDebug')->willReturn(false);
+        $container->setParameter('kernel.debug', true);
         $container->set('kernel', $kernel);
         System::setContainer($container);
 
