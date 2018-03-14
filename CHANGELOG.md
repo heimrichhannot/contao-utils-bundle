@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.6] - 2018-03-14
+
+### added
+-  `DateUtil::getTimeStamp()` that converts any input date format to a timestamp 
+
 ## [2.0.5] - 2018-03-14
 
 ### fixed

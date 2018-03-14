@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Date;
 
+use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 
 class DateUtil
@@ -18,6 +19,41 @@ class DateUtil
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
+    }
+
+    /**
+     * Get the timestamp based on input date, no matter input is timestamp or string date.
+     *
+     * @param string|int|null $date              The input date/timestamp/insertTag
+     * @param bool            $replaceInsertTags Disable/enable {{date::}} insertTag support
+     * @param string|null     $timezone          A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp
+     *
+     * @return int The integer timestamp presentation of the input date with added timezone offset
+     */
+    public function getTimeStamp($date = null, $replaceInsertTags = true, $timezone = null)
+    {
+        if (null === $date) {
+            return 0;
+        }
+
+        if (true === $replaceInsertTags) {
+            $date = Controller::replaceInsertTags($date, false);
+        }
+
+        if (is_numeric($date)) {
+            $dateTime = new \DateTime(null, $timezone ? new \DateTimeZone($timezone) : null);
+            $dateTime->setTimestamp($date);
+
+            return $dateTime->getTimestamp();
+        }
+
+        if (false !== ($dateTime = strtotime($date))) {
+            $dateTime = new \DateTime($date, $timezone ? new \DateTimeZone($timezone) : null);
+
+            return $dateTime->getTimestamp();
+        }
+
+        return 0;
     }
 
     public function getTimePeriodInSeconds($timePeriod)

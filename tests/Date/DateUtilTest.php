@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests;
 
+use Contao\Config;
+use Contao\Date;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Date\DateUtil;
 
@@ -21,6 +23,33 @@ class DateUtilTest extends ContaoTestCase
         $instance = new self();
 
         $this->assertInstanceOf(self::class, $instance);
+    }
+
+    /**
+     * @dataProvider timeStampProvider
+     */
+    public function testGetTimeStamp($date, $expected, $replaceInsertTags = true, $timeZone = null, $compareFormat = null)
+    {
+        // Prevent "undefined index" errors
+        $errorReporting = error_reporting();
+        error_reporting($errorReporting & ~E_NOTICE);
+
+        $container = $this->mockContainer();
+        \System::setContainer($container);
+
+        $instance = new DateUtil($this->mockContaoFramework());
+
+        if (null !== $timeZone) {
+            Config::set('timeZone', $timeZone);
+        }
+
+        if (null !== $compareFormat) {
+            $this->assertSame(Date::parse($compareFormat, $expected), Date::parse($compareFormat, $instance->getTimeStamp($date, $replaceInsertTags, $timeZone)));
+
+            return;
+        }
+
+        $this->assertSame($expected, $instance->getTimeStamp($date, $replaceInsertTags, $timeZone));
     }
 
     /**
@@ -51,6 +80,27 @@ class DateUtilTest extends ContaoTestCase
         $intlDateFormatter->setPattern($rfc3339Format);
 
         $this->assertSame($expected, $intlDateFormatter->format($date));
+    }
+
+    /**
+     * The timestamp test data provider.
+     */
+    public function timeStampProvider()
+    {
+        return [
+            [null, 0, true, 'GMT', null],
+            [0, 0, true, 'GMT', null],
+            [1511022657, 1511022657, true, null, null],
+            [1511022657, 1511022657, true, 'GMT', null],
+            ['1511022657', 1511022657, true, 'GMT', null],
+            ['{{date::d.m.Y H:i}}', time(), true, 'GMT', 'd.m.Y H:i'],
+            ['{{date::d.m.Y}}', time(), true, 'GMT', 'd.m.Y'],
+            ['{{date::H:i}}', time(), true, 'GMT', 'H:i'],
+            ['Mon, 12 Dec 2011 21:17:52 +0800', 1323695872, true, 'GMT', null],
+            ['24.04.2018 17:45', 1524591900, true, null, null],
+            ['24.04.2018 17:45', 1524617100, true, 'America/Los_Angeles', null],
+            ['ABCDEF"!§v231', 0, true, null, null],
+        ];
     }
 
     /**
