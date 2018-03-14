@@ -37,6 +37,7 @@ class AbstractChoiceTest extends ContaoTestCase
         $kernel->method('getCacheDir')->willReturn($this->getTempDir());
         $kernel->method('isDebug')->willReturn(false);
         $container->set('kernel', $kernel);
+        $container->setParameter('kernel.debug', true);
         System::setContainer($container);
     }
 

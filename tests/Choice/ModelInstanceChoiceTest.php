@@ -34,6 +34,7 @@ class ModelInstanceChoiceTest extends ContaoTestCase
         $kernel = $this->mockAdapter(['getCacheDir', 'isDebug']);
         $kernel->method('getCacheDir')->willReturn($this->getTempDir());
         $kernel->method('isDebug')->willReturn(false);
+        $container->setParameter('kernel.debug', true);
         $container->set('kernel', $kernel);
 
         $modelInstances = $this->mockClassWithProperties(CfgTagModel::class, ['id' => 12]);

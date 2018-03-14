@@ -39,6 +39,7 @@ class MessageChoiceTest extends ContaoTestCase
         $translator->method('getCatalogue')->willReturnSelf();
         $translator->method('all')->willReturn(['messages' => 'all']);
         $container->set('translator', $translator);
+        $container->setParameter('kernel.debug', true);
 
         System::setContainer($container);
     }
