@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.7] - 2018-03-14
+
+### added
+-  \DateTime input support for `DateUtil::getTimeStamp()`
+
 ## [2.0.6] - 2018-03-14
 
 ### added

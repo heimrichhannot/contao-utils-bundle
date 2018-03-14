@@ -100,6 +100,7 @@ class DateUtilTest extends ContaoTestCase
             ['24.04.2018 17:45', 1524591900, true, null, null],
             ['24.04.2018 17:45', 1524617100, true, 'America/Los_Angeles', null],
             ['ABCDEF"!§v231', 0, true, null, null],
+            [new \DateTime('Mon, 12 Dec 2011 21:17:52 +0800'), 1323695872, true, 'GMT', null],
         ];
     }
 

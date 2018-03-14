@@ -24,9 +24,9 @@ class DateUtil
     /**
      * Get the timestamp based on input date, no matter input is timestamp or string date.
      *
-     * @param string|int|null $date              The input date/timestamp/insertTag
-     * @param bool            $replaceInsertTags Disable/enable {{date::}} insertTag support
-     * @param string|null     $timezone          A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp
+     * @param string|int|null|\DateTime $date              The input date/timestamp/insertTag
+     * @param bool                      $replaceInsertTags Disable/enable {{date::}} insertTag support
+     * @param string|null               $timezone          A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp
      *
      * @return int The integer timestamp presentation of the input date with added timezone offset
      */
@@ -34,6 +34,12 @@ class DateUtil
     {
         if (null === $date) {
             return 0;
+        }
+
+        if ($date instanceof \DateTime) {
+            $timezone ? $date->setTimezone(new \DateTimeZone($timezone)) : null;
+
+            return $date->getTimestamp();
         }
 
         if (true === $replaceInsertTags) {
