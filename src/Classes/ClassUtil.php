@@ -108,13 +108,12 @@ class ClassUtil
      *
      * @param string $class
      * @param $object
+     * @param array $data
      *
      * @return array
      */
-    public function jsonSerialize(string $class, $object): array
+    public function jsonSerialize(string $class, $object, $data = [], bool $allowNonStringCastables = false): array
     {
-        $data = [];
-
         $rc = new \ReflectionClass($object);
         $methods = $rc->getMethods(\ReflectionMethod::IS_PUBLIC);
 
@@ -139,9 +138,35 @@ class ClassUtil
             }
 
             $property = lcfirst(substr($method->name, $start));
+
             $data[$property] = $object->{$method->name}();
         }
 
+        if (!$allowNonStringCastables) {
+            $data = $this->removeNonStringObjectsFromArray($data);
+        }
+
         return $data;
+    }
+
+    public function removeNonStringObjectsFromArray(array $values): array
+    {
+        $result = [];
+
+        foreach ($values as $key => $value) {
+            if (is_array($value)) {
+                // plus preserves the array keys
+                $result[$key] = $this->removeNonStringObjectsFromArray($value);
+            } else {
+                try {
+                    (string) $value;
+                    $result[$key] = $value;
+                } catch (\Exception $e) {
+                    // silently skip
+                }
+            }
+        }
+
+        return $result;
     }
 }
