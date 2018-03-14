@@ -1,42 +1,47 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.8] - 2018-03-14
+
+### Added
+-  ClassUtil::jsonSerialize()
+
 ## [2.0.7] - 2018-03-14
 
-### added
+### Added
 -  \DateTime input support for `DateUtil::getTimeStamp()`
 
 ## [2.0.6] - 2018-03-14
 
-### added
+### Added
 -  `DateUtil::getTimeStamp()` that converts any input date format to a timestamp 
 
 ## [2.0.5] - 2018-03-14
 
-### fixed
+### Fixed
 -  `AbstractChoice` debug check
 
 ## [2.0.4] - 2018-03-13
 
-### fixed
+### Fixed
 -  fixed service name
 
 ## [2.0.3] - 2018-03-13
 
-### added
+### Added
 -  added ClassUtil service
 
-### fixed
+### Fixed
 -  fixed ClassUtil namespace
 
 ## [2.0.2] - 2018-03-13
 
-### added
+### Added
 -  added ClassUtil class with test class
 
 ## [2.0.1] - 2018-03-12
 
-### fixed
+### Fixed
 -  fixed travis.yml
 
 ## [2.0.0] - 2018-03-12
