@@ -102,4 +102,46 @@ class ClassUtil
 
         return $arrOptions;
     }
+
+    /**
+     * Serialize a class object to JSON by iterating over all public getters (get(), is(), ...).
+     *
+     * @param string $class
+     * @param $object
+     *
+     * @return array
+     */
+    public function jsonSerialize(string $class, $object): array
+    {
+        $data = [];
+
+        $rc = new \ReflectionClass($object);
+        $methods = $rc->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+        // add all public getter Methods
+        foreach ($methods as $method) {
+            // get()
+            if (false !== ('get' === substr($method->name, 0, strlen('get')))) {
+                $start = 3;
+            }
+            // is()
+            elseif (false !== ('is' === substr($method->name, 0, strlen('is')))) {
+                $start = 2;
+            } else {
+                continue;
+            }
+
+            // skip methods with parameters
+            $rm = new \ReflectionMethod($class, $method->name);
+
+            if (count($rm->getParameters()) > 0) {
+                continue;
+            }
+
+            $property = lcfirst(substr($method->name, $start));
+            $data[$property] = $object->{$method->name}();
+        }
+
+        return $data;
+    }
 }
