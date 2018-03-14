@@ -121,7 +121,7 @@
                     int
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getTimeStamp">getTimeStamp</a>(string|int|null $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
+                    <a href="#method_getTimeStamp">getTimeStamp</a>(string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a> $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
         
                                             <p>Get the timestamp based on input date, no matter input is timestamp or string date.</p>                </div>
                 <div class="col-md-2"></div>
@@ -196,7 +196,7 @@
                     <h3 id="method_getTimeStamp">
         <div class="location">at         line 33</div>
         <code>                    int
-    <strong>getTimeStamp</strong>(string|int|null $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
+    <strong>getTimeStamp</strong>(string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a> $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
         </code>
     </h3>
     <div class="details">
@@ -210,7 +210,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string|int|null</td>
+                <td>string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a></td>
                 <td>$date</td>
                 <td>The input date/timestamp/insertTag</td>
             </tr>
@@ -244,7 +244,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTimePeriodInSeconds">
-        <div class="location">at         line 59</div>
+        <div class="location">at         line 65</div>
         <code>                    
     <strong>getTimePeriodInSeconds</strong>($timePeriod)
         </code>
@@ -273,7 +273,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformPhpDateFormatToRFC3339">
-        <div class="location">at         line 91</div>
+        <div class="location">at         line 97</div>
         <code>                    string
     <strong>transformPhpDateFormatToRFC3339</strong>(string $format)
         </code>
@@ -313,7 +313,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_formatPhpDateToJsDate">
-        <div class="location">at         line 154</div>
+        <div class="location">at         line 160</div>
         <code>                    string
     <strong>formatPhpDateToJsDate</strong>(string $php_format)
         </code>
