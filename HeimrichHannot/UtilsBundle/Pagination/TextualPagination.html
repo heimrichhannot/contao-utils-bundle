@@ -100,10 +100,10 @@
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_delimiter">
+                <td class="type" id="property_singlePageUrl">
                                         protected                                        string
                 </td>
-                <td>$delimiter</td>
+                <td>$singlePageUrl</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -118,7 +118,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(array $teasers, string $delimiter, $intRows, $intPerPage, $intNumberOfLinks = 7, $strParameter = &#039;page&#039;, <abbr title="Contao\Template">Template</abbr> $objTemplate = null, $blnForceParam = false)
+                    <a href="#method___construct">__construct</a>(array $teasers, string $singlePageUrl, int $intRows, int $intPerPage, int $intNumberOfLinks = 7, string $strParameter = &#039;page&#039;, <abbr title="Contao\Template">Template</abbr> $objTemplate = null, bool $blnForceParam = false)
         
                                             <p>Set the number of rows, the number of results per pages and the number of links.</p>                </div>
                 <div class="col-md-2"></div>
@@ -141,9 +141,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 39</div>
+        <div class="location">at         line 40</div>
         <code>                    
-    <strong>__construct</strong>(array $teasers, string $delimiter, $intRows, $intPerPage, $intNumberOfLinks = 7, $strParameter = &#039;page&#039;, <abbr title="Contao\Template">Template</abbr> $objTemplate = null, $blnForceParam = false)
+    <strong>__construct</strong>(array $teasers, string $singlePageUrl, int $intRows, int $intPerPage, int $intNumberOfLinks = 7, string $strParameter = &#039;page&#039;, <abbr title="Contao\Template">Template</abbr> $objTemplate = null, bool $blnForceParam = false)
         </code>
     </h3>
     <div class="details">
@@ -159,42 +159,42 @@
                     <tr>
                 <td>array</td>
                 <td>$teasers</td>
-                <td></td>
+                <td>The teasers for the pagination</td>
             </tr>
                     <tr>
                 <td>string</td>
-                <td>$delimiter</td>
+                <td>$singlePageUrl</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$intRows</td>
-                <td></td>
+                <td>The number of rows</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$intPerPage</td>
-                <td></td>
+                <td>The number of items per page</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>int</td>
                 <td>$intNumberOfLinks</td>
-                <td></td>
+                <td>The number of links to generate</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$strParameter</td>
-                <td></td>
+                <td>The parameter name</td>
             </tr>
                     <tr>
                 <td><abbr title="Contao\Template">Template</abbr></td>
                 <td>$objTemplate</td>
-                <td></td>
+                <td>The template object</td>
             </tr>
                     <tr>
-                <td></td>
+                <td>bool</td>
                 <td>$blnForceParam</td>
-                <td></td>
+                <td>Force the URL parameter</td>
             </tr>
             </table>
 
@@ -207,7 +207,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getItemsAsArray">
-        <div class="location">at         line 59</div>
+        <div class="location">at         line 60</div>
         <code>                    array
     <strong>getItemsAsArray</strong>()
         </code>
