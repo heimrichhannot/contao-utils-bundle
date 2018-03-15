@@ -23,12 +23,13 @@ class TextualPagination extends Pagination
     /**
      * @var string
      */
-    protected $delimiter;
+    protected $singlePageUrl;
 
     /**
      * Set the number of rows, the number of results per pages and the number of links.
      *
      * @param array    $teasers          The teasers for the pagination
+     * @param string   $singlePageUrl
      * @param int      $intRows          The number of rows
      * @param int      $intPerPage       The number of items per page
      * @param int      $intNumberOfLinks The number of links to generate
@@ -36,12 +37,12 @@ class TextualPagination extends Pagination
      * @param Template $objTemplate      The template object
      * @param bool     $blnForceParam    Force the URL parameter
      */
-    public function __construct(array $teasers, string $delimiter, $intRows, $intPerPage, $intNumberOfLinks = 7, $strParameter = 'page', Template $objTemplate = null, $blnForceParam = false)
+    public function __construct(array $teasers, string $singlePageUrl, $intRows, $intPerPage, $intNumberOfLinks = 7, $strParameter = 'page', Template $objTemplate = null, $blnForceParam = false)
     {
         parent::__construct($intRows, $intPerPage, $intNumberOfLinks, $strParameter, $objTemplate, $blnForceParam);
 
         $this->teasers = $teasers;
-        $this->delimiter = $delimiter;
+        $this->singlePageUrl = $singlePageUrl;
 
         if (null === $objTemplate) {
             /** @var FrontendTemplate|object $objTemplate */
@@ -70,16 +71,25 @@ class TextualPagination extends Pagination
                     'page' => $page,
                     'href' => null,
                     'title' => null,
-                    'text' => $teaser.$this->delimiter,
+                    'text' => $teaser,
                 ];
             } else {
                 $items[] = [
                     'page' => $page,
                     'href' => $this->linkToPage($page),
                     'title' => StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['goToPage'], $page)),
-                    'text' => $teaser.$this->delimiter,
+                    'text' => $teaser,
                 ];
             }
+        }
+
+        if ($this->singlePageUrl) {
+            $items[] = [
+                'page' => 'singlePage',
+                'href' => $this->singlePageUrl,
+                'title' => null,
+                'text' => $GLOBALS['TL_LANG']['MSC']['readOnSinglePage'],
+            ];
         }
 
         return $items;
