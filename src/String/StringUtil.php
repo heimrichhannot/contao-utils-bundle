@@ -152,10 +152,7 @@ class StringUtil
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
                     // if it's an "empty element" with or without xhtml-conform closing slash
-                    if (preg_match(
-                        '/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is',
-                        $line_matchings[1]
-                    )) {
+                    if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
                         // do nothing
                         // if tag is a closing tag
                     } else {
@@ -232,5 +229,23 @@ class StringUtil
         }
 
         return $truncate;
+    }
+
+    /**
+     * @param string $regExp
+     * @param string $subject
+     *
+     * @return mixed|string
+     */
+    public function pregReplaceLast(string $regExp, string $subject)
+    {
+        if (!$regExp) {
+            return $subject;
+        }
+
+        $strDelimiter = $regExp[0];
+        $regExp = rtrim(ltrim($regExp, $strDelimiter), $strDelimiter);
+
+        return preg_replace("$strDelimiter$regExp(?!.*$regExp)$strDelimiter", '', $subject);
     }
 }

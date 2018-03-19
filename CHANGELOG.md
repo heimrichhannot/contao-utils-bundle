@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.12] - 2018-03-19
+
+### Added
+-added pregReplaceLast function to StringUtil
+
 ## [2.0.11] - 2018-03-15
 
 ### Fixed

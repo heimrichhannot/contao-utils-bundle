@@ -52,4 +52,15 @@ class StringUtilTest extends ContaoTestCase
 
         $this->assertSame('some-camel-case', $result);
     }
+
+    public function testPregReplaceLast()
+    {
+        $stringUtil = new StringUtil($this->mockContaoFramework());
+
+        $result = $stringUtil->pregReplaceLast('@_[a-f0-9]{13}@', 'dastusteeubfstz238572');
+        $this->assertSame('dastusteeubfstz238572', $result);
+
+        $result = $stringUtil->pregReplaceLast('', 'dasusteufb343ubf23');
+        $this->assertSame('dasusteufb343ubf23', $result);
+    }
 }
