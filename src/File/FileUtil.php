@@ -13,6 +13,7 @@ use Contao\DataContainer;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
+use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 
@@ -244,7 +245,7 @@ class FileUtil
 
         $name = $file->filename;
 
-        $name = standardize($name, $preserveUppercase);
+        $name = \Patchwork\Utf8::toAscii(StringUtil::standardize($name, $preserveUppercase), '');
 
         if ('id-' != $name && !System::getContainer()->get('huh.utils.string')->startsWith($fileName, 'id-')) {
             $name = preg_replace('/^(id-)/', '', $name);

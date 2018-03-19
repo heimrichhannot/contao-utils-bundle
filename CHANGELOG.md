@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.14] - 2018-03-19
+
+### fixed
+- fixed sanitizeFileName
+
 ## [2.0.13] - 2018-03-19
 
 ### Added

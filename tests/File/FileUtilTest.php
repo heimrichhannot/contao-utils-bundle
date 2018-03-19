@@ -187,6 +187,9 @@ class FileUtilTest extends TestCaseEnvironment
 
         $fileName = $fileUtil->sanitizeFileName('fileName', 3);
         $this->assertSame('fi', $fileName);
+
+        $fileName = $fileUtil->sanitizeFileName('საბეჭდი_მანქანა');
+        $this->assertSame('_', $fileName);
     }
 
     public function testGetFilesFromUuid()
