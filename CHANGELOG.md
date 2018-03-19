@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.15] - 2018-03-19
+
+### Fixed
+- add missing `isset()` to  `ModelInstanceChoice::collect()`
+
 ## [2.0.14] - 2018-03-19
 
 ### fixed
@@ -35,11 +40,6 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - ClassUtil::jsonSerialize()
-
-## [2.0.8] - 2018-03-19
-
-### Fixed
-- add missing `isset()` to  `ModelInstanceChoice::collect()`
 
 ## [2.0.7] - 2018-03-14
 
