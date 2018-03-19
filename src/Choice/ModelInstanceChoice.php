@@ -32,7 +32,7 @@ class ModelInstanceChoice extends AbstractChoice
         }
 
         while ($instances->next()) {
-            $labelPattern = $context['labelPattern'];
+            $labelPattern = $context['labelPattern'] ?? null;
 
             if (!$labelPattern) {
                 $labelPattern = 'ID %id%';
