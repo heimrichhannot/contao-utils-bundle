@@ -234,4 +234,59 @@ class ImageUtil
         $templateData['margin'] = Controller::generateMargin($marginArray);
         $templateData[$imageSelectorField] = true;
     }
+
+    /**
+     * Convert sizes like 2em, 10cm or 12pt to pixels.
+     *
+     * @param string $size The size string
+     *
+     * @return int The pixel value
+     */
+    public function getPixelValue(string $size)
+    {
+        $value = preg_replace('/[^0-9.-]+/', '', $size);
+        $unit = preg_replace('/[^acehimnprtvwx%]/', '', $size);
+
+        // Convert 16px = 1em = 2ex = 12pt = 1pc = 1/6in = 2.54/6cm = 25.4/6mm = 100%
+        switch ($unit) {
+            case '':
+            case 'px':
+                return (int) round($value);
+                break;
+
+            case 'em':
+                return (int) round($value * 16);
+                break;
+
+            case 'ex':
+                return (int) round($value * 16 / 2);
+                break;
+
+            case 'pt':
+                return (int) round($value * 16 / 12);
+                break;
+
+            case 'pc':
+                return (int) round($value * 16);
+                break;
+
+            case 'in':
+                return (int) round($value * 16 * 6);
+                break;
+
+            case 'cm':
+                return (int) round($value * 16 / (2.54 / 6));
+                break;
+
+            case 'mm':
+                return (int) round($value * 16 / (25.4 / 6));
+                break;
+
+            case '%':
+                return (int) round($value * 16 / 100);
+                break;
+        }
+
+        return 0;
+    }
 }

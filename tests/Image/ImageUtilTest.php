@@ -192,4 +192,30 @@ class ImageUtilTest extends TestCaseEnvironment
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 4, 12, 'lightBoxName', $model);
         $this->assertSame('', $templateData['margin']);
     }
+
+    public function testGetPixelValue()
+    {
+        $class = new ImageUtil($this->mockContaoFramework());
+
+        $result = $class->getPixelValue('10px');
+        $this->assertSame(10, $result);
+        $result = $class->getPixelValue('10em');
+        $this->assertSame(160, $result);
+        $result = $class->getPixelValue('10ex');
+        $this->assertSame(80, $result);
+        $result = $class->getPixelValue('10pt');
+        $this->assertSame(13, $result);
+        $result = $class->getPixelValue('10pc');
+        $this->assertSame(160, $result);
+        $result = $class->getPixelValue('10in');
+        $this->assertSame(960, $result);
+        $result = $class->getPixelValue('10cm');
+        $this->assertSame(378, $result);
+        $result = $class->getPixelValue('10mm');
+        $this->assertSame(38, $result);
+        $result = $class->getPixelValue('10%');
+        $this->assertSame(2, $result);
+        $result = $class->getPixelValue('10%%%');
+        $this->assertSame(0, $result);
+    }
 }
