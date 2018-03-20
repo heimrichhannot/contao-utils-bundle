@@ -182,7 +182,7 @@
                     int|array|null
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_redirect">redirect</a>(string $strLocation, int $intStatus = 303, bool $test = false)
+                    <a href="#method_redirect">redirect</a>(string $strLocation, int $intStatus = 303, bool $test = false, bool $skipSent = false)
         
                                             <p>Redirect to another page.</p>                </div>
                 <div class="col-md-2"></div>
@@ -405,9 +405,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_redirect">
-        <div class="location">at         line 149</div>
+        <div class="location">at         line 150</div>
         <code>                    int|array|null
-    <strong>redirect</strong>(string $strLocation, int $intStatus = 303, bool $test = false)
+    <strong>redirect</strong>(string $strLocation, int $intStatus = 303, bool $test = false, bool $skipSent = false)
         </code>
     </h3>
     <div class="details">
@@ -435,6 +435,11 @@
                 <td>$test</td>
                 <td>For test purposes set to true to test exit/headers</td>
             </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$skipSent</td>
+                <td>Skip if headers already sent for test purposes</td>
+            </tr>
             </table>
 
             
@@ -455,7 +460,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareUrl">
-        <div class="location">at         line 216</div>
+        <div class="location">at         line 217</div>
         <code>            protected        string
     <strong>prepareUrl</strong>(string|int|null $url)
         </code>
