@@ -87,6 +87,25 @@
 
     
     
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>TERMINATE_HEADERS_ALREADY_SENT</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TERMINATE_EXIT_LOCATION_SET</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
@@ -160,10 +179,10 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    int|array|null
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_redirect">redirect</a>(string $strLocation, int $intStatus = 303)
+                    <a href="#method_redirect">redirect</a>(string $strLocation, int $intStatus = 303, bool $test = false)
         
                                             <p>Redirect to another page.</p>                </div>
                 <div class="col-md-2"></div>
@@ -186,7 +205,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 22</div>
+        <div class="location">at         line 25</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -215,7 +234,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getCurrentUrl">
-        <div class="location">at         line 27</div>
+        <div class="location">at         line 30</div>
         <code>                    
     <strong>getCurrentUrl</strong>(array $options)
         </code>
@@ -244,7 +263,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addQueryString">
-        <div class="location">at         line 48</div>
+        <div class="location">at         line 51</div>
         <code>                    string
     <strong>addQueryString</strong>(string $query, mixed $url = null)
         </code>
@@ -298,7 +317,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeQueryString">
-        <div class="location">at         line 87</div>
+        <div class="location">at         line 90</div>
         <code>                    string
     <strong>removeQueryString</strong>(array $params, string|int|null $url = null)
         </code>
@@ -343,7 +362,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getJumpToPageObject">
-        <div class="location">at         line 125</div>
+        <div class="location">at         line 128</div>
         <code>                    <abbr title="Contao\PageModel">PageModel</abbr>|null
     <strong>getJumpToPageObject</strong>(int $jumpTo, bool $fallbackToObjPage = true)
         </code>
@@ -386,9 +405,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_redirect">
-        <div class="location">at         line 143</div>
-        <code>                    
-    <strong>redirect</strong>(string $strLocation, int $intStatus = 303)
+        <div class="location">at         line 149</div>
+        <code>                    int|array|null
+    <strong>redirect</strong>(string $strLocation, int $intStatus = 303, bool $test = false)
         </code>
     </h3>
     <div class="details">
@@ -411,9 +430,23 @@
                 <td>$intStatus</td>
                 <td>The HTTP status code (defaults to 303)</td>
             </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$test</td>
+                <td>For test purposes set to true to test exit/headers</td>
+            </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int|array|null</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -422,7 +455,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareUrl">
-        <div class="location">at         line 193</div>
+        <div class="location">at         line 216</div>
         <code>            protected        string
     <strong>prepareUrl</strong>(string|int|null $url)
         </code>
