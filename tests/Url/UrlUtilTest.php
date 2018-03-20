@@ -9,12 +9,15 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Url;
 
 use Contao\Controller;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\Environment;
 use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\RequestBundle\Component\HttpFoundation\Request;
 use HeimrichHannot\UtilsBundle\Url\UrlUtil;
+use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -148,73 +151,133 @@ class UrlUtilTest extends ContaoTestCase
      */
     public function testRedirectHeadersAlreadySent()
     {
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new \Symfony\Component\HttpFoundation\Request();
+
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
+
         $urlUtil = new UrlUtil($this->mockContaoFramework());
         $this->assertSame(UrlUtil::TERMINATE_HEADERS_ALREADY_SENT, $urlUtil->redirect('/test?foo=bar&amp;test=123', 301, true));
     }
 
     /**
      * Test 301 redirect() html &amp; in url.
-     *
-     * @runInSeparateProcess
      */
     public function test301RedirectWithHtmlAmpersandParams()
     {
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new \Symfony\Component\HttpFoundation\Request();
+
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
+
         $urlUtil = new UrlUtil($this->mockContaoFramework());
-        $headers = $urlUtil->redirect('/test?foo=bar&amp;test=123', 301, true);
+        $headers = $urlUtil->redirect('/test?foo=bar&amp;test=123', 301, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 301 Moved Permanently', 'Location: http://localhost/test?foo=bar&test=123'], $headers);
     }
 
     /**
      * Test 302 redirect().
-     *
-     * @runInSeparateProcess
      */
     public function test302Redirect()
     {
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new \Symfony\Component\HttpFoundation\Request();
+
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
+
         $urlUtil = new UrlUtil($this->mockContaoFramework());
-        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 302, true);
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 302, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 302 Found', 'Location: http://test.com/test?foo=bar'], $headers);
     }
 
     /**
      * Test 303 redirect().
-     *
-     * @runInSeparateProcess
      */
     public function test303Redirect()
     {
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new \Symfony\Component\HttpFoundation\Request();
+
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
+
         $urlUtil = new UrlUtil($this->mockContaoFramework());
-        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 303, true);
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 303, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 303 See Other', 'Location: http://test.com/test?foo=bar'], $headers);
     }
 
     /**
      * Test 307 redirect().
-     *
-     * @runInSeparateProcess
      */
     public function test307Redirect()
     {
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new \Symfony\Component\HttpFoundation\Request();
+
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
+
         $urlUtil = new UrlUtil($this->mockContaoFramework());
-        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true);
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 307 Temporary Redirect', 'Location: http://test.com/test?foo=bar'], $headers);
     }
 
     /**
      * Test xhr/ajax redirect().
-     *
-     * @runInSeparateProcess
      */
     public function testXhrRedirect()
     {
-        $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+        $backendMatcher = new RequestMatcher('/contao', 'test.com', null, ['192.168.1.0']);
+        $frontendMatcher = new RequestMatcher('/index', 'test.com', null, ['192.168.1.0']);
+
+        $scopeMatcher = new ScopeMatcher($backendMatcher, $frontendMatcher);
+
+        $request = new \Symfony\Component\HttpFoundation\Request([], [], [], [], [], ['HTTP_X-Requested-With' => 'XMLHttpRequest']);
+
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
 
         $urlUtil = new UrlUtil($this->mockContaoFramework());
-        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true);
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 204 No Content', 'X-Ajax-Location: http://test.com/test?foo=bar'], $headers);
     }

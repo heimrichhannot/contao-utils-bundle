@@ -143,14 +143,15 @@ class UrlUtil
      * @param string $strLocation The target URL
      * @param int    $intStatus   The HTTP status code (defaults to 303)
      * @param bool   $test        For test purposes set to true to test exit/headers
+     * @param bool   $skipSent    Skip if headers already sent for test purposes
      *
      * @return int|array|null
      */
-    public function redirect($strLocation, $intStatus = 303, $test = false)
+    public function redirect($strLocation, $intStatus = 303, $test = false, $skipSent = false)
     {
         $headers = [];
 
-        if (headers_sent()) {
+        if (headers_sent() && !$skipSent) {
             if ($test) {
                 return static::TERMINATE_HEADERS_ALREADY_SENT;
             }
@@ -168,7 +169,7 @@ class UrlUtil
         }
 
         // Ajax request
-        if (\Environment::get('isAjaxRequest')) {
+        if (System::getContainer()->get('huh.request')->isXmlHttpRequest()) {
             $headers[] = 'HTTP/1.1 204 No Content';
             $headers[] = 'X-Ajax-Location: '.$strLocation;
         } else {

@@ -80,7 +80,8 @@ class ClassUtilTest extends ContaoTestCase
         $result = $classUtil->jsonSerialize($testClass);
 
         $this->assertNotEmpty($result);
-        $this->assertSame(['map' => ['map' => true], 'published' => true], $result);
+        $this->assertArrayHasKey('map', $result);
+        $this->assertArrayHasKey('published', $result);
         $this->assertArrayNotHasKey('protectedMap', $result);
         $this->assertArrayNotHasKey('mapWithAttributes', $result);
     }
