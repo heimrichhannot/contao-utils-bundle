@@ -143,6 +143,82 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertSame('www.localhost.de/page?answer=12', $url);
     }
 
+    /**
+     * Test redirect() when headers_sent() is true.
+     */
+    public function testRedirectHeadersAlreadySent()
+    {
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $this->assertSame(UrlUtil::TERMINATE_HEADERS_ALREADY_SENT, $urlUtil->redirect('/test?foo=bar&amp;test=123', 301, true));
+    }
+
+    /**
+     * Test 301 redirect() html &amp; in url.
+     *
+     * @runInSeparateProcess
+     */
+    public function test301RedirectWithHtmlAmpersandParams()
+    {
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $headers = $urlUtil->redirect('/test?foo=bar&amp;test=123', 301, true);
+        $this->assertNotEmpty($headers);
+        $this->assertSame(['HTTP/1.1 301 Moved Permanently', 'Location: http://localhost/test?foo=bar&test=123'], $headers);
+    }
+
+    /**
+     * Test 302 redirect().
+     *
+     * @runInSeparateProcess
+     */
+    public function test302Redirect()
+    {
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 302, true);
+        $this->assertNotEmpty($headers);
+        $this->assertSame(['HTTP/1.1 302 Found', 'Location: http://test.com/test?foo=bar'], $headers);
+    }
+
+    /**
+     * Test 303 redirect().
+     *
+     * @runInSeparateProcess
+     */
+    public function test303Redirect()
+    {
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 303, true);
+        $this->assertNotEmpty($headers);
+        $this->assertSame(['HTTP/1.1 303 See Other', 'Location: http://test.com/test?foo=bar'], $headers);
+    }
+
+    /**
+     * Test 307 redirect().
+     *
+     * @runInSeparateProcess
+     */
+    public function test307Redirect()
+    {
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true);
+        $this->assertNotEmpty($headers);
+        $this->assertSame(['HTTP/1.1 307 Temporary Redirect', 'Location: http://test.com/test?foo=bar'], $headers);
+    }
+
+    /**
+     * Test xhr/ajax redirect().
+     *
+     * @runInSeparateProcess
+     */
+    public function testXhrRedirect()
+    {
+        $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true);
+        $this->assertNotEmpty($headers);
+        $this->assertSame(['HTTP/1.1 204 No Content', 'X-Ajax-Location: http://test.com/test?foo=bar'], $headers);
+    }
+
     public function createRequestStackMock()
     {
         $requestStack = new RequestStack();

@@ -16,6 +16,9 @@ use Contao\System;
 
 class UrlUtil
 {
+    const TERMINATE_HEADERS_ALREADY_SENT = 800;
+    const TERMINATE_EXIT_LOCATION_SET = 900;
+
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
@@ -139,11 +142,22 @@ class UrlUtil
      *
      * @param string $strLocation The target URL
      * @param int    $intStatus   The HTTP status code (defaults to 303)
+     * @param bool   $test        For test purposes set to true to test exit/headers
+     *
+     * @return int|array|null
      */
-    public function redirect($strLocation, $intStatus = 303)
+    public function redirect($strLocation, $intStatus = 303, $test = false)
     {
+        $headers = [];
+
         if (headers_sent()) {
+            if ($test) {
+                return static::TERMINATE_HEADERS_ALREADY_SENT;
+            }
+
+            // @codeCoverageIgnoreStart
             exit;
+            // @codeCoverageIgnoreEnd
         }
 
         $strLocation = str_replace('&amp;', '&', $strLocation);
@@ -155,32 +169,41 @@ class UrlUtil
 
         // Ajax request
         if (\Environment::get('isAjaxRequest')) {
-            header('HTTP/1.1 204 No Content');
-            header('X-Ajax-Location: '.$strLocation);
+            $headers[] = 'HTTP/1.1 204 No Content';
+            $headers[] = 'X-Ajax-Location: '.$strLocation;
         } else {
             // Add the HTTP header
             switch ($intStatus) {
                 case 301:
-                    header('HTTP/1.1 301 Moved Permanently');
+                    $headers[] = 'HTTP/1.1 301 Moved Permanently';
                     break;
 
                 case 302:
-                    header('HTTP/1.1 302 Found');
+                    $headers[] = 'HTTP/1.1 302 Found';
                     break;
 
                 case 303:
-                    header('HTTP/1.1 303 See Other');
+                    $headers[] = 'HTTP/1.1 303 See Other';
                     break;
 
                 case 307:
-                    header('HTTP/1.1 307 Temporary Redirect');
+                    $headers[] = 'HTTP/1.1 307 Temporary Redirect';
                     break;
             }
 
-            header('Location: '.$strLocation);
+            $headers[] = 'Location: '.$strLocation;
         }
 
+        if ($test) {
+            return $headers;
+        }
+
+        // @codeCoverageIgnoreStart
+        foreach ($headers as $header) {
+            header($header);
+        }
         exit;
+        // @codeCoverageIgnoreEnd
     }
 
     /**
