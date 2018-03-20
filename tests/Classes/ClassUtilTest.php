@@ -12,6 +12,7 @@ use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Classes\ClassUtil;
+use HeimrichHannot\UtilsBundle\Classes\JsonSerializeTestClass;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 
 class ClassUtilTest extends ContaoTestCase
@@ -64,5 +65,23 @@ class ClassUtilTest extends ContaoTestCase
         $classUtil = new ClassUtil();
         $classes = $classUtil->getParentClasses('HeimrichHannot\UtilsBundle\Choice\DataContainerChoice');
         $this->assertSame(['HeimrichHannot\UtilsBundle\Choice\AbstractChoice'], $classes);
+    }
+
+    public function testJsonSerialize()
+    {
+        if (!\class_exists('HeimrichHannot\UtilsBundle\Tests\Classes\JsonSerializeTestClass')) {
+            include_once __DIR__.'/JsonSerializeTestClass.php';
+        }
+
+        $classUtil = new ClassUtil();
+
+        $testClass = new JsonSerializeTestClass();
+
+        $result = $classUtil->jsonSerialize($testClass);
+
+        $this->assertNotEmpty($result);
+        $this->assertSame(['map' => ['map' => true], 'published' => true], $result);
+        $this->assertArrayNotHasKey('protectedMap', $result);
+        $this->assertArrayNotHasKey('mapWithAttributes', $result);
     }
 }

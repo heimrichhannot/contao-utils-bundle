@@ -106,14 +106,15 @@ class ClassUtil
     /**
      * Serialize a class object to JSON by iterating over all public getters (get(), is(), ...).
      *
-     * @param string $class
      * @param $object
      * @param array $data
      *
      * @return array
      */
-    public function jsonSerialize(string $class, $object, $data = [], bool $allowNonStringCastables = false): array
+    public function jsonSerialize($object, $data = [], bool $allowNonStringCastables = false): array
     {
+        $class = get_class($object);
+
         $rc = new \ReflectionClass($object);
         $methods = $rc->getMethods(\ReflectionMethod::IS_PUBLIC);
 
@@ -122,8 +123,7 @@ class ClassUtil
             // get()
             if (false !== ('get' === substr($method->name, 0, strlen('get')))) {
                 $start = 3;
-            }
-            // is()
+            } // is()
             elseif (false !== ('is' === substr($method->name, 0, strlen('is')))) {
                 $start = 2;
             } else {
@@ -159,8 +159,7 @@ class ClassUtil
                 $result[$key] = $this->removeNonStringObjectsFromArray($value);
             } else {
                 try {
-                    (string) $value;
-                    $result[$key] = $value;
+                    $result[$key] = (string) $value;
                 } catch (\Exception $e) {
                     // silently skip
                 }
