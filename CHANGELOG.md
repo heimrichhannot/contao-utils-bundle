@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.16] - 2018-03-19
+
+### Changed
+- `ClassUtil::jsonSerialize` class name removed from argument list
+
 ## [2.0.15] - 2018-03-19
 
 ### Fixed
