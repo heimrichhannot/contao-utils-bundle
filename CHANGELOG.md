@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2018-03-20
+
+### Added
+- javascript url utility
+
+### Fixed
+- ContainerUtil::mergeConfigFile to be more forgiving
+
 ## [2.0.16] - 2018-03-19
 
 ### Changed
