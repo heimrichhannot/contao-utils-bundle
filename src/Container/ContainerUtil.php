@@ -112,7 +112,7 @@ class ContainerUtil
         if ($activeExtensionName === $extensionName && file_exists($configFile)) {
             $config = Yaml::parseFile($configFile);
 
-            $extensionConfigs = array_merge_recursive($extensionConfigs, $config);
+            $extensionConfigs = array_merge_recursive(is_array($extensionConfigs) ? $extensionConfigs : [], is_array($config) ? $config : []);
         }
 
         return $extensionConfigs;
