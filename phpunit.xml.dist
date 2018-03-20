@@ -23,7 +23,6 @@
 
     <testsuites>
         <testsuite name="Unit Tests">
-            <!--<file>./tests/Url/UrlUtilTest.php</file>-->
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

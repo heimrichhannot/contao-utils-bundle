@@ -61,10 +61,6 @@ class TextualPagination extends Pagination
     {
         $items = [];
 
-        if (!is_array($this->teasers)) {
-            return [];
-        }
-
         foreach ($this->teasers as $page => $teaser) {
             if ($page == $this->intPage) {
                 $items[] = [

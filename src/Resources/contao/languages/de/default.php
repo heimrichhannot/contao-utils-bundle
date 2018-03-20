@@ -123,3 +123,7 @@ $GLOBALS['TL_LANG']['MSC']['yes']   = 'Ja';
 $GLOBALS['TL_LANG']['MSC']['no']    = 'Nein';
 $GLOBALS['TL_LANG']['MSC']['page']  = 'Seite';
 
+/**
+ * Pagination
+ */
+$GLOBALS['TL_LANG']['MSC']['readOnSinglePage'] = 'Auf einer Seite lesen';
