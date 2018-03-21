@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.3] - 2018-03-21
+
+### Added
+- support for upcoming heimrichhannot/contao-encore-bundle
+
 ## [2.1.2] - 2018-03-21
 
 ### Added
