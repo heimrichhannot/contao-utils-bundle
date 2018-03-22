@@ -44,6 +44,7 @@ class ClassUtilTest extends ContaoTestCase
             'HeimrichHannot\UtilsBundle\Choice\FieldChoice' => 'HeimrichHannot\UtilsBundle\Choice\FieldChoice',
             'HeimrichHannot\UtilsBundle\Choice\MessageChoice' => 'HeimrichHannot\UtilsBundle\Choice\MessageChoice',
             'HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice' => 'HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice',
+            'HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice' => 'HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice',
         ], $childClasses);
     }
 
