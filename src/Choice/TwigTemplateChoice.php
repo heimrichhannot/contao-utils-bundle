@@ -38,11 +38,11 @@ class TwigTemplateChoice extends AbstractChoice
             $finder->in($path);
             $pattern = !empty($prefixes) ? ('/'.implode('|', $prefixes).'.*twig/') : '*.twig';
             $finder->files()->name($pattern);
+            $twigKey = preg_replace('/Bundle$/', '', $key);
             foreach ($finder as $val) {
                 $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
                 $string = end($explodurl);
-                $string = str_replace('\\', ':', $string);
-                $choices[] = "@$key:$string";
+                $choices[] = "@$twigKey/$string";
             }
         }
 

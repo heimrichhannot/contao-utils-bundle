@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.7] - 2018-03-22
+
+### Fixed
+- `huh.utils.choice.twig_template` returned template path name should not contain colon, fixed bundle key by removing last `Bundle` occurrence in name
+
 ## [2.1.6] - 2018-03-22
 
 ### Fixed

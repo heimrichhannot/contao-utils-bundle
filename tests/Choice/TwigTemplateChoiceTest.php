@@ -69,8 +69,8 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $choice = new TwigTemplateChoice($this->mockContaoFramework());
         $choices = $choice->getChoices();
         $this->assertNotEmpty($choices);
-        $this->assertContains('@HeimrichHannotContaoUtilsBundle:image.html.twig', $choices);
-        $this->assertContains('@HeimrichHannotContaoUtilsBundle:picture.html.twig', $choices);
+        $this->assertContains('@HeimrichHannotContaoUtils/image.html.twig', $choices);
+        $this->assertContains('@HeimrichHannotContaoUtils/picture.html.twig', $choices);
     }
 
     /**
@@ -95,7 +95,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $choices = $choice->getChoices(['image']);
         $this->assertNotEmpty($choices);
 
-        $this->assertContains('@HeimrichHannotContaoUtilsBundle:image.html.twig', $choices);
+        $this->assertContains('@HeimrichHannotContaoUtils/image.html.twig', $choices);
     }
 
     /**
@@ -120,8 +120,8 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $choices = $choice->getChoices(['image', 'picture']);
         $this->assertNotEmpty($choices);
 
-        $this->assertContains('@HeimrichHannotContaoUtilsBundle:image.html.twig', $choices);
-        $this->assertContains('@HeimrichHannotContaoUtilsBundle:picture.html.twig', $choices);
+        $this->assertContains('@HeimrichHannotContaoUtils/image.html.twig', $choices);
+        $this->assertContains('@HeimrichHannotContaoUtils/picture.html.twig', $choices);
     }
 
     /**
@@ -169,6 +169,6 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $choices = $choice->getChoices(['image.html']);
         $this->assertNotEmpty($choices);
 
-        $this->assertContains('@HeimrichHannotContaoUtilsBundle:image.html.twig', $choices);
+        $this->assertContains('@HeimrichHannotContaoUtils/image.html.twig', $choices);
     }
 }
