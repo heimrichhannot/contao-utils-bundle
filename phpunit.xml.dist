@@ -23,8 +23,7 @@
 
     <testsuites>
         <testsuite name="Unit Tests">
-            <file>./tests/Choice/TwigTemplateChoiceTest.php</file>
-            <!--<directory>./tests</directory>-->
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 
