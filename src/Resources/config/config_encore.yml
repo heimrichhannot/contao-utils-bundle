@@ -1,0 +1,4 @@
+huh:
+    encore:
+        entries:
+            - { name: contao-utils-bundle-url, file: "vendor/heimrichhannot/contao-utils-bundle/src/Resources/public/js/url.es6.js" }

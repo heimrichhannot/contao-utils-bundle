@@ -1,10 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.1.2] - 2018-03-22
+## [2.1.4] - 2018-03-22
 
 ### Added
 - `huh.utils.choice.twig_template` that will return all available templates or filter out templates by given prefixes 
+
+## [2.1.3] - 2018-03-21
+
+### Added
+- support for upcoming heimrichhannot/contao-encore-bundle
+
+## [2.1.2] - 2018-03-21
+
+### Added
+- StringUtil::removeLeadingAndTrailingSlash()
 
 ## [2.1.1] - 2018-03-20
 

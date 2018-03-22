@@ -249,4 +249,9 @@ class StringUtil
 
         return preg_replace("$strDelimiter$regExp(?!.*$regExp)$strDelimiter", '', $subject);
     }
+
+    public function removeLeadingAndTrailingSlash(string $string): string
+    {
+        return rtrim(ltrim($string, '/'), '/');
+    }
 }
