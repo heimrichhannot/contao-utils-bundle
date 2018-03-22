@@ -122,10 +122,15 @@ class ClassUtil
         foreach ($methods as $method) {
             // get()
             if (false !== ('get' === substr($method->name, 0, strlen('get')))) {
-                $start = 3;
+                $name = substr($method->name, 3, strlen($method->name));
+                $start = !$rc->hasMethod('has'.ucfirst($name)) && !$rc->hasMethod('is'.ucfirst($name)) ? 3 : 0;
             } // is()
             elseif (false !== ('is' === substr($method->name, 0, strlen('is')))) {
-                $start = 2;
+                $name = substr($method->name, 2, strlen($method->name));
+                $start = !$rc->hasMethod('has'.ucfirst($name)) && !$rc->hasMethod('get'.ucfirst($name)) ? 2 : 0;
+            } elseif (false !== ('has' === substr($method->name, 0, strlen('has')))) {
+                $name = substr($method->name, 3, strlen($method->name));
+                $start = !$rc->hasMethod('is'.ucfirst($name)) && !$rc->hasMethod('get'.ucfirst($name)) ? 3 : 0;
             } else {
                 continue;
             }
@@ -159,7 +164,8 @@ class ClassUtil
                 $result[$key] = $this->removeNonStringObjectsFromArray($value);
             } else {
                 try {
-                    $result[$key] = (string) $value;
+                    (string) $value;
+                    $result[$key] = $value;
                 } catch (\Exception $e) {
                     // silently skip
                 }

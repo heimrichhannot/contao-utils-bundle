@@ -41,6 +41,16 @@ class JsonSerializeTestClass
         return true;
     }
 
+    public function hasPublished()
+    {
+        return false;
+    }
+
+    public function isAddDetails()
+    {
+        return true;
+    }
+
     protected function getProtectedMap()
     {
         return ['protected_map' => true];

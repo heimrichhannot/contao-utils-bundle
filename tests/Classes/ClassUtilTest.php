@@ -82,7 +82,12 @@ class ClassUtilTest extends ContaoTestCase
 
         $this->assertNotEmpty($result);
         $this->assertArrayHasKey('map', $result);
-        $this->assertArrayHasKey('published', $result);
+        $this->assertArrayHasKey('isPublished', $result);
+        $this->assertTrue($result['isPublished']);
+        $this->assertArrayHasKey('hasPublished', $result);
+        $this->assertFalse($result['hasPublished']);
+        $this->assertArrayHasKey('addDetails', $result);
+        $this->assertTrue($result['addDetails']);
         $this->assertArrayNotHasKey('protectedMap', $result);
         $this->assertArrayNotHasKey('mapWithAttributes', $result);
     }

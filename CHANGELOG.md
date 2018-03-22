@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.8] - 2018-03-22
+
+### Fixed
+- `ClassUtil::jsonSerialize` now supports `is`, `has` and `get` function getters but wont overwrite if a sibling also exists (keep is, has, get prefix than)
+
 ## [2.1.7] - 2018-03-22
 
 ### Fixed
