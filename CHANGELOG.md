@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.6] - 2018-03-22
+
+### Fixed
+- `huh.utils.choice.twig_template` prefix filter
+
 ## [2.1.5] - 2018-03-22
 
 ### Fixed

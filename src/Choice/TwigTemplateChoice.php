@@ -34,18 +34,11 @@ class TwigTemplateChoice extends AbstractChoice
 
         foreach ($bundles as $key => $value) {
             $path = $kernel->locateResource("@$key");
-            $array = explode(DIRECTORY_SEPARATOR, $path);
-            if (in_array('vendor', $array, true)) {
-                continue;
-            }
             $finder = new Finder();
             $finder->in($path);
-            $finder->files()->name('*.twig');
+            $pattern = !empty($prefixes) ? ('/'.implode('|', $prefixes).'.*twig/') : '*.twig';
+            $finder->files()->name($pattern);
             foreach ($finder as $val) {
-                if (!empty($prefixes) && empty(System::getContainer()->get('huh.utils.array')->filterByPrefixes([$val->getFilename() => $val->getFilename()], $prefixes))) {
-                    continue;
-                }
-
                 $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
                 $string = end($explodurl);
                 $string = str_replace('\\', ':', $string);

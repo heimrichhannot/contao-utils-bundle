@@ -74,29 +74,6 @@ class TwigTemplateChoiceTest extends ContaoTestCase
     }
 
     /**
-     * Test collect().
-     */
-    public function testCollectInVendorBundleDirectory()
-    {
-        $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
-        $kernel
-            ->expects($this->once())
-            ->method('getBundles')
-            ->will($this->returnValue(['HeimrichHannotContaoUtilsBundle' => new HeimrichHannotContaoUtilsBundle()]));
-
-        $kernel->method('locateResource')
-            ->will($this->returnValue(__DIR__.'/../../vendor'));
-
-        $this->container->set('kernel', $kernel);
-
-        System::setContainer($this->container);
-
-        $choice = new TwigTemplateChoice($this->mockContaoFramework());
-        $choices = $choice->getChoices();
-        $this->assertEmpty($choices);
-    }
-
-    /**
      * Test collect() by prefixes.
      */
     public function testCollectByPrefixes()
@@ -119,6 +96,32 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $this->assertNotEmpty($choices);
 
         $this->assertContains('@HeimrichHannotContaoUtilsBundle:image.html.twig', $choices);
+    }
+
+    /**
+     * Test collect() by prefixes.
+     */
+    public function testCollectByMultiplePrefixes()
+    {
+        $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\KernelInterface')->getMock();
+        $kernel
+            ->expects($this->once())
+            ->method('getBundles')
+            ->will($this->returnValue(['HeimrichHannotContaoUtilsBundle' => new HeimrichHannotContaoUtilsBundle()]));
+
+        $kernel->method('locateResource')
+            ->will($this->returnValue(__DIR__.'/../../src'));
+
+        $this->container->set('kernel', $kernel);
+
+        System::setContainer($this->container);
+
+        $choice = new TwigTemplateChoice($this->mockContaoFramework());
+        $choices = $choice->getChoices(['image', 'picture']);
+        $this->assertNotEmpty($choices);
+
+        $this->assertContains('@HeimrichHannotContaoUtilsBundle:image.html.twig', $choices);
+        $this->assertContains('@HeimrichHannotContaoUtilsBundle:picture.html.twig', $choices);
     }
 
     /**
