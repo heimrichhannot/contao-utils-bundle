@@ -97,6 +97,11 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.choice.twig_template:
+        class: HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice
+        public: true
+        arguments:
+            - "@contao.framework"
     huh.utils.routing:
       class: HeimrichHannot\UtilsBundle\Request\RoutingUtil
       public: true

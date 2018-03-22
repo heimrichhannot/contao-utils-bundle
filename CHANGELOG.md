@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.2] - 2018-03-22
+
+### Added
+- `huh.utils.choice.twig_template` that will return all available templates or filter out templates by given prefixes 
+
 ## [2.1.1] - 2018-03-20
 
 ### Fixed
