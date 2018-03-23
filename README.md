@@ -17,7 +17,7 @@ composer require heimrichhannot/contao-utils-bundle
 
 ## Usage
 
-This Bundle is a collection of utils to solve recouring tasks. See the [Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all functions. 
+This Bundle is a collection of utils to solve recurring tasks. See the [Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all functions. 
 We recommend to call the utils as service. You can either inject them (the Symfony recommend way) or call them from the service container (all util services are public).
 
 Available [Service](src/Resources/config/services.yml) (as at version 2.1):
