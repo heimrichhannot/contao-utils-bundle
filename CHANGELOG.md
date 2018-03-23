@@ -1,6 +1,41 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.8] - 2018-03-22
+
+### Fixed
+- `ClassUtil::jsonSerialize` now supports `is`, `has` and `get` function getters but wont overwrite if a sibling also exists (keep is, has, get prefix than)
+
+## [2.1.7] - 2018-03-22
+
+### Fixed
+- `huh.utils.choice.twig_template` returned template path name should not contain colon, fixed bundle key by removing last `Bundle` occurrence in name
+
+## [2.1.6] - 2018-03-22
+
+### Fixed
+- `huh.utils.choice.twig_template` prefix filter
+
+## [2.1.5] - 2018-03-22
+
+### Fixed
+- unit tests
+
+## [2.1.4] - 2018-03-22
+
+### Added
+- `huh.utils.choice.twig_template` that will return all available templates or filter out templates by given prefixes 
+
+## [2.1.3] - 2018-03-21
+
+### Added
+- support for upcoming heimrichhannot/contao-encore-bundle
+
+## [2.1.2] - 2018-03-21
+
+### Added
+- StringUtil::removeLeadingAndTrailingSlash()
+
 ## [2.1.1] - 2018-03-20
 
 ### Fixed

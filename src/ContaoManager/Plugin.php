@@ -12,9 +12,12 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use Contao\ManagerPlugin\Config\ContainerBuilder;
+use Contao\ManagerPlugin\Config\ExtensionPluginInterface;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
 
-class Plugin implements BundlePluginInterface
+class Plugin implements BundlePluginInterface, ExtensionPluginInterface
 {
     /**
      * {@inheritdoc}
@@ -25,5 +28,15 @@ class Plugin implements BundlePluginInterface
             BundleConfig::create(HeimrichHannotContaoUtilsBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
         ];
+    }
+
+    public function getExtensionConfig($extensionName, array $extensionConfigs, ContainerBuilder $container)
+    {
+        return ContainerUtil::mergeConfigFile(
+            'huh_encore',
+            $extensionName,
+            $extensionConfigs,
+            $container->getParameter('kernel.project_dir').'/vendor/heimrichhannot/contao-utils-bundle/src/Resources/config/config_encore.yml'
+        );
     }
 }

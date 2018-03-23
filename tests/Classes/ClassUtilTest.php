@@ -44,6 +44,7 @@ class ClassUtilTest extends ContaoTestCase
             'HeimrichHannot\UtilsBundle\Choice\FieldChoice' => 'HeimrichHannot\UtilsBundle\Choice\FieldChoice',
             'HeimrichHannot\UtilsBundle\Choice\MessageChoice' => 'HeimrichHannot\UtilsBundle\Choice\MessageChoice',
             'HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice' => 'HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice',
+            'HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice' => 'HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice',
         ], $childClasses);
     }
 
@@ -81,7 +82,12 @@ class ClassUtilTest extends ContaoTestCase
 
         $this->assertNotEmpty($result);
         $this->assertArrayHasKey('map', $result);
-        $this->assertArrayHasKey('published', $result);
+        $this->assertArrayHasKey('isPublished', $result);
+        $this->assertTrue($result['isPublished']);
+        $this->assertArrayHasKey('hasPublished', $result);
+        $this->assertFalse($result['hasPublished']);
+        $this->assertArrayHasKey('addDetails', $result);
+        $this->assertTrue($result['addDetails']);
         $this->assertArrayNotHasKey('protectedMap', $result);
         $this->assertArrayNotHasKey('mapWithAttributes', $result);
     }
