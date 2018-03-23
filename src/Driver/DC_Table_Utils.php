@@ -28,32 +28,33 @@ class DC_Table_Utils extends DC_Table
 
         /** @var SessionInterface $objSession */
         $objSession = System::getContainer()->get('session');
+        $request = System::getContainer()->get('huh.request');
 
         // Check the request token (see #4007)
-        if (System::getContainer()->get('huh.request')->hasGet('act')) {
-            if (!System::getContainer()->get('huh.request')->hasGet('rt') || !\RequestToken::validate(System::getContainer()->get('huh.request')->getGet('rt'))) {
+        if ($request->hasGet('act')) {
+            if (!$request->hasGet('rt') || !\RequestToken::validate($request->getGet('rt'))) {
                 $objSession->set('INVALID_TOKEN_URL', \Environment::get('request'));
                 $this->redirect('contao/confirm.php');
             }
         }
 
-        $this->intId = System::getContainer()->get('huh.request')->getGet('id');
+        $this->intId = $request->getGet('id');
 
         // Clear the clipboard
-        if (System::getContainer()->get('huh.request')->hasGet('clipboard')) {
+        if ($request->hasGet('clipboard')) {
             $objSession->set('CLIPBOARD', []);
             $this->redirect($this->getReferer());
         }
 
         // Check whether the table is defined
         if ('' == $strTable || !isset($GLOBALS['TL_DCA'][$strTable])) {
-            $this->log('Could not load the data container configuration for "'.$strTable.'"', __METHOD__, TL_ERROR);
+            System::getContainer()->get('monolog.logger.contao')->log('Could not load the data container configuration for "'.$strTable.'"', __METHOD__, TL_ERROR);
             trigger_error('Could not load the data container configuration', E_USER_ERROR);
         }
 
         // Set IDs and redirect
-        if ('tl_select' == System::getContainer()->get('huh.request')->getPost('FORM_SUBMIT')) {
-            $ids = System::getContainer()->get('huh.request')->getPost('IDS');
+        if ('tl_select' == $request->getPost('FORM_SUBMIT')) {
+            $ids = $request->getPost('IDS');
 
             if (empty($ids) || !\is_array($ids)) {
                 $this->reload();
@@ -63,24 +64,24 @@ class DC_Table_Utils extends DC_Table
             $session['CURRENT']['IDS'] = $ids;
             $objSession->replace($session);
 
-            if (System::getContainer()->get('huh.request')->hasPost('edit')) {
+            if ($request->hasPost('edit')) {
                 $this->redirect(str_replace('act=select', 'act=editAll', \Environment::get('request')));
-            } elseif (System::getContainer()->get('huh.request')->hasPost('delete')) {
+            } elseif ($request->hasPost('delete')) {
                 $this->redirect(str_replace('act=select', 'act=deleteAll', \Environment::get('request')));
-            } elseif (System::getContainer()->get('huh.request')->hasPost('override')) {
+            } elseif ($request->hasPost('override')) {
                 $this->redirect(str_replace('act=select', 'act=overrideAll', \Environment::get('request')));
-            } elseif (System::getContainer()->get('huh.request')->hasPost('cut') || System::getContainer()->get('huh.request')->hasPost('copy')) {
+            } elseif ($request->hasPost('cut') || $request->hasPost('copy')) {
                 $arrClipboard = $objSession->get('CLIPBOARD');
 
                 $arrClipboard[$strTable] = [
                     'id' => $ids,
-                    'mode' => (System::getContainer()->get('huh.request')->hasPost('cut') ? 'cutAll' : 'copyAll'),
+                    'mode' => ($request->hasPost('cut') ? 'cutAll' : 'copyAll'),
                 ];
 
                 $objSession->set('CLIPBOARD', $arrClipboard);
 
                 // Support copyAll in the list view (see #7499)
-                if (System::getContainer()->get('huh.request')->hasPost('copy') && $GLOBALS['TL_DCA'][$strTable]['list']['sorting']['mode'] < 4) {
+                if ($request->hasPost('copy') && $GLOBALS['TL_DCA'][$strTable]['list']['sorting']['mode'] < 4) {
                     $this->redirect(str_replace('act=select', 'act=copyAll', \Environment::get('request')));
                 }
 
@@ -117,14 +118,13 @@ class DC_Table_Utils extends DC_Table
             $this->root = array_unique($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['root']);
         }
 
-        $request = \System::getContainer()->get('request_stack')->getCurrentRequest();
         $route = $request->attributes->get('_route');
 
         // Store the current referer
-        if (!empty($this->ctable) && !System::getContainer()->get('huh.request')->getGet('act') && !System::getContainer()->get('huh.request')->getGet('key') && !System::getContainer()->get('huh.request')->getGet('token') && 'contao_backend' == $route
+        if (!empty($this->ctable) && !$request->getGet('act') && !$request->getGet('key') && !$request->getGet('token') && 'contao_backend' == $route
             && !\Environment::get('isAjaxRequest')) {
-            $strKey = System::getContainer()->get('huh.request')->getGet('popup') ? 'popupReferer' : 'referer';
-            $strRefererId = \System::getContainer()->get('request_stack')->getCurrentRequest()->attributes->get('_contao_referer_id');
+            $strKey = $request->getGet('popup') ? 'popupReferer' : 'referer';
+            $strRefererId = $request->attributes->get('_contao_referer_id');
 
             $session = $objSession->get($strKey);
             $session[$strRefererId][$this->strTable] = substr(\Environment::get('requestUri'), \strlen(\Environment::get('path')) + 1);
