@@ -193,6 +193,62 @@ class ImageUtilTest extends TestCaseEnvironment
         $this->assertSame('', $templateData['margin']);
     }
 
+    public function addImageToTemplateDataHook(
+        array $templateData,
+        string $imageField,
+        string $imageSelectorField,
+        array $item,
+        int $maxWidth = null,
+        string $lightboxId = null,
+        string $lightboxName = null,
+        FilesModel $model = null
+    ) {
+        $templateData['picture']['test'] = true;
+
+        return $templateData;
+    }
+
+    public function testAddToTemplateDataHook()
+    {
+        $GLOBALS['TL_HOOKS']['addImageToTemplateData'][] = [static::class, 'addImageToTemplateDataHook'];
+
+        $GLOBALS['TL_LANG']['MSC']['deleteConfirmFile'] = 'delete';
+        $templateData = [];
+        global $objPage;
+
+        $objPage = $this->mockClassWithProperties(PageModel::class, ['language' => 'de', 'rootFallbackLanguage' => 'de']);
+
+        $GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields'] = ['title' => 'maxlenght="255"', 'alt' => 'maxlenght="255"', 'link' => 'maxlenght="255"', 'caption' => 'maxlenght="255"'];
+
+        $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";i:10;s:4:"left";i:10;s:5:"right";i:10;s:3:"top";i:10;s:4:"unit";s:2:"px";}';
+        $imageArray['singleSRC'] = 'data/screenshot.jpg';
+        $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
+        $imageArray['alt'] = '';
+        $imageArray['fullsize'] = true;
+        $imageArray['imageUrl'] = 'data/screenshot.jpg';
+        $imageArray['linkTitle'] = 'linkTitle';
+        $imageArray['floating'] = 'floating';
+        $imageArray['overwriteMeta'] = false;
+        $imageArray['caption'] = [];
+        $imageArray['id'] = 12;
+        $imageArray['imageTitle'] = 'imageTitle';
+
+        $templateData['href'] = true;
+        $templateData['singleSRC'] = [];
+
+        $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
+
+        $image = new ImageUtil($this->mockContaoFramework());
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, null, null, $model);
+
+        $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
+        $this->assertSame('data/screenshot.jpg', $templateData['singleSRC']);
+        $this->assertSame('margin:10px;', $templateData['margin']);
+        $this->assertSame('Diebstahl', $templateData['imageTitle']);
+        $this->assertSame(' float_floating', $templateData['floatClass']);
+        $this->assertTrue($templateData['picture']['test']);
+    }
+
     public function testGetPixelValue()
     {
         $class = new ImageUtil($this->mockContaoFramework());

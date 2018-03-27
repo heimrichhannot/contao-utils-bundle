@@ -233,6 +233,13 @@ class ImageUtil
         $templateData['addBefore'] = ('below' != $item['floating']);
         $templateData['margin'] = Controller::generateMargin($marginArray);
         $templateData[$imageSelectorField] = true;
+
+        // HOOK: modify image template data
+        if (isset($GLOBALS['TL_HOOKS']['addImageToTemplateData']) && \is_array($GLOBALS['TL_HOOKS']['addImageToTemplateData'])) {
+            foreach ($GLOBALS['TL_HOOKS']['addImageToTemplateData'] as $callback) {
+                $templateData = System::importStatic($callback[0])->{$callback[1]}($templateData, $imageField, $imageSelectorField, $item, $maxWidth, $lightboxId, $lightboxName, $model);
+            }
+        }
     }
 
     /**
