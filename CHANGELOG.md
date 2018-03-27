@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.2.2] - 2018-03-27
+
+### Added
+- `lazyload` to `picture.html.twig` template
+
 ## [2.2.1] - 2018-03-27
 
 ### Added
