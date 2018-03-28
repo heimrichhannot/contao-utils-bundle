@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>HeimrichHannot\UtilsBundle\Arrays\ArrayUtil | Contao Utils Bundle</title>
+    <title>HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil | Contao Utils Bundle</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Arrays_ArrayUtil" data-root-path="../../../">
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Cache_DatabaseCacheUtil" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,20 +66,20 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Arrays.html">Arrays</a></li><li class="backslash">\</li><li>ArrayUtil</li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Cache.html">Cache</a></li><li class="backslash">\</li><li>DatabaseCacheUtil</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            ArrayUtil
+            DatabaseCacheUtil
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>ArrayUtil</strong>
+    <strong>DatabaseCacheUtil</strong>
 </p>
 
         
@@ -87,6 +87,18 @@
 
     
     
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>DEFAULT_MAX_CACHE_TIME</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
@@ -96,6 +108,14 @@
                                         protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr>
                 </td>
                 <td>$framework</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_database">
+                                        protected                                        <abbr title="Contao\Database">Database</abbr>
+                </td>
+                <td>$database</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -118,22 +138,22 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    array
+                    bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_filterByPrefixes">filterByPrefixes</a>(array $data = [], array $prefixes = [])
+                    <a href="#method_keyExists">keyExists</a>(string $key)
         
-                                            <p>Filter an Array by given prefixes.</p>                </div>
+                                            <p>Check for a given cache key.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_aasort">aasort</a>(array $array, $key)
+                    <a href="#method_getValue">getValue</a>(string $key)
         
-                                            <p>sort an array alphabetically by some key in the second layer (x => array(key1, key2, key3)).</p>                </div>
+                                            <p>Retrieve a value from cache.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -141,20 +161,9 @@
                     bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_removeValue">removeValue</a>($value, array $array)
+                    <a href="#method_cacheValue">cacheValue</a>(string $key, $value)
         
-                                            <p>Removes a value in an array.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_removePrefix">removePrefix</a>(string $prefix, array $array)
-        
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Store a given value to cache.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -165,7 +174,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 21</div>
+        <div class="location">at         line 31</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -193,91 +202,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_filterByPrefixes">
-        <div class="location">at         line 34</div>
-        <code>                    array
-    <strong>filterByPrefixes</strong>(array $data = [], array $prefixes = [])
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Filter an Array by given prefixes.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>array</td>
-                <td>$data</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$prefixes</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>array</td>
-            <td>the filtered array or $arrData if $prefix is empty</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_aasort">
-        <div class="location">at         line 58</div>
-        <code>                    
-    <strong>aasort</strong>(array $array, $key)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>sort an array alphabetically by some key in the second layer (x => array(key1, key2, key3)).</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>array</td>
-                <td>$array</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$key</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_removeValue">
-        <div class="location">at         line 85</div>
+                    <h3 id="method_keyExists">
+        <div class="location">at         line 44</div>
         <code>                    bool
-    <strong>removeValue</strong>($value, array $array)
+    <strong>keyExists</strong>(string $key)
         </code>
     </h3>
     <div class="details">
@@ -285,19 +213,14 @@
     
 
                     <div class="method-description">
-                                    <p>Removes a value in an array.</p>                                                </div>
+                                    <p>Check for a given cache key.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
-                <td>$value</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$array</td>
+                <td>string</td>
+                <td>$key</td>
                 <td></td>
             </tr>
             </table>
@@ -308,7 +231,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>bool</td>
-            <td>Returns true if the value has been found and removed, false in other cases</td>
+            <td></td>
         </tr>
     </table>
 
@@ -319,34 +242,94 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_removePrefix">
-        <div class="location">at         line 96</div>
-        <code>                    
-    <strong>removePrefix</strong>(string $prefix, array $array)
+                    <h3 id="method_getValue">
+        <div class="location">at         line 58</div>
+        <code>                    mixed
+    <strong>getValue</strong>(string $key)
         </code>
     </h3>
     <div class="details">
             
     
 
+                    <div class="method-description">
+                                    <p>Retrieve a value from cache.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
                 <td>string</td>
-                <td>$prefix</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$array</td>
+                <td>$key</td>
                 <td></td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
             
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_cacheValue">
+        <div class="location">at         line 86</div>
+        <code>                    bool
+    <strong>cacheValue</strong>(string $key, $value)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Store a given value to cache.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
