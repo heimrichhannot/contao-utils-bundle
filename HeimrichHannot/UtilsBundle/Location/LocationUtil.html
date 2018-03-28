@@ -133,7 +133,17 @@
                     array|bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_computeCoordinatesByGoogleMaps">computeCoordinatesByGoogleMaps</a>(array $data)
+                    <a href="#method_computeCoordinatesByArray">computeCoordinatesByArray</a>(array $data)
+        
+                                            <p>Computes the coordinates from a given address. Supported array keys are:.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array|bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_computeCoordinatesByString">computeCoordinatesByString</a>(string $address)
         
                                             <p>Computes the coordinates from a given address. Supported array keys are:.</p>                </div>
                 <div class="col-md-2"></div>
@@ -174,10 +184,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_computeCoordinatesByGoogleMaps">
+                    <h3 id="method_computeCoordinatesByArray">
         <div class="location">at         line 39</div>
         <code>                    array|bool
-    <strong>computeCoordinatesByGoogleMaps</strong>(array $data)
+    <strong>computeCoordinatesByArray</strong>(array $data)
         </code>
     </h3>
     <div class="details">
@@ -199,6 +209,52 @@
                     <tr>
                 <td>array</td>
                 <td>$data</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array|bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_computeCoordinatesByString">
+        <div class="location">at         line 72</div>
+        <code>                    array|bool
+    <strong>computeCoordinatesByString</strong>(string $address)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Computes the coordinates from a given address. Supported array keys are:.</p>                    <p><ul>
+<li>street</li>
+<li>postal</li>
+<li>city</li>
+<li>country</li>
+</ul>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$address</td>
                 <td></td>
             </tr>
             </table>
