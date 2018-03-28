@@ -254,4 +254,9 @@ class StringUtil
     {
         return rtrim(ltrim($string, '/'), '/');
     }
+
+    public function removeLeadingString(string $string, string $subject)
+    {
+        return preg_replace('@^'.$string.'@i', '', $subject);
+    }
 }

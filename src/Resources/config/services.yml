@@ -5,6 +5,11 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.cache.database:
+        class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
+        public: true
+        arguments:
+            - "@contao.framework"
     huh.utils.cache.remote_image_cache:
         class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
         public: true
@@ -52,6 +57,11 @@ services:
             - "@contao.framework"
     huh.utils.image:
         class: HeimrichHannot\UtilsBundle\Image\ImageUtil
+        public: true
+        arguments:
+            - "@contao.framework"
+    huh.utils.location:
+        class: HeimrichHannot\UtilsBundle\Location\LocationUtil
         public: true
         arguments:
             - "@contao.framework"

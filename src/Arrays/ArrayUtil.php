@@ -13,7 +13,9 @@ use Contao\System;
 
 class ArrayUtil
 {
-    /** @var ContaoFrameworkInterface */
+    /**
+     * @var ContaoFrameworkInterface
+     */
     protected $framework;
 
     public function __construct(ContaoFrameworkInterface $framework)
@@ -89,5 +91,16 @@ class ArrayUtil
         }
 
         return false;
+    }
+
+    public function removePrefix(string $prefix, array $array): array
+    {
+        $result = [];
+
+        foreach ($array as $key => $value) {
+            $result[System::getContainer()->get('huh.utils.string')->removeLeadingString($prefix, $key)] = $value;
+        }
+
+        return $result;
     }
 }

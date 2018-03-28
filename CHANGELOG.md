@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2018-03-28
+
+### Added
+- ArrayUtil::removePrefix()
+- DatabsseCacheUtil
+- StringUtil::removeLeadingString()
+
 ## [2.2.2] - 2018-03-27
 
 ### Added
