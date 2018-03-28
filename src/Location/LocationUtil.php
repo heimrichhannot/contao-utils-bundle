@@ -36,7 +36,7 @@ class LocationUtil
      *
      * @return array|bool
      */
-    public function computeCoordinatesByGoogleMaps(array $data)
+    public function computeCoordinatesByArray(array $data)
     {
         $criteria = [
             'street',
@@ -54,9 +54,26 @@ class LocationUtil
             }
         }
 
+        return $this->computeCoordinatesByString(implode(' ', $sortedData));
+    }
+
+    /**
+     * Computes the coordinates from a given address. Supported array keys are:.
+     *
+     * - street
+     * - postal
+     * - city
+     * - country
+     *
+     * @param string $address
+     *
+     * @return array|bool
+     */
+    public function computeCoordinatesByString(string $address)
+    {
         $curlUtil = System::getContainer()->get('huh.utils.request.curl');
 
-        $result = $curlUtil->request(sprintf(static::GOOGLE_MAPS_GEOCODE_URL, urlencode(implode(' ', $sortedData))));
+        $result = $curlUtil->request(sprintf(static::GOOGLE_MAPS_GEOCODE_URL, urlencode($address)));
 
         if (!$result) {
             return false;
