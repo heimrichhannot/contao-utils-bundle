@@ -1,14 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.3.2] - 2018-04-04
+## [2.3.1] - 2018-04-04
 
 ### Added
 - js deps to encore yml
-
-## [2.3.1] - 2018-03-28
-
-### Added
 - LocationUtil::computeCoordinatesByArray()
 - LocationUtil::computeCoordinatesByString()
 
