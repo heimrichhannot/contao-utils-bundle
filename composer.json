@@ -43,7 +43,8 @@
     "preferred-install": "dist"
   },
   "extra": {
-    "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin"
+    "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin",
+    "foxy": true
   },
   "replace": {
     "heimrichhannot/contao-utils-bundle": "self.version"

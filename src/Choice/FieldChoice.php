@@ -19,6 +19,6 @@ class FieldChoice extends AbstractChoice
     {
         $context = $this->getContext();
 
-        return System::getContainer()->get('huh.utils.dca')->getFields($context['dataContainer']);
+        return System::getContainer()->get('huh.utils.dca')->getFields($context['dataContainer'], $context);
     }
 }

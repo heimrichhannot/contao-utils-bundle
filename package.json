@@ -1,0 +1,7 @@
+{
+  "name": "contao-utils-bundle",
+  "version": "1.0.0",
+  "dependencies": {
+    "contao-utils-bundle": "^1.0.0"
+  }
+}
