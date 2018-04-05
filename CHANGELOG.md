@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2018-04-05
+
+### Added
+- MemberUtil
+
+## [2.3.3] - 2018-04-05
+
+### Fixed
+- `DC_Table_Utils` did not trigger `Controller::loadDataContainer($strTable)` before `isset($GLOBALS['TL_DCA'][$strTable])` check
+
 ## [2.3.2] - 2018-04-05
 
 ### Added

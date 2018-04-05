@@ -34,6 +34,8 @@ huh.utils.dca
 huh.utils.file
 huh.utils.form
 huh.utils.image
+huh.utils.location
+huh.utils.member
 huh.utils.model
 huh.utils.request.curl
 huh.utils.string
