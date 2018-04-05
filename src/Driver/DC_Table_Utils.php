@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Driver;
 
+use Contao\Controller;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use Contao\Model;
@@ -37,6 +38,8 @@ class DC_Table_Utils extends DC_Table
                 $this->redirect('contao/confirm.php');
             }
         }
+
+        Controller::loadDataContainer($strTable);
 
         $this->intId = $request->getGet('id');
 
