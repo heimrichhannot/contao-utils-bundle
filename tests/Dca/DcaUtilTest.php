@@ -198,7 +198,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertSame([], $fields);
 
         $fields = $dcaUtil->getFields('table');
-        $this->assertSame(['addSubmission' => 'this is a title [addSubmission]', 'title' => 'this is a title [title]'], $fields);
+        $this->assertSame(['addSubmission' => 'this is a title <span style="display: inline; color:#999; padding-left:3px">[addSubmission]</span>', 'title' => 'this is a title <span style="display: inline; color:#999; padding-left:3px">[title]</span>'], $fields);
 
         $fields = $dcaUtil->getFields('table', ['inputTypes' => ['select']]);
         $this->assertSame([], $fields);
@@ -207,10 +207,10 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertSame(['addSubmission' => 'addSubmission', 'title' => 'title'], $fields);
 
         $fields = $dcaUtil->getFields('table', ['skipSorting' => false]);
-        $this->assertSame(['addSubmission' => 'this is a title [addSubmission]', 'title' => 'this is a title [title]'], $fields);
+        $this->assertSame(['addSubmission' => 'this is a title <span style="display: inline; color:#999; padding-left:3px">[addSubmission]</span>', 'title' => 'this is a title <span style="display: inline; color:#999; padding-left:3px">[title]</span>'], $fields);
 
         $fields = $dcaUtil->getFields('table', ['skipSorting' => true]);
-        $this->assertSame(['title' => 'this is a title [title]', 'addSubmission' => 'this is a title [addSubmission]'], $fields);
+        $this->assertSame(['title' => 'this is a title <span style="display: inline; color:#999; padding-left:3px">[title]</span>', 'addSubmission' => 'this is a title <span style="display: inline; color:#999; padding-left:3px">[addSubmission]</span>'], $fields);
     }
 
     public function testAddOverridableFields()
