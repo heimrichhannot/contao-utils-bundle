@@ -8,8 +8,11 @@
 
 namespace HeimrichHannot\UtilsBundle\Model;
 
+use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Model;
+use Contao\System;
+use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 
 class ModelUtil
 {
@@ -130,5 +133,25 @@ class ModelUtil
         }
 
         return array_merge([$parentInstance], $this->findParentsRecursively($parentProperty, $table, $parentInstance));
+    }
+
+    public function computeStringPattern(string $pattern, Model $instance, string $table, array $specialValueConfig = [])
+    {
+        Controller::loadDataContainer($table);
+
+        $dca = &$GLOBALS['TL_DCA'][$table];
+        $dc = new DC_Table_Utils($table);
+        $dc->id = $instance->id;
+        $dc->activeRecord = $instance;
+
+        return preg_replace_callback(
+            '@%([^%]+)%@i',
+            function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
+                return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput(
+                    $matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig
+                );
+            },
+            $pattern
+        );
     }
 }

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.0] - 2018-04-06
+
+### Added
+- ModelUtil::computeStringPattern()
+
 ## [2.4.0] - 2018-04-05
 
 ### Added
