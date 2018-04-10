@@ -259,4 +259,9 @@ class StringUtil
     {
         return preg_replace('@^'.$string.'@i', '', $subject);
     }
+
+    public function removeTrailingString(string $string, string $subject)
+    {
+        return preg_replace('@'.$string.'$@i', '', $subject);
+    }
 }

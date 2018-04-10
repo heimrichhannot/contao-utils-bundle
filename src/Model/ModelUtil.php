@@ -108,7 +108,9 @@ class ModelUtil
      */
     public function findRootParentRecursively(string $parentProperty, string $table, Model $instance, bool $returnInstanceIfNoParent = true)
     {
-        if (!$instance || !$instance->{$parentProperty} || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))) {
+        if (!$instance || !$instance->{$parentProperty}
+            || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))
+        ) {
             return $returnInstanceIfNoParent ? $instance : null;
         }
 
@@ -135,7 +137,15 @@ class ModelUtil
         return array_merge([$parentInstance], $this->findParentsRecursively($parentProperty, $table, $parentInstance));
     }
 
-    public function computeStringPattern(string $pattern, Model $instance, string $table, array $specialValueConfig = [])
+    /**
+     * @param string       $pattern
+     * @param Model|object $instance
+     * @param string       $table
+     * @param array        $specialValueConfig
+     *
+     * @return mixed
+     */
+    public function computeStringPattern(string $pattern, $instance, string $table, array $specialValueConfig = [])
     {
         Controller::loadDataContainer($table);
 
@@ -148,7 +158,10 @@ class ModelUtil
             '@%([^%]+)%@i',
             function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
                 return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput(
-                    $matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig
+                    $matches[1],
+                    $instance->{$matches[1]},
+                    $dc,
+                    $specialValueConfig
                 );
             },
             $pattern

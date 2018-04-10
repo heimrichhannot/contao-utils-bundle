@@ -188,7 +188,7 @@ class FileUtil
     public function getFileFromUuid($uuid)
     {
         if ($path = $this->getPathFromUuid($uuid)) {
-            if (is_dir(TL_ROOT.DIRECTORY_SEPARATOR.$path)) {
+            if (is_dir(System::getContainer()->get('huh.utils.container')->getProjectDir().DIRECTORY_SEPARATOR.$path)) {
                 return null;
             }
 

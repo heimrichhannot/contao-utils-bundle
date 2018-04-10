@@ -238,7 +238,7 @@ class DcaUtil
                 if (null !== ($objInstance = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($instance[0], $instance[1]))) {
                     $preparedInstances[] = $objInstance;
                 }
-            } elseif ($instance instanceof \Model) {
+            } elseif ($instance instanceof \Model || is_object($instance)) {
                 $preparedInstances[] = $instance;
             }
         }
