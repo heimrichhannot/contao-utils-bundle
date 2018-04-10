@@ -168,10 +168,10 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_computeStringPattern">computeStringPattern</a>(string $pattern, <abbr title="Contao\Model">Model</abbr> $instance, string $table, array $specialValueConfig = [])
+                    <a href="#method_computeStringPattern">computeStringPattern</a>(string $pattern, <abbr title="Contao\Model">Model</abbr>|object $instance, string $table, array $specialValueConfig = [])
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -429,7 +429,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findParentsRecursively">
-        <div class="location">at         line 127</div>
+        <div class="location">at         line 129</div>
         <code>                    array
     <strong>findParentsRecursively</strong>(string $parentProperty, string $table, <abbr title="Contao\Model">Model</abbr> $instance)
         </code>
@@ -479,9 +479,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_computeStringPattern">
-        <div class="location">at         line 138</div>
-        <code>                    
-    <strong>computeStringPattern</strong>(string $pattern, <abbr title="Contao\Model">Model</abbr> $instance, string $table, array $specialValueConfig = [])
+        <div class="location">at         line 148</div>
+        <code>                    mixed
+    <strong>computeStringPattern</strong>(string $pattern, <abbr title="Contao\Model">Model</abbr>|object $instance, string $table, array $specialValueConfig = [])
         </code>
     </h3>
     <div class="details">
@@ -498,7 +498,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td><abbr title="Contao\Model">Model</abbr></td>
+                <td><abbr title="Contao\Model">Model</abbr>|object</td>
                 <td>$instance</td>
                 <td></td>
             </tr>
@@ -515,6 +515,15 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
