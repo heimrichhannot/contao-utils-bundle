@@ -151,76 +151,65 @@ class DateUtil
     }
 
     /**
-     * Format a php date format string to javascript compatible date format string.
+     * Format a php date formate pattern to an ISO8601 compliant format.
      *
-     * @param string $php_format The date format (e.g. "d.m.y H:i")
+     * @param string $format The date format (e.g. "d.m.y H:i")
      *
-     * @return string The formatted js date string
+     * @return string The ISO8601 compliant format (see: https://de.wikipedia.org/wiki/ISO_8601)
      */
-    public function formatPhpDateToJsDate($php_format)
+    public function transformPhpDateFormatToISO8601(string $format): string
     {
-        $SYMBOLS_MATCHING = [
-            // Day
-            'd' => 'DD',
-            'D' => 'D',
-            'j' => 'd',
-            'l' => 'DD',
-            'N' => '',
-            'S' => '',
-            'w' => '',
-            'z' => 'o',
-            // Week
-            'W' => '',
-            // Month
-            'F' => 'MM',
-            'm' => 'MM',
-            'M' => 'M',
-            'n' => 'm',
-            't' => '',
-            // Year
-            'L' => '',
-            'o' => '',
-            'Y' => 'YYYY',
-            'y' => 'y',
-            // Time
-            'a' => '',
-            'A' => '',
-            'B' => '',
-            'g' => '',
-            'G' => '',
-            'h' => '',
-            'H' => 'HH',
-            'i' => 'mm',
-            's' => '',
-            'u' => '',
+        $mapping = [
+            'd' => 'DD',  //Day of the month, 2 digits with leading zeros (01 to 31)
+            'D' => 'D', // A textual representation of a day, three letters (Mon through Sun)
+            'j' => 'd', // Day of the month without leading zeros (1 to 31)
+            'l' => 'DD', // A full textual representation of the day of the week (Sunday through Saturday)
+            'N' => '', // ISO-8601 numeric representation of the day of the week (added in PHP 5.1.0) (1 (for Monday) through 7 (for Sunday))
+            'S' => '', // Not supported yet: English ordinal suffix for the day of the month, 2 characters (st, nd, rd or th. Works well with j)
+            'w' => '', // Numeric representation of the day of the week (0 (for Sunday) through 6 (for Saturday))
+            'z' => 'o', // The day of the year (starting from 0) (0 through 365)
+            'W' => '', // ISO-8601 week number of year, weeks starting on Monday (Example: 42 (the 42nd week in the year))
+            'F' => 'MM', // A full textual representation of a month, such as January or March (January through December)
+            'm' => 'MM', // Numeric representation of a month, with leading zeros (01 through 12)
+            'M' => 'M', // A short textual representation of a month, three letters (Jan through Dec)
+            'n' => 'm', // Numeric representation of a month, without leading zeros (1 through 12)
+            't' => '', // Not supported yet: Number of days in the given month (28 through 31)
+            'L' => '', // Not supported yet: Whether it's a leap year (1 if it is a leap year, 0 otherwise.)
+            'o' => '', // ISO-8601 week-numbering year. This has the same value as Y, except that if the ISO week number (W) belongs to the previous or next year, that year is used instead. (added in PHP 5.1.0) (Examples: 1999 or 2003)
+            'Y' => 'YYYY', // A full numeric representation of a year, 4 digits (Examples: 1999 or 2003)
+            'y' => 'y', // A two digit representation of a year (Examples: 99 or 03)
+            'a' => '', // Not supported yet: Lowercase Ante meridiem and Post meridiem (am or pm)
+            'A' => '', // Uppercase Ante meridiem and Post meridiem (AM or PM)
+            'B' => '', // Not supported yet: Swatch Internet time (000 through 999)
+            'g' => '', // 12-hour format of an hour without leading zeros (1 through 12)
+            'G' => '', // 24-hour format of an hour without leading zeros (0 through 23)
+            'h' => '', // 12-hour format of an hour with leading zeros (01 through 12)
+            'H' => 'HH', // 24-hour format of an hour with leading zeros (00 through 23)
+            'i' => 'mm', // Minutes with leading zeros (00 to 59)
+            's' => 'ss', // Seconds, with leading zeros (00 to 59)
+            'u' => '', // Not supported yet: Microseconds (added in PHP 5.2.2). Note that date() will always generate 000000 since it takes an integer parameter, whereas DateTime::format() does support microseconds if DateTime was created with microseconds. (Example: 654321)
+            'v' => '', // Not supported yet: Milliseconds (added in PHP 7.0.0). Same note applies as for u. (Example: 654)
+            'e' => '', // Timezone identifier (added in PHP 5.1.0) (Examples: UTC, GMT, Atlantic/Azores)
+            'I' => '', // Not supported yet: Whether or not the date is in daylight saving time (1 if Daylight Saving Time, 0 otherwise.)
+            'O' => '', // Difference to Greenwich time (GMT) in hours (Example: +0200)
+            'P' => 'z', // Difference to Greenwich time (GMT) with colon between hours and minutes (added in PHP 5.1.3) (Example: +02:00)
+            'T' => '',  // Not supported yet: Timezone abbreviation	(Examples: EST, MDT)
+            'Z' => '', // Not supported yet: Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive. (-43200 through 50400)
+            'c' => "YYYY-MM-DD'T'HH:mm:ssz", // ISO 8601 date (added in PHP 5) (2004-02-12T15:19:21+00:00)
+            'r' => '', // Not supported yet: » RFC 2822 formatted date (Example: Thu, 21 Dec 2000 16:01:07 +0200)
+            'U' => '', // Not supported yet: Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
         ];
 
-        $replacement = '';
-        $escaping = false;
+        $chunks = str_split($format);
 
-        for ($i = 0; $i < strlen($php_format); ++$i) {
-            $char = $php_format[$i];
-            if ('\\' === $char) {            // PHP date format escaping character
-                ++$i;
-                if ($escaping) {
-                    $replacement .= $php_format[$i];
-                } else {
-                    $replacement .= '\''.$php_format[$i];
-                }
-                $escaping = true;
-            } else {
-                if ($escaping) {
-                    $replacement .= "'";
-                    $escaping = false;
-                }
-                if (isset($SYMBOLS_MATCHING[$char])) {
-                    $replacement .= $SYMBOLS_MATCHING[$char];
-                } else {
-                    $replacement .= $char;
-                }
+        foreach ($chunks as $k => $v) {
+            if (!isset($mapping[$v])) {
+                continue;
             }
+
+            $chunks[$k] = $mapping[$v];
         }
 
-        return $replacement;
+        return preg_replace('/([a-zA-Z])/', '$1', implode('', $chunks));
     }
 }

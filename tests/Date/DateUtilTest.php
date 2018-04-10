@@ -234,14 +234,4 @@ class DateUtilTest extends ContaoTestCase
         $result = $date->getTimePeriodInSeconds($timePeriod);
         $this->assertNull($result);
     }
-
-    public function testFormatPhpDateToJsDate()
-    {
-        $date = new DateUtil($this->mockContaoFramework());
-        $result = $date->formatPhpDateToJsDate('d.m.y H:i');
-        $this->assertSame('DD.MM.y HH:mm', $result);
-
-        $result = $date->formatPhpDateToJsDate('d.m.Y \m \i\s\ \m\o\n\t\h');
-        $this->assertSame("DD.MM.YYYY 'm' 'is month", $result);
-    }
 }

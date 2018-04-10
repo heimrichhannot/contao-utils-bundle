@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.2] - 2018-04-10
+
+### Added
+- DateUtil::transformPhpDateFormatToISO8601()
+
 ## [2.5.1] - 2018-04-10
 
 ### Added
