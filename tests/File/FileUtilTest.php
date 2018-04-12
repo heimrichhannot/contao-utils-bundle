@@ -14,6 +14,7 @@ use Contao\FilesModel;
 use Contao\Folder;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
@@ -45,6 +46,10 @@ class FileUtilTest extends TestCaseEnvironment
 
         $utilsString = new StringUtil($this->mockContaoFramework());
         $container->set('huh.utils.string', $utilsString);
+
+        $containerUtils = new ContainerUtil($this->mockContaoFramework());
+        $container->set('huh.utils.container', $containerUtils);
+        $container->setParameter('kernel.project_dir', TL_ROOT);
         System::setContainer($container);
 
         if (!\function_exists('standardize')) {
@@ -220,16 +225,16 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testGetPathFromUuid()
     {
-        $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'/files/testFile']);
+        $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => substr($this->getTempDir(), 1).'/files/testfile1']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
         $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
 
         $path = $fileUtil->getPathFromUuid($this->getTempDir().'/files', false);
-        $this->assertSame($this->getTempDir().'/files/testFile', $path);
+        $this->assertSame(substr($this->getTempDir(), 1).'/files/testfile1', $path);
 
         $path = $fileUtil->getPathFromUuid($this->getTempDir().'/files');
-        $this->assertSame($this->getTempDir().'/files/testFile', $path);
+        $this->assertSame(substr($this->getTempDir(), 1).'/files/testfile1', $path);
 
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn(null);

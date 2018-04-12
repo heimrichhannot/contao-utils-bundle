@@ -505,14 +505,12 @@ class DatabaseUtil
                 $queryBuilder->setParameter($wildcard, $value);
                 break;
             case self::OPERATOR_IN:
-                $where = $queryBuilder->expr()->in($field, $wildcard);
-                // always handle array items as strings
-                $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
+                $value = !is_array($value) ? explode(',', $value) : $value;
+                $where = $queryBuilder->expr()->in($field, array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value));
                 break;
             case self::OPERATOR_NOT_IN:
-                $where = $queryBuilder->expr()->notIn($field, $wildcard);
-                // always handle array items as strings
-                $queryBuilder->setParameter($wildcard, $value, \PDO::PARAM_STR);
+                $value = !is_array($value) ? explode(',', $value) : $value;
+                $where = $queryBuilder->expr()->notIn($field, array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value));
                 break;
             case self::OPERATOR_IS_NULL:
                 $where = $queryBuilder->expr()->isNull($field);
