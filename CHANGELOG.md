@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.4] - 2018-04-12
+
+### Fixed
+- DatabaseUtil computeCondition in and notin operator
+
 ## [2.5.3] - 2018-04-12
 
 ### Fixed

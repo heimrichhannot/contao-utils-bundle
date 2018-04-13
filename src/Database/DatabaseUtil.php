@@ -428,14 +428,12 @@ class DatabaseUtil
                 $values[] = Controller::replaceInsertTags($value, false);
                 break;
             case static::OPERATOR_IN:
-                $pattern = '('.implode(',', array_map(function ($value) {
-                    return Controller::replaceInsertTags('\''.$value.'\'', false);
-                }, explode(',', $value))).')';
+                $value = explode(',', Controller::replaceInsertTags($value, false));
+                $pattern = '('.implode(',', array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value)).')';
                 break;
             case static::OPERATOR_NOT_IN:
-                $pattern = '('.implode(',', array_map(function ($value) {
-                    return Controller::replaceInsertTags('\''.$value.'\'', false);
-                }, explode(',', $value))).')';
+                $value = explode(',', Controller::replaceInsertTags($value, false));
+                $pattern = '('.implode(',', array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value)).')';
                 break;
             case static::OPERATOR_IS_NULL:
                 $pattern = '';
