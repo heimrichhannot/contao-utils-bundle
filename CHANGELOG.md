@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.5] - 2018-04-17
+
+### Added
+- new option for DateUtil::getFields()
+
 ## [2.5.4] - 2018-04-12
 
 ### Fixed
