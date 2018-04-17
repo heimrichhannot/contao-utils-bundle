@@ -143,6 +143,16 @@ class DcaUtil
                 continue;
             }
 
+            // restrict to certain dca eval
+            if (isset($options['evalConditions']) && is_array($options['evalConditions']) && !empty($options['evalConditions'])) {
+                foreach ($options['evalConditions'] as $key => $value) {
+                    if ($data['eval'][$key] !== $value)
+                    {
+                        continue 2;
+                    }
+                }
+            }
+
             if (isset($options['localizeLabels']) && !$options['localizeLabels']) {
                 $fields[$name] = $name;
             } else {
