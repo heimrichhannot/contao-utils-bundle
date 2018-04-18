@@ -46,9 +46,7 @@ class MemberUtil
         $rootFolder = 'files/members',
         $overwrite = false
     ) {
-        if (null === ($member =
-                is_numeric($member) ? System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_member', $member) : $member)
-        ) {
+        if (null === ($member = is_numeric($member) ? System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_member', $member) : $member)) {
             return false;
         }
 
@@ -104,9 +102,7 @@ class MemberUtil
         $rootFolder = 'files/members',
         $overwrite = false
     ) {
-        if (null === ($member =
-                is_numeric($member) ? System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_member', $member) : $member)
-        ) {
+        if (null === ($member = is_numeric($member) ? System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_member', $member) : $member)) {
             return false;
         }
 
@@ -117,5 +113,37 @@ class MemberUtil
         }
 
         return System::getContainer()->get('huh.utils.file')->getPathFromUuid($member->{$propertyName});
+    }
+
+    /**
+     * @param array $groups
+     * @param array $options
+     *
+     * @return MemberModel|MemberModel[]|\Contao\Model\Collection|null
+     */
+    public function findActiveByGroups(array $groups, array $options = [])
+    {
+        if (empty($groups)) {
+            return null;
+        }
+
+        /** @var $adapter MemberModel */
+        if (null === $adapter = $this->framework->getAdapter(MemberModel::class)) {
+            return null;
+        }
+
+        $t = $adapter->getTable();
+        $time = \Date::floorToMinute();
+        $values = [];
+
+        $columns = ["$t.login='1' AND ($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'".($time + 60)."') AND $t.disable=''"];
+
+        if (!empty(array_filter($groups))) {
+            list($tmpColumns, $tmpValues) = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
+
+            $columns[] = str_replace('?', $tmpValues[0], $tmpColumns);
+        }
+
+        return $adapter->findBy($columns, $values, $options);
     }
 }

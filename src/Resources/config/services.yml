@@ -123,3 +123,8 @@ services:
     huh.utils.class:
         class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
         public: true
+    huh.utils.member:
+        class: HeimrichHannot\UtilsBundle\Member\MemberUtil
+        public: true
+        arguments:
+            - "@contao.framework"

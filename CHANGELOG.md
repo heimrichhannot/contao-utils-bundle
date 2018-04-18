@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.6] - 2018-04-18
+
+### Added
+- added member service and MemberUtil::findActiveByGroups
+
 ## [2.5.5] - 2018-04-17
 
 ### Added

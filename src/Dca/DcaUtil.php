@@ -146,8 +146,7 @@ class DcaUtil
             // restrict to certain dca eval
             if (isset($options['evalConditions']) && is_array($options['evalConditions']) && !empty($options['evalConditions'])) {
                 foreach ($options['evalConditions'] as $key => $value) {
-                    if ($data['eval'][$key] !== $value)
-                    {
+                    if ($data['eval'][$key] !== $value) {
                         continue 2;
                     }
                 }
