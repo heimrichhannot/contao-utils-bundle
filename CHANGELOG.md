@@ -1,13 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.5.6] - 2018-04-20
+## [2.5.7] - 2018-04-20
 
 ### Fixed
 - `setContext` and `getContext` handling in `AbstractChoice`
 
 ### Changed
 - `TwigTemplateChoice` now also collects twig templates inside root `templates/` directory and returns the path to the template e.g. `templates/news_full.html.twig`
+
+## [2.5.6] - 2018-04-18
+
+### Added
+- added member service and MemberUtil::findActiveByGroups
 
 ## [2.5.5] - 2018-04-17
 
