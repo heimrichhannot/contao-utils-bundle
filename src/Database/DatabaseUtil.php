@@ -373,7 +373,9 @@ class DatabaseUtil
      *
      * @param string $field
      * @param string $operator
-     * @param        $value
+     * @param mixed  $value
+     * @param string $table
+     * @param bool   $skipTablePrefix
      *
      * @return array Returns array($strQuery, $arrValues)
      */
@@ -429,11 +431,15 @@ class DatabaseUtil
                 break;
             case static::OPERATOR_IN:
                 $value = explode(',', Controller::replaceInsertTags($value, false));
-                $pattern = '('.implode(',', array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value)).')';
+                $pattern = '('.implode(',', array_map(function ($val) {
+                    return '"'.addslashes($val).'"';
+                }, $value)).')';
                 break;
             case static::OPERATOR_NOT_IN:
                 $value = explode(',', Controller::replaceInsertTags($value, false));
-                $pattern = '('.implode(',', array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value)).')';
+                $pattern = '('.implode(',', array_map(function ($val) {
+                    return '"'.addslashes($val).'"';
+                }, $value)).')';
                 break;
             case static::OPERATOR_IS_NULL:
                 $pattern = '';
@@ -464,7 +470,7 @@ class DatabaseUtil
         return [(!$skipTablePrefix && $table ? $table.'.' : '')."$field $operator $pattern", $values];
     }
 
-    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca, $value = null)
+    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
     {
         $wildcard = ':'.$field;
         $where = '';
@@ -472,43 +478,47 @@ class DatabaseUtil
         switch ($operator) {
             case self::OPERATOR_LIKE:
                 $where = $queryBuilder->expr()->like($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, '%'.$value.'%');
+                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags($value, false).'%');
                 break;
             case self::OPERATOR_UNLIKE:
                 $where = $queryBuilder->expr()->notLike($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, '%'.$value.'%');
+                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags($value, false).'%');
                 break;
             case self::OPERATOR_EQUAL:
                 $where = $queryBuilder->expr()->eq($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, $value);
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags($value, false));
                 break;
             case self::OPERATOR_UNEQUAL:
                 $where = $queryBuilder->expr()->neq($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, $value);
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags($value, false));
                 break;
             case self::OPERATOR_LOWER:
                 $where = $queryBuilder->expr()->lt($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, $value);
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags($value, false));
                 break;
             case self::OPERATOR_LOWER_EQUAL:
                 $where = $queryBuilder->expr()->lte($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, $value);
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags($value, false));
                 break;
             case self::OPERATOR_GREATER:
                 $where = $queryBuilder->expr()->gt($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, $value);
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags($value, false));
                 break;
             case self::OPERATOR_GREATER_EQUAL:
                 $where = $queryBuilder->expr()->gte($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, $value);
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags($value, false));
                 break;
             case self::OPERATOR_IN:
                 $value = !is_array($value) ? explode(',', $value) : $value;
-                $where = $queryBuilder->expr()->in($field, array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value));
+                $where = $queryBuilder->expr()->in($field, array_map(function ($val) {
+                    return '"'.addslashes(Controller::replaceInsertTags($val, false)).'"';
+                }, $value));
                 break;
             case self::OPERATOR_NOT_IN:
                 $value = !is_array($value) ? explode(',', $value) : $value;
-                $where = $queryBuilder->expr()->notIn($field, array_map(function ($val) { return '"'.addslashes($val).'"'; }, $value));
+                $where = $queryBuilder->expr()->notIn($field, array_map(function ($val) {
+                    return '"'.addslashes(Controller::replaceInsertTags($val, false)).'"';
+                }, $value));
                 break;
             case self::OPERATOR_IS_NULL:
                 $where = $queryBuilder->expr()->isNull($field);
@@ -519,19 +529,19 @@ class DatabaseUtil
             case self::OPERATOR_REGEXP:
                 $where = $field.' REGEXP '.$wildcard;
 
-                if (isset($dca['eval']['multiple']) && $dca['eval']['multiple']) {
+                if (is_array($dca) && isset($dca['eval']['multiple']) && $dca['eval']['multiple']) {
                     // match a serialized blob
                     if (is_array($value)) {
                         // build a regexp alternative, e.g. (:"1";|:"2";)
                         $queryBuilder->setParameter($wildcard, '('.implode('|', array_map(function ($val) {
-                            return ':"'.$val.'";';
+                            return ':"'.Controller::replaceInsertTags($val, false).'";';
                         }, $value)).')');
                     } else {
-                        $queryBuilder->setParameter($wildcard, ':"'.$value.'";');
+                        $queryBuilder->setParameter($wildcard, ':"'.Controller::replaceInsertTags($value, false).'";');
                     }
                 } else {
                     // TODO: this makes no sense, yet
-                    $queryBuilder->setParameter($wildcard, $value);
+                    $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags($value, false));
                 }
 
                 break;

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.9] - 2018-04-20
+
+### Changed
+- `DatabaseUtil::composeWhereForQueryBuilder` now converts values using  `Controller::replaceInsertTags()`
+
 ## [2.5.8] - 2018-04-20
 
 ### Changed
