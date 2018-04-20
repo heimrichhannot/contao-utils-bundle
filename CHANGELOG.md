@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.8] - 2018-04-20
+
+### Changed
+- visibility of CurlRequest::getCurlHandle() to public
+
 ## [2.5.7] - 2018-04-20
 
 ### Fixed

@@ -238,7 +238,7 @@ class CurlRequestUtil
      *
      * @return CurlRequest
      */
-    protected function createCurlHandle($url)
+    public function createCurlHandle($url)
     {
         $handle = $this->handle ?: new CurlRequest();
         $handle->init($url);
