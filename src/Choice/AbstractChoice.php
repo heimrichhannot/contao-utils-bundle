@@ -73,7 +73,10 @@ abstract class AbstractChoice
 
     public function getChoices($context = null)
     {
-        $this->setContext($context);
+        if (null !== $context) {
+            $this->setContext($context);
+        }
+
         $choices = $this->collect();
 
         return $choices;
@@ -81,22 +84,26 @@ abstract class AbstractChoice
 
     public function getCachedChoices($context = null)
     {
+        if (null !== $context) {
+            $this->setContext($context);
+        }
+
         // disable cache while in debug mode
         if (true === System::getContainer()->getParameter('kernel.debug')) {
-            return $this->getChoices($context);
+            return $this->getChoices($this->getContext());
         }
 
         $this->cacheKey = 'choice.'.str_replace('Choice', '', (new \ReflectionClass($this))->getShortName());
 
         // add unique identifier based on context
-        if (null !== $context && false !== ($json = json_encode($context, JSON_FORCE_OBJECT))) {
+        if (null !== $this->getContext() && false !== ($json = json_encode($this->getContext(), JSON_FORCE_OBJECT))) {
             $this->cacheKey .= '.'.sha1($json);
         }
 
         $cache = $this->cache->getItem($this->cacheKey);
 
         if (!$cache->isHit() || empty($cache->get())) {
-            $choices = $this->getChoices($context);
+            $choices = $this->getChoices($this->getContext());
 
             if (!is_array($choices)) {
                 $choices = [];

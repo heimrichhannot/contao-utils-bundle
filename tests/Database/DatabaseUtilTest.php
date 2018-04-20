@@ -258,11 +258,11 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $this->assertCount(2, $result);
 
         $result = $databaseUtil->computeCondition('field', 'in', 'value');
-        $this->assertSame(["field IN ('value')", []], $result);
+        $this->assertSame(['field IN ("value")', []], $result);
         $this->assertCount(2, $result);
 
         $result = $databaseUtil->computeCondition('field', 'notin', 'value');
-        $this->assertSame(["field NOT IN ('value')", []], $result);
+        $this->assertSame(['field NOT IN ("value")', []], $result);
         $this->assertCount(2, $result);
 
         $result = $databaseUtil->computeCondition('field', 'isnull', 'value');

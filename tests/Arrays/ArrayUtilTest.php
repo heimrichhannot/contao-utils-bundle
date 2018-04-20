@@ -78,4 +78,14 @@ class ArrayUtilTest extends ContaoTestCase
         $result = $arrayUtil->filterByPrefixes($array, ['ls']);
         $this->assertSame(['ls_0' => 0], $result);
     }
+
+    public function testRemovePrefix()
+    {
+        $framework = $this->mockContaoFramework();
+        $arrayUtil = new ArrayUtil($framework);
+
+        $array = ['ls_prefix_1' => 1];
+        $result = $arrayUtil->removePrefix('ls_', $array);
+        $this->assertSame(['prefix_1' => 1], $result);
+    }
 }
