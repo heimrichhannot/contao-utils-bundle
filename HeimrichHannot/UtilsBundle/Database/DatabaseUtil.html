@@ -299,7 +299,7 @@
                     array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_computeCondition">computeCondition</a>(string $field, string $operator, $value, string $table = null, bool $skipTablePrefix = false)
+                    <a href="#method_computeCondition">computeCondition</a>(string $field, string $operator, mixed $value, string $table = null, bool $skipTablePrefix = false)
         
                                             <p>Computes a MySQL condition appropriate for the given operator.</p>                </div>
                 <div class="col-md-2"></div>
@@ -309,7 +309,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_composeWhereForQueryBuilder">composeWhereForQueryBuilder</a>(<abbr title="Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr> $queryBuilder, string $field, string $operator, array $dca, $value = null)
+                    <a href="#method_composeWhereForQueryBuilder">composeWhereForQueryBuilder</a>(<abbr title="Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr> $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -571,9 +571,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_computeCondition">
-        <div class="location">at         line 380</div>
+        <div class="location">at         line 382</div>
         <code>                    array
-    <strong>computeCondition</strong>(string $field, string $operator, $value, string $table = null, bool $skipTablePrefix = false)
+    <strong>computeCondition</strong>(string $field, string $operator, mixed $value, string $table = null, bool $skipTablePrefix = false)
         </code>
     </h3>
     <div class="details">
@@ -597,7 +597,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$value</td>
                 <td></td>
             </tr>
@@ -631,9 +631,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_composeWhereForQueryBuilder">
-        <div class="location">at         line 467</div>
+        <div class="location">at         line 473</div>
         <code>                    
-    <strong>composeWhereForQueryBuilder</strong>(<abbr title="Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr> $queryBuilder, string $field, string $operator, array $dca, $value = null)
+    <strong>composeWhereForQueryBuilder</strong>(<abbr title="Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr> $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
         </code>
     </h3>
     <div class="details">
