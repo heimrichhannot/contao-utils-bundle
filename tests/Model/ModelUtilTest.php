@@ -10,16 +10,41 @@ namespace HeimrichHannot\UtilsBundle\Tests\Model;
 
 use Contao\ContentModel;
 use Contao\Model;
-use Contao\TestCase\ContaoTestCase;
+use Contao\ModuleModel;
+use Contao\System;
+use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 
-class ModelUtilTest extends ContaoTestCase
+class ModelUtilTest extends TestCaseEnvironment
 {
     public function testInstantiation()
     {
         $util = new ModelUtil($this->mockContaoFramework());
         $this->assertInstanceOf(ModelUtil::class, $util);
+    }
+
+    public function testSetDefaultsFromDca()
+    {
+        $container = System::getContainer();
+        $container->set('huh.utils.dca', new DcaUtil($this->mockContaoFramework()));
+
+        $dbalAdapter = $this->mockAdapter(['getParams']);
+        $container->set('doctrine.dbal.default_connection', $dbalAdapter);
+
+        System::setContainer($container);
+
+        error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
+
+        $util = new ModelUtil($this->mockContaoFramework());
+
+        $GLOBALS['loadDataContainer']['tl_module'] = true;
+        $GLOBALS['TL_DCA']['tl_module']['fields']['test'] = ['default' => 'test'];
+
+        $model = $util->setDefaultsFromDca(new ModuleModel());
+
+        $this->assertSame('test', $model->test);
     }
 
     public function testFindModelInstanceByPk()

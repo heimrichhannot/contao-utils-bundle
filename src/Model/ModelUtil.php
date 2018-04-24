@@ -25,6 +25,18 @@ class ModelUtil
     }
 
     /**
+     * Set the entity defaults from dca config (for new model entry).
+     *
+     * @param \Model $objModel
+     *
+     * @return \Model The modified model, containing the default values from all dca fields
+     */
+    public function setDefaultsFromDca(\Model $objModel)
+    {
+        return System::getContainer()->get('huh.utils.dca')->setDefaultsFromDca($objModel->getTable(), $objModel);
+    }
+
+    /**
      * Returns a model instance if for a given table and id(primary key).
      * Return null, if model type or model instance with given id not exist.
      *

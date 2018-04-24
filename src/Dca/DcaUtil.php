@@ -37,6 +37,48 @@ class DcaUtil
     }
 
     /**
+     * Set initial $varData from dca.
+     *
+     * @param string $strTable Dca table name
+     * @param mixed  $varData  Object or array
+     *
+     * @return mixed Object or array with the default values
+     */
+    public function setDefaultsFromDca($strTable, $varData = null)
+    {
+        \Controller::loadDataContainer($strTable);
+        if (empty($GLOBALS['TL_DCA'][$strTable])) {
+            return $varData;
+        }
+        // Get all default values for the new entry
+        foreach ($GLOBALS['TL_DCA'][$strTable]['fields'] as $k => $v) {
+            // Use array_key_exists here (see #5252)
+            if (array_key_exists('default', $v)) {
+                if (is_object($varData)) {
+                    $varData->{$k} = is_array($v['default']) ? serialize($v['default']) : $v['default'];
+                    // Encrypt the default value (see #3740)
+                    if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
+                        $varData->{$k} = System::getContainer()->get('huh.utils.encryption')->encrypt($varData->{$k});
+                    }
+                } else {
+                    if (null === $varData) {
+                        $varData = [];
+                    }
+                    if (is_array($varData)) {
+                        $varData[$k] = is_array($v['default']) ? serialize($v['default']) : $v['default'];
+                        // Encrypt the default value (see #3740)
+                        if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
+                            $varData[$k] = System::getContainer()->get('huh.utils.encryption')->encrypt($varData[$k]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $varData;
+    }
+
+    /**
      * Retrieves an array from a dca config (in most cases eval) in the following priorities:.
      *
      * 1. The value associated to $array[$property]

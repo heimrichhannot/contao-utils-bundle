@@ -62,6 +62,54 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertInstanceOf(DcaUtil::class, $util);
     }
 
+    public function testSetDefaultsFromDcaWithoutDataContainer()
+    {
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $this->assertEmpty($dcaUtil->setDefaultsFromDca('tl_unknown_datacontainer'));
+    }
+
+    public function testSetDefaultsFromDcaOnModel()
+    {
+        $GLOBALS['TL_DCA']['tl_test'] = [];
+        $GLOBALS['TL_DCA']['tl_test']['fields']['test'] = ['default' => 'test'];
+
+        error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
+
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $data = $dcaUtil->setDefaultsFromDca('tl_test', new \stdClass());
+
+        $this->assertNotEmpty($data);
+        $this->assertSame('test', $data->test);
+    }
+
+    public function testSetDefaultsFromDcaOnArray()
+    {
+        $GLOBALS['TL_DCA']['tl_test'] = [];
+        $GLOBALS['TL_DCA']['tl_test']['fields']['test'] = ['default' => 'test'];
+
+        error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
+
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $data = $dcaUtil->setDefaultsFromDca('tl_test', []);
+
+        $this->assertNotEmpty($data);
+        $this->assertSame('test', $data['test']);
+    }
+
+    public function testSetDefaultsFromDcaOnNullData()
+    {
+        $GLOBALS['TL_DCA']['tl_test'] = [];
+        $GLOBALS['TL_DCA']['tl_test']['fields']['test'] = ['default' => 'test'];
+
+        error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
+
+        $dcaUtil = new DcaUtil($this->mockContaoFramework());
+        $data = $dcaUtil->setDefaultsFromDca('tl_test');
+
+        $this->assertNotEmpty($data);
+        $this->assertSame('test', $data['test']);
+    }
+
     public function testGetConfigByArrayOrCallbackOrFunction()
     {
         $dcaUtil = new DcaUtil($this->mockContaoFramework());
@@ -75,7 +123,11 @@ class DcaUtilTest extends TestCaseEnvironment
         $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['array_callback' => true], 'array');
         $this->assertNull($result);
 
-        $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['test_callback' => function ($arguments) { return $arguments; }], 'test', ['test']);
+        $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction([
+            'test_callback' => function ($arguments) {
+                return $arguments;
+            },
+        ], 'test', ['test']);
         $this->assertSame('test', $result);
 
         $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['deserialize_callback' => [StringUtil::class, 'deserialize']], 'deserialize', ['test']);

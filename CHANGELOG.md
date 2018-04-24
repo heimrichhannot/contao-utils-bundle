@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.6.0] - 2018-04-24
+
+### Added
+- `ModelUtil::setDefaultsFromDca()` and `DcaUtil::setDefaultsFromDca()` 
+
 ## [2.5.9] - 2018-04-20
 
 ### Changed
