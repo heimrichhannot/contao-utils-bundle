@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.7.0] - 2018-04-24
+
+### Added
+- `TemplateUtil::getTemplate` to provide `twig.html` support within contao 
+
 ## [2.6.0] - 2018-04-24
 
 ### Added

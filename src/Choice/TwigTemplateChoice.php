@@ -57,7 +57,7 @@ class TwigTemplateChoice extends AbstractChoice
 
         foreach ($finder as $val) {
             $string = $val->getRelativePathname();
-            $choices[] = "templates/$string";
+            $choices[] = "$string";
         }
 
         return $choices;

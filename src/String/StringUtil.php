@@ -48,7 +48,7 @@ class StringUtil
      *
      * @return bool
      */
-    public static function endsWith($haystack, $needle)
+    public function endsWith($haystack, $needle)
     {
         // search forward starting from end minus needle length characters
         return '' === $needle || (($temp = strlen($haystack) - strlen($needle)) >= 0 && false !== strpos($haystack, $needle, $temp));

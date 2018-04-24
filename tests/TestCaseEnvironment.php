@@ -80,4 +80,12 @@ abstract class TestCaseEnvironment extends ContaoTestCase
 
         return $router;
     }
+
+    /**
+     * @return string
+     */
+    protected function getFixturesDir(): string
+    {
+        return __DIR__.DIRECTORY_SEPARATOR.'Fixtures';
+    }
 }

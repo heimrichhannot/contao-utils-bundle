@@ -128,3 +128,8 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.template:
+        class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
+        public: true
+        arguments:
+            - "@contao.framework"
