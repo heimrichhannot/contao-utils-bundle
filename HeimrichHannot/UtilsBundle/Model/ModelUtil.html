@@ -118,6 +118,16 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    Model
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setDefaultsFromDca">setDefaultsFromDca</a>(Model $objModel)
+        
+                                            <p>Set the entity defaults from dca config (for new model entry).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     mixed
                 </div>
                 <div class="col-md-8 type">
@@ -213,8 +223,48 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_setDefaultsFromDca">
+        <div class="location">at         line 34</div>
+        <code>                    Model
+    <strong>setDefaultsFromDca</strong>(Model $objModel)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set the entity defaults from dca config (for new model entry).</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>Model</td>
+                <td>$objModel</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>Model</td>
+            <td>The modified model, containing the default values from all dca fields</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_findModelInstanceByPk">
-        <div class="location">at         line 37</div>
+        <div class="location">at         line 49</div>
         <code>                    mixed
     <strong>findModelInstanceByPk</strong>(string $table, mixed $pk, array $options = [])
         </code>
@@ -264,7 +314,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findModelInstancesBy">
-        <div class="location">at         line 61</div>
+        <div class="location">at         line 73</div>
         <code>                    mixed
     <strong>findModelInstancesBy</strong>(string $table, array $columns = null, array $values = null, array $options = [])
         </code>
@@ -319,7 +369,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findOneModelInstanceBy">
-        <div class="location">at         line 85</div>
+        <div class="location">at         line 97</div>
         <code>                    mixed
     <strong>findOneModelInstanceBy</strong>(string $table, array $columns, array $values, array $options = [])
         </code>
@@ -374,7 +424,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findRootParentRecursively">
-        <div class="location">at         line 109</div>
+        <div class="location">at         line 121</div>
         <code>                    <abbr title="Contao\Model">Model</abbr>
     <strong>findRootParentRecursively</strong>(string $parentProperty, string $table, <abbr title="Contao\Model">Model</abbr> $instance, bool $returnInstanceIfNoParent = true)
         </code>
@@ -429,7 +479,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findParentsRecursively">
-        <div class="location">at         line 129</div>
+        <div class="location">at         line 141</div>
         <code>                    array
     <strong>findParentsRecursively</strong>(string $parentProperty, string $table, <abbr title="Contao\Model">Model</abbr> $instance)
         </code>
@@ -479,7 +529,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_computeStringPattern">
-        <div class="location">at         line 148</div>
+        <div class="location">at         line 160</div>
         <code>                    mixed
     <strong>computeStringPattern</strong>(string $pattern, <abbr title="Contao\Model">Model</abbr>|object $instance, string $table, array $specialValueConfig = [])
         </code>
