@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - `TemplateUtil::getTemplateGroup` to provide `twig.html` support within contao 
 
+### Changed
+- `TwigTemplateChoice` now returns all `.html.twig` template inside any contao `templates` directory, like default contao `.html5` handling
+
 ## [2.6.0] - 2018-04-24
 
 ### Added

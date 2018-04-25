@@ -50,14 +50,8 @@ class TwigTemplateChoice extends AbstractChoice
             return $choices;
         }
 
-        $path = System::getContainer()->get('huh.utils.container')->getProjectDir().DIRECTORY_SEPARATOR.'templates';
-        $finder = new Finder();
-        $finder->in($path);
-        $finder->files()->name($pattern);
-
-        foreach ($finder as $val) {
-            $string = $val->getRelativePathname();
-            $choices[] = "$string";
+        foreach ($prefixes as $prefix) {
+            $choices = array_merge($choices, System::getContainer()->get('huh.utils.template')->getTemplateGroup($prefix, 'html.twig'));
         }
 
         return $choices;

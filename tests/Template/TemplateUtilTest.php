@@ -45,9 +45,6 @@ class TemplateUtilTest extends TestCaseEnvironment
         $this->assertSame($this->getFixturesDir().'/templates/test.html.twig', $util->getTemplate('test'));
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testGetTwigTemplateInThemePath()
     {
         if (!defined('TL_MODE')) {
