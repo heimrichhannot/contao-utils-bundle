@@ -299,6 +299,38 @@ palette where every field can be overridden.</p>                </div>
                                     </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNewNotificationTypeArray">getNewNotificationTypeArray</a>(bool $includeNotificationCenterPlusTokens = false)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addAliasToDca">addAliasToDca</a>(string $dca, array $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
+        
+                                            <p>Adds an alias field to the dca and to the desired palettes.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getLocalizedFieldName">getLocalizedFieldName</a>($strField, $strTable)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -880,6 +912,133 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
                     <table class="table table-condensed">
         <tr>
             <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNewNotificationTypeArray">
+        <div class="location">at         line 545</div>
+        <code>                    array
+    <strong>getNewNotificationTypeArray</strong>(bool $includeNotificationCenterPlusTokens = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$includeNotificationCenterPlusTokens</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addAliasToDca">
+        <div class="location">at         line 585</div>
+        <code>                    
+    <strong>addAliasToDca</strong>(string $dca, array $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Adds an alias field to the dca and to the desired palettes.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$dca</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$generateAliasCallback</td>
+                <td>array The callback to call for generating the alias</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$paletteField</td>
+                <td>String The field after which to insert the alias field in the palettes</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$palettes</td>
+                <td>The palettes in which to insert the field</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getLocalizedFieldName">
+        <div class="location">at         line 614</div>
+        <code>                    mixed
+    <strong>getLocalizedFieldName</strong>($strField, $strTable)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$strField</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$strTable</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
             <td></td>
         </tr>
     </table>

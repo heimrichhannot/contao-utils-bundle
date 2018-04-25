@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>HeimrichHannot\UtilsBundle\Date\DateUtil | Contao Utils Bundle</title>
+    <title>HeimrichHannot\UtilsBundle\User\UserUtil | Contao Utils Bundle</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Date_DateUtil" data-root-path="../../../">
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_User_UserUtil" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,20 +66,20 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Date.html">Date</a></li><li class="backslash">\</li><li>DateUtil</li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/User.html">User</a></li><li class="backslash">\</li><li>UserUtil</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            DateUtil
+            UserUtil
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>DateUtil</strong>
+    <strong>UserUtil</strong>
 </p>
 
         
@@ -118,20 +118,10 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    int
+                    <abbr title="Contao\UserModel">UserModel</abbr>|<abbr title="Contao\UserModel">UserModel</abbr>[]|<abbr title="Contao\Model\Collection">Collection</abbr>|null
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getTimeStamp">getTimeStamp</a>(string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a> $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
-        
-                                            <p>Get the timestamp based on input date, no matter input is timestamp or string date.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getTimePeriodInSeconds">getTimePeriodInSeconds</a>($timePeriod)
+                    <a href="#method_findActiveByGroups">findActiveByGroups</a>(array $groups, array $options = [])
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -139,22 +129,13 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    string
+                    
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_transformPhpDateFormatToRFC3339">transformPhpDateFormatToRFC3339</a>(string $format)
+                    <a href="#method_hasAccessToField">hasAccessToField</a>($table, $field)
         
-                                            <p>Format a php date formate pattern to an RFC3339 compliant format.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    string
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_transformPhpDateFormatToISO8601">transformPhpDateFormatToISO8601</a>(string $format)
-        
-                                            <p>Format a php date formate pattern to an ISO8601 compliant format.</p>                </div>
+                                            <p class="no-description">No description</p>
+                                    </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -165,7 +146,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 20</div>
+        <div class="location">at         line 23</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -193,36 +174,29 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getTimeStamp">
+                    <h3 id="method_findActiveByGroups">
         <div class="location">at         line 34</div>
-        <code>                    int
-    <strong>getTimeStamp</strong>(string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a> $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
+        <code>                    <abbr title="Contao\UserModel">UserModel</abbr>|<abbr title="Contao\UserModel">UserModel</abbr>[]|<abbr title="Contao\Model\Collection">Collection</abbr>|null
+    <strong>findActiveByGroups</strong>(array $groups, array $options = [])
         </code>
     </h3>
     <div class="details">
             
     
 
-                    <div class="method-description">
-                                    <p>Get the timestamp based on input date, no matter input is timestamp or string date.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a></td>
-                <td>$date</td>
-                <td>The input date/timestamp/insertTag</td>
+                <td>array</td>
+                <td>$groups</td>
+                <td></td>
             </tr>
                     <tr>
-                <td>bool</td>
-                <td>$replaceInsertTags</td>
-                <td>Disable/enable {{date::}} insertTag support</td>
-            </tr>
-                    <tr>
-                <td>string|null</td>
-                <td>$timezone</td>
-                <td>A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp</td>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
             </tr>
             </table>
 
@@ -231,8 +205,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>int</td>
-            <td>The integer timestamp presentation of the input date with added timezone offset</td>
+            <td><abbr title="Contao\UserModel">UserModel</abbr>|<abbr title="Contao\UserModel">UserModel</abbr>[]|<abbr title="Contao\Model\Collection">Collection</abbr>|null</td>
+            <td></td>
         </tr>
     </table>
 
@@ -243,10 +217,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getTimePeriodInSeconds">
-        <div class="location">at         line 66</div>
+                    <h3 id="method_hasAccessToField">
+        <div class="location">at         line 60</div>
         <code>                    
-    <strong>getTimePeriodInSeconds</strong>($timePeriod)
+    <strong>hasAccessToField</strong>($table, $field)
         </code>
     </h3>
     <div class="details">
@@ -259,92 +233,17 @@
                     <table class="table table-condensed">
                     <tr>
                 <td></td>
-                <td>$timePeriod</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$field</td>
                 <td></td>
             </tr>
             </table>
 
             
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_transformPhpDateFormatToRFC3339">
-        <div class="location">at         line 98</div>
-        <code>                    string
-    <strong>transformPhpDateFormatToRFC3339</strong>(string $format)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Format a php date formate pattern to an RFC3339 compliant format.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$format</td>
-                <td>The php date format (see: http://php.net/manual/de/function.date.php#refsect1-function.date-parameters)</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>string</td>
-            <td>The RFC3339 compliant format (see: http://userguide.icu-project.org/formatparse/datetime#TOC-Date-Time-Format-Syntax or http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_transformPhpDateFormatToISO8601">
-        <div class="location">at         line 161</div>
-        <code>                    string
-    <strong>transformPhpDateFormatToISO8601</strong>(string $format)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Format a php date formate pattern to an ISO8601 compliant format.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$format</td>
-                <td>The date format (e.g. "d.m.y H:i")</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>string</td>
-            <td>The ISO8601 compliant format (see: https://de.wikipedia.org/wiki/ISO_8601)</td>
-        </tr>
-    </table>
-
             
             
                     </div>
