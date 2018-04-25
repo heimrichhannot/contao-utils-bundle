@@ -64,13 +64,13 @@ class ModelUtil
      * Returns model instances by given table and search criteria.
      *
      * @param string $table
-     * @param array  $columns
-     * @param array  $values
+     * @param mixed  $columns
+     * @param mixed  $values
      * @param array  $options
      *
      * @return mixed
      */
-    public function findModelInstancesBy(string $table, array $columns = null, array $values = null, array $options = [])
+    public function findModelInstancesBy(string $table, $columns, $values, array $options = [])
     {
         /* @var Model $adapter */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {

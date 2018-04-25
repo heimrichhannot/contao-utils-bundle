@@ -1,6 +1,5 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-
 ## [2.8.0] - 2018-04-25
 
 ### Added
@@ -15,6 +14,32 @@ All notable changes to this project will be documented in this file.
 - StringUtil::convertToInlineCss
 - UserUtil::findActiveByGroups
 - UserUtil::hasAccessToField
+- added composer dependencies
+
+## [2.7.5] - 2018-04-25
+
+### Fixed
+- modelUtil::findInstancesBy
+
+## [2.7.4] - 2018-04-25
+
+### Fixed
+- `TemplateUtil:getTemplateGroup` for `templates` directory in bundle/modules 
+
+## [2.7.3] - 2018-04-25
+
+### Fixed
+- `TemplateUtil:findTemplates` now supports regex lookaheads in pattern 
+
+## [2.7.2] - 2018-04-25
+
+### Fixed
+- `TwigTemplateChoice` twig template pattern 
+
+## [2.7.1] - 2018-04-25
+
+### Changed
+- `TwigTemplateChoice` now set template basename as choice key 
 
 ## [2.7.0] - 2018-04-25
 
