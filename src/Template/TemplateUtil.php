@@ -44,17 +44,17 @@ class TemplateUtil
         $files = [];
 
         try {
-            foreach (\System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('*'.$format) as $file) {
+            foreach (\System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('/'.$prefix.'.*'.$format.'/') as $file) {
                 /* @var SplFileInfo $file */
-                $files[$file->getBasename($format)] = rtrim($objFilesystem->makePathRelative($file->getPath(), TL_ROOT), '/');
+                $strTemplate = $file->getBasename('.'.$format);
+                $arrTemplates[$strTemplate]['name'] = $file->getBasename();
+                $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), TL_ROOT), '/');
             }
         } catch (\InvalidArgumentException $e) {
         }
 
-        $prefixedFiles = array_values(preg_grep('/^'.rtrim($prefix, '_').'($|_)/', array_keys($files)));
-
         // Get the default templates
-        foreach ($prefixedFiles as $strTemplate) {
+        foreach ($files as $strTemplate) {
             $arrTemplates[$strTemplate]['name'] = basename($strTemplate);
             $arrTemplates[$strTemplate]['scopes'][] = 'root';
         }
