@@ -121,7 +121,7 @@
                     array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getTemplateGroup">getTemplateGroup</a>(string $prefix)
+                    <a href="#method_getTemplateGroup">getTemplateGroup</a>(string $prefix, string $format = &#039;html.twig&#039;)
         
                                             <p>Return all template files of a particular group as array.</p>                </div>
                 <div class="col-md-2"></div>
@@ -136,6 +136,16 @@
                                             <p>Find a particular template file and return its path.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_braceGlob">braceGlob</a>(string $pattern)
+        
+                                            <p>Return the files matching a GLOB pattern.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -144,7 +154,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 19</div>
+        <div class="location">at         line 24</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -173,9 +183,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplateGroup">
-        <div class="location">at         line 33</div>
+        <div class="location">at         line 39</div>
         <code>                    array
-    <strong>getTemplateGroup</strong>(string $prefix)
+    <strong>getTemplateGroup</strong>(string $prefix, string $format = &#039;html.twig&#039;)
         </code>
     </h3>
     <div class="details">
@@ -192,6 +202,11 @@
                 <td>string</td>
                 <td>$prefix</td>
                 <td>The template name prefix (e.g. "ce_")</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td>The file extension</td>
             </tr>
             </table>
 
@@ -213,7 +228,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplate">
-        <div class="location">at         line 52</div>
+        <div class="location">at         line 136</div>
         <code>                    string
     <strong>getTemplate</strong>(string $name, string $format = &#039;html.twig&#039;)
         </code>
@@ -264,6 +279,46 @@
             </tr>
             </table>
 
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_braceGlob">
+        <div class="location">at         line 151</div>
+        <code>                    array
+    <strong>braceGlob</strong>(string $pattern)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Return the files matching a GLOB pattern.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$pattern</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
             
                     </div>
     </div>
