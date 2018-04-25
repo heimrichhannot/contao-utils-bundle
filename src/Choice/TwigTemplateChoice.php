@@ -31,7 +31,7 @@ class TwigTemplateChoice extends AbstractChoice
         $kernel = System::getContainer()->get('kernel');
 
         $bundles = $kernel->getBundles();
-        $pattern = !empty($prefixes) ? ('/'.implode('|', $prefixes).'.*twig/') : '*.twig';
+        $pattern = !empty($prefixes) ? ('/(^'.implode('|^', $prefixes).').*twig/') : '*.twig';
 
         if (is_array($bundles)) {
             foreach ($bundles as $key => $value) {
@@ -43,7 +43,7 @@ class TwigTemplateChoice extends AbstractChoice
                 foreach ($finder as $val) {
                     $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
                     $string = end($explodurl);
-                    $choices[] = "@$twigKey/$string";
+                    $choices[$val->getBasename('.html.twig')] = "@$twigKey/$string";
                 }
             }
         }
@@ -52,14 +52,8 @@ class TwigTemplateChoice extends AbstractChoice
             return $choices;
         }
 
-        $path = System::getContainer()->get('huh.utils.container')->getProjectDir().DIRECTORY_SEPARATOR.'templates';
-        $finder = new Finder();
-        $finder->in($path);
-        $finder->files()->name($pattern);
-
-        foreach ($finder as $val) {
-            $string = $val->getRelativePathname();
-            $choices[] = "templates/$string";
+        foreach ($prefixes as $prefix) {
+            $choices = array_merge($choices, System::getContainer()->get('huh.utils.template')->getTemplateGroup($prefix, 'html.twig'));
         }
 
         return $choices;

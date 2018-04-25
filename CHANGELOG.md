@@ -1,10 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.7.5] - 2018-04-25
+## [2.7.6] - 2018-04-25
 
 ### Fixed
 - `TwigTemplateChoice` bundles is array check added 
+
+## [2.7.5] - 2018-04-25
+
+### Fixed
+- modelUtil::findInstancesBy
 
 ## [2.7.4] - 2018-04-25
 
