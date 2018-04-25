@@ -536,4 +536,86 @@ class DcaUtil
 
         return array_values($dca);
     }
+
+    /**
+     * @param bool $includeNotificationCenterPlusTokens
+     *
+     * @return array
+     */
+    public function getNewNotificationTypeArray($includeNotificationCenterPlusTokens = false)
+    {
+        $type = [
+            'recipients' => ['admin_email'],
+            'email_subject' => ['admin_email'],
+            'email_text' => ['admin_email'],
+            'email_html' => ['admin_email'],
+            'file_name' => ['admin_email'],
+            'file_content' => ['admin_email'],
+            'email_sender_name' => ['admin_email'],
+            'email_sender_address' => ['admin_email'],
+            'email_recipient_cc' => ['admin_email'],
+            'email_recipient_bcc' => ['admin_email'],
+            'email_replyTo' => ['admin_email'],
+            'attachment_tokens' => [],
+        ];
+
+        if ($includeNotificationCenterPlusTokens) {
+            foreach ($type as $field => $tokens) {
+                $type[$field] = array_unique(array_merge([
+                    'env_*',
+                    'page_*',
+                    'user_*',
+                    'date',
+                    'last_update',
+                ], $tokens));
+            }
+        }
+
+        return $type;
+    }
+
+    /**
+     * Adds an alias field to the dca and to the desired palettes.
+     *
+     * @param       $dca
+     * @param       $generateAliasCallback array The callback to call for generating the alias
+     * @param       $paletteField          String The field after which to insert the alias field in the palettes
+     * @param array $palettes              The palettes in which to insert the field
+     */
+    public function addAliasToDca(string $dca, array $generateAliasCallback, string $paletteField, array $palettes = ['default'])
+    {
+        Controller::loadDataContainer($dca);
+
+        $arrDca = &$GLOBALS['TL_DCA'][$dca];
+
+        // add to palettes
+        foreach ($palettes as $strPalette) {
+            $arrDca['palettes'][$strPalette] = str_replace($paletteField.',', $paletteField.',alias,', $arrDca['palettes'][$strPalette]);
+        }
+
+        // add field
+        $arrDca['fields']['alias'] = [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['alias'],
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'alias', 'unique' => true, 'maxlength' => 128, 'tl_class' => 'w50'],
+            'save_callback' => [$generateAliasCallback],
+            'sql' => "varchar(128) COLLATE utf8_bin NOT NULL default ''",
+        ];
+    }
+
+    /**
+     * @param $strField
+     * @param $strTable
+     *
+     * @return mixed
+     */
+    public function getLocalizedFieldName($strField, $strTable)
+    {
+        Controller::loadDataContainer($strTable);
+        System::loadLanguageFile($strTable);
+
+        return $GLOBALS['TL_DCA'][$strTable]['fields'][$strField]['label'][0] ?: $strField;
+    }
 }

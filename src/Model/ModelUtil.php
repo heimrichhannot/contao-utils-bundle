@@ -31,7 +31,7 @@ class ModelUtil
      *
      * @return \Model The modified model, containing the default values from all dca fields
      */
-    public function setDefaultsFromDca(\Model $objModel)
+    public function setDefaultsFromDca(Model $objModel)
     {
         return System::getContainer()->get('huh.utils.dca')->setDefaultsFromDca($objModel->getTable(), $objModel);
     }
@@ -121,8 +121,7 @@ class ModelUtil
     public function findRootParentRecursively(string $parentProperty, string $table, Model $instance, bool $returnInstanceIfNoParent = true)
     {
         if (!$instance || !$instance->{$parentProperty}
-            || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))
-        ) {
+            || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))) {
             return $returnInstanceIfNoParent ? $instance : null;
         }
 
@@ -166,17 +165,27 @@ class ModelUtil
         $dc->id = $instance->id;
         $dc->activeRecord = $instance;
 
-        return preg_replace_callback(
-            '@%([^%]+)%@i',
-            function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
-                return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput(
-                    $matches[1],
-                    $instance->{$matches[1]},
-                    $dc,
-                    $specialValueConfig
-                );
-            },
-            $pattern
-        );
+        return preg_replace_callback('@%([^%]+)%@i', function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
+            return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput($matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig);
+        }, $pattern);
+    }
+
+    /**
+     * @param $instance
+     * @param $table
+     *
+     * @return Model|mixed
+     */
+    public function getModelInstanceIfId($instance, $table)
+    {
+        if ($instance instanceof Model) {
+            return $instance;
+        }
+
+        if ($instance instanceof Model\Collection) {
+            return $instance->current();
+        }
+
+        return $this->findModelInstanceByPk($table, $instance);
     }
 }

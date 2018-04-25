@@ -103,4 +103,35 @@ class ArrayUtil
 
         return $result;
     }
+
+    /**
+     * @param array  $arrOld
+     * @param string $key
+     * @param array  $new
+     * @param int    $offset
+     * @param bool   $strict
+     */
+    public function insertInArrayByName(array &$arrOld, string $key, array $new, int $offset = 0, bool $strict = false)
+    {
+        if (false !== ($intIndex = array_search($key, array_keys($arrOld), $strict))) {
+            array_insert($arrOld, $intIndex + $offset, $new);
+        }
+    }
+
+    /**
+     * creates a stdClass from array.
+     *
+     * @param $array
+     *
+     * @return \stdClass
+     */
+    public function arrayToObject(array $array): \stdClass
+    {
+        $objResult = new \stdClass();
+        foreach ($array as $varKey => $varValue) {
+            $objResult->{$varKey} = $varValue;
+        }
+
+        return $objResult;
+    }
 }
