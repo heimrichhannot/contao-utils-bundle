@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.7.2] - 2018-04-25
+
+### Fixed
+- `TwigTemplateChoice` twig template pattern 
+
 ## [2.7.1] - 2018-04-25
 
 ### Changed
