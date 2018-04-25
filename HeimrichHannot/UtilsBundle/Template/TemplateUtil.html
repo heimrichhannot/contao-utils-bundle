@@ -141,7 +141,7 @@
                     array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_braceGlob">braceGlob</a>(string $pattern)
+                    <a href="#method_findTemplates">findTemplates</a>(string $path, string $pattern = null, string $format = &#039;html.twig&#039;)
         
                                             <p>Return the files matching a GLOB pattern.</p>                </div>
                 <div class="col-md-2"></div>
@@ -228,7 +228,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplate">
-        <div class="location">at         line 136</div>
+        <div class="location">at         line 135</div>
         <code>                    string
     <strong>getTemplate</strong>(string $name, string $format = &#039;html.twig&#039;)
         </code>
@@ -285,10 +285,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_braceGlob">
-        <div class="location">at         line 151</div>
+                    <h3 id="method_findTemplates">
+        <div class="location">at         line 152</div>
         <code>                    array
-    <strong>braceGlob</strong>(string $pattern)
+    <strong>findTemplates</strong>(string $path, string $pattern = null, string $format = &#039;html.twig&#039;)
         </code>
     </h3>
     <div class="details">
@@ -303,7 +303,17 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>string</td>
+                <td>$path</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
                 <td>$pattern</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
                 <td></td>
             </tr>
             </table>
