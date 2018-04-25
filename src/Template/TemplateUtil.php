@@ -59,8 +59,7 @@ class TemplateUtil
             $arrTemplates[$strTemplate]['scopes'][] = 'root';
         }
 
-        $strBrace = '{'.$format.'}';
-        $arrCustomized = $this->braceGlob(TL_ROOT.'/templates/'.$prefix.'*.'.$strBrace);
+        $arrCustomized = $this->findTemplates(TL_ROOT.'/templates/', $prefix, $format);
 
         // Add the customized templates
         if (\is_array($arrCustomized)) {
@@ -89,7 +88,7 @@ class TemplateUtil
             if (null !== $objTheme) {
                 while ($objTheme->next()) {
                     if ('' != $objTheme->templates) {
-                        $arrThemeTemplates = $this->braceGlob(TL_ROOT.'/'.$objTheme->templates.'/'.$prefix.'*.'.$strBrace);
+                        $arrThemeTemplates = $this->findTemplates(TL_ROOT.'/'.$objTheme->templates.'/', $prefix, $format);
 
                         if (\is_array($arrThemeTemplates)) {
                             foreach ($arrThemeTemplates as $strFile) {
@@ -144,16 +143,22 @@ class TemplateUtil
     /**
      * Return the files matching a GLOB pattern.
      *
+     * @param string $path
      * @param string $pattern
+     * @param string $format
      *
      * @return array
      */
-    public function braceGlob($pattern)
+    public function findTemplates(string $path, string $pattern = null, string $format = 'html.twig')
     {
         // Use glob() if possible
-        if (false === strpos($pattern, '/**/') && (\defined('GLOB_BRACE') || false === strpos($pattern, '{'))) {
-            return glob($pattern, \defined('GLOB_BRACE') ? GLOB_BRACE : 0);
+        if (false === strpos($path, '/**/') && (\defined('GLOB_BRACE') || false === strpos($path, '{'))) {
+            $templates = glob(rtrim($path, '/').'/*.{'.$format.'}', \defined('GLOB_BRACE') ? GLOB_BRACE : 0);
+
+            return null === $pattern ? $templates : preg_grep('$'.$pattern.'$', $templates);
         }
+
+        $pattern = rtrim($path, '/').(null === $pattern ? '' : $pattern).'/*.{'.$format.'}';
 
         $finder = new Finder();
         $regex = Glob::toRegex($pattern);
