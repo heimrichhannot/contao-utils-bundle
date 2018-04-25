@@ -1,5 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+
+## [2.8.1] - 2018-04-25
+
+### Fixed
+- `TwigTemplateChoice` bundles is array check added 
+
 ## [2.8.0] - 2018-04-25
 
 ### Added
@@ -15,11 +21,6 @@ All notable changes to this project will be documented in this file.
 - UserUtil::findActiveByGroups
 - UserUtil::hasAccessToField
 - added composer dependencies
-
-## [2.7.6] - 2018-04-25
-
-### Fixed
-- `TwigTemplateChoice` bundles is array check added 
 
 ## [2.7.5] - 2018-04-25
 
