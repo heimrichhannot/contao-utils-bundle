@@ -31,18 +31,20 @@ class TwigTemplateChoice extends AbstractChoice
         $kernel = System::getContainer()->get('kernel');
 
         $bundles = $kernel->getBundles();
-        $pattern = !empty($prefixes) ? ('/(^'.implode('|^', $prefixes).').*twig/') : '*.twig';
+        $pattern = !empty($prefixes) ? ('/'.implode('|', $prefixes).'.*twig/') : '*.twig';
 
-        foreach ($bundles as $key => $value) {
-            $path = $kernel->locateResource("@$key");
-            $finder = new Finder();
-            $finder->in($path);
-            $finder->files()->name($pattern);
-            $twigKey = preg_replace('/Bundle$/', '', $key);
-            foreach ($finder as $val) {
-                $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
-                $string = end($explodurl);
-                $choices[$val->getBasename('.html.twig')] = "@$twigKey/$string";
+        if (is_array($bundles)) {
+            foreach ($bundles as $key => $value) {
+                $path = $kernel->locateResource("@$key");
+                $finder = new Finder();
+                $finder->in($path);
+                $finder->files()->name($pattern);
+                $twigKey = preg_replace('/Bundle$/', '', $key);
+                foreach ($finder as $val) {
+                    $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
+                    $string = end($explodurl);
+                    $choices[] = "@$twigKey/$string";
+                }
             }
         }
 
@@ -50,8 +52,14 @@ class TwigTemplateChoice extends AbstractChoice
             return $choices;
         }
 
-        foreach ($prefixes as $prefix) {
-            $choices = array_merge($choices, System::getContainer()->get('huh.utils.template')->getTemplateGroup($prefix, 'html.twig'));
+        $path = System::getContainer()->get('huh.utils.container')->getProjectDir().DIRECTORY_SEPARATOR.'templates';
+        $finder = new Finder();
+        $finder->in($path);
+        $finder->files()->name($pattern);
+
+        foreach ($finder as $val) {
+            $string = $val->getRelativePathname();
+            $choices[] = "templates/$string";
         }
 
         return $choices;
