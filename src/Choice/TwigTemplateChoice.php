@@ -31,7 +31,7 @@ class TwigTemplateChoice extends AbstractChoice
         $kernel = System::getContainer()->get('kernel');
 
         $bundles = $kernel->getBundles();
-        $pattern = !empty($prefixes) ? ('/'.implode('|', $prefixes).'.*twig/') : '*.twig';
+        $pattern = !empty($prefixes) ? ('/'.implode('|^', $prefixes).'.*twig/') : '*.twig';
 
         foreach ($bundles as $key => $value) {
             $path = $kernel->locateResource("@$key");
@@ -42,7 +42,7 @@ class TwigTemplateChoice extends AbstractChoice
             foreach ($finder as $val) {
                 $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
                 $string = end($explodurl);
-                $choices[] = "@$twigKey/$string";
+                $choices[$val->getBasename('.html.twig')] = "@$twigKey/$string";
             }
         }
 
