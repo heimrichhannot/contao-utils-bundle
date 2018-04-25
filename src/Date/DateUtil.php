@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Date;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\StringUtil;
 
 class DateUtil
 {
@@ -64,7 +65,7 @@ class DateUtil
 
     public function getTimePeriodInSeconds($timePeriod)
     {
-        $timePeriod = deserialize($timePeriod, true);
+        $timePeriod = StringUtil::deserialize($timePeriod, true);
 
         if (!isset($timePeriod['unit']) || !isset($timePeriod['value'])) {
             return null;

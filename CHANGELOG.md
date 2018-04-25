@@ -1,6 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.0] - 2018-04-25
+
+### Added
+- User::getActiveByGroups
+- ArrayUtil::insertInArrayByName
+- ArrayUtil::arrayToObject
+- DcaUtil::addAliasToDca
+- DcaUtil::getLocalizedFieldName
+- ModelUtil::getModelInstanceIfId
+- StringUtil::html2Text
+- StringUtil::lowerCase
+- StringUtil::convertToInlineCss
+- UserUtil::findActiveByGroups
+- UserUtil::hasAccessToField
+
 ## [2.7.0] - 2018-04-25
 
 ### Added

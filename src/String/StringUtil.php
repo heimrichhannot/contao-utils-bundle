@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\String;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Html2Text\Html2Text;
 
 class StringUtil
 {
@@ -263,5 +264,60 @@ class StringUtil
     public function removeTrailingString(string $string, string $subject)
     {
         return preg_replace('@'.$string.'$@i', '', $subject);
+    }
+
+    /**
+     * Restore basic entities.
+     *
+     * @param string $string The string with the tags to be replaced
+     *
+     * @return string The string with the original entities
+     */
+    public function restoreBasicEntities($string)
+    {
+        return str_replace(['[&]', '[&amp;]', '[lt]', '[gt]', '[nbsp]', '[-]'], ['&amp;', '&amp;', '&lt;', '&gt;', '&nbsp;', '&shy;'], $string);
+    }
+
+    /**
+     * @param       $text
+     * @param array $cssText the css as text (no paths allowed atm)
+     *
+     * @throws \TijsVerkoyen\CssToInlineStyles\Exception
+     */
+    public function convertToInlineCss(string $text, string $cssText)
+    {
+        // prevent inlining inside conditional comments, see https://github.com/tijsverkoyen/CssToInlineStyles/issues/133
+        $cssText = preg_replace('/<!--(.*?)-->/Uis', '', $cssText);
+
+        // apply the css inliner
+        $objCssInliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles($text, $cssText);
+
+        return $objCssInliner->convert();
+    }
+
+    /**
+     * @param string $html
+     * @param array  $options
+     *
+     * @return string
+     */
+    public function html2Text(string $html, array $options = [])
+    {
+        $html = str_replace("\n", '', $html); // remove white spaces from html
+        $html = str_replace('</p>', '<br /></p>', $html); // Html2Text will replace paragraph by only one break
+        $objConverter = new Html2Text($html, $options);
+
+        return $objConverter->getText();
+    }
+
+    /**
+     * Convenience method for lower casing in a save callback.
+     *
+     * @param                $value
+     * @param \DataContainer $objDc
+     */
+    public function lowerCase($value, \DataContainer $objDc)
+    {
+        return trim(strtolower($value));
     }
 }
