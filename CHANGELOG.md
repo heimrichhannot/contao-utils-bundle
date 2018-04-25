@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.2] - 2018-04-25
+
+### Fixed
+- composer dependencies 
+
 ## [2.8.1] - 2018-04-25
 
 ### Fixed
