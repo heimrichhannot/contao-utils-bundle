@@ -22,6 +22,23 @@ class TemplateUtil
     }
 
     /**
+     * Return all template files of a particular group as array.
+     *
+     * @param string $prefix The template name prefix (e.g. "ce_")
+     *
+     * @return array An array of template names
+     *
+     * @coversNothing As long as Controller::getTemplateGroup is not testable (ThemeModel…)
+     */
+    public function getTemplateGroup(string $prefix): array
+    {
+        // allow twig templates
+        $GLOBALS['TL_CONFIG']['templateFiles'] .= ',html.twig';
+
+        return Controller::getTemplateGroup($prefix);
+    }
+
+    /**
      * Find a particular template file and return its path.
      *
      * @param string $name   The name of the template
@@ -32,7 +49,7 @@ class TemplateUtil
      *
      * @return string The path to the template file
      */
-    public function getTemplate($name, $format = 'html.twig')
+    public function getTemplate(string $name, string $format = 'html.twig'): string
     {
         // allow twig templates
         $GLOBALS['TL_CONFIG']['templateFiles'] .= ',html.twig';
