@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.7.4] - 2018-04-25
+
+### Fixed
+- `TemplateUtil:getTemplateGroup` for `templates` directory in bundle/modules 
+
 ## [2.7.3] - 2018-04-25
 
 ### Fixed
