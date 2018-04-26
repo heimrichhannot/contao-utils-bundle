@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.5] - 2018-04-26
+
+### Fixed
+- `ClassUtil::jsonSerialize` now priorities `getMethod` before `hasMethod` and `isMethod`
+
 ## [2.8.4] - 2018-04-26
 
 ### Fixed

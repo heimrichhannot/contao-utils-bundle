@@ -122,8 +122,7 @@ class ClassUtil
         foreach ($methods as $method) {
             // get()
             if (false !== ('get' === substr($method->name, 0, strlen('get')))) {
-                $name = substr($method->name, 3, strlen($method->name));
-                $start = !$rc->hasMethod('has'.ucfirst($name)) && !$rc->hasMethod('is'.ucfirst($name)) ? 3 : 0;
+                $start = 3; // highest priority
             } // is()
             elseif (false !== ('is' === substr($method->name, 0, strlen('is')))) {
                 $name = substr($method->name, 2, strlen($method->name));

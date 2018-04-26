@@ -43,6 +43,10 @@ class DateUtilTest extends ContaoTestCase
             Config::set('timeZone', $timeZone);
         }
 
+        if ('NOW' === $expected) {
+            $expected = time();
+        }
+
         if (null !== $compareFormat) {
             $this->assertSame(Date::parse($compareFormat, $expected), Date::parse($compareFormat, $instance->getTimeStamp($date, $replaceInsertTags, $timeZone)));
 
@@ -93,9 +97,9 @@ class DateUtilTest extends ContaoTestCase
             [1511022657, 1511022657, true, null, null],
             [1511022657, 1511022657, true, 'GMT', null],
             ['1511022657', 1511022657, true, 'GMT', null],
-            ['{{date::d.m.Y H:i}}', time(), true, 'GMT', 'd.m.Y H:i'],
-            ['{{date::d.m.Y}}', time(), true, 'GMT', 'd.m.Y'],
-            ['{{date::H:i}}', time(), true, 'GMT', 'H:i'],
+            ['{{date::d.m.Y H:i}}', 'NOW', true, 'GMT', 'd.m.Y H:i'],
+            ['{{date::d.m.Y}}', 'NOW', true, 'GMT', 'd.m.Y'],
+            ['{{date::H:i}}', 'NOW', true, 'GMT', 'H:i'],
             ['Mon, 12 Dec 2011 21:17:52 +0800', 1323695872, true, 'GMT', null],
             ['24.04.2018 17:45', 1524591900, true, null, null],
             ['24.04.2018 17:45', 1524617100, true, 'America/Los_Angeles', null],

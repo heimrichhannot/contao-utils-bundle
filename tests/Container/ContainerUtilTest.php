@@ -125,7 +125,7 @@ class ContainerUtilTest extends ContaoTestCase
         $this->assertNotSame($configFile, $config);
         $this->assertArrayHasKey('services', $config);
         $this->assertArrayHasKey('huh.utils.array', $config['services']);
-        $this->assertCount(26, $config['services']);
+        $this->assertCount(27, $config['services']);
     }
 
     public function createRequestStackMock()
