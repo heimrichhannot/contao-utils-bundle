@@ -140,7 +140,7 @@ class TemplateUtil
 
         $path = Controller::getTemplate($name, $format);
 
-        if (file_exists(System::getContainer()->get('huh.utils.container')->getProjectDir().DIRECTORY_SEPARATOR.$path)) {
+        if (file_exists($path)) {
             return $path;
         }
 
