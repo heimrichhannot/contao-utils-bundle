@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.4] - 2018-04-26
+
+### Fixed
+- `picture.html.twig` lazyload padding, number format (use dot as decimal point instead of comma)
+
 ## [2.8.3] - 2018-04-25
 
 ### Fixed

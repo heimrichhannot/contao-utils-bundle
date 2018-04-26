@@ -12,7 +12,7 @@
 {% endif %}
 
 {% if lazyload|default() %}
-    <div class="image-wrapper" style="padding-bottom: {{ img.width == 0 ? 0 : img.height/img.width*100 }}%" >
+    <div class="image-wrapper" style="padding-bottom: {{ (img.width == 0 ? 0 : img.height/img.width*100)|number_format(2, '.') }}%" >
       <img class="image" data-lazy="{{ img.src }}" data-src="{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }} itemprop="image">
     </div>
 {% else %}
