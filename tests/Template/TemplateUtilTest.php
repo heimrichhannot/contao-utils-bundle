@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Template;
 
 use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 
@@ -34,6 +35,9 @@ class TemplateUtilTest extends TestCaseEnvironment
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
 
+        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $container->set('huh.utils.container', $containerUtil);
+
         System::setContainer($container);
 
         global $objPage;
@@ -57,6 +61,9 @@ class TemplateUtilTest extends TestCaseEnvironment
 
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
+
+        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $container->set('huh.utils.container', $containerUtil);
 
         System::setContainer($container);
 

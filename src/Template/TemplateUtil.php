@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Template;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\System;
 use Contao\ThemeModel;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -137,7 +138,34 @@ class TemplateUtil
         // allow twig templates
         $GLOBALS['TL_CONFIG']['templateFiles'] .= ',html.twig';
 
-        return Controller::getTemplate($name, $format);
+        $path = Controller::getTemplate($name, $format);
+
+        if (file_exists(System::getContainer()->get('huh.utils.container')->getProjectDir().DIRECTORY_SEPARATOR.$path)) {
+            return $path;
+        }
+
+        $kernel = System::getContainer()->get('kernel');
+        $bundles = $kernel->getBundles();
+        // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
+        if (is_array($bundles) && 'html.twig' === $format) {
+            $pattern = $name.'.'.$format;
+
+            foreach ($bundles as $key => $value) {
+                $path = $kernel->locateResource("@$key");
+                $finder = new Finder();
+                $finder->in($path);
+                $finder->files()->name($pattern);
+                $twigKey = preg_replace('/Bundle$/', '', $key);
+                foreach ($finder as $val) {
+                    $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
+                    $string = end($explodurl);
+
+                    return "@$twigKey/$string";
+                }
+            }
+        }
+
+        return $path;
     }
 
     /**
