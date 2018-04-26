@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.6] - 2018-04-26
+
+### Fixed
+- `TemplateUtil::getTemplate` now also returns the path for twig templates inside bundle views directory 
+
 ## [2.8.5] - 2018-04-26
 
 ### Fixed
