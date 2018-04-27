@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.8] - 2018-04-26
+
+### Fixed
+- convert array values to string values in `DatabaseUtil::computeCondition` and `DataBaseUtil::composeWhereForQueryBuilder` to prevent `Controller::replaceInsertTags()` exception
+
 ## [2.8.7] - 2018-04-26
 
 ### Fixed
