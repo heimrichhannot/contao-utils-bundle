@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.7] - 2018-04-26
+
+### Fixed
+- `TemplateUtil::getTemplate` now catch template not found exception and try to find the twig templates inside bundle views directory 
+
 ## [2.8.6] - 2018-04-26
 
 ### Fixed

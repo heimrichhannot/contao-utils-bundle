@@ -138,34 +138,35 @@ class TemplateUtil
         // allow twig templates
         $GLOBALS['TL_CONFIG']['templateFiles'] .= ',html.twig';
 
-        $path = Controller::getTemplate($name, $format);
+        try {
+            $path = Controller::getTemplate($name, $format);
+            if (file_exists($path)) {
+                return $path;
+            }
+        } catch (\Exception $e) {
+            $kernel = System::getContainer()->get('kernel');
+            $bundles = $kernel->getBundles();
+            // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
+            if (is_array($bundles) && 'html.twig' === $format) {
+                $pattern = $name.'.'.$format;
 
-        if (file_exists($path)) {
-            return $path;
-        }
+                foreach ($bundles as $key => $value) {
+                    $path = $kernel->locateResource("@$key");
+                    $finder = new Finder();
+                    $finder->in($path);
+                    $finder->files()->name($pattern);
+                    $twigKey = preg_replace('/Bundle$/', '', $key);
+                    foreach ($finder as $val) {
+                        $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
+                        $string = end($explodurl);
 
-        $kernel = System::getContainer()->get('kernel');
-        $bundles = $kernel->getBundles();
-        // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
-        if (is_array($bundles) && 'html.twig' === $format) {
-            $pattern = $name.'.'.$format;
-
-            foreach ($bundles as $key => $value) {
-                $path = $kernel->locateResource("@$key");
-                $finder = new Finder();
-                $finder->in($path);
-                $finder->files()->name($pattern);
-                $twigKey = preg_replace('/Bundle$/', '', $key);
-                foreach ($finder as $val) {
-                    $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
-                    $string = end($explodurl);
-
-                    return "@$twigKey/$string";
+                        return "@$twigKey/$string";
+                    }
                 }
             }
         }
 
-        return $path;
+        return $name;
     }
 
     /**
