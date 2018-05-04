@@ -138,3 +138,9 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.pdf_writer:
+        class: HeimrichHannot\UtilsBundle\Pdf\PdfWriter
+        public: true
+        lazy:  true
+        arguments:
+            - "@contao.framework"

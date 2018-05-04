@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.9.0] - 2018-05-04
+
+### Added
+- `huh.utils.pdf_writer` service
+
 ## [2.8.8] - 2018-04-26
 
 ### Fixed

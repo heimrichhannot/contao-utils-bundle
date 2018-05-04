@@ -50,5 +50,8 @@
   },
   "replace": {
     "heimrichhannot/contao-utils-bundle": "self.version"
+  },
+  "suggest": {
+    "mpdf/mpdf": "Required by huh.utils.pdf_writer service in version ^7.0"
   }
 }
