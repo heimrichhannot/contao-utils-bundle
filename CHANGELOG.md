@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.9.1] - 2018-05-04
+
+### Fixed
+- fixed slow template loading by adding Template caching
+
 ## [2.9.0] - 2018-05-04
 
 ### Added

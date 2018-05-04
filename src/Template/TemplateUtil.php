@@ -12,6 +12,7 @@ use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 use Contao\ThemeModel;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -22,9 +23,15 @@ class TemplateUtil
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
+    /**
+     * @var FilesystemAdapter
+     */
+    protected $cache;
+
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
+        $this->cache = new FilesystemAdapter('', 0, \System::getContainer()->get('kernel')->getCacheDir());
     }
 
     /**
@@ -135,13 +142,22 @@ class TemplateUtil
      */
     public function getTemplate(string $name, string $format = 'html.twig'): string
     {
+        $cache = $this->cache->getItem('templates');
+        $templates = $cache->get();
+
+        if ($cache->isHit() && isset($templates[$name]) && !empty($templates[$name])) {
+            return $templates[$name];
+        }
+
         // allow twig templates
         $GLOBALS['TL_CONFIG']['templateFiles'] .= ',html.twig';
+
+        $templatePath = $name;
 
         try {
             $path = Controller::getTemplate($name, $format);
             if (file_exists($path)) {
-                return $path;
+                $templatePath = $path;
             }
         } catch (\Exception $e) {
             $kernel = System::getContainer()->get('kernel');
@@ -159,14 +175,18 @@ class TemplateUtil
                     foreach ($finder as $val) {
                         $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
                         $string = end($explodurl);
-
-                        return "@$twigKey/$string";
+                        $templatePath = "@$twigKey/$string";
+                        break 2;
                     }
                 }
             }
         }
 
-        return $name;
+        $templates[$name] = $templatePath;
+        $cache->set($templates);
+        $this->cache->save($cache);
+
+        return $templatePath;
     }
 
     /**
@@ -193,11 +213,7 @@ class TemplateUtil
         $regex = Glob::toRegex($pattern);
 
         // All files in the given template folder
-        $filesIterator = $finder
-            ->files()
-            ->followLinks()
-            ->sortByName()
-            ->in(\dirname($pattern));
+        $filesIterator = $finder->files()->followLinks()->sortByName()->in(\dirname($pattern));
 
         // Match the actual regex and filter the files
         $filesIterator = $filesIterator->filter(function (\SplFileInfo $info) use ($regex) {
