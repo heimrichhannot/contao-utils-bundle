@@ -17,6 +17,7 @@ use Contao\Environment;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Contao\Widget;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 
 class FormUtil
@@ -30,6 +31,36 @@ class FormUtil
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
+    }
+
+    /**
+     * Get a new widget instance based on given attributes from a Data Container array.
+     *
+     * @param string             $name   The field name in the form
+     * @param array              $data   The field configuration array
+     * @param mixed              $value  The field value
+     * @param string             $dbName The field name in the database
+     * @param string             $table  The table name in the database
+     * @param DataContainer|null $dc     An optional DataContainer object
+     * @param string             $mode   The contao mode, use FE or BE to get proper widget/form type
+     *
+     * @return null|Widget The new widget based on given attributes
+     */
+    public function getWidgetFromAttributes(string $name, array $data, $value = null, string $dbName = '', string $table = '', DataContainer $dc = null, string $mode = 'FE'): ? Widget
+    {
+        $mode = strtoupper($mode);
+        $mode = in_array($mode, ['FE', 'BE'], true) ? $mode : 'FE';
+        $class = 'FE' === $mode ? $GLOBALS['TL_FFL'][$data['inputType']] : $GLOBALS['BE_FFL'][$data['inputType']];
+        /**
+         * @var Widget
+         */
+        $widget = $this->framework->getAdapter(Widget::class);
+
+        if (empty($class) || !class_exists($class)) {
+            return null;
+        }
+
+        return new $class($widget::getAttributesFromDca($data, $name, $value, $dbName, $table, $dc));
     }
 
     /**

@@ -13,9 +13,39 @@ use Contao\System;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use Symfony\Component\Filesystem\Filesystem;
 
 class TemplateUtilTest extends TestCaseEnvironment
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        $fs = new Filesystem();
+        $fs->mkdir($this->getTempDir());
+
+        $container = $this->mockContainer();
+
+        $file1 = $this->createMock(\SplFileInfo::class);
+        $file1->method('getBasename')->willReturn('basename');
+
+        $file2 = $this->createMock(\SplFileInfo::class);
+        $file2->method('getBasename')->willReturn('basename');
+
+        $finder = $this->mockAdapter(['findIn', 'name']);
+        $finder->method('findIn')->willReturnSelf();
+        $finder->method('name')->willReturn([$file1, $file2]);
+
+        $container->set('contao.resource_finder', $finder);
+
+        $kernel = $this->mockAdapter(['getCacheDir', 'isDebug']);
+        $kernel->method('getCacheDir')->willReturn($this->getTempDir());
+        $kernel->method('isDebug')->willReturn(false);
+        $container->setParameter('kernel.debug', true);
+        $container->set('kernel', $kernel);
+        System::setContainer($container);
+    }
+
     public function testInstantiation()
     {
         $util = new TemplateUtil($this->mockContaoFramework());
