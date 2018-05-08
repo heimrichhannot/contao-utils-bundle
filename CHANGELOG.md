@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.10.2] - 2018-05-08
+
+### Fixed 
+- removed whitespace from composeWhereForQueryBuilder in operator
+
 ## [2.10.1] - 2018-05-08
 
 ### Fixed 

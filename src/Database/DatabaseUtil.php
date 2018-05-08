@@ -511,13 +511,13 @@ class DatabaseUtil
             case self::OPERATOR_IN:
                 $value = !is_array($value) ? explode(',', $value) : $value;
                 $where = $queryBuilder->expr()->in($field, array_map(function ($val) {
-                    return '"'.addslashes(Controller::replaceInsertTags($val, false)).'"';
+                    return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
                 }, $value));
                 break;
             case self::OPERATOR_NOT_IN:
                 $value = !is_array($value) ? explode(',', $value) : $value;
                 $where = $queryBuilder->expr()->notIn($field, array_map(function ($val) {
-                    return '"'.addslashes(Controller::replaceInsertTags($val, false)).'"';
+                    return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
                 }, $value));
                 break;
             case self::OPERATOR_IS_NULL:
