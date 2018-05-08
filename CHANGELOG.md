@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.10.1] - 2018-05-08
+
+### Fixed 
+- `huh.utils.form` call `Widget::getAttributesFromDca()` in `getWidgetFromAttributes` non-static
+
 ## [2.10.0] - 2018-05-04
 
 ### Added 

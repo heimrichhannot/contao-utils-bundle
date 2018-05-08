@@ -60,7 +60,7 @@ class FormUtil
             return null;
         }
 
-        return new $class($widget::getAttributesFromDca($data, $name, $value, $dbName, $table, $dc));
+        return new $class($widget->getAttributesFromDca($data, $name, $value, $dbName, $table, $dc));
     }
 
     /**
