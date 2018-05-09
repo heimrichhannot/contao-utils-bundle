@@ -149,6 +149,28 @@ class ModelUtil
     }
 
     /**
+     * Find all model instances for a given table.
+     *
+     * @param string $table      The table name
+     * @param array  $arrOptions Additional query options
+     *
+     * @return Model\Collection|null
+     */
+    public function findAllModelInstances(string $table, array $arrOptions = []): ?Model\Collection
+    {
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        /* @var Model $adapter */
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        return $adapter->findAll($arrOptions);
+    }
+
+    /**
      * @param string       $pattern
      * @param Model|object $instance
      * @param string       $table

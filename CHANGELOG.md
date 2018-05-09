@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.12.0] - 2018-05-09
+
+### Added 
+- `huh.utils.model` method `findAllModelInstances` to get all models from a table
+
 ## [2.11.0] - 2018-05-09
 
 ### Added
