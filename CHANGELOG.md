@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.11.0] - 2018-05-09
+
+### Added
+- `huh.utils.dca` method `getEditLink()` to create an contao backend edit link (e.g. module)
+- `huh.utils.dca` method `getModalEditLink()` to create an contao backend modal edit link (e.g. module)
+- `huh.utils.dca` method `getArchiveModalEditLink()` to create an contao backend archive modal edit link (e.g. module)
+
 ## [2.10.2] - 2018-05-08
 
 ### Fixed 

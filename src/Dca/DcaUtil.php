@@ -15,6 +15,7 @@ use Contao\Database;
 use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\FrontendUser;
+use Contao\Image;
 use Contao\StringUtil;
 use Contao\System;
 
@@ -34,6 +35,99 @@ class DcaUtil
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
+    }
+
+    /**
+     * Get a contao backend modal edit link.
+     *
+     * @param string      $module Name of the module
+     * @param int         $id     Id of the entity
+     * @param string|null $label  The label text
+     *
+     * @return string The edit link
+     */
+    public function getEditLink(string $module, int $id, string $label = null): string
+    {
+        if (!$id) {
+            return '';
+        }
+
+        $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
+
+        return sprintf(
+            ' <a href="contao/main.php?do=%s&amp;act=edit&amp;id=%s&amp;rt=%s" title="%s" style="padding-left: 5px; padding-top: 2px; display: inline-block;">%s</a>',
+            $module,
+            $id,
+            System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
+            $label,
+            Image::getHtml('alias.svg', $label, 'style="vertical-align:top"')
+        );
+    }
+
+    /**
+     * Get a contao backend modal edit link.
+     *
+     * @param string      $module Name of the module
+     * @param int         $id     Id of the entity
+     * @param string|null $label  The label text
+     * @param string      $table  The dataContainer table
+     * @param int         $width  The modal window width
+     *
+     * @return string The modal edit link
+     */
+    public function getModalEditLink(string $module, int $id, string $label = null, string $table = '', int $width = 768): string
+    {
+        if (!$id) {
+            return '';
+        }
+
+        $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
+
+        return sprintf(
+            ' <a href="contao/main.php?do=%s&amp;act=edit&amp;id=%s%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
+            .'style="padding-left: 5px; padding-top: 2px; display: inline-block;" onclick="Backend.openModalIframe({\'width\':\'%s\',\'title\':\'%s'.'\',\'url\':this.href});return false">%s</a>',
+            $module,
+            $id,
+            ($table ? '&amp;table='.$table : ''),
+            System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
+            $label,
+            $width,
+            $label,
+            \Image::getHtml('alias.svg', $label, 'style="vertical-align:top"')
+        );
+    }
+
+    /**
+     * Get a contao backend modal archive edit link.
+     *
+     * @param string      $module Name of the module
+     * @param int         $id     Id of the entity
+     * @param string      $table  The dataContainer table
+     * @param string|null $label  The label text
+     * @param int         $width  The modal window width
+     *
+     * @return string The modal archive edit link
+     */
+    public function getArchiveModalEditLink(string $module, int $id, string $table, string $label = null, int $width = 768): string
+    {
+        if (!$id) {
+            return '';
+        }
+
+        $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
+
+        return sprintf(
+            ' <a href="contao/main.php?do=%s&amp;id=%s&amp;table=%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
+            .'style="padding-left:3px; float: right" onclick="Backend.openModalIframe({\'width\':\'%s\',\'title\':\'%s'.'\',\'url\':this.href});return false">%s</a>',
+            $module,
+            $id,
+            $table,
+            System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
+            $label,
+            $width,
+            $label,
+            Image::getHtml('alias.svg', $label, 'style="vertical-align:top"')
+        );
     }
 
     /**
