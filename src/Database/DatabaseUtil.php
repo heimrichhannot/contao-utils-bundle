@@ -432,13 +432,13 @@ class DatabaseUtil
             case static::OPERATOR_IN:
                 $value = explode(',', Controller::replaceInsertTags($value, false));
                 $pattern = '('.implode(',', array_map(function ($val) {
-                    return '"'.addslashes($val).'"';
+                    return '"'.addslashes(trim($val)).'"';
                 }, $value)).')';
                 break;
             case static::OPERATOR_NOT_IN:
                 $value = explode(',', Controller::replaceInsertTags($value, false));
                 $pattern = '('.implode(',', array_map(function ($val) {
-                    return '"'.addslashes($val).'"';
+                    return '"'.addslashes(trim($val)).'"';
                 }, $value)).')';
                 break;
             case static::OPERATOR_IS_NULL:
