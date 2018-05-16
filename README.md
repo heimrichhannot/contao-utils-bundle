@@ -20,7 +20,7 @@ composer require heimrichhannot/contao-utils-bundle
 This Bundle is a collection of utils to solve recurring tasks. See the [Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all functions. 
 We recommend to call the utils as service. You can either inject them (the Symfony recommend way) or call them from the service container (all util services are public).
 
-Available [Service](src/Resources/config/services.yml) (as at version 2.1):
+Available [Service](src/Resources/config/services.yml) (as at version 2.12):
 
 ```php
 huh.utils.array
@@ -53,50 +53,10 @@ huh.utils.user
 huh.utils.pdf_writer
 ```
 
-## huh.utils.pdf
+## Documentation
 
-Example to create a custom pdf.
-```
-$pdf = System::getContainer()->get('huh.utils.pdf_writer')
-            ->mergeConfig(['margin_left' => 15, 'margin_right' => 15, 'margin_top' => 15, 'margin_bottom' => 15])
-            ->setHtml('<style>h1{color: red;}</style><h1>PDF-Example</h1>')
-            ->addFontDirectories(StringUtil::trimsplit(',', 'files/pdf-fonts/fonts,web/build/fonts'))
-            ->setFileName('test.pdf');
+[Documentation](https://heimrichhannot.github.io/contao-utils-bundle/)
 
-        if (null !== ($masterTemplatePath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($this->readerConfigElement->syndicationPdfMasterTemplate))) {
-            $pdf->setTemplate($masterTemplatePath);
-        }
+### Additional knowledge
 
-        $pdf->generate($this->download);
-```
-
-##### Use custom fonts  
-
-You can provide multiple paths to a directory containing additional fonts.
-The directory **must contain** a `mpdf-config.php` file, that must return an array with the additional mpdf font-configuration.
-
-**Example:**
-
-You declare for instance the direcory `files/pdf-fonts/` that contains the `.ttf` or `.otf` or `.ttc` font files and the `mpdf-config.php`, than the following configuration should be made. 
-
-```
-<?php
-
-$defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
-$fontData          = $defaultFontConfig['fontdata'];
-
-return [
-    'fontdata'     => $fontData +[
-        'roboto'      => [
-            'R' => 'Roboto-Regular.ttf'
-        ],
-        'fontawesome' => [
-            'R' => 'fontawesome-webfont.ttf'
-        ]
-    ],
-    'default_font' => 'roboto'
-];
-``` 
-*Example: mpdf-config.php*
-
-More Information: https://mpdf.github.io/fonts-languages/fonts-in-mpdf-7-x.html
+[PDF Writer](docs/utils/pdf/pdf_writer.md) (`huh.utils.pdf_writer`)

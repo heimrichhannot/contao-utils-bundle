@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.12.2] - 2018-05-11
+
+#### Fixed
+* picture template twig error if title not defined
+
 ## [2.12.1] - 2018-05-11
 
 ### Added 
