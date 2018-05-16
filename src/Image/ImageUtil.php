@@ -29,6 +29,21 @@ class ImageUtil
         $this->framework = $framework;
     }
 
+    /**
+     * Add an image to a template.
+     *
+     * Advanced version of Controller::addImageToTemplate
+     * with custom imageField and imageSelectorField and array instead of FrontendTemplate.
+     *
+     * @param string          $imageField         the image field name (typical singleSRC)
+     * @param string          $imageSelectorField the image selector field indicated if an image is added (typical addImage)
+     * @param array           $templateData       An array to add the generated data to
+     * @param array           $item               The source data containing the imageField and imageSelectorField
+     * @param int|null        $maxWidth           An optional maximum width of the image
+     * @param string|null     $lightboxId         An optional lightbox ID
+     * @param string|null     $lightboxName       An optional lightbox name
+     * @param FilesModel|null $model              an optional file model used to read meta data
+     */
     public function addToTemplateData(
         string $imageField,
         string $imageSelectorField,
