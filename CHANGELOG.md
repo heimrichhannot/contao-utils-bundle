@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.13.0] - 2018-05-11
+
+### Added 
+- TemplateUtil::removeTemplateComment()
+
 ## [2.12.1] - 2018-05-11
 
 ### Added 

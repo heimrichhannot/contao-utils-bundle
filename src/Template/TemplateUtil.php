@@ -226,4 +226,21 @@ class TemplateUtil
 
         return array_keys($files);
     }
+
+    /**
+     * remove TEMPLATE START/END comment from template if in debug mode.
+     *
+     * @param $section
+     *
+     * @return mixed
+     */
+    public function removeTemplateComment($template)
+    {
+        if (System::getContainer()->getParameter('kernel.debug') && !empty($template)) {
+            $template = preg_replace('/<!--(.*?)-->/', '', $template);
+            $template = trim(preg_replace('/\r?\n|\r/', '', $template));
+        }
+
+        return $template;
+    }
 }

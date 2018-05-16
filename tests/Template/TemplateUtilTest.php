@@ -109,4 +109,13 @@ class TemplateUtilTest extends TestCaseEnvironment
         $util = new TemplateUtil($this->mockContaoFramework());
         $this->assertSame($this->getFixturesDir().'/templates/myTheme/test1.html.twig', $util->getTemplate('test1'));
     }
+
+    public function testRemoveTemplateComment()
+    {
+        $util = new TemplateUtil($this->mockContaoFramework());
+
+        $this->assertNull($util->removeTemplateComment(null));
+        $this->assertSame('', $util->removeTemplateComment('<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 -->
+        <!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
+    }
 }
