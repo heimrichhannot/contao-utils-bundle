@@ -14,6 +14,15 @@ This bundle offers various utility functionality for the Contao CMS.
 composer require heimrichhannot/contao-utils-bundle
 ```
 
+### Additional Requirements: 
+
+Add following dependencies to your project composer file, if you want to use one of the following utils:
+
+Util                  | Dependency
+----------------------|-----------
+huh.utils.pdf.writer  | `"mpdf/mpdf": "^7.0"`
+huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"`
+
 
 ## Usage
 
