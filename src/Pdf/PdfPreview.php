@@ -39,11 +39,11 @@ class PdfPreview
     public function getCachedPdfPreview(string $pdfPath, array $options = [], string $fileExtension = 'jpg')
     {
         $pdfCache = $this;
-        $imagePath = $this->cache->get($pdfPath, function ($pdfPath, $cachePath, $cacheFileName) use ($pdfCache, $options, $fileExtension) {
-            return $pdfCache->generatePdfPreview($pdfPath, $cachePath.'/'.$cacheFileName.'.'.$fileExtension, $options);
+        $imagePath = $this->cache->get($pdfPath, $fileExtension, function ($pdfPath, $cachePath, $cacheFileName) use ($pdfCache, $options) {
+            return $pdfCache->generatePdfPreview($pdfPath, $cachePath.'/'.$cacheFileName, $options);
         });
 
-        return $imagePath ? $imagePath.'.'.$fileExtension : null;
+        return $imagePath ? $imagePath : null;
     }
 
     /**

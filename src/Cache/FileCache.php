@@ -66,14 +66,15 @@ class FileCache
     /**
      * Checks if a cached file already exist.
      *
-     * @param string $identifier The identifier
+     * @param string $identifier    The identifier
+     * @param string $fileExtension
      *
      * @return bool
      */
-    public function exist(string $identifier)
+    public function exist(string $identifier, string $fileExtension)
     {
         $fileName = $this->getCacheFileName($identifier);
-        $file = new File($this->cacheFolderWithNamespace.'/'.$fileName);
+        $file = new File($this->cacheFolderWithNamespace.'/'.$fileName.'.'.$fileExtension);
         if ($file->exists()) {
             return true;
         }
@@ -85,14 +86,15 @@ class FileCache
      * Get the file path for the given identifier.
      *
      * @param string   $identifier
-     * @param callable $saveCallback A callback handles the file save functionality. Get filepath, filename and the identifier as parameter. Expects a boolean return value.
+     * @param string   $fileExtension
+     * @param callable $saveCallback  A callback handles the file save functionality. Get filepath, filename and the identifier as parameter. Expects a boolean return value.
      *
      * @return bool|string
      */
-    public function get(string $identifier, callable $saveCallback = null)
+    public function get(string $identifier, string $fileExtension, callable $saveCallback = null)
     {
         $fileName = $this->getCacheFileName($identifier);
-        $file = new File($this->cacheFolderWithNamespace.'/'.$fileName);
+        $file = new File($this->cacheFolderWithNamespace.'/'.$fileName.'.'.$fileExtension);
         if (!$file->exists()) {
             if (null !== $saveCallback) {
                 if ($saveCallback($identifier, $this->cacheFolderWithNamespace, $fileName)) {
@@ -112,18 +114,22 @@ class FileCache
      * If a identifier is given, you get the resulting file name.
      * If no identifier is given, if will return a unique file name without extension.
      *
-     * @param string $identifier   An identifier for the cache. For example be the source file name or path. If empty, a unique filename will be generated.
-     * @param string $prefix       Adds a prefix to the generated name. Only if $identifier is empty.
-     * @param bool   $more_entropy A longer name for the unique filename. Only if $identifier is empty. Default
+     * @param string $identifier    An identifier for the cache. For example be the source file name or path. If empty, a unique filename will be generated.
+     * @param string $prefix        Adds a prefix to the generated name. Only if $identifier is empty.
+     * @param bool   $more_entropy  A longer name for the unique filename. Only if $identifier is empty. Default
+     * @param string $fileExtension optional: If set, the file extension will be appended to the generated file name
      *
      * @return string a unique filename for caching
      */
-    public function generateCacheName(string $identifier = '', string $prefix = '', bool $more_entropy = true)
+    public function generateCacheName(string $identifier = '', string $prefix = '', bool $more_entropy = true, string $fileExtension = '')
     {
         if (empty($identifier)) {
             $fileName = uniqid($prefix, $more_entropy);
         } else {
             $fileName = $this->getCacheFileName($identifier);
+        }
+        if (!empty($fileExtension)) {
+            $fileName .= '.'.$fileExtension;
         }
 
         return $fileName;
