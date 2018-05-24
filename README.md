@@ -26,6 +26,7 @@ Available [Service](src/Resources/config/services.yml) (as of version 2.14):
 huh.utils.array
 huh.utils.cache.database
 huh.utils.cache.remote_image_cache
+huh.utils.cache.file
 huh.utils.code
 huh.utils.encryption
 huh.utils.container
