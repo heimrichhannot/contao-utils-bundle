@@ -1,9 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.14.0] - 2018-05-24
+
+#### Added
+- FileCache util
+- PdfPreview util
+- renamed pdf writer util (keeped old service name as alias and marked deprecated)
+
 ## [2.13.0] - 2018-05-16
 
-### Added 
+#### Added 
 - TemplateUtil::removeTemplateComment()
 
 ## [2.12.2] - 2018-05-16

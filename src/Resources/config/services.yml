@@ -15,6 +15,10 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+    huh.utils.cache.file:
+        class: HeimrichHannot\UtilsBundle\Cache\FileCache
+        public: true
+        arguments: ['%huh.utils.filecache.folder%', '%contao.web_dir%', '@huh.utils.file']
     huh.utils.code:
         class: HeimrichHannot\UtilsBundle\Security\CodeUtil
         public: true
@@ -138,9 +142,20 @@ services:
         public: true
         arguments:
             - "@contao.framework"
-    huh.utils.pdf_writer:
+    huh.utils.pdf.preview:
+        class: HeimrichHannot\UtilsBundle\Pdf\PdfPreview
+        public: true
+        lazy:  true
+        arguments: ['@huh.utils.cache.file', '%contao.web_dir%']
+    huh.utils.pdf.writer:
         class: HeimrichHannot\UtilsBundle\Pdf\PdfWriter
         public: true
         lazy:  true
         arguments:
             - "@contao.framework"
+
+# Deprecations:
+
+    huh.utils.pdf_writer:
+        alias: huh.utils.pdf.writer
+        deprecated: The service has been renamed to huh.utils.pdf.writer. This alias will be delete in a future major update.

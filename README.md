@@ -20,10 +20,11 @@ composer require heimrichhannot/contao-utils-bundle
 This Bundle is a collection of utils to solve recurring tasks. See the [Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all functions. 
 We recommend to call the utils as service. You can either inject them (the Symfony recommend way) or call them from the service container (all util services are public).
 
-Available [Service](src/Resources/config/services.yml) (as at version 2.12):
+Available [Service](src/Resources/config/services.yml) (as of version 2.14):
 
 ```php
 huh.utils.array
+huh.utils.cache.database
 huh.utils.cache.remote_image_cache
 huh.utils.code
 huh.utils.encryption
@@ -35,7 +36,6 @@ huh.utils.file
 huh.utils.form
 huh.utils.image
 huh.utils.location
-huh.utils.member
 huh.utils.model
 huh.utils.request.curl
 huh.utils.string
@@ -50,13 +50,14 @@ huh.utils.class
 huh.utils.member
 huh.utils.template
 huh.utils.user
-huh.utils.pdf_writer
+huh.utils.pdf.preview
+huh.utils.pdf.writer
 ```
 
 ## Documentation
 
 [Documentation](https://heimrichhannot.github.io/contao-utils-bundle/)
 
-### Additional knowledge
+#### Additional information
 
-[PDF Writer](docs/utils/pdf/pdf_writer.md) (`huh.utils.pdf_writer`)
+[PDF Writer](docs/utils/pdf/pdf_writer.md) (`huh.utils.pdf.writer`)
