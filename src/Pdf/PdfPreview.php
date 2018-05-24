@@ -26,7 +26,7 @@ class PdfPreview
     {
         $this->cache = $cache;
         $this->cache->setNamespace('pdfPreview');
-        $this->webDir = $webDir;
+        $this->webDir = $webDir.'/..';
     }
 
     /**
@@ -79,7 +79,7 @@ class PdfPreview
             if (!empty($imageExtension)) {
                 $pdf->setOutputFormat($imageExtension);
             }
-            $pdf->saveImage($imagePath);
+            $pdf->saveImage($this->webDir.'/'.$imagePath);
         } catch (\Exception $e) {
             return false;
         }

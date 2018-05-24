@@ -59,7 +59,7 @@ class FileCache
         $this->cacheFolder = $cacheFolder;
         $this->namespace = $namespace;
         $this->fileUtil = $fileUtil;
-        $this->webDir = $webDir;
+        $this->webDir = $webDir.'/..';
         $this->generatePath();
     }
 
