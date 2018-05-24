@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>HeimrichHannot\UtilsBundle\Cache\FileCache | Contao Utils Bundle</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Cache_FileCache" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Contao Utils Bundle</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Cache.html">Cache</a></li><li class="backslash">\</li><li>FileCache</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            FileCache
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>FileCache</strong>
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Class FileCache.</p>            <p>The cache will be created in the cache folder defined by the config (default the huh.utils.filecache.folder parameter)
+Within the cache folder you can specify a namespace serving as subfolder.</p>                    </div>
+    
+    
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_cacheFolder">
+                                        protected                                        string
+                </td>
+                <td>$cacheFolder</td>
+                <td class="last">The folder where the images should be cached.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_namespace">
+                                        protected                                        string
+                </td>
+                <td>$namespace</td>
+                <td class="last">The subfolder within the cache folder.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_cacheFolderWithNamespace">
+                                        protected                                        string
+                </td>
+                <td>$cacheFolderWithNamespace</td>
+                <td class="last">The complete path to the current cache folder including namespace.</td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(string $cacheFolder, string $webDir, <a href="../../../HeimrichHannot/UtilsBundle/File/FileUtil.html"><abbr title="HeimrichHannot\UtilsBundle\File\FileUtil">FileUtil</abbr></a> $fileUtil, string $namespace = &#039;&#039;)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_exist">exist</a>(string $identifier)
+        
+                                            <p>Checks if a cached file already exist.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool|string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_get">get</a>(string $identifier, callable $saveCallback = null)
+        
+                                            <p>Get the file path for the given identifier.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_generateCacheName">generateCacheName</a>(string $identifier = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true)
+        
+                                            <p>Generate a file name for cache.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCacheFileName">getCacheFileName</a>($identifier)
+        
+                                            <p>Get the cache file name by the given identifier.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCacheFilePath">getCacheFilePath</a>(string $filename = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true)
+        
+                                            <p>Same as generateCacheName, but returns complete path to cache.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAbsoluteCachePath">getAbsoluteCachePath</a>()
+        
+                                            <p>Returns the absolute path to the cache folder.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNamespace">getNamespace</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setNamespace">setNamespace</a>(string $namespace)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCacheFolder">getCacheFolder</a>()
+        
+                                            <p>The cache folder (without namespace).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setCacheFolder">setCacheFolder</a>(string $cacheFolder)
+        
+                                            <p>Set cache folder (without namespace).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCacheFolderWithNamespace">getCacheFolderWithNamespace</a>()
+        
+                                            <p>Get the cache folder (including namespace).</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_generatePath">generatePath</a>()
+        
+                                            <p>Recreates the path to the current cache folder.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         line 57</div>
+        <code>                    
+    <strong>__construct</strong>(string $cacheFolder, string $webDir, <a href="../../../HeimrichHannot/UtilsBundle/File/FileUtil.html"><abbr title="HeimrichHannot\UtilsBundle\File\FileUtil">FileUtil</abbr></a> $fileUtil, string $namespace = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$cacheFolder</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$webDir</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../HeimrichHannot/UtilsBundle/File/FileUtil.html"><abbr title="HeimrichHannot\UtilsBundle\File\FileUtil">FileUtil</abbr></a></td>
+                <td>$fileUtil</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$namespace</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_exist">
+        <div class="location">at         line 73</div>
+        <code>                    bool
+    <strong>exist</strong>(string $identifier)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Checks if a cached file already exist.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$identifier</td>
+                <td>The identifier</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_get">
+        <div class="location">at         line 92</div>
+        <code>                    bool|string
+    <strong>get</strong>(string $identifier, callable $saveCallback = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the file path for the given identifier.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$identifier</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$saveCallback</td>
+                <td>A callback handles the file save functionality. Get filepath, filename and the identifier as parameter. Expects a boolean return value.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool|string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_generateCacheName">
+        <div class="location">at         line 121</div>
+        <code>                    string
+    <strong>generateCacheName</strong>(string $identifier = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Generate a file name for cache.</p>                    <p>If a identifier is given, you get the resulting file name.
+If no identifier is given, if will return a unique file name without extension.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$identifier</td>
+                <td>An identifier for the cache. For example be the source file name or path. If empty, a unique filename will be generated.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$prefix</td>
+                <td>Adds a prefix to the generated name. Only if $identifier is empty.</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$more_entropy</td>
+                <td>A longer name for the unique filename. Only if $identifier is empty. Default</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>a unique filename for caching</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCacheFileName">
+        <div class="location">at         line 139</div>
+        <code>                    string
+    <strong>getCacheFileName</strong>($identifier)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the cache file name by the given identifier.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$identifier</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCacheFilePath">
+        <div class="location">at         line 155</div>
+        <code>                    string
+    <strong>getCacheFilePath</strong>(string $filename = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Same as generateCacheName, but returns complete path to cache.</p>                    <p>If no filename is given, you need to add the file extension by yourself!</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$filename</td>
+                <td>The filename of the file that should be cached. If empty, a unique filename will be generated.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$prefix</td>
+                <td>Adds a prefix to the generated name. Only if $filename is empty.</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$more_entropy</td>
+                <td>A longer name for the unique filename. Only if filename is empty. Default</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>the path including the filename to save the file to the cache</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAbsoluteCachePath">
+        <div class="location">at         line 165</div>
+        <code>                    string
+    <strong>getAbsoluteCachePath</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the absolute path to the cache folder.</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNamespace">
+        <div class="location">at         line 173</div>
+        <code>                    string
+    <strong>getNamespace</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setNamespace">
+        <div class="location">at         line 181</div>
+        <code>                    
+    <strong>setNamespace</strong>(string $namespace)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$namespace</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCacheFolder">
+        <div class="location">at         line 192</div>
+        <code>                    string
+    <strong>getCacheFolder</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>The cache folder (without namespace).</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setCacheFolder">
+        <div class="location">at         line 202</div>
+        <code>                    
+    <strong>setCacheFolder</strong>(string $cacheFolder)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set cache folder (without namespace).</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$cacheFolder</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCacheFolderWithNamespace">
+        <div class="location">at         line 213</div>
+        <code>                    string
+    <strong>getCacheFolderWithNamespace</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the cache folder (including namespace).</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_generatePath">
+        <div class="location">at         line 221</div>
+        <code>            protected        
+    <strong>generatePath</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Recreates the path to the current cache folder.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>
