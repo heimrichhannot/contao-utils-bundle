@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.14.1] - 2018-05-24
+
+#### Added
+- utils js to backend
+
 ## [2.14.0] - 2018-05-24
 
 #### Added
