@@ -31,7 +31,7 @@ class PluginTest extends ContaoTestCase
 
         static::assertCount(1, $bundles);
         static::assertInstanceOf(BundleConfig::class, $bundles[0]);
-        static::assertEquals(HeimrichHannotContaoUtilsBundle::class, $bundles[0]->getName());
-        static::assertEquals([ContaoCoreBundle::class], $bundles[0]->getLoadAfter());
+        static::assertSame(HeimrichHannotContaoUtilsBundle::class, $bundles[0]->getName());
+        static::assertSame([ContaoCoreBundle::class], $bundles[0]->getLoadAfter());
     }
 }

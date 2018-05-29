@@ -93,8 +93,8 @@ class FileCache
      */
     public function get(string $identifier, string $fileExtension, callable $saveCallback = null)
     {
-        $fileName = $this->getCacheFileName($identifier);
-        $file = new File($this->cacheFolderWithNamespace.'/'.$fileName.'.'.$fileExtension);
+        $fileName = $this->getCacheFileName($identifier).'.'.$fileExtension;
+        $file = new File($this->cacheFolderWithNamespace.'/'.$fileName);
         if (!$file->exists()) {
             if (null !== $saveCallback) {
                 if ($saveCallback($identifier, $this->cacheFolderWithNamespace, $fileName)) {

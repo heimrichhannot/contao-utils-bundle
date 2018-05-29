@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.15.0] - 2018-05-29
+
+#### Added 
+- option to choose pdf transcoder for PdfPreview
+- added alchemy/ghostscript as option for PdfPreview
+
+#### Fixed
+- filename for save callback in FileCache had no file extension
+
+
 ## [2.14.1] - 2018-05-24
 
 #### Added
