@@ -549,4 +549,28 @@ class DatabaseUtil
 
         return $where;
     }
+
+    public function getChildRecords(array $parentIds, string $table, array $options = []): array
+    {
+        $children = [];
+        $db = $this->framework->createInstance(Database::class);
+        $sorting = (isset($options['sorting']) && $options['sorting'] ? ' ORDER BY '.$db->findInSet($table.'.pid', $parentIds).', sorting' : false);
+        $fetchRows = isset($options['fetchRows']) && $options['fetchRows'];
+        $recursive = isset($options['recursive']) && $options['recursive'];
+
+        $childRecords = $db->query('SELECT '.($fetchRows ? '*' : "$table.id, $table.pid")." FROM $table WHERE $table.pid IN(".implode(',', $parentIds).')'.$sorting);
+
+        if ($childRecords->numRows > 0) {
+            while ($childRecords->next()) {
+                $row = $childRecords->row();
+                $children[] = $fetchRows ? $row : $row['id'];
+            }
+
+            if ($recursive) {
+                $children = array_merge($children, $this->getChildRecords($childRecords->fetchEach('id'), $table, $options));
+            }
+        }
+
+        return $children;
+    }
 }
