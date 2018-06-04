@@ -236,8 +236,10 @@ class TemplateUtil
      */
     public function removeTemplateComment($template)
     {
-        if (System::getContainer()->getParameter('kernel.debug') && !empty($template)) {
-            $template = preg_replace('/<!--(.*?)-->/', '', $template);
+        $template = Controller::replaceInsertTags($template);
+
+        if (!empty($template)) {
+            $template = preg_replace('/<!-- TEMPLATE (.*?)-->/', '', $template);
             $template = trim(preg_replace('/\r?\n|\r/', '', $template));
         }
 
