@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.16.1] - 2018-06-07
+
+#### Fixed
+- `huh.utils.dca` method `addOverridableFields()`, added missing array check for  `__selector__`  palette
+
 ## [2.16.0] - 2018-06-07
 
 #### Added

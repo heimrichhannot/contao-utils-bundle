@@ -337,7 +337,7 @@ class DcaUtil
             }
 
             // important: nested selectors need to be in reversed order -> see DC_Table::getPalette()
-            $destinationDca['palettes']['__selector__'] = array_merge([$overrideFieldname], $destinationDca['palettes']['__selector__']);
+            $destinationDca['palettes']['__selector__'] = array_merge([$overrideFieldname], is_array($destinationDca['palettes']['__selector__']) ? $destinationDca['palettes']['__selector__'] : []);
 
             // copy field
             $destinationDca['fields'][$field] = $sourceDca['fields'][$field];
