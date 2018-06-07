@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Model;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\DataContainer;
 use Contao\Model;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
@@ -187,9 +188,13 @@ class ModelUtil
         $dc->id = $instance->id;
         $dc->activeRecord = $instance;
 
-        return preg_replace_callback('@%([^%]+)%@i', function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
-            return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput($matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig);
-        }, $pattern);
+        return preg_replace_callback(
+            '@%([^%]+)%@i',
+            function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
+                return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput($matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig);
+            },
+            $pattern
+        );
     }
 
     /**
@@ -209,5 +214,40 @@ class ModelUtil
         }
 
         return $this->findModelInstanceByPk($table, $instance);
+    }
+
+    /**
+     * Determine if given value is newer than DataContainer value.
+     *
+     * @param mixed         $newValue
+     * @param DataContainer $dc
+     *
+     * @return bool
+     */
+    public function hasValueChanged($newValue, DataContainer $dc): bool
+    {
+        if (null !== ($entity = $this->findModelInstanceByPk($dc->table, $dc->id))) {
+            return $newValue != $entity->{$dc->field};
+        }
+
+        return true;
+    }
+
+    /**
+     * Get model instance value for given field.
+     *
+     * @param string $field
+     * @param string $table
+     * @param int    $id
+     *
+     * @return mixed|null
+     */
+    public function getModelInstanceFieldValue(string $field, string $table, int $id)
+    {
+        if (null !== ($entity = $this->findModelInstanceByPk($table, $id))) {
+            return $entity->{$property};
+        }
+
+        return null;
     }
 }

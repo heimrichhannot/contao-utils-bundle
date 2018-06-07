@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.16.0] - 2018-06-07
+
+#### Added
+- `huh.utils.model` method `hasValueChanged()`
+- `huh.utils.model` method `getModelInstanceFieldValue()`
+
 ## [2.15.2] - 2018-06-04
 
 #### Added
