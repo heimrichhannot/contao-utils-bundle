@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Security;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
+use PWGen\PWGen;
 
 class CodeUtil
 {
@@ -66,7 +67,7 @@ class CodeUtil
         $rules = is_array($rules) ? $rules : static::DEFAULT_RULES;
         $allowedSpecialChars = null !== $allowedSpecialChars ? $allowedSpecialChars : static::DEFAULT_ALLOWED_SPECIAL_CHARS;
 
-        $pwGen = new \PWGen($length, false, in_array(static::NUMBERS, $alphabets, true) && in_array(static::NUMBERS, $rules, true), in_array(static::CAPITAL_LETTERS, $alphabets, true) && in_array(static::CAPITAL_LETTERS, $rules, true), $preventAmbiguous, false, in_array(static::SPECIAL_CHARS, $alphabets, true) && in_array(static::SPECIAL_CHARS, $rules, true));
+        $pwGen = new PWGen($length, false, in_array(static::NUMBERS, $alphabets, true) && in_array(static::NUMBERS, $rules, true), in_array(static::CAPITAL_LETTERS, $alphabets, true) && in_array(static::CAPITAL_LETTERS, $rules, true), $preventAmbiguous, false, in_array(static::SPECIAL_CHARS, $alphabets, true) && in_array(static::SPECIAL_CHARS, $rules, true));
 
         $code = $pwGen->generate();
 

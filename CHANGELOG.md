@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.16.2] - 2018-06-08
+
+#### Fixed
+- CodeUtil::generate() -> missing "use" of PWGen
+
 ## [2.16.1] - 2018-06-07
 
 #### Fixed
