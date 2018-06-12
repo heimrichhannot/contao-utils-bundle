@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.17.0] - 2018-06-12
+
+#### Added
+- ModelUtil::findMultipleModelInstancesByIds(), ModelUtil::findModelInstanceByIdOrAlias()
+- support in ModelUtil for models inheriting from DC_Multilingual
+
 ## [2.16.2] - 2018-06-08
 
 #### Fixed

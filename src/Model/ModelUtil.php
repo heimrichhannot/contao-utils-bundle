@@ -82,6 +82,8 @@ class ModelUtil
             return null;
         }
 
+        $columns = $this->fixTablePrefixForDcMultilingual($table, $columns);
+
         return $adapter->findBy($columns, $values, $options);
     }
 
@@ -106,7 +108,90 @@ class ModelUtil
             return null;
         }
 
+        $columns = $this->fixTablePrefixForDcMultilingual($table, $columns);
+
         return $adapter->findOneBy($columns, $values, $options);
+    }
+
+    /**
+     * Returns multiple model instances by given table and ids.
+     *
+     * @param string $table
+     * @param array  $ids
+     * @param array  $options
+     *
+     * @return mixed
+     */
+    public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = [])
+    {
+        /* @var Model $adapter */
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        if (System::getContainer()->get('huh.utils.container')->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+            $table = 't1';
+        }
+
+        return $adapter->findBy(["$table.id IN(".implode(',', array_map('\intval', $ids)).')'], null, $options);
+    }
+
+    /**
+     * Returns multiple model instances by given table and id or alias.
+     *
+     * @param string $table
+     * @param mixed  $idOrAlias
+     * @param array  $options
+     *
+     * @return mixed
+     */
+    public function findModelInstanceByIdOrAlias(string $table, $idOrAlias, array $options = [])
+    {
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        /* @var Model $adapter */
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        return $adapter->findByIdOrAlias($idOrAlias, $options);
+    }
+
+    /**
+     * Fixes existing table prefixed already aliased in MultilingualQueryBuilder::buildQueryBuilderForFind().
+     *
+     * @param string $table
+     * @param $columns
+     *
+     * @return array|mixed
+     */
+    public function fixTablePrefixForDcMultilingual(string $table, $columns)
+    {
+        Controller::loadDataContainer($table);
+
+        if (!isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) ||
+            $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] !== 'Multilingual' ||
+            !System::getContainer()->get('huh.utils.container')->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+            return $columns;
+        }
+
+        if (is_array($columns)) {
+            $fixedColumns = [];
+
+            foreach ($columns as $column) {
+                $fixedColumns[] = str_replace($table.'.', 't1.', $column);
+            }
+
+            return $fixedColumns;
+        }
+
+        return str_replace($table.'.', 't1.', $columns);
     }
 
     /**
