@@ -158,6 +158,36 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_findMultipleModelInstancesByIds">findMultipleModelInstancesByIds</a>(string $table, array $ids, array $options = [])
+        
+                                            <p>Returns multiple model instances by given table and ids.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_findModelInstanceByIdOrAlias">findModelInstanceByIdOrAlias</a>(string $table, mixed $idOrAlias, array $options = [])
+        
+                                            <p>Returns multiple model instances by given table and id or alias.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array|mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_fixTablePrefixForDcMultilingual">fixTablePrefixForDcMultilingual</a>(string $table, $columns)
+        
+                                            <p>Fixes existing table prefixed already aliased in MultilingualQueryBuilder::buildQueryBuilderForFind().</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <abbr title="Contao\Model">Model</abbr>
                 </div>
                 <div class="col-md-8 type">
@@ -410,7 +440,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findOneModelInstanceBy">
-        <div class="location">at         line 98</div>
+        <div class="location">at         line 100</div>
         <code>                    mixed
     <strong>findOneModelInstanceBy</strong>(string $table, array $columns, array $values, array $options = [])
         </code>
@@ -464,8 +494,153 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_findMultipleModelInstancesByIds">
+        <div class="location">at         line 125</div>
+        <code>                    mixed
+    <strong>findMultipleModelInstancesByIds</strong>(string $table, array $ids, array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns multiple model instances by given table and ids.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$ids</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_findModelInstanceByIdOrAlias">
+        <div class="location">at         line 152</div>
+        <code>                    mixed
+    <strong>findModelInstanceByIdOrAlias</strong>(string $table, mixed $idOrAlias, array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns multiple model instances by given table and id or alias.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$idOrAlias</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_fixTablePrefixForDcMultilingual">
+        <div class="location">at         line 174</div>
+        <code>                    array|mixed
+    <strong>fixTablePrefixForDcMultilingual</strong>(string $table, $columns)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Fixes existing table prefixed already aliased in MultilingualQueryBuilder::buildQueryBuilderForFind().</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$columns</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array|mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_findRootParentRecursively">
-        <div class="location">at         line 122</div>
+        <div class="location">at         line 207</div>
         <code>                    <abbr title="Contao\Model">Model</abbr>
     <strong>findRootParentRecursively</strong>(string $parentProperty, string $table, <abbr title="Contao\Model">Model</abbr> $instance, bool $returnInstanceIfNoParent = true)
         </code>
@@ -520,7 +695,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findParentsRecursively">
-        <div class="location">at         line 141</div>
+        <div class="location">at         line 226</div>
         <code>                    array
     <strong>findParentsRecursively</strong>(string $parentProperty, string $table, <abbr title="Contao\Model">Model</abbr> $instance)
         </code>
@@ -570,7 +745,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findAllModelInstances">
-        <div class="location">at         line 160</div>
+        <div class="location">at         line 245</div>
         <code>                    <abbr title="Contao\Model\Collection">Collection</abbr>|null
     <strong>findAllModelInstances</strong>(string $table, array $arrOptions = [])
         </code>
@@ -615,7 +790,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_computeStringPattern">
-        <div class="location">at         line 182</div>
+        <div class="location">at         line 267</div>
         <code>                    mixed
     <strong>computeStringPattern</strong>(string $pattern, <abbr title="Contao\Model">Model</abbr>|object $instance, string $table, array $specialValueConfig = [])
         </code>
@@ -668,7 +843,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getModelInstanceIfId">
-        <div class="location">at         line 206</div>
+        <div class="location">at         line 291</div>
         <code>                    <abbr title="Contao\Model">Model</abbr>|mixed
     <strong>getModelInstanceIfId</strong>($instance, $table)
         </code>
@@ -711,7 +886,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_hasValueChanged">
-        <div class="location">at         line 227</div>
+        <div class="location">at         line 312</div>
         <code>                    bool
     <strong>hasValueChanged</strong>(mixed $newValue, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -756,7 +931,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getModelInstanceFieldValue">
-        <div class="location">at         line 245</div>
+        <div class="location">at         line 330</div>
         <code>                    mixed|null
     <strong>getModelInstanceFieldValue</strong>(string $field, string $table, int $id)
         </code>
