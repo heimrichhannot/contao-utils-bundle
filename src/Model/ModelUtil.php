@@ -23,23 +23,17 @@ class ModelUtil
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
-    /** @var Database */
-    protected $db;
-
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
-
-        /* @var Database $db */
-        $this->db = $this->framework->createInstance(Database::class);
     }
 
     /**
      * Set the entity defaults from dca config (for new model entry).
      *
-     * @param \Model $objModel
+     * @param Model $objModel
      *
-     * @return \Model The modified model, containing the default values from all dca fields
+     * @return Model The modified model, containing the default values from all dca fields
      */
     public function setDefaultsFromDca(Model $objModel)
     {
@@ -216,7 +210,7 @@ class ModelUtil
             return false;
         }
 
-        $record = $this->db->prepare("SELECT * FROM $table WHERE $pidColumnName=? AND $langColumnName=?")->limit(1)->execute($id, $language);
+        $record = $this->framework->createInstance(Database::class)->prepare("SELECT * FROM $table WHERE $pidColumnName=? AND $langColumnName=?")->limit(1)->execute($id, $language);
 
         if (null !== $record) {
             return $record->row();
@@ -276,7 +270,7 @@ class ModelUtil
      */
     public function getDcMultilingualRootPageLanguages()
     {
-        $pages = $this->db->execute("SELECT DISTINCT language FROM tl_page WHERE type='root' AND language!=''");
+        $pages = $this->framework->createInstance(Database::class)->execute("SELECT DISTINCT language FROM tl_page WHERE type='root' AND language!=''");
         $languages = $pages->fetchEach('language');
 
         array_walk(
