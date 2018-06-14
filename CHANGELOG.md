@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.18.0] - 2018-06-14
+
+#### Added
+- dc_multilingual features to ModelUtil
+
 ## [2.17.0] - 2018-06-12
 
 #### Added

@@ -10,19 +10,29 @@ namespace HeimrichHannot\UtilsBundle\Model;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\Database;
 use Contao\DataContainer;
 use Contao\Model;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ModelUtil
 {
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
+    /** @var Database */
+    protected $db;
+
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
+
+        /** @var Database $db */
+        $db = $this->framework->getAdapter(Database::class);
+        $this->db = $db->getInstance();
     }
 
     /**
@@ -192,6 +202,92 @@ class ModelUtil
         }
 
         return str_replace($table.'.', 't1.', $columns);
+    }
+
+    public function getDcMultilingualTranslationRecord($table, $id, $language = null)
+    {
+        Controller::loadDataContainer($table);
+        $dca = $GLOBALS['TL_DCA'][$table];
+
+        $pidColumnName = $dca['config']['langPid'] ?: 'langPid';
+        $langColumnName = $dca['config']['langColumnName'] ?: 'language';
+        $language = $language ?: $this->getCurrentDcMultilingualLanguage($table, $id);
+
+        if (!$language) {
+            return false;
+        }
+
+        $record = $this->db->prepare("SELECT * FROM $table WHERE $pidColumnName=? AND $langColumnName=?")->limit(1)->execute($id, $language);
+
+        if (null !== $record) {
+            return $record->row();
+        }
+    }
+
+    /**
+     * Get the current dc_multilingual language even DC_Multilingual::edit() didn't run.
+     * This can be used in onload_callbacks for example since here DC_Multilingual::edit() didn't run, yet.
+     *
+     * @param string $table
+     * @param int    $id
+     *
+     * @return bool|mixed
+     */
+    public function getCurrentDcMultilingualLanguage(string $table, int $id)
+    {
+        $translatableLangs = $this->getDcMultilingualTranslatableLanguages($table);
+
+        /** @var SessionInterface $objSessionBag */
+        $objSessionBag = System::getContainer()->get('session')->getBag('contao_backend');
+        $sessionKey = 'dc_multilingual:'.$table.':'.$id;
+
+        /** @var Request $request */
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+
+        if ('tl_language' === $request->request->get('FORM_SUBMIT')) {
+            $language = $request->request->get('language');
+        } elseif ($objSessionBag->has($sessionKey)) {
+            $language = $objSessionBag->get($sessionKey);
+        }
+
+        if (in_array($language, $translatableLangs, true)) {
+            return $language;
+        }
+
+        return false;
+    }
+
+    public function getDcMultilingualTranslatableLanguages(string $table)
+    {
+        Controller::loadDataContainer($table);
+        $dca = $GLOBALS['TL_DCA'][$table];
+
+        // Languages array
+        if (isset($dca['config']['languages'])) {
+            return $dca['config']['languages'];
+        }
+
+        return $this->getDcMultilingualRootPageLanguages();
+    }
+
+    /**
+     * Get the list of languages based on root pages.
+     *
+     * @return array
+     */
+    public function getDcMultilingualRootPageLanguages()
+    {
+        $pages = $this->db->execute("SELECT DISTINCT language FROM tl_page WHERE type='root' AND language!=''");
+        $languages = $pages->fetchEach('language');
+
+        array_walk(
+            $languages,
+            function (&$value) {
+                $value = str_replace('-', '_', $value);
+            }
+        );
+
+        return $languages;
     }
 
     /**
