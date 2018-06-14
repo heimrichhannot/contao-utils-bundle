@@ -163,6 +163,20 @@ class ModelUtil
             return null;
         }
 
+        if (System::getContainer()->get('huh.utils.container')->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+            $table = 't1';
+        }
+
+        $options = array_merge(
+            [
+                'limit' => 1,
+                'column' => !is_numeric($idOrAlias) ? ["$table.alias=?"] : ["$table.id=?"],
+                'value' => $idOrAlias,
+                'return' => 'Model',
+            ],
+            $options
+        );
+
         return $adapter->findByIdOrAlias($idOrAlias, $options);
     }
 

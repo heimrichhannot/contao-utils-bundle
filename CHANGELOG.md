@@ -1,10 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.18.3] - 2018-06-14
+
+#### Fixed
+- ModelUtil::findModelInstanceByIdOrAlias()
+
 ## [2.18.2] - 2018-06-14
 
 #### Fixed
-* ModelUtil database error at compile time
+- ModelUtil database error at compile time
 
 ## [2.18.1] - 2018-06-14
 
