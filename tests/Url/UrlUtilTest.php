@@ -281,7 +281,7 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 204 No Content', 'X-Ajax-Location: http://test.com/test?foo=bar'], $headers);
     }
-    
+
     public function createRequestStackMock()
     {
         $requestStack = new RequestStack();

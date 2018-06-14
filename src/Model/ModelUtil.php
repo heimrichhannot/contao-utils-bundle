@@ -30,9 +30,8 @@ class ModelUtil
     {
         $this->framework = $framework;
 
-        /** @var Database $db */
-        $db = $this->framework->getAdapter(Database::class);
-        $this->db = $db->getInstance();
+        /* @var Database $db */
+        $this->db = $this->framework->createInstance(Database::class);
     }
 
     /**

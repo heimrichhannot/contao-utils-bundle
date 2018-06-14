@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Model;
 
 use Contao\ContentModel;
+use Contao\Database;
 use Contao\Model;
 use Contao\ModuleModel;
 use Contao\System;
@@ -19,6 +20,17 @@ use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 
 class ModelUtilTest extends TestCaseEnvironment
 {
+    public function setUpContaoFrameworkMock()
+    {
+        $framework = $this->mockContaoFramework();
+        $framework->method('createInstance')->willReturnCallback(function ($type) {
+            switch ($type) {
+                case Database::class:
+                    return $this->getMockBuilder(Database::class)->disableOriginalConstructor()->setMethods(null)->getMock();
+            }
+        });
+    }
+
     public function testInstantiation()
     {
         $util = new ModelUtil($this->mockContaoFramework());
