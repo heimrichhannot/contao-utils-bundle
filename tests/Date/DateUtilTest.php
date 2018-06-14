@@ -238,4 +238,22 @@ class DateUtilTest extends ContaoTestCase
         $result = $date->getTimePeriodInSeconds($timePeriod);
         $this->assertNull($result);
     }
+    
+    
+    public function testGetGMTMidnightTstamp()
+    {
+        $date = new DateUtil($this->mockContaoFramework());
+        $time = time();
+        
+        $dateTime = new \DateTime(date('Y-m-d',$time));
+        $dateTime->setTimezone(new \DateTimeZone('Europe/Berlin'));
+        
+        $gmtTime = $date->getGMTMidnightTstamp($dateTime->getTimeStamp());
+        
+        $gmtDateTime = new \DateTime(date('Y-m-d',$time));
+        $gmtDateTime->setTimezone(new \DateTimeZone('GMT'));
+        $gmtDateTime->setTime(0,0,0);
+        
+        $this->assertSame($gmtDateTime->getTimestamp(),$gmtTime);
+    }
 }

@@ -213,4 +213,20 @@ class DateUtil
 
         return preg_replace('/([a-zA-Z])/', '$1', implode('', $chunks));
     }
+    
+    /**
+     * transfer a given timestamp to a gmt timestamp at midnight
+     *
+     * @param int $tstamp
+     *
+     * @return int
+     */
+    public function getGMTMidnightTstamp(int $tstamp)
+    {
+        $date = new \DateTime(date('Y-m-d',$tstamp));
+        $date->setTimezone(new \DateTimeZone('GMT'));
+        $date->setTime(0,0,0);
+        return $date->getTimestamp();
+    }
+    
 }

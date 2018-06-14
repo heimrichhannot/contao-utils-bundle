@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.18.1] - 2018-06-14
+
+#### Added
+- DateUtil::getGMTMidnightTstamp()
+
 ## [2.18.0] - 2018-06-14
 
 #### Added
