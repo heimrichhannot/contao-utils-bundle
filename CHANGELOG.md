@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 ContainerUtil::getBundlePath()
 ContainerUtil::getBundleResourcePath()
 
+## [2.18.4] - 2018-06-15
+
+#### Fixed
+- `huh.utils.template`  method `getTemplate` does also return a template within bundles views directory for core templates that does not end with `html5` like `event_full.html.twig`
+
 ## [2.18.3] - 2018-06-14
 
 #### Fixed

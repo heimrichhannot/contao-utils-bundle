@@ -152,34 +152,15 @@ class TemplateUtil
         // allow twig templates
         $GLOBALS['TL_CONFIG']['templateFiles'] .= ',html.twig';
 
-        $templatePath = $name;
-
         try {
             $path = Controller::getTemplate($name, $format);
             if (file_exists($path)) {
                 $templatePath = $path;
+            } else {
+                $templatePath = $this->getBundleTemplate($name, $format);
             }
         } catch (\Exception $e) {
-            $kernel = System::getContainer()->get('kernel');
-            $bundles = $kernel->getBundles();
-            // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
-            if (is_array($bundles) && 'html.twig' === $format) {
-                $pattern = $name.'.'.$format;
-
-                foreach ($bundles as $key => $value) {
-                    $path = $kernel->locateResource("@$key");
-                    $finder = new Finder();
-                    $finder->in($path);
-                    $finder->files()->name($pattern);
-                    $twigKey = preg_replace('/Bundle$/', '', $key);
-                    foreach ($finder as $val) {
-                        $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
-                        $string = end($explodurl);
-                        $templatePath = "@$twigKey/$string";
-                        break 2;
-                    }
-                }
-            }
+            $templatePath = $this->getBundleTemplate($name, $format);
         }
 
         $templates[$name] = $templatePath;
@@ -244,5 +225,44 @@ class TemplateUtil
         }
 
         return $template;
+    }
+
+    /**
+     * Find a particular template file within all bundles and return its path.
+     *
+     * @param string $name   The name of the template
+     * @param string $format The file extension
+     *
+     * @throws \InvalidArgumentException If $strFormat is unknown
+     * @throws \RuntimeException         If the template group folder is insecure
+     *
+     * @return string The path to the template file
+     */
+    protected function getBundleTemplate(string $name, string $format = 'html.twig'): string
+    {
+        $templatePath = $name;
+
+        $kernel = System::getContainer()->get('kernel');
+        $bundles = $kernel->getBundles();
+        // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
+        if (is_array($bundles) && 'html.twig' === $format) {
+            $pattern = $name.'.'.$format;
+
+            foreach ($bundles as $key => $value) {
+                $path = $kernel->locateResource("@$key");
+                $finder = new Finder();
+                $finder->in($path);
+                $finder->files()->name($pattern);
+                $twigKey = preg_replace('/Bundle$/', '', $key);
+                foreach ($finder as $val) {
+                    $explodurl = explode('Resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR, $val->getRelativePathname());
+                    $string = end($explodurl);
+                    $templatePath = "@$twigKey/$string";
+                    break 2;
+                }
+            }
+        }
+
+        return $templatePath;
     }
 }
