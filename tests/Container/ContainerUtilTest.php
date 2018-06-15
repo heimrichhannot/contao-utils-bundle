@@ -12,12 +12,16 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Log\Logger;
 
 class ContainerUtilTest extends ContaoTestCase
 {
+    const FILE_LOCATOR_BUNDLE_PATH = 'vendor/heimrichhannot/contao-utils-bundle';
+
     public function setUp()
     {
         parent::setUp();
@@ -138,9 +142,46 @@ class ContainerUtilTest extends ContaoTestCase
         return $requestStack;
     }
 
+    public function testGetBundleResourcePath()
+    {
+        $containerUtil = $this->createContainerUtilMock();
+        $this->assertFalse($containerUtil->getBundleResourcePath(5, 'Resources/views/image.html.twig'));
+        $this->assertSame(static::FILE_LOCATOR_BUNDLE_PATH, $containerUtil->getBundleResourcePath(HeimrichHannotContaoUtilsBundle::class));
+        $this->assertFalse($containerUtil->getBundleResourcePath(FileLocatorFileNotFoundException::class, 'Resources/views/image.html.twig'));
+        $this->assertFalse($containerUtil->getBundleResourcePath(\InvalidArgumentException::class, 'Resources/views/image.html.twig'));
+        $this->assertSame([static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig'], $containerUtil->getBundleResourcePath(HeimrichHannotContaoUtilsBundle::class, 'Resources/views/image.html.twig'));
+        $this->assertSame(static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig', $containerUtil->getBundleResourcePath(HeimrichHannotContaoUtilsBundle::class, 'Resources/views/image.html.twig', true));
+    }
+
+    public function testGetBundlePath()
+    {
+        $containerUtil = $this->createContainerUtilMock();
+        $this->assertFalse($containerUtil->getBundlePath('No Path'));
+        $this->assertFalse($containerUtil->getBundlePath(5));
+        $this->assertSame(static::FILE_LOCATOR_BUNDLE_PATH, $containerUtil->getBundlePath(HeimrichHannotContaoUtilsBundle::class));
+    }
+
     protected function createContainerUtilMock()
     {
         $fileLocatorMock = $this->createMock(FileLocator::class);
+        $fileLocatorMock->method('locate')->willReturnCallback(function ($path, $currentPath = null, $first = false) {
+            switch ($path) {
+                case '@HeimrichHannotContaoUtilsBundle':
+                    return static::FILE_LOCATOR_BUNDLE_PATH;
+                case '@HeimrichHannotContaoUtilsBundle/Resources/views/image.html.twig':
+                    $result = static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig';
+                    break;
+                case \InvalidArgumentException::class:
+                    throw new \InvalidArgumentException();
+                default:
+                    throw new FileLocatorFileNotFoundException();
+            }
+            if ($first) {
+                return $result;
+            }
+
+            return [$result];
+        });
         $containerUtil = new ContainerUtil($this->mockContaoFramework(), $fileLocatorMock);
 
         return $containerUtil;
