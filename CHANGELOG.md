@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.19.0] - 2018-06-15
+
+#### Added
+ContainerUtil::getBundlePath()
+ContainerUtil::getBundleResourcePath()
+
 ## [2.18.3] - 2018-06-14
 
 #### Fixed

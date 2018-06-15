@@ -12,16 +12,22 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
 use Psr\Log\LogLevel;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
 class ContainerUtil
 {
     /** @var ContaoFrameworkInterface */
     protected $framework;
+    /**
+     * @var FileLocator
+     */
+    private $fileLocator;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, FileLocator $fileLocator)
     {
         $this->framework = $framework;
+        $this->fileLocator = $fileLocator;
     }
 
     /**
@@ -82,14 +88,64 @@ class ContainerUtil
         $logger->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
     }
 
+    /**
+     * Returns the project root path.
+     *
+     * @return mixed
+     */
     public function getProjectDir()
     {
         return System::getContainer()->getParameter('kernel.project_dir');
     }
 
+    /**
+     * Returns the web folder path.
+     *
+     * @return mixed
+     */
     public function getWebDir()
     {
         return System::getContainer()->getParameter('contao.web_dir');
+    }
+
+    /**
+     * Returns the path to the bundle in vendor folder
+     * Attention: resolves symlinks!
+     *
+     * @param string $bundleClass The bundle class class constant (VendorMyBundle::class)
+     *
+     * @return bool|string False on error
+     */
+    public function getBundlePath(string $bundleClass)
+    {
+        return $this->getBundleResourcePath($bundleClass, '', true);
+    }
+
+    /**
+     * Returns the path or paths to a ressource within a bundle
+     * Attention: resolves symlinks!
+     *
+     * @param string $bundleClass   The bundle class class constant (VendorMyBundle::class)
+     * @param string $ressourcePath a ressource or path to ressource
+     * @param bool   $first         Returns only first occurrence if multiple paths found
+     *
+     * @return bool|string|array False on error
+     */
+    public function getBundleResourcePath(string $bundleClass, string $ressourcePath = '', $first = false)
+    {
+        try {
+            $className = (new \ReflectionClass($bundleClass))->getShortName();
+        } catch (\ReflectionException $e) {
+            return false;
+        }
+        $path = '@'.$className;
+        $ressourcePath = ltrim($ressourcePath, '/');
+        $path .= (empty($ressourcePath) ? '' : '/'.$ressourcePath);
+        try {
+            return $this->fileLocator->locate($path, null, $first);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

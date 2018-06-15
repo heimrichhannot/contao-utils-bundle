@@ -13,6 +13,7 @@ use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Log\Logger;
 
 class ContainerUtilTest extends ContaoTestCase
@@ -38,55 +39,55 @@ class ContainerUtilTest extends ContaoTestCase
 
     public function testCanBeInstantiated()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $this->assertInstanceOf(ContainerUtil::class, $containerUtil);
     }
 
     public function testGetActiveBundles()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $bundles = $containerUtil->getActiveBundles();
         $this->assertSame([ContaoCoreBundle::class], $bundles);
     }
 
     public function testIsBundleActive()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $result = $containerUtil->isBundleActive(ContaoCoreBundle::class);
         $this->assertTrue($result);
     }
 
     public function testGetCurrentRequest()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $request = $containerUtil->getCurrentRequest();
         $this->assertInstanceOf(\Symfony\Component\HttpFoundation\Request::class, $request);
     }
 
     public function testGetProjectDir()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $projectDir = $containerUtil->getProjectDir();
         $this->assertSame('projectDir', $projectDir);
     }
 
     public function testGetWebDir()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $webDir = $containerUtil->getWebDir();
         $this->assertSame('webDir', $webDir);
     }
 
     public function testIsBackend()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $result = $containerUtil->isBackend();
         $this->assertTrue($result);
     }
 
     public function testIsFrontend()
     {
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $result = $containerUtil->isFrontend();
         $this->assertTrue($result);
     }
@@ -100,7 +101,7 @@ class ContainerUtilTest extends ContaoTestCase
         $container->set('request_stack', $adapter);
         System::setContainer($container);
 
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = $this->createContainerUtilMock();
         $result = $containerUtil->isFrontend();
         $this->assertFalse($result);
         $result = $containerUtil->isBackend();
@@ -109,7 +110,7 @@ class ContainerUtilTest extends ContaoTestCase
 
     public function testLog()
     {
-        $utils = new ContainerUtil($this->mockContaoFramework());
+        $utils = $this->createContainerUtilMock();
         try {
             $utils->log('log', '', 'WARNING');
         } catch (\Exception $exception) {
@@ -125,7 +126,6 @@ class ContainerUtilTest extends ContaoTestCase
         $this->assertNotSame($configFile, $config);
         $this->assertArrayHasKey('services', $config);
         $this->assertArrayHasKey('huh.utils.array', $config['services']);
-        $this->assertCount(28, $config['services']);
     }
 
     public function createRequestStackMock()
@@ -136,5 +136,13 @@ class ContainerUtilTest extends ContaoTestCase
         $requestStack->push($request);
 
         return $requestStack;
+    }
+
+    protected function createContainerUtilMock()
+    {
+        $fileLocatorMock = $this->createMock(FileLocator::class);
+        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $fileLocatorMock);
+
+        return $containerUtil;
     }
 }

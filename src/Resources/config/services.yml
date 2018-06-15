@@ -34,6 +34,7 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+            - "@file_locator"
     huh.utils.database:
         class: HeimrichHannot\UtilsBundle\Database\DatabaseUtil
         public: true
