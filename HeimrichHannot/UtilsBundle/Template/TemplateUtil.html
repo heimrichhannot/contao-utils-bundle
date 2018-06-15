@@ -146,16 +146,6 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    string
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getBundleTemplate">getBundleTemplate</a>(string $name, string $format = &#039;html.twig&#039;)
-        
-                                            <p>Find a particular template file within all bundles and return its path.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
                     array
                 </div>
                 <div class="col-md-8 type">
@@ -172,6 +162,16 @@
                     <a href="#method_removeTemplateComment">removeTemplateComment</a>($template)
         
                                             <p>remove TEMPLATE START/END comment from template if in debug mode.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBundleTemplate">getBundleTemplate</a>(string $name, string $format = &#039;html.twig&#039;)
+        
+                                            <p>Find a particular template file within all bundles and return its path.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -313,8 +313,98 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_findTemplates">
+        <div class="location">at         line 182</div>
+        <code>                    array
+    <strong>findTemplates</strong>(string $path, string $pattern = null, string $format = &#039;html.twig&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Return the files matching a GLOB pattern.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$pattern</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_removeTemplateComment">
+        <div class="location">at         line 218</div>
+        <code>                    mixed
+    <strong>removeTemplateComment</strong>($template)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>remove TEMPLATE START/END comment from template if in debug mode.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getBundleTemplate">
-        <div class="location">at         line 184</div>
+        <div class="location">at         line 241</div>
         <code>            protected        string
     <strong>getBundleTemplate</strong>(string $name, string $format = &#039;html.twig&#039;)
         </code>
@@ -365,96 +455,6 @@
             </tr>
             </table>
 
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_findTemplates">
-        <div class="location">at         line 221</div>
-        <code>                    array
-    <strong>findTemplates</strong>(string $path, string $pattern = null, string $format = &#039;html.twig&#039;)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Return the files matching a GLOB pattern.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$path</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$pattern</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$format</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>array</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_removeTemplateComment">
-        <div class="location">at         line 257</div>
-        <code>                    mixed
-    <strong>removeTemplateComment</strong>($template)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>remove TEMPLATE START/END comment from template if in debug mode.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$template</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>mixed</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
             
                     </div>
     </div>
