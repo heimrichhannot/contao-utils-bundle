@@ -75,6 +75,7 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+            - '@huh.utils.container'
     huh.utils.request.curl:
         class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
         public: true

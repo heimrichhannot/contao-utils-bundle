@@ -12,7 +12,9 @@ use Contao\ContentModel;
 use Contao\Database;
 use Contao\Model;
 use Contao\ModuleModel;
+use Contao\PageModel;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
@@ -20,6 +22,8 @@ use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 
 class ModelUtilTest extends TestCaseEnvironment
 {
+    protected $count = 0;
+
     public function setUpContaoFrameworkMock()
     {
         $framework = $this->mockContaoFramework();
@@ -33,7 +37,7 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testInstantiation()
     {
-        $util = new ModelUtil($this->mockContaoFramework());
+        $util = $this->createModelUtilMock();
         $this->assertInstanceOf(ModelUtil::class, $util);
     }
 
@@ -49,7 +53,7 @@ class ModelUtilTest extends TestCaseEnvironment
 
         error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
 
-        $util = new ModelUtil($this->mockContaoFramework());
+        $util = $this->createModelUtilMock();
 
         $GLOBALS['loadDataContainer']['tl_module'] = true;
         $GLOBALS['TL_DCA']['tl_module']['fields']['test'] = ['default' => 'test'];
@@ -61,7 +65,7 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModelInstanceByPk()
     {
-        $util = new ModelUtil($this->prepareFramework());
+        $util = $this->createModelUtilMock();
         $this->assertNull($util->findModelInstanceByPk('tl_null', 5));
         $this->assertNull($util->findModelInstanceByPk('tl_null_class', 5));
         $this->assertNull($util->findModelInstanceByPk('tl_content', 4));
@@ -72,7 +76,7 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModelInstancesBy()
     {
-        $util = new ModelUtil($this->prepareFramework());
+        $util = $this->createModelUtilMock();
         $this->assertNull($util->findModelInstancesBy('tl_null', ['id'], [5]));
         $this->assertNull($util->findModelInstancesBy('tl_null_class', ['id'], [5]));
         $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id'], [5])->id);
@@ -81,7 +85,7 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindOneModelInstanceBy()
     {
-        $util = new ModelUtil($this->prepareFramework());
+        $util = $this->createModelUtilMock();
         $result = $util->findOneModelInstanceBy('tl_content', [], []);
         $this->assertInstanceOf(ContentModel::class, $result);
 
@@ -115,7 +119,7 @@ class ModelUtilTest extends TestCaseEnvironment
             'findByPk',
         ]);
         $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
-        $util = new ModelUtil($this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]));
+        $util = new ModelUtil($this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]), $this->createMock(ContainerUtil::class));
         $result = $util->findRootParentRecursively('id', 'tl_content', $this->getModel());
         $this->assertInstanceOf(\Contao\Model::class, $result);
     }
@@ -143,12 +147,46 @@ class ModelUtilTest extends TestCaseEnvironment
             'findByPk',
         ]);
         $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
-        $util = new ModelUtil($this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]));
+        $util = new ModelUtil(
+            $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]),
+            $this->createMock(ContainerUtil::class));
         $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
         $this->assertInstanceOf(\PHPUnit_Framework_MockObject_MockObject::class, $result[0]);
 
         $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel(true));
         $this->assertSame([], $result);
+    }
+
+    public function testFindModulePages()
+    {
+        $this->count = 0;
+        $util = $this->createModelUtilMock();
+        $module = $this->mockClassWithProperties(ModuleModel::class, ['id' => 1]);
+        $container = $this->mockContainer();
+        $container->setParameter('kernel.bundles', []);
+        System::setContainer($container);
+        $this->assertCount(1, $util->findModulePages($module, false, false));
+        $container->setParameter('kernel.bundles', ['blocks' => 'blocks']);
+        System::setContainer($container);
+        $this->assertCount(1, $util->findModulePages($module, false, false));
+
+        $this->assertSame(
+            $util->findModulePages($module, false, false),
+            $util->findModulePages($module, false, true)
+        );
+
+        $module = $this->mockClassWithProperties(ModuleModel::class, ['id' => 2]);
+        $container->setParameter('kernel.bundles', []);
+        System::setContainer($container);
+        $this->assertCount(2, $util->findModulePages($module, false, false));
+        $container->setParameter('kernel.bundles', ['blocks' => 'blocks']);
+        System::setContainer($container);
+        $this->count = 0;
+        $this->assertCount(4, $util->findModulePages($module, false, false));
+        $this->count = 0;
+        $this->assertCount(4, $util->findModulePages($module, true, false));
+        $this->count = 0;
+        $this->assertCount(4, $util->findModulePages($module, true, true));
     }
 
     public function prepareFramework()
@@ -176,14 +214,56 @@ class ModelUtilTest extends TestCaseEnvironment
             'alias' => 'alias',
             'pid' => 3,
         ]);
-
         $contentModelAdapter = $this->createContentModelAdapter($contentModel);
+
+        $pageModelAdapter = $this->mockAdapter(['findMultipleByIds']);
+        $pageModelAdapter->method('findMultipleByIds')->willReturnArgument(0);
 
         $framework = $this->mockContaoFramework([
             Model::class => $modelAdapter,
             ContentModel::class => $contentModelAdapter,
             CfgTagModel::class => null,
+            PageModel::class => $pageModelAdapter,
         ]);
+
+        $framework->method('createInstance')->willReturnCallback(function ($classType) {
+            switch ($classType) {
+                case Database::class:
+                    $db = $this->getMockBuilder(Database::class)
+                        ->disableOriginalConstructor()
+                        ->setMethods(['prepare', 'execute'])
+                        ->getMock();
+                    $db->method('prepare')->willReturnSelf();
+                    $db->method('execute')->willReturnCallback(function ($id) {
+                        $result = $this->createMock(Database\Result::class);
+                        switch ($id) {
+                            case 0:
+                            default:
+                                $result->method('count')->willReturn(0);
+                                break;
+                            case 1:
+                                $result->method('count')->willReturn(1);
+                                $result->method('fetchEach')->willReturn([1]);
+                                break;
+                            case 2:
+                                if ($this->count > 0) {
+                                    $result->method('count')->willReturn(2);
+                                    $result->method('fetchEach')->willReturn([4, 5]);
+                                } else {
+                                    $result->method('count')->willReturn(2);
+                                    $result->method('fetchEach')->willReturn([1, 2]);
+                                }
+                                break;
+                        }
+                        ++$this->count;
+
+                        return $result;
+                    });
+
+                    return $db;
+                    break;
+            }
+        });
 
         return $framework;
     }
@@ -234,5 +314,13 @@ class ModelUtilTest extends TestCaseEnvironment
         }
 
         return $this->mockClassWithProperties(Model::class, ['id' => 5]);
+    }
+
+    protected function createModelUtilMock()
+    {
+        $containerUtilMock = $this->createMock(ContainerUtil::class);
+        $framwork = $this->prepareFramework();
+
+        return new ModelUtil($framwork, $containerUtilMock);
     }
 }

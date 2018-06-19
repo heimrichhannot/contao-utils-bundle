@@ -13,8 +13,13 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Model;
+use Contao\Model\Collection;
+use Contao\ModuleModel;
+use Contao\PageModel;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -22,10 +27,15 @@ class ModelUtil
 {
     /** @var ContaoFrameworkInterface */
     protected $framework;
+    /**
+     * @var ContainerUtil
+     */
+    private $containerUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, ContainerUtil $containerUtil)
     {
         $this->framework = $framework;
+        $this->containerUtil = $containerUtil;
     }
 
     /**
@@ -136,7 +146,7 @@ class ModelUtil
             return null;
         }
 
-        if (System::getContainer()->get('huh.utils.container')->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+        if ($this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
             $table = 't1';
         }
 
@@ -163,7 +173,7 @@ class ModelUtil
             return null;
         }
 
-        if (System::getContainer()->get('huh.utils.container')->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+        if ($this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
             $table = 't1';
         }
 
@@ -194,7 +204,7 @@ class ModelUtil
 
         if (!isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) ||
             $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] !== 'Multilingual' ||
-            !System::getContainer()->get('huh.utils.container')->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+            !$this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
             return $columns;
         }
 
@@ -343,9 +353,9 @@ class ModelUtil
      * @param string $table      The table name
      * @param array  $arrOptions Additional query options
      *
-     * @return Model\Collection|null
+     * @return Collection|null
      */
-    public function findAllModelInstances(string $table, array $arrOptions = []): ?Model\Collection
+    public function findAllModelInstances(string $table, array $arrOptions = []): ?Collection
     {
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
@@ -397,7 +407,7 @@ class ModelUtil
             return $instance;
         }
 
-        if ($instance instanceof Model\Collection) {
+        if ($instance instanceof Collection) {
             return $instance->current();
         }
 
@@ -437,5 +447,61 @@ class ModelUtil
         }
 
         return null;
+    }
+
+    /**
+     * Find module pages.
+     *
+     * Returns page ids or models, where a frontend module is integrated
+     *
+     * Also search within blocks (heimrichhannot/contao-blocks)
+     *
+     * @param ModuleModel $module
+     * @param bool        $collection Return PageModel Collection if true. Default: false
+     * @param bool        $useCache   If true, a filesystem cache will be used to save pages ids. Default: true
+     *
+     * @return array|Collection|PageModel|PageModel[]|null An array of page Ids (can be empty if no page found!), a PageModel collection or null
+     */
+    public function findModulePages(ModuleModel $module, $collection = false, $useCache = true)
+    {
+        $cache = new FilesystemCache();
+        $modulePagesCache = $cache->get('huh.utils.model.modulepages');
+        $pageIds = [];
+        $cacheHit = false;
+        if ($useCache && $cache->has('huh.utils.model.modulepages')) {
+            $modulePagesCache = $cache->get('huh.utils.model.modulepages');
+            if (is_array($modulePagesCache) && array_key_exists($module->id, $modulePagesCache)) {
+                $pageIds = $modulePagesCache[$module->id];
+                $cacheHit = true;
+            }
+        }
+        if (!$cacheHit) {
+            /** @var Database $db */
+            $db = $this->framework->createInstance(Database::class);
+            $result = $db->prepare("SELECT `tl_page`.`id` FROM `tl_page` JOIN `tl_article` ON `tl_article`.`pid` = `tl_page`.`id` JOIN `tl_content` ON `tl_content`.`pid` = `tl_article`.`id` WHERE `tl_content`.`type` = 'module' AND `tl_content`.`module` = ?")->execute($module->id);
+            if ($result->count() > 0) {
+                $pageIds = $result->fetchEach('id');
+            }
+            if (array_key_exists('blocks', System::getContainer()->getParameter('kernel.bundles'))) {
+                $result = $db->prepare(
+                    "SELECT `tl_page`.`id` FROM `tl_page`
+                JOIN `tl_article` ON `tl_article`.`pid` = `tl_page`.`id`
+                JOIN `tl_content` ON `tl_content`.`pid` = `tl_article`.`id`
+                JOIN `tl_block` ON `tl_block`.`module` = `tl_content`.`module`
+                JOIN `tl_block_module` ON `tl_block_module`.`pid` = `tl_block`.`id`
+                WHERE `tl_block_module`.`type` = 'default' AND `tl_block_module`.`module` = ?"
+                )->execute($module->id);
+                if ($result->count() > 0) {
+                    $pageIds = array_unique(array_merge($pageIds, $result->fetchEach('id')));
+                }
+            }
+            $modulePagesCache[$module->id] = $pageIds;
+            $cache->set('huh.utils.model.modulepages', $modulePagesCache);
+        }
+        if ($collection) {
+            return $this->framework->getAdapter(PageModel::class)->findMultipleByIds($pageIds);
+        }
+
+        return $pageIds;
     }
 }
