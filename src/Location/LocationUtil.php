@@ -69,11 +69,17 @@ class LocationUtil
      *
      * @return array|bool
      */
-    public function computeCoordinatesByString(string $address)
+    public function computeCoordinatesByString(string $address, string $apiKey = '')
     {
         $curlUtil = System::getContainer()->get('huh.utils.request.curl');
 
-        $result = $curlUtil->request(sprintf(static::GOOGLE_MAPS_GEOCODE_URL, urlencode($address)));
+        $url = sprintf(static::GOOGLE_MAPS_GEOCODE_URL, urlencode($address));
+
+        if ($apiKey) {
+            $url = System::getContainer()->get('huh.utils.url')->addQueryString('key='.$apiKey, $url);
+        }
+
+        $result = $curlUtil->request($url);
 
         if (!$result) {
             return false;

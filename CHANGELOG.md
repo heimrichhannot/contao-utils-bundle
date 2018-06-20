@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.20.1] - 2018-06-20
+
+#### Added
+- api key support for locationUtil service
+
 ## [2.20.0] - 2018-06-19
 
 #### Added
