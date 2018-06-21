@@ -196,6 +196,20 @@
                 </td>
             </tr>
                     <tr>
+                <td>OPERATOR_IS_EMPTY</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_IS_NOT_EMPTY</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
                 <td>ON_DUPLICATE_KEY_IGNORE</td>
                 <td class="last">
                     <p><em></em></p>
@@ -334,7 +348,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 77</div>
+        <div class="location">at         line 81</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -363,7 +377,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_processInPieces">
-        <div class="location">at         line 93</div>
+        <div class="location">at         line 97</div>
         <code>                    bool|int
     <strong>processInPieces</strong>(string $countQuery, string $query, callable $callback = null, string $key = null, int $bulkSize = 5000)
         </code>
@@ -423,7 +437,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_doBulkInsert">
-        <div class="location">at         line 150</div>
+        <div class="location">at         line 154</div>
         <code>                    
     <strong>doBulkInsert</strong>(string $table, array $data = [], array $fixedValues = [], mixed $onDuplicateKey = null, callable $callback = null, callable $itemCallback = null, int $bulkSize = 100, string $pk = &#039;id&#039;)
         </code>
@@ -492,7 +506,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createWhereForSerializedBlob">
-        <div class="location">at         line 295</div>
+        <div class="location">at         line 308</div>
         <code>                    array
     <strong>createWhereForSerializedBlob</strong>(string $field, array $values, string $connective = self::SQL_CONDITION_OR)
         </code>
@@ -542,7 +556,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformVerboseOperator">
-        <div class="location">at         line 329</div>
+        <div class="location">at         line 342</div>
         <code>                    string|bool
     <strong>transformVerboseOperator</strong>(string $verboseOperator)
         </code>
@@ -582,7 +596,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_computeCondition">
-        <div class="location">at         line 382</div>
+        <div class="location">at         line 390</div>
         <code>                    array
     <strong>computeCondition</strong>(string $field, string $operator, mixed $value, string $table = null, bool $skipTablePrefix = false)
         </code>
@@ -642,7 +656,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_composeWhereForQueryBuilder">
-        <div class="location">at         line 473</div>
+        <div class="location">at         line 493</div>
         <code>                    
     <strong>composeWhereForQueryBuilder</strong>(<abbr title="Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr> $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
         </code>
@@ -691,7 +705,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getChildRecords">
-        <div class="location">at         line 553</div>
+        <div class="location">at         line 600</div>
         <code>                    
     <strong>getChildRecords</strong>(array $parentIds, string $table, array $options = [])
         </code>
