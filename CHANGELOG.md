@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.21.0] - 2018-06-21
+
+#### Added
+- `DatabaseUtil::OPERATOR_IS_EMPTY` and `DatabaseUtil::OPERATOR_IS_NOT_EMPTY` to `huh.utils.database`
+
 ## [2.20.1] - 2018-06-20
 
 #### Added

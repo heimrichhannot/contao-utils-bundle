@@ -101,6 +101,8 @@ $GLOBALS['TL_LANG']['MSC']['databaseOperators'] = [
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_NOT_IN        => 'nicht in',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NULL       => 'ist Null',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_NULL   => 'ist nicht Null',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_EMPTY      => 'ist leer (=\'\')',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_EMPTY  => 'ist nicht leer (!=\'\')',
 ];
 
 $GLOBALS['TL_LANG']['MSC']['connectives'] = [

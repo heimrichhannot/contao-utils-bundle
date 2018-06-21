@@ -33,6 +33,8 @@ class DatabaseUtil
     const OPERATOR_IS_NULL = 'isnull';
     const OPERATOR_IS_NOT_NULL = 'isnotnull';
     const OPERATOR_REGEXP = 'regexp';
+    const OPERATOR_IS_EMPTY = 'isempty';
+    const OPERATOR_IS_NOT_EMPTY = 'isnotempty';
 
     const ON_DUPLICATE_KEY_IGNORE = 'IGNORE';
     const ON_DUPLICATE_KEY_UPDATE = 'UPDATE';
@@ -50,6 +52,8 @@ class DatabaseUtil
         self::OPERATOR_NOT_IN,
         self::OPERATOR_IS_NULL,
         self::OPERATOR_IS_NOT_NULL,
+        self::OPERATOR_IS_EMPTY,
+        self::OPERATOR_IS_NOT_EMPTY,
         self::OPERATOR_REGEXP,
     ];
 
@@ -175,17 +179,26 @@ class DatabaseUtil
         $startQuery = sprintf('INSERT %s INTO %s (%s) VALUES ', self::ON_DUPLICATE_KEY_IGNORE == $onDuplicateKey ? 'IGNORE' : '', $table, implode(',', $fields));
 
         if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
-            $duplicateKey = ' ON DUPLICATE KEY UPDATE '.implode(',', array_map(function ($val) {
-                // escape double quotes
-                return $val.' = VALUES('.$val.')';
-            }, $fields));
+            $duplicateKey = ' ON DUPLICATE KEY UPDATE '.implode(
+                    ',',
+                    array_map(
+                        function ($val) {
+                            // escape double quotes
+                            return $val.' = VALUES('.$val.')';
+                        },
+                        $fields
+                    )
+                );
         }
 
         $i = 0;
 
-        $columnWildcards = array_map(function ($val) {
-            return '?';
-        }, $fields);
+        $columnWildcards = array_map(
+            function ($val) {
+                return '?';
+            },
+            $fields
+        );
 
         foreach ($data as $key => $varData) {
             if (0 == $i) {
@@ -331,28 +344,20 @@ class DatabaseUtil
         switch ($verboseOperator) {
             case static::OPERATOR_LIKE:
                 return 'LIKE';
-                break;
             case static::OPERATOR_UNLIKE:
                 return 'NOT LIKE';
-                break;
             case static::OPERATOR_EQUAL:
                 return '=';
-                break;
             case static::OPERATOR_UNEQUAL:
                 return '!=';
-                break;
             case static::OPERATOR_LOWER:
                 return '<';
-                break;
             case static::OPERATOR_GREATER:
                 return '>';
-                break;
             case static::OPERATOR_LOWER_EQUAL:
                 return '<=';
-                break;
             case static::OPERATOR_GREATER_EQUAL:
                 return '>=';
-                break;
             case static::OPERATOR_IN:
                 return 'IN';
                 break;
@@ -362,7 +367,10 @@ class DatabaseUtil
                 return 'NOT IN';
             case static::OPERATOR_IS_NOT_NULL:
                 return 'IS NOT NULL';
-                break;
+            case static::OPERATOR_IS_EMPTY:
+                return '=""';
+            case static::OPERATOR_IS_NOT_EMPTY:
+                return '!=""';
         }
 
         return false;
@@ -431,20 +439,32 @@ class DatabaseUtil
                 break;
             case static::OPERATOR_IN:
                 $value = explode(',', Controller::replaceInsertTags($value, false));
-                $pattern = '('.implode(',', array_map(function ($val) {
-                    return '"'.addslashes(trim($val)).'"';
-                }, $value)).')';
+                $pattern = '('.implode(
+                        ',',
+                        array_map(
+                            function ($val) {
+                                return '"'.addslashes(trim($val)).'"';
+                            },
+                            $value
+                        )
+                    ).')';
                 break;
             case static::OPERATOR_NOT_IN:
                 $value = explode(',', Controller::replaceInsertTags($value, false));
-                $pattern = '('.implode(',', array_map(function ($val) {
-                    return '"'.addslashes(trim($val)).'"';
-                }, $value)).')';
+                $pattern = '('.implode(
+                        ',',
+                        array_map(
+                            function ($val) {
+                                return '"'.addslashes(trim($val)).'"';
+                            },
+                            $value
+                        )
+                    ).')';
                 break;
             case static::OPERATOR_IS_NULL:
-                $pattern = '';
-                break;
             case static::OPERATOR_IS_NOT_NULL:
+            case static::OPERATOR_IS_EMPTY:
+            case static::OPERATOR_IS_NOT_EMPTY:
                 $pattern = '';
                 break;
             default:
@@ -510,21 +530,39 @@ class DatabaseUtil
                 break;
             case self::OPERATOR_IN:
                 $value = !is_array($value) ? explode(',', $value) : $value;
-                $where = $queryBuilder->expr()->in($field, array_map(function ($val) {
-                    return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
-                }, $value));
+                $where = $queryBuilder->expr()->in(
+                    $field,
+                    array_map(
+                        function ($val) {
+                            return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
+                        },
+                        $value
+                    )
+                );
                 break;
             case self::OPERATOR_NOT_IN:
                 $value = !is_array($value) ? explode(',', $value) : $value;
-                $where = $queryBuilder->expr()->notIn($field, array_map(function ($val) {
-                    return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
-                }, $value));
+                $where = $queryBuilder->expr()->notIn(
+                    $field,
+                    array_map(
+                        function ($val) {
+                            return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
+                        },
+                        $value
+                    )
+                );
                 break;
             case self::OPERATOR_IS_NULL:
                 $where = $queryBuilder->expr()->isNull($field);
                 break;
             case self::OPERATOR_IS_NOT_NULL:
                 $where = $queryBuilder->expr()->isNotNull($field);
+                break;
+            case self::OPERATOR_IS_EMPTY:
+                $where = $queryBuilder->expr()->eq($field, '\'\'');
+                break;
+            case self::OPERATOR_IS_NOT_EMPTY:
+                $where = $queryBuilder->expr()->neq($field, '\'\'');
                 break;
             case self::OPERATOR_REGEXP:
                 $where = $field.' REGEXP '.$wildcard;
@@ -533,9 +571,18 @@ class DatabaseUtil
                     // match a serialized blob
                     if (is_array($value)) {
                         // build a regexp alternative, e.g. (:"1";|:"2";)
-                        $queryBuilder->setParameter($wildcard, '('.implode('|', array_map(function ($val) {
-                            return ':"'.Controller::replaceInsertTags($val, false).'";';
-                        }, $value)).')');
+                        $queryBuilder->setParameter(
+                            $wildcard,
+                            '('.implode(
+                                '|',
+                                array_map(
+                                    function ($val) {
+                                        return ':"'.Controller::replaceInsertTags($val, false).'";';
+                                    },
+                                    $value
+                                )
+                            ).')'
+                        );
                     } else {
                         $queryBuilder->setParameter($wildcard, ':"'.Controller::replaceInsertTags($value, false).'";');
                     }
