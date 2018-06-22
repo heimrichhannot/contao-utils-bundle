@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.22.0] - 2018-06-22
+
+#### Added
+- SalutationUtil
+
 ## [2.21.0] - 2018-06-21
 
 #### Added
