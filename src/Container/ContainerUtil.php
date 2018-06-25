@@ -41,7 +41,7 @@ class ContainerUtil
     }
 
     /**
-     * Checks if some bundle is active. Pass in the class name (e.g. 'HeimrichHannot\FilterBundle\HeimrichHannotContaoFilterBundle').
+     * Checks if some bundle is active. Pass in the class name (e.g. 'HeimrichHannot\FilterBundle\HeimrichHannotContaoFilterBundle' or the legacy Contao 3 name like 'news').
      *
      * @param string $bundleName
      *
@@ -49,7 +49,7 @@ class ContainerUtil
      */
     public function isBundleActive(string $bundleName)
     {
-        return in_array($bundleName, $this->getActiveBundles(), true);
+        return in_array($bundleName, array_merge(array_values($this->getActiveBundles()), array_keys($this->getActiveBundles())), true);
     }
 
     public function isBackend()

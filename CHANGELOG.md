@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.22.1] - 2018-06-25
+
+#### Fixed
+- ContainerUtil::isBundleActive() -> now also contao 3 module names possible
+
 ## [2.22.0] - 2018-06-22
 
 #### Added
