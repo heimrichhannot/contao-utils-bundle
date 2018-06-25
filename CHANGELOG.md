@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.22.1] - 2018-06-25
+
+#### Fixed
+- `huh.utils.class` method `jsonSerialize` should made usage of `getNumberOfRequiredParameters` instead of `count($rm->getParameters())`
+
 ## [2.22.0] - 2018-06-22
 
 #### Added

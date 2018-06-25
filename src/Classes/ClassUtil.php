@@ -106,8 +106,10 @@ class ClassUtil
     /**
      * Serialize a class object to JSON by iterating over all public getters (get(), is(), ...).
      *
-     * @param $object
+     * @param       $object
      * @param array $data
+     *
+     * @throws \ReflectionException if the class or method does not exist
      *
      * @return array
      */
@@ -137,7 +139,7 @@ class ClassUtil
             // skip methods with parameters
             $rm = new \ReflectionMethod($class, $method->name);
 
-            if (count($rm->getParameters()) > 0) {
+            if ($rm->getNumberOfRequiredParameters() > 0) {
                 continue;
             }
 
