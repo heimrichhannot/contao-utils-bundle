@@ -1,10 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.22.1] - 2018-06-25
+## [2.22.3] - 2018-06-25
 
 #### Fixed
 - `huh.utils.class` method `jsonSerialize` should made usage of `getNumberOfRequiredParameters` instead of `count($rm->getParameters())`
+
+## [2.22.2] - 2018-06-26
+
+#### Fixed
+- DatabaseUtil::composeWhereForQueryBuilder, DatabaseUtil::composeWhereForQueryBuilder if value for IN is empty break
+
+## [2.22.1] - 2018-06-25
+
+#### Fixed
+- ContainerUtil::isBundleActive() -> now also contao 3 module names possible
 
 ## [2.22.0] - 2018-06-22
 
