@@ -438,7 +438,13 @@ class DatabaseUtil
                 $values[] = Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false);
                 break;
             case static::OPERATOR_IN:
-                $value = explode(',', Controller::replaceInsertTags($value, false));
+                $value = array_filter(explode(',', Controller::replaceInsertTags($value, false)));
+
+                // skip if empty to avoid sql error
+                if (empty($value)) {
+                    break;
+                }
+
                 $pattern = '('.implode(
                         ',',
                         array_map(
@@ -450,7 +456,13 @@ class DatabaseUtil
                     ).')';
                 break;
             case static::OPERATOR_NOT_IN:
-                $value = explode(',', Controller::replaceInsertTags($value, false));
+                $value = array_filter(explode(',', Controller::replaceInsertTags($value, false)));
+
+                // skip if empty to avoid sql error
+                if (empty($value)) {
+                    break;
+                }
+
                 $pattern = '('.implode(
                         ',',
                         array_map(
@@ -529,7 +541,13 @@ class DatabaseUtil
                 $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
                 break;
             case self::OPERATOR_IN:
-                $value = !is_array($value) ? explode(',', $value) : $value;
+                $value = array_filter(!is_array($value) ? explode(',', $value) : $value);
+
+                // skip if empty to avoid sql error
+                if (empty($value)) {
+                    break;
+                }
+
                 $where = $queryBuilder->expr()->in(
                     $field,
                     array_map(
@@ -541,11 +559,19 @@ class DatabaseUtil
                 );
                 break;
             case self::OPERATOR_NOT_IN:
-                $value = !is_array($value) ? explode(',', $value) : $value;
+                $value = array_filter(!is_array($value) ? explode(',', $value) : $value);
+
+                // skip if empty to avoid sql error
+                if (empty($value)) {
+                    break;
+                }
+
                 $where = $queryBuilder->expr()->notIn(
                     $field,
                     array_map(
                         function ($val) {
+                            $val = Controller::replaceInsertTags(trim($val), false);
+
                             return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
                         },
                         $value

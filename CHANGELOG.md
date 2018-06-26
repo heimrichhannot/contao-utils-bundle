@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.22.2] - 2018-06-26
+
+#### Fixed
+- DatabaseUtil::composeWhereForQueryBuilder, DatabaseUtil::composeWhereForQueryBuilder if value for IN is empty break
+
 ## [2.22.1] - 2018-06-25
 
 #### Fixed
