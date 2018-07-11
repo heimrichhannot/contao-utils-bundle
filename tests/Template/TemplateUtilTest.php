@@ -14,6 +14,7 @@ use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class TemplateUtilTest extends TestCaseEnvironment
 {
@@ -65,7 +66,7 @@ class TemplateUtilTest extends TestCaseEnvironment
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
 
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class));
         $container->set('huh.utils.container', $containerUtil);
 
         System::setContainer($container);
@@ -92,7 +93,7 @@ class TemplateUtilTest extends TestCaseEnvironment
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
 
-        $containerUtil = new ContainerUtil($this->mockContaoFramework());
+        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class));
         $container->set('huh.utils.container', $containerUtil);
 
         System::setContainer($container);

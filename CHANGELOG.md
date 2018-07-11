@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.23.1] - 2018-07-11
+
+#### Fixed
+- lazyloading not respected source elements in picture tags in `picture.html.twig`
+
+> Caution: May lead to broken css styles due moving image-wrapper element out of picture element.
+
 ## [2.23.0] - 2018-07-11
 
 #### Added

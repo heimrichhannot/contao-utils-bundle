@@ -19,6 +19,7 @@ use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class FileUtilTest extends TestCaseEnvironment
 {
@@ -47,7 +48,7 @@ class FileUtilTest extends TestCaseEnvironment
         $utilsString = new StringUtil($this->mockContaoFramework());
         $container->set('huh.utils.string', $utilsString);
 
-        $containerUtils = new ContainerUtil($this->mockContaoFramework());
+        $containerUtils = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class));
         $container->set('huh.utils.container', $containerUtils);
         $container->setParameter('kernel.project_dir', TL_ROOT);
         System::setContainer($container);

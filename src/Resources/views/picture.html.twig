@@ -1,32 +1,37 @@
-{% if sources|default() %}
-  <picture>
-    <!--[if IE 9]><video style="display: none;"><![endif]-->
-    {% for source in sources %}
-      {% if lazyload|default() %}
-        <source data-srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
-      {% else %}
-        <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
-      {% endif %}
-    {% endfor %}
-    <!--[if IE 9]></video><![endif]-->
-{% endif %}
-
 {% if lazyload|default() %}
-    <div class="image-wrapper" style="padding-bottom: {{ (img.width == 0 ? 0 : img.height/img.width*100)|number_format(2, '.') }}%" >
-      <img class="image" data-lazy="{{ img.src }}" data-src="{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }} itemprop="image">
-    </div>
-{% else %}
-  <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }} itemprop="image">
+<div class="image-wrapper" style="padding-bottom: {{ (img.width == 0 ? 0 : img.height/img.width*100)|number_format(2, '.') }}%">
+    {% endif %}
+{% if sources|default() %}
+    <picture>
+        <!--[if IE 9]><video style="display: none;"><![endif]-->
+        {% for source in sources %}
+            {% if lazyload|default() %}
+                <source data-srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
+            {% else %}
+                <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
+            {% endif %}
+        {% endfor %}
+        <!--[if IE 9]></video><![endif]-->
 {% endif %}
 
-{% if sources %}
-  </picture>
+        {% if lazyload|default() %}
+            <img class="image" data-lazy="{{ img.src }}" data-src="{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }}itemprop="image">
+
+        {% else %}
+            <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width=" {{ img.width }}" height="{{ img.height }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %}{{ attributes|default('') }}itemprop="image">
+{% endif %}
+
+        {% if sources %}
+    </picture>
+{% endif %}
+    {% if lazyload|default() %}
+</div>
 {% endif %}
 
 {% if sources|default() or img.src != img.srcset %}
-  <script>
-    window.respimage && window.respimage({
-      elements: [document.images[document.images.length - 1]]
-    });
-  </script>
+    <script>
+        window.respimage && window.respimage({
+            elements: [document.images[document.images.length - 1]]
+        });
+    </script>
 {% endif %}

@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests;
 
 use Contao\Config;
 use Contao\Date;
+use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Date\DateUtil;
 
@@ -35,7 +36,7 @@ class DateUtilTest extends ContaoTestCase
         error_reporting($errorReporting & ~E_NOTICE);
 
         $container = $this->mockContainer();
-        \System::setContainer($container);
+        System::setContainer($container);
 
         $instance = new DateUtil($this->mockContaoFramework());
 
