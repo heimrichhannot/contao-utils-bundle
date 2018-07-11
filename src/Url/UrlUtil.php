@@ -208,6 +208,25 @@ class UrlUtil
     }
 
     /**
+     * Add a url scheme to a given url.
+     *
+     * @param string $url
+     * @param string $protocol
+     *
+     * @return string
+     */
+    public function addURIScheme(string $url = '', string $protocol = 'http'): string
+    {
+        $scheme = $protocol.'://';
+
+        if ('' !== $url && false === System::getContainer()->get('huh.utils.string')->startsWith($url, $protocol)) {
+            $url = $scheme.$url;
+        }
+
+        return $url;
+    }
+
+    /**
      * Prepare URL from ID and keep query string from current string.
      *
      * @param string|int|null

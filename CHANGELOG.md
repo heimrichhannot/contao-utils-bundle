@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.23.0] - 2018-07-11
+
+#### Added
+- `huh.utils.url` method `addURIScheme` to add an protocol to a given url (default: `http`)
+
 ## [2.22.4] - 2018-07-11
 
 #### Fixed
