@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.22.4] - 2018-07-11
+
+#### Fixed
+- `AbstractChoice` cacheKey should only replace last `Choice` occurence in name to maintain unique cache key
+
 ## [2.22.3] - 2018-06-25
 
 #### Fixed

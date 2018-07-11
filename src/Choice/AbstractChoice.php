@@ -93,7 +93,7 @@ abstract class AbstractChoice
             return $this->getChoices($this->getContext());
         }
 
-        $this->cacheKey = 'choice.'.str_replace('Choice', '', (new \ReflectionClass($this))->getShortName());
+        $this->cacheKey = 'choice.'.preg_replace('#Choice$#', '', (new \ReflectionClass($this))->getShortName());
 
         // add unique identifier based on context
         if (null !== $this->getContext() && false !== ($json = json_encode($this->getContext(), JSON_FORCE_OBJECT))) {
