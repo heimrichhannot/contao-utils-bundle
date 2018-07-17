@@ -29,7 +29,7 @@ huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostsc
 This Bundle is a collection of utils to solve recurring tasks. See the [Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all functions. 
 We recommend to call the utils as service. You can either inject them (the Symfony recommend way) or call them from the service container (all util services are public).
 
-Available [Service](src/Resources/config/services.yml) (as of version 2.23):
+Available [Service](src/Resources/config/services.yml) (as of version 2.24):
 
 ```php
 huh.utils.array

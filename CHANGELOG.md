@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.24.0] - 2018-07-17
+
+#### Added
+- `ArrayUtil::getArrayRowByFieldValue`
+
 ## [2.23.1] - 2018-07-11
 
 #### Fixed

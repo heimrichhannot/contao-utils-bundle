@@ -134,4 +134,37 @@ class ArrayUtil
 
         return $objResult;
     }
+
+    /**
+     * Returns a row of an multidimensional array by field value. Returns false, if no row found.
+     *
+     * @param string|int $key        The array key (fieldname)
+     * @param mixed      $value
+     * @param array      $haystack   a multidimensional array
+     * @param bool       $strictType Specifiy if type comparison should be strict (type-safe)
+     *
+     * @return mixed
+     */
+    public static function getArrayRowByFieldValue($key, $value, array $haystack, bool $strictType = false)
+    {
+        foreach ($haystack as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            if (!isset($row[$key])) {
+                continue;
+            }
+            if (true === $strictType) {
+                if ($value === $row[$key]) {
+                    return $row;
+                }
+            } else {
+                if ($row[$key] == $value) {
+                    return $row;
+                }
+            }
+        }
+
+        return false;
+    }
 }
