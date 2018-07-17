@@ -178,6 +178,16 @@
                                             <p>creates a stdClass from array.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getArrayRowByFieldValue">getArrayRowByFieldValue</a>(string|int $key, mixed $value, array $haystack, bool $strictType = false)
+        
+                                            <p>Returns a row of an multidimensional array by field value. Returns false, if no row found.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -461,6 +471,61 @@
                     <table class="table table-condensed">
         <tr>
             <td><a target="_blank" href="http://php.net/stdClass">stdClass</a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getArrayRowByFieldValue">
+        <div class="location">at         line 148</div>
+        <code>        static            mixed
+    <strong>getArrayRowByFieldValue</strong>(string|int $key, mixed $value, array $haystack, bool $strictType = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns a row of an multidimensional array by field value. Returns false, if no row found.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|int</td>
+                <td>$key</td>
+                <td>The array key (fieldname)</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$haystack</td>
+                <td>a multidimensional array</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$strictType</td>
+                <td>Specifiy if type comparison should be strict (type-safe)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
             <td></td>
         </tr>
     </table>
