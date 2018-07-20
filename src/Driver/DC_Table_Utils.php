@@ -103,10 +103,10 @@ class DC_Table_Utils extends DC_Table
 
         // Get the IDs of all root records (tree view)
         if ($this->treeView) {
-            $table = ($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'] == 6) ? $this->ptable : $this->strTable;
+            $table = (6 == $GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode']) ? $this->ptable : $this->strTable;
 
             // Unless there are any root records specified, use all records with parent ID 0
-            if (!isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) || (isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) && $GLOBALS['TL_DCA'][$table]['list']['sorting']['root'] === false)) {
+            if (!isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) || (isset($GLOBALS['TL_DCA'][$table]['list']['sorting']['root']) && false === $GLOBALS['TL_DCA'][$table]['list']['sorting']['root'])) {
                 $objIds = $this->Database->prepare('SELECT id FROM '.$table.' WHERE pid=?'.($this->Database->fieldExists('sorting', $table) ? ' ORDER BY sorting' : ''))->execute(0);
 
                 if ($objIds->numRows > 0) {

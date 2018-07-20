@@ -32,15 +32,15 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $this->tempPath = uniqid($key.'_');
 
         $fs = new Filesystem();
-        $fs->mkdir(TL_ROOT.DIRECTORY_SEPARATOR.$this->tempPath);
-        $fs->mkdir(TL_ROOT.DIRECTORY_SEPARATOR.'system/tmp');
+        $fs->mkdir(TL_ROOT.\DIRECTORY_SEPARATOR.$this->tempPath);
+        $fs->mkdir(TL_ROOT.\DIRECTORY_SEPARATOR.'system/tmp');
     }
 
     protected function tearDown()
     {
         $fs = new Filesystem();
-        $fs->remove(TL_ROOT.DIRECTORY_SEPARATOR.$this->tempPath);
-        $fs->remove(TL_ROOT.DIRECTORY_SEPARATOR.'system');
+        $fs->remove(TL_ROOT.\DIRECTORY_SEPARATOR.$this->tempPath);
+        $fs->remove(TL_ROOT.\DIRECTORY_SEPARATOR.'system');
     }
 
     /**
@@ -74,11 +74,11 @@ class RemoteImageCacheTest extends TestCaseEnvironment
 
     public function testGet()
     {
-        $path = TL_ROOT.DIRECTORY_SEPARATOR.$this->tempPath;
+        $path = TL_ROOT.\DIRECTORY_SEPARATOR.$this->tempPath;
         $testFile = $path.'/test01.jpg';
 
         $filesModel = new \stdClass();
-        $filesModel->path = str_replace(TL_ROOT.DIRECTORY_SEPARATOR, '', $path);
+        $filesModel->path = str_replace(TL_ROOT.\DIRECTORY_SEPARATOR, '', $path);
         $filesModel->uuid = 'fade6980-1641-11e8-b642-0ed5f89f718b';
 
         $filesModelAdapter = $this->mockAdapter(['findByUuid']);

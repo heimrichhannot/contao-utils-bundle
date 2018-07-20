@@ -425,7 +425,7 @@ class DcaUtil
 
         // palette
         foreach ($overridableFields as $field) {
-            if ($dca['fields'][$field]['eval']['submitOnChange'] === true) {
+            if (true === $dca['fields'][$field]['eval']['submitOnChange']) {
                 unset($dca['fields'][$field]['eval']['submitOnChange']);
 
                 if (in_array($field, $dca['palettes']['__selector__'], true)) {

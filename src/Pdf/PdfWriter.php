@@ -99,7 +99,7 @@ class PdfWriter
     {
         $projectDir = System::getContainer()->get('huh.utils.container')->getProjectDir();
 
-        $this->template = $projectDir.DIRECTORY_SEPARATOR.ltrim(preg_replace('#^'.$projectDir.'#', '', $template), DIRECTORY_SEPARATOR);
+        $this->template = $projectDir.\DIRECTORY_SEPARATOR.ltrim(preg_replace('#^'.$projectDir.'#', '', $template), \DIRECTORY_SEPARATOR);
 
         return $this;
     }
@@ -159,12 +159,12 @@ class PdfWriter
         $fontDirs = $defaultConfig['fontDir'];
 
         foreach ($paths as $path) {
-            $fontDir = $projectDir.DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
-            if (!file_exists($fontDir) || !file_exists($fontDir.DIRECTORY_SEPARATOR.'mpdf-config.php')) {
+            $fontDir = $projectDir.\DIRECTORY_SEPARATOR.ltrim($path, \DIRECTORY_SEPARATOR);
+            if (!file_exists($fontDir) || !file_exists($fontDir.\DIRECTORY_SEPARATOR.'mpdf-config.php')) {
                 continue;
             }
 
-            $configPath = $fontDir.DIRECTORY_SEPARATOR.'mpdf-config.php';
+            $configPath = $fontDir.\DIRECTORY_SEPARATOR.'mpdf-config.php';
             $fontConfig = require_once $configPath;
 
             if (!is_array($fontConfig)) {

@@ -12,6 +12,11 @@ All notable changes to this project will be documented in this file.
 #### Fixed
 - `ArrayUtil::getArrayRowByFieldValue` was static
 
+## [2.24.1] - 2018-07-20
+
+### Fixed
+- prepend `{{env::url}}/` to  `data-srcset`, `data-src`, `data-lazy` attribute in `picture_default.html.twig` template in order to load images via absolute url, otherwise images might get loaded from `page-alias/assets/images` (iOS) and trigger 404 error which will result in too many http requests (may slow down server in huge way)
+
 ## [2.24.0] - 2018-07-17
 
 #### Added
