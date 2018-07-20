@@ -34,7 +34,7 @@ class FileUtilTest extends TestCaseEnvironment
         parent::setUp();
 
         $fs = new Filesystem();
-        $fs->mkdir(TL_ROOT.DIRECTORY_SEPARATOR.$this->getTempDir().'/files/');
+        $fs->mkdir(TL_ROOT.\DIRECTORY_SEPARATOR.$this->getTempDir().'/files/');
 
         $arrayUtils = new ArrayUtil($this->mockContaoFramework());
         $container = $this->mockContainer();

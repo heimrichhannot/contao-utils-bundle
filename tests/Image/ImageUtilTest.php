@@ -13,7 +13,6 @@ use Contao\Image\ImageInterface;
 use Contao\Image\Picture;
 use Contao\PageModel;
 use Contao\System;
-use HeimrichHannot\UtilsBundle\Image\Image;
 use HeimrichHannot\UtilsBundle\Image\ImageUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 

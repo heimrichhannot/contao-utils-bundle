@@ -203,7 +203,7 @@ class ModelUtil
         Controller::loadDataContainer($table);
 
         if (!isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) ||
-            $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] !== 'Multilingual' ||
+            'Multilingual' !== $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] ||
             !$this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
             return $columns;
         }
