@@ -1,8 +1,8 @@
-# PDF Writer `huh.utils.pdf_writer`
+# PDF Writer `huh.utils.pdf.writer`
 
 Example to create a custom pdf.
 ```
-$pdf = System::getContainer()->get('huh.utils.pdf_writer')
+$pdf = System::getContainer()->get('huh.utils.pdf.writer')
             ->mergeConfig(['margin_left' => 15, 'margin_right' => 15, 'margin_top' => 15, 'margin_bottom' => 15])
             ->setHtml('<style>h1{color: red;}</style><h1>PDF-Example</h1>')
             ->addFontDirectories(StringUtil::trimsplit(',', 'files/pdf-fonts/fonts,web/build/fonts'))

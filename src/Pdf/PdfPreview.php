@@ -62,12 +62,12 @@ class PdfPreview
      * Possible file extensions: jpg, jpeg, png
      *
      * Additional options:
-     * string pdfTranscoder The pdf transcoder to use (default: spatie)
-     * int page The page to render (default: 1)
-     * int compressionQuality Pdf compression quality (default: null) (spatie only)
-     * int resolution Raster resolution (default: 144)(spatie only)
-     * bool absolutePdfPath Set true if pdf path is absolute (default: false)
-     * bool absoluteImagePath Set true if image path is absolute (default: false)
+     * - string pdfTranscoder The pdf transcoder to use (default: spatie)
+     * - int page The page to render (default: 1)
+     * - int compressionQuality Pdf compression quality (default: null) (spatie only)
+     * - int resolution Raster resolution (default: 144)(spatie only)
+     * - bool absolutePdfPath Set true if pdf path is absolute (default: false)
+     * - bool absoluteImagePath Set true if image path is absolute (default: false)
      *
      * @param string $pdfPath   the relative path to the pdf file
      * @param string $imagePath the relative path where the image file should be saved (including file name and extension)

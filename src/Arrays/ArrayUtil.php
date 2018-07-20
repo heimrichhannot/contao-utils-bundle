@@ -145,7 +145,7 @@ class ArrayUtil
      *
      * @return mixed
      */
-    public static function getArrayRowByFieldValue($key, $value, array $haystack, bool $strictType = false)
+    public function getArrayRowByFieldValue($key, $value, array $haystack, bool $strictType = false)
     {
         foreach ($haystack as $row) {
             if (!is_array($row)) {
@@ -166,5 +166,25 @@ class ArrayUtil
         }
 
         return false;
+    }
+
+    /**
+     * Flattens an multidimensional array to one dimension. Keys are not preserved.
+     *
+     * @param array $array
+     *
+     * @return array
+     */
+    public function flattenArray(array $array)
+    {
+        $return = [];
+        array_walk_recursive(
+            $array,
+            function ($a) use (&$return) {
+                $return[] = $a;
+            }
+        );
+
+        return $return;
     }
 }

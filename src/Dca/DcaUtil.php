@@ -254,6 +254,12 @@ class DcaUtil
     /**
      * Returns a list of fields as an option array for dca fields.
      *
+     * Possible options:
+     * - array inputTypes Restrict to certain input types
+     * - array evalConditions restrict to certain dca eval
+     * - bool localizeLabels
+     * - bool skipSorting
+     *
      * @param string $table
      * @param array  $options
      *

@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.25.0-DEV] - 2018-07-17
+
+#### Added
+- `ArrayUtil::flattenArray`
+
+#### Changed
+- enhanced documentation
+
+#### Fixed
+- `ArrayUtil::getArrayRowByFieldValue` was static
+
 ## [2.24.0] - 2018-07-17
 
 #### Added
