@@ -180,12 +180,22 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;mixed
+                    mixed
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getArrayRowByFieldValue">getArrayRowByFieldValue</a>(string|int $key, mixed $value, array $haystack, bool $strictType = false)
         
                                             <p>Returns a row of an multidimensional array by field value. Returns false, if no row found.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flattenArray">flattenArray</a>(array $array)
+        
+                                            <p>Flattens an multidimensional array to one dimension. Keys are not preserved.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -484,7 +494,7 @@
                     <div class="method-item">
                     <h3 id="method_getArrayRowByFieldValue">
         <div class="location">at         line 148</div>
-        <code>        static            mixed
+        <code>                    mixed
     <strong>getArrayRowByFieldValue</strong>(string|int $key, mixed $value, array $haystack, bool $strictType = false)
         </code>
     </h3>
@@ -526,6 +536,46 @@
                     <table class="table table-condensed">
         <tr>
             <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_flattenArray">
+        <div class="location">at         line 178</div>
+        <code>                    array
+    <strong>flattenArray</strong>(array $array)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Flattens an multidimensional array to one dimension. Keys are not preserved.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$array</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
             <td></td>
         </tr>
     </table>
