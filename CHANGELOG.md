@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.25.1] - 2018-07-27
+
+#### Updated
+- updated readme
+
 ## [2.25.0] - 2018-07-17
 
 #### Added

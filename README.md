@@ -65,6 +65,17 @@ huh.utils.pdf.preview
 huh.utils.pdf.writer
 ```
 
+## Using contao-utils-bundle package
+
+```
+import(/* webpackChunkName: "contao-utils-bundle" */ 'contao-utils-bundle').then(
+	UtilsBundle => {
+		if (UtilsBundle.util.isTruthy(value))) {
+			// js code
+		}
+	});
+```
+
 ## Documentation
 
 [Documentation](https://heimrichhannot.github.io/contao-utils-bundle/)
