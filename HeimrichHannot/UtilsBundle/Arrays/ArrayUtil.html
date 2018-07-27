@@ -162,10 +162,9 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_insertInArrayByName">insertInArrayByName</a>(array $arrOld, string $key, array $new, int $offset = 0, bool $strict = false)
+                    <a href="#method_insertInArrayByName">insertInArrayByName</a>(array $current, string $key, mixed $value, int $offset = 0, bool $strict = false)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Insert a value into an existing array by key name.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -175,7 +174,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_arrayToObject">arrayToObject</a>(array $array)
         
-                                            <p>creates a stdClass from array.</p>                </div>
+                                            <p>Creates a stdClass from array.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -404,22 +403,24 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_insertInArrayByName">
-        <div class="location">at         line 114</div>
+        <div class="location">at         line 116</div>
         <code>                    
-    <strong>insertInArrayByName</strong>(array $arrOld, string $key, array $new, int $offset = 0, bool $strict = false)
+    <strong>insertInArrayByName</strong>(array $current, string $key, mixed $value, int $offset = 0, bool $strict = false)
         </code>
     </h3>
     <div class="details">
             
     
 
+                    <div class="method-description">
+                                    <p>Insert a value into an existing array by key name.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
                 <td>array</td>
-                <td>$arrOld</td>
+                <td>$current</td>
                 <td></td>
             </tr>
                     <tr>
@@ -428,8 +429,8 @@
                 <td></td>
             </tr>
                     <tr>
-                <td>array</td>
-                <td>$new</td>
+                <td>mixed</td>
+                <td>$value</td>
                 <td></td>
             </tr>
                     <tr>
@@ -453,7 +454,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_arrayToObject">
-        <div class="location">at         line 128</div>
+        <div class="location">at         line 130</div>
         <code>                    <a target="_blank" href="http://php.net/stdClass">stdClass</a>
     <strong>arrayToObject</strong>(array $array)
         </code>
@@ -463,7 +464,7 @@
     
 
                     <div class="method-description">
-                                    <p>creates a stdClass from array.</p>                                                </div>
+                                    <p>Creates a stdClass from array.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -493,7 +494,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getArrayRowByFieldValue">
-        <div class="location">at         line 148</div>
+        <div class="location">at         line 150</div>
         <code>                    mixed
     <strong>getArrayRowByFieldValue</strong>(string|int $key, mixed $value, array $haystack, bool $strictType = false)
         </code>
@@ -548,7 +549,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_flattenArray">
-        <div class="location">at         line 178</div>
+        <div class="location">at         line 180</div>
         <code>                    array
     <strong>flattenArray</strong>(array $array)
         </code>
