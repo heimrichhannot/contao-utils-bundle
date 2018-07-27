@@ -105,21 +105,23 @@ class ArrayUtil
     }
 
     /**
-     * @param array  $arrOld
+     * Insert a value into an existing array by key name.
+     *
+     * @param array  $current
      * @param string $key
-     * @param array  $new
+     * @param mixed  $value
      * @param int    $offset
      * @param bool   $strict
      */
-    public function insertInArrayByName(array &$arrOld, string $key, array $new, int $offset = 0, bool $strict = false)
+    public function insertInArrayByName(array &$current, string $key, $value, int $offset = 0, bool $strict = false)
     {
-        if (false !== ($intIndex = array_search($key, array_keys($arrOld), $strict))) {
-            array_insert($arrOld, $intIndex + $offset, $new);
+        if (false !== ($intIndex = array_search($key, array_keys($current), $strict))) {
+            array_insert($current, $intIndex + $offset, $value);
         }
     }
 
     /**
-     * creates a stdClass from array.
+     * Creates a stdClass from array.
      *
      * @param $array
      *
