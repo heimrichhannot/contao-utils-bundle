@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Container;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\System;
 use Psr\Log\LogLevel;
 use Symfony\Component\HttpKernel\Config\FileLocator;
@@ -23,11 +24,16 @@ class ContainerUtil
      * @var FileLocator
      */
     private $fileLocator;
+    /**
+     * @var ScopeMatcher
+     */
+    private $scopeMatcher;
 
-    public function __construct(ContaoFrameworkInterface $framework, FileLocator $fileLocator)
+    public function __construct(ContaoFrameworkInterface $framework, FileLocator $fileLocator, ScopeMatcher $scopeMatcher)
     {
         $this->framework = $framework;
         $this->fileLocator = $fileLocator;
+        $this->scopeMatcher = $scopeMatcher;
     }
 
     /**
@@ -55,7 +61,7 @@ class ContainerUtil
     public function isBackend()
     {
         if ($request = $this->getCurrentRequest()) {
-            return System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request);
+            return $this->scopeMatcher->isBackendRequest($request);
         }
 
         return false;
@@ -64,7 +70,7 @@ class ContainerUtil
     public function isFrontend()
     {
         if ($request = $this->getCurrentRequest()) {
-            return System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest($request);
+            return $this->scopeMatcher->isFrontendRequest($request);
         }
 
         return false;

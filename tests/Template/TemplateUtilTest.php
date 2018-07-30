@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Template;
 
 use Contao\CoreBundle\Config\ResourceFinder;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
@@ -66,7 +67,7 @@ class TemplateUtilTest extends TestCaseEnvironment
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
 
-        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class));
+        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
         $container->set('huh.utils.container', $containerUtil);
 
         System::setContainer($container);
@@ -93,7 +94,7 @@ class TemplateUtilTest extends TestCaseEnvironment
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
 
-        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class));
+        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
         $container->set('huh.utils.container', $containerUtil);
 
         System::setContainer($container);

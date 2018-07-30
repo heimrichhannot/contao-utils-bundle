@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Container;
 
 use Contao\CoreBundle\ContaoCoreBundle;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
@@ -30,11 +31,6 @@ class ContainerUtilTest extends ContaoTestCase
         $container->setParameter('kernel.bundles', [ContaoCoreBundle::class]);
         $container->setParameter('contao.web_dir', 'webDir');
         $container->set('request_stack', $this->createRequestStackMock());
-
-        $scopeAdapter = $this->mockAdapter(['isBackendRequest', 'isFrontendRequest']);
-        $scopeAdapter->method('isBackendRequest')->willReturn(true);
-        $scopeAdapter->method('isFrontendRequest')->willReturn(true);
-        $container->set('contao.routing.scope_matcher', $scopeAdapter);
 
         $container->set('monolog.logger.contao', new Logger());
 
@@ -182,7 +178,12 @@ class ContainerUtilTest extends ContaoTestCase
 
             return [$result];
         });
-        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $fileLocatorMock);
+
+        $scopeAdapter = $this->createMock(ScopeMatcher::class);
+        $scopeAdapter->method('isBackendRequest')->willReturn(true);
+        $scopeAdapter->method('isFrontendRequest')->willReturn(true);
+
+        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $fileLocatorMock, $scopeAdapter);
 
         return $containerUtil;
     }

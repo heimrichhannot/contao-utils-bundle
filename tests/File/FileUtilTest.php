@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\File;
 
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\DataContainer;
 use Contao\File;
 use Contao\FilesModel;
@@ -48,7 +49,7 @@ class FileUtilTest extends TestCaseEnvironment
         $utilsString = new StringUtil($this->mockContaoFramework());
         $container->set('huh.utils.string', $utilsString);
 
-        $containerUtils = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class));
+        $containerUtils = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
         $container->set('huh.utils.container', $containerUtils);
         $container->setParameter('kernel.project_dir', TL_ROOT);
         System::setContainer($container);
