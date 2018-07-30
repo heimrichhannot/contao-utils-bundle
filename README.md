@@ -78,6 +78,7 @@ huh.utils.pdf.writer
 The bundle assets (js) are prepared to be used with webpack/encore. If you don't use [Foxy](https://github.com/fxpio/foxy), you need to add `"contao-utils-bundle": "^1.0.0"` to your project package.json. 
 
 Usage example:
+
 ```
 import(/* webpackChunkName: "contao-utils-bundle" */ 'contao-utils-bundle').then(
 UtilsBundle => {
@@ -86,3 +87,5 @@ UtilsBundle => {
     }
 });
 ```
+
+You'll find the package source [here](https://github.com/heimrichhannot-contao-components/contao-utils-bundle).
