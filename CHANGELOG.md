@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [2.25.3] - 2018-07-30
 
 #### Updated
-* removed deprecation warning with using unpublic scope service in 
+* removed deprecation warning with using non-public contao.routing.scope_matcher service in ContainerUtil
 
 ## [2.25.2] - 2018-07-27
 
