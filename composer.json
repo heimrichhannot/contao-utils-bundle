@@ -38,7 +38,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "HeimrichHannot\\UtilsBundle\\Test\\": "tests/"
+      "HeimrichHannot\\UtilsBundle\\Tests\\": "tests/"
     }
   },
   "config": {
