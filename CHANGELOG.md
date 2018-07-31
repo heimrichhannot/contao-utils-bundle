@@ -1,20 +1,25 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.25.3] - 2018-07-30
+## [2.25.3] - 2018-07-31
 
-#### Updated
-* removed deprecation warning with using non-public contao.routing.scope_matcher service in ContainerUtil
+#### Fixed
+* DcaUtil::getConfigByArrayOrCallbackOrFunction() not processing service callbacks
+* DcaUtil::getModalEditLink() returns contao 3 backend route
+* DcaUtil::getEditLink() returns contao 3 backend route
+* DcaUtil::getArchiveModalEditLink() returns contao 3 backend route
+* deprecation warning with using non-public contao.routing.scope_matcher service in ContainerUtil
+* updated some contao namespaces
 
 ## [2.25.2] - 2018-07-27
 
-#### Updated
+#### Changed
 * readme
 * tests
 
 ## [2.25.1] - 2018-07-27
 
-#### Updated
+#### Changed
 - updated readme
 
 ## [2.25.0] - 2018-07-17

@@ -19,6 +19,7 @@ use Contao\System;
 use Contao\Validator;
 use Contao\Widget;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FormUtil
 {
@@ -27,10 +28,15 @@ class FormUtil
 
     /** @var array */
     protected $optionsCache;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
+        $this->container = $container;
     }
 
     /**
@@ -64,16 +70,17 @@ class FormUtil
     /**
      * Prepares a special field's value. If an array is inserted, the function will call itself recursively.
      *
-     * @param string        $field
-     * @param               $value
-     * @param DataContainer $dc
-     * @param array         $config
-     *
      * Possible config options:
      *   - preserveEmptyArrayValues -> preserves array values even if they're empty
      *   - skipLocalization -> skips usage of "reference" array defined in the field's dca
      *   - skipDcaLoading -> skip calling Controller::loadDataContainer on $dc->table
      *   - skipOptionCaching -> skip caching options if $value is an array
+     *   - _dcaOverride: Array -> Set a custom dca from outside, which will be used instead of global dca value.
+     *
+     * @param string        $field
+     * @param               $value
+     * @param DataContainer $dc
+     * @param array         $config
      *
      * @return string
      */
@@ -109,7 +116,7 @@ class FormUtil
 
         // multicolumneditor
         if ('multiColumnEditor' == $data['inputType']
-            && System::getContainer()->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
+            && $this->container->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
             if (is_array($value)) {
                 $rows = [];
 
@@ -171,7 +178,7 @@ class FormUtil
             $options = $this->optionsCache;
         } else {
             try {
-                $options = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
+                $options = $this->container->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($data, 'options', [$dc]);
             } catch (\ErrorException $e) {
                 $options = [];
             }
@@ -183,7 +190,7 @@ class FormUtil
         if (isset($data['foreignKey'])) {
             list($foreignTable, $foreignField) = explode('.', $data['foreignKey']);
 
-            if (null !== ($instance = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($foreignTable, $value))) {
+            if (null !== ($instance = $this->container->get('huh.utils.model')->findModelInstanceByPk($foreignTable, $value))) {
                 $value = $instance->{$foreignField};
             }
         }
@@ -207,7 +214,7 @@ class FormUtil
         } elseif ('datim' == $rgxp) {
             $value = Date::parse(Config::get('datimFormat'), $value);
         } elseif (Validator::isBinaryUuid($value)) {
-            $strPath = System::getContainer()->get('huh.utils.file')->getPathFromUuid($value);
+            $strPath = $this->container->get('huh.utils.file')->getPathFromUuid($value);
             $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
@@ -225,7 +232,7 @@ class FormUtil
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
             list($encrypted, $iv) = explode('.', $value);
 
-            $value = System::getContainer()->get('huh.utils.encryption')->decrypt($encrypted, $iv);
+            $value = $this->container->get('huh.utils.encryption')->decrypt($encrypted, $iv);
         }
 
         // reset caches
@@ -251,12 +258,12 @@ class FormUtil
 
         if ($data['eval']['allowHtml'] || strlen($data['eval']['rte']) || $data['eval']['preserveTags']) {
             // always decode entities if HTML is allowed
-            $value = System::getContainer()->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
+            $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
         } elseif (is_array($data['options']) || isset($data['options_callback']) || isset($data['foreignKey'])) {
             // options should not be strict cleaned, as they might contain html tags like <strong>
-            $value = System::getContainer()->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
+            $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
         } else {
-            $value = System::getContainer()->get('huh.request')->clean($value, $data['eval']['decodeEntities'] ?? false, true);
+            $value = $this->container->get('huh.request')->clean($value, $data['eval']['decodeEntities'] ?? false, true);
         }
 
         return $value;

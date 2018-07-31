@@ -16,6 +16,7 @@ use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Image;
+use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
 
@@ -55,7 +56,7 @@ class DcaUtil
         $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
-            ' <a href="contao/main.php?do=%s&amp;act=edit&amp;id=%s&amp;rt=%s" title="%s" style="padding-left: 5px; padding-top: 2px; display: inline-block;">%s</a>',
+            ' <a href="contao?do=%s&amp;act=edit&amp;id=%s&amp;rt=%s" title="%s" style="padding-left: 5px; padding-top: 2px; display: inline-block;">%s</a>',
             $module,
             $id,
             System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
@@ -84,7 +85,7 @@ class DcaUtil
         $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
-            ' <a href="contao/main.php?do=%s&amp;act=edit&amp;id=%s%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
+            ' <a href="contao?do=%s&amp;act=edit&amp;id=%s%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
             .'style="padding-left: 5px; padding-top: 2px; display: inline-block;" onclick="Backend.openModalIframe({\'width\':\'%s\',\'title\':\'%s'.'\',\'url\':this.href});return false">%s</a>',
             $module,
             $id,
@@ -93,7 +94,7 @@ class DcaUtil
             $label,
             $width,
             $label,
-            \Image::getHtml('alias.svg', $label, 'style="vertical-align:top"')
+            Image::getHtml('alias.svg', $label, 'style="vertical-align:top"')
         );
     }
 
@@ -117,7 +118,7 @@ class DcaUtil
         $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
-            ' <a href="contao/main.php?do=%s&amp;id=%s&amp;table=%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
+            ' <a href="contao?do=%s&amp;id=%s&amp;table=%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
             .'style="padding-left:3px; float: right" onclick="Backend.openModalIframe({\'width\':\'%s\',\'title\':\'%s'.'\',\'url\':this.href});return false">%s</a>',
             $module,
             $id,
@@ -140,7 +141,7 @@ class DcaUtil
      */
     public function setDefaultsFromDca($strTable, $varData = null)
     {
-        \Controller::loadDataContainer($strTable);
+        Controller::loadDataContainer($strTable);
         if (empty($GLOBALS['TL_DCA'][$strTable])) {
             return $varData;
         }
@@ -176,14 +177,12 @@ class DcaUtil
      * Retrieves an array from a dca config (in most cases eval) in the following priorities:.
      *
      * 1. The value associated to $array[$property]
-     * 2. The value retrieved by $array[$property . '_callback'] which is a callback array like ['Class', 'method']
+     * 2. The value retrieved by $array[$property . '_callback'] which is a callback array like ['Class', 'method'] or ['service.id', 'method']
      * 3. The value retrieved by $array[$property . '_callback'] which is a function closure array like ['Class', 'method']
      *
      * @param array $array
      * @param       $property
      * @param array $arguments
-     *
-     * @throws \ErrorException When the callback has not enough context, for example no BackendUser is available
      *
      * @return mixed|null The value retrieved in the way mentioned above or null
      */
@@ -200,11 +199,15 @@ class DcaUtil
         if (is_array($array[$property.'_callback'])) {
             $callback = $array[$property.'_callback'];
 
-            if (!isset($callback[0]) || !isset($callback[1]) || !class_exists($callback[0])) {
+            if (!isset($callback[0]) || !isset($callback[1])) {
                 return null;
             }
 
-            $instance = Controller::importStatic($callback[0]);
+            try {
+                $instance = Controller::importStatic($callback[0]);
+            } catch (\Exception $e) {
+                return null;
+            }
 
             if (!method_exists($instance, $callback[1])) {
                 return null;
@@ -390,7 +393,7 @@ class DcaUtil
                 if (null !== ($objInstance = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($instance[0], $instance[1]))) {
                     $preparedInstances[] = $objInstance;
                 }
-            } elseif ($instance instanceof \Model || is_object($instance)) {
+            } elseif ($instance instanceof Model || is_object($instance)) {
                 $preparedInstances[] = $instance;
             }
         }
@@ -546,7 +549,7 @@ class DcaUtil
             'filter' => true,
             'inputType' => 'select',
             'options_callback' => function () {
-                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
+                return System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_member',
                     'labelPattern' => '%firstname% %lastname% (ID %id%)',
                 ]);
@@ -609,7 +612,7 @@ class DcaUtil
 
         if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_USER) {
             $dca['fields']['author']['options_callback'] = function () {
-                return \Contao\System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
+                return System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_user',
                     'labelPattern' => '%name% (ID %id%)',
                 ]);

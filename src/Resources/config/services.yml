@@ -60,7 +60,8 @@ services:
         class: HeimrichHannot\UtilsBundle\Form\FormUtil
         public: true
         arguments:
-            - "@contao.framework"
+            - "@service_container"
+            - '@contao.framework'
     huh.utils.image:
         class: HeimrichHannot\UtilsBundle\Image\ImageUtil
         public: true
