@@ -369,7 +369,7 @@ palette where every field can be overridden.</p>                </div>
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 35</div>
+        <div class="location">at         line 36</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -398,7 +398,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getEditLink">
-        <div class="location">at         line 49</div>
+        <div class="location">at         line 50</div>
         <code>                    string
     <strong>getEditLink</strong>(string $module, int $id, string $label = null)
         </code>
@@ -448,7 +448,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getModalEditLink">
-        <div class="location">at         line 78</div>
+        <div class="location">at         line 79</div>
         <code>                    string
     <strong>getModalEditLink</strong>(string $module, int $id, string $label = null, string $table = &#039;&#039;, int $width = 768)
         </code>
@@ -508,7 +508,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getArchiveModalEditLink">
-        <div class="location">at         line 111</div>
+        <div class="location">at         line 112</div>
         <code>                    string
     <strong>getArchiveModalEditLink</strong>(string $module, int $id, string $table, string $label = null, int $width = 768)
         </code>
@@ -568,7 +568,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_setDefaultsFromDca">
-        <div class="location">at         line 141</div>
+        <div class="location">at         line 142</div>
         <code>                    mixed
     <strong>setDefaultsFromDca</strong>(string $strTable, mixed $varData = null)
         </code>
@@ -613,7 +613,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getConfigByArrayOrCallbackOrFunction">
-        <div class="location">at         line 190</div>
+        <div class="location">at         line 189</div>
         <code>                    mixed|null
     <strong>getConfigByArrayOrCallbackOrFunction</strong>(array $array, $property, array $arguments = [])
         </code>
@@ -625,7 +625,7 @@ palette where every field can be overridden.</p>                </div>
                     <div class="method-description">
                                     <p>Retrieves an array from a dca config (in most cases eval) in the following priorities:.</p>                    <p><ol>
 <li>The value associated to $array[$property]</li>
-<li>The value retrieved by $array[$property . '_callback'] which is a callback array like ['Class', 'method']</li>
+<li>The value retrieved by $array[$property . '_callback'] which is a callback array like ['Class', 'method'] or ['service.id', 'method']</li>
 <li>The value retrieved by $array[$property . '_callback'] which is a function closure array like ['Class', 'method']</li>
 </ol>
 </p>                            </div>
@@ -661,15 +661,6 @@ palette where every field can be overridden.</p>                </div>
     </table>
 
             
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/ErrorException">ErrorException</a></td>
-                <td>When the callback has not enough context, for example no BackendUser is available</td>
-            </tr>
-            </table>
-
             
                     </div>
     </div>
@@ -677,7 +668,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_setDateAdded">
-        <div class="location">at         line 226</div>
+        <div class="location">at         line 229</div>
         <code>                    
     <strong>setDateAdded</strong>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -708,7 +699,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_setDateAddedOnCopy">
-        <div class="location">at         line 243</div>
+        <div class="location">at         line 246</div>
         <code>                    
     <strong>setDateAddedOnCopy</strong>($insertId, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -744,7 +735,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getFields">
-        <div class="location">at         line 268</div>
+        <div class="location">at         line 271</div>
         <code>                    array
     <strong>getFields</strong>(string $table, array $options = [])
         </code>
@@ -793,7 +784,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_addOverridableFields">
-        <div class="location">at         line 320</div>
+        <div class="location">at         line 323</div>
         <code>                    
     <strong>addOverridableFields</strong>(array $fields, string $sourceTable, string $destinationTable, array $options = [])
         </code>
@@ -839,7 +830,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getOverridableProperty">
-        <div class="location">at         line 382</div>
+        <div class="location">at         line 385</div>
         <code>                    mixed
     <strong>getOverridableProperty</strong>(string $property, array $instances)
         </code>
@@ -888,7 +879,7 @@ in the instance.</p>                            </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_flattenPaletteForSubEntities">
-        <div class="location">at         line 419</div>
+        <div class="location">at         line 422</div>
         <code>                    
     <strong>flattenPaletteForSubEntities</strong>(string $table, array $overridableFields)
         </code>
@@ -929,7 +920,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_generateAlias">
-        <div class="location">at         line 481</div>
+        <div class="location">at         line 484</div>
         <code>                    string
     <strong>generateAlias</strong>(string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
         </code>
@@ -998,7 +989,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_addAuthorFieldAndCallback">
-        <div class="location">at         line 517</div>
+        <div class="location">at         line 520</div>
         <code>                    
     <strong>addAuthorFieldAndCallback</strong>(string $table)
         </code>
@@ -1027,7 +1018,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_setAuthorIDOnCreate">
-        <div class="location">at         line 564</div>
+        <div class="location">at         line 567</div>
         <code>                    
     <strong>setAuthorIDOnCreate</strong>(string $table, int $id, array $row, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -1071,7 +1062,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_modifyAuthorPaletteOnLoad">
-        <div class="location">at         line 589</div>
+        <div class="location">at         line 592</div>
         <code>                    
     <strong>modifyAuthorPaletteOnLoad</strong>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -1100,7 +1091,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getDataContainers">
-        <div class="location">at         line 623</div>
+        <div class="location">at         line 626</div>
         <code>                    array
     <strong>getDataContainers</strong>()
         </code>
@@ -1128,7 +1119,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getNewNotificationTypeArray">
-        <div class="location">at         line 646</div>
+        <div class="location">at         line 649</div>
         <code>                    array
     <strong>getNewNotificationTypeArray</strong>(bool $includeNotificationCenterPlusTokens = false)
         </code>
@@ -1166,7 +1157,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_addAliasToDca">
-        <div class="location">at         line 686</div>
+        <div class="location">at         line 689</div>
         <code>                    
     <strong>addAliasToDca</strong>(string $dca, array $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
         </code>
@@ -1212,7 +1203,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getLocalizedFieldName">
-        <div class="location">at         line 715</div>
+        <div class="location">at         line 718</div>
         <code>                    mixed
     <strong>getLocalizedFieldName</strong>($strField, $strTable)
         </code>
