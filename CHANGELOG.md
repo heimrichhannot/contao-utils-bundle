@@ -1,36 +1,41 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.25.4] - 2018-08-06
+
+### Fixed
+- login=1 error in UserUtil
+
 ## [2.25.3] - 2018-07-31
 
-#### Fixed
-* DcaUtil::getConfigByArrayOrCallbackOrFunction() not processing service callbacks
-* DcaUtil::getModalEditLink() returns contao 3 backend route
-* DcaUtil::getEditLink() returns contao 3 backend route
-* DcaUtil::getArchiveModalEditLink() returns contao 3 backend route
-* deprecation warning with using non-public contao.routing.scope_matcher service in ContainerUtil
-* updated some contao namespaces
+### Fixed
+- DcaUtil::getConfigByArrayOrCallbackOrFunction() not processing service callbacks
+- DcaUtil::getModalEditLink() returns contao 3 backend route
+- DcaUtil::getEditLink() returns contao 3 backend route
+- DcaUtil::getArchiveModalEditLink() returns contao 3 backend route
+- deprecation warning with using non-public contao.routing.scope_matcher service in ContainerUtil
+- updated some contao namespaces
 
 ## [2.25.2] - 2018-07-27
 
-#### Changed
-* readme
-* tests
+### Changed
+- readme
+- tests
 
 ## [2.25.1] - 2018-07-27
 
-#### Changed
+### Changed
 - updated readme
 
 ## [2.25.0] - 2018-07-17
 
-#### Added
+### Added
 - `ArrayUtil::flattenArray`
 
-#### Changed
+### Changed
 - enhanced documentation
 
-#### Fixed
+### Fixed
 - `ArrayUtil::getArrayRowByFieldValue` was static
 
 ## [2.24.1] - 2018-07-20
@@ -40,154 +45,154 @@ All notable changes to this project will be documented in this file.
 
 ## [2.24.0] - 2018-07-17
 
-#### Added
+### Added
 - `ArrayUtil::getArrayRowByFieldValue`
 
 ## [2.23.1] - 2018-07-11
 
-#### Fixed
+### Fixed
 - lazyloading not respected source elements in picture tags in `picture.html.twig`
 
 > Caution: May lead to broken css styles due moving image-wrapper element out of picture element.
 
 ## [2.23.0] - 2018-07-11
 
-#### Added
+### Added
 - `huh.utils.url` method `addURIScheme` to add an protocol to a given url (default: `http`)
 
 ## [2.22.4] - 2018-07-11
 
-#### Fixed
+### Fixed
 - `AbstractChoice` cacheKey should only replace last `Choice` occurence in name to maintain unique cache key
 
 ## [2.22.3] - 2018-06-25
 
-#### Fixed
+### Fixed
 - `huh.utils.class` method `jsonSerialize` should made usage of `getNumberOfRequiredParameters` instead of `count($rm->getParameters())`
 
 ## [2.22.2] - 2018-06-26
 
-#### Fixed
+### Fixed
 - DatabaseUtil::composeWhereForQueryBuilder, DatabaseUtil::composeWhereForQueryBuilder if value for IN is empty break
 
 ## [2.22.1] - 2018-06-25
 
-#### Fixed
+### Fixed
 - ContainerUtil::isBundleActive() -> now also contao 3 module names possible
 
 ## [2.22.0] - 2018-06-22
 
-#### Added
+### Added
 - SalutationUtil
 
 ## [2.21.0] - 2018-06-21
 
-#### Added
+### Added
 - `DatabaseUtil::OPERATOR_IS_EMPTY` and `DatabaseUtil::OPERATOR_IS_NOT_EMPTY` to `huh.utils.database`
 
 ## [2.20.1] - 2018-06-20
 
-#### Added
+### Added
 - api key support for locationUtil service
 
 ## [2.20.0] - 2018-06-19
 
-#### Added
+### Added
 - ModelUtil::findModulePages()
 
 ## [2.19.0] - 2018-06-15
 
-#### Added
+### Added
 - ContainerUtil::getBundlePath()
 - ContainerUtil::getBundleResourcePath()
 
 ## [2.18.4] - 2018-06-15
 
-#### Fixed
+### Fixed
 - `huh.utils.template`  method `getTemplate` does also return a template within bundles views directory for core templates that does not end with `html5` like `event_full.html.twig`
 
 ## [2.18.3] - 2018-06-14
 
-#### Fixed
+### Fixed
 - ModelUtil::findModelInstanceByIdOrAlias()
 
 ## [2.18.2] - 2018-06-14
 
-#### Fixed
+### Fixed
 - ModelUtil database error at compile time
 
 ## [2.18.1] - 2018-06-14
 
-#### Added
+### Added
 - DateUtil::getGMTMidnightTstamp()
 
 ## [2.18.0] - 2018-06-14
 
-#### Added
+### Added
 - dc_multilingual features to ModelUtil
 
 ## [2.17.0] - 2018-06-12
 
-#### Added
+### Added
 - ModelUtil::findMultipleModelInstancesByIds(), ModelUtil::findModelInstanceByIdOrAlias()
 - support in ModelUtil for models inheriting from DC_Multilingual
 
 ## [2.16.2] - 2018-06-08
 
-#### Fixed
+### Fixed
 - CodeUtil::generate() -> missing "use" of PWGen
 
 ## [2.16.1] - 2018-06-07
 
-#### Fixed
+### Fixed
 - `huh.utils.dca` method `addOverridableFields()`, added missing array check for  `__selector__`  palette
 
 ## [2.16.0] - 2018-06-07
 
-#### Added
+### Added
 - `huh.utils.model` method `hasValueChanged()`
 - `huh.utils.model` method `getModelInstanceFieldValue()`
 
 ## [2.15.2] - 2018-06-04
 
-#### Added
+### Added
 - DatabaseUtil::getChildRecords() (including recursive retrieval)
 
 ## [2.15.1] - 2018-06-04
 
-#### Fixed
+### Fixed
 - TemplateUtil::removeTemplateComment
 
 ## [2.15.0] - 2018-05-29
 
-#### Added 
+### Added 
 - option to choose pdf transcoder for PdfPreview
 - added alchemy/ghostscript as option for PdfPreview
 
-#### Fixed
+### Fixed
 - filename for save callback in FileCache had no file extension
 
 
 ## [2.14.1] - 2018-05-24
 
-#### Added
+### Added
 - utils js to backend
 
 ## [2.14.0] - 2018-05-24
 
-#### Added
+### Added
 - FileCache util
 - PdfPreview util
 - renamed pdf writer util (keeped old service name as alias and marked deprecated)
 
 ## [2.13.0] - 2018-05-16
 
-#### Added 
+### Added 
 - TemplateUtil::removeTemplateComment()
 
 ## [2.12.2] - 2018-05-16
 
-#### Fixed
+### Fixed
 * picture template twig error if title not defined
 * enhanced code documentation
 

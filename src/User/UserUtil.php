@@ -46,7 +46,7 @@ class UserUtil
         $time = \Date::floorToMinute();
         $values = [];
 
-        $columns = ["$t.login='1' AND ($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'".($time + 60)."') AND $t.disable=''"];
+        $columns = ["($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'".($time + 60)."') AND $t.disable=''"];
 
         if (!empty(array_filter($groups))) {
             list($tmpColumns, $tmpValues) = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
