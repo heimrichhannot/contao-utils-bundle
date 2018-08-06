@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.27.0] - 2018-08-06
+
+### Fixed
+- tag issue
+
 ## [2.25.5] - 2018-08-06
 
 ### Fixed
