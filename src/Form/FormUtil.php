@@ -54,6 +54,14 @@ class FormUtil
      */
     public function getWidgetFromAttributes(string $name, array $data, $value = null, string $dbName = '', string $table = '', DataContainer $dc = null, string $mode = 'FE'): ? Widget
     {
+        if ('' === $mode) {
+            $mode = System::getContainer()->get('huh.utils.container')->isFrontend() ? 'FE' : 'BE';
+        }
+
+        if ('hidden' === $data['inputType']) {
+            $mode = 'FE';
+        }
+
         $mode = strtoupper($mode);
         $mode = in_array($mode, ['FE', 'BE'], true) ? $mode : 'FE';
         $class = 'FE' === $mode ? $GLOBALS['TL_FFL'][$data['inputType']] : $GLOBALS['BE_FFL'][$data['inputType']];
