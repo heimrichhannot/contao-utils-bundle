@@ -137,13 +137,12 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getCurrentUrl">getCurrentUrl</a>(array $options)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Return the current url with requestUri.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -244,8 +243,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getCurrentUrl">
-        <div class="location">at         line 30</div>
-        <code>                    
+        <div class="location">at         line 41</div>
+        <code>                    string
     <strong>getCurrentUrl</strong>(array $options)
         </code>
     </h3>
@@ -253,6 +252,13 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Return the current url with requestUri.</p>                    <p>Options:</p>
+
+<ul>
+<li>skipParams: boolean</li>
+</ul>
+</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -265,6 +271,15 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -273,7 +288,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addQueryString">
-        <div class="location">at         line 51</div>
+        <div class="location">at         line 63</div>
         <code>                    string
     <strong>addQueryString</strong>(string $query, mixed $url = null)
         </code>
@@ -327,7 +342,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeQueryString">
-        <div class="location">at         line 90</div>
+        <div class="location">at         line 102</div>
         <code>                    string
     <strong>removeQueryString</strong>(array $params, string|int|null $url = null)
         </code>
@@ -372,7 +387,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getJumpToPageObject">
-        <div class="location">at         line 128</div>
+        <div class="location">at         line 140</div>
         <code>                    <abbr title="Contao\PageModel">PageModel</abbr>|null
     <strong>getJumpToPageObject</strong>(int $jumpTo, bool $fallbackToObjPage = true)
         </code>
@@ -415,7 +430,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_redirect">
-        <div class="location">at         line 150</div>
+        <div class="location">at         line 162</div>
         <code>                    int|array|null
     <strong>redirect</strong>(string $strLocation, int $intStatus = 303, bool $test = false, bool $skipSent = false)
         </code>
@@ -470,7 +485,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addURIScheme">
-        <div class="location">at         line 218</div>
+        <div class="location">at         line 230</div>
         <code>                    string
     <strong>addURIScheme</strong>(string $url = &#039;&#039;, string $protocol = &#039;http&#039;)
         </code>
@@ -515,7 +530,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareUrl">
-        <div class="location">at         line 236</div>
+        <div class="location">at         line 248</div>
         <code>            protected        string
     <strong>prepareUrl</strong>(string|int|null $url)
         </code>

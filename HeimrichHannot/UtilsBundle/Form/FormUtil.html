@@ -85,6 +85,8 @@
         
     
 
+            <div class="description">
+            <p>Class FormUtil.</p>                                </div>
     
     
     
@@ -163,7 +165,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 36</div>
+        <div class="location">at         line 41</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container, <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -197,7 +199,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getWidgetFromAttributes">
-        <div class="location">at         line 55</div>
+        <div class="location">at         line 60</div>
         <code>                    <abbr title="HeimrichHannot\UtilsBundle\Form\Contao\Widget">Widget</abbr>|null
     <strong>getWidgetFromAttributes</strong>(string $name, array $data, mixed $value = null, string $dbName = &#039;&#039;, string $table = &#039;&#039;, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc = null, string $mode = &#039;FE&#039;)
         </code>
@@ -267,7 +269,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareSpecialValueForOutput">
-        <div class="location">at         line 95</div>
+        <div class="location">at         line 101</div>
         <code>                    string
     <strong>prepareSpecialValueForOutput</strong>(string $field, $value, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc, array $config = [], bool $isRecursiveCall = false)
         </code>
@@ -277,12 +279,16 @@
     
 
                     <div class="method-description">
-                                    <p>Prepares a special field's value. If an array is inserted, the function will call itself recursively.</p>                    <p>Possible config options:
-  - preserveEmptyArrayValues -> preserves array values even if they're empty
-  - skipLocalization -> skips usage of "reference" array defined in the field's dca
-  - skipDcaLoading -> skip calling Controller::loadDataContainer on $dc->table
-  - skipOptionCaching -> skip caching options if $value is an array
-  - _dcaOverride: Array -> Set a custom dca from outside, which will be used instead of global dca value.</p>                            </div>
+                                    <p>Prepares a special field's value. If an array is inserted, the function will call itself recursively.</p>                    <p>Possible config options:</p>
+
+<ul>
+<li>preserveEmptyArrayValues -> preserves array values even if they're empty</li>
+<li>skipLocalization -> skips usage of "reference" array defined in the field's dca</li>
+<li>skipDcaLoading: boolean -> skip calling Controller::loadDataContainer on $dc->table</li>
+<li>skipOptionCaching -> skip caching options if $value is an array</li>
+<li>_dcaOverride: Array Set a custom dca from outside, which will be used instead of global dca value.</li>
+</ul>
+</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -332,7 +338,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_escapeAllHtmlEntities">
-        <div class="location">at         line 255</div>
+        <div class="location">at         line 261</div>
         <code>                    
     <strong>escapeAllHtmlEntities</strong>($table, $field, $value)
         </code>
