@@ -228,6 +228,19 @@ class TemplateUtil
     }
 
     /**
+     * Return true, if the template part is empty.
+     * Template comments from debug and white spaces are treated as empty.
+     *
+     * @param string $template
+     *
+     * @return bool
+     */
+    public function isTemplatePartEmpty(string $template)
+    {
+        return empty($this->removeTemplateComment($template));
+    }
+
+    /**
      * Find a particular template file within all bundles and return its path.
      *
      * @param string $name   The name of the template

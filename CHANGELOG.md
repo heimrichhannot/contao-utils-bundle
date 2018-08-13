@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.0] - 2018-08-13
+
+#### Added
+- TemplateUtil::isTemplatePartEmpty
+
+#### Changed
+- update some documentation comments
+- small code enhancements
+
 ## [2.27.0] - 2018-08-06
 
 ### Fixed

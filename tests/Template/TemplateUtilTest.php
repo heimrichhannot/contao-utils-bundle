@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Template;
 
 use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\CoreBundle\Routing\ScopeMatcher;
+use Contao\ManagerPlugin\Config\ContainerBuilder;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
@@ -48,9 +49,24 @@ class TemplateUtilTest extends TestCaseEnvironment
         System::setContainer($container);
     }
 
+    /**
+     * @param ContainerBuilder|null $container
+     *
+     * @return TemplateUtil
+     */
+    public function getTemplateUtilMock(ContainerBuilder $container = null)
+    {
+        if (!$container) {
+            $container = $this->mockContaoFramework();
+        }
+        $util = new TemplateUtil($container);
+
+        return $util;
+    }
+
     public function testInstantiation()
     {
-        $util = new TemplateUtil($this->mockContaoFramework());
+        $util = $this->getTemplateUtilMock();
         $this->assertInstanceOf(TemplateUtil::class, $util);
     }
 
@@ -108,16 +124,29 @@ class TemplateUtilTest extends TestCaseEnvironment
             define('TL_ROOT', $this->getFixturesDir());
         }
 
-        $util = new TemplateUtil($this->mockContaoFramework());
+        $util = $this->getTemplateUtilMock();
         $this->assertSame($this->getFixturesDir().'/templates/myTheme/test1.html.twig', $util->getTemplate('test1'));
     }
 
     public function testRemoveTemplateComment()
     {
-        $util = new TemplateUtil($this->mockContaoFramework());
+        $util = $this->getTemplateUtilMock();
 
-        $this->assertNull($util->removeTemplateComment(null));
+        $this->assertEmpty($util->removeTemplateComment(null));
         $this->assertSame('', $util->removeTemplateComment('<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 -->
         <!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
+    }
+
+    public function testIsTemplatePartEmpty()
+    {
+        $util = $this->getTemplateUtilMock();
+        $this->assertTrue($util->isTemplatePartEmpty('    '));
+        $this->assertTrue($util->isTemplatePartEmpty(
+            '<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 -->
+
+
+
+<!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
+        $this->assertFalse($util->isTemplatePartEmpty('<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 --><div class="my_block"></div><!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
     }
 }
