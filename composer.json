@@ -13,7 +13,7 @@
     "html2text/html2text": "~4.0"
   },
   "require-dev": {
-    "contao/test-case": "^1.1",
+    "contao/test-case": "1.1.*",
     "contao/manager-plugin": "^2.0",
     "friendsofphp/php-cs-fixer": "^2.2",
     "phpunit/phpunit": ">=6.0 <6.5",
@@ -25,16 +25,7 @@
   "autoload": {
     "psr-4": {
       "HeimrichHannot\\UtilsBundle\\": "src/"
-    },
-    "classmap": [
-      "src/"
-    ],
-    "exclude-from-classmap": [
-      "src/Resources/contao/config/",
-      "src/Resources/contao/dca/",
-      "src/Resources/contao/languages/",
-      "src/Resources/contao/templates/"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
