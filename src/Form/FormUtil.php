@@ -21,6 +21,11 @@ use Contao\Widget;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class FormUtil.
+ *
+ * @see https://heimrichhannot.github.io/contao-utils-bundle/HeimrichHannot/UtilsBundle/Form/FormUtil.html
+ */
 class FormUtil
 {
     /** @var ContaoFrameworkInterface */
@@ -71,11 +76,12 @@ class FormUtil
      * Prepares a special field's value. If an array is inserted, the function will call itself recursively.
      *
      * Possible config options:
-     *   - preserveEmptyArrayValues -> preserves array values even if they're empty
-     *   - skipLocalization -> skips usage of "reference" array defined in the field's dca
-     *   - skipDcaLoading -> skip calling Controller::loadDataContainer on $dc->table
-     *   - skipOptionCaching -> skip caching options if $value is an array
-     *   - _dcaOverride: Array -> Set a custom dca from outside, which will be used instead of global dca value.
+     *
+     * * preserveEmptyArrayValues -> preserves array values even if they're empty
+     * * skipLocalization -> skips usage of "reference" array defined in the field's dca
+     * * skipDcaLoading: boolean -> skip calling Controller::loadDataContainer on $dc->table
+     * * skipOptionCaching -> skip caching options if $value is an array
+     * * _dcaOverride: Array Set a custom dca from outside, which will be used instead of global dca value.
      *
      * @param string        $field
      * @param               $value

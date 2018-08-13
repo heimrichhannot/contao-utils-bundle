@@ -27,12 +27,24 @@ class UrlUtil
         $this->framework = $framework;
     }
 
+    /**
+     * Return the current url with requestUri.
+     *
+     * Options:
+     *
+     * * skipParams: boolean
+     *
+     * @param array $options
+     *
+     * @return string
+     */
     public function getCurrentUrl(array $options)
     {
-        $url = Environment::get('url').Environment::get('requestUri');
-
+        $url = Environment::get('url');
         if (isset($options['skipParams']) && $options['skipParams']) {
-            $url = Environment::get('url').parse_url(Environment::get('uri'), PHP_URL_PATH);
+            $url .= parse_url(Environment::get('uri'), PHP_URL_PATH);
+        } else {
+            $url .= Environment::get('requestUri');
         }
 
         return $url;
