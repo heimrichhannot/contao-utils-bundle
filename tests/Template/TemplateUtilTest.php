@@ -148,5 +148,6 @@ class TemplateUtilTest extends TestCaseEnvironment
 
 <!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
         $this->assertFalse($util->isTemplatePartEmpty('<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 --><div class="my_block"></div><!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
+        $this->assertFalse($util->isTemplatePartEmpty(null));
     }
 }
