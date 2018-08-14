@@ -169,7 +169,7 @@
                     bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_isTemplatePartEmpty">isTemplatePartEmpty</a>(string $template)
+                    <a href="#method_isTemplatePartEmpty">isTemplatePartEmpty</a>(string $template = null)
         
                                             <p>Return true, if the template part is empty.</p>                </div>
                 <div class="col-md-2"></div>
@@ -266,7 +266,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplate">
-        <div class="location">at         line 143</div>
+        <div class="location">at         line 144</div>
         <code>                    string
     <strong>getTemplate</strong>(string $name, string $format = &#039;html.twig&#039;)
         </code>
@@ -315,6 +315,10 @@
                 <td><a target="_blank" href="http://php.net/RuntimeException">RuntimeException</a></td>
                 <td>If the template group folder is insecure</td>
             </tr>
+                    <tr>
+                <td><abbr title="Psr\Cache\InvalidArgumentException">InvalidArgumentException</abbr></td>
+                <td></td>
+            </tr>
             </table>
 
             
@@ -324,7 +328,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findTemplates">
-        <div class="location">at         line 182</div>
+        <div class="location">at         line 183</div>
         <code>                    array
     <strong>findTemplates</strong>(string $path, string $pattern = null, string $format = &#039;html.twig&#039;)
         </code>
@@ -374,7 +378,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeTemplateComment">
-        <div class="location">at         line 218</div>
+        <div class="location">at         line 219</div>
         <code>                    mixed
     <strong>removeTemplateComment</strong>($template)
         </code>
@@ -414,9 +418,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTemplatePartEmpty">
-        <div class="location">at         line 238</div>
+        <div class="location">at         line 239</div>
         <code>                    bool
-    <strong>isTemplatePartEmpty</strong>(string $template)
+    <strong>isTemplatePartEmpty</strong>(string $template = null)
         </code>
     </h3>
     <div class="details">
@@ -454,7 +458,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getBundleTemplate">
-        <div class="location">at         line 254</div>
+        <div class="location">at         line 259</div>
         <code>            protected        string
     <strong>getBundleTemplate</strong>(string $name, string $format = &#039;html.twig&#039;)
         </code>
