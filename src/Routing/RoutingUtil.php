@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Request;
+namespace HeimrichHannot\UtilsBundle\Routing;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

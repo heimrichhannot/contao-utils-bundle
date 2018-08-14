@@ -121,7 +121,7 @@ services:
         arguments:
             - "@contao.framework"
     huh.utils.routing:
-      class: HeimrichHannot\UtilsBundle\Request\RoutingUtil
+      class: HeimrichHannot\UtilsBundle\Routing\RoutingUtil
       public: true
       arguments:
         - "@router"

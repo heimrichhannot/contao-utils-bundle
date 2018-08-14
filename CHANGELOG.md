@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.2] - 2018-08-14
+
+#### Fixed
+- namespace in `RoutingUtil`
+
 ## [2.28.1] - 2018-08-14
 
 #### Fixed
