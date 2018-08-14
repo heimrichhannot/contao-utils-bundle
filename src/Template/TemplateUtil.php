@@ -17,6 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class TemplateUtil
 {
@@ -27,11 +28,16 @@ class TemplateUtil
      * @var FilesystemAdapter
      */
     protected $cache;
+    /**
+     * @var KernelInterface
+     */
+    private $kernel;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, KernelInterface $kernel)
     {
         $this->framework = $framework;
-        $this->cache = new FilesystemAdapter('', 0, System::getContainer()->get('kernel')->getCacheDir());
+        $this->cache = new FilesystemAdapter('', 0, $kernel->getCacheDir());
+        $this->kernel = $kernel;
     }
 
     /**
@@ -52,7 +58,7 @@ class TemplateUtil
         $files = [];
 
         try {
-            foreach (\System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('/'.$prefix.'.*'.$format.'/') as $file) {
+            foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('/'.$prefix.'.*'.$format.'/') as $file) {
                 /* @var SplFileInfo $file */
                 $strTemplate = $file->getBasename('.'.$format);
                 $arrTemplates[$strTemplate]['name'] = $file->getBasename();
@@ -260,14 +266,13 @@ class TemplateUtil
     {
         $templatePath = $name;
 
-        $kernel = System::getContainer()->get('kernel');
-        $bundles = $kernel->getBundles();
+        $bundles = $this->kernel->getBundles();
         // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
         if (is_array($bundles) && 'html.twig' === $format) {
             $pattern = $name.'.'.$format;
 
             foreach ($bundles as $key => $value) {
-                $path = $kernel->locateResource("@$key");
+                $path = $this->kernel->locateResource("@$key");
                 $finder = new Finder();
                 $finder->in($path);
                 $finder->files()->name($pattern);
