@@ -146,6 +146,7 @@ services:
         public: true
         arguments:
             - "@contao.framework"
+            - '@kernel'
     huh.utils.user:
         class: HeimrichHannot\UtilsBundle\User\UserUtil
         public: true
