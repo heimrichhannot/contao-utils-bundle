@@ -31,7 +31,7 @@ class TemplateUtil
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
-        $this->cache = new FilesystemAdapter('', 0, \System::getContainer()->get('kernel')->getCacheDir());
+        $this->cache = new FilesystemAdapter('', 0, System::getContainer()->get('kernel')->getCacheDir());
     }
 
     /**
@@ -135,8 +135,9 @@ class TemplateUtil
      * @param string $name   The name of the template
      * @param string $format The file extension
      *
-     * @throws \InvalidArgumentException If $strFormat is unknown
-     * @throws \RuntimeException         If the template group folder is insecure
+     * @throws \InvalidArgumentException           If $strFormat is unknown
+     * @throws \RuntimeException                   If the template group folder is insecure
+     * @throws \Psr\Cache\InvalidArgumentException
      *
      * @return string The path to the template file
      */
@@ -235,8 +236,12 @@ class TemplateUtil
      *
      * @return bool
      */
-    public function isTemplatePartEmpty(string $template)
+    public function isTemplatePartEmpty($template = null)
     {
+        if (!is_string($template)) {
+            return false;
+        }
+
         return empty($this->removeTemplateComment($template));
     }
 

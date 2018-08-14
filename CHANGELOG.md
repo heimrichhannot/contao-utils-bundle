@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.1] - 2018-08-14
+
+#### Fixed
+- error when null as parameter in TemplateUtil::isTemplatePartEmpty
+
 ## [2.28.0] - 2018-08-13
 
 #### Added
