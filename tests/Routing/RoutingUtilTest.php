@@ -9,7 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Routing;
 
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Request\RoutingUtil;
+use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

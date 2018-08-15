@@ -1,171 +1,173 @@
 services:
-    # util services
-    huh.utils.array:
-        class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.cache.database:
-        class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.cache.remote_image_cache:
-        class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.cache.file:
-        class: HeimrichHannot\UtilsBundle\Cache\FileCache
-        public: true
-        arguments: ['%huh.utils.filecache.folder%', '%contao.web_dir%', '@huh.utils.file']
-    huh.utils.code:
-        class: HeimrichHannot\UtilsBundle\Security\CodeUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.encryption:
-        class: HeimrichHannot\UtilsBundle\Security\EncryptionUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.container:
-        class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-            - "@file_locator"
-            - "@contao.routing.scope_matcher"
-    huh.utils.database:
-        class: HeimrichHannot\UtilsBundle\Database\DatabaseUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.date:
-        class: HeimrichHannot\UtilsBundle\Date\DateUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.dca:
-        class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.file:
-        class: HeimrichHannot\UtilsBundle\File\FileUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.form:
-        class: HeimrichHannot\UtilsBundle\Form\FormUtil
-        public: true
-        arguments:
-            - "@service_container"
-            - '@contao.framework'
-    huh.utils.image:
-        class: HeimrichHannot\UtilsBundle\Image\ImageUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.location:
-        class: HeimrichHannot\UtilsBundle\Location\LocationUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.model:
-        class: HeimrichHannot\UtilsBundle\Model\ModelUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-            - '@huh.utils.container'
-    huh.utils.request.curl:
-        class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-            - "@service_container"
-    huh.utils.string:
-        class: HeimrichHannot\UtilsBundle\String\StringUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.url:
-        class: HeimrichHannot\UtilsBundle\Url\UrlUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    # choice
-    huh.utils.choice.field:
-        class: HeimrichHannot\UtilsBundle\Choice\FieldChoice
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.choice.data_container:
-        class: HeimrichHannot\UtilsBundle\Choice\DataContainerChoice
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.choice.message:
-        class: HeimrichHannot\UtilsBundle\Choice\MessageChoice
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.choice.model_instance:
-        class: HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.choice.twig_template:
-        class: HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.routing:
-      class: HeimrichHannot\UtilsBundle\Routing\RoutingUtil
-      public: true
-      arguments:
-        - "@router"
-        - "@request_stack"
-        - "@security.csrf.token_manager"
-        - "%contao.csrf_token_name%"
-    huh.utils.salutation:
-      class: HeimrichHannot\UtilsBundle\Salutation\SalutationUtil
-      public: true
-      arguments:
-        - "@contao.framework"
-    huh.utils.class:
-        class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
-        public: true
-    huh.utils.member:
-        class: HeimrichHannot\UtilsBundle\Member\MemberUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.template:
-        class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-            - '@kernel'
-    huh.utils.user:
-        class: HeimrichHannot\UtilsBundle\User\UserUtil
-        public: true
-        arguments:
-            - "@contao.framework"
-    huh.utils.pdf.preview:
-        class: HeimrichHannot\UtilsBundle\Pdf\PdfPreview
-        public: true
-        lazy:  true
-        arguments: ['@huh.utils.cache.file', '@huh.utils.container', '%contao.web_dir%']
-    huh.utils.pdf.writer:
-        class: HeimrichHannot\UtilsBundle\Pdf\PdfWriter
-        public: true
-        lazy:  true
-        arguments:
-            - "@contao.framework"
+# util services
+  huh.utils.array:
+    class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.cache.database:
+    class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.cache.remote_image_cache:
+    class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.cache.file:
+    class: HeimrichHannot\UtilsBundle\Cache\FileCache
+    public: true
+    arguments: ['%huh.utils.filecache.folder%', '%contao.web_dir%', '@huh.utils.file']
+  huh.utils.code:
+    class: HeimrichHannot\UtilsBundle\Security\CodeUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.encryption:
+    class: HeimrichHannot\UtilsBundle\Security\EncryptionUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.container:
+    class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+    - "@file_locator"
+    - "@contao.routing.scope_matcher"
+  huh.utils.database:
+    class: HeimrichHannot\UtilsBundle\Database\DatabaseUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.date:
+    class: HeimrichHannot\UtilsBundle\Date\DateUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.dca:
+    class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.file:
+    class: HeimrichHannot\UtilsBundle\File\FileUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.form:
+    class: HeimrichHannot\UtilsBundle\Form\FormUtil
+    public: true
+    arguments:
+    - "@service_container"
+    - '@contao.framework'
+  huh.utils.image:
+    class: HeimrichHannot\UtilsBundle\Image\ImageUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.location:
+    class: HeimrichHannot\UtilsBundle\Location\LocationUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.model:
+    class: HeimrichHannot\UtilsBundle\Model\ModelUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+    - '@huh.utils.container'
+  huh.utils.request.curl:
+    class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+    - "@service_container"
+  huh.utils.string:
+    class: HeimrichHannot\UtilsBundle\String\StringUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.url:
+    class: HeimrichHannot\UtilsBundle\Url\UrlUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  # choice
+  huh.utils.choice.field:
+    class: HeimrichHannot\UtilsBundle\Choice\FieldChoice
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.choice.data_container:
+    class: HeimrichHannot\UtilsBundle\Choice\DataContainerChoice
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.choice.message:
+    class: HeimrichHannot\UtilsBundle\Choice\MessageChoice
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.choice.model_instance:
+    class: HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.choice.twig_template:
+    class: HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.routing:
+    class: HeimrichHannot\UtilsBundle\Routing\RoutingUtil
+    public: true
+    arguments:
+    - "@router"
+    - "@request_stack"
+    - "@security.csrf.token_manager"
+    - "%contao.csrf_token_name%"
+  huh.utils.salutation:
+    class: HeimrichHannot\UtilsBundle\Salutation\SalutationUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.class:
+    class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
+    public: true
+  HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"
+  huh.utils.member:
+    class: HeimrichHannot\UtilsBundle\Member\MemberUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.template:
+    class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+    - '@kernel'
+  HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
+  huh.utils.user:
+    class: HeimrichHannot\UtilsBundle\User\UserUtil
+    public: true
+    arguments:
+    - "@contao.framework"
+  huh.utils.pdf.preview:
+    class: HeimrichHannot\UtilsBundle\Pdf\PdfPreview
+    public: true
+    lazy:  true
+    arguments: ['@huh.utils.cache.file', '@huh.utils.container', '%contao.web_dir%']
+  huh.utils.pdf.writer:
+    class: HeimrichHannot\UtilsBundle\Pdf\PdfWriter
+    public: true
+    lazy:  true
+    arguments:
+    - "@contao.framework"
 
 # Deprecations:
 
-    huh.utils.pdf_writer:
-        alias: huh.utils.pdf.writer
-        deprecated: The service has been renamed to huh.utils.pdf.writer. This alias will be delete in a future major update.
+  huh.utils.pdf_writer:
+    alias: huh.utils.pdf.writer
+    deprecated: The service has been renamed to huh.utils.pdf.writer. This alias will be delete in a future major update.

@@ -50,7 +50,7 @@ abstract class AbstractChoice
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
-        $this->cache = new FilesystemAdapter('', 0, \System::getContainer()->get('kernel')->getCacheDir());
+        $this->cache = new FilesystemAdapter('', 0, System::getContainer()->get('kernel')->getCacheDir());
     }
 
     /**

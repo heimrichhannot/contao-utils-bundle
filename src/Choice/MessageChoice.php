@@ -9,7 +9,6 @@
 namespace HeimrichHannot\UtilsBundle\Choice;
 
 use Contao\System;
-use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 
 class MessageChoice extends AbstractChoice
 {
@@ -26,7 +25,7 @@ class MessageChoice extends AbstractChoice
             $prefixes = [$prefixes];
         }
 
-        $translator = \System::getContainer()->get('translator');
+        $translator = System::getContainer()->get('translator.default');
 
         $catalog = $translator->getCatalogue();
         $all = $catalog->all();
@@ -36,7 +35,7 @@ class MessageChoice extends AbstractChoice
             return $choices;
         }
 
-        $choices = System::getContainer()->get('contao.framework')->getAdapter(ArrayUtil::class)->filterByPrefixes($messages, $prefixes);
+        $choices = System::getContainer()->get('huh.utils.array')->filterByPrefixes($messages, $prefixes);
 
         foreach ($choices as $key => $value) {
             $choices[$key] = $value.'['.$key.']';

@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.4] - 2018-08-14
+
+#### Fixed
+- Contao 4.5 compability in MessageChoice
+- some deprecation warnings
+
+#### Update
+- small code enhancements
+
 ## [2.28.3] - 2018-08-14
 
 #### Fixed
