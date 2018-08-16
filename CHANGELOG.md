@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.5] - 2018-08-16
+
+#### Changed
+- use `translator.default` service instead of `translator` service due changes in contao 4.5
+
 ## [2.28.4] - 2018-08-14
 
 #### Fixed

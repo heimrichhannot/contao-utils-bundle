@@ -33,7 +33,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $container = System::getContainer();
 
         $translator = new Translator('de');
-        $container->set('translator', $translator);
+        $container->set('translator.default', $translator);
 
         $mockedModel = $this->mockClassWithProperties(Model::class, ['overrideTitle' => 'title', 'title' => 'title', 'author' => null, 'authorType' => 'none']);
         $mockedModel->method('save');
