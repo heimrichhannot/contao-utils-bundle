@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.6] - 2018-08-20
+
+### Fixed
+- mode issue in FormUtil::getWidgetFromAttributes()
+
 ## [2.28.5] - 2018-08-16
 
 #### Changed

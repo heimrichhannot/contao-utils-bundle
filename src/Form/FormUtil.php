@@ -57,7 +57,7 @@ class FormUtil
      *
      * @return null|Widget The new widget based on given attributes
      */
-    public function getWidgetFromAttributes(string $name, array $data, $value = null, string $dbName = '', string $table = '', DataContainer $dc = null, string $mode = 'FE'): ? Widget
+    public function getWidgetFromAttributes(string $name, array $data, $value = null, string $dbName = '', string $table = '', DataContainer $dc = null, string $mode = ''): ? Widget
     {
         if ('' === $mode) {
             $mode = System::getContainer()->get('huh.utils.container')->isFrontend() ? 'FE' : 'BE';
