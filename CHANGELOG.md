@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.7] - 2018-08-21
+
+### Added
+- CurlRequestUtil::HTTP_STATUS_CODE_MESSAGES
+
 ## [2.28.6] - 2018-08-20
 
 ### Fixed
