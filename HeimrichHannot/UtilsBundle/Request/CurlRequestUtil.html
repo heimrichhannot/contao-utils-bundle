@@ -87,6 +87,18 @@
 
     
     
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>HTTP_STATUS_CODE_MESSAGES</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
@@ -243,7 +255,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 31</div>
+        <div class="location">at         line 75</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
@@ -277,7 +289,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_request">
-        <div class="location">at         line 46</div>
+        <div class="location">at         line 90</div>
         <code>                    array|mixed
     <strong>request</strong>(string $url, array $requestHeaders = [], bool $returnResponseHeaders = false)
         </code>
@@ -327,7 +339,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_postRequest">
-        <div class="location">at         line 83</div>
+        <div class="location">at         line 127</div>
         <code>                    array|mixed
     <strong>postRequest</strong>(string $url, array $requestHeaders = [], array $postFields = [], bool $returnResponseHeaders = false)
         </code>
@@ -382,7 +394,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_recursiveGetRequest">
-        <div class="location">at         line 127</div>
+        <div class="location">at         line 171</div>
         <code>                    array|mixed|null
     <strong>recursiveGetRequest</strong>(int $maxRecursionCount, callable $callback, string $url, array $requestHeaders = [], bool $returnResponseHeaders = false)
         </code>
@@ -442,7 +454,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_recursivePostRequest">
-        <div class="location">at         line 154</div>
+        <div class="location">at         line 198</div>
         <code>                    array|mixed|null
     <strong>recursivePostRequest</strong>(int $maxRecursionCount, callable $callback, string $url, array $requestHeaders = [], array $post = [], bool $returnResponseHeaders = false)
         </code>
@@ -507,7 +519,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_splitResponseHeaderAndBody">
-        <div class="location">at         line 175</div>
+        <div class="location">at         line 219</div>
         <code>                    array
     <strong>splitResponseHeaderAndBody</strong>(string $response, int $statusCode)
         </code>
@@ -550,7 +562,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareHeaderArrayForPrint">
-        <div class="location">at         line 202</div>
+        <div class="location">at         line 246</div>
         <code>                    string
     <strong>prepareHeaderArrayForPrint</strong>(array $headers)
         </code>
@@ -590,7 +602,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHandle">
-        <div class="location">at         line 221</div>
+        <div class="location">at         line 265</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Request/HttpRequestInterface.html"><abbr title="HeimrichHannot\UtilsBundle\Request\HttpRequestInterface">HttpRequestInterface</abbr></a>|null
     <strong>getHandle</strong>()
         </code>
@@ -618,7 +630,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setHandle">
-        <div class="location">at         line 229</div>
+        <div class="location">at         line 273</div>
         <code>                    
     <strong>setHandle</strong>(<a href="../../../HeimrichHannot/UtilsBundle/Request/HttpRequestInterface.html"><abbr title="HeimrichHannot\UtilsBundle\Request\HttpRequestInterface">HttpRequestInterface</abbr></a> $handle)
         </code>
@@ -647,7 +659,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createCurlHandle">
-        <div class="location">at         line 241</div>
+        <div class="location">at         line 285</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Request/CurlRequest.html"><abbr title="HeimrichHannot\UtilsBundle\Request\CurlRequest">CurlRequest</abbr></a>
     <strong>createCurlHandle</strong>($url)
         </code>
@@ -687,7 +699,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareHeaders">
-        <div class="location">at         line 258</div>
+        <div class="location">at         line 302</div>
         <code>            protected        array
     <strong>prepareHeaders</strong>(array $headers)
         </code>
