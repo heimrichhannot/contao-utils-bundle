@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.8] - 2018-08-23
+
+### Added
+- dom.js
+
 ## [2.28.7] - 2018-08-21
 
 ### Added
