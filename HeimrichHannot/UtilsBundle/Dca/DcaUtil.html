@@ -345,7 +345,7 @@ palette where every field can be overridden.</p>                </div>
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_addAliasToDca">addAliasToDca</a>(string $dca, array $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
+                    <a href="#method_addAliasToDca">addAliasToDca</a>(string $dca, $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
         
                                             <p>Adds an alias field to the dca and to the desired palettes.</p>                </div>
                 <div class="col-md-2"></div>
@@ -1159,7 +1159,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
                     <h3 id="method_addAliasToDca">
         <div class="location">at         line 689</div>
         <code>                    
-    <strong>addAliasToDca</strong>(string $dca, array $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
+    <strong>addAliasToDca</strong>(string $dca, $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
         </code>
     </h3>
     <div class="details">
@@ -1178,9 +1178,9 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
                 <td></td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td></td>
                 <td>$generateAliasCallback</td>
-                <td>array The callback to call for generating the alias</td>
+                <td>mixed The callback to call for generating the alias</td>
             </tr>
                     <tr>
                 <td>string</td>
