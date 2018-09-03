@@ -682,11 +682,11 @@ class DcaUtil
      * Adds an alias field to the dca and to the desired palettes.
      *
      * @param       $dca
-     * @param       $generateAliasCallback array The callback to call for generating the alias
+     * @param       $generateAliasCallback mixed The callback to call for generating the alias
      * @param       $paletteField          String The field after which to insert the alias field in the palettes
      * @param array $palettes              The palettes in which to insert the field
      */
-    public function addAliasToDca(string $dca, array $generateAliasCallback, string $paletteField, array $palettes = ['default'])
+    public function addAliasToDca(string $dca, $generateAliasCallback, string $paletteField, array $palettes = ['default'])
     {
         Controller::loadDataContainer($dca);
 

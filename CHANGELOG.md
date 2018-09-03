@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.28.9] - 2018-08-28
+
+### Fixed
+- DcaUtil::addAliasToDca()
+
 ## [2.28.8] - 2018-08-23
 
 ### Added
