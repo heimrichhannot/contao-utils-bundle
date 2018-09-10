@@ -244,7 +244,7 @@ class TemplateUtil
      */
     public function isTemplatePartEmpty($template = null)
     {
-        if (!is_string($template)) {
+        if (!\is_string($template)) {
             return false;
         }
 
@@ -268,7 +268,7 @@ class TemplateUtil
 
         $bundles = $this->kernel->getBundles();
         // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
-        if (is_array($bundles) && 'html.twig' === $format) {
+        if (\is_array($bundles) && 'html.twig' === $format) {
             $pattern = $name.'.'.$format;
 
             foreach ($bundles as $key => $value) {

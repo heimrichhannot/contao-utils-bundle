@@ -149,8 +149,8 @@ class DcaUtil
         foreach ($GLOBALS['TL_DCA'][$strTable]['fields'] as $k => $v) {
             // Use array_key_exists here (see #5252)
             if (array_key_exists('default', $v)) {
-                if (is_object($varData)) {
-                    $varData->{$k} = is_array($v['default']) ? serialize($v['default']) : $v['default'];
+                if (\is_object($varData)) {
+                    $varData->{$k} = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                     // Encrypt the default value (see #3740)
                     if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
                         $varData->{$k} = System::getContainer()->get('huh.utils.encryption')->encrypt($varData->{$k});
@@ -159,8 +159,8 @@ class DcaUtil
                     if (null === $varData) {
                         $varData = [];
                     }
-                    if (is_array($varData)) {
-                        $varData[$k] = is_array($v['default']) ? serialize($v['default']) : $v['default'];
+                    if (\is_array($varData)) {
+                        $varData[$k] = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                         // Encrypt the default value (see #3740)
                         if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
                             $varData[$k] = System::getContainer()->get('huh.utils.encryption')->encrypt($varData[$k]);
@@ -196,7 +196,7 @@ class DcaUtil
             return null;
         }
 
-        if (is_array($array[$property.'_callback'])) {
+        if (\is_array($array[$property.'_callback'])) {
             $callback = $array[$property.'_callback'];
 
             if (!isset($callback[0]) || !isset($callback[1])) {
@@ -213,9 +213,9 @@ class DcaUtil
                 return null;
             }
 
-            return call_user_func_array([$instance, $callback[1]], $arguments);
-        } elseif (is_callable($array[$property.'_callback'])) {
-            return call_user_func_array($array[$property.'_callback'], $arguments);
+            return \call_user_func_array([$instance, $callback[1]], $arguments);
+        } elseif (\is_callable($array[$property.'_callback'])) {
+            return \call_user_func_array($array[$property.'_callback'], $arguments);
         }
 
         return null;
@@ -285,12 +285,12 @@ class DcaUtil
 
         foreach ($GLOBALS['TL_DCA'][$table]['fields'] as $name => $data) {
             // restrict to certain input types
-            if (isset($options['inputTypes']) && is_array($options['inputTypes']) && !empty($options['inputTypes']) && !in_array($data['inputType'], $options['inputTypes'], true)) {
+            if (isset($options['inputTypes']) && \is_array($options['inputTypes']) && !empty($options['inputTypes']) && !\in_array($data['inputType'], $options['inputTypes'], true)) {
                 continue;
             }
 
             // restrict to certain dca eval
-            if (isset($options['evalConditions']) && is_array($options['evalConditions']) && !empty($options['evalConditions'])) {
+            if (isset($options['evalConditions']) && \is_array($options['evalConditions']) && !empty($options['evalConditions'])) {
                 foreach ($options['evalConditions'] as $key => $value) {
                     if ($data['eval'][$key] !== $value) {
                         continue 2;
@@ -342,12 +342,12 @@ class DcaUtil
                 'sql' => "char(1) NOT NULL default ''",
             ];
 
-            if (isset($options['checkboxDcaEvalOverride']) && is_array($options['checkboxDcaEvalOverride'])) {
+            if (isset($options['checkboxDcaEvalOverride']) && \is_array($options['checkboxDcaEvalOverride'])) {
                 $destinationDca['fields'][$overrideFieldname]['eval'] = array_merge($destinationDca['fields'][$overrideFieldname]['eval'], $options['checkboxDcaEvalOverride']);
             }
 
             // important: nested selectors need to be in reversed order -> see DC_Table::getPalette()
-            $destinationDca['palettes']['__selector__'] = array_merge([$overrideFieldname], is_array($destinationDca['palettes']['__selector__']) ? $destinationDca['palettes']['__selector__'] : []);
+            $destinationDca['palettes']['__selector__'] = array_merge([$overrideFieldname], \is_array($destinationDca['palettes']['__selector__']) ? $destinationDca['palettes']['__selector__'] : []);
 
             // copy field
             $destinationDca['fields'][$field] = $sourceDca['fields'][$field];
@@ -389,11 +389,11 @@ class DcaUtil
 
         // prepare instances
         foreach ($instances as $instance) {
-            if (is_array($instance)) {
+            if (\is_array($instance)) {
                 if (null !== ($objInstance = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($instance[0], $instance[1]))) {
                     $preparedInstances[] = $objInstance;
                 }
-            } elseif ($instance instanceof Model || is_object($instance)) {
+            } elseif ($instance instanceof Model || \is_object($instance)) {
                 $preparedInstances[] = $instance;
             }
         }
@@ -431,7 +431,7 @@ class DcaUtil
             if (true === $dca['fields'][$field]['eval']['submitOnChange']) {
                 unset($dca['fields'][$field]['eval']['submitOnChange']);
 
-                if (in_array($field, $dca['palettes']['__selector__'], true)) {
+                if (\in_array($field, $dca['palettes']['__selector__'], true)) {
                     // flatten concatenated type selectors
                     foreach ($dca['subpalettes'] as $selector => $subPaletteFields) {
                         if (false !== strpos($selector, $field.'_')) {
@@ -629,7 +629,7 @@ class DcaUtil
         foreach ($GLOBALS['BE_MOD'] as $arrSection) {
             foreach ($arrSection as $strModule => $arrModule) {
                 foreach ($arrModule as $strKey => $varValue) {
-                    if (is_array($arrModule['tables'])) {
+                    if (\is_array($arrModule['tables'])) {
                         $dca = array_merge($dca, $arrModule['tables']);
                     }
                 }

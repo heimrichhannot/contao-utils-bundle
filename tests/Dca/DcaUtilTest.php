@@ -26,8 +26,8 @@ class DcaUtilTest extends TestCaseEnvironment
     {
         parent::setUp();
 
-        if (!defined('FE_USER_LOGGED_IN')) {
-            define('FE_USER_LOGGED_IN', true);
+        if (!\defined('FE_USER_LOGGED_IN')) {
+            \define('FE_USER_LOGGED_IN', true);
         }
 
         $container = System::getContainer();

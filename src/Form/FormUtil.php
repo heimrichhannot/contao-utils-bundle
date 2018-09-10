@@ -68,7 +68,7 @@ class FormUtil
         }
 
         $mode = strtoupper($mode);
-        $mode = in_array($mode, ['FE', 'BE'], true) ? $mode : 'FE';
+        $mode = \in_array($mode, ['FE', 'BE'], true) ? $mode : 'FE';
         $class = 'FE' === $mode ? $GLOBALS['TL_FFL'][$data['inputType']] : $GLOBALS['BE_FFL'][$data['inputType']];
         /** @var $widget Widget */
         $widget = $this->framework->getAdapter(Widget::class);
@@ -120,9 +120,9 @@ class FormUtil
         }
 
         // dca can be overridden from outside
-        if (isset($config['_dcaOverride']) && is_array($config['_dcaOverride'])) {
+        if (isset($config['_dcaOverride']) && \is_array($config['_dcaOverride'])) {
             $data = $config['_dcaOverride'];
-        } elseif (!isset($GLOBALS['TL_DCA'][$table]['fields'][$field]) || !is_array($GLOBALS['TL_DCA'][$table]['fields'][$field])) {
+        } elseif (!isset($GLOBALS['TL_DCA'][$table]['fields'][$field]) || !\is_array($GLOBALS['TL_DCA'][$table]['fields'][$field])) {
             return $value;
         } else {
             $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
@@ -131,7 +131,7 @@ class FormUtil
         // multicolumneditor
         if ('multiColumnEditor' == $data['inputType']
             && $this->container->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $rows = [];
 
                 foreach ($value as $row) {
@@ -155,7 +155,7 @@ class FormUtil
         }
 
         // Recursively apply logic to array
-        if (is_array($value)) {
+        if (\is_array($value)) {
             foreach ($value as $k => $v) {
                 $result = $this->prepareSpecialValueForOutput($field, $v, $dc, $config, true);
 
@@ -197,7 +197,7 @@ class FormUtil
                 $options = [];
             }
 
-            $this->optionsCache = !is_array($options) ? [] : $options;
+            $this->optionsCache = !\is_array($options) ? [] : $options;
         }
 
         // foreignKey
@@ -234,13 +234,13 @@ class FormUtil
         else {
             if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
                 $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
-            } elseif (is_array($options) && array_is_assoc($options)) {
+            } elseif (\is_array($options) && array_is_assoc($options)) {
                 $value = isset($options[$value]) ? $options[$value] : $value;
             }
         }
 
-        if (is_array($reference)) {
-            $value = isset($reference[$value]) ? ((is_array($reference[$value])) ? $reference[$value][0] : $reference[$value]) : $value;
+        if (\is_array($reference)) {
+            $value = isset($reference[$value]) ? ((\is_array($reference[$value])) ? $reference[$value][0] : $reference[$value]) : $value;
         }
 
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
@@ -270,10 +270,10 @@ class FormUtil
 
         $preservedTags = isset($data['eval']['allowedTags']) ? $data['eval']['allowedTags'] : \Config::get('allowedTags');
 
-        if ($data['eval']['allowHtml'] || strlen($data['eval']['rte']) || $data['eval']['preserveTags']) {
+        if ($data['eval']['allowHtml'] || \strlen($data['eval']['rte']) || $data['eval']['preserveTags']) {
             // always decode entities if HTML is allowed
             $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
-        } elseif (is_array($data['options']) || isset($data['options_callback']) || isset($data['foreignKey'])) {
+        } elseif (\is_array($data['options']) || isset($data['options_callback']) || isset($data['foreignKey'])) {
             // options should not be strict cleaned, as they might contain html tags like <strong>
             $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
         } else {

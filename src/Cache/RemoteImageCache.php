@@ -58,7 +58,7 @@ class RemoteImageCache
 
         $strContent = System::getContainer()->get('huh.utils.request.curl')->request($remoteUrl);
 
-        if (!$strContent || !is_string($strContent)) {
+        if (!$strContent || !\is_string($strContent)) {
             return false;
         }
 

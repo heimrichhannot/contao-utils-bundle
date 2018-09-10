@@ -81,7 +81,7 @@ class SalutationUtil
         $informal = isset($options['informal']) && $options['informal'];
         $firstnameOnly = isset($options['firstnameOnly']) && $options['firstnameOnly'];
 
-        if (is_array($entity)) {
+        if (\is_array($entity)) {
             $entity = System::getContainer()->get('huh.utils.array')->arrayToObject($entity);
         }
 

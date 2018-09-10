@@ -122,8 +122,8 @@ class UrlUtilTest extends ContaoTestCase
 
     public function testPrepareUrl()
     {
-        if (!defined('TL_MODE')) {
-            define('TL_MODE', 'BE');
+        if (!\defined('TL_MODE')) {
+            \define('TL_MODE', 'BE');
         }
         $pageModel = $this->createMock(PageModel::class);
         $pageModel->method('row')->willReturn(['id' => 1, 'rootId' => 12, 'alias' => 'alias']);

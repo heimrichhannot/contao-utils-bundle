@@ -50,7 +50,7 @@ class ClassUtil
         $objReflection = new \ReflectionClass($class);
         $arrConstants = $objReflection->getConstants();
 
-        if (!is_array($arrConstants)) {
+        if (!\is_array($arrConstants)) {
             return $arrExtract;
         }
 
@@ -93,7 +93,7 @@ class ClassUtil
         $arrOptions = [];
 
         foreach (get_declared_classes() as $strName) {
-            if (in_array($qualifiedClassName, $this->getParentClasses($strName), true)) {
+            if (\in_array($qualifiedClassName, $this->getParentClasses($strName), true)) {
                 $arrOptions[$strName] = $strName;
             }
         }
@@ -115,7 +115,7 @@ class ClassUtil
      */
     public function jsonSerialize($object, $data = [], bool $allowNonStringCastables = false): array
     {
-        $class = get_class($object);
+        $class = \get_class($object);
 
         $rc = new \ReflectionClass($object);
         $methods = $rc->getMethods(\ReflectionMethod::IS_PUBLIC);
@@ -123,14 +123,14 @@ class ClassUtil
         // add all public getter Methods
         foreach ($methods as $method) {
             // get()
-            if (false !== ('get' === substr($method->name, 0, strlen('get')))) {
+            if (false !== ('get' === substr($method->name, 0, \strlen('get')))) {
                 $start = 3; // highest priority
             } // is()
-            elseif (false !== ('is' === substr($method->name, 0, strlen('is')))) {
-                $name = substr($method->name, 2, strlen($method->name));
+            elseif (false !== ('is' === substr($method->name, 0, \strlen('is')))) {
+                $name = substr($method->name, 2, \strlen($method->name));
                 $start = !$rc->hasMethod('has'.ucfirst($name)) && !$rc->hasMethod('get'.ucfirst($name)) ? 2 : 0;
-            } elseif (false !== ('has' === substr($method->name, 0, strlen('has')))) {
-                $name = substr($method->name, 3, strlen($method->name));
+            } elseif (false !== ('has' === substr($method->name, 0, \strlen('has')))) {
+                $name = substr($method->name, 3, \strlen($method->name));
                 $start = !$rc->hasMethod('is'.ucfirst($name)) && !$rc->hasMethod('get'.ucfirst($name)) ? 3 : 0;
             } else {
                 continue;
@@ -160,7 +160,7 @@ class ClassUtil
         $result = [];
 
         foreach ($values as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 // plus preserves the array keys
                 $result[$key] = $this->removeNonStringObjectsFromArray($value);
             } else {

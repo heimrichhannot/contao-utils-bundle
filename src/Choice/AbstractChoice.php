@@ -105,7 +105,7 @@ abstract class AbstractChoice
         if (!$cache->isHit() || empty($cache->get())) {
             $choices = $this->getChoices($this->getContext());
 
-            if (!is_array($choices)) {
+            if (!\is_array($choices)) {
                 $choices = [];
             }
 

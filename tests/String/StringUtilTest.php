@@ -72,7 +72,7 @@ class StringUtilTest extends ContaoTestCase
         $stringUtil = new StringUtil($this->mockContaoFramework());
         $result = $stringUtil->truncateHtml($text, (int) $length, $ending, $exact, $considerHtml);
         $this->assertSame($expected, $result);
-        $this->assertSame($expectedTextLength, strlen(strip_tags($result)));
+        $this->assertSame($expectedTextLength, \strlen(strip_tags($result)));
     }
 
     public function truncateHtmlProvider()

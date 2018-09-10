@@ -45,7 +45,7 @@ class FileUtil
         $path = str_replace('.'.$file->extension, '', $target);
 
         if ($prefix && false !== ($pos = strpos($path, $prefix))) {
-            $path = str_replace(substr($path, $pos, strlen($path)), '', $path);
+            $path = str_replace(substr($path, $pos, \strlen($path)), '', $path);
             $target = $path.'.'.$file->extension;
         }
 
@@ -282,13 +282,13 @@ class FileUtil
     public function getFolderFromDca($folder, DataContainer $dc = null)
     {
         // upload folder
-        if (is_array($folder) && null !== $dc) {
+        if (\is_array($folder) && null !== $dc) {
             $callback = $folder;
             $folder = System::importStatic($callback[0])->{$callback[1]}($dc);
-        } elseif (is_callable($folder) && null !== $dc) {
+        } elseif (\is_callable($folder) && null !== $dc) {
             $method = $folder;
             $folder = $method($dc);
-        } elseif (is_string($folder)) {
+        } elseif (\is_string($folder)) {
             if (false !== strpos($folder, '../')) {
                 throw new \Exception("Invalid target path $folder");
             }
@@ -317,7 +317,7 @@ class FileUtil
     {
         $count = 0;
         try {
-            $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'r');
+            $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'rb');
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }

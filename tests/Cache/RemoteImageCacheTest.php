@@ -24,8 +24,8 @@ class RemoteImageCacheTest extends TestCaseEnvironment
     {
         parent::setUp();
 
-        if (!defined('TL_ROOT')) {
-            define('TL_ROOT', __DIR__);
+        if (!\defined('TL_ROOT')) {
+            \define('TL_ROOT', __DIR__);
         }
 
         $key = basename(strtr(static::class, '\\', '/'));

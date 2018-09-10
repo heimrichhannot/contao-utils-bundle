@@ -167,7 +167,7 @@ services:
     - "@contao.framework"
 
 # Deprecations:
+# @TODO: remove in next major version
 
   huh.utils.pdf_writer:
     alias: huh.utils.pdf.writer
-    deprecated: The service has been renamed to huh.utils.pdf.writer. This alias will be delete in a future major update.

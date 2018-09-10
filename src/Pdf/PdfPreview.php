@@ -150,7 +150,7 @@ class PdfPreview
         }
         $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
         $allowedExtensions = ['jpg', 'jpeg', 'png'];
-        if (!in_array($imageExtension, $allowedExtensions, true)) {
+        if (!\in_array($imageExtension, $allowedExtensions, true)) {
             throw new InvalidTypeException('Only one of the following file types is allowed: '.implode(
                 ', ', $allowedExtensions)
             );
@@ -165,7 +165,7 @@ class PdfPreview
             '-dSAFER',
             '-sOutputFile='.$imagePath,
         ];
-        if (isset($option['page']) && is_int($options['page']) && $options['page'] > 0) {
+        if (isset($option['page']) && \is_int($options['page']) && $options['page'] > 0) {
             $command[] = sprintf('-dFirstPage=%d', $options['page']);
             $command[] = sprintf('-dLastPage=%d', $options['page']);
         }

@@ -95,7 +95,7 @@ class CurlRequestUtilTest extends ContaoTestCase
         $result = $curl->recursiveGetRequest(1, function ($result, $url, $requestHeaders, $returnResponseHeaders, $maxRecursionCount) {
             return true;
         }, 'https://www.heimrich-hannot.de', [], true);
-        $this->assertSame(2, count($result));
+        $this->assertSame(2, \count($result));
         $this->assertStringStartsWith('<!DOCTYPE html>', $result[1]);
 
         $curl = new CurlRequestUtil($this->mockContaoFramework(), $this->mockContainer());
@@ -138,7 +138,7 @@ class CurlRequestUtilTest extends ContaoTestCase
         $result = $curl->recursivePostRequest(1, function ($result, $url, $requestHeaders, $returnResponseHeaders, $maxRecursionCount) {
             return true;
         }, 'https://www.heimrich-hannot.de', [], [], true);
-        $this->assertSame(2, count($result));
+        $this->assertSame(2, \count($result));
         $this->assertStringStartsWith('<!DOCTYPE html>', $result[1]);
 
         $curl = new CurlRequestUtil($this->mockContaoFramework(), $this->mockContainer());

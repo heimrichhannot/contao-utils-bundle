@@ -22,7 +22,7 @@ class TwigTemplateChoice extends AbstractChoice
 
         $prefixes = $this->getContext();
 
-        if (!is_array($prefixes)) {
+        if (!\is_array($prefixes)) {
             $prefixes = [$prefixes];
         }
 
@@ -33,7 +33,7 @@ class TwigTemplateChoice extends AbstractChoice
         $bundles = $kernel->getBundles();
         $pattern = !empty($prefixes) ? ('/(^'.implode('|^', $prefixes).').*twig/') : '*.twig';
 
-        if (is_array($bundles)) {
+        if (\is_array($bundles)) {
             foreach ($bundles as $key => $value) {
                 $path = $kernel->locateResource("@$key");
                 $finder = new Finder();

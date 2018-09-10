@@ -38,7 +38,7 @@ class StringUtil
      */
     public function startsWith($haystack, $needle)
     {
-        return '' === $needle || false !== strrpos($haystack, $needle, -strlen($haystack));
+        return '' === $needle || false !== strrpos($haystack, $needle, -\strlen($haystack));
     }
 
     /**
@@ -52,7 +52,7 @@ class StringUtil
     public function endsWith($haystack, $needle)
     {
         // search forward starting from end minus needle length characters
-        return '' === $needle || (($temp = strlen($haystack) - strlen($needle)) >= 0 && false !== strpos($haystack, $needle, $temp));
+        return '' === $needle || (($temp = \strlen($haystack) - \strlen($needle)) >= 0 && false !== strpos($haystack, $needle, $temp));
     }
 
     public function camelCaseToDashed($value)
@@ -123,7 +123,7 @@ class StringUtil
      */
     public function random(string $charList)
     {
-        return $charList[rand(0, strlen($charList) - 1)];
+        return $charList[rand(0, \strlen($charList) - 1)];
     }
 
     /**
@@ -143,12 +143,12 @@ class StringUtil
 
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
-            if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
+            if (\strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
                 return $text;
             }
             // splits all html-tags to scanable lines
             preg_match_all('/(<.+?>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
-            $total_length = strlen($ending);
+            $total_length = \strlen($ending);
             $truncate = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
@@ -176,7 +176,7 @@ class StringUtil
                     $truncate .= $line_matchings[1];
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                $content_length = \strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
                     $left = $length - $total_length;
@@ -187,7 +187,7 @@ class StringUtil
                         foreach ($entities[0] as $entity) {
                             if ($entity[1] + 1 - $entities_length <= $left) {
                                 --$left;
-                                $entities_length += strlen($entity[0]);
+                                $entities_length += \strlen($entity[0]);
                             } else {
                                 // no more characters left
                                 break;
@@ -207,10 +207,10 @@ class StringUtil
                 }
             }
         } else {
-            if (strlen($text) <= $length) {
+            if (\strlen($text) <= $length) {
                 return $text;
             }
-            $truncate = substr($text, 0, $length - strlen($ending));
+            $truncate = substr($text, 0, $length - \strlen($ending));
         }
         // if the words shouldn't be cut in the middle...
         if (!$exact) {

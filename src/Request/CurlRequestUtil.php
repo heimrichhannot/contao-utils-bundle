@@ -251,7 +251,7 @@ class CurlRequestUtil
         foreach ($headers as $strKey => $strValue) {
             $result .= "$strKey: $strValue";
 
-            if ($i++ != count($headers) - 1) {
+            if ($i++ != \count($headers) - 1) {
                 $result .= PHP_EOL;
             }
         }

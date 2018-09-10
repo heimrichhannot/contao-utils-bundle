@@ -167,7 +167,7 @@ class PdfWriter
             $configPath = $fontDir.\DIRECTORY_SEPARATOR.'mpdf-config.php';
             $fontConfig = require_once $configPath;
 
-            if (!is_array($fontConfig)) {
+            if (!\is_array($fontConfig)) {
                 continue;
             }
 

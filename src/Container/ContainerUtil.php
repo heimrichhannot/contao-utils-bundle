@@ -55,7 +55,7 @@ class ContainerUtil
      */
     public function isBundleActive(string $bundleName)
     {
-        return in_array($bundleName, array_merge(array_values($this->getActiveBundles()), array_keys($this->getActiveBundles())), true);
+        return \in_array($bundleName, array_merge(array_values($this->getActiveBundles()), array_keys($this->getActiveBundles())), true);
     }
 
     public function isBackend()
@@ -174,7 +174,7 @@ class ContainerUtil
         if ($activeExtensionName === $extensionName && file_exists($configFile)) {
             $config = Yaml::parseFile($configFile);
 
-            $extensionConfigs = array_merge_recursive(is_array($extensionConfigs) ? $extensionConfigs : [], is_array($config) ? $config : []);
+            $extensionConfigs = array_merge_recursive(\is_array($extensionConfigs) ? $extensionConfigs : [], \is_array($config) ? $config : []);
         }
 
         return $extensionConfigs;

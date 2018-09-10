@@ -208,7 +208,7 @@ class ModelUtil
             return $columns;
         }
 
-        if (is_array($columns)) {
+        if (\is_array($columns)) {
             $fixedColumns = [];
 
             foreach ($columns as $column) {
@@ -267,7 +267,7 @@ class ModelUtil
             $language = $objSessionBag->get($sessionKey);
         }
 
-        if (in_array($language, $translatableLangs, true)) {
+        if (\in_array($language, $translatableLangs, true)) {
             return $language;
         }
 
@@ -470,7 +470,7 @@ class ModelUtil
         $cacheHit = false;
         if ($useCache && $cache->has('huh.utils.model.modulepages')) {
             $modulePagesCache = $cache->get('huh.utils.model.modulepages');
-            if (is_array($modulePagesCache) && array_key_exists($module->id, $modulePagesCache)) {
+            if (\is_array($modulePagesCache) && array_key_exists($module->id, $modulePagesCache)) {
                 $pageIds = $modulePagesCache[$module->id];
                 $cacheHit = true;
             }

@@ -24,7 +24,7 @@ class DataContainerChoice extends AbstractChoice
                 /** @var \SplFileInfo $file */
                 $name = $file->getBasename('.php');
 
-                if (in_array($name, $choices, true)) {
+                if (\in_array($name, $choices, true)) {
                     continue;
                 }
 

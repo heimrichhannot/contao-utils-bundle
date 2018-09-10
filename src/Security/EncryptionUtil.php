@@ -25,7 +25,7 @@ class EncryptionUtil
     {
         $key = '' !== $key ? $key : System::getContainer()->getParameter('secret');
 
-        if (in_array($cipher, openssl_get_cipher_methods(), true)) {
+        if (\in_array($cipher, openssl_get_cipher_methods(), true)) {
             $ivLength = openssl_cipher_iv_length($cipher);
             $iv = openssl_random_pseudo_bytes($ivLength);
 

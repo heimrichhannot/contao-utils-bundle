@@ -115,7 +115,7 @@ class DatabaseUtil
                 return false;
             }
 
-            if (is_callable($callback)) {
+            if (\is_callable($callback)) {
                 $return = [];
 
                 while (false !== ($row = $result->fetchAssoc())) {
@@ -129,7 +129,7 @@ class DatabaseUtil
                     $return[] = $row;
                 }
 
-                call_user_func_array($callback, [$return]);
+                \call_user_func_array($callback, [$return]);
             }
         }
 
@@ -216,7 +216,7 @@ class DatabaseUtil
             foreach ($fields as $n => $strField) {
                 $varValue = isset($varData[$strField]) ? $varData[$strField] : 'DEFAULT';
 
-                if (in_array($strField, array_keys($fixedValues), true)) {
+                if (\in_array($strField, array_keys($fixedValues), true)) {
                     $varValue = $fixedValues[$strField];
                 }
 
@@ -230,13 +230,13 @@ class DatabaseUtil
             }
 
             // manipulate the item
-            if (is_callable($itemCallback)) {
+            if (\is_callable($itemCallback)) {
                 if (!isset($return[$i])) {
                     continue;
                 }
-                $varCallback = call_user_func_array($itemCallback, [$return[$i], $fields, $varData]);
+                $varCallback = \call_user_func_array($itemCallback, [$return[$i], $fields, $varData]);
 
-                if (!is_array($varCallback)) {
+                if (!\is_array($varCallback)) {
                     continue;
                 }
 
@@ -270,8 +270,8 @@ class DatabaseUtil
 
                 $database->prepare($query)->execute($values);
 
-                if (is_callable($callback)) {
-                    call_user_func_array($callback, [$return]);
+                if (\is_callable($callback)) {
+                    \call_user_func_array($callback, [$return]);
                 }
 
                 $query = '';
@@ -290,8 +290,8 @@ class DatabaseUtil
 
             $database->prepare($query)->execute($values);
 
-            if (is_callable($callback)) {
-                call_user_func_array($callback, [$return]);
+            if (\is_callable($callback)) {
+                \call_user_func_array($callback, [$return]);
             }
         }
     }
@@ -310,7 +310,7 @@ class DatabaseUtil
         $where = null;
         $returnValues = [];
 
-        if (!in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND], true)) {
+        if (!\in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND], true)) {
             throw new \Exception('Unknown sql junctor');
         }
 
@@ -406,7 +406,7 @@ class DatabaseUtil
 
         switch ($operator) {
             case static::OPERATOR_UNLIKE:
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     foreach ($value as $val) {
                         $values[] = Controller::replaceInsertTags('%'.($addQuotes ? '"'.$val.'"' : $val).'%', false);
                     }
@@ -415,27 +415,27 @@ class DatabaseUtil
                 $values[] = Controller::replaceInsertTags('%'.($addQuotes ? '"'.$value.'"' : $value).'%', false);
                 break;
             case static::OPERATOR_EQUAL:
-                $values[] = Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false);
+                $values[] = Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false);
                 break;
             case static::OPERATOR_UNEQUAL:
             case '<>':
-                $values[] = Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false);
+                $values[] = Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false);
                 break;
             case static::OPERATOR_LOWER:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false);
+                $values[] = Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false);
                 break;
             case static::OPERATOR_GREATER:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false);
+                $values[] = Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false);
                 break;
             case static::OPERATOR_LOWER_EQUAL:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false);
+                $values[] = Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false);
                 break;
             case static::OPERATOR_GREATER_EQUAL:
                 $pattern = 'CAST(? AS DECIMAL)';
-                $values[] = Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false);
+                $values[] = Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false);
                 break;
             case static::OPERATOR_IN:
                 $value = array_filter(explode(',', Controller::replaceInsertTags($value, false)));
@@ -480,7 +480,7 @@ class DatabaseUtil
                 $pattern = '';
                 break;
             default:
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     foreach ($value as $val) {
                         $values[] = Controller::replaceInsertTags('%'.($addQuotes ? '"'.$val.'"' : $val).'%', false);
                     }
@@ -495,7 +495,7 @@ class DatabaseUtil
         $explodedField = explode('.', $field);
 
         // remove table if already added to field name
-        if (count($explodedField) > 1) {
+        if (\count($explodedField) > 1) {
             $field = end($explodedField);
         }
 
@@ -510,38 +510,38 @@ class DatabaseUtil
         switch ($operator) {
             case self::OPERATOR_LIKE:
                 $where = $queryBuilder->expr()->like($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false).'%');
+                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false).'%');
                 break;
             case self::OPERATOR_UNLIKE:
                 $where = $queryBuilder->expr()->notLike($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false).'%');
+                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false).'%');
                 break;
             case self::OPERATOR_EQUAL:
                 $where = $queryBuilder->expr()->eq($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 break;
             case self::OPERATOR_UNEQUAL:
                 $where = $queryBuilder->expr()->neq($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 break;
             case self::OPERATOR_LOWER:
                 $where = $queryBuilder->expr()->lt($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 break;
             case self::OPERATOR_LOWER_EQUAL:
                 $where = $queryBuilder->expr()->lte($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 break;
             case self::OPERATOR_GREATER:
                 $where = $queryBuilder->expr()->gt($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 break;
             case self::OPERATOR_GREATER_EQUAL:
                 $where = $queryBuilder->expr()->gte($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 break;
             case self::OPERATOR_IN:
-                $value = array_filter(!is_array($value) ? explode(',', $value) : $value);
+                $value = array_filter(!\is_array($value) ? explode(',', $value) : $value);
 
                 // skip if empty to avoid sql error
                 if (empty($value)) {
@@ -559,7 +559,7 @@ class DatabaseUtil
                 );
                 break;
             case self::OPERATOR_NOT_IN:
-                $value = array_filter(!is_array($value) ? explode(',', $value) : $value);
+                $value = array_filter(!\is_array($value) ? explode(',', $value) : $value);
 
                 // skip if empty to avoid sql error
                 if (empty($value)) {
@@ -593,9 +593,9 @@ class DatabaseUtil
             case self::OPERATOR_REGEXP:
                 $where = $field.' REGEXP '.$wildcard;
 
-                if (is_array($dca) && isset($dca['eval']['multiple']) && $dca['eval']['multiple']) {
+                if (\is_array($dca) && isset($dca['eval']['multiple']) && $dca['eval']['multiple']) {
                     // match a serialized blob
-                    if (is_array($value)) {
+                    if (\is_array($value)) {
                         // build a regexp alternative, e.g. (:"1";|:"2";)
                         $queryBuilder->setParameter(
                             $wildcard,
@@ -614,7 +614,7 @@ class DatabaseUtil
                     }
                 } else {
                     // TODO: this makes no sense, yet
-                    $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(is_array($value) ? implode(' ', $value) : $value, false));
+                    $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 }
 
                 break;

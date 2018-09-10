@@ -35,7 +35,7 @@ class ArrayUtil
     {
         $extract = [];
 
-        if (!is_array($prefixes) || empty($prefixes)) {
+        if (!\is_array($prefixes) || empty($prefixes)) {
             return $data;
         }
 
@@ -150,7 +150,7 @@ class ArrayUtil
     public function getArrayRowByFieldValue($key, $value, array $haystack, bool $strictType = false)
     {
         foreach ($haystack as $row) {
-            if (!is_array($row)) {
+            if (!\is_array($row)) {
                 continue;
             }
             if (!isset($row[$key])) {

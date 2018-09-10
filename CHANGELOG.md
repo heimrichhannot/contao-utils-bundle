@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.29.0] - 2018-09-10
+
+### Changed
+* removed `"symfony/framework-bundle": "^3.4"` composer dependency to restore symfony 4 and contao 4.6 compability
+* removed reprecated tag from deprecated `huh.utils.pdf_writer` service to restore symfony 4 compability
+* updated model namespace in `CfgTagModel`
+
 ## [2.28.10] - 2018-09-07
 
 ### Fixed

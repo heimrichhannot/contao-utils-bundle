@@ -22,12 +22,12 @@ class ImageUtilTest extends TestCaseEnvironment
     {
         parent::setUp();
 
-        if (!defined('TL_FILES_URL')) {
-            define('TL_FILES_URL', '');
+        if (!\defined('TL_FILES_URL')) {
+            \define('TL_FILES_URL', '');
         }
 
-        if (!defined('TL_ERROR')) {
-            define('TL_ERROR', 'ERROR: ');
+        if (!\defined('TL_ERROR')) {
+            \define('TL_ERROR', 'ERROR: ');
         }
 
         if (!isset($GLOBALS['TL_LANGUAGE'])) {

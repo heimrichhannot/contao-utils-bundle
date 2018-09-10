@@ -21,7 +21,7 @@ class MessageChoice extends AbstractChoice
 
         $prefixes = $this->getContext();
 
-        if (!is_array($prefixes)) {
+        if (!\is_array($prefixes)) {
             $prefixes = [$prefixes];
         }
 
@@ -31,7 +31,7 @@ class MessageChoice extends AbstractChoice
         $all = $catalog->all();
         $messages = $all['messages'];
 
-        if (!is_array($messages)) {
+        if (!\is_array($messages)) {
             return $choices;
         }
 

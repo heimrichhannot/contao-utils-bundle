@@ -31,8 +31,8 @@ class DC_Table_UtilsTest extends ContaoTestCase
     {
         parent::setUp();
 
-        if (!defined('TL_MODE')) {
-            define('TL_MODE', 'BE');
+        if (!\defined('TL_MODE')) {
+            \define('TL_MODE', 'BE');
         }
 
         $container = $this->mockContainer();

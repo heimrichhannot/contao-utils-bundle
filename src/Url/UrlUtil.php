@@ -68,7 +68,7 @@ class UrlUtil
 
         $explodedUrl = explode('?', $url, 2);
 
-        if (2 === count($explodedUrl)) {
+        if (2 === \count($explodedUrl)) {
             list($script, $queryString) = $explodedUrl;
         } else {
             list($script) = $explodedUrl;
@@ -109,7 +109,7 @@ class UrlUtil
 
         $explodedUrl = explode('?', $strUrl, 2);
 
-        if (2 === count($explodedUrl)) {
+        if (2 === \count($explodedUrl)) {
             list($script, $queryString) = $explodedUrl;
         } else {
             list($script) = $explodedUrl;

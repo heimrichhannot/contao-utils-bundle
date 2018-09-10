@@ -79,7 +79,7 @@ class TemplateUtilTest extends TestCaseEnvironment
     {
         $util = $this->getTemplateUtilMock();
 
-        if (!defined('TL_MODE')) {
+        if (!\defined('TL_MODE')) {
             \define('TL_MODE', 'FE');
         }
 
@@ -107,7 +107,7 @@ class TemplateUtilTest extends TestCaseEnvironment
     {
         $util = $this->getTemplateUtilMock();
 
-        if (!defined('TL_MODE')) {
+        if (!\defined('TL_MODE')) {
             \define('TL_MODE', 'FE');
         }
 
@@ -128,8 +128,8 @@ class TemplateUtilTest extends TestCaseEnvironment
         $objPage = new \stdClass();
         $objPage->templateGroup = 'myTheme';
 
-        if (!defined('TL_ROOT')) {
-            define('TL_ROOT', $this->getFixturesDir());
+        if (!\defined('TL_ROOT')) {
+            \define('TL_ROOT', $this->getFixturesDir());
         }
 
         $this->assertSame($this->getFixturesDir().'/templates/myTheme/test1.html.twig', $util->getTemplate('test1'));

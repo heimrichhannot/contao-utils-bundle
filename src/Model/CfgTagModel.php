@@ -10,9 +10,10 @@ namespace HeimrichHannot\UtilsBundle\Model;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
+use Contao\Model;
 use Contao\System;
 
-class CfgTagModel extends \Model
+class CfgTagModel extends Model
 {
     protected static $strTable = 'tl_cfg_tag';
 
