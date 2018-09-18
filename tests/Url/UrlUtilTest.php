@@ -42,6 +42,7 @@ class UrlUtilTest extends ContaoTestCase
         $container->set('huh.utils.model', $utilsModelAdapter);
         $container->set('router', $this->createRouterMock());
         System::setContainer($container);
+
         if (!\function_exists('ampersand')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
         }
@@ -131,6 +132,7 @@ class UrlUtilTest extends ContaoTestCase
         $pageModelAdapter = $this->mockAdapter(['findByPk']);
         $pageModelAdapter->method('findByPk')->willReturn(null);
         $urlUtil = new UrlUtil($this->mockContaoFramework([PageModel::class => $pageModelAdapter]));
+
         try {
             $url = $urlUtil->removeQueryString([], 1);
         } catch (\Exception $exception) {
@@ -297,8 +299,10 @@ class UrlUtilTest extends ContaoTestCase
         $router = $this->createMock(RouterInterface::class);
         $router->method('generate')->with('contao_backend', $this->anything())->will($this->returnCallback(function ($route, $params = []) {
             $url = '/contao';
+
             if (!empty($params)) {
                 $count = 0;
+
                 foreach ($params as $key => $value) {
                     $url .= (0 === $count ? '?' : '&');
                     $url .= $key.'='.$value;

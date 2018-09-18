@@ -76,12 +76,17 @@ class DateUtil
         switch ($timePeriod['unit']) {
             case 'm':
                 $factor = 60;
+
                 break;
+
             case 'h':
                 $factor = 60 * 60;
+
                 break;
+
             case 'd':
                 $factor = 24 * 60 * 60;
+
                 break;
         }
 

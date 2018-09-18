@@ -105,12 +105,16 @@ class ModelUtilTest extends TestCaseEnvironment
             switch ($table) {
                 case 'tl_content':
                     return ContentModel::class;
+
                 case 'tl_null_class':
                     return 'Huh\Null\Class\Nullclass';
+
                 case 'tl_cfg_tag':
                     return CfgTagModel::class;
+
                 case 'null':
                     return null;
+
                 default:
                     return null;
             }
@@ -133,12 +137,16 @@ class ModelUtilTest extends TestCaseEnvironment
             switch ($table) {
                 case 'tl_content':
                     return ContentModel::class;
+
                 case 'tl_null_class':
                     return 'Huh\Null\Class\Nullclass';
+
                 case 'tl_cfg_tag':
                     return CfgTagModel::class;
+
                 case 'null':
                     return null;
+
                 default:
                     return null;
             }
@@ -198,12 +206,16 @@ class ModelUtilTest extends TestCaseEnvironment
             switch ($table) {
                 case 'tl_content':
                     return ContentModel::class;
+
                 case 'tl_null_class':
                     return 'Huh\Null\Class\Nullclass';
+
                 case 'tl_cfg_tag':
                     return CfgTagModel::class;
+
                 case 'null':
                     return null;
+
                 default:
                     return null;
             }
@@ -236,15 +248,20 @@ class ModelUtilTest extends TestCaseEnvironment
                     $db->method('prepare')->willReturnSelf();
                     $db->method('execute')->willReturnCallback(function ($id) {
                         $result = $this->createMock(Database\Result::class);
+
                         switch ($id) {
                             case 0:
                             default:
                                 $result->method('count')->willReturn(0);
+
                                 break;
+
                             case 1:
                                 $result->method('count')->willReturn(1);
                                 $result->method('fetchEach')->willReturn([1]);
+
                                 break;
+
                             case 2:
                                 if ($this->count > 0) {
                                     $result->method('count')->willReturn(2);
@@ -253,6 +270,7 @@ class ModelUtilTest extends TestCaseEnvironment
                                     $result->method('count')->willReturn(2);
                                     $result->method('fetchEach')->willReturn([1, 2]);
                                 }
+
                                 break;
                         }
                         ++$this->count;
@@ -261,6 +279,7 @@ class ModelUtilTest extends TestCaseEnvironment
                     });
 
                     return $db;
+
                     break;
             }
         });
@@ -279,8 +298,10 @@ class ModelUtilTest extends TestCaseEnvironment
             switch ($pk) {
                 case 'alias':
                     return $contentModel;
+
                 case 5:
                     return $contentModel;
+
                 default:
                     return null;
             }
@@ -289,6 +310,7 @@ class ModelUtilTest extends TestCaseEnvironment
             if ('id' === $columns[0] && 5 === $values[0]) {
                 return $contentModel;
             }
+
             if ('pid' === $columns[0] && 3 === $values[0]) {
                 $collection = new Model\Collection([$contentModel], 'tl_content');
 

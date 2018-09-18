@@ -111,6 +111,7 @@ class ContainerUtilTest extends ContaoTestCase
     public function testLog()
     {
         $utils = $this->createContainerUtilMock();
+
         try {
             $utils->log('log', '', 'WARNING');
         } catch (\Exception $exception) {
@@ -164,14 +165,19 @@ class ContainerUtilTest extends ContaoTestCase
             switch ($path) {
                 case '@HeimrichHannotContaoUtilsBundle':
                     return static::FILE_LOCATOR_BUNDLE_PATH;
+
                 case '@HeimrichHannotContaoUtilsBundle/Resources/views/image.html.twig':
                     $result = static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig';
+
                     break;
+
                 case \InvalidArgumentException::class:
                     throw new \InvalidArgumentException();
+
                 default:
                     throw new FileLocatorFileNotFoundException();
             }
+
             if ($first) {
                 return $result;
             }

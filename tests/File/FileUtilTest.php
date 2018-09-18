@@ -128,6 +128,7 @@ class FileUtilTest extends TestCaseEnvironment
         $this->assertSame('1 Byte', $bytes);
         $bytes = $fileUtil->formatSizeUnits(10737.41824);
         $this->assertSame('10.49 KB', $bytes);
+
         try {
             $bytes = $fileUtil->formatSizeUnits('107374,1824');
         } catch (\Exception $exception) {

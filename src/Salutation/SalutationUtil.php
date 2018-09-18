@@ -122,7 +122,9 @@ class SalutationUtil
                 } else {
                     $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutationGeneric'];
                 }
+
                 break;
+
             default:
                 // de
                 if ($informal) {
@@ -144,6 +146,7 @@ class SalutationUtil
                 } else {
                     $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutationGeneric'];
                 }
+
                 break;
         }
 

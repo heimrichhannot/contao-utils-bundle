@@ -532,10 +532,12 @@ class DcaUtilTest extends TestCaseEnvironment
             $result = new \stdClass();
             $result->numRows = 0;
             $result->id = 5;
+
             switch ($alias) {
                 case 'existing-alias':
                     $result->numRows = 1;
                     $result->id = 1;
+
                     break;
             }
 

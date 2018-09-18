@@ -30,6 +30,7 @@ class TextualPaginationTest extends ContaoTestCase
     protected function setUp()
     {
         parent::setUp();
+
         if (!\defined('TL_ROOT')) {
             \define('TL_ROOT', $this->getFixturesDir());
         }

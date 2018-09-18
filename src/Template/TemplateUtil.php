@@ -161,6 +161,7 @@ class TemplateUtil
 
         try {
             $path = Controller::getTemplate($name, $format);
+
             if (file_exists($path)) {
                 $templatePath = $path;
             } else {
@@ -277,10 +278,12 @@ class TemplateUtil
                 $finder->in($path);
                 $finder->files()->name($pattern);
                 $twigKey = preg_replace('/Bundle$/', '', $key);
+
                 foreach ($finder as $val) {
                     $explodurl = explode('Resources'.\DIRECTORY_SEPARATOR.'views'.\DIRECTORY_SEPARATOR, $val->getRelativePathname());
                     $string = end($explodurl);
                     $templatePath = "@$twigKey/$string";
+
                     break 2;
                 }
             }

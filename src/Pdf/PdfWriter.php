@@ -160,6 +160,7 @@ class PdfWriter
 
         foreach ($paths as $path) {
             $fontDir = $projectDir.\DIRECTORY_SEPARATOR.ltrim($path, \DIRECTORY_SEPARATOR);
+
             if (!file_exists($fontDir) || !file_exists($fontDir.\DIRECTORY_SEPARATOR.'mpdf-config.php')) {
                 continue;
             }

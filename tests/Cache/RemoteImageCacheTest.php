@@ -56,10 +56,13 @@ class RemoteImageCacheTest extends TestCaseEnvironment
             switch ($argument) {
                 case 'remoteNull':
                     return null;
+
                 case 'remoteFalse':
                     return false;
+
                 case 'remoteEmpty':
                     return 'null';
+
                 case 'remoteImage':
                 default:
                     return 'validImage';
@@ -89,10 +92,13 @@ class RemoteImageCacheTest extends TestCaseEnvironment
             switch ($argument) {
                 case 'remoteNull':
                     return null;
+
                 case 'remoteFalse':
                     return false;
+
                 case 'remoteEmpty':
                     return 'null';
+
                 case 'remoteImage':
                 default:
                     return 'test01';
@@ -153,10 +159,13 @@ class RemoteImageCacheTest extends TestCaseEnvironment
             switch ($argument) {
                 case 'remoteNull':
                     return null;
+
                 case 'remoteFalse':
                     return false;
+
                 case 'remoteEmpty':
                     return 'null';
+
                 case 'remoteImage':
                 default:
                     return 'test02';
@@ -170,6 +179,7 @@ class RemoteImageCacheTest extends TestCaseEnvironment
             switch ($argument) {
                 case '0c23ab88-1642-11e8-b642-0ed5f89f718b':
                     return false;
+
                 case 'fade6980-1641-11e8-b642-0ed5f89f718b':
                 default:
                     $folder = new \stdClass();

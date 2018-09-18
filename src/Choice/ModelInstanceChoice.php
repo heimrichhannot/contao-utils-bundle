@@ -42,10 +42,12 @@ class ModelInstanceChoice extends AbstractChoice
                         $labelPattern = '%firstname% %lastname% (ID %id%)';
 
                         break;
+
                     default:
                         foreach (static::TITLE_FIELDS as $titleField) {
                             if (isset($GLOBALS['TL_DCA'][$context['dataContainer']]['fields'][$titleField])) {
                                 $labelPattern = '%'.$titleField.'%';
+
                                 break;
                             }
                         }

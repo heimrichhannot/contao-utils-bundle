@@ -38,6 +38,7 @@ class ArrayUtil
         if (!\is_array($prefixes) || empty($prefixes)) {
             return $data;
         }
+
         foreach ($data as $key => $value) {
             foreach ($prefixes as $prefix) {
                 if (System::getContainer()->get('huh.utils.string')->startsWith($key, $prefix)) {
@@ -45,6 +46,7 @@ class ArrayUtil
                 }
             }
         }
+
         return $extract;
     }
 
@@ -128,6 +130,7 @@ class ArrayUtil
     public function arrayToObject(array $array): \stdClass
     {
         $objResult = new \stdClass();
+
         foreach ($array as $varKey => $varValue) {
             $objResult->{$varKey} = $varValue;
         }
@@ -151,9 +154,11 @@ class ArrayUtil
             if (!\is_array($row)) {
                 continue;
             }
+
             if (!isset($row[$key])) {
                 continue;
             }
+
             if (true === $strictType) {
                 if ($value === $row[$key]) {
                     return $row;

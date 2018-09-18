@@ -89,8 +89,10 @@ class DC_Table_UtilsTest extends ContaoTestCase
         $router = $this->createMock(RouterInterface::class);
         $router->method('generate')->with('contao_backend', $this->anything())->will($this->returnCallback(function ($route, $params = []) {
             $url = '/contao';
+
             if (!empty($params)) {
                 $count = 0;
+
                 foreach ($params as $key => $value) {
                     $url .= (0 === $count ? '?' : '&');
                     $url .= $key.'='.$value;

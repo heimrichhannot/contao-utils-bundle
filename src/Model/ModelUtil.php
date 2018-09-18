@@ -468,20 +468,25 @@ class ModelUtil
         $modulePagesCache = $cache->get('huh.utils.model.modulepages');
         $pageIds = [];
         $cacheHit = false;
+
         if ($useCache && $cache->has('huh.utils.model.modulepages')) {
             $modulePagesCache = $cache->get('huh.utils.model.modulepages');
+
             if (\is_array($modulePagesCache) && array_key_exists($module->id, $modulePagesCache)) {
                 $pageIds = $modulePagesCache[$module->id];
                 $cacheHit = true;
             }
         }
+
         if (!$cacheHit) {
             /** @var Database $db */
             $db = $this->framework->createInstance(Database::class);
             $result = $db->prepare("SELECT `tl_page`.`id` FROM `tl_page` JOIN `tl_article` ON `tl_article`.`pid` = `tl_page`.`id` JOIN `tl_content` ON `tl_content`.`pid` = `tl_article`.`id` WHERE `tl_content`.`type` = 'module' AND `tl_content`.`module` = ?")->execute($module->id);
+
             if ($result->count() > 0) {
                 $pageIds = $result->fetchEach('id');
             }
+
             if (array_key_exists('blocks', System::getContainer()->getParameter('kernel.bundles'))) {
                 $result = $db->prepare(
                     "SELECT `tl_page`.`id` FROM `tl_page`
@@ -491,6 +496,7 @@ class ModelUtil
                 JOIN `tl_block_module` ON `tl_block_module`.`pid` = `tl_block`.`id`
                 WHERE `tl_block_module`.`type` = 'default' AND `tl_block_module`.`module` = ?"
                 )->execute($module->id);
+
                 if ($result->count() > 0) {
                     $pageIds = array_unique(array_merge($pageIds, $result->fetchEach('id')));
                 }
@@ -498,6 +504,7 @@ class ModelUtil
             $modulePagesCache[$module->id] = $pageIds;
             $cache->set('huh.utils.model.modulepages', $modulePagesCache);
         }
+
         if ($collection) {
             return $this->framework->getAdapter(PageModel::class)->findMultipleByIds($pageIds);
         }

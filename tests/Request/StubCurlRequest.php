@@ -46,9 +46,12 @@ class StubCurlRequest implements HttpRequestInterface
         switch ($name) {
             case CURLOPT_CUSTOMREQUEST:
                 $this->type = $value;
+
                 break;
+
             case CURLOPT_HEADER:
                 $this->responseHeader = $value;
+
                 break;
         }
 
@@ -62,6 +65,7 @@ class StubCurlRequest implements HttpRequestInterface
 
             return false;
         }
+
         if ($this->responseHeader) {
             return $this->parse_array_to_headers($this->header).$this->body;
         }
@@ -74,8 +78,10 @@ class StubCurlRequest implements HttpRequestInterface
         switch ($name) {
             case CURLOPT_CUSTOMREQUEST:
                 return $this->type;
+
             case CURLINFO_HTTP_CODE:
                 return $this->header['http_code'];
+
             case CURLINFO_CONTENT_TYPE:
                 return 'text/html';
         }

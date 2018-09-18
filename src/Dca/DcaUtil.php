@@ -142,6 +142,7 @@ class DcaUtil
     public function setDefaultsFromDca($strTable, $varData = null)
     {
         Controller::loadDataContainer($strTable);
+
         if (empty($GLOBALS['TL_DCA'][$strTable])) {
             return $varData;
         }
@@ -159,6 +160,7 @@ class DcaUtil
                     if (null === $varData) {
                         $varData = [];
                     }
+
                     if (\is_array($varData)) {
                         $varData[$k] = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                         // Encrypt the default value (see #3740)
@@ -626,6 +628,7 @@ class DcaUtil
     public function getDataContainers()
     {
         $dca = [];
+
         foreach ($GLOBALS['BE_MOD'] as $arrSection) {
             foreach ($arrSection as $strModule => $arrModule) {
                 foreach ($arrModule as $strKey => $varValue) {

@@ -48,8 +48,10 @@ class FormUtilTest extends ContaoTestCase
             switch ($key) {
                 case 'table':
                     return 'tl_test';
+
                 case 'id':
                     return 1;
+
                 case 'field':
                     return 'myField';
             }
@@ -429,6 +431,7 @@ class FormUtilTest extends ContaoTestCase
             switch ($id) {
                 case 'first':
                     return $foreignKeyInstance1;
+
                 case 'third':
                     return $foreignKeyInstance3;
             }

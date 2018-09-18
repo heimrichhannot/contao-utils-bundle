@@ -150,6 +150,7 @@ class StringUtil
             preg_match_all('/(<.+?>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
             $total_length = \strlen($ending);
             $truncate = '';
+
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
@@ -161,6 +162,7 @@ class StringUtil
                         if (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                             // delete tag from $open_tags list
                             $pos = array_search($tag_matchings[1], $open_tags, true);
+
                             if (false !== $pos) {
                                 unset($open_tags[$pos]);
                             }
@@ -177,6 +179,7 @@ class StringUtil
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
                 $content_length = \strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
                     $left = $length - $total_length;
@@ -216,6 +219,7 @@ class StringUtil
         if (!$exact) {
             // ...search the last occurance of a space...
             $spacepos = strrpos($truncate, ' ');
+
             if (isset($spacepos)) {
                 // ...and cut the text in this position
                 $truncate = substr($truncate, 0, $spacepos);
@@ -223,6 +227,7 @@ class StringUtil
         }
         // add the defined ending to the text
         $truncate .= $ending;
+
         if ($considerHtml) {
             // close all unclosed html-tags
             foreach ($open_tags as $tag) {

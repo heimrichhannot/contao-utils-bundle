@@ -82,13 +82,16 @@ class PdfPreview
         if (!isset($options['absolutePdfPath']) || true !== $options['absolutePdfPath']) {
             $pdfPath = $this->webDir.'/'.$pdfPath;
         }
+
         if (!isset($options['absoluteImagePath']) || true !== $options['absoluteImagePath']) {
             $imagePath = $this->webDir.'/'.$imagePath;
         }
         $pdfTranscoder = isset($options['pdfTranscoder']) ? $options['pdfTranscoder'] : '';
+
         switch ($pdfTranscoder) {
             case 'alchemy':
                 return $this->alchemyPdf($pdfPath, $imagePath, $options);
+
             case 'spatie':
             default:
                 return $this->spatiePdf($pdfPath, $imagePath, $options);
@@ -111,17 +114,22 @@ class PdfPreview
             throw new \Exception('Package spatie/pdf-to-image is not installed. Please install or use another pdf ttranscoder.');
         }
         $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
+
         try {
             $pdf = new Pdf($pdfPath);
+
             if (isset($option['page']) && $options['page'] > 0) {
                 $pdf->setPage($options['page']);
             }
+
             if (isset($option['compressionQuality']) && $options['compressionQuality'] > 0) {
                 $pdf->setCompressionQuality($options['compressionQuality']);
             }
+
             if (isset($option['resolution']) && $options['resolution'] > 0) {
                 $pdf->setResolution($options['resolution']);
             }
+
             if (!empty($imageExtension)) {
                 $pdf->setOutputFormat($imageExtension);
             }
@@ -150,11 +158,13 @@ class PdfPreview
         }
         $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
         $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
         if (!\in_array($imageExtension, $allowedExtensions, true)) {
             throw new InvalidTypeException('Only one of the following file types is allowed: '.implode(
                 ', ', $allowedExtensions)
             );
         }
+
         if ('jpg' === $imageExtension) {
             $imageExtension = 'jpeg';
         }
@@ -165,10 +175,12 @@ class PdfPreview
             '-dSAFER',
             '-sOutputFile='.$imagePath,
         ];
+
         if (isset($option['page']) && \is_int($options['page']) && $options['page'] > 0) {
             $command[] = sprintf('-dFirstPage=%d', $options['page']);
             $command[] = sprintf('-dLastPage=%d', $options['page']);
         }
+
         try {
             $command[] = $pdfPath;
             $transcoder = Transcoder::create();

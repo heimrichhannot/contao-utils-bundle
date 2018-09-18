@@ -41,6 +41,7 @@ class UrlUtil
     public function getCurrentUrl(array $options)
     {
         $url = Environment::get('url');
+
         if (isset($options['skipParams']) && $options['skipParams']) {
             $url .= parse_url(Environment::get('uri'), PHP_URL_PATH);
         } else {
@@ -189,18 +190,22 @@ class UrlUtil
             switch ($intStatus) {
                 case 301:
                     $headers[] = 'HTTP/1.1 301 Moved Permanently';
+
                     break;
 
                 case 302:
                     $headers[] = 'HTTP/1.1 302 Found';
+
                     break;
 
                 case 303:
                     $headers[] = 'HTTP/1.1 303 See Other';
+
                     break;
 
                 case 307:
                     $headers[] = 'HTTP/1.1 307 Temporary Redirect';
+
                     break;
             }
 
@@ -215,6 +220,7 @@ class UrlUtil
         foreach ($headers as $header) {
             header($header);
         }
+
         exit;
         // @codeCoverageIgnoreEnd
     }

@@ -40,9 +40,11 @@ class TemplateUtilTest extends TestCaseEnvironment
         if (!$framework) {
             $framework = $this->mockContaoFramework();
         }
+
         if (!$container) {
             $container = $this->mockContainer();
         }
+
         if (!$container->has('kernel')) {
             $kernel = $this->createMock(KernelInterface::class);
             $kernel->method('getCacheDir')->willReturn($this->getTempDir());
@@ -50,6 +52,7 @@ class TemplateUtilTest extends TestCaseEnvironment
             $container->setParameter('kernel.debug', true);
             $container->set('kernel', $kernel);
         }
+
         if (!$container->has('contao.resource_finder')) {
             $file1 = $this->createMock(\SplFileInfo::class);
             $file1->method('getBasename')->willReturn('basename');

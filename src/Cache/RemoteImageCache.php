@@ -44,6 +44,7 @@ class RemoteImageCache
 
         if (Validator::isUuid($folder)) {
             $objFolder = System::getContainer()->get('huh.utils.file')->getFolderFromUuid($folder);
+
             if (false === $objFolder) {
                 return false;
             }

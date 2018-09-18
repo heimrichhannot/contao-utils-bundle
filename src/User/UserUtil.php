@@ -60,6 +60,7 @@ class UserUtil
     public function hasAccessToField($table, $field)
     {
         $user = $this->framework->createInstance(BackendUser::class);
+
         if (null === ($objUser = $user) || !\is_array($user->alexf)) {
             return false;
         }

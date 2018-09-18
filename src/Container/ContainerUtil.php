@@ -147,6 +147,7 @@ class ContainerUtil
         $path = '@'.$className;
         $ressourcePath = ltrim($ressourcePath, '/');
         $path .= (empty($ressourcePath) ? '' : '/'.$ressourcePath);
+
         try {
             return $this->fileLocator->locate($path, null, $first);
         } catch (\Exception $e) {

@@ -21,6 +21,7 @@ class ClassUtil
     public function getParentClasses(string $class, array $parents = [])
     {
         $strParent = get_parent_class($class);
+
         if ($strParent) {
             $parents[] = $strParent;
 

@@ -266,6 +266,7 @@ class FileUtil
         header('Content-Type: text/plain');
         header('Connection: close');
         echo $content;
+
         die();
     }
 
@@ -316,6 +317,7 @@ class FileUtil
     public function getFileLineCount($file)
     {
         $count = 0;
+
         try {
             $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'rb');
         } catch (\Exception $exception) {

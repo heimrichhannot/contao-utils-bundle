@@ -32,8 +32,10 @@ class RoutingUtilTest extends ContaoTestCase
             ->with('contao_backend', $this->anything())
             ->will($this->returnCallback(function ($route, $params = []) {
                 $url = '/contao';
+
                 if (!empty($params)) {
                     $count = 0;
+
                     foreach ($params as $key => $value) {
                         $url .= (0 === $count ? '?' : '&');
                         $url .= $key.'='.$value;

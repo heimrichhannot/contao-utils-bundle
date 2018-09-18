@@ -40,6 +40,7 @@ class TwigTemplateChoice extends AbstractChoice
                 $finder->in($path);
                 $finder->files()->name($pattern);
                 $twigKey = preg_replace('/Bundle$/', '', $key);
+
                 foreach ($finder as $val) {
                     $explodurl = explode('Resources'.\DIRECTORY_SEPARATOR.'views'.\DIRECTORY_SEPARATOR, $val->getRelativePathname());
                     $string = end($explodurl);

@@ -56,6 +56,7 @@ class RoutingUtil
         if ($addToken) {
             $params['rt'] = $this->tokenManager->getToken($this->token)->getValue();
         }
+
         if ($addReferer) {
             $params['ref'] = $this->request->getCurrentRequest()->get('_contao_referer_id');
         }

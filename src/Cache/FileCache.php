@@ -75,6 +75,7 @@ class FileCache
     {
         $fileName = $this->getCacheFileName($identifier);
         $file = new File($this->cacheFolderWithNamespace.'/'.$fileName.'.'.$fileExtension);
+
         if ($file->exists()) {
             return true;
         }
@@ -95,6 +96,7 @@ class FileCache
     {
         $fileName = $this->getCacheFileName($identifier).'.'.$fileExtension;
         $file = new File($this->cacheFolderWithNamespace.'/'.$fileName);
+
         if (!$file->exists()) {
             if (null !== $saveCallback) {
                 if ($saveCallback($identifier, $this->cacheFolderWithNamespace, $fileName)) {
@@ -128,6 +130,7 @@ class FileCache
         } else {
             $fileName = $this->getCacheFileName($identifier);
         }
+
         if (!empty($fileExtension)) {
             $fileName .= '.'.$fileExtension;
         }
@@ -228,9 +231,11 @@ class FileCache
     {
         $filesystem = new Filesystem();
         $path = $this->cacheFolder;
+
         if (!empty($this->namespace)) {
             $path .= '/'.$this->namespace;
         }
+
         if (!$filesystem->exists($this->webDir.'/'.$path)) {
             $filesystem->mkdir($this->webDir.'/'.$path);
         }
