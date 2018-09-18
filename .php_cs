@@ -39,6 +39,7 @@ return PhpCsFixer\Config::create()
             'expectedException',
             'expectedExceptionMessage',
         ],
+        'blank_line_before_statement' => ['statements' => ['break', 'case', 'continue', 'declare', 'default', 'die', 'do', 'exit', 'for', 'foreach', 'goto', 'if', 'include', 'include_once', 'require', 'require_once', 'return', 'switch', 'throw', 'try', 'while', 'yield']]
     ])
     ->setFinder($finder)
     ->setRiskyAllowed(true)

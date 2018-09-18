@@ -38,7 +38,6 @@ class ArrayUtil
         if (!\is_array($prefixes) || empty($prefixes)) {
             return $data;
         }
-
         foreach ($data as $key => $value) {
             foreach ($prefixes as $prefix) {
                 if (System::getContainer()->get('huh.utils.string')->startsWith($key, $prefix)) {
@@ -46,7 +45,6 @@ class ArrayUtil
                 }
             }
         }
-
         return $extract;
     }
 
