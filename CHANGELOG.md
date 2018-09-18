@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.29.2] - 2018-09-18
+
+### Changed
+- code style
+
 ## [2.29.1] - 2018-09-18
 
 ### Changed
