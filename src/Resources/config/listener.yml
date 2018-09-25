@@ -1,0 +1,5 @@
+services:
+  huh.utils.listener.insert_tags:
+    class: HeimrichHannot\UtilsBundle\EventListener\InsertTagsListener
+    arguments:
+    - "@contao.framework"

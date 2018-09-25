@@ -10,7 +10,7 @@ array_insert(
         'contao-utils-bundle'        => 'bundles/heimrichhannotcontaoutils/js/utils-bundle.min.js|static',
         'contao-utils-bundle-arrays' => 'bundles/heimrichhannotcontaoutils/js/arrays.min.js|static',
         'contao-utils-bundle-url'    => 'bundles/heimrichhannotcontaoutils/js/url.min.js|static',
-        'contao-utils-bundle-util'   => 'bundles/heimrichhannotcontaoutils/js/util.min.js|static'
+        'contao-utils-bundle-util'   => 'bundles/heimrichhannotcontaoutils/js/util.min.js|static',
     ]
 );
 
@@ -18,3 +18,8 @@ array_insert(
  * Models
  */
 $GLOBALS['TL_MODELS']['tl_cfg_tag'] = 'HeimrichHannot\UtilsBundle\Model\CfgTagModel';
+
+/**
+ * Hooks
+ */
+$GLOBALS['TL_HOOKS']['replaceInsertTags']['contao-utils-bundle'] = ['huh.utils.listener.insert_tags', 'onReplaceInsertTags'];

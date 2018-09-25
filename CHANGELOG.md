@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.30.0] - 2018-09-25
+
+### Added
+- Inserttag `twig` (Example:`{{twig::logo.html.twig::a:1:{s:3:"foo";s:3:"bar";}}}`) to render twig templates from inserttags with custom serialized data
+
 ## [2.29.2] - 2018-09-18
 
 ### Changed

@@ -89,3 +89,9 @@ UtilsBundle => {
 ```
 
 You'll find the package source [here](https://github.com/heimrichhannot-contao-components/contao-utils-bundle).
+
+## Insert tags
+
+| Insert tag  | Description  |
+|---|---|
+| {{twig::*}}  | This tag will be replaced with the rendered output of a given twig template, that can be sourced in `bundle/src/Resources/views` or contao root `/templates` directory (replace 1st * with template name e.g. `svg_logo_company` and 2nd * with serialized parameters that should be passed to the template) |
