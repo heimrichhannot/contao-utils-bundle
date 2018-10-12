@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.30.1] - 2018-10-12
+
+### Fixed
+- surround `$file->imageSize` in `ImageUtil::addToTemplateData` with catch block, to prevent error messages for non existing images to stop working site
+
 ## [2.30.0] - 2018-09-25
 
 ### Added

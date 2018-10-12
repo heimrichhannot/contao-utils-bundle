@@ -58,12 +58,12 @@ class ImageUtil
 
         try {
             $file = new File($item[$imageField]);
+            $imgSize = $file->imageSize;
         } catch (\Exception $e) {
             $file = new \stdClass();
             $file->imageSize = false;
         }
 
-        $imgSize = $file->imageSize;
         $size = StringUtil::deserialize($item['size']);
 
         if (is_numeric($size)) {
