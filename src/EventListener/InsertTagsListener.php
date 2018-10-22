@@ -48,7 +48,7 @@ class InsertTagsListener
     {
         $elements = explode('::', $tag);
         $key = strtolower($elements[0]);
-        $attributes = array_slice($elements, 1);
+        $attributes = \array_slice($elements, 1);
 
         if (\in_array($key, $this->supportedTags, true)) {
             return $this->replaceSupportedTags($key, $attributes);

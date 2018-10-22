@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.30.2] - 2018-10-22
+
+### Fixed
+- `huh.utils.listener.insert_tags` was not public
+
 ## [2.30.1] - 2018-10-12
 
 ### Fixed
