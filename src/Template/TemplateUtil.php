@@ -272,7 +272,7 @@ class TemplateUtil
         if (\is_array($bundles) && 'html.twig' === $format) {
             $pattern = $name.'.'.$format;
 
-            foreach ($bundles as $key => $value) {
+            foreach (array_reverse($bundles) as $key => $value) {
                 $path = $this->kernel->locateResource("@$key");
                 $finder = new Finder();
                 $finder->in($path);

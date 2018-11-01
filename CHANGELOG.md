@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.30.3] - 2018-11-01
+
+### Fixed
+- TemplateUtil::getBundleTemplate -> did not respect the bundle order
+
 ## [2.30.2] - 2018-10-22
 
 ### Fixed
