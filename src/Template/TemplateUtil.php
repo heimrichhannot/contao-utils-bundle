@@ -252,6 +252,13 @@ class TemplateUtil
         return empty($this->removeTemplateComment($template));
     }
 
+    public function getPageAliasAsCssClass()
+    {
+        global $objPage;
+
+        return str_replace(['/', 'ä', 'ö', 'ü'], ['_', 'ae', 'oe', 'ue'], $objPage->alias);
+    }
+
     /**
      * Find a particular template file within all bundles and return its path.
      *

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.31.0] - 2018-11-02
+
+### Added
+- TemplateUtil::getPageAliasAsCssClass()
+
 ## [2.30.4] - 2018-11-01
 
 ### Fixed
