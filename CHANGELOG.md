@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.33.0] - 2018-11-05
+
+### Added
+- AccordionUtil
+
 ## [2.32.0] - 2018-11-05
 
 ### Added
