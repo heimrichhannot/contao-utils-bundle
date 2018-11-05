@@ -190,6 +190,16 @@
                     string
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_renderTwigTemplate">renderTwigTemplate</a>(string $name, array $data = [])
+        
+                                            <p>Renders a twig template with data.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getBundleTemplate">getBundleTemplate</a>(string $name, string $format = &#039;html.twig&#039;)
         
                                             <p>Find a particular template file within all bundles and return its path.</p>                </div>
@@ -492,8 +502,74 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_renderTwigTemplate">
+        <div class="location">at         line 275</div>
+        <code>                    string
+    <strong>renderTwigTemplate</strong>(string $name, array $data = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Renders a twig template with data.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$data</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Psr\Cache\InvalidArgumentException">InvalidArgumentException</abbr></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>Twig_Error_Loader</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>Twig_Error_Runtime</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>Twig_Error_Syntax</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getBundleTemplate">
-        <div class="location">at         line 273</div>
+        <div class="location">at         line 296</div>
         <code>            protected        string
     <strong>getBundleTemplate</strong>(string $name, string $format = &#039;html.twig&#039;)
         </code>
