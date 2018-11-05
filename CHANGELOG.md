@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.32.0] - 2018-11-05
+
+### Added
+- TemplateUtil::renderTwigTemplate()
+
 ## [2.31.0] - 2018-11-02
 
 ### Added

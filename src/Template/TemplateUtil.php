@@ -260,6 +260,29 @@ class TemplateUtil
     }
 
     /**
+     * Renders a twig template with data.
+     *
+     * @param string $name
+     * @param array  $data
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     *
+     * @return string
+     */
+    public function renderTwigTemplate(string $name, array $data = [])
+    {
+        $buffer = System::getContainer()->get('twig')->render(
+            System::getContainer()->get('huh.utils.template')->getTemplate($name),
+            $data
+        );
+
+        return $buffer;
+    }
+
+    /**
      * Find a particular template file within all bundles and return its path.
      *
      * @param string $name   The name of the template
