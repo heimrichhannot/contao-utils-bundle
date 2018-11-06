@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.34.0] - 2018-11-06
+
+### Added
+- `huh.utils.url` method `isNewVisitor()` to detect if user referer and current host with scheme match
+
 ## [2.33.0] - 2018-11-05
 
 ### Added

@@ -28,6 +28,19 @@ class UrlUtil
     }
 
     /**
+     * Detect if user already visited our domain before.
+     *
+     * @return bool
+     */
+    public function isNewVisitor(): bool
+    {
+        $referer = System::getContainer()->get('request_stack')->getCurrentRequest()->headers->get('referer');
+        $schemeAndHttpHost = System::getContainer()->get('request_stack')->getCurrentRequest()->getSchemeAndHttpHost();
+
+        return null === $referer || false === preg_match('$^'.$schemeAndHttpHost.'$i', $referer);
+    }
+
+    /**
      * Return the current url with requestUri.
      *
      * Options:
