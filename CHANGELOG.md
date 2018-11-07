@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.34.2] - 2018-11-07
+
+### Fixed
+- dc_multilingual support in ModelUtil
+
 ## [2.34.1] - 2018-11-07
 
 ### Fixed

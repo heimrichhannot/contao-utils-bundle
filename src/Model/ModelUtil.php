@@ -146,7 +146,9 @@ class ModelUtil
             return null;
         }
 
-        if ($this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+        if (isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) &&
+            'Multilingual' === $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] &&
+            $this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
             $table = 't1';
         }
 
@@ -173,7 +175,9 @@ class ModelUtil
             return null;
         }
 
-        if ($this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+        if (isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) &&
+            'Multilingual' === $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] &&
+            $this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
             $table = 't1';
         }
 
