@@ -30,11 +30,15 @@ class AccordionUtil
     }
 
     /**
-     * Adds flags like first and last to the template data.
+     * Adds the following flags to the template data:
+     * - first
+     * - last
+     * - parentId.
      *
-     * @param array $data Data describing the accordion. Usually this is taken from \Contao\Template::getData().
+     * @param array  $data   Data describing the accordion. Usually this is taken from \Contao\Template::getData().
+     * @param string $prefix The prefix for the flags
      */
-    public function structureAccordionSingle(array &$data)
+    public function structureAccordionSingle(array &$data, string $prefix = 'accordion_')
     {
         if (!static::$accordionSingleCacheBuilt) {
             if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_content', [
@@ -80,12 +84,14 @@ class AccordionUtil
             foreach ($elementGroup as $i => $element) {
                 if ($data['id'] == $element['id']) {
                     if (0 === $i) {
-                        $data['first'] = true;
+                        $data[$prefix.'first'] = true;
                     }
 
                     if ($i === \count($elementGroup) - 1) {
-                        $data['last'] = true;
+                        $data[$prefix.'last'] = true;
                     }
+
+                    $data[$prefix.'parentId'] = $elementGroup[0]['id'];
 
                     break 2;
                 }
@@ -94,11 +100,15 @@ class AccordionUtil
     }
 
     /**
-     * Adds flags like first, last, startSection and stopSection to the template data.
+     * Adds the following flags to the template data:
+     * - first
+     * - last
+     * - parentId.
      *
-     * @param array $data Data describing the accordion. Usually this is taken from \Contao\Template::getData().
+     * @param array  $data   Data describing the accordion. Usually this is taken from \Contao\Template::getData().
+     * @param string $prefix The prefix for the flags
      */
-    public function structureAccordionStartStop(array &$data)
+    public function structureAccordionStartStop(array &$data, string $prefix = 'accordion_')
     {
         if (!static::$accordionStartStopCacheBuilt) {
             if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_content', [
@@ -157,20 +167,14 @@ class AccordionUtil
             foreach ($elementGroup as $i => $element) {
                 if ($data['id'] == $element['id']) {
                     if (0 === $i) {
-                        $data['first'] = true;
-                    }
-
-                    if ('accordionStart' == $element['type']) {
-                        $data['startSection'] = true;
-                    }
-
-                    if ('accordionStop' == $element['type']) {
-                        $data['stopSection'] = true;
+                        $data[$prefix.'first'] = true;
                     }
 
                     if ($i === \count($elementGroup) - 1) {
-                        $data['last'] = true;
+                        $data[$prefix.'last'] = true;
                     }
+
+                    $data[$prefix.'parentId'] = $elementGroup[0]['id'];
 
                     break 2;
                 }
