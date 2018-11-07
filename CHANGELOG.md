@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.34.1] - 2018-11-07
+
+### Fixed
+- linkTitle issue in `image.html.twig`
+
 ## [2.34.0] - 2018-11-06
 
 ### Added
