@@ -146,9 +146,7 @@ class ModelUtil
             return null;
         }
 
-        if (isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) &&
-            'Multilingual' === $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] &&
-            $this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+        if (System::getContainer()->get('huh.utils.dca')->isDcMultilingual($table)) {
             $table = 't1';
         }
 
@@ -175,9 +173,7 @@ class ModelUtil
             return null;
         }
 
-        if (isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) &&
-            'Multilingual' === $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] &&
-            $this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+        if (System::getContainer()->get('huh.utils.dca')->isDcMultilingual($table)) {
             $table = 't1';
         }
 
@@ -204,11 +200,7 @@ class ModelUtil
      */
     public function fixTablePrefixForDcMultilingual(string $table, $columns)
     {
-        Controller::loadDataContainer($table);
-
-        if (!isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) ||
-            'Multilingual' !== $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] ||
-            !$this->containerUtil->isBundleActive('Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle')) {
+        if (!System::getContainer()->get('huh.utils.dca')->isDcMultilingual($table)) {
             return $columns;
         }
 

@@ -725,4 +725,30 @@ class DcaUtil
 
         return $GLOBALS['TL_DCA'][$strTable]['fields'][$strField]['label'][0] ?: $strField;
     }
+
+    /**
+     * Load a data container in a testable way.
+     *
+     * @param string $table
+     */
+    public function loadDc(string $table)
+    {
+        if (!isset($GLOBALS['TL_DCA'][$table]) || null === $GLOBALS['TL_DCA'][$table]) {
+            /** @var Controller $controller */
+            $controller = $this->framework->getAdapter(Controller::class);
+
+            $controller->loadDataContainer($table);
+        }
+    }
+
+    public function isDcMultilingual(string $table)
+    {
+        System::getContainer()->get('huh.utils.dca')->loadDc($table);
+
+        $bundleName = 'Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle';
+
+        return isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) &&
+            'Multilingual' === $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] &&
+            System::getContainer()->get('huh.utils.container')->isBundleActive($bundleName);
+    }
 }

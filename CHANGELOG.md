@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.36.0] - 2018-11-08
+
+### Added
+- DcaUtil::isDcMultilingual & DcaUtil::loadDc
+
+### Fixed
+- dc_multilingual support in ModelUtil
+
 ## [2.35.0] - 2018-11-08
 
 ### Added
