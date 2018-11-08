@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.35.0] - 2018-11-08
+
+### Added
+- `huh.utils.image` addToTemplateData() now supports also `uuid` instead of `file path` value
+
 ## [2.34.3] - 2018-11-07
 
 ### Fixed

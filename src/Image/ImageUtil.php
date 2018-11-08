@@ -16,6 +16,7 @@ use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\StringUtil;
 use Contao\System;
+use Contao\Validator;
 
 class ImageUtil
 {
@@ -57,7 +58,11 @@ class ImageUtil
         $containerUtil = System::getContainer()->get('huh.utils.container');
 
         try {
-            $file = new File($item[$imageField]);
+            if (Validator::isUuid($item[$imageField])) {
+                $file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($item[$imageField]);
+            } else {
+                $file = new File($item[$imageField]);
+            }
             $imgSize = $file->imageSize;
         } catch (\Exception $e) {
             $file = new \stdClass();
@@ -114,19 +119,19 @@ class ImageUtil
         }
 
         try {
-            $src = System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$item[$imageField], $size)->getUrl(TL_ROOT);
-            $picture = System::getContainer()->get('contao.image.picture_factory')->create(TL_ROOT.'/'.$item[$imageField], $size);
+            $src = System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$file->path, $size)->getUrl(TL_ROOT);
+            $picture = System::getContainer()->get('contao.image.picture_factory')->create(TL_ROOT.'/'.$file->path, $size);
 
             $picture = [
                 'img' => $picture->getImg(TL_ROOT, TL_FILES_URL),
                 'sources' => $picture->getSources(TL_ROOT, TL_FILES_URL),
             ];
 
-            if ($src !== $item[$imageField]) {
+            if ($src !== $file->path) {
                 $file = new File(rawurldecode($src));
             }
         } catch (\Exception $e) {
-            System::log('Image "'.$item[$imageField].'" could not be processed: '.$e->getMessage(), __METHOD__, TL_ERROR);
+            System::log('Image "'.$file->path.'" could not be processed: '.$e->getMessage(), __METHOD__, TL_ERROR);
 
             $src = '';
             $picture = ['img' => ['src' => '', 'srcset' => ''], 'sources' => []];
@@ -233,7 +238,7 @@ class ImageUtil
             }
         } // Fullsize view
         elseif ($item['fullsize'] && $containerUtil->isFrontend()) {
-            $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($item[$imageField]);
+            $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($file->path);
             $templateData['attributes'] = ' data-lightbox="'.substr($lightboxId, 9, -1).'"';
         }
 
@@ -244,7 +249,7 @@ class ImageUtil
 
         // Do not urlEncode() here because getImage() already does (see #3817)
         $templateData['src'] = TL_FILES_URL.$src;
-        $templateData[$imageField] = $item[$imageField];
+        $templateData[$imageField] = $file->path;
         $templateData['linkTitle'] = $item['linkTitle'] ?: $item['title'];
         $templateData['fullsize'] = $item['fullsize'] ? true : false;
         $templateData['addBefore'] = ('below' != $item['floating']);
