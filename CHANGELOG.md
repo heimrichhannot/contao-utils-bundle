@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.37.0] - 2018-11-08
+
+### Added
+- `target="_blank"` to `image.html.twig` template if `target` variable is true
+
 ## [2.36.0] - 2018-11-08
 
 ### Added
