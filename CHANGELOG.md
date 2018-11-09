@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.39.0] - 2018-11-08
+
+### Added
+- DcaUtil::generateDcOperationsButtons()
+
 ## [2.38.0] - 2018-11-08
 
 ### Added
