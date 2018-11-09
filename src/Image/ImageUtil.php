@@ -65,8 +65,11 @@ class ImageUtil
             }
             $imgSize = $file->imageSize;
         } catch (\Exception $e) {
-            $file = new \stdClass();
-            $file->imageSize = false;
+            return;
+        }
+
+        if (null === $model) {
+            $model = $file->getModel();
         }
 
         $size = StringUtil::deserialize($item['size']);
@@ -118,6 +121,8 @@ class ImageUtil
             unset($size[2]);
         }
 
+        $imageFile = $file;
+
         try {
             $src = System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$file->path, $size)->getUrl(TL_ROOT);
             $picture = System::getContainer()->get('contao.image.picture_factory')->create(TL_ROOT.'/'.$file->path, $size);
@@ -128,7 +133,7 @@ class ImageUtil
             ];
 
             if ($src !== $file->path) {
-                $file = new File(rawurldecode($src));
+                $imageFile = new File(rawurldecode($src));
             }
         } catch (\Exception $e) {
             System::log('Image "'.$file->path.'" could not be processed: '.$e->getMessage(), __METHOD__, TL_ERROR);
@@ -138,7 +143,7 @@ class ImageUtil
         }
 
         // Image dimensions
-        if (false !== ($imgSize = $file->imageSize) && $file->exists()) {
+        if (false !== ($imgSize = $imageFile->imageSize) && $imageFile->exists()) {
             $templateData['arrSize'] = $imgSize;
             $templateData['imgSize'] = ' width="'.$imgSize[0].'" height="'.$imgSize[1].'"';
         }

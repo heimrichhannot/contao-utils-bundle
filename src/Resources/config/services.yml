@@ -1,5 +1,5 @@
 services:
-# util services
+  # util services
   huh.utils.accordion:
     class: HeimrichHannot\UtilsBundle\Accordion\AccordionUtil
     public: true
@@ -170,9 +170,12 @@ services:
     lazy:  true
     arguments:
     - "@contao.framework"
+  huh.twig.extension.image:
+    class: HeimrichHannot\UtilsBundle\Twig\ImageExtension
+    tags: [twig.extension]
 
-# Deprecations:
-# @TODO: remove in next major version
+  # Deprecations:
+  # @TODO: remove in next major version
 
   huh.utils.pdf_writer:
     alias: huh.utils.pdf.writer

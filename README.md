@@ -90,6 +90,22 @@ UtilsBundle => {
 
 You'll find the package source [here](https://github.com/heimrichhannot-contao-components/contao-utils-bundle).
 
+## Twig Extensions
+
+### Image Extension
+
+Use the image extension to resize contao images inside your twig template. 
+
+```
+{% for box in boxes %}
+    {{ box.image|image([0,0,6],{'href' : box.url, 'linkTitle' : 'vmd.content.more.default'|trans})|raw }}
+{% endfor %}
+```
+
+#### Arguments
+- size: array containing width, height or image size config id (`Theme image size id`)
+- data: additional image data like css class, linkTitle or href
+
 ## Insert tags
 
 | Insert tag  | Description  |

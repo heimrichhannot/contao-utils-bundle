@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.38.0] - 2018-11-08
+
+### Added
+- `image` twig extension
+
+### Fixed
+- small bugs in `huh.utils.image` addToTemplateData() function
+
 ## [2.37.0] - 2018-11-08
 
 ### Added
