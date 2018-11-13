@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.40.1] - 2018-11-13
+
+### Fixed
+- `huh.utils.template` do not cache non existing templates within `getTemplate()`
+
 ## [2.40.0] - 2018-11-12
 
 ### Added

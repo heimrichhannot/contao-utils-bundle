@@ -171,6 +171,10 @@ class TemplateUtil
             $templatePath = $this->getBundleTemplate($name, $format);
         }
 
+        if (!file_exists($templatePath)) {
+            return $templatePath;
+        }
+
         $templates[$name] = $templatePath;
         $cache->set($templates);
         $this->cache->save($cache);
