@@ -234,4 +234,150 @@ class DateUtil
 
         return $date->getTimestamp();
     }
+
+    /**
+     * Checks if a form of month is available in the date format.
+     *
+     * @param string $dateFormat
+     *
+     * @return bool
+     */
+    public function isMonthInDateFormat(string $dateFormat)
+    {
+        return false !== strpos($dateFormat, 'F') ||
+            false !== strpos($dateFormat, 'M') ||
+            false !== strpos($dateFormat, 'm') ||
+            false !== strpos($dateFormat, 'n');
+    }
+
+    /**
+     * Checks if a form of day is available in the date format.
+     *
+     * @param string $dateFormat
+     *
+     * @return bool
+     */
+    public function isDayInDateFormat(string $dateFormat)
+    {
+        return false !== strpos($dateFormat, 'd') ||
+            false !== strpos($dateFormat, 'D') ||
+            false !== strpos($dateFormat, 'j') ||
+            false !== strpos($dateFormat, 'l') ||
+            false !== strpos($dateFormat, 'N') ||
+            false !== strpos($dateFormat, 'z');
+    }
+
+    /**
+     * Checks if a form of year is available in the date format.
+     *
+     * @param string $dateFormat
+     *
+     * @return bool
+     */
+    public function isYearInDateFormat(string $dateFormat)
+    {
+        return false !== strpos($dateFormat, 'o') ||
+            false !== strpos($dateFormat, 'Y') ||
+            false !== strpos($dateFormat, 'y');
+    }
+
+    public function getMonthTranslationMap()
+    {
+        $map = [];
+
+        $months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        ];
+
+        foreach ($GLOBALS['TL_LANG']['MONTHS'] as $index => $translated) {
+            $map[$months[$index]] = $translated;
+        }
+
+        return $map;
+    }
+
+    public function getShortMonthTranslationMap()
+    {
+        $map = [];
+
+        $months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+        ];
+
+        foreach ($GLOBALS['TL_LANG']['MONTHS_SHORT'] as $index => $translated) {
+            $map[$months[$index]] = $translated;
+        }
+
+        return $map;
+    }
+
+    /**
+     * Translates available months inside a given string into their English representations taking into account the current language.
+     *
+     * @param string $date
+     *
+     * @return mixed|string
+     */
+    public function translateMonthsToEnglish(string $date)
+    {
+        foreach ($this->getMonthTranslationMap() as $english => $translated) {
+            if (false !== strpos($date, $translated)) {
+                $date = str_replace($translated, $english, $date);
+            }
+        }
+
+        foreach ($this->getShortMonthTranslationMap() as $english => $translated) {
+            if (false !== strpos($date, $translated)) {
+                $date = str_replace($translated, $english, $date);
+            }
+        }
+
+        return $date;
+    }
+
+    /**
+     * Translates available months inside a given string from English to the current language.
+     *
+     * @param string $date
+     *
+     * @return mixed|string
+     */
+    public function translateMonths(string $date)
+    {
+        foreach (array_flip($this->getMonthTranslationMap()) as $translated => $english) {
+            if (false !== strpos($date, $english)) {
+                $date = str_replace($english, $translated, $date);
+            }
+        }
+
+        foreach (array_flip($this->getShortMonthTranslationMap()) as $translated => $english) {
+            if (false !== strpos($date, $english)) {
+                $date = str_replace($english, $translated, $date);
+            }
+        }
+
+        return $date;
+    }
 }

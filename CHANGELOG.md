@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.42.0] - 2018-11-14
+
+### Added
+- new methods to DateUtil: isMonthInDateFormat(), isDayInDateFormat(), isYearInDateFormat(), getMonthTranslationMap(), getShortMonthTranslationMap(), translateMonthsToEnglish(), translateMonths()
+
 ## [2.41.0] - 2018-11-14
 
 ### Added
