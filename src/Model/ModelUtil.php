@@ -97,6 +97,10 @@ class ModelUtil
 
         $columns = $this->fixTablePrefixForDcMultilingual($table, $columns);
 
+        if (\is_array($values) && (!isset($options['skipReplaceInsertTags']) || !$options['skipReplaceInsertTags'])) {
+            $values = array_map('\Contao\Controller::replaceInsertTags', $values);
+        }
+
         return $adapter->findBy($columns, $values, $options);
     }
 
@@ -122,6 +126,10 @@ class ModelUtil
         }
 
         $columns = $this->fixTablePrefixForDcMultilingual($table, $columns);
+
+        if (\is_array($values) && (!isset($options['skipReplaceInsertTags']) || !$options['skipReplaceInsertTags'])) {
+            $values = array_map('\Contao\Controller::replaceInsertTags', $values);
+        }
 
         return $adapter->findOneBy($columns, $values, $options);
     }

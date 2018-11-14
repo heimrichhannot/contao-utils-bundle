@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.43.0] - 2018-11-14
+
+### Added
+- ModelUtil -> Controller::replaceInsertTags for values
+
 ## [2.42.2] - 2018-11-14
 
 ### Fixed
