@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.42.2] - 2018-11-14
+
+### Fixed
+- ClassUtil json serialization
+
 ## [2.42.0] - 2018-11-14
 
 ### Added

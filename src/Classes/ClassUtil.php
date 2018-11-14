@@ -114,7 +114,7 @@ class ClassUtil
      *
      * @return array
      */
-    public function jsonSerialize($object, $data = [], bool $allowNonStringCastables = false): array
+    public function jsonSerialize($object, $data = []): array
     {
         $class = \get_class($object);
 
@@ -147,33 +147,17 @@ class ClassUtil
             $property = lcfirst(substr($method->name, $start));
 
             $data[$property] = $object->{$method->name}();
-        }
 
-        if (!$allowNonStringCastables) {
-            $data = $this->removeNonStringObjectsFromArray($data);
-        }
+            if (\is_object($data[$property])) {
+                if (!($data[$property] instanceof \JsonSerializable)) {
+                    unset($data[$property]);
 
-        return $data;
-    }
-
-    public function removeNonStringObjectsFromArray(array $values): array
-    {
-        $result = [];
-
-        foreach ($values as $key => $value) {
-            if (\is_array($value)) {
-                // plus preserves the array keys
-                $result[$key] = $this->removeNonStringObjectsFromArray($value);
-            } else {
-                try {
-                    (string) $value;
-                    $result[$key] = $value;
-                } catch (\Exception $e) {
-                    // silently skip
+                    continue;
                 }
+                $data[$property] = $this->jsonSerialize($data[$property]);
             }
         }
 
-        return $result;
+        return $data;
     }
 }
