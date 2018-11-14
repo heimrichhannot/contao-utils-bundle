@@ -167,6 +167,78 @@
                                             <p>transfer a given timestamp to a gmt timestamp at midnight.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isMonthInDateFormat">isMonthInDateFormat</a>(string $dateFormat)
+        
+                                            <p>Checks if a form of month is available in the date format.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isDayInDateFormat">isDayInDateFormat</a>(string $dateFormat)
+        
+                                            <p>Checks if a form of day is available in the date format.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isYearInDateFormat">isYearInDateFormat</a>(string $dateFormat)
+        
+                                            <p>Checks if a form of year is available in the date format.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getMonthTranslationMap">getMonthTranslationMap</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getShortMonthTranslationMap">getShortMonthTranslationMap</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed|string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_translateMonthsToEnglish">translateMonthsToEnglish</a>(string $date)
+        
+                                            <p>Translates available months inside a given string into their English representations taking into account the current language.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed|string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_translateMonths">translateMonths</a>(string $date)
+        
+                                            <p>Translates available months inside a given string from English to the current language.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -391,6 +463,244 @@
                     <table class="table table-condensed">
         <tr>
             <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isMonthInDateFormat">
+        <div class="location">at         line 245</div>
+        <code>                    bool
+    <strong>isMonthInDateFormat</strong>(string $dateFormat)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Checks if a form of month is available in the date format.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$dateFormat</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isDayInDateFormat">
+        <div class="location">at         line 260</div>
+        <code>                    bool
+    <strong>isDayInDateFormat</strong>(string $dateFormat)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Checks if a form of day is available in the date format.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$dateFormat</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isYearInDateFormat">
+        <div class="location">at         line 277</div>
+        <code>                    bool
+    <strong>isYearInDateFormat</strong>(string $dateFormat)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Checks if a form of year is available in the date format.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$dateFormat</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getMonthTranslationMap">
+        <div class="location">at         line 284</div>
+        <code>                    
+    <strong>getMonthTranslationMap</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getShortMonthTranslationMap">
+        <div class="location">at         line 310</div>
+        <code>                    
+    <strong>getShortMonthTranslationMap</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_translateMonthsToEnglish">
+        <div class="location">at         line 343</div>
+        <code>                    mixed|string
+    <strong>translateMonthsToEnglish</strong>(string $date)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Translates available months inside a given string into their English representations taking into account the current language.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$date</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed|string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_translateMonths">
+        <div class="location">at         line 367</div>
+        <code>                    mixed|string
+    <strong>translateMonths</strong>(string $date)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Translates available months inside a given string from English to the current language.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$date</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed|string</td>
             <td></td>
         </tr>
     </table>
