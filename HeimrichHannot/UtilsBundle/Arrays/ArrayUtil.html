@@ -197,6 +197,16 @@
                                             <p>Flattens an multidimensional array to one dimension. Keys are not preserved.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_insertBeforeKey">insertBeforeKey</a>(array $array, string $key, string $newKey, mixed $newValue)
+        
+                                            <p>Insert a new entry before an specific key in array.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -581,6 +591,55 @@
         </tr>
     </table>
 
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_insertBeforeKey">
+        <div class="location">at         line 208</div>
+        <code>        static            
+    <strong>insertBeforeKey</strong>(array $array, string $key, string $newKey, mixed $newValue)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Insert a new entry before an specific key in array.</p>                    <p>If key not exist, the new entry is added to the end of the array.
+Array is passed as reference.</p>
+
+<p>Usage example: contao config.php to make your hook entry run before another.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$array</td>
+                <td>Array the new entry should inserted to</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>The key where the new entry should be added before</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$newKey</td>
+                <td>The key of the entry that should be added</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$newValue</td>
+                <td>The value of the entry that should be added</td>
+            </tr>
+            </table>
+
+            
             
             
                     </div>
