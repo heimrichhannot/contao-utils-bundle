@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.41.0] - 2018-11-14
+
+### Added
+- static `ArrayUtil::insertBeforeKey` to modify execution order in hooks and callbacks
+
 ## [2.40.1] - 2018-11-13
 
 ### Fixed

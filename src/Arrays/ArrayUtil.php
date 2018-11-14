@@ -192,4 +192,32 @@ class ArrayUtil
 
         return $return;
     }
+
+	/**
+	 * Insert a new entry before an specific key in array.
+	 * If key not exist, the new entry is added to the end of the array.
+	 * Array is passed as reference.
+	 *
+	 * Usage example: contao config.php to make your hook entry run before another.
+	 *
+	 * @param array $array Array the new entry should inserted to
+	 * @param string $key The key where the new entry should be added before
+	 * @param string $newKey The key of the entry that should be added
+	 * @param mixed $newValue The value of the entry that should be added
+	 */
+	public static function insertBeforeKey(array &$array, string $key, string $newKey, $newValue) {
+		if (array_key_exists($key, $array)) {
+			$new = array();
+			foreach ($array as $k => $value) {
+				if ($k === $key) {
+					$new[$newKey] = $newValue;
+				}
+				$new[$k] = $value;
+			}
+			$array = $new;
+		}
+		else {
+			$array[$newKey] = $newValue;
+		}
+	}
 }
