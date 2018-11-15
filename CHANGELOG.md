@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.44.0] - 2018-11-15
+
+### Added
+- TemplateUtil::getTemplateGroup now also search within bundle views folders
+
 ## [2.43.0] - 2018-11-14
 
 ### Added
