@@ -38,7 +38,7 @@ class MessageChoiceTest extends ContaoTestCase
         $translator = $this->mockAdapter(['getCatalogue', 'all']);
         $translator->method('getCatalogue')->willReturnSelf();
         $translator->method('all')->willReturn(['messages' => 'all']);
-        $container->set('translator.default', $translator);
+        $container->set('translator', $translator);
         $container->setParameter('kernel.debug', true);
 
         System::setContainer($container);
@@ -54,7 +54,7 @@ class MessageChoiceTest extends ContaoTestCase
         $translator = $this->mockAdapter(['getCatalogue', 'all']);
         $translator->method('getCatalogue')->willReturnSelf();
         $translator->method('all')->willReturn(['messages' => ['all' => '41']]);
-        $container->set('translator.default', $translator);
+        $container->set('translator', $translator);
 
         $arrayUtil = $this->createMock(ArrayUtil::class);
         $arrayUtil->method('filterByPrefixes')->willReturn(['all' => '41']);

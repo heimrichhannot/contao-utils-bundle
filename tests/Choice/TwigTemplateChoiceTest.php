@@ -44,7 +44,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $translator = $this->mockAdapter(['getCatalogue', 'all']);
         $translator->method('getCatalogue')->willReturnSelf();
         $translator->method('all')->willReturn(['messages' => 'all']);
-        $this->container->set('translator.default', $translator);
+        $this->container->set('translator', $translator);
         $this->container->setParameter('kernel.debug', true);
     }
 

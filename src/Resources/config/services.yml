@@ -141,7 +141,6 @@ services:
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
     public: true
-  HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"
   huh.utils.member:
     class: HeimrichHannot\UtilsBundle\Member\MemberUtil
     public: true
@@ -153,7 +152,6 @@ services:
     arguments:
     - "@contao.framework"
     - '@kernel'
-  HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
   huh.utils.user:
     class: HeimrichHannot\UtilsBundle\User\UserUtil
     public: true
@@ -179,3 +177,7 @@ services:
 
   huh.utils.pdf_writer:
     alias: huh.utils.pdf.writer
+  # Symfony 4 autowire convention fix (ambiguous namespace alias)
+  HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"
+  HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
+  HeimrichHannot\UtilsBundle\Model\ModelUtil: '@huh.utils.model'

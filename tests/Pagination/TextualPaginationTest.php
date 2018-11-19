@@ -50,7 +50,7 @@ class TextualPaginationTest extends ContaoTestCase
         $this->container->set('contao.resource_finder', $finder);
         $this->container->setParameter('kernel.debug', true);
         $this->container->setParameter('kernel.default_locale', 'de');
-        $this->container->set('translator.default', new Translator('en'));
+        $this->container->set('translator', new Translator('en'));
         $this->kernel = $this->createMock(Kernel::class);
         $this->kernel->method('getContainer')->willReturn($this->container);
         $this->container->set('kernel', $this->kernel);

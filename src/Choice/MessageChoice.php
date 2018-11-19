@@ -25,7 +25,7 @@ class MessageChoice extends AbstractChoice
             $prefixes = [$prefixes];
         }
 
-        $translator = System::getContainer()->get('translator.default');
+        $translator = System::getContainer()->get('translator');
 
         $catalog = $translator->getCatalogue();
         $all = $catalog->all();

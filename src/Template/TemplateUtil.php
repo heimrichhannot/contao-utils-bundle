@@ -58,29 +58,28 @@ class TemplateUtil
         $files = [];
 
         try {
-			$bundles = $this->kernel->getBundles();
-			// if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
-			if (\is_array($bundles) && 'html.twig' === $format) {
+            $bundles = $this->kernel->getBundles();
+            // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
+            if (\is_array($bundles) && 'html.twig' === $format) {
+                foreach (array_reverse($bundles) as $key => $value) {
+                    $path = $this->kernel->locateResource("@$key");
+                    $dir = rtrim($path, '/').'/Resources/views';
 
-				foreach (array_reverse($bundles) as $key => $value) {
-					$path = $this->kernel->locateResource("@$key");
-					$dir = rtrim($path, '/') . '/Resources/views';
-					if (!is_dir($dir))
-					{
-						continue;
-					}
-					$finder = new Finder();
-					$finder->in($dir);
-					$finder->files()->name('/'.$prefix.'.*'.$format.'/');
+                    if (!is_dir($dir)) {
+                        continue;
+                    }
+                    $finder = new Finder();
+                    $finder->in($dir);
+                    $finder->files()->name('/'.$prefix.'.*'.$format.'/');
 
-					foreach ($finder as $file) {
-						/* @var SplFileInfo $file */
-						$strTemplate = $file->getBasename('.'.$format);
-						$arrTemplates[$strTemplate]['name'] = $file->getBasename();
-						$arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), TL_ROOT), '/');
-					}
-				}
-			}
+                    foreach ($finder as $file) {
+                        /* @var SplFileInfo $file */
+                        $strTemplate = $file->getBasename('.'.$format);
+                        $arrTemplates[$strTemplate]['name'] = $file->getBasename();
+                        $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), TL_ROOT), '/');
+                    }
+                }
+            }
 
             foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('/'.$prefix.'.*'.$format.'/') as $file) {
                 /* @var SplFileInfo $file */
