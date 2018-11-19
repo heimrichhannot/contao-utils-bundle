@@ -8,10 +8,10 @@
 
 namespace HeimrichHannot\UtilsBundle\Routing;
 
+use Contao\System;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 class RoutingUtil
 {
@@ -24,20 +24,19 @@ class RoutingUtil
      * @var RouterInterface
      */
     protected $router;
+
     /**
-     * @var CsrfTokenManager
+     * @var string
      */
-    private $tokenManager;
     private $token;
     /**
      * @var RequestStack
      */
     private $request;
 
-    public function __construct(RouterInterface $router, RequestStack $request, CsrfTokenManager $tokenManager, $token)
+    public function __construct(RouterInterface $router, RequestStack $request, $token)
     {
         $this->router = $router;
-        $this->tokenManager = $tokenManager;
         $this->token = $token;
         $this->request = $request;
     }
@@ -54,7 +53,12 @@ class RoutingUtil
     public function generateBackendRoute(array $params = [], $addToken = true, $addReferer = true)
     {
         if ($addToken) {
-            $params['rt'] = $this->tokenManager->getToken($this->token)->getValue();
+            // >= contao 4.6.8 uses contao.csrf.token_manager service to validate token
+            if (System::getContainer()->has('contao.csrf.token_manager')) {
+                $params['rt'] = System::getContainer()->get('contao.csrf.token_manager')->getToken($this->token)->getValue();
+            } else {
+                $params['rt'] = System::getContainer()->get('security.csrf.token_manager')->getToken($this->token)->getValue();
+            }
         }
 
         if ($addReferer) {

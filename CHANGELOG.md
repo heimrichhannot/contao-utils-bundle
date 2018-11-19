@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.44.2] - 2018-11-19
+
+### Fixed
+- contao 4.6.8 uses contao.csrf.token_manager service to validate token
+
 ## [2.44.1] - 2018-11-19
 
 ### Fixed

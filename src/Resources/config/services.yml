@@ -131,7 +131,6 @@ services:
     arguments:
     - "@router"
     - "@request_stack"
-    - "@security.csrf.token_manager"
     - "%contao.csrf_token_name%"
   huh.utils.salutation:
     class: HeimrichHannot\UtilsBundle\Salutation\SalutationUtil
