@@ -109,17 +109,47 @@ class ClassUtil
      *
      * @param       $object
      * @param array $data
+     * @param array $options
      *
      * @throws \ReflectionException if the class or method does not exist
      *
      * @return array
      */
-    public function jsonSerialize($object, $data = []): array
+    public function jsonSerialize($object, $data = [], $options = []): array
     {
         $class = \get_class($object);
 
         $rc = new \ReflectionClass($object);
-        $methods = $rc->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+        // get values of properties
+        foreach ($rc->getProperties() as $reflectionProperty) {
+            $propertyName = $reflectionProperty->getName();
+
+            $property = $rc->getProperty($propertyName);
+
+            if (isset($options['ignorePropertyVisibility']) && $options['ignorePropertyVisibility']) {
+                $property->setAccessible(true);
+            }
+
+            $data[$propertyName] = $property->getValue($object);
+
+            if (\is_object($data[$propertyName])) {
+                if (!($data[$propertyName] instanceof \JsonSerializable)) {
+                    unset($data[$propertyName]);
+
+                    continue;
+                }
+
+                $data[$propertyName] = $this->jsonSerialize($data[$propertyName]);
+            }
+        }
+
+        // get values of methods
+        if (isset($options['ignoreMethodVisibility']) && $options['ignoreMethodVisibility']) {
+            $methods = $rc->getMethods();
+        } else {
+            $methods = $rc->getMethods(\ReflectionMethod::IS_PUBLIC);
+        }
 
         // add all public getter Methods
         foreach ($methods as $method) {
