@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.46.0] - 2018-11-26
+
+### Changed
+- made support for properties in ClassUtil::jsonSerialize() optional
+
 ## [2.45.0] - 2018-11-26
 
 ### Added

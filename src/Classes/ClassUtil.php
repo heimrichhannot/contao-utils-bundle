@@ -122,25 +122,27 @@ class ClassUtil
         $rc = new \ReflectionClass($object);
 
         // get values of properties
-        foreach ($rc->getProperties() as $reflectionProperty) {
-            $propertyName = $reflectionProperty->getName();
+        if (isset($options['includeProperties']) && $options['includeProperties']) {
+            foreach ($rc->getProperties() as $reflectionProperty) {
+                $propertyName = $reflectionProperty->getName();
 
-            $property = $rc->getProperty($propertyName);
+                $property = $rc->getProperty($propertyName);
 
-            if (isset($options['ignorePropertyVisibility']) && $options['ignorePropertyVisibility']) {
-                $property->setAccessible(true);
-            }
-
-            $data[$propertyName] = $property->getValue($object);
-
-            if (\is_object($data[$propertyName])) {
-                if (!($data[$propertyName] instanceof \JsonSerializable)) {
-                    unset($data[$propertyName]);
-
-                    continue;
+                if (isset($options['ignorePropertyVisibility']) && $options['ignorePropertyVisibility']) {
+                    $property->setAccessible(true);
                 }
 
-                $data[$propertyName] = $this->jsonSerialize($data[$propertyName]);
+                $data[$propertyName] = $property->getValue($object);
+
+                if (\is_object($data[$propertyName])) {
+                    if (!($data[$propertyName] instanceof \JsonSerializable)) {
+                        unset($data[$propertyName]);
+
+                        continue;
+                    }
+
+                    $data[$propertyName] = $this->jsonSerialize($data[$propertyName]);
+                }
             }
         }
 
