@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.46.1] - 2018-11-26
+
+### Fixed
+- DateUtil::getShortMonthTranslationMap(), DateUtil::getMonthTranslationMap()
+
 ## [2.46.0] - 2018-11-26
 
 ### Changed

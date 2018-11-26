@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Date;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\StringUtil;
+use Contao\System;
 
 class DateUtil
 {
@@ -300,6 +301,8 @@ class DateUtil
             'December',
         ];
 
+        System::loadLanguageFile('default');
+
         foreach ($GLOBALS['TL_LANG']['MONTHS'] as $index => $translated) {
             $map[$months[$index]] = $translated;
         }
@@ -325,6 +328,8 @@ class DateUtil
             'Nov',
             'Dec',
         ];
+
+        System::loadLanguageFile('default');
 
         foreach ($GLOBALS['TL_LANG']['MONTHS_SHORT'] as $index => $translated) {
             $map[$months[$index]] = $translated;
