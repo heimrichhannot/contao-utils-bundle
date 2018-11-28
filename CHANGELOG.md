@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.46.2] - 2018-11-28
+
+### Fixed
+- restore img css class in `picture.html.twig` while lazyload is active
+
 ## [2.46.1] - 2018-11-26
 
 ### Fixed
