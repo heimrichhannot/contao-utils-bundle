@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.47.0] - 2018-11-29
+
+### Added
+- DateExtension
+
 ## [2.46.2] - 2018-11-28
 
 ### Fixed
