@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.47.1] - 2018-11-29
+
+### Fixed
+- `huh.util.image` addToTemplateData() now returns if image from uuid was not found
+
 ## [2.47.0] - 2018-11-29
 
 ### Added

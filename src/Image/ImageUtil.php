@@ -60,6 +60,10 @@ class ImageUtil
         try {
             if (Validator::isUuid($item[$imageField])) {
                 $file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($item[$imageField]);
+
+                if (null === $file) {
+                    return;
+                }
             } else {
                 $file = new File($item[$imageField]);
             }
