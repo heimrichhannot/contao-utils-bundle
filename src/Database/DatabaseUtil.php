@@ -33,6 +33,7 @@ class DatabaseUtil
     const OPERATOR_IS_NULL = 'isnull';
     const OPERATOR_IS_NOT_NULL = 'isnotnull';
     const OPERATOR_REGEXP = 'regexp';
+    const OPERATOR_NOT_REGEXP = 'notregexp';
     const OPERATOR_IS_EMPTY = 'isempty';
     const OPERATOR_IS_NOT_EMPTY = 'isnotempty';
 
@@ -55,6 +56,16 @@ class DatabaseUtil
         self::OPERATOR_IS_EMPTY,
         self::OPERATOR_IS_NOT_EMPTY,
         self::OPERATOR_REGEXP,
+        self::OPERATOR_NOT_REGEXP,
+    ];
+
+    const NEGATIVE_OPERATORS = [
+        self::OPERATOR_UNLIKE,
+        self::OPERATOR_UNEQUAL,
+        self::OPERATOR_NOT_IN,
+        self::OPERATOR_IS_NULL,
+        self::OPERATOR_IS_EMPTY,
+        self::OPERATOR_NOT_REGEXP,
     ];
 
     /**
@@ -659,7 +670,8 @@ class DatabaseUtil
                 break;
 
             case self::OPERATOR_REGEXP:
-                $where = $field.' REGEXP '.$wildcard;
+            case self::OPERATOR_NOT_REGEXP:
+                $where = $field.(self::OPERATOR_NOT_REGEXP == $operator ? ' NOT REGEXP ' : ' REGEXP ').$wildcard;
 
                 if (\is_array($dca) && isset($dca['eval']['multiple']) && $dca['eval']['multiple']) {
                     // match a serialized blob
