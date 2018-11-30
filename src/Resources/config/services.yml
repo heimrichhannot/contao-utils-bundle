@@ -173,6 +173,9 @@ services:
   huh.twig.extension.image:
     class: HeimrichHannot\UtilsBundle\Twig\ImageExtension
     tags: [twig.extension]
+  huh.twig.extension.download:
+    class: HeimrichHannot\UtilsBundle\Twig\DownloadExtension
+    tags: [twig.extension]
 
   # Deprecations:
   # @TODO: remove in next major version

@@ -106,6 +106,18 @@ Use the image extension to resize contao images inside your twig template.
 - size: array containing width, height or image size config id (`Theme image size id`)
 - data: additional image data like css class, linkTitle or href
 
+### Download Extension
+
+Use the download extension to render download elements, get download links, download path or download data.
+
+```
+{% set downloadData = singleSRC|download_data %} {#get download data #}
+{{ singleSRC|download(true,{'link': 'customLinkTitleHtml'}, '@HeimrichHannotContaoUtils/download.html.twig') {#render as download link and send file to browser link #}
+{{ singleSRC|download(false,{'link': 'customLinkTitleHtml'}, '@HeimrichHannotContaoUtils/download.html.twig') {#render as download link and open download in news window #}
+{{ singleSRC|download_link) {#get send file to browser download link #}
+{{ singleSRC|download_path) {#get download file path #}
+```
+
 ## Insert tags
 
 | Insert tag  | Description  |

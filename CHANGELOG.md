@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.48.0] - 2018-11-30
+
+### Added
+- Twig Plugin `DownloadExtension` with `download`, `download_link`, `download_path`, `download_data`
+
 ## [2.47.1] - 2018-11-29
 
 ### Fixed
