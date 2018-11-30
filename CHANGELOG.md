@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.49.1] - 2018-11-30
+
+### Fixed
+- replace inserttags in Twig `DownloadExtension`
+
 ## [2.49.0] - 2018-11-30
 
 ### Fixed
