@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.49.0] - 2018-11-30
+
+### Fixed
+- urldecode file path in Twig `DownloadExtension` to support 
+
+### Added
+- Twig Plugin `DownloadExtension` function `download_title`
+
 ## [2.48.0] - 2018-11-30
 
 ### Added

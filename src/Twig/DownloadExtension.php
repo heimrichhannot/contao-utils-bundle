@@ -35,6 +35,7 @@ class DownloadExtension extends AbstractExtension
             new TwigFilter('download_link', [$this, 'getDownloadLink']),
             new TwigFilter('download_path', [$this, 'getDownloadPath']),
             new TwigFilter('download_data', [$this, 'getDownloadData']),
+            new TwigFilter('download_title', [$this, 'getDownloadTitle']),
         ];
     }
 
@@ -52,7 +53,7 @@ class DownloadExtension extends AbstractExtension
             $file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($path);
         } else {
             try {
-                $file = new File($path);
+                $file = new File(urldecode($path));
             } catch (\Exception $e) {
                 return null;
             }
@@ -184,5 +185,22 @@ class DownloadExtension extends AbstractExtension
         }
 
         return $data['model']['path'];
+    }
+
+    /**
+     * Get download title based on given path/uuid.
+     *
+     * @param mixed $path File path/uuid
+     * @param array $data Add custom data here
+     *
+     * @return string Download title
+     */
+    public function getDownloadTitle($path, array $data = []): string
+    {
+        if (null === ($data = $this->getDownloadData($path, $data))) {
+            return '';
+        }
+
+        return $data['title'];
     }
 }

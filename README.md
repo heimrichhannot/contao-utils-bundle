@@ -116,6 +116,7 @@ Use the download extension to render download elements, get download links, down
 {{ singleSRC|download(false,{'link': 'customLinkTitleHtml'}, '@HeimrichHannotContaoUtils/download.html.twig') {#render as download link and open download in news window #}
 {{ singleSRC|download_link) {#get send file to browser download link #}
 {{ singleSRC|download_path) {#get download file path #}
+{{ singleSRC|download_title) {#get download title for link title attribute e.g. #}
 ```
 
 ## Insert tags
