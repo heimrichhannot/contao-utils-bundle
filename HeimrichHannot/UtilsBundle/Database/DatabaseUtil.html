@@ -196,6 +196,13 @@
                 </td>
             </tr>
                     <tr>
+                <td>OPERATOR_NOT_REGEXP</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
                 <td>OPERATOR_IS_EMPTY</td>
                 <td class="last">
                     <p><em></em></p>
@@ -225,6 +232,13 @@
             </tr>
                     <tr>
                 <td>OPERATORS</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>NEGATIVE_OPERATORS</td>
                 <td class="last">
                     <p><em></em></p>
                     <p></p>
@@ -348,7 +362,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 81</div>
+        <div class="location">at         line 92</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -377,7 +391,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_processInPieces">
-        <div class="location">at         line 97</div>
+        <div class="location">at         line 108</div>
         <code>                    bool|int
     <strong>processInPieces</strong>(string $countQuery, string $query, callable $callback = null, string $key = null, int $bulkSize = 5000)
         </code>
@@ -437,7 +451,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_doBulkInsert">
-        <div class="location">at         line 155</div>
+        <div class="location">at         line 166</div>
         <code>                    
     <strong>doBulkInsert</strong>(string $table, array $data = [], array $fixedValues = [], mixed $onDuplicateKey = null, callable $callback = null, callable $itemCallback = null, int $bulkSize = 100, string $pk = &#039;id&#039;)
         </code>
@@ -506,7 +520,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createWhereForSerializedBlob">
-        <div class="location">at         line 311</div>
+        <div class="location">at         line 322</div>
         <code>                    array
     <strong>createWhereForSerializedBlob</strong>(string $field, array $values, string $connective = self::SQL_CONDITION_OR)
         </code>
@@ -556,7 +570,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformVerboseOperator">
-        <div class="location">at         line 345</div>
+        <div class="location">at         line 356</div>
         <code>                    string|bool
     <strong>transformVerboseOperator</strong>(string $verboseOperator)
         </code>
@@ -596,7 +610,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_computeCondition">
-        <div class="location">at         line 407</div>
+        <div class="location">at         line 418</div>
         <code>                    array
     <strong>computeCondition</strong>(string $field, string $operator, mixed $value, string $table = null, bool $skipTablePrefix = false)
         </code>
@@ -656,7 +670,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_composeWhereForQueryBuilder">
-        <div class="location">at         line 545</div>
+        <div class="location">at         line 556</div>
         <code>                    
     <strong>composeWhereForQueryBuilder</strong>(<abbr title="Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr> $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
         </code>
@@ -705,7 +719,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getChildRecords">
-        <div class="location">at         line 694</div>
+        <div class="location">at         line 706</div>
         <code>                    array
     <strong>getChildRecords</strong>(array $parentIds, string $table, array $options = [])
         </code>
