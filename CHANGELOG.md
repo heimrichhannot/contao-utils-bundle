@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.49.3] - 2018-11-30
+
+### Fixed
+- Added missing twig template for `DownloadExtension`
+
 ## [2.49.2] - 2018-11-30
 
 ### Fixed
