@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.50.0] - 2018-12-04
+
+### Added
+- `image_width` and `image_caption` twig filters
+
 ## [2.49.3] - 2018-11-30
 
 ### Fixed

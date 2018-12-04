@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Twig;
 
+use Contao\StringUtil;
 use Contao\System;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -23,6 +24,8 @@ class ImageExtension extends AbstractExtension
     {
         return [
             new TwigFilter('image', [$this, 'getImage']),
+            new TwigFilter('image_caption', [$this, 'getImageCaption']),
+            new TwigFilter('image_width', [$this, 'getImageWidth']),
         ];
     }
 
@@ -53,5 +56,43 @@ class ImageExtension extends AbstractExtension
         }
 
         return '';
+    }
+
+    /**
+     * Get image caption based on given path/uuid.
+     *
+     * @param mixed $image File path/uuid
+     *
+     * @return string|null Image caption if available, else null
+     */
+    public function getImageCaption($image): ?string
+    {
+        if (null === ($file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($image))) {
+            return null;
+        }
+
+        $meta = StringUtil::deserialize($file->getModel()->meta, true);
+
+        if (!isset($meta[$GLOBALS['TL_LANGUAGE']]['caption'])) {
+            return null;
+        }
+
+        return $meta[$GLOBALS['TL_LANGUAGE']]['caption'];
+    }
+
+    /**
+     * Get image width based on given path/uuid.
+     *
+     * @param mixed $image File path/uuid
+     *
+     * @return int|null Image caption if available, else null
+     */
+    public function getImageWidth($image): ?string
+    {
+        if (null === ($file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($image))) {
+            return null;
+        }
+
+        return $file->width;
     }
 }
