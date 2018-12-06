@@ -819,4 +819,10 @@ class DcaUtil
 
         return trim($return);
     }
+
+    public function generateSitemap()
+    {
+        $automator = System::importStatic('Automator');
+        $automator->generateSitemap();
+    }
 }
