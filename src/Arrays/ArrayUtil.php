@@ -84,7 +84,7 @@ class ArrayUtil
      */
     public function removeValue($value, array &$array): bool
     {
-        if (false !== ($intPosition = array_search($value, $array, true))) {
+        if (false !== ($intPosition = array_search($value, $array))) {
             unset($array[$intPosition]);
 
             return true;

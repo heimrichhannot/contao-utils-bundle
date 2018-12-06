@@ -159,7 +159,7 @@ class PdfPreview
         $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
         $allowedExtensions = ['jpg', 'jpeg', 'png'];
 
-        if (!\in_array($imageExtension, $allowedExtensions, true)) {
+        if (!\in_array($imageExtension, $allowedExtensions)) {
             throw new InvalidTypeException('Only one of the following file types is allowed: '.implode(
                 ', ', $allowedExtensions)
             );

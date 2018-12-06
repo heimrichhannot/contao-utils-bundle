@@ -50,7 +50,7 @@ class InsertTagsListener
         $key = strtolower($elements[0]);
         $attributes = \array_slice($elements, 1);
 
-        if (\in_array($key, $this->supportedTags, true)) {
+        if (\in_array($key, $this->supportedTags)) {
             return $this->replaceSupportedTags($key, $attributes);
         }
 

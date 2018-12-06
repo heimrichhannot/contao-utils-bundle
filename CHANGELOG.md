@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.51.1] - 2018-12-06
+
+### Fixed
+- strict comparison issues
+
 ## [2.51.0] - 2018-12-06
 
 ### Added

@@ -228,7 +228,7 @@ class DatabaseUtil
             foreach ($fields as $n => $strField) {
                 $varValue = isset($varData[$strField]) ? $varData[$strField] : 'DEFAULT';
 
-                if (\in_array($strField, array_keys($fixedValues), true)) {
+                if (\in_array($strField, array_keys($fixedValues))) {
                     $varValue = $fixedValues[$strField];
                 }
 
@@ -324,7 +324,7 @@ class DatabaseUtil
         $where = null;
         $returnValues = [];
 
-        if (!\in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND], true)) {
+        if (!\in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND])) {
             throw new \Exception('Unknown sql junctor');
         }
 

@@ -95,7 +95,7 @@ class DC_Table_Utils extends DC_Table
         $this->strTable = $strTable;
         $this->ptable = $GLOBALS['TL_DCA'][$this->strTable]['config']['ptable'] ?? null;
         $this->ctable = $GLOBALS['TL_DCA'][$this->strTable]['config']['ctable'] ?? null;
-        $this->treeView = isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode']) && \in_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'], [5, 6], true);
+        $this->treeView = isset($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode']) && \in_array($GLOBALS['TL_DCA'][$this->strTable]['list']['sorting']['mode'], [5, 6]);
         $this->root = null;
         $this->arrModule = $arrModule;
 

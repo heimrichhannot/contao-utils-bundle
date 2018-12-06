@@ -94,7 +94,7 @@ class ClassUtil
         $arrOptions = [];
 
         foreach (get_declared_classes() as $strName) {
-            if (\in_array($qualifiedClassName, $this->getParentClasses($strName), true)) {
+            if (\in_array($qualifiedClassName, $this->getParentClasses($strName))) {
                 $arrOptions[$strName] = $strName;
             }
         }

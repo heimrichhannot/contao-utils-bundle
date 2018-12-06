@@ -65,6 +65,6 @@ class UserUtil
             return false;
         }
 
-        return $objUser->isAdmin || \in_array($table.'::'.$field, $user->alexf, true);
+        return $objUser->isAdmin || \in_array($table.'::'.$field, $user->alexf);
     }
 }
