@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.52.0] - 2018-12-07
+
+### Added
+- ClassUtil::callInaccessibleMethod()
+
 ## [2.51.1] - 2018-12-06
 
 ### Fixed
