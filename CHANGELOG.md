@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.50.0] - 2018-12-11
+
+### Added
+- css classes from img-class `contao picture sizes` added to `figure` element with prefix `figure-`
+
 ## [2.49.3] - 2018-11-30
 
 ### Fixed

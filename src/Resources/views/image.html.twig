@@ -1,4 +1,4 @@
-<figure class="image_container{{ floatClass|default('') }}"{% if margin|default() %} style="{{ margin }}"{% endif %} itemscope itemtype="http://schema.org/ImageObject"
+<figure class="image_container{{ floatClass|default('') }}{{ picture.img.class|default() ? ((' figure-') ~ (picture.img.class|trim|split(' ')|join(' figure-'))) : '' }}"{% if margin|default() %} style="{{ margin }}"{% endif %} itemscope itemtype="http://schema.org/ImageObject"
         itemprop="associatedMedia">
 
     {% if href|default() %}
