@@ -287,7 +287,7 @@ class DcaUtil
 
         foreach ($GLOBALS['TL_DCA'][$table]['fields'] as $name => $data) {
             // restrict to certain input types
-            if (isset($options['inputTypes']) && \is_array($options['inputTypes']) && !empty($options['inputTypes']) && !\in_array($data['inputType'], $options['inputTypes'], true)) {
+            if (isset($options['inputTypes']) && \is_array($options['inputTypes']) && !empty($options['inputTypes']) && !\in_array($data['inputType'], $options['inputTypes'])) {
                 continue;
             }
 
@@ -433,7 +433,7 @@ class DcaUtil
             if (true === $dca['fields'][$field]['eval']['submitOnChange']) {
                 unset($dca['fields'][$field]['eval']['submitOnChange']);
 
-                if (\in_array($field, $dca['palettes']['__selector__'], true)) {
+                if (\in_array($field, $dca['palettes']['__selector__'])) {
                     // flatten concatenated type selectors
                     foreach ($dca['subpalettes'] as $selector => $subPaletteFields) {
                         if (false !== strpos($selector, $field.'_')) {
@@ -818,5 +818,11 @@ class DcaUtil
         }
 
         return trim($return);
+    }
+
+    public function generateSitemap()
+    {
+        $automator = System::importStatic('Automator');
+        $automator->generateSitemap();
     }
 }

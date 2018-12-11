@@ -68,7 +68,7 @@ class FormUtil
         }
 
         $mode = strtoupper($mode);
-        $mode = \in_array($mode, ['FE', 'BE'], true) ? $mode : 'FE';
+        $mode = \in_array($mode, ['FE', 'BE']) ? $mode : 'FE';
         $class = 'FE' === $mode ? $GLOBALS['TL_FFL'][$data['inputType']] : $GLOBALS['BE_FFL'][$data['inputType']];
         /** @var $widget Widget */
         $widget = $this->framework->getAdapter(Widget::class);

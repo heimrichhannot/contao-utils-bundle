@@ -161,7 +161,7 @@ class StringUtil
                     } else {
                         if (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                             // delete tag from $open_tags list
-                            $pos = array_search($tag_matchings[1], $open_tags, true);
+                            $pos = array_search($tag_matchings[1], $open_tags);
 
                             if (false !== $pos) {
                                 unset($open_tags[$pos]);

@@ -1,10 +1,30 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.50.0] - 2018-12-11
+## [2.53.0] - 2018-12-11
 
 ### Added
 - css classes from img-class `contao picture sizes` added to `figure` element with prefix `figure-`
+
+## [2.52.0] - 2018-12-07
+
+### Added
+- ClassUtil::callInaccessibleMethod()
+
+## [2.51.1] - 2018-12-06
+
+### Fixed
+- strict comparison issues
+
+## [2.51.0] - 2018-12-06
+
+### Added
+- DcaUtil::generateSitemap()
+
+## [2.50.0] - 2018-12-04
+
+### Added
+- `image_width` and `image_caption` twig filters
 
 ## [2.49.3] - 2018-11-30
 

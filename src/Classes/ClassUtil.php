@@ -94,7 +94,7 @@ class ClassUtil
         $arrOptions = [];
 
         foreach (get_declared_classes() as $strName) {
-            if (\in_array($qualifiedClassName, $this->getParentClasses($strName), true)) {
+            if (\in_array($qualifiedClassName, $this->getParentClasses($strName))) {
                 $arrOptions[$strName] = $strName;
             }
         }
@@ -191,5 +191,29 @@ class ClassUtil
         }
 
         return $data;
+    }
+
+    /**
+     * Calls an object's method which is inaccessible.
+     *
+     * @param $entity
+     * @param string $method
+     *
+     * @throws \ReflectionException
+     *
+     * @return mixed|null
+     */
+    public function callInaccessibleMethod($entity, string $method)
+    {
+        $rc = new \ReflectionClass($entity);
+
+        if ($rc->hasMethod($method)) {
+            $method = $rc->getMethod($method);
+            $method->setAccessible(true);
+
+            return $method->invoke($entity);
+        }
+
+        return null;
     }
 }

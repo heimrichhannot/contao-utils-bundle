@@ -271,7 +271,7 @@ class ModelUtil
             $language = $objSessionBag->get($sessionKey);
         }
 
-        if (\in_array($language, $translatableLangs, true)) {
+        if (\in_array($language, $translatableLangs)) {
             return $language;
         }
 

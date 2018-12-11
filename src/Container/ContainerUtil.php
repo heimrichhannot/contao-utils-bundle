@@ -55,7 +55,7 @@ class ContainerUtil
      */
     public function isBundleActive(string $bundleName)
     {
-        return \in_array($bundleName, array_merge(array_values($this->getActiveBundles()), array_keys($this->getActiveBundles())), true);
+        return \in_array($bundleName, array_merge(array_values($this->getActiveBundles()), array_keys($this->getActiveBundles())));
     }
 
     public function isBackend()

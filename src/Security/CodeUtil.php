@@ -84,19 +84,19 @@ class CodeUtil
         $forbiddenPattern = '';
         $allowedChars = '';
 
-        if (!\in_array(static::CAPITAL_LETTERS, $alphabets, true)) {
+        if (!\in_array(static::CAPITAL_LETTERS, $alphabets)) {
             $forbiddenPattern .= 'A-Z';
         } else {
             $allowedChars .= ($preventAmbiguous ? StringUtil::CAPITAL_LETTERS_NONAMBIGUOUS : StringUtil::CAPITAL_LETTERS);
         }
 
-        if (!\in_array(static::SMALL_LETTERS, $alphabets, true)) {
+        if (!\in_array(static::SMALL_LETTERS, $alphabets)) {
             $forbiddenPattern .= 'a-z';
         } else {
             $allowedChars .= ($preventAmbiguous ? StringUtil::SMALL_LETTERS_NONAMBIGUOUS : StringUtil::SMALL_LETTERS);
         }
 
-        if (!\in_array(static::NUMBERS, $alphabets, true)) {
+        if (!\in_array(static::NUMBERS, $alphabets)) {
             $forbiddenPattern .= '0-9';
         } else {
             $allowedChars .= ($preventAmbiguous ? StringUtil::NUMBERS_NONAMBIGUOUS : StringUtil::NUMBERS);
@@ -113,7 +113,7 @@ class CodeUtil
         }
 
         // special chars
-        if (!\in_array(static::SPECIAL_CHARS, $alphabets, true)) {
+        if (!\in_array(static::SPECIAL_CHARS, $alphabets)) {
             $code = preg_replace_callback('@[^'.$allowedChars.']{1}@', function () use ($allowedChars, $stringUtil) {
                 return $stringUtil->random($allowedChars);
             }, $code);
