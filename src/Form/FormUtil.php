@@ -111,6 +111,8 @@ class FormUtil
         /** @var CfgTagModel $cfgTagModel */
         $cfgTagModel = $this->framework->getAdapter(CfgTagModel::class);
 
+        $system->loadLanguageFile('default');
+
         // prepare data
         $table = $dc->table;
 

@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.54.0] - 2018-12-12
+
+### Added
+- DcaUtil::getDCTable()
+
+### Fixed
+- localization issue in FormUtil::prepareSpecialValueForOutput()
+
 ## [2.53.0] - 2018-12-11
 
 ### Added

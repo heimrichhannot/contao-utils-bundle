@@ -19,6 +19,7 @@ use Contao\Image;
 use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 
 class DcaUtil
 {
@@ -824,5 +825,22 @@ class DcaUtil
     {
         $automator = System::importStatic('Automator');
         $automator->generateSitemap();
+    }
+
+    /**
+     * Mostly used for Form::prepareSpecialValueForOutput().
+     *
+     * @param string $table
+     * @param $activeRecord
+     *
+     * @return DC_Table_Utils
+     */
+    public function getDCTable(string $table, $activeRecord): DC_Table_Utils
+    {
+        $dc = new DC_Table_Utils($table);
+        $dc->activeRecord = $activeRecord;
+        $dc->id = $activeRecord->id;
+
+        return $dc;
     }
 }
