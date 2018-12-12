@@ -12,6 +12,7 @@ use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\Date;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
@@ -196,6 +197,19 @@ class ModelUtil
         );
 
         return $adapter->findByIdOrAlias($idOrAlias, $options);
+    }
+
+    public function callModelMethod(string $table, string $method, ...$args)
+    {
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        return \call_user_func_array([$adapter, $method], $args);
     }
 
     /**
@@ -514,5 +528,15 @@ class ModelUtil
         }
 
         return $pageIds;
+    }
+
+    public function addPublishedCheckToModelArrays(string $table, array &$columns, array $options = [])
+    {
+        $t = $table;
+
+        if (isset($options['ignoreFePreview']) || !BE_USER_LOGGED_IN) {
+            $time = Date::floorToMinute();
+            $columns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'".($time + 60)."') AND $t.published='1'";
+        }
     }
 }
