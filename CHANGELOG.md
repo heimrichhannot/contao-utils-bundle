@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.56.0] - 2018-12-12
+
+### Added
+- `figureAttributes` attribute to `image.html.twig`
+
 ## [2.55.0] - 2018-12-12
 
 ### Added
