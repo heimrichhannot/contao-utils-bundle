@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.55.1] - 2018-12-12
+
+### Fixed
+- ModelUtil::addPublishedCheckToModelArrays()
+
 ## [2.55.0] - 2018-12-12
 
 ### Added

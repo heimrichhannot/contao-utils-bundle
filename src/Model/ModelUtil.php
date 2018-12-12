@@ -530,13 +530,17 @@ class ModelUtil
         return $pageIds;
     }
 
-    public function addPublishedCheckToModelArrays(string $table, array &$columns, array $options = [])
+    public function addPublishedCheckToModelArrays(string $table, string $publishedField, string $startField, string $stopField, array &$columns, array $options = [])
     {
         $t = $table;
 
         if (isset($options['ignoreFePreview']) || !BE_USER_LOGGED_IN) {
             $time = Date::floorToMinute();
-            $columns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'".($time + 60)."') AND $t.published='1'";
+
+            $invertPublishedField = isset($options['invertPublishedField']) && $options['invertPublishedField'];
+            $invertStartStopFields = isset($options['invertStartStopFields']) && $options['invertStartStopFields'];
+
+            $columns[] = "($t.$startField".($invertStartStopFields ? '!=' : '=')."'' OR $t.$startField".($invertStartStopFields ? '>' : '<=')."'$time') AND ($t.$stopField".($invertStartStopFields ? '!=' : '=')."'' OR $t.$stopField".($invertStartStopFields ? '<=' : '>')."'".($time + 60)."') AND $t.$publishedField".($invertPublishedField ? '!=' : '=')."'1'";
         }
     }
 }
