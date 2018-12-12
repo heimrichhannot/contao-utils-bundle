@@ -1,4 +1,4 @@
-<figure class="image_container{{ floatClass|default('') }}{{ picture.img.class|default() ? ((' figure-') ~ (picture.img.class|trim|split(' ')|join(' figure-'))) : '' }}"{% if margin|default() %} style="{{ margin }}"{% endif %} itemscope itemtype="http://schema.org/ImageObject"
+<figure class="image_container{{ floatClass|default('') }}{{ picture.img.class|default() ? ((' figure-') ~ (picture.img.class|trim|split(' ')|join(' figure-'))) : '' }}"{% if margin|default() %} style="{{ margin }}"{% endif %} {% if figureAttributes|default() %} {{ figureAttributes|default()|raw }}{% endif %}itemscope itemtype="http://schema.org/ImageObject"
         itemprop="associatedMedia">
 
     {% if href|default() %}
@@ -17,3 +17,4 @@
     {% endif %}
 
 </figure>
+

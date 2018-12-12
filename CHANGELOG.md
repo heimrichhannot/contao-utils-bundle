@@ -1,10 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.55.1] - 2018-12-12
+## [2.56.1] - 2018-12-12
 
 ### Fixed
 - ModelUtil::addPublishedCheckToModelArrays()
+
+## [2.56.0] - 2018-12-12
+
+### Added
+- `figureAttributes` attribute to `image.html.twig`
 
 ## [2.55.0] - 2018-12-12
 
