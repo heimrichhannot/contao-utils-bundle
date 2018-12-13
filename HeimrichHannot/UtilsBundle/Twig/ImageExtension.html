@@ -107,7 +107,7 @@
                     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getImage">getImage</a>(mixed $image, array $size = null, array $data = [], string $template = &#039;@HeimrichHannotContaoUtils/image.html.twig&#039;)
+                    <a href="#method_getImage">getImage</a>(mixed $image, string|array $size = null, array $data = [], string $template = &#039;@HeimrichHannotContaoUtils/image.html.twig&#039;)
         
                                             <p>Get image based on given path/uuid.</p>                </div>
                 <div class="col-md-2"></div>
@@ -172,7 +172,7 @@
                     <h3 id="method_getImage">
         <div class="location">at         line 42</div>
         <code>                    string
-    <strong>getImage</strong>(mixed $image, array $size = null, array $data = [], string $template = &#039;@HeimrichHannotContaoUtils/image.html.twig&#039;)
+    <strong>getImage</strong>(mixed $image, string|array $size = null, array $data = [], string $template = &#039;@HeimrichHannotContaoUtils/image.html.twig&#039;)
         </code>
     </h3>
     <div class="details">
@@ -191,9 +191,9 @@
                 <td>File path/uuid</td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>string|array</td>
                 <td>$size</td>
-                <td>Array containing [width, height, imageSize-ID]</td>
+                <td>Array or serialized string containing [width, height, imageSize-ID]</td>
             </tr>
                     <tr>
                 <td>array</td>
