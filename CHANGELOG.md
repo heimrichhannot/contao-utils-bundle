@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.57.0] - 2018-12-13
+
+### Changed
+- size parameter in ImageExtension now also supports serialized strings
+
 ## [2.56.1] - 2018-12-12
 
 ### Fixed

@@ -32,17 +32,17 @@ class ImageExtension extends AbstractExtension
     /**
      * Get image based on given path/uuid.
      *
-     * @param mixed  $image    File path/uuid
-     * @param array  $size     Array containing [width, height, imageSize-ID]
-     * @param array  $data     Add image data here [href => 'URL', class => 'img css class']…
-     * @param string $template Use custom image template
+     * @param mixed        $image    File path/uuid
+     * @param string|array $size     Array or serialized string containing [width, height, imageSize-ID]
+     * @param array        $data     Add image data here [href => 'URL', class => 'img css class']…
+     * @param string       $template Use custom image template
      *
      * @return string Image html element with given size
      */
-    public function getImage($image, array $size = null, array $data = [], string $template = '@HeimrichHannotContaoUtils/image.html.twig'): string
+    public function getImage($image, $size = null, array $data = [], string $template = '@HeimrichHannotContaoUtils/image.html.twig'): string
     {
         $data['image'] = $image;
-        $data['size'] = $size;
+        $data['size'] = is_array($size) ? $size : StringUtil::deserialize($size, true);
         $imageData = [];
         System::getContainer()->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
 
