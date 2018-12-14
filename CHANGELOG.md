@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.58.0] - 2018-12-14
+
+### Added
+- `attributes` parameter to `download.html.twig`
+
 ## [2.57.0] - 2018-12-13
 
 ### Changed
