@@ -42,7 +42,7 @@ class ImageExtension extends AbstractExtension
     public function getImage($image, $size = null, array $data = [], string $template = '@HeimrichHannotContaoUtils/image.html.twig'): string
     {
         $data['image'] = $image;
-        $data['size'] = is_array($size) ? $size : StringUtil::deserialize($size, true);
+        $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size, true);
         $imageData = [];
         System::getContainer()->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
 

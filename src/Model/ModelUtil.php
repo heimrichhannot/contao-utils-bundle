@@ -96,7 +96,7 @@ class ModelUtil
             return null;
         }
 
-        $columns = $this->fixTablePrefixForDcMultilingual($table, $columns);
+        $this->fixTablePrefixForDcMultilingual($table, $columns, $options);
 
         if (\is_array($values) && (!isset($options['skipReplaceInsertTags']) || !$options['skipReplaceInsertTags'])) {
             $values = array_map('\Contao\Controller::replaceInsertTags', $values);
@@ -126,7 +126,7 @@ class ModelUtil
             return null;
         }
 
-        $columns = $this->fixTablePrefixForDcMultilingual($table, $columns);
+        $this->fixTablePrefixForDcMultilingual($table, $columns, $options);
 
         if (\is_array($values) && (!isset($options['skipReplaceInsertTags']) || !$options['skipReplaceInsertTags'])) {
             $values = array_map('\Contao\Controller::replaceInsertTags', $values);
@@ -220,23 +220,27 @@ class ModelUtil
      *
      * @return array|mixed
      */
-    public function fixTablePrefixForDcMultilingual(string $table, $columns)
+    public function fixTablePrefixForDcMultilingual(string $table, &$columns, array &$options = [])
     {
         if (!System::getContainer()->get('huh.utils.dca')->isDcMultilingual($table)) {
             return $columns;
         }
 
         if (\is_array($columns)) {
-            $fixedColumns = [];
+            $fixed = [];
 
             foreach ($columns as $column) {
-                $fixedColumns[] = str_replace($table.'.', 't1.', $column);
+                $fixed[] = str_replace($table.'.', 't1.', $column);
             }
 
-            return $fixedColumns;
+            $columns = $fixed;
+        } else {
+            $columns = str_replace($table.'.', 't1.', $columns);
         }
 
-        return str_replace($table.'.', 't1.', $columns);
+        if (\is_array($options) && isset($options['order'])) {
+            $options['order'] = str_replace($table.'.', 't1.', $options['order']);
+        }
     }
 
     public function getDcMultilingualTranslationRecord($table, $id, $language = null)

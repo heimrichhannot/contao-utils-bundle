@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.59.0] - 2018-12-17
+
+### Added
+- DcaUtil::addDcMultilingualSupport()
+
+### Fixed
+- ModelUtil::fixTablePrefixForDcMultilingual() to support "order" in Model's $options
+
 ## [2.58.0] - 2018-12-14
 
 ### Added
