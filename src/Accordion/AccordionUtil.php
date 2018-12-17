@@ -18,11 +18,19 @@ class AccordionUtil
      */
     protected $framework;
 
+    /**
+     * Single cache.
+     *
+     * @var array
+     */
     protected static $accordionSingleCache = [];
-    protected static $accordionSingleCacheBuilt = false;
 
+    /**
+     * Start/Stop cache.
+     *
+     * @var array
+     */
     protected static $accordionStartStopCache = [];
-    protected static $accordionStartStopCacheBuilt = false;
 
     public function __construct(ContaoFrameworkInterface $framework)
     {
@@ -40,17 +48,22 @@ class AccordionUtil
      */
     public function structureAccordionSingle(array &$data, string $prefix = 'accordion_')
     {
-        if (!static::$accordionSingleCacheBuilt) {
-            if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_content', [
-                    'ptable=?',
-                    'tl_content.pid=?',
-                    'invisible!=1',
-                ], [
-                    'tl_article',
-                    $data['pid'],
-                ], [
-                    'order' => 'sorting ASC',
-                ]))) {
+        if (!isset($data['pid'])) {
+            if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy(
+                    'tl_content',
+                    [
+                        'ptable=?',
+                        'tl_content.pid=?',
+                        'invisible!=1',
+                    ],
+                    [
+                        'tl_article',
+                        $data['pid'],
+                    ],
+                    [
+                        'order' => 'sorting ASC',
+                    ]
+                ))) {
                 $lastOneIsAccordionSingle = false;
                 $elementGroup = [];
 
@@ -59,7 +72,7 @@ class AccordionUtil
                         $elementGroup[] = $element->row();
                     } else {
                         if ($lastOneIsAccordionSingle) {
-                            static::$accordionSingleCache[] = $elementGroup;
+                            static::$accordionSingleCache[$data['pid']][] = $elementGroup;
                             $elementGroup = [];
                         }
 
@@ -71,29 +84,29 @@ class AccordionUtil
                     $lastOneIsAccordionSingle = true;
 
                     if ($i === \count($elements) - 1) {
-                        static::$accordionSingleCache[] = $elementGroup;
+                        static::$accordionSingleCache[$data['pid']][] = $elementGroup;
                         $elementGroup = [];
                     }
                 }
-
-                static::$accordionSingleCacheBuilt = true;
             }
         }
 
-        foreach (static::$accordionSingleCache as $elementGroup) {
-            foreach ($elementGroup as $i => $element) {
-                if ($data['id'] == $element['id']) {
-                    if (0 === $i) {
-                        $data[$prefix.'first'] = true;
+        if (isset(static::$accordionSingleCache[$data['pid']]) && is_array(static::$accordionSingleCache[$data['pid']])) {
+            foreach (static::$accordionSingleCache[$data['pid']] as $elementGroup) {
+                foreach ($elementGroup as $i => $element) {
+                    if ($data['id'] == $element['id']) {
+                        if (0 === $i) {
+                            $data[$prefix.'first'] = true;
+                        }
+
+                        if ($i === \count($elementGroup) - 1) {
+                            $data[$prefix.'last'] = true;
+                        }
+
+                        $data[$prefix.'parentId'] = $elementGroup[0]['id'];
+
+                        break 2;
                     }
-
-                    if ($i === \count($elementGroup) - 1) {
-                        $data[$prefix.'last'] = true;
-                    }
-
-                    $data[$prefix.'parentId'] = $elementGroup[0]['id'];
-
-                    break 2;
                 }
             }
         }
@@ -110,40 +123,45 @@ class AccordionUtil
      */
     public function structureAccordionStartStop(array &$data, string $prefix = 'accordion_')
     {
-        if (!static::$accordionStartStopCacheBuilt) {
-            if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_content', [
-                    'tl_content.ptable=?',
-                    'tl_content.pid=?',
-                    'tl_content.invisible!=1',
-                ], [
-                    'tl_article',
-                    $data['pid'],
-                ], [
-                    'order' => 'sorting ASC',
-                ]))) {
+        if (!isset(self::$accordionStartStopCache[$data['pid']])) {
+            if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy(
+                    'tl_content',
+                    [
+                        'tl_content.ptable=?',
+                        'tl_content.pid=?',
+                        'tl_content.invisible!=1',
+                    ],
+                    [
+                        'tl_article',
+                        $data['pid'],
+                    ],
+                    [
+                        'order' => 'sorting ASC',
+                    ]
+                ))) {
                 $lastOneIsAccordionStop = false;
 
                 foreach ($elements as $i => $element) {
                     if ('accordionStart' === $element->type) {
                         if (\count(static::$accordionStartStopCache) < 1) {
-                            static::$accordionStartStopCache[] = [];
+                            static::$accordionStartStopCache[$data['pid']][] = [];
                         }
 
                         if ($lastOneIsAccordionStop) {
-                            static::$accordionStartStopCache[\count(static::$accordionStartStopCache) - 1][] = $element->row();
+                            static::$accordionStartStopCache[$data['pid']][\count(static::$accordionStartStopCache[$data['pid']]) - 1][] = $element->row();
                         } else {
-                            static::$accordionStartStopCache[\count(static::$accordionStartStopCache) - 1][] = $element->row();
+                            static::$accordionStartStopCache[$data['pid']][\count(static::$accordionStartStopCache[$data['pid']]) - 1][] = $element->row();
                         }
 
                         $lastOneIsAccordionStop = false;
                     } elseif ('accordionStop' === $element->type) {
-                        static::$accordionStartStopCache[\count(static::$accordionStartStopCache) - 1][] = $element->row();
+                        static::$accordionStartStopCache[$data['pid']][\count(static::$accordionStartStopCache[$data['pid']]) - 1][] = $element->row();
 
                         $lastOneIsAccordionStop = true;
 
                         continue;
                     } elseif ($lastOneIsAccordionStop) {
-                        static::$accordionStartStopCache[] = [];
+                        static::$accordionStartStopCache[$data['pid']][] = [];
                         $lastOneIsAccordionStop = false;
                     }
                 }
@@ -151,32 +169,32 @@ class AccordionUtil
                 // remove trailing empty arrays
                 $cleaned = [];
 
-                foreach (static::$accordionStartStopCache as $elementGroup) {
+                foreach (static::$accordionStartStopCache[$data['pid']] as $elementGroup) {
                     if (!empty($elementGroup)) {
                         $cleaned[] = $elementGroup;
                     }
                 }
 
-                static::$accordionStartStopCache = $cleaned;
-
-                static::$accordionStartStopCacheBuilt = true;
+                static::$accordionStartStopCache[$data['pid']] = $cleaned;
             }
         }
 
-        foreach (static::$accordionStartStopCache as $elementGroup) {
-            foreach ($elementGroup as $i => $element) {
-                if ($data['id'] == $element['id']) {
-                    if (0 === $i) {
-                        $data[$prefix.'first'] = true;
+        if (isset(static::$accordionStartStopCache[$data['pid']]) && is_array(static::$accordionStartStopCache[$data['pid']])) {
+            foreach (static::$accordionStartStopCache[$data['pid']] as $elementGroup) {
+                foreach ($elementGroup as $i => $element) {
+                    if ($data['id'] == $element['id']) {
+                        if (0 === $i) {
+                            $data[$prefix.'first'] = true;
+                        }
+
+                        if ($i === \count($elementGroup) - 1) {
+                            $data[$prefix.'last'] = true;
+                        }
+
+                        $data[$prefix.'parentId'] = $elementGroup[0]['id'];
+
+                        break 2;
                     }
-
-                    if ($i === \count($elementGroup) - 1) {
-                        $data[$prefix.'last'] = true;
-                    }
-
-                    $data[$prefix.'parentId'] = $elementGroup[0]['id'];
-
-                    break 2;
                 }
             }
         }
