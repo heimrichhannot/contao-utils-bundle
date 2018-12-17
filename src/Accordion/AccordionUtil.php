@@ -66,6 +66,7 @@ class AccordionUtil
                 ))) {
                 $lastOneIsAccordionSingle = false;
                 $elementGroup = [];
+                static::$accordionSingleCache[$data['pid']] = [];
 
                 foreach ($elements as $i => $element) {
                     if ('accordionSingle' === $element->type) {
@@ -140,10 +141,11 @@ class AccordionUtil
                     ]
                 ))) {
                 $lastOneIsAccordionStop = false;
+                static::$accordionStartStopCache[$data['pid']] = [];
 
                 foreach ($elements as $i => $element) {
                     if ('accordionStart' === $element->type) {
-                        if (\count(static::$accordionStartStopCache) < 1) {
+                        if (\count(static::$accordionStartStopCache[$data['pid']]) < 1) {
                             static::$accordionStartStopCache[$data['pid']][] = [];
                         }
 
