@@ -4,7 +4,9 @@
   "description": "This bundle offers various utility functionality for the Contao CMS.",
   "author": "Heimrich & Hannot GmbH <digitales@heimrich-hannot.de>",
   "license": "LGPL-3.0-or-later",
-  "dependencies": {},
+  "dependencies": {
+    "contao-utils-bundle": "^1.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.2",
     "@babel/core": "^7.2",
