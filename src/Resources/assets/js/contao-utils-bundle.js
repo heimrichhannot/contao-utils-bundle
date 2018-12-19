@@ -70,7 +70,7 @@ class DomUtil {
 class EventUtil {
     static addDynamicEventListener(eventName, selector, callback, disableBubbling) {
         document.addEventListener(eventName, function(e) {
-            var parents = DomUtil.getAllParentNodes(e.target);
+            var parents = (GeneralUtil.isTruthy(disableBubbling) ? [e.target] : DomUtil.getAllParentNodes(e.target));
 
             if (!Array.isArray(parents))
             {
@@ -79,7 +79,7 @@ class EventUtil {
 
             parents.reverse().forEach(function(item) {
                 if (item && item.matches(selector)) {
-                    callback(e);
+                    callback(item, e);
                 }
             });
         });
@@ -241,10 +241,19 @@ class GeneralUtil {
     }
 }
 
-module.exports = {
+let utils = {
     arrays: ArrayUtil,
     dom: DomUtil,
     events: EventUtil,
     url: UrlUtil,
     util: GeneralUtil
 };
+
+if (typeof module === 'object')
+{
+    module.exports = utils;
+}
+else
+{
+    window.utilsBundle = utils;
+}

@@ -4,7 +4,6 @@
     "minify"
   ],
   "plugins": [
-    "transform-remove-import",
-    "transform-es2015-modules-umd"
+    "transform-remove-import"
   ]
 }
