@@ -1,8 +1,5 @@
 huh:
-    encore:
-        legacy:
-            js:
-                - contao-utils-bundle
-                - contao-utils-bundle-arrays
-                - contao-utils-bundle-url
-                - contao-utils-bundle-util
+  encore:
+    legacy:
+      js:
+        - contao-utils-bundle

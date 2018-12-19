@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.0] - 2018-12-19
+
+### Fixed
+- refactoring for js utils
+
 ## [2.59.2] - 2018-12-17
 
 ### Fixed

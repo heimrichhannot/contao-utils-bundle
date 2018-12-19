@@ -1,7 +1,23 @@
 {
   "name": "contao-utils-bundle",
   "version": "1.0.0",
-  "dependencies": {
-    "contao-utils-bundle": "^1.0.0"
-  }
+  "description": "This bundle offers various utility functionality for the Contao CMS.",
+  "author": "Heimrich & Hannot GmbH <digitales@heimrich-hannot.de>",
+  "license": "LGPL-3.0-or-later",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.2",
+    "@babel/core": "^7.2",
+    "@babel/preset-env": "^7.2",
+    "babel-minify": "^0.5",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
+    "babel-plugin-transform-remove-import": "^1.0"
+  },
+  "scripts": {
+    "build": "babel src/Resources/assets/js --out-dir src/Resources/public/js"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not dead"
+  ]
 }

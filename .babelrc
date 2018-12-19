@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "minify"
+  ],
+  "plugins": [
+    "transform-remove-import",
+    "transform-es2015-modules-umd"
+  ]
+}

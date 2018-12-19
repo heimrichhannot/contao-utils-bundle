@@ -92,7 +92,7 @@ class AccordionUtil
             }
         }
 
-        if (isset(static::$accordionSingleCache[$data['pid']]) && is_array(static::$accordionSingleCache[$data['pid']])) {
+        if (isset(static::$accordionSingleCache[$data['pid']]) && \is_array(static::$accordionSingleCache[$data['pid']])) {
             foreach (static::$accordionSingleCache[$data['pid']] as $elementGroup) {
                 foreach ($elementGroup as $i => $element) {
                     if ($data['id'] == $element['id']) {
@@ -181,7 +181,7 @@ class AccordionUtil
             }
         }
 
-        if (isset(static::$accordionStartStopCache[$data['pid']]) && is_array(static::$accordionStartStopCache[$data['pid']])) {
+        if (isset(static::$accordionStartStopCache[$data['pid']]) && \is_array(static::$accordionStartStopCache[$data['pid']])) {
             foreach (static::$accordionStartStopCache[$data['pid']] as $elementGroup) {
                 foreach ($elementGroup as $i => $element) {
                     if ($data['id'] == $element['id']) {

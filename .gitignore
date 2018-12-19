@@ -2,10 +2,13 @@
 Thumbs.db
 .DS_Store
 .sass-cache
-vendor
+/vendor
+/component
 composer.lock
 composer.json~
 composer.phar
-
+/lib
+node_modules
+package-lock.json
 docs/cache
 docs/build
