@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.2] - 2018-12-21
+
+### Fixed
+- added styles to `picture.html.twig` that adjusts padding-bottom for media query image sizes
+
 ## [2.60.1] - 2018-12-19
 
 ### Fixed

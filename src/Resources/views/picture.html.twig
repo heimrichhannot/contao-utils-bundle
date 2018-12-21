@@ -1,5 +1,7 @@
 {% if lazyload|default() %}
-<div class="image-wrapper" style="padding-bottom: {{ (img.width == 0 ? 0 : img.height/img.width*100)|number_format(2, '.') }}%">
+{% set wrapperID = ('image-wrapper-' ~ random()) %}
+<div id="{{ wrapperID }}" class="image-wrapper">
+    <style>{{ '#' ~ wrapperID }}{padding-bottom: {{ (img.width == 0 ? 0 : img.height/img.width*100)|number_format(2, '.') }}%}</style>
     {% endif %}
 {% if sources|default() %}
     <picture>
@@ -7,6 +9,9 @@
         {% for source in sources %}
             {% if lazyload|default() %}
                 <source data-srcset="{{ '{{env::url}}' }}/{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
+                {% if source.media|default() %}
+                <style>{{ '@media ' ~ source.media ~ '{'}}{{ '#' ~ wrapperID }}{padding-bottom: {{ (source.width == 0 ? 0 : source.height/source.width*100)|number_format(2, '.') }}%}{{ '}' }}</style>
+                {% endif %}
             {% else %}
                 <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
             {% endif %}
