@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.3] - 2018-12-21
+
+### Fixed
+- set class from img on `image-wrapper` in `picture.html.twig` to handle padding-bottom dimensions (border)
+
 ## [2.60.2] - 2018-12-21
 
 ### Fixed
