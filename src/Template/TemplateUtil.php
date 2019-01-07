@@ -179,8 +179,8 @@ class TemplateUtil
             return $templates[$name];
         }
 
-        // allow twig templates
-        $GLOBALS['TL_CONFIG']['templateFiles'] .= ',html.twig';
+        // allow templates in current format
+        $GLOBALS['TL_CONFIG']['templateFiles'] .= ','.$format;
 
         try {
             $path = Controller::getTemplate($name, $format);
@@ -326,7 +326,7 @@ class TemplateUtil
 
         $bundles = $this->kernel->getBundles();
         // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
-        if (\is_array($bundles) && 'html.twig' === $format) {
+        if (\is_array($bundles) && '.twig' === substr($format, -5)) {
             $pattern = $name.'.'.$format;
 
             foreach (array_reverse($bundles) as $key => $value) {

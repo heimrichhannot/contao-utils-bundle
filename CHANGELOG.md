@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.5] - 2019-01-07
+
+### Fixed
+- adept fixes from 2.60.4 for `TemplateUtil::getBundleTemplate` and `TemplateUtil::getTemplate`
+
 ## [2.60.4] - 2019-01-07
 
 ### Fixed
