@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2018 Heimrich & Hannot GmbH
+ * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -60,7 +60,7 @@ class TemplateUtil
         try {
             $bundles = $this->kernel->getBundles();
             // if file from Controller::getTemplate() does not exist, search template in bundle views directory and return twig bundle path
-            if (\is_array($bundles) && 'html.twig' === $format) {
+            if (\is_array($bundles) && '.twig' === substr($format, -5)) {
                 foreach (array_reverse($bundles) as $key => $value) {
                     $path = $this->kernel->locateResource("@$key");
                     $dir = rtrim($path, '/').'/Resources/views';

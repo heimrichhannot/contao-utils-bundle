@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.4] - 2019-01-07
+
+### Fixed
+- `TemplateUtil::getTemplateGroup` now finds all twig templates in views, not just `html.twig`
+
 ## [2.60.3] - 2018-12-21
 
 ### Fixed
