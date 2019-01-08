@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.6] - 2019-01-08
+
+### Changed
+- names of util params in singular
+
 ## [2.60.5] - 2019-01-07
 
 ### Fixed

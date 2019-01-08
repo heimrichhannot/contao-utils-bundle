@@ -242,9 +242,9 @@ class GeneralUtil {
 }
 
 let utils = {
-    arrays: ArrayUtil,
+    array: ArrayUtil,
     dom: DomUtil,
-    events: EventUtil,
+    event: EventUtil,
     url: UrlUtil,
     util: GeneralUtil
 };
