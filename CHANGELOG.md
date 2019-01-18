@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.7] - 2019-01-18
+
+### Fixed
+- correct calculation of padding for portrait format images in picture template
+
 ## [2.60.6] - 2019-01-08
 
 ### Changed
