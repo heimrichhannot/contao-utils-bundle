@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.60.8] - 2019-01-22
+
+### Fixed
+- js
+
 ## [2.60.7] - 2019-01-18
 
 ### Fixed
