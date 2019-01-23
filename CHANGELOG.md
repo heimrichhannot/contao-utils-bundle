@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.61.0] - 2019-01-23
+
+### Changed 
+- js workflow optimized
+- yarn dependency `contao-utils-bunlde` to `@hundh/contao-utils-bundle` 
+
 ## [2.60.5] - 2019-01-07
 
 ### Fixed

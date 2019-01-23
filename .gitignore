@@ -10,5 +10,8 @@ composer.phar
 /lib
 node_modules
 package-lock.json
+yarn.lock
 docs/cache
 docs/build
+src/Resources/public/js/entrypoints.json
+src/Resources/public/js/manifest.json
