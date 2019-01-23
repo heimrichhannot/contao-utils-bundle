@@ -7,6 +7,21 @@ All notable changes to this project will be documented in this file.
 - js workflow optimized
 - yarn dependency `contao-utils-bunlde` to `@hundh/contao-utils-bundle` 
 
+## [2.60.8] - 2019-01-22
+
+### Fixed
+- js
+
+## [2.60.7] - 2019-01-18
+
+### Fixed
+- correct calculation of padding for portrait format images in picture template
+
+## [2.60.6] - 2019-01-08
+
+### Changed
+- names of util params in singular
+
 ## [2.60.5] - 2019-01-07
 
 ### Fixed
