@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.62.0] - 2019-01-24
+
+### Changed 
+- lazyload in `picture.html.twig` now uses `width` and `height` styles instead of `padding-bottom`
+- removed `attributes` from anchor inside `image.html.twig` and added `linkAttributes`
+
 ## [2.61.0] - 2019-01-23
 
 ### Changed 

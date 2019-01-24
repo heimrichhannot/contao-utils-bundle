@@ -2,7 +2,7 @@
         itemprop="associatedMedia">
 
     {% if href|default() %}
-        <a href="{{ href }}"{% if linkTitle|default() %} title="{{ linkTitle }}"{% endif %}{% if target|default() %} target="_blank"{% endif %}{{ attributes|default()|raw }} itemprop="contentUrl">
+        <a href="{{ href }}"{% if linkTitle|default() %} title="{{ linkTitle }}"{% endif %}{% if target|default() %} target="_blank"{% endif %} {{ linkAttributes|default()|raw }} itemprop="contentUrl">
     {% endif %}
 
     {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture) }}
