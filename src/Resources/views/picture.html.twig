@@ -1,7 +1,7 @@
 {% if lazyload|default() %}
 {% set wrapperID = ('image-wrapper-' ~ random()) %}
 <div id="{{ wrapperID }}" class="image-wrapper{% if class|default() or img.class|default() %} {{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}{% endif %}">
-    {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){width:' ~ (img.width ~ 'px') ~ ';height:' ~ (img.height ~ 'px') ~ '}')]) %}
+    {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){height:' ~ (img.height ~ 'px') ~ '}')]) %}
     {% endif %}
     {% if sources|default() %}
     <picture>
@@ -10,7 +10,7 @@
             {% if lazyload|default() %}
                 <source data-srcset="{{ '{{env::url}}' }}/{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
                 {% if source.media|default() %}
-                    {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded){width:' ~ (source.width ~ 'px') ~ ';height:' ~ (source.height ~ 'px') ~ '}}')]) %}
+                    {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded){height:' ~ (source.height ~ 'px') ~ '}}')]) %}
                 {% endif %}
             {% else %}
                 <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>

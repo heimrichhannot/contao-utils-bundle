@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.64.1] - 2019-01-24
+
+### Fixed
+- lazyload in `picture.html.twig` only set `height` (do not set `width`, otherwise lazyload will break)
+
 ## [2.64.0] - 2019-01-24
 
 ### Added
