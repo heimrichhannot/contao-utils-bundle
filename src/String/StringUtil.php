@@ -55,9 +55,32 @@ class StringUtil
         return '' === $needle || (($temp = \strlen($haystack) - \strlen($needle)) >= 0 && false !== strpos($haystack, $needle, $temp));
     }
 
+    /**
+     * Convert a camel case string to a dashed string.
+     *
+     * Example: MyPrettyClass to my-pretty-class
+     *
+     * @param $value
+     *
+     * @return string
+     */
     public function camelCaseToDashed($value)
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
+    }
+
+    /**
+     * Convert a camel case string to a snake cased string.
+     *
+     * Example: MyPrettyClass to my_pretty_class
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public function camelCaseToSnake(string $value)
+    {
+        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1_', $value));
     }
 
     /**

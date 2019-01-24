@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.64.0] - 2019-01-24
+
+### Added
+- `StringUtil::camelCaseToSnake`
+
 ## [2.63.0] - 2019-01-24
 
 ### Added
