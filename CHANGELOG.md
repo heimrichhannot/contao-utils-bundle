@@ -1,9 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.63.0] - 2019-01-24
+
+### Added
+- DcaUtil::addDcMultilingualTranslatableAliasEval
+- support for table prefixed fields in DatabaseUtil::composeWhereForQueryBuilder()
+
+### Fixed
+- ModelUtil::findParentsRecursively() order issue
+
 ## [2.62.0] - 2019-01-24
 
-### Changed 
+### Changed
 - lazyload in `picture.html.twig` now uses `width` and `height` styles instead of `padding-bottom`
 - removed `attributes` from anchor inside `image.html.twig` and added `linkAttributes`
 

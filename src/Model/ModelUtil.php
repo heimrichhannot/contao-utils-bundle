@@ -366,7 +366,7 @@ class ModelUtil
             return $parents;
         }
 
-        return array_merge([$parentInstance], $this->findParentsRecursively($parentProperty, $table, $parentInstance));
+        return array_merge($this->findParentsRecursively($parentProperty, $table, $parentInstance), [$parentInstance]);
     }
 
     /**

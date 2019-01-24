@@ -558,6 +558,11 @@ class DatabaseUtil
         $wildcard = ':'.$field;
         $where = '';
 
+        // remove dot for table prefixes
+        if (false !== strpos($wildcard, '.')) {
+            $wildcard = str_replace('.', '_', $wildcard);
+        }
+
         switch ($operator) {
             case self::OPERATOR_LIKE:
                 $where = $queryBuilder->expr()->like($field, $wildcard);

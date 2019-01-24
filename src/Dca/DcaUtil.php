@@ -885,4 +885,11 @@ class DcaUtil
             $dca['fields'][$field]['eval']['translatableFor'] = $translatableFor;
         }
     }
+
+    public function addDcMultilingualTranslatableAliasEval(array &$eval, string $translatableFor = '*', string $aliasField = 'title')
+    {
+        $eval['translatableFor'] = $translatableFor;
+        $eval['isMultilingualAlias'] = true;
+        $eval['generateAliasFromField'] = $aliasField;
+    }
 }
