@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.65.0] - 2019-01-25
+
+### Removed
+- `DcaUtil::addDcMultilingualSupport`
+- `DcaUtil::addDcMultilingualTranslatableAliasEval`
+
+-> please use [heimrichhannot/contao-dc-multilingual-utils-bundle](https://github.com/heimrichhannot/contao-dc-multilingual-utils-bundle) instead
+
 ## [2.64.1] - 2019-01-24
 
 ### Fixed
