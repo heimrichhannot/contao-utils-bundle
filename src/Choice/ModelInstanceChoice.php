@@ -25,7 +25,7 @@ class ModelInstanceChoice extends AbstractChoice
         $context = $this->getContext();
         $choices = [];
 
-        $instances = System::getContainer()->get('huh.utils.model')->findModelInstancesBy($context['dataContainer'], $context['columns'] ?? null, $context['values'] ?? null, isset($context['options']) ? (\is_array($context['options']) ? $context['options'] : []) : []);
+        $instances = System::getContainer()->get('huh.utils.model')->findModelInstancesBy($context['dataContainer'], $context['columns'] ?? [], $context['values'] ?? null, isset($context['options']) ? (\is_array($context['options']) ? $context['options'] : []) : []);
 
         if (null === $instances) {
             return $choices;

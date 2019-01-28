@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.65.1] - 2019-01-28
+
+### Fixed
+- ModelInstanceChoice::collect()
+
 ## [2.65.0] - 2019-01-25
 
 ### Removed
