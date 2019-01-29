@@ -102,6 +102,10 @@ class ModelUtil
             $values = array_map('\Contao\Controller::replaceInsertTags', $values);
         }
 
+        if (empty($columns)) {
+            $columns = null;
+        }
+
         return $adapter->findBy($columns, $values, $options);
     }
 
@@ -130,6 +134,10 @@ class ModelUtil
 
         if (\is_array($values) && (!isset($options['skipReplaceInsertTags']) || !$options['skipReplaceInsertTags'])) {
             $values = array_map('\Contao\Controller::replaceInsertTags', $values);
+        }
+
+        if (empty($columns)) {
+            $columns = null;
         }
 
         return $adapter->findOneBy($columns, $values, $options);
