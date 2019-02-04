@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.66.1] - 2019-02-04
+
+### Added
+- `huh.utils.template` method `getTemplate` returns template name plus format if no template was found
+
 ## [2.66.0] - 2019-02-04
 
 ### Added

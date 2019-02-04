@@ -260,7 +260,7 @@ class TemplateUtil
             }
         }
 
-        return self::$twigFiles[$name] ?? null;
+        return self::$twigFiles[$name] ?? ($name.'.'.$format);
     }
 
     /**
