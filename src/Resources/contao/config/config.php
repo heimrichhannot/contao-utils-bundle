@@ -19,4 +19,5 @@ $GLOBALS['TL_MODELS']['tl_cfg_tag'] = 'HeimrichHannot\UtilsBundle\Model\CfgTagMo
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['replaceInsertTags']['contao-utils-bundle'] = ['huh.utils.listener.insert_tags', 'onReplaceInsertTags'];
+$GLOBALS['TL_HOOKS']['replaceInsertTags']['huh.utils.listener.insert_tags'] = ['huh.utils.listener.insert_tags', 'onReplaceInsertTags'];
+$GLOBALS['TL_HOOKS']['initializeSystem']['huh.utils.template']              = ['huh.utils.template', 'getAllTemplates'];

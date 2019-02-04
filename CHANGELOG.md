@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.66.0] - 2019-02-04
+
+### Added
+- `huh.cache.warm_internal` service that provides an twig template cache in production mode (for performance reasons)
+- `huh.utils.template` method `getAllTemplates` that provides better cache handling, invoked on every contao request as `initializeSystem` Hook
+
+### Fixed
+- `huh.utils.template` template caching, improves performance on method `getTemplate` by factor 4
+
 ## [2.65.2] - 2019-01-29
 
 ### Fixed
