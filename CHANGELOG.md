@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.67.0] - 2019-02-05
+
+### Added
+- `tns-lazy-img` class to `picture.html.twig` in order to fix `https://github.com/heimrichhannot/contao-tiny-slider-list-bundle` lazy load handling on ios safari
+
 ## [2.66.1] - 2019-02-04
 
 ### Added
