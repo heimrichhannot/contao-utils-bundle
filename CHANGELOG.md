@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.67.1] - 2019-02-08
+
+### Fixed
+- JavaScript: `domUtil.getAllParentNodes()`
+
 ## [2.67.0] - 2019-02-05
 
 ### Added
