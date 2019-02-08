@@ -5,7 +5,6 @@
   "author": "Heimrich & Hannot GmbH <digitales@heimrich-hannot.de>",
   "license": "LGPL-3.0-or-later",
   "dependencies": {
-    "@babel/cli": "^7.2.3",
     "@hundh/contao-utils-bundle": "^1.5",
     "path": "^0.12.7"
   },
