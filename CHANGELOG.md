@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.67.2] - 2019-02-08
+
+### Fixed
+- JavaScript webpack generation issue
+
+### Removed
+- package.json -> browserslist (now using the default option)
+
 ## [2.67.1] - 2019-02-08
 
 ### Fixed

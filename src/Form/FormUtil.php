@@ -55,7 +55,7 @@ class FormUtil
      * @param DataContainer|null $dc     An optional DataContainer object
      * @param string             $mode   The contao mode, use FE or BE to get proper widget/form type
      *
-     * @return null|Widget The new widget based on given attributes
+     * @return Widget|null The new widget based on given attributes
      */
     public function getWidgetFromAttributes(string $name, array $data, $value = null, string $dbName = '', string $table = '', DataContainer $dc = null, string $mode = ''): ? Widget
     {

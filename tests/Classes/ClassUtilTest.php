@@ -70,7 +70,7 @@ class ClassUtilTest extends ContaoTestCase
 
     public function testJsonSerialize()
     {
-        if (!\class_exists('HeimrichHannot\UtilsBundle\Tests\Classes\JsonSerializeTestClass')) {
+        if (!class_exists('HeimrichHannot\UtilsBundle\Tests\Classes\JsonSerializeTestClass')) {
             include_once __DIR__.'/JsonSerializeTestClass.php';
         }
 

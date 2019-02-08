@@ -162,7 +162,7 @@ class FileUtil
      * @param      $uuid
      * @param bool $checkIfExists
      *
-     * @return null|string Return the path of the file, or null if not exists
+     * @return string|null Return the path of the file, or null if not exists
      */
     public function getPathFromUuid($uuid, $checkIfExists = true)
     {
@@ -319,7 +319,7 @@ class FileUtil
         $count = 0;
 
         try {
-            $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'rb');
+            $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'r');
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }

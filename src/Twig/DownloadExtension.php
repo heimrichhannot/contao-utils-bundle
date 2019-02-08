@@ -45,7 +45,7 @@ class DownloadExtension extends AbstractExtension
      * @param mixed $path File path/uuid
      * @param array $data Add custom data here
      *
-     * @return null|array Download element data
+     * @return array|null Download element data
      */
     public function getDownloadData($path, array $data = []): ?array
     {

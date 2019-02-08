@@ -5,17 +5,16 @@
   "author": "Heimrich & Hannot GmbH <digitales@heimrich-hannot.de>",
   "license": "LGPL-3.0-or-later",
   "dependencies": {
-    "@hundh/contao-utils-bundle": "^1.5"
+    "@babel/cli": "^7.2.3",
+    "@hundh/contao-utils-bundle": "^1.5",
+    "path": "^0.12.7"
   },
   "devDependencies": {
+    "@babel/plugin-transform-classes": "^7.2",
     "@symfony/webpack-encore": "^0.22.2"
   },
   "scripts": {
     "build-dev": "yarn encore dev",
     "build-production": "yarn encore production"
-  },
-  "browserslist": [
-    "last 2 versions",
-    "not dead"
-  ]
+  }
 }

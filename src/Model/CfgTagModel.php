@@ -29,7 +29,7 @@ class CfgTagModel extends Model
      * @param       $source
      * @param array $arrOptions
      *
-     * @return \Contao\Model\Collection|null|static
+     * @return \Contao\Model\Collection|static|null
      */
     public function findAllBySource($source, array $arrOptions = [])
     {

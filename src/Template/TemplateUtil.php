@@ -98,7 +98,7 @@ class TemplateUtil
         // add root templates
         $rootTemplates = $this->findTemplates(TL_ROOT.'/templates/');
 
-        if (is_array($rootTemplates)) {
+        if (\is_array($rootTemplates)) {
             foreach ($rootTemplates as $file) {
                 self::$twigFiles[basename($file, '.html.twig')] = rtrim($objFilesystem->makePathRelative($file, TL_ROOT), '/');
             }

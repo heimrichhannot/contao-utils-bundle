@@ -11,6 +11,7 @@ composer.phar
 node_modules
 package-lock.json
 yarn.lock
+/build
 docs/cache
 docs/build
 src/Resources/public/js/entrypoints.json
