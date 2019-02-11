@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.68.0] - 2019-02-11
+
+### Added
+- `huh.utils.cache.database_tree` to replace `Database->getChildRecords()` and provide proper caching
+
 ## [2.67.2] - 2019-02-08
 
 ### Fixed

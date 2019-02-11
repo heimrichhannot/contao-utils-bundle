@@ -88,6 +88,7 @@ class UtilCacheWarmer implements CacheWarmerInterface
         $this->framework->initialize();
 
         $this->generateTemplateMapper($cacheDir);
+        $this->generateDatabaseTreeCache($cacheDir);
     }
 
     /**
@@ -131,5 +132,10 @@ class UtilCacheWarmer implements CacheWarmerInterface
             $cacheDir.'/contao/config/twig-templates.php',
             sprintf("<?php\n\nreturn %s;\n", var_export($files, true))
         );
+    }
+
+    private function generateDatabaseTreeCache($cacheDir)
+    {
+        \Contao\System::getContainer()->get('huh.utils.cache.database_tree')->generateAllCacheTree($cacheDir);
     }
 }

@@ -14,7 +14,14 @@ services:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
+  huh.utils.cache.database_tree:
+    class: HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache
+    public: true
+    arguments:
+      - "@contao.framework"
+      - "@filesystem"
+      - "@huh.utils.model"
   huh.utils.cache.remote_image_cache:
     class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
     public: true
