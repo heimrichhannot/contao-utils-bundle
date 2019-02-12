@@ -8,11 +8,13 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Image;
 
+use Contao\File;
 use Contao\FilesModel;
 use Contao\Image\ImageInterface;
 use Contao\Image\Picture;
 use Contao\PageModel;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\Image\ImageUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 
@@ -41,8 +43,35 @@ class ImageUtilTest extends TestCaseEnvironment
         $utilsContainer->method('isFrontend')->willReturn(true);
         $container->set('huh.utils.container', $utilsContainer);
 
+        if (!is_dir('/tmp/files')) {
+            mkdir('/tmp/files');
+        }
+        copy($this->getFixturesDir().'/files/screenshot.png', '/tmp/files/screenshot.png');
+
+        $imageFile = $this->mockClassWithProperties(
+            File::class,
+            [
+                'path' => '/tmp/files/screenshot.png',
+                'imageSize' => [
+                    800,
+                    1200,
+                    0, // replace this with IMAGETYPE_SVG when it becomes available
+                    'width="'. 1200 .'" height="'. 800 .'"',
+                    'bits' => 8,
+                    'channels' => 3,
+                    'mime' => 'image/png',
+                ],
+                'extension' => 'png',
+            ]
+        );
+
+        $fileUtil = $this->createMock(FileUtil::class);
+        $fileUtil->method('getFileFromUuid')->willReturn($imageFile);
+
+        $container->set('huh.utils.file', $fileUtil);
+
         $imageAdapter = $this->mockAdapter(['getUrl']);
-        $imageAdapter->method('getUrl')->willReturn('data/screenshot.jpg');
+        $imageAdapter->method('getUrl')->willReturn('files/screenshot.png');
         $imageFactoryAdapter = $this->mockAdapter(['create']);
         $imageFactoryAdapter->method('create')->willReturn($imageAdapter);
         $container->set('contao.image.image_factory', $imageFactoryAdapter);
@@ -59,12 +88,12 @@ class ImageUtilTest extends TestCaseEnvironment
     {
         $templateData = [];
         $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";s:0:"";s:4:"left";s:0:"";s:5:"right";s:0:"";s:3:"top";s:0:"";s:4:"unit";s:0:"";}';
-        $imageArray['singleSRC'] = 'data/screenshot.jpg';
+        $imageArray['singleSRC'] = 'de28ed4c-2eb5-11e9-ac5f-a08cfddc0261';
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
         $imageArray['floating'] = false;
-        $imageArray['imageUrl'] = 'data/screenshot.jpg';
+        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
         $imageArray['imageTitle'] = 'imageTitle';
         $imageArray['linkTitle'] = false;
         $imageArray['id'] = 12;
@@ -76,9 +105,9 @@ class ImageUtilTest extends TestCaseEnvironment
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
-        $this->assertSame('data/screenshot.jpg', $templateData['singleSRC']);
+        $this->assertSame('/tmp/files/screenshot.png', $templateData['singleSRC']);
         $this->assertSame('imageTitle', $templateData['linkTitle']);
-        $this->assertSame('data/screenshot.jpg', $templateData['imageHref']);
+        $this->assertSame('/tmp/files/screenshot.png', $templateData['imageHref']);
         $this->assertSame(' data-lightbox="5dc05b"', $templateData['attributes']);
     }
 
@@ -93,11 +122,11 @@ class ImageUtilTest extends TestCaseEnvironment
         $GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields'] = ['title' => 'maxlenght="255"', 'alt' => 'maxlenght="255"', 'link' => 'maxlenght="255"', 'caption' => 'maxlenght="255"'];
 
         $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";i:10;s:4:"left";i:10;s:5:"right";i:10;s:3:"top";i:10;s:4:"unit";s:2:"px";}';
-        $imageArray['singleSRC'] = 'data/screenshot.jpg';
+        $imageArray['singleSRC'] = 'de28ed4c-2eb5-11e9-ac5f-a08cfddc0261';
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
-        $imageArray['imageUrl'] = 'data/screenshot.jpg';
+        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
         $imageArray['linkTitle'] = 'linkTitle';
         $imageArray['floating'] = 'floating';
         $imageArray['overwriteMeta'] = false;
@@ -114,7 +143,7 @@ class ImageUtilTest extends TestCaseEnvironment
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, null, null, $model);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
-        $this->assertSame('data/screenshot.jpg', $templateData['singleSRC']);
+        $this->assertSame('/tmp/files/screenshot.png', $templateData['singleSRC']);
         $this->assertSame('margin:10px;', $templateData['margin']);
         $this->assertSame('Diebstahl', $templateData['imageTitle']);
         $this->assertSame(' float_floating', $templateData['floatClass']);
@@ -137,12 +166,12 @@ class ImageUtilTest extends TestCaseEnvironment
         $GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields'] = ['title' => 'maxlenght="255"', 'alt' => 'maxlenght="255"', 'link' => 'maxlenght="255"', 'caption' => 'maxlenght="255"'];
 
         $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";i:10;s:4:"left";i:10;s:5:"right";i:10;s:3:"top";i:10;s:4:"unit";s:2:"px";}';
-        $imageArray['singleSRC'] = 'data/screenshot.jpg';
+        $imageArray['singleSRC'] = 'de28ed4c-2eb5-11e9-ac5f-a08cfddc0261';
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
         $imageArray['floating'] = false;
-        $imageArray['imageUrl'] = 'data/screenshot.jpg';
+        $imageArray['imageUrl'] = 'files/screenshot.png';
         $imageArray['linkTitle'] = 'linkTitle';
         $imageArray['overwriteMeta'] = false;
         $imageArray['caption'] = [];
@@ -166,12 +195,12 @@ class ImageUtilTest extends TestCaseEnvironment
         $imageArray['singleSRC'] = '';
         $imageArray['overwriteMeta'] = true;
         $imageArray['fullsize'] = true;
-        $imageArray['imageUrl'] = 'data/screensho';
+        $imageArray['imageUrl'] = 'files/screensho';
 
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, 12, 'lightBoxName', $model);
         $this->assertNull($templateData['width']);
         $this->assertNull($templateData['height']);
-        $this->assertSame(' target="_blank"', $templateData['attributes']);
+        $this->assertNull($templateData['attributes']);
 
         $container = System::getContainer();
         $utilsContainer = $this->mockAdapter(['isBackend', 'isFrontend']);
@@ -184,12 +213,12 @@ class ImageUtilTest extends TestCaseEnvironment
         $templateData['href'] = true;
         $templateData['singleSRC'] = [];
 
-        $imageArray['imageUrl'] = 'data/screenshot.jpg';
-        $imageArray['singleSRC'] = 'data/screenshot.jpg';
+        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
+        $imageArray['singleSRC'] = '/tmp/files/screenshot.png';
         $imageArray['size'] = 12;
 
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 4, 12, 'lightBoxName', $model);
-        $this->assertSame('', $templateData['margin']);
+        $this->assertNull($templateData['margin']);
     }
 
     public function addImageToTemplateDataHook(
@@ -220,11 +249,11 @@ class ImageUtilTest extends TestCaseEnvironment
         $GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields'] = ['title' => 'maxlenght="255"', 'alt' => 'maxlenght="255"', 'link' => 'maxlenght="255"', 'caption' => 'maxlenght="255"'];
 
         $imageArray['imagemargin'] = 'a:5:{s:6:"bottom";i:10;s:4:"left";i:10;s:5:"right";i:10;s:3:"top";i:10;s:4:"unit";s:2:"px";}';
-        $imageArray['singleSRC'] = 'data/screenshot.jpg';
+        $imageArray['singleSRC'] = 'de28ed4c-2eb5-11e9-ac5f-a08cfddc0261';
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
-        $imageArray['imageUrl'] = 'data/screenshot.jpg';
+        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
         $imageArray['linkTitle'] = 'linkTitle';
         $imageArray['floating'] = 'floating';
         $imageArray['overwriteMeta'] = false;
@@ -241,7 +270,7 @@ class ImageUtilTest extends TestCaseEnvironment
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, null, null, $model);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
-        $this->assertSame('data/screenshot.jpg', $templateData['singleSRC']);
+        $this->assertSame('/tmp/files/screenshot.png', $templateData['singleSRC']);
         $this->assertSame('margin:10px;', $templateData['margin']);
         $this->assertSame('Diebstahl', $templateData['imageTitle']);
         $this->assertSame(' float_floating', $templateData['floatClass']);

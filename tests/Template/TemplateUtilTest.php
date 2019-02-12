@@ -17,6 +17,8 @@ use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -66,6 +68,23 @@ class TemplateUtilTest extends TestCaseEnvironment
 
             $container->set('contao.resource_finder', $finder);
         }
+
+        if (!$container->has('request_stack')) {
+            $request = new Request();
+
+            $requestStack = $this->createMock(RequestStack::class);
+            $requestStack->method('getCurrentRequest')->willReturn($request);
+
+            $container->set('request_stack', $requestStack);
+        }
+
+        $container->setParameter('kernel.project_dir', $this->getFixturesDir());
+        $containerUtil = $this->createMock(ContainerUtil::class);
+        $containerUtil->method('getProjectDir')->willReturn($this->getFixturesDir());
+
+        $container->set('huh.utils.container', $containerUtil);
+        $container->set('contao.resource_finder', new ResourceFinder([$this->getFixturesDir()]));
+
         System::setContainer($container);
         $util = new TemplateUtil($framework, $kernel);
 
@@ -81,14 +100,17 @@ class TemplateUtilTest extends TestCaseEnvironment
     public function testGetTwigTemplate()
     {
         $util = $this->getTemplateUtilMock();
+        $util->getAllTemplates();
 
         if (!\defined('TL_MODE')) {
             \define('TL_MODE', 'FE');
         }
 
-        $finder = new ResourceFinder(([
-            $this->getFixturesDir(),
-        ]));
+        $finder = new ResourceFinder(
+            ([
+                $this->getFixturesDir(),
+            ])
+        );
 
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
@@ -109,19 +131,25 @@ class TemplateUtilTest extends TestCaseEnvironment
     public function testGetTwigTemplateInThemePath()
     {
         $util = $this->getTemplateUtilMock();
+        $util->getAllTemplates();
 
         if (!\defined('TL_MODE')) {
             \define('TL_MODE', 'FE');
         }
 
-        $finder = new ResourceFinder(([
-            $this->getFixturesDir(),
-        ]));
+        $finder = new ResourceFinder(
+            ([
+                $this->getFixturesDir(),
+            ])
+        );
 
         $container = System::getContainer();
         $container->set('contao.resource_finder', $finder);
 
-        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
+        $container->setParameter('kernel.project_dir', $this->getFixturesDir());
+        $containerUtil = $this->createMock(ContainerUtil::class);
+        $containerUtil->method('getProjectDir')->willReturn($this->getFixturesDir());
+        $containerUtil->method('isFrontend')->willReturn(true);
         $container->set('huh.utils.container', $containerUtil);
 
         System::setContainer($container);
@@ -129,11 +157,7 @@ class TemplateUtilTest extends TestCaseEnvironment
         global $objPage;
 
         $objPage = new \stdClass();
-        $objPage->templateGroup = 'myTheme';
-
-        if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', $this->getFixturesDir());
-        }
+        $objPage->templateGroup = 'templates/myTheme';
 
         $this->assertSame($this->getFixturesDir().'/templates/myTheme/test1.html.twig', $util->getTemplate('test1'));
     }
@@ -143,8 +167,13 @@ class TemplateUtilTest extends TestCaseEnvironment
         $util = $this->getTemplateUtilMock();
 
         $this->assertEmpty($util->removeTemplateComment(null));
-        $this->assertSame('', $util->removeTemplateComment('<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 -->
-        <!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
+        $this->assertSame(
+            '',
+            $util->removeTemplateComment(
+                '<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 -->
+        <!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'
+            )
+        );
     }
 
     public function testIsTemplatePartEmpty()
@@ -152,12 +181,15 @@ class TemplateUtilTest extends TestCaseEnvironment
         $util = $this->getTemplateUtilMock();
 
         $this->assertTrue($util->isTemplatePartEmpty('    '));
-        $this->assertTrue($util->isTemplatePartEmpty(
-            '<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 -->
+        $this->assertTrue(
+            $util->isTemplatePartEmpty(
+                '<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 -->
 
 
 
-<!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
+<!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'
+            )
+        );
         $this->assertFalse($util->isTemplatePartEmpty('<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 --><div class="my_block"></div><!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
         $this->assertFalse($util->isTemplatePartEmpty(null));
     }

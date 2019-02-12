@@ -31,9 +31,6 @@ class TextualPaginationTest extends ContaoTestCase
     {
         parent::setUp();
 
-        if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', $this->getFixturesDir());
-        }
         $GLOBALS['TL_LANGUAGE'] = 'en';
         $GLOBALS['TL_LANG']['MSC']['first'] = '&amp;#171; First';
         $GLOBALS['TL_LANG']['MSC']['previous'] = 'Previous';

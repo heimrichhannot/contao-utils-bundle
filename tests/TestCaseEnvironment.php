@@ -38,6 +38,12 @@ abstract class TestCaseEnvironment extends ContaoTestCase
     {
         parent::setUp();
 
+        if (!\defined('TL_ROOT')) {
+            \define('TL_ROOT', sys_get_temp_dir());
+        }
+
+        $GLOBALS['TL_CONFIG']['uploadPath'] = sys_get_temp_dir();
+
         $container = $this->mockContainer();
         $container->set('request_stack', $this->createRequestStackMock());
         $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
@@ -64,21 +70,25 @@ abstract class TestCaseEnvironment extends ContaoTestCase
     public function createRouterMock()
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->with('contao_backend', $this->anything())->will($this->returnCallback(function ($route, $params = []) {
-            $url = '/contao';
+        $router->method('generate')->with('contao_backend', $this->anything())->will(
+            $this->returnCallback(
+                function ($route, $params = []) {
+                    $url = '/contao';
 
-            if (!empty($params)) {
-                $count = 0;
+                    if (!empty($params)) {
+                        $count = 0;
 
-                foreach ($params as $key => $value) {
-                    $url .= (0 === $count ? '?' : '&');
-                    $url .= $key.'='.$value;
-                    ++$count;
+                        foreach ($params as $key => $value) {
+                            $url .= (0 === $count ? '?' : '&');
+                            $url .= $key.'='.$value;
+                            ++$count;
+                        }
+                    }
+
+                    return $url;
                 }
-            }
-
-            return $url;
-        }));
+            )
+        );
 
         return $router;
     }

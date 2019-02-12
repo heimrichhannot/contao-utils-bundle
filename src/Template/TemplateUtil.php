@@ -54,7 +54,7 @@ class TemplateUtil
     public function getAllTemplates()
     {
         $objFilesystem = new Filesystem();
-        $strCacheDir = \System::getContainer()->getParameter('kernel.cache_dir');
+        $strCacheDir = System::getContainer()->getParameter('kernel.cache_dir');
 
         // Try to load from cache
         if (file_exists($strCacheDir.'/contao/config/twig-templates.php')) {
@@ -90,17 +90,17 @@ class TemplateUtil
             }
         }
 
-        foreach (\System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('*.html.twig') as $file) {
+        foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('*.html.twig') as $file) {
             /* @var SplFileInfo $file */
-            self::$twigFiles[$file->getBasename('.html.twig')] = rtrim($objFilesystem->makePathRelative($file->getPath(), TL_ROOT), '/');
+            self::$twigFiles[$file->getBasename('.html.twig')] = $file->getRealPath();
         }
 
         // add root templates
-        $rootTemplates = $this->findTemplates(TL_ROOT.'/templates/');
+        $rootTemplates = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/templates/');
 
         if (\is_array($rootTemplates)) {
             foreach ($rootTemplates as $file) {
-                self::$twigFiles[basename($file, '.html.twig')] = rtrim($objFilesystem->makePathRelative($file, TL_ROOT), '/');
+                self::$twigFiles[basename($file, '.html.twig')] = $file;
             }
         }
 
@@ -143,7 +143,7 @@ class TemplateUtil
                         /* @var SplFileInfo $file */
                         $strTemplate = $file->getBasename('.'.$format);
                         $arrTemplates[$strTemplate]['name'] = $file->getBasename();
-                        $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), TL_ROOT), '/');
+                        $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), System::getContainer()->get('huh.utils.container')->getProjectDir()), '/');
                     }
                 }
             }
@@ -152,7 +152,7 @@ class TemplateUtil
                 /* @var SplFileInfo $file */
                 $strTemplate = $file->getBasename('.'.$format);
                 $arrTemplates[$strTemplate]['name'] = $file->getBasename();
-                $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), TL_ROOT), '/');
+                $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), System::getContainer()->get('huh.utils.container')->getProjectDir()), '/');
             }
         } catch (\InvalidArgumentException $e) {
         }
@@ -163,7 +163,7 @@ class TemplateUtil
             $arrTemplates[$strTemplate]['scopes'][] = 'root';
         }
 
-        $arrCustomized = $this->findTemplates(TL_ROOT.'/templates/', $prefix, $format);
+        $arrCustomized = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/templates/', $prefix, $format);
 
         // Add the customized templates
         if (\is_array($arrCustomized)) {
@@ -192,7 +192,7 @@ class TemplateUtil
             if (null !== $objTheme) {
                 while ($objTheme->next()) {
                     if ('' != $objTheme->templates) {
-                        $arrThemeTemplates = $this->findTemplates(TL_ROOT.'/'.$objTheme->templates.'/', $prefix, $format);
+                        $arrThemeTemplates = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/'.$objTheme->templates.'/', $prefix, $format);
 
                         if (\is_array($arrThemeTemplates)) {
                             foreach ($arrThemeTemplates as $strFile) {
@@ -252,7 +252,7 @@ class TemplateUtil
                     throw new \RuntimeException('Invalid path '.$objPage->templateGroup);
                 }
 
-                $templates = $this->findTemplates(TL_ROOT.'/'.$objPage->templateGroup, $name, $format);
+                $templates = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/'.$objPage->templateGroup, $name, $format);
 
                 if (!empty($templates)) {
                     return reset($templates);

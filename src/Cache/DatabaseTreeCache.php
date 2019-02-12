@@ -64,7 +64,7 @@ class DatabaseTreeCache
      */
     public function loadDataContainer($table)
     {
-        if (!isset($GLOBALS['TL_DCA'][$table]) || !isset($GLOBALS['TL_DCA'][$table]['config']['treeCache']) || !is_array($GLOBALS['TL_DCA'][$table]['config']['treeCache'])) {
+        if (!isset($GLOBALS['TL_DCA'][$table]) || !isset($GLOBALS['TL_DCA'][$table]['config']['treeCache']) || !\is_array($GLOBALS['TL_DCA'][$table]['config']['treeCache'])) {
             return;
         }
 
@@ -114,7 +114,7 @@ class DatabaseTreeCache
         }
 
         foreach ($ids as $i => $id) {
-            if (!isset($tree[$id]) || !is_array($tree[$id])) {
+            if (!isset($tree[$id]) || !\is_array($tree[$id])) {
                 continue;
             }
 
@@ -229,6 +229,19 @@ class DatabaseTreeCache
             'key' => $key,
         ];
 
+        $GLOBALS['TL_DCA'][$table]['config']['ondelete_callback']['huh.utils.cache.database_tree'] = ['huh.utils.cache.database_tree', 'purgeCacheTree'];
+        $GLOBALS['TL_DCA'][$table]['config']['oncut_callback']['huh.utils.cache.database_tree'] = ['huh.utils.cache.database_tree', 'purgeCacheTree'];
+        $GLOBALS['TL_DCA'][$table]['config']['onsubmit_callback']['huh.utils.cache.database_tree'] = ['huh.utils.cache.database_tree', 'purgeCacheTree'];
+        $GLOBALS['TL_DCA'][$table]['config']['onrestore_callback']['huh.utils.cache.database_tree'] = ['huh.utils.cache.database_tree', 'purgeCacheTree'];
+
         return true;
+    }
+
+    /**
+     * Purge the tree cache completely in order to take table relations into consideration.
+     */
+    public function purgeCacheTree()
+    {
+        $this->filesystem->remove($this->cacheDir);
     }
 }

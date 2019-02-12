@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Model;
 
 use Contao\ContentModel;
+use Contao\Controller;
 use Contao\Database;
 use Contao\Model;
 use Contao\ModuleModel;
@@ -27,12 +28,14 @@ class ModelUtilTest extends TestCaseEnvironment
     public function setUpContaoFrameworkMock()
     {
         $framework = $this->mockContaoFramework();
-        $framework->method('createInstance')->willReturnCallback(function ($type) {
-            switch ($type) {
-                case Database::class:
-                    return $this->getMockBuilder(Database::class)->disableOriginalConstructor()->setMethods(null)->getMock();
+        $framework->method('createInstance')->willReturnCallback(
+            function ($type) {
+                switch ($type) {
+                    case Database::class:
+                        return $this->getMockBuilder(Database::class)->disableOriginalConstructor()->setMethods(null)->getMock();
+                }
             }
-        });
+        );
     }
 
     public function testInstantiation()
@@ -65,6 +68,9 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModelInstanceByPk()
     {
+        $container = System::getContainer();
+        $container->set('huh.utils.dca', new DcaUtil($this->prepareFramework()));
+
         $util = $this->createModelUtilMock();
         $this->assertNull($util->findModelInstanceByPk('tl_null', 5));
         $this->assertNull($util->findModelInstanceByPk('tl_null_class', 5));
@@ -76,6 +82,9 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModelInstancesBy()
     {
+        $container = System::getContainer();
+        $container->set('huh.utils.dca', new DcaUtil($this->prepareFramework()));
+
         $util = $this->createModelUtilMock();
         $this->assertNull($util->findModelInstancesBy('tl_null', ['id'], [5]));
         $this->assertNull($util->findModelInstancesBy('tl_null_class', ['id'], [5]));
@@ -85,6 +94,9 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindOneModelInstanceBy()
     {
+        $container = System::getContainer();
+        $container->set('huh.utils.dca', new DcaUtil($this->prepareFramework()));
+
         $util = $this->createModelUtilMock();
         $result = $util->findOneModelInstanceBy('tl_content', [], []);
         $this->assertInstanceOf(ContentModel::class, $result);
@@ -98,30 +110,36 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindRootParentRecursively()
     {
-        $modelAdapter = $this->mockAdapter([
-            'getClassFromTable',
-        ]);
-        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(function ($table) {
-            switch ($table) {
-                case 'tl_content':
-                    return ContentModel::class;
+        $modelAdapter = $this->mockAdapter(
+            [
+                'getClassFromTable',
+            ]
+        );
+        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(
+            function ($table) {
+                switch ($table) {
+                    case 'tl_content':
+                        return ContentModel::class;
 
-                case 'tl_null_class':
-                    return 'Huh\Null\Class\Nullclass';
+                    case 'tl_null_class':
+                        return 'Huh\Null\Class\Nullclass';
 
-                case 'tl_cfg_tag':
-                    return CfgTagModel::class;
+                    case 'tl_cfg_tag':
+                        return CfgTagModel::class;
 
-                case 'null':
-                    return null;
+                    case 'null':
+                        return null;
 
-                default:
-                    return null;
+                    default:
+                        return null;
+                }
             }
-        });
-        $contentModelAdapter = $this->mockAdapter([
-            'findByPk',
-        ]);
+        );
+        $contentModelAdapter = $this->mockAdapter(
+            [
+                'findByPk',
+            ]
+        );
         $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
         $util = new ModelUtil($this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]), $this->createMock(ContainerUtil::class));
         $result = $util->findRootParentRecursively('id', 'tl_content', $this->getModel());
@@ -130,34 +148,40 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindParentsRecursively()
     {
-        $modelAdapter = $this->mockAdapter([
-            'getClassFromTable',
-        ]);
-        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(function ($table) {
-            switch ($table) {
-                case 'tl_content':
-                    return ContentModel::class;
+        $modelAdapter = $this->mockAdapter(
+            [
+                'getClassFromTable',
+            ]
+        );
+        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(
+            function ($table) {
+                switch ($table) {
+                    case 'tl_content':
+                        return ContentModel::class;
 
-                case 'tl_null_class':
-                    return 'Huh\Null\Class\Nullclass';
+                    case 'tl_null_class':
+                        return 'Huh\Null\Class\Nullclass';
 
-                case 'tl_cfg_tag':
-                    return CfgTagModel::class;
+                    case 'tl_cfg_tag':
+                        return CfgTagModel::class;
 
-                case 'null':
-                    return null;
+                    case 'null':
+                        return null;
 
-                default:
-                    return null;
+                    default:
+                        return null;
+                }
             }
-        });
-        $contentModelAdapter = $this->mockAdapter([
-            'findByPk',
-        ]);
+        );
+        $contentModelAdapter = $this->mockAdapter(
+            [
+                'findByPk',
+            ]
+        );
         $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
         $util = new ModelUtil(
-            $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]),
-            $this->createMock(ContainerUtil::class));
+            $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]), $this->createMock(ContainerUtil::class)
+        );
         $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
         $this->assertInstanceOf(\PHPUnit_Framework_MockObject_MockObject::class, $result[0]);
 
@@ -199,126 +223,146 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function prepareFramework()
     {
-        $modelAdapter = $this->mockAdapter([
-            'getClassFromTable',
-        ]);
-        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(function ($table) {
-            switch ($table) {
-                case 'tl_content':
-                    return ContentModel::class;
+        $modelAdapter = $this->mockAdapter(
+            [
+                'getClassFromTable',
+            ]
+        );
+        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(
+            function ($table) {
+                switch ($table) {
+                    case 'tl_content':
+                        return ContentModel::class;
 
-                case 'tl_null_class':
-                    return 'Huh\Null\Class\Nullclass';
+                    case 'tl_null_class':
+                        return 'Huh\Null\Class\Nullclass';
 
-                case 'tl_cfg_tag':
-                    return CfgTagModel::class;
+                    case 'tl_cfg_tag':
+                        return CfgTagModel::class;
 
-                case 'null':
-                    return null;
+                    case 'null':
+                        return null;
 
-                default:
-                    return null;
+                    default:
+                        return null;
+                }
             }
-        });
+        );
 
-        $contentModel = $this->mockClassWithProperties(ContentModel::class, [
-            'id' => 5,
-            'alias' => 'alias',
-            'pid' => 3,
-        ]);
+        $contentModel = $this->mockClassWithProperties(
+            ContentModel::class,
+            [
+                'id' => 5,
+                'alias' => 'alias',
+                'pid' => 3,
+            ]
+        );
         $contentModelAdapter = $this->createContentModelAdapter($contentModel);
 
         $pageModelAdapter = $this->mockAdapter(['findMultipleByIds']);
         $pageModelAdapter->method('findMultipleByIds')->willReturnArgument(0);
 
-        $framework = $this->mockContaoFramework([
-            Model::class => $modelAdapter,
-            ContentModel::class => $contentModelAdapter,
-            CfgTagModel::class => null,
-            PageModel::class => $pageModelAdapter,
-        ]);
+        $controllerAdapter = $this->mockAdapter(['loadDataContainer']);
+        $controllerAdapter->method('loadDataContainer')->willReturn(null);
 
-        $framework->method('createInstance')->willReturnCallback(function ($classType) {
-            switch ($classType) {
-                case Database::class:
-                    $db = $this->getMockBuilder(Database::class)
-                        ->disableOriginalConstructor()
-                        ->setMethods(['prepare', 'execute'])
-                        ->getMock();
-                    $db->method('prepare')->willReturnSelf();
-                    $db->method('execute')->willReturnCallback(function ($id) {
-                        $result = $this->createMock(Database\Result::class);
+        $framework = $this->mockContaoFramework(
+            [
+                Controller::class => $controllerAdapter,
+                Model::class => $modelAdapter,
+                ContentModel::class => $contentModelAdapter,
+                CfgTagModel::class => null,
+                PageModel::class => $pageModelAdapter,
+            ]
+        );
 
-                        switch ($id) {
-                            case 0:
-                            default:
-                                $result->method('count')->willReturn(0);
+        $framework->method('createInstance')->willReturnCallback(
+            function ($classType) {
+                switch ($classType) {
+                    case Database::class:
+                        $db = $this->getMockBuilder(Database::class)->disableOriginalConstructor()->setMethods(['prepare', 'execute'])->getMock();
+                        $db->method('prepare')->willReturnSelf();
+                        $db->method('execute')->willReturnCallback(
+                            function ($id) {
+                                $result = $this->createMock(Database\Result::class);
 
-                                break;
+                                switch ($id) {
+                                    case 0:
+                                    default:
+                                        $result->method('count')->willReturn(0);
 
-                            case 1:
-                                $result->method('count')->willReturn(1);
-                                $result->method('fetchEach')->willReturn([1]);
+                                        break;
 
-                                break;
+                                    case 1:
+                                        $result->method('count')->willReturn(1);
+                                        $result->method('fetchEach')->willReturn([1]);
 
-                            case 2:
-                                if ($this->count > 0) {
-                                    $result->method('count')->willReturn(2);
-                                    $result->method('fetchEach')->willReturn([4, 5]);
-                                } else {
-                                    $result->method('count')->willReturn(2);
-                                    $result->method('fetchEach')->willReturn([1, 2]);
+                                        break;
+
+                                    case 2:
+                                        if ($this->count > 0) {
+                                            $result->method('count')->willReturn(2);
+                                            $result->method('fetchEach')->willReturn([4, 5]);
+                                        } else {
+                                            $result->method('count')->willReturn(2);
+                                            $result->method('fetchEach')->willReturn([1, 2]);
+                                        }
+
+                                        break;
                                 }
+                                ++$this->count;
 
-                                break;
-                        }
-                        ++$this->count;
+                                return $result;
+                            }
+                        );
 
-                        return $result;
-                    });
+                        return $db;
 
-                    return $db;
-
-                    break;
+                        break;
+                }
             }
-        });
+        );
 
         return $framework;
     }
 
     public function createContentModelAdapter($contentModel)
     {
-        $contentModelAdapter = $this->mockAdapter([
-            'findByPk',
-            'findBy',
-            'findOneBy',
-        ]);
-        $contentModelAdapter->method('findByPk')->with($this->anything(), $this->anything())->willReturnCallback(function ($pk, $option) use ($contentModel) {
-            switch ($pk) {
-                case 'alias':
+        $contentModelAdapter = $this->mockAdapter(
+            [
+                'findByPk',
+                'findBy',
+                'findOneBy',
+            ]
+        );
+        $contentModelAdapter->method('findByPk')->with($this->anything(), $this->anything())->willReturnCallback(
+            function ($pk, $option) use ($contentModel) {
+                switch ($pk) {
+                    case 'alias':
+                        return $contentModel;
+
+                    case 5:
+                        return $contentModel;
+
+                    default:
+                        return null;
+                }
+            }
+        );
+        $contentModelAdapter->method('findBy')->with($this->anything(), $this->anything(), $this->anything())->willReturnCallback(
+            function ($columns, $values, $options = []) use ($contentModel) {
+                if ('id' === $columns[0] && 5 === (int) $values[0]) {
                     return $contentModel;
+                }
 
-                case 5:
-                    return $contentModel;
+                if ('pid' === $columns[0] && 3 === (int) $values[0]) {
+                    $collection = new Model\Collection([$contentModel], 'tl_content');
 
-                default:
-                    return null;
+                    return $collection;
+                }
+
+                return null;
             }
-        });
-        $contentModelAdapter->method('findBy')->with($this->anything(), $this->anything(), $this->anything())->willReturnCallback(function ($columns, $values, $options = []) use ($contentModel) {
-            if ('id' === $columns[0] && 5 === $values[0]) {
-                return $contentModel;
-            }
-
-            if ('pid' === $columns[0] && 3 === $values[0]) {
-                $collection = new Model\Collection([$contentModel], 'tl_content');
-
-                return $collection;
-            }
-
-            return null;
-        });
+        );
 
         $model = $this->createMock(ContentModel::class);
         $contentModelAdapter->method('findOneBy')->willReturn($model);

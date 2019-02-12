@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.68.1] - 2019-02-12
+
+### Fixed
+- `huh.utils.cache.database_tree` now properly clear cache on `oncut_callback`, `ondelete_callback`, `onsubmit_callback`
+- `huh.utils.template` returned wrong path for `/templates` twig templates
+- Unit test errors
+
 ## [2.68.0] - 2019-02-11
 
 ### Added

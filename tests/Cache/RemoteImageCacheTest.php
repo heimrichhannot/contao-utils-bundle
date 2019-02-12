@@ -24,10 +24,6 @@ class RemoteImageCacheTest extends TestCaseEnvironment
     {
         parent::setUp();
 
-        if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', __DIR__);
-        }
-
         $key = basename(strtr(static::class, '\\', '/'));
         $this->tempPath = uniqid($key.'_');
 
@@ -52,22 +48,24 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $container = $this->prepareContainer($framework);
 
         $curlMock = $this->createMock(CurlRequestUtil::class);
-        $curlMock->method('request')->willReturnCallback(function ($argument) {
-            switch ($argument) {
-                case 'remoteNull':
-                    return null;
+        $curlMock->method('request')->willReturnCallback(
+            function ($argument) {
+                switch ($argument) {
+                    case 'remoteNull':
+                        return null;
 
-                case 'remoteFalse':
-                    return false;
+                    case 'remoteFalse':
+                        return false;
 
-                case 'remoteEmpty':
-                    return 'null';
+                    case 'remoteEmpty':
+                        return 'null';
 
-                case 'remoteImage':
-                default:
-                    return 'validImage';
+                    case 'remoteImage':
+                    default:
+                        return 'validImage';
+                }
             }
-        });
+        );
 
         System::getContainer()->set('huh.utils.curl', $curlMock);
 
@@ -88,33 +86,39 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $filesModelAdapter->method('findByUuid')->willReturn($filesModel);
 
         $curlMock = $this->createMock(CurlRequestUtil::class);
-        $curlMock->method('request')->willReturnCallback(function ($argument) {
-            switch ($argument) {
-                case 'remoteNull':
-                    return null;
+        $curlMock->method('request')->willReturnCallback(
+            function ($argument) {
+                switch ($argument) {
+                    case 'remoteNull':
+                        return null;
 
-                case 'remoteFalse':
-                    return false;
+                    case 'remoteFalse':
+                        return false;
 
-                case 'remoteEmpty':
-                    return 'null';
+                    case 'remoteEmpty':
+                        return 'null';
 
-                case 'remoteImage':
-                default:
-                    return 'test01';
+                    case 'remoteImage':
+                    default:
+                        return 'test01';
+                }
             }
-        });
+        );
 
         System::getContainer()->set('huh.utils.request.curl', $curlMock);
 
-        $framework = $this->mockContaoFramework([
-            FilesModel::class => $filesModelAdapter,
-        ]);
+        $framework = $this->mockContaoFramework(
+            [
+                FilesModel::class => $filesModelAdapter,
+            ]
+        );
 
         System::getContainer()->set('huh.utils.file', new FileUtil($framework));
 
         $fs = new Filesystem();
         $fs->dumpFile($testFile, 'test01');
+
+        System::getContainer()->setParameter('kernel.project_dir', sys_get_temp_dir().\DIRECTORY_SEPARATOR);
 
         $cache = new RemoteImageCache($framework);
 
@@ -139,9 +143,11 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $filesModelAdapter = $this->mockAdapter(['findByUuid']);
         $filesModelAdapter->method('findByUuid')->willReturn(null);
 
-        $framework = $this->mockContaoFramework([
-            FilesModel::class => $filesModelAdapter,
-        ]);
+        $framework = $this->mockContaoFramework(
+            [
+                FilesModel::class => $filesModelAdapter,
+            ]
+        );
 
         System::getContainer()->set('huh.utils.file', new FileUtil($framework));
 
@@ -155,39 +161,43 @@ class RemoteImageCacheTest extends TestCaseEnvironment
         $container->set('contao.framework', $framework);
 
         $curlMock = $this->createMock(CurlRequestUtil::class);
-        $curlMock->method('request')->willReturnCallback(function ($argument) {
-            switch ($argument) {
-                case 'remoteNull':
-                    return null;
+        $curlMock->method('request')->willReturnCallback(
+            function ($argument) {
+                switch ($argument) {
+                    case 'remoteNull':
+                        return null;
 
-                case 'remoteFalse':
-                    return false;
+                    case 'remoteFalse':
+                        return false;
 
-                case 'remoteEmpty':
-                    return 'null';
+                    case 'remoteEmpty':
+                        return 'null';
 
-                case 'remoteImage':
-                default:
-                    return 'test02';
+                    case 'remoteImage':
+                    default:
+                        return 'test02';
+                }
             }
-        });
+        );
 
         System::getContainer()->set('huh.utils.request.curl', $curlMock);
 
         $fileUtilMock = $this->createMock(FileUtil::class);
-        $fileUtilMock->method('getFolderFromUuid')->willReturnCallback(function ($argument) {
-            switch ($argument) {
-                case '0c23ab88-1642-11e8-b642-0ed5f89f718b':
-                    return false;
+        $fileUtilMock->method('getFolderFromUuid')->willReturnCallback(
+            function ($argument) {
+                switch ($argument) {
+                    case '0c23ab88-1642-11e8-b642-0ed5f89f718b':
+                        return false;
 
-                case 'fade6980-1641-11e8-b642-0ed5f89f718b':
-                default:
-                    $folder = new \stdClass();
-                    $folder->value = $this->tempPath;
+                    case 'fade6980-1641-11e8-b642-0ed5f89f718b':
+                    default:
+                        $folder = new \stdClass();
+                        $folder->value = $this->tempPath;
 
-                    return $folder;
+                        return $folder;
+                }
             }
-        });
+        );
 
         System::getContainer()->set('huh.utils.file', $fileUtilMock);
 

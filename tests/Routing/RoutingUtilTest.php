@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Routing;
 
+use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -53,11 +54,18 @@ class RoutingUtilTest extends ContaoTestCase
         $tokenManager = $this->createMock(CsrfTokenManager::class);
         $tokenManager->method('getToken')->with('dummy_token')->willReturn(new CsrfToken('dummy_token', 'abcd'));
 
+        $tokenGenerator = $this->createMock(CsrfTokenManager::class);
+        $tokenGenerator->method('getToken')->with('dummy_token')->willReturn(new CsrfToken('dummy_token', 'abcd'));
+
         $this->container = $this->mockContainer();
         $this->container->set('router', $router);
         $this->container->set('request_stack', $requestStack);
         $this->container->setParameter('contao.csrf_token_name', 'dummy_token');
+        $this->container->set('contao.csrf.token_manager', $tokenManager);
         $this->container->set('security.csrf.token_manager', $tokenManager);
+        $this->container->set('security.csrf.token_generator', $tokenGenerator);
+
+        System::setContainer($this->container);
     }
 
     public function testGenerateBackendRoute()
@@ -65,7 +73,6 @@ class RoutingUtilTest extends ContaoTestCase
         $router = new RoutingUtil(
             $this->container->get('router'),
             $this->container->get('request_stack'),
-            $this->container->get('security.csrf.token_manager'),
             $this->container->getParameter('contao.csrf_token_name')
         );
         $this->assertSame('/contao', $router->generateBackendRoute([], false, false));

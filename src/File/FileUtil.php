@@ -41,8 +41,11 @@ class FileUtil
     {
         $file = new File($target);
 
-        $target = ltrim(str_replace(TL_ROOT, '', $target), '/');
-        $path = str_replace('.'.$file->extension, '', $target);
+        $target = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $target), '/');
+
+        if ($file->extension) {
+            $path = str_replace('.'.$file->extension, '', $target);
+        }
 
         if ($prefix && false !== ($pos = strpos($path, $prefix))) {
             $path = str_replace(substr($path, $pos, \strlen($path)), '', $path);
@@ -51,7 +54,7 @@ class FileUtil
 
         // Create the parent folder
         if (!file_exists($file->dirname)) {
-            $folder = new Folder(ltrim(str_replace(TL_ROOT, '', $file->dirname), '/'));
+            $folder = new Folder(ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/'));
 
             // something went wrong with folder creation
             if (null === $folder->getModel()) {
@@ -59,7 +62,7 @@ class FileUtil
             }
         }
 
-        if (file_exists(TL_ROOT.'/'.$target)) {
+        if (file_exists(System::getContainer()->getParameter('kernel.project_dir').'/'.$target)) {
             // remove suffix
             if ($i > 0 && System::getContainer()->get('huh.utils.string')->endsWith($path, '_'.$i)) {
                 $path = rtrim($path, '_'.$i);
@@ -155,6 +158,10 @@ class FileUtil
 
     public function getFileExtension($path)
     {
+        if (is_dir($path)) {
+            return '';
+        }
+
         return pathinfo($path, PATHINFO_EXTENSION);
     }
 
@@ -171,7 +178,7 @@ class FileUtil
                 return $file->path;
             }
 
-            if (file_exists(TL_ROOT.'/'.$file->path)) {
+            if (file_exists(System::getContainer()->getParameter('kernel.project_dir').'/'.$file->path)) {
                 return $file->path;
             }
         }
@@ -225,7 +232,7 @@ class FileUtil
     {
         $file = new File($fileName);
 
-        $directory = ltrim(str_replace(TL_ROOT, '', $file->dirname), '/');
+        $directory = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/');
 
         return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).($file->extension ? '.'.$file->extension : '');
     }
@@ -255,7 +262,7 @@ class FileUtil
             $name = substr($name, 0, $maxCount - 1);
         }
 
-        $directory = ltrim(str_replace(TL_ROOT, '', $file->dirname), '/');
+        $directory = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/');
 
         return ($directory ? $directory.'/' : '').$name.($file->extension ? ('.'.strtolower($file->extension)) : '');
     }
@@ -319,7 +326,11 @@ class FileUtil
         $count = 0;
 
         try {
-            $handle = fopen(TL_ROOT.'/'.ltrim(str_replace(TL_ROOT, '', $file), '/'), 'r');
+            if (false === strpos($file, System::getContainer()->getParameter('kernel.project_dir'))) {
+                $file = System::getContainer()->getParameter('kernel.project_dir').$file;
+            }
+
+            $handle = fopen($file, 'r');
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }

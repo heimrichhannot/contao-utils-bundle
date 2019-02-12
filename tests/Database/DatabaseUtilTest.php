@@ -22,7 +22,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
         parent::setUp();
 
         if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', '');
+            \define('TL_ROOT', sys_get_temp_dir().\DIRECTORY_SEPARATOR);
         }
 
         $container = System::getContainer();
@@ -288,9 +288,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $this->assertSame('LIKE', $result);
         $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'unlike', ['eval' => ['multiple' => []]], null);
         $this->assertSame('NOT LIKE', $result);
-        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'in', ['eval' => ['multiple' => []]], null);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'in', ['eval' => ['multiple' => []]], [1, 2]);
         $this->assertSame('IN', $result);
-        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'notin', ['eval' => ['multiple' => []]], null);
+        $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'notin', ['eval' => ['multiple' => []]], [1, 2]);
         $this->assertSame('NOT IN', $result);
         $result = $databaseUtil->composeWhereForQueryBuilder($this->getQueryBuilderMock(), 'field', 'isnull', ['eval' => ['multiple' => []]], null);
         $this->assertSame('IS NULL', $result);

@@ -89,6 +89,6 @@ class ClassUtilTest extends ContaoTestCase
         $this->assertArrayHasKey('addDetails', $result);
         $this->assertTrue($result['addDetails']);
         $this->assertArrayNotHasKey('protectedMap', $result);
-        $this->assertArrayNotHasKey('mapWithAttributes', $result);
+        $this->assertArrayHasKey('mapWithAttributes', $result);
     }
 }

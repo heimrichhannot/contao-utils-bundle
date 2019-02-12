@@ -17,10 +17,6 @@ if (!defined('PHPUNIT_COMPOSER_INSTALL')) {
     define('PHPUNIT_COMPOSER_INSTALL', __DIR__.'/../vendor/autoload.php');
 }
 
-if (!defined('TL_ROOT')) {
-    define('TL_ROOT', __DIR__);
-}
-
 if (false === ($loader = $include(__DIR__.'/../vendor/autoload.php'))
     && false === ($loader = $include(__DIR__.'/../../../autoload.php'))
     && false === ($loader = $include(dirname(dirname(getenv('PWD'))).'/autoload.php'))) {
@@ -50,7 +46,9 @@ $legacyLoader = function ($class) {
     $namespaced = 'Contao\\'.$class;
 
     if (class_exists($namespaced) || interface_exists($namespaced) || trait_exists($namespaced)) {
-        class_alias($namespaced, $class);
+        if (!class_exists($class, false) && !interface_exists($class, false) && !trait_exists($class, false)) {
+            class_alias($namespaced, $class);
+        }
     }
 };
 

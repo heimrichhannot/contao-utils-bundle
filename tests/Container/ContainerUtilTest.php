@@ -123,7 +123,7 @@ class ContainerUtilTest extends ContaoTestCase
     {
         $configFile = ['config' => 'config'];
 
-        $config = ContainerUtil::mergeConfigFile('yml', 'yml', $configFile, TL_ROOT.'/../src/Resources/config/services.yml');
+        $config = ContainerUtil::mergeConfigFile('yml', 'yml', $configFile, __DIR__.'/../../src/Resources/config/services.yml');
         $this->assertNotSame($configFile, $config);
         $this->assertArrayHasKey('services', $config);
         $this->assertArrayHasKey('huh.utils.array', $config['services']);
