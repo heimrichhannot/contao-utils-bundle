@@ -48,7 +48,7 @@ class AccordionUtil
      */
     public function structureAccordionSingle(array &$data, string $prefix = 'accordion_')
     {
-        if (!isset($data['pid'])) {
+        if (!isset(self::$accordionSingleCache[$data['pid']])) {
             if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',
                     [

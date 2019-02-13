@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.68.2] - 2019-02-13
+
+### Fixed
+- AccordionUtil
+
 ## [2.68.1] - 2019-02-12
 
 ### Fixed
