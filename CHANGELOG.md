@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.69.0] - 2019-02-14
+
+### Added
+- `label_callback` added to `$context` in order to adjust label in `huh.utils.choice.model_instance`
+
 ## [2.68.2] - 2019-02-13
 
 ### Fixed

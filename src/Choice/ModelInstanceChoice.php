@@ -56,9 +56,17 @@ class ModelInstanceChoice extends AbstractChoice
                 }
             }
 
-            $label = preg_replace_callback('@%([^%]+)%@i', function ($matches) use ($instances) {
-                return $instances->{$matches[1]};
-            }, $labelPattern);
+            $label = preg_replace_callback(
+                '@%([^%]+)%@i',
+                function ($matches) use ($instances) {
+                    return $instances->{$matches[1]};
+                },
+                $labelPattern
+            );
+
+            if (null !== ($callbackLabel = \Contao\System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($context, 'label', [$label, $instances->row()]))) {
+                $label = $callbackLabel;
+            }
 
             $choices[$instances->id] = $label;
         }
