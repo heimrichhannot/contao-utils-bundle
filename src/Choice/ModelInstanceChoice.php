@@ -64,7 +64,7 @@ class ModelInstanceChoice extends AbstractChoice
                 $labelPattern
             );
 
-            if (null !== ($callbackLabel = \Contao\System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($context, 'label', [$label, $instances->row()]))) {
+            if (null !== ($callbackLabel = \Contao\System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($context, 'label', [$label, $instances->row(), $context]))) {
                 $label = $callbackLabel;
             }
 
