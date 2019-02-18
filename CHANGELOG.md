@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.70.0] - 2019-02-18
+
+### Changed
+- `TemplateUtil` now supports all twig formats
+- `TemplateUtil::getTemplate` now throws an error if template not exist
+
 ## [2.69.1] - 2019-02-15
 
 ### Added

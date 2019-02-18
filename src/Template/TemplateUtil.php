@@ -53,7 +53,6 @@ class TemplateUtil
      */
     public function getAllTemplates()
     {
-        $objFilesystem = new Filesystem();
         $strCacheDir = System::getContainer()->getParameter('kernel.cache_dir');
 
         // Try to load from cache
@@ -77,22 +76,34 @@ class TemplateUtil
                 $finder = new Finder();
                 $twigKey = preg_replace('/Bundle$/', '', $key);
 
-                foreach ($finder->in($dir)->files()->name('*.html.twig') as $file) {
+                foreach ($finder->in($dir)->files()->name('*.twig') as $file) {
                     /** @var SplFileInfo $file */
-                    $name = $file->getBasename('.html.twig');
+                    $name = $file->getBasename();
+                    $legacyName = false !== strpos($name, 'html.twig') ? $file->getBasename('.html.twig') : $name;
 
                     if (isset(self::$twigFiles[$name])) {
                         continue;
                     }
 
                     self::$twigFiles[$name] = "@$twigKey/".$file->getRelativePathname();
+
+                    if ($legacyName !== $name) {
+                        self::$twigFiles[$legacyName] = self::$twigFiles[$name];
+                    }
                 }
             }
         }
 
-        foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('*.html.twig') as $file) {
+        foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('*.twig') as $file) {
+            $name = $file->getBasename();
+            $legacyName = false !== strpos($name, 'html.twig') ? $file->getBasename('.html.twig') : $name;
+
             /* @var SplFileInfo $file */
-            self::$twigFiles[$file->getBasename('.html.twig')] = $file->getRealPath();
+            self::$twigFiles[$name] = $file->getRealPath();
+
+            if ($legacyName !== $name) {
+                self::$twigFiles[$legacyName] = self::$twigFiles[$name];
+            }
         }
 
         // add root templates
@@ -100,7 +111,14 @@ class TemplateUtil
 
         if (\is_array($rootTemplates)) {
             foreach ($rootTemplates as $file) {
-                self::$twigFiles[basename($file, '.html.twig')] = $file;
+                $name = basename($file);
+                $legacyName = false !== strpos($name, 'html.twig') ? basename($file, '.html.twig') : $name;
+
+                self::$twigFiles[$name] = $file;
+
+                if ($legacyName !== $name) {
+                    self::$twigFiles[$legacyName] = self::$twigFiles[$name];
+                }
             }
         }
 
@@ -234,13 +252,13 @@ class TemplateUtil
      * @param string $name   The name of the template
      * @param string $format The file extension
      *
-     * @throws \InvalidArgumentException           If $strFormat is unknown
-     * @throws \RuntimeException                   If the template group folder is insecure
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \InvalidArgumentException If $strFormat is unknown
+     * @throws \RuntimeException         If the template group folder is insecure
+     * @throws \Twig_Error_Loader
      *
      * @return string The path to the template file
      */
-    public function getTemplate(string $name, string $format = 'html.twig'): string
+    public function getTemplate(string $name, string $format = 'twig'): string
     {
         // Check for a theme folder
         if (System::getContainer()->get('huh.utils.container')->isFrontend()) {
@@ -260,7 +278,11 @@ class TemplateUtil
             }
         }
 
-        return self::$twigFiles[$name] ?? ($name.'.'.$format);
+        if (!isset(self::$twigFiles[$name])) {
+            throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $name));
+        }
+
+        return self::$twigFiles[$name];
     }
 
     /**
@@ -272,7 +294,7 @@ class TemplateUtil
      *
      * @return array
      */
-    public function findTemplates(string $path, string $pattern = null, string $format = 'html.twig')
+    public function findTemplates(string $path, string $pattern = null, string $format = 'twig')
     {
         // Use glob() if possible
         if (false === strpos($path, '/**/') && (\defined('GLOB_BRACE') || false === strpos($path, '{'))) {
@@ -380,7 +402,7 @@ class TemplateUtil
      *
      * @return string The path to the template file
      */
-    protected function getBundleTemplate(string $name, string $format = 'html.twig'): string
+    public function getBundleTemplate(string $name, string $format = 'html.twig'): string
     {
         $templatePath = $name;
 
