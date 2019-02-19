@@ -46,6 +46,8 @@ class TemplateUtil
         $this->framework = $framework;
         $this->cache = new FilesystemAdapter('', 0, $kernel->getCacheDir());
         $this->kernel = $kernel;
+        $this->container = System::getContainer();
+        $this->containerUtil = System::getContainer()->get('huh.utils.container');
     }
 
     /**
@@ -53,7 +55,7 @@ class TemplateUtil
      */
     public function getAllTemplates()
     {
-        $strCacheDir = System::getContainer()->getParameter('kernel.cache_dir');
+        $strCacheDir = $this->container->getParameter('kernel.cache_dir');
 
         // Try to load from cache
         if (file_exists($strCacheDir.'/contao/config/twig-templates.php')) {
@@ -94,7 +96,7 @@ class TemplateUtil
             }
         }
 
-        foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('*.twig') as $file) {
+        foreach ($this->container->get('contao.resource_finder')->findIn('templates')->name('*.twig') as $file) {
             $name = $file->getBasename();
             $legacyName = false !== strpos($name, 'html.twig') ? $file->getBasename('.html.twig') : $name;
 
@@ -107,7 +109,7 @@ class TemplateUtil
         }
 
         // add root templates
-        $rootTemplates = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/templates/');
+        $rootTemplates = $this->findTemplates($this->containerUtil->getProjectDir().'/templates/');
 
         if (\is_array($rootTemplates)) {
             foreach ($rootTemplates as $file) {
@@ -131,7 +133,7 @@ class TemplateUtil
      * @param string $prefix The template name prefix (e.g. "ce_")
      * @param string $format The file extension
      *
-     * @return array An array of template names
+     * @return array An array of template names (html.twig templates without file extension, others with file extension)
      *
      * @coversNothing As long as Controller::getTemplateGroup is not testable (ThemeModel…)
      */
@@ -157,20 +159,20 @@ class TemplateUtil
                     $finder->in($dir);
                     $finder->files()->name('/'.$prefix.'.*'.$format.'/');
 
+                    /* @var SplFileInfo $file */
                     foreach ($finder as $file) {
-                        /* @var SplFileInfo $file */
-                        $strTemplate = $file->getBasename('.'.$format);
+                        $strTemplate = 'html.twig' === $format ? $file->getBasename('.'.$format) : $file->getFilename(); // Backward compability for html.twig templates
                         $arrTemplates[$strTemplate]['name'] = $file->getBasename();
-                        $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), System::getContainer()->get('huh.utils.container')->getProjectDir()), '/');
+                        $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), $this->containerUtil->getProjectDir()), '/');
                     }
                 }
             }
 
             foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('/'.$prefix.'.*'.$format.'/') as $file) {
                 /* @var SplFileInfo $file */
-                $strTemplate = $file->getBasename('.'.$format);
+                $strTemplate = 'html.twig' === $format ? $file->getBasename('.'.$format) : $file->getFilename(); // Backward compability for html.twig templates
                 $arrTemplates[$strTemplate]['name'] = $file->getBasename();
-                $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), System::getContainer()->get('huh.utils.container')->getProjectDir()), '/');
+                $arrTemplates[$strTemplate]['scopes'][] = rtrim($objFilesystem->makePathRelative($file->getPath(), $this->containerUtil->getProjectDir()), '/');
             }
         } catch (\InvalidArgumentException $e) {
         }
@@ -181,12 +183,12 @@ class TemplateUtil
             $arrTemplates[$strTemplate]['scopes'][] = 'root';
         }
 
-        $arrCustomized = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/templates/', $prefix, $format);
+        $arrCustomized = $this->findTemplates($this->containerUtil->getProjectDir().'/templates/', $prefix, $format);
 
         // Add the customized templates
         if (\is_array($arrCustomized)) {
             foreach ($arrCustomized as $strFile) {
-                $strTemplate = basename($strFile, '.'.$format);
+                $strTemplate = 'html.twig' === $format ? basename($strFile, '.'.$format) : basename($strFile); // Backward compability for html.twig templates
                 $arrTemplates[$strTemplate]['name'] = basename($strFile);
                 $arrTemplates[$strTemplate]['scopes'][] = $GLOBALS['TL_LANG']['MSC']['global'];
             }
@@ -210,11 +212,11 @@ class TemplateUtil
             if (null !== $objTheme) {
                 while ($objTheme->next()) {
                     if ('' != $objTheme->templates) {
-                        $arrThemeTemplates = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/'.$objTheme->templates.'/', $prefix, $format);
+                        $arrThemeTemplates = $this->findTemplates($this->containerUtil->getProjectDir().'/'.$objTheme->templates.'/', $prefix, $format);
 
                         if (\is_array($arrThemeTemplates)) {
                             foreach ($arrThemeTemplates as $strFile) {
-                                $strTemplate = basename($strFile, '.'.$format);
+                                $strTemplate = 'html.twig' === $format ? basename($strFile, '.'.$format) : basename($strFile); // Backward compability for html.twig templates
                                 $arrTemplates[$strTemplate]['name'] = basename($strFile);
                                 $arrTemplates[$strTemplate]['scopes'][] = $objTheme->name;
                             }
@@ -261,7 +263,7 @@ class TemplateUtil
     public function getTemplate(string $name, string $format = 'twig'): string
     {
         // Check for a theme folder
-        if (System::getContainer()->get('huh.utils.container')->isFrontend()) {
+        if ($this->containerUtil->isFrontend()) {
             /* @var PageModel $objPage */
             global $objPage;
 
@@ -270,7 +272,7 @@ class TemplateUtil
                     throw new \RuntimeException('Invalid path '.$objPage->templateGroup);
                 }
 
-                $templates = $this->findTemplates(System::getContainer()->get('huh.utils.container')->getProjectDir().'/'.$objPage->templateGroup, $name, $format);
+                $templates = $this->findTemplates($this->containerUtil->getProjectDir().'/'.$objPage->templateGroup, $name, $format);
 
                 if (!empty($templates)) {
                     return reset($templates);
@@ -383,8 +385,8 @@ class TemplateUtil
      */
     public function renderTwigTemplate(string $name, array $data = [])
     {
-        $buffer = System::getContainer()->get('twig')->render(
-            System::getContainer()->get('huh.utils.template')->getTemplate($name),
+        $buffer = $this->container->get('twig')->render(
+            $this->getTemplate($name),
             $data
         );
 

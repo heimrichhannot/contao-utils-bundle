@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.70.1] - 2019-02-19
+
+### Fixed
+- `TemplateUtil::getTemplateGroup` now returns file extension in file name if not html.twig
+
 ## [2.70.0] - 2019-02-18
 
 ### Changed
