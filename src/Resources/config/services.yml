@@ -155,9 +155,7 @@ services:
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
     public: true
-    arguments:
-    - "@contao.framework"
-    - '@kernel'
+    autowire: true
   huh.utils.user:
     class: HeimrichHannot\UtilsBundle\User\UserUtil
     public: true

@@ -13,7 +13,9 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\PageModel;
 use Contao\System;
 use Contao\ThemeModel;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -37,17 +39,25 @@ class TemplateUtil
      */
     protected static $twigFiles = [];
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+    /**
+     * @var ContainerUtil
+     */
+    protected $containerUtil;
+    /**
      * @var KernelInterface
      */
     private $kernel;
 
-    public function __construct(ContaoFrameworkInterface $framework, KernelInterface $kernel)
+    public function __construct(ContaoFrameworkInterface $framework, KernelInterface $kernel, ContainerInterface $container)
     {
         $this->framework = $framework;
         $this->cache = new FilesystemAdapter('', 0, $kernel->getCacheDir());
         $this->kernel = $kernel;
-        $this->container = System::getContainer();
-        $this->containerUtil = System::getContainer()->get('huh.utils.container');
+        $this->container = $container;
+        $this->containerUtil = $container->get('huh.utils.container');
     }
 
     /**

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.70.2] - 2019-02-19
+
+### Fixed
+- compile error due calling `System:getContainer` in `TemplateUtil` constructor
+
 ## [2.70.1] - 2019-02-19
 
 ### Fixed
