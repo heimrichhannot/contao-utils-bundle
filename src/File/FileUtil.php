@@ -10,15 +10,19 @@ namespace HeimrichHannot\UtilsBundle\File;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
+use Contao\Dbafs;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Ghostscript\Transcoder;
 
 class FileUtil
 {
+    const FILE_UTIL_CONVERT_FILE_TYPE = 'png';
+
     /** @var ContaoFrameworkInterface */
     protected $framework;
 
@@ -106,13 +110,15 @@ class FileUtil
                     $fileArray['filename'] = htmlentities($file);
 
                     if ($protectedBaseUrl) {
-                        $fileArray['absUrl'] = $protectedBaseUrl.(empty($_GET) ? '?' : '&').'file='.str_replace('//', '', $baseUrl.'/'.$file);
+                        $fileArray['absUrl'] =
+                            $protectedBaseUrl.(empty($_GET) ? '?' : '&').'file='.str_replace('//', '', $baseUrl.'/'.$file);
                     } else {
                         $fileArray['absUrl'] = str_replace('\\', '/', str_replace('//', '', $baseUrl.'/'.$file));
                     }
 
                     $fileArray['path'] = str_replace($fileArray['filename'], '', $fileArray['absUrl']);
-                    $fileArray['filesize'] = $this->formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $dir.'/'.$file))), true);
+                    $fileArray['filesize'] =
+                        $this->formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $dir.'/'.$file))), true);
 
                     $results[] = $fileArray;
                 }
@@ -234,7 +240,8 @@ class FileUtil
 
         $directory = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/');
 
-        return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).($file->extension ? '.'.$file->extension : '');
+        return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).($file->extension ? '.'
+                                                                                                                            .$file->extension : '');
     }
 
     /**
@@ -343,5 +350,58 @@ class FileUtil
         fclose($handle);
 
         return $count;
+    }
+
+    /**
+     * convert pdf to png and return a preview file
+     * delete the other png files.
+     *
+     * @param FilesModel $file
+     * @param int        $page
+     *
+     * @return FilesModel
+     */
+    public function getPreviewFromPdf(FilesModel $file, int $page = 0): FilesModel
+    {
+        $strippedName = str_replace('.'.$file->extension, '', $file->name);
+        $previewFileName = 'preview-'.$strippedName.'.'.static::FILE_UTIL_CONVERT_FILE_TYPE;
+        $folder = str_replace($file->name, '', $file->path);
+        $target = $folder.\DIRECTORY_SEPARATOR.$previewFileName;
+
+        // ghostscript
+        /** @var Transcoder $transcoder */
+        $transcoder = $this->framework->getAdapter(Transcoder::class)->create();
+        $transcoder->toImage($file->path, $target);
+
+        // get all created images
+        $folderFiles = scandir($folder);
+        $pdfPreviewFiles = [];
+        $needle = '/preview-'.$strippedName.'*\.'.static::FILE_UTIL_CONVERT_FILE_TYPE.'/';
+
+        foreach ($folderFiles as $file) {
+            if (!preg_match($needle, $file)) {
+                continue;
+            }
+
+            $pdfPreviewFiles[] = $file;
+        }
+
+        $preview = null;
+
+        foreach ($pdfPreviewFiles as $key => $value) {
+            if ($page != $key && file_exists($value)) {
+                unlink($value);
+
+                continue;
+            }
+
+            $preview = $value;
+        }
+
+        if (null === ($previewFile = $this->framework->getAdapter(FilesModel::class)->findByPath($preview))) {
+            $previewFile = $this->framework->getAdapter(Dbafs::class)->addResource($folder.\DIRECTORY_SEPARATOR.$preview);
+        }
+
+        return $previewFile;
     }
 }
