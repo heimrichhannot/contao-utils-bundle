@@ -14,6 +14,7 @@ use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\System;
+use Ghostscript\Transcoder;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
@@ -318,7 +319,7 @@ class FileUtilTest extends TestCaseEnvironment
             $this->assertSame('Invalid target path dlfjn../ds', $exception->getMessage());
         }
     }
-
+    
     /**
      * @return DataContainer|\PHPUnit_Framework_MockObject_MockObject
      */

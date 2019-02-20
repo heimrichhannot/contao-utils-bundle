@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.69.2] - 2019-02-20
+
+### Added
+- `getPreviewFromPdf` method in `huh.utils.file`
+
 ## [2.69.1] - 2019-02-15
 
 ### Added

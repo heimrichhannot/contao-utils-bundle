@@ -10,23 +10,27 @@ namespace HeimrichHannot\UtilsBundle\File;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
+use Contao\Dbafs;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Ghostscript\Transcoder;
 
 class FileUtil
 {
+    const FILE_UTIL_CONVERT_FILE_TYPE = 'png';
+    
     /** @var ContaoFrameworkInterface */
     protected $framework;
-
+    
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
     }
-
+    
     /**
      * Get a unique filename within given target folder, remove uniqid() suffix from file (optional, add $prefix) and append file count by name to
      * file if file with same name already exists in target folder.
@@ -40,48 +44,48 @@ class FileUtil
     public function getUniqueFileNameWithinTarget($target, $prefix = null, $i = 0)
     {
         $file = new File($target);
-
+        
         $target = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $target), '/');
-
+        
         if ($file->extension) {
-            $path = str_replace('.'.$file->extension, '', $target);
+            $path = str_replace('.' . $file->extension, '', $target);
         }
-
+        
         if ($prefix && false !== ($pos = strpos($path, $prefix))) {
-            $path = str_replace(substr($path, $pos, \strlen($path)), '', $path);
-            $target = $path.'.'.$file->extension;
+            $path   = str_replace(substr($path, $pos, \strlen($path)), '', $path);
+            $target = $path . '.' . $file->extension;
         }
-
+        
         // Create the parent folder
         if (!file_exists($file->dirname)) {
             $folder = new Folder(ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/'));
-
+            
             // something went wrong with folder creation
             if (null === $folder->getModel()) {
                 return false;
             }
         }
-
-        if (file_exists(System::getContainer()->getParameter('kernel.project_dir').'/'.$target)) {
+        
+        if (file_exists(System::getContainer()->getParameter('kernel.project_dir') . '/' . $target)) {
             // remove suffix
-            if ($i > 0 && System::getContainer()->get('huh.utils.string')->endsWith($path, '_'.$i)) {
-                $path = rtrim($path, '_'.$i);
+            if ($i > 0 && System::getContainer()->get('huh.utils.string')->endsWith($path, '_' . $i)) {
+                $path = rtrim($path, '_' . $i);
             }
-
+            
             // increment counter & add extension again
             ++$i;
-
+            
             // for performance reasons, add new unique id to path to make recursion come to end after 100 iterations
             if ($i > 100) {
-                return $this->getUniqueFileNameWithinTarget($this->addUniqueIdToFilename($path.'.'.$file->extension, null, false));
+                return $this->getUniqueFileNameWithinTarget($this->addUniqueIdToFilename($path . '.' . $file->extension, null, false));
             }
-
-            return $this->getUniqueFileNameWithinTarget($path.'_'.$i.'.'.$file->extension, $prefix, $i);
+            
+            return $this->getUniqueFileNameWithinTarget($path . '_' . $i . '.' . $file->extension, $prefix, $i);
         }
-
+        
         return $target;
     }
-
+    
     /**
      * Returns the file list for a given directory.
      *
@@ -94,77 +98,79 @@ class FileUtil
     public function getFileList($dir, $baseUrl, $protectedBaseUrl = null)
     {
         $results = [];
-
+        
         if (is_dir($dir)) {
             if ($handler = opendir($dir)) {
                 while (false !== ($file = readdir($handler))) {
                     if ('.' == substr($file, 0, 1)) {
                         continue;
                     }
-
-                    $fileArray = [];
+                    
+                    $fileArray             = [];
                     $fileArray['filename'] = htmlentities($file);
-
+                    
                     if ($protectedBaseUrl) {
-                        $fileArray['absUrl'] = $protectedBaseUrl.(empty($_GET) ? '?' : '&').'file='.str_replace('//', '', $baseUrl.'/'.$file);
+                        $fileArray['absUrl'] =
+                            $protectedBaseUrl . (empty($_GET) ? '?' : '&') . 'file=' . str_replace('//', '', $baseUrl . '/' . $file);
                     } else {
-                        $fileArray['absUrl'] = str_replace('\\', '/', str_replace('//', '', $baseUrl.'/'.$file));
+                        $fileArray['absUrl'] = str_replace('\\', '/', str_replace('//', '', $baseUrl . '/' . $file));
                     }
-
-                    $fileArray['path'] = str_replace($fileArray['filename'], '', $fileArray['absUrl']);
-                    $fileArray['filesize'] = $this->formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $dir.'/'.$file))), true);
-
+                    
+                    $fileArray['path']     = str_replace($fileArray['filename'], '', $fileArray['absUrl']);
+                    $fileArray['filesize'] =
+                        $this->formatSizeUnits(filesize(str_replace('\\', '/', str_replace('//', '', $dir . '/' . $file))), true);
+                    
                     $results[] = $fileArray;
                 }
-
+                
                 closedir($handler);
             }
         }
-
+        
         System::getContainer()->get('huh.utils.array')->aasort($results, 'filename');
-
+        
         return $results;
     }
-
+    
     public function formatSizeUnits(int $bytes, $keepTogether = false)
     {
         if ($bytes >= 1073741824) {
-            $bytes = number_format($bytes / 1073741824, 2).($keepTogether ? '&nbsp;' : ' ').'GB';
+            $bytes = number_format($bytes / 1073741824, 2) . ($keepTogether ? '&nbsp;' : ' ') . 'GB';
         } elseif ($bytes >= 1048576) {
-            $bytes = number_format($bytes / 1048576, 2).($keepTogether ? '&nbsp;' : ' ').'MB';
+            $bytes = number_format($bytes / 1048576, 2) . ($keepTogether ? '&nbsp;' : ' ') . 'MB';
         } elseif ($bytes >= 1024) {
-            $bytes = number_format($bytes / 1024, 2).($keepTogether ? '&nbsp;' : ' ').'KB';
+            $bytes = number_format($bytes / 1024, 2) . ($keepTogether ? '&nbsp;' : ' ') . 'KB';
         } elseif ($bytes > 1) {
-            $bytes = $bytes.($keepTogether ? '&nbsp;' : ' ').'Bytes';
+            $bytes = $bytes . ($keepTogether ? '&nbsp;' : ' ') . 'Bytes';
         } elseif (1 == $bytes) {
-            $bytes = $bytes.($keepTogether ? '&nbsp;' : ' ').'Byte';
+            $bytes = $bytes . ($keepTogether ? '&nbsp;' : ' ') . 'Byte';
         } else {
-            $bytes = '0'.($keepTogether ? '&nbsp;' : ' ').'Bytes';
+            $bytes = '0' . ($keepTogether ? '&nbsp;' : ' ') . 'Bytes';
         }
-
+        
         return $bytes;
     }
-
+    
     public function getPathWithoutFilename($pathToFile)
     {
         $path = pathinfo($pathToFile);
-
+        
         if (!isset($path['dirname'])) {
             return '';
         }
-
+        
         return $path['dirname'];
     }
-
+    
     public function getFileExtension($path)
     {
         if (is_dir($path)) {
             return '';
         }
-
+        
         return pathinfo($path, PATHINFO_EXTENSION);
     }
-
+    
     /**
      * @param      $uuid
      * @param bool $checkIfExists
@@ -177,15 +183,15 @@ class FileUtil
             if (!$checkIfExists) {
                 return $file->path;
             }
-
-            if (file_exists(System::getContainer()->getParameter('kernel.project_dir').'/'.$file->path)) {
+            
+            if (file_exists(System::getContainer()->getParameter('kernel.project_dir') . '/' . $file->path)) {
                 return $file->path;
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * @param      $uuid
      * @param bool $doNotCreate
@@ -195,14 +201,14 @@ class FileUtil
     public function getFileFromUuid($uuid)
     {
         if ($path = $this->getPathFromUuid($uuid)) {
-            if (is_dir(System::getContainer()->get('huh.utils.container')->getProjectDir().\DIRECTORY_SEPARATOR.$path)) {
+            if (is_dir(System::getContainer()->get('huh.utils.container')->getProjectDir() . \DIRECTORY_SEPARATOR . $path)) {
                 return null;
             }
-
+            
             return new File($path);
         }
     }
-
+    
     /**
      * @param      $uuid
      * @param bool $doNotCreate
@@ -214,10 +220,10 @@ class FileUtil
         if ($path = $this->getPathFromUuid($uuid)) {
             return new Folder($path);
         }
-
+        
         return false;
     }
-
+    
     /**
      * Add a unique identifier to a file name.
      *
@@ -231,12 +237,13 @@ class FileUtil
     public function addUniqueIdToFilename($fileName, $prefix = null, $moreEntropy = true)
     {
         $file = new File($fileName);
-
+        
         $directory = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/');
-
-        return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).($file->extension ? '.'.$file->extension : '');
+        
+        return ($directory ? $directory . '/' : '') . $file->filename . uniqid($prefix, $moreEntropy) . ($file->extension ? '.'
+                                                                                                                            . $file->extension : '');
     }
-
+    
     /**
      * Sanitize filename and removes "id-" prefix generated by contao standardize method.
      *
@@ -249,34 +256,34 @@ class FileUtil
     public function sanitizeFileName($fileName, $maxCount = 0, $preserveUppercase = false)
     {
         $file = new File($fileName);
-
+        
         $name = $file->filename;
-
+        
         $name = \Patchwork\Utf8::toAscii(StringUtil::standardize($name, $preserveUppercase), '');
-
+        
         if ('id-' != $name && !System::getContainer()->get('huh.utils.string')->startsWith($fileName, 'id-')) {
             $name = preg_replace('/^(id-)/', '', $name);
         }
-
+        
         if ($maxCount > 0) {
             $name = substr($name, 0, $maxCount - 1);
         }
-
+        
         $directory = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/');
-
-        return ($directory ? $directory.'/' : '').$name.($file->extension ? ('.'.strtolower($file->extension)) : '');
+        
+        return ($directory ? $directory . '/' : '') . $name . ($file->extension ? ('.' . strtolower($file->extension)) : '');
     }
-
+    
     public function sendTextAsFileToBrowser($content, $fileName)
     {
-        header('Content-Disposition: attachment; filename="'.$fileName.'"');
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
         header('Content-Type: text/plain');
         header('Connection: close');
         echo $content;
-
+        
         die();
     }
-
+    
     /**
      * Get real folder from datacontainer attribute.
      *
@@ -292,7 +299,7 @@ class FileUtil
         // upload folder
         if (\is_array($folder) && null !== $dc) {
             $callback = $folder;
-            $folder = System::importStatic($callback[0])->{$callback[1]}($dc);
+            $folder   = System::importStatic($callback[0])->{$callback[1]}($dc);
         } elseif (\is_callable($folder) && null !== $dc) {
             $method = $folder;
             $folder = $method($dc);
@@ -301,21 +308,21 @@ class FileUtil
                 throw new \Exception("Invalid target path $folder");
             }
         }
-
+        
         if ($folder instanceof File) {
             $folder = $folder->value;
         } elseif ($folder instanceof FilesModel) {
             $folder = $folder->path;
         }
-
+        
         if (Validator::isUuid($folder)) {
             $folderObj = $this->getFolderFromUuid($folder);
-            $folder = $folderObj->value;
+            $folder    = $folderObj->value;
         }
-
+        
         return $folder;
     }
-
+    
     /**
      * @param $file
      *
@@ -324,24 +331,76 @@ class FileUtil
     public function getFileLineCount($file)
     {
         $count = 0;
-
+        
         try {
             if (false === strpos($file, System::getContainer()->getParameter('kernel.project_dir'))) {
-                $file = System::getContainer()->getParameter('kernel.project_dir').$file;
+                $file = System::getContainer()->getParameter('kernel.project_dir') . $file;
             }
-
+            
             $handle = fopen($file, 'r');
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
-
+        
         while (!feof($handle)) {
             $line = fgets($handle);
             ++$count;
         }
-
+        
         fclose($handle);
-
+        
         return $count;
     }
+    
+    /**
+     * convert pdf to png and return a preview file
+     * delete the other png files.
+     *
+     * @param FilesModel $file
+     * @param int        $page
+     *
+     * @return FilesModel
+     */
+    public function getPreviewFromPdf(FilesModel $file, int $page = 0): FilesModel
+    {
+        $strippedName    = str_replace('.' . $file->extension, '', $file->name);
+        $previewFileName = 'preview-' . $strippedName . '.' . static::FILE_UTIL_CONVERT_FILE_TYPE;
+        $folder          = str_replace($file->name, '', $file->path);
+        $target          = $folder . DIRECTORY_SEPARATOR . $previewFileName;
+        
+        // ghostscript
+        /** @var Transcoder $transcoder */
+        $transcoder = $this->framework->getAdapter(Transcoder::class)->create();
+        $transcoder->toImage($file->path, $target);
+        
+        // get all created images
+        $folderFiles     = scandir($folder);
+        $pdfPreviewFiles = [];
+        $needle          = '/preview-' . $strippedName . '*\.' . static::FILE_UTIL_CONVERT_FILE_TYPE . '/';
+        
+        foreach ($folderFiles as $file) {
+            if (!preg_match($needle, $file)) {
+                continue;
+            }
+            
+            $pdfPreviewFiles[] = $file;
+        }
+        
+        $preview = null;
+        foreach ($pdfPreviewFiles as $key => $value) {
+            if ($page != $key && file_exists($value)) {
+                unlink($value);
+                continue;
+            }
+            
+            $preview = $value;
+        }
+        
+        if (null === ($previewFile = $this->framework->getAdapter(FilesModel::class)->findByPath($preview))) {
+            $previewFile = $this->framework->getAdapter(Dbafs::class)->addResource($folder . DIRECTORY_SEPARATOR . $preview);
+        }
+        
+        return $previewFile;
+    }
+    
 }
