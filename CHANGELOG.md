@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.71.0] - 2019-02-20
+
+### Added
+- twig filter `image_data` in `ImageExtension` to get image data as array
+
 ## [2.70.2] - 2019-02-19
 
 ### Fixed

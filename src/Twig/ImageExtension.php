@@ -26,6 +26,7 @@ class ImageExtension extends AbstractExtension
             new TwigFilter('image', [$this, 'getImage']),
             new TwigFilter('image_caption', [$this, 'getImageCaption']),
             new TwigFilter('image_width', [$this, 'getImageWidth']),
+            new TwigFilter('image_data', [$this, 'getImageData']),
         ];
     }
 
@@ -41,21 +42,41 @@ class ImageExtension extends AbstractExtension
      */
     public function getImage($image, $size = null, array $data = [], string $template = '@HeimrichHannotContaoUtils/image.html.twig'): string
     {
-        $data['image'] = $image;
-        $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size, true);
-        $imageData = [];
-        System::getContainer()->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
+        $imageData = $this->getImageData($image, $size, $data);
 
         if (empty($imageData)) {
             return '';
         }
 
         try {
-            return System::getContainer()->get('twig')->render($template, array_merge($imageData, $data));
+            return System::getContainer()->get('twig')->render($template, $imageData);
         } catch (\Twig_Error $e) {
         }
 
         return '';
+    }
+
+    /**
+     * Get image data based on given path/uuid.
+     *
+     * @param mixed        $image File path/uuid
+     * @param string|array $size  Array or serialized string containing [width, height, imageSize-ID]
+     * @param array        $data  Add image data here [href => 'URL', class => 'img css class']…
+     *
+     * @return array Image data
+     */
+    public function getImageData($image, $size = null, array $data = []): array
+    {
+        $data['image'] = $image;
+        $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size, true);
+        $imageData = [];
+        System::getContainer()->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
+
+        if (empty($imageData)) {
+            return [];
+        }
+
+        return array_merge($imageData, $data);
     }
 
     /**
