@@ -98,16 +98,16 @@ class DatabaseTreeCache
     /**
      * Get all child records for given parent entities.
      *
-     * @param string $table    The database table
-     * @param array  $ids      The parent entity ids
-     * @param int    $maxDepth The max stop level
+     * @param string $table     The database table
+     * @param array  $ids       The parent entity ids
+     * @param int    $maxLevels The max stop level
      * @param string Custom index key (default: primary key from model)
      * @param array $children Internal children return array
-     * @param int   $depth    Internal depth attribute
+     * @param int   $level    Internal depth attribute
      *
      * @return array An array containing all children for given parent entities
      */
-    public function getChildRecords(string $table, array $ids = [], $maxDepth = null, string $key = 'id', array $children = [], int $depth = 0): array
+    public function getChildRecords(string $table, array $ids = [], $maxLevels = null, string $key = 'id', array $children = [], int $level = 0): array
     {
         if (null === ($tree = $this->getTreeCache($table, $key))) {
             return $this->database->getChildRecords($ids, $table);
@@ -120,15 +120,15 @@ class DatabaseTreeCache
 
             $children = array_merge($children, $tree[$id]);
 
-            if (1 === $maxDepth) {
+            if (1 === $maxLevels) {
                 continue;
             }
 
-            if ($maxDepth > 0 && $depth > $maxDepth) {
+            if ($maxLevels > 0 && $level > $maxLevels) {
                 return [];
             }
 
-            if (!empty($nested = self::getChildRecords($table, $tree[$id], $maxDepth, $key, $children, ++$depth))) {
+            if (!empty($nested = self::getChildRecords($table, $tree[$id], $maxLevels, $key, $children, ++$level))) {
                 $children = $nested;
             } else {
                 $depth = 0;
@@ -136,6 +136,53 @@ class DatabaseTreeCache
         }
 
         return $children;
+    }
+
+    /**
+     * Get all parent records for given child entity.
+     *
+     * @param string $table     The database table
+     * @param int    $id        The current entity id
+     * @param int    $maxLevels The max stop level
+     * @param string Custom index key (default: primary key from model)
+     * @param array $parents Internal children return array
+     * @param int   $level   Internal depth attribute
+     *
+     * @return array An array containing all children for given parent entities
+     */
+    public function getParentRecords(string $table, int $id, $maxLevels = null, string $key = 'id', array $parents = [], int $level = 0): array
+    {
+        if (null === ($tree = $this->getTreeCache($table, $key))) {
+            return $this->database->getParentRecords($id, $table);
+        }
+
+        if (isset($tree[$id]) && 0 === $level) {
+            $parents[] = $id;
+        }
+
+        foreach ($tree as $pid => $ids) {
+            if (!\in_array($id, $ids)) {
+                continue;
+            }
+
+            $parents[] = $pid;
+
+            if (1 === $maxLevels) {
+                continue;
+            }
+
+            if ($maxLevels > 0 && $level > $maxLevels) {
+                return [];
+            }
+
+            if (!empty($nested = self::getParentRecords($table, $pid, $maxLevels, $key, $parents, ++$level))) {
+                $parents = $nested;
+            } else {
+                $level = 0;
+            }
+        }
+
+        return $parents;
     }
 
     /**

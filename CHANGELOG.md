@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.72.0] - 2019-02-20
+
+### Added
+- `getParentRecords` added in `huh.utils.cache.database_tree` that replaces `\Contao\Database::getInstance()->getParentRecords()`
+
 ## [2.71.0] - 2019-02-20
 
 ### Added
