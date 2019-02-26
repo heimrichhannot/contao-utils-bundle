@@ -271,8 +271,6 @@ class ImageUtil
         $templateData['margin'] = Controller::generateMargin($marginArray);
         $templateData[$imageSelectorField] = true;
 
-        dump($templateData);
-
         // HOOK: modify image template data
         if (isset($GLOBALS['TL_HOOKS']['addImageToTemplateData']) && \is_array($GLOBALS['TL_HOOKS']['addImageToTemplateData'])) {
             foreach ($GLOBALS['TL_HOOKS']['addImageToTemplateData'] as $callback) {
