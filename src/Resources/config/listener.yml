@@ -3,4 +3,4 @@ services:
     class: HeimrichHannot\UtilsBundle\EventListener\InsertTagsListener
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"

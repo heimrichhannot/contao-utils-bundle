@@ -14,6 +14,7 @@ use Contao\PageModel;
 use Contao\System;
 use Contao\ThemeModel;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Event\RenderTwigTemplateEvent;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -383,8 +384,8 @@ class TemplateUtil
     /**
      * Renders a twig template with data.
      *
-     * @param string $name
-     * @param array  $data
+     * @param string $name    The twig template name
+     * @param array  $context The twig template context data
      *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \Twig_Error_Loader
@@ -393,11 +394,18 @@ class TemplateUtil
      *
      * @return string
      */
-    public function renderTwigTemplate(string $name, array $data = [])
+    public function renderTwigTemplate(string $name, array $context = [])
     {
+        $event = $this->container->get('event_dispatcher')->dispatch(
+            RenderTwigTemplateEvent::NAME,
+            new RenderTwigTemplateEvent(
+                $name, $context
+            )
+        );
+
         $buffer = $this->container->get('twig')->render(
-            $this->getTemplate($name),
-            $data
+            $this->getTemplate($event->getTemplate()),
+            $event->getContext()
         );
 
         return $buffer;

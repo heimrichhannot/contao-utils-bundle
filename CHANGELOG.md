@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.74.0] - 2019-02-26
+
+### Changed
+- `ImageExtension:getImage()` $template parameter no longer yields namespace, now uses `huh.utils.template` method `getTemplate`
+
+### Added
+- `RenderTwigTemplateEvent` (huh.utils.template.render) to manipulate template name and context data before rendering twig templates
+- ratio, width and height parameter to picture attribute in `huh.utils.image` addToTemplateData
+
 ## [2.73.0] - 2019-02-20
 
 ### Added

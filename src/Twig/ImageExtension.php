@@ -9,12 +9,15 @@
 namespace HeimrichHannot\UtilsBundle\Twig;
 
 use Contao\StringUtil;
-use Contao\System;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-class ImageExtension extends AbstractExtension
+class ImageExtension extends AbstractExtension implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     /**
      * Get list of twig filters.
      *
@@ -31,6 +34,7 @@ class ImageExtension extends AbstractExtension
     }
 
     /**
+     * /**
      * Get image based on given path/uuid.
      *
      * @param mixed        $image    File path/uuid
@@ -38,9 +42,11 @@ class ImageExtension extends AbstractExtension
      * @param array        $data     Add image data here [href => 'URL', class => 'img css class']…
      * @param string       $template Use custom image template
      *
+     * @throws \Psr\Cache\InvalidArgumentException
+     *
      * @return string Image html element with given size
      */
-    public function getImage($image, $size = null, array $data = [], string $template = '@HeimrichHannotContaoUtils/image.html.twig'): string
+    public function getImage($image, $size = null, array $data = [], string $template = 'image.html.twig'): string
     {
         $imageData = $this->getImageData($image, $size, $data);
 
@@ -49,7 +55,7 @@ class ImageExtension extends AbstractExtension
         }
 
         try {
-            return System::getContainer()->get('twig')->render($template, $imageData);
+            return $this->container->get('huh.utils.template')->renderTwigTemplate($template, $imageData);
         } catch (\Twig_Error $e) {
         }
 
@@ -70,7 +76,7 @@ class ImageExtension extends AbstractExtension
         $data['image'] = $image;
         $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size, true);
         $imageData = [];
-        System::getContainer()->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
+        $this->container->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
 
         if (empty($imageData)) {
             return [];
@@ -88,7 +94,7 @@ class ImageExtension extends AbstractExtension
      */
     public function getImageCaption($image): ?string
     {
-        if (null === ($file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($image))) {
+        if (null === ($file = $this->container->get('huh.utils.file')->getFileFromUuid($image))) {
             return null;
         }
 
@@ -110,7 +116,7 @@ class ImageExtension extends AbstractExtension
      */
     public function getImageWidth($image): ?string
     {
-        if (null === ($file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($image))) {
+        if (null === ($file = $this->container->get('huh.utils.file')->getFileFromUuid($image))) {
             return null;
         }
 

@@ -134,6 +134,7 @@ class ImageUtil
             $picture = [
                 'img' => $picture->getImg(TL_ROOT, TL_FILES_URL),
                 'sources' => $picture->getSources(TL_ROOT, TL_FILES_URL),
+                'ratio' => '1.0',
             ];
 
             if ($src !== $file->path) {
@@ -150,6 +151,11 @@ class ImageUtil
         if (false !== ($imgSize = $imageFile->imageSize) && $imageFile->exists()) {
             $templateData['arrSize'] = $imgSize;
             $templateData['imgSize'] = ' width="'.$imgSize[0].'" height="'.$imgSize[1].'"';
+
+            $picture['size'] = $imgSize;
+            $picture['width'] = $imgSize[0];
+            $picture['height'] = $imgSize[1];
+            $picture['ratio'] = $imgSize[1] > 0 ? ($imgSize[0] / $imgSize[1]) : '1.0';
         }
 
         $meta = [];
@@ -264,6 +270,8 @@ class ImageUtil
         $templateData['addBefore'] = ('below' != $item['floating']);
         $templateData['margin'] = Controller::generateMargin($marginArray);
         $templateData[$imageSelectorField] = true;
+
+        dump($templateData);
 
         // HOOK: modify image template data
         if (isset($GLOBALS['TL_HOOKS']['addImageToTemplateData']) && \is_array($GLOBALS['TL_HOOKS']['addImageToTemplateData'])) {
