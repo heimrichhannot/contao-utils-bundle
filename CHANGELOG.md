@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.75.0] - 2019-03-05
+
+### Fixed
+- `eventUtil::addDynamicEventListener()` argument `scope` added (default: `document`) and moved `disableBubbling` to 5th argument
+- `eventUtil::addDynamicEventListener()` now works with window eventListeners like `load` or `resize`
+
 ## [2.74.0] - 2019-02-26
 
 ### Changed
