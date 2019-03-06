@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.75.1] - 2019-03-06
+
+### Fixed
+- `eventUtil::addDynamicEventListener()` now check that `matches` function exist in object
+
 ## [2.75.0] - 2019-03-05
 
 ### Fixed
