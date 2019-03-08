@@ -182,11 +182,14 @@ services:
   huh.twig.extension.date:
     class: HeimrichHannot\UtilsBundle\Twig\DateExtension
     tags: [twig.extension]
-  huh.twig.extension.image:
-    class: HeimrichHannot\UtilsBundle\Twig\ImageExtension
-    tags: [twig.extension]
   huh.twig.extension.download:
     class: HeimrichHannot\UtilsBundle\Twig\DownloadExtension
+    tags: [twig.extension]
+  huh.twig.extension.file:
+    class: HeimrichHannot\UtilsBundle\Twig\FileExtension
+    tags: [twig.extension]
+  huh.twig.extension.image:
+    class: HeimrichHannot\UtilsBundle\Twig\ImageExtension
     tags: [twig.extension]
   huh.cache.warm_internal:
     class: HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer
