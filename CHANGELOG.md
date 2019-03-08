@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.80.0] - 2019-03-08
+
+### Changed
+- `image.html.twig` syntax is now compatible with `heimrichhannot/contao-speed-bundle` lazyload component from version `1.8`
+
 ## [2.75.1] - 2019-03-06
 
 ### Fixed
