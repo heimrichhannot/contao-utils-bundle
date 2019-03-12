@@ -555,7 +555,7 @@ class DatabaseUtil
 
     public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
     {
-        $wildcard = ':'.$field;
+        $wildcard = ':'.str_replace('.', '_', $field);
         $where = '';
 
         // remove dot for table prefixes

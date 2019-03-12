@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.81.2] - 2019-03-
+
+### Fixed
+- `queryBuilder->setParameter` can't handle `.` in wildcard parameter. Replaced `.` in wildcard with `_`
+
 ## [2.81.1] - 2019-03-08
 
 ### Fixed
