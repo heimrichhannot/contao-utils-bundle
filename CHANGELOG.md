@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.81.1] - 2019-03-08
+
+### Fixed
+- added missing closing `<div>` tag in `image.html.twig` (did not tag 2.80.1)
+
 ## [2.81.0] - 2019-03-08
 
 ### Added
