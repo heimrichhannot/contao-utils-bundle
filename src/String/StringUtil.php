@@ -309,18 +309,13 @@ class StringUtil
     /**
      * @param       $text
      * @param array $cssText the css as text (no paths allowed atm)
-     *
-     * @throws \TijsVerkoyen\CssToInlineStyles\Exception
      */
-    public function convertToInlineCss(string $text, string $cssText)
+    public function convertToInlineCss(string $text, string $cssText = null)
     {
-        // prevent inlining inside conditional comments, see https://github.com/tijsverkoyen/CssToInlineStyles/issues/133
-        $cssText = preg_replace('/<!--(.*?)-->/Uis', '', $cssText);
-
         // apply the css inliner
-        $objCssInliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles($text, $cssText);
+        $objCssInliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
 
-        return $objCssInliner->convert();
+        return $objCssInliner->convert($text, $cssText);
     }
 
     /**

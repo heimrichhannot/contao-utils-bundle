@@ -1,7 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.81.2] - 2019-03-
+## [2.82.0] - 2019-03-14
+
+### Changed
+- updated dependency `tijsverkoyen/css-to-inline-styles` to ^2.2
+
+## [2.81.2] - 2019-03-12
 
 ### Fixed
 - `queryBuilder->setParameter` can't handle `.` in wildcard parameter. Replaced `.` in wildcard with `_`
