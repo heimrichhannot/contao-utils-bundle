@@ -146,6 +146,10 @@ class ClassUtil
             }
         }
 
+        if (isset($options['ignoreMethods']) && $options['ignoreMethods']) {
+            return $data;
+        }
+
         // get values of methods
         if (isset($options['ignoreMethodVisibility']) && $options['ignoreMethodVisibility']) {
             $methods = $rc->getMethods();
@@ -176,9 +180,19 @@ class ClassUtil
                 continue;
             }
 
+            if (isset($options['skippedMethods']) && \is_array($options['skippedMethods']) && \in_array($method->name, $options['skippedMethods'])) {
+                continue;
+            }
+
             $property = lcfirst(substr($method->name, $start));
 
-            $data[$property] = $object->{$method->name}();
+            try {
+                $data[$property] = $object->{$method->name}();
+            } catch (\Exception $e) {
+                $data[$property] = null;
+
+                continue;
+            }
 
             if (\is_object($data[$property])) {
                 if (!($data[$property] instanceof \JsonSerializable)) {

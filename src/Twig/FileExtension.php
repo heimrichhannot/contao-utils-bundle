@@ -35,7 +35,6 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
         'mtime',
         'atime',
         'icon',
-        'dataUri',
         'imageSize',
         'width',
         'height',
@@ -80,10 +79,16 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
             return [];
         }
 
-        $fileData = $this->container->get('huh.utils.class')->jsonSerialize($fileObj, $data, $jsonSerializeOptions);
+        $fileData = $this->container->get('huh.utils.class')->jsonSerialize($fileObj, $data, array_merge_recursive($jsonSerializeOptions, ['skippedMethods' => ['getContentAsArray']]));
 
         foreach (static::FILE_OBJECT_PROPERTIES as $property) {
-            $fileData[$property] = $fileObj->{$property};
+            try {
+                $fileData[$property] = $fileObj->{$property};
+            } catch (\Exception $e) {
+                $fileData[$property] = null;
+
+                continue;
+            }
         }
 
         return $fileData;

@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.83.0] - 2019-03-14
+
+### Added
+- added options support for `skippedMethods` and `ignoreMethods` in `huh.utils.class` method `jsonSerialize`
+- catch Exceptions in `huh.utils.class` method `jsonSerialize` method calls in order to skip invalid method calls and continue serialization
+- twig `FileExtension` ('file_data`) now skips all file content related method calls and magic getter properties (handle out of memory exceptions)
+
 ## [2.82.1] - 2019-03-14
 
 ### Changed
