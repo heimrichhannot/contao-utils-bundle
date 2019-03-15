@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.83.1] - 2019-03-15
+
+### Fixed
+- added `ignoreMethods` to prevent file access in twig `FileExtension`
+
 ## [2.83.0] - 2019-03-14
 
 ### Added

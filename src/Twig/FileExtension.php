@@ -79,7 +79,7 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
             return [];
         }
 
-        $fileData = $this->container->get('huh.utils.class')->jsonSerialize($fileObj, $data, array_merge_recursive($jsonSerializeOptions, ['skippedMethods' => ['getContentAsArray']]));
+        $fileData = $this->container->get('huh.utils.class')->jsonSerialize($fileObj, $data, array_merge_recursive($jsonSerializeOptions, ['ignoreMethods' => true]));
 
         foreach (static::FILE_OBJECT_PROPERTIES as $property) {
             try {
