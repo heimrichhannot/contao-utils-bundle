@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.84.0] - 2019-03-20
+
+### Added
+- polyfills for js
+
+### Changed
+- js generation to use webpack 0.24+
+
 ## [2.83.1] - 2019-03-15
 
 ### Fixed

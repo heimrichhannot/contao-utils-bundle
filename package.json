@@ -6,11 +6,11 @@
   "license": "LGPL-3.0-or-later",
   "dependencies": {
     "@hundh/contao-utils-bundle": "^1.5",
-    "path": "^0.12.7"
+    "element-closest": "^3.0.1",
+    "nodelist-foreach-polyfill": "^1.2.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-classes": "^7.2",
-    "@symfony/webpack-encore": "^0.22.2"
+    "@symfony/webpack-encore": "^0.24"
   },
   "scripts": {
     "build-dev": "yarn encore dev",
