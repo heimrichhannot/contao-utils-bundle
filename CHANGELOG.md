@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.84.1] - 2019-03-21
+
+### Fixed
+- twig templates did not render error messages, because they were catched before in ClassUtil and Twig Extensions
+
 ## [2.84.0] - 2019-03-20
 
 ### Added

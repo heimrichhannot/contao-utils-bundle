@@ -134,6 +134,10 @@ class DownloadExtension extends AbstractExtension
      * @param array  $data     Add custom data here
      * @param string $template Use custom download template
      *
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     *
      * @return string Download html element
      */
     public function getDownload($path, bool $download = true, array $data = [], string $template = '@HeimrichHannotContaoUtils/download.html.twig'): string

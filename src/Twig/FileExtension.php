@@ -73,6 +73,18 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
      *
      * @return array File data
      */
+
+    /**
+     * Get file data based on given uuid.
+     *
+     * @param mixed $file                 File uuid
+     * @param array $data                 Add file data here
+     * @param array $jsonSerializeOptions Options for the object to array transformation
+     *
+     * @throws \ReflectionException
+     *
+     * @return array File data
+     */
     public function getFileData($file, array $data = [], array $jsonSerializeOptions = []): array
     {
         if (null === ($fileObj = $this->container->get('huh.utils.file')->getFileFromUuid($file))) {
@@ -82,13 +94,7 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
         $fileData = $this->container->get('huh.utils.class')->jsonSerialize($fileObj, $data, array_merge_recursive($jsonSerializeOptions, ['ignoreMethods' => true]));
 
         foreach (static::FILE_OBJECT_PROPERTIES as $property) {
-            try {
-                $fileData[$property] = $fileObj->{$property};
-            } catch (\Exception $e) {
-                $fileData[$property] = null;
-
-                continue;
-            }
+            $fileData[$property] = $fileObj->{$property};
         }
 
         return $fileData;

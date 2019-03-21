@@ -34,7 +34,6 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
     }
 
     /**
-     * /**
      * Get image based on given path/uuid.
      *
      * @param mixed        $image    File path/uuid
@@ -43,6 +42,9 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
      * @param string       $template Use custom image template
      *
      * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      *
      * @return string Image html element with given size
      */
@@ -54,12 +56,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
             return '';
         }
 
-        try {
-            return $this->container->get('huh.utils.template')->renderTwigTemplate($template, $imageData);
-        } catch (\Twig_Error $e) {
-        }
-
-        return '';
+        return $this->container->get('huh.utils.template')->renderTwigTemplate($template, $imageData);
     }
 
     /**
@@ -112,7 +109,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
      *
      * @param mixed $image File path/uuid
      *
-     * @return int|null Image caption if available, else null
+     * @return string|null Image caption if available, else null
      */
     public function getImageWidth($image): ?string
     {

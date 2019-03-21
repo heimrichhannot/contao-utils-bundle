@@ -186,13 +186,7 @@ class ClassUtil
 
             $property = lcfirst(substr($method->name, $start));
 
-            try {
-                $data[$property] = $object->{$method->name}();
-            } catch (\Exception $e) {
-                $data[$property] = null;
-
-                continue;
-            }
+            $data[$property] = $object->{$method->name}();
 
             if (\is_object($data[$property])) {
                 if (!($data[$property] instanceof \JsonSerializable)) {
