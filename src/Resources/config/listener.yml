@@ -4,3 +4,7 @@ services:
     public: true
     arguments:
       - "@contao.framework"
+  huh.utils.listener.frontend_page:
+    class: HeimrichHannot\UtilsBundle\EventListener\FrontendPageListener
+    public: true
+    autowire: true

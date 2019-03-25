@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.86.0] - 2019-03-25
+
+### Added
+- `huh.utils.string` ensureLineBreaks() that fixes line breaks for one-syllable words in czech language (should not stand alone at the end), this is done by `huh.utils.listener.frontend_page` listener automatically
+
 ## [2.85.0] - 2019-03-25
 
 ### Added

@@ -343,4 +343,25 @@ class StringUtil
     {
         return trim(strtolower($value));
     }
+
+    /**
+     * Ensure line breaks for several languages.
+     *
+     * @param string $buffer
+     * @param string $language
+     *
+     * @return string
+     */
+    public function ensureLineBreaks(string $buffer, string $language = 'en'): string
+    {
+        switch ($language) {
+            case 'cs':
+                // in czech language, one-syllable words should not stand alone at the end  (use &nbsp; instead of whitespace)
+                $buffer = preg_replace('/(\s\w{1})(\s)/', '$1&nbsp;', $buffer);
+
+                break;
+        }
+
+        return $buffer;
+    }
 }
