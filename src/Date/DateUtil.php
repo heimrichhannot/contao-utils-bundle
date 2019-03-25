@@ -8,8 +8,10 @@
 
 namespace HeimrichHannot\UtilsBundle\Date;
 
+use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
 
@@ -384,5 +386,37 @@ class DateUtil
         }
 
         return $date;
+    }
+
+    public function getFormattedDateTime($startDate, $endDate = 0, $addTime = false, $startTime = 0, $endTime = 0, array $options = []): ?string
+    {
+        $dateFormat = $options['dateFormat'] ?? Config::get('dateFormat');
+        $datimFormat = $options['datimFormat'] ?? Config::get('datimFormat');
+        $separator = $options['separator'] ?? ' – ';
+
+        if ($addTime) {
+            $startDateTimeFormatted = date($datimFormat, $startTime);
+            $endDateTimeFormatted = date($datimFormat, $endTime);
+
+            if (!$endTime || $startDateTimeFormatted === $endDateTimeFormatted) {
+                return $startDateTimeFormatted;
+            }
+
+            return $startDateTimeFormatted.$separator.$endDateTimeFormatted;
+        }
+
+        $startDateFormatted = date($dateFormat, $startDate);
+        $endDateFormatted = date($dateFormat, $endDate);
+
+        if (!$endDate || $startDateFormatted === $endDateFormatted) {
+            return $startDateFormatted;
+        }
+
+        return $startDateFormatted.$separator.$endDateFormatted;
+    }
+
+    public function getFormattedDateTimeByEvent(Model $event): ?string
+    {
+        return $this->getFormattedDateTime($event->startDate, $event->endDate, $event->addTime, $event->startTime, $event->endTime);
     }
 }

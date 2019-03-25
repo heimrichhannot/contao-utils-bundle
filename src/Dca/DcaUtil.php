@@ -150,7 +150,7 @@ class DcaUtil
         // Get all default values for the new entry
         foreach ($GLOBALS['TL_DCA'][$strTable]['fields'] as $k => $v) {
             // Use array_key_exists here (see #5252)
-            if (\array_key_exists('default', $v)) {
+            if (array_key_exists('default', $v)) {
                 if (\is_object($varData)) {
                     $varData->{$k} = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                     // Encrypt the default value (see #3740)
@@ -739,6 +739,21 @@ class DcaUtil
             $controller = $this->framework->getAdapter(Controller::class);
 
             $controller->loadDataContainer($table);
+        }
+    }
+
+    /**
+     * Load a language file in a testable way.
+     *
+     * @param string $table
+     */
+    public function loadLanguageFile(string $table)
+    {
+        if (!isset($GLOBALS['TL_LANG'][$table]) || null === $GLOBALS['TL_LANG'][$table]) {
+            /** @var System $system */
+            $system = $this->framework->getAdapter(System::class);
+
+            $system->loadLanguageFile($table);
         }
     }
 

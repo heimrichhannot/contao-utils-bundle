@@ -146,4 +146,24 @@ class MemberUtil
 
         return $adapter->findBy($columns, $values, $options);
     }
+
+    public function findOrCreate(string $email)
+    {
+        /** @var $adapter MemberModel */
+        if (null === $adapter = $this->framework->getAdapter(MemberModel::class)) {
+            return null;
+        }
+
+        $member = $adapter->findByEmail($email);
+
+        if (null === $member) {
+            $member = new \MemberModel();
+            $member->dateAdded = time();
+            $member->tstamp = time();
+            $member->email = trim(strtolower($email));
+            $member->save();
+        }
+
+        return $member;
+    }
 }

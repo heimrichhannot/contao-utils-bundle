@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.85.0] - 2019-03-25
+
+### Added
+- ModuleUtil
+- DateUtil::getFormattedDateTime(), DateUtil::getFormattedDateTimeByEvent()
+- DcaUtil::loadLanguageFile()
+- MemberUtil::findOrCreate()
+
+### Fixed
+- MemberUtil
+- DcaUtil
+
 ## [2.84.1] - 2019-03-21
 
 ### Fixed

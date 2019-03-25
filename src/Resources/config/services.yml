@@ -159,6 +159,9 @@ services:
     public: true
     arguments:
     - "@contao.framework"
+  huh.utils.module:
+    class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
+    public: true
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
     public: true
