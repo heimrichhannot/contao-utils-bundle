@@ -30,7 +30,6 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
         'path',
         'value',
         'mime',
-        'hash',
         'ctime',
         'mtime',
         'atime',
@@ -48,7 +47,6 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
         'bits',
         'isRgbImage',
         'isCmykImage',
-        'handle',
     ];
 
     /**

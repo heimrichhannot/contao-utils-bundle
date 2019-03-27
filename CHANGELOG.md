@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.86.1] - 2019-03-27
+
+### Fixed
+- drop `hash` and `handle` from Twig Extension (`FileExtension`), big performance impact due to additional db/file system access
+
 ## [2.86.0] - 2019-03-25
 
 ### Added
