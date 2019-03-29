@@ -361,6 +361,8 @@ class TemplateUtil
      * Return true, if the template part is empty.
      * Template comments from debug and white spaces are treated as empty.
      *
+     * Datatypes other than string (typical null) are also treated as empty.
+     *
      * @param string $template
      *
      * @return bool
@@ -368,7 +370,7 @@ class TemplateUtil
     public function isTemplatePartEmpty($template = null)
     {
         if (!\is_string($template)) {
-            return false;
+            return true;
         }
 
         return empty($this->removeTemplateComment($template));

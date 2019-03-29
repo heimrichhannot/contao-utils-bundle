@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.86.2] - 2019-03-29
+
+### Fixed
+- TemplateUtil::isTemplatePartEmpty treated null as not empty
+
 ## [2.86.1] - 2019-03-27
 
 ### Fixed
