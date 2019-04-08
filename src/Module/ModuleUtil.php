@@ -74,6 +74,10 @@ class ModuleUtil
 
         $modules = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_module', ['tl_module.type=?'], [$type], $modelOptions);
 
+        if (null === $modules) {
+            return new Collection([], 'tl_module');
+        }
+
         $result = $modules->getModels();
 
         if ($includeSubModules) {
