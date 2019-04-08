@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.87.1] - 2019-04-08
+
+### Added
+- error handling for coordinate retrieval
+- `LocationUtil::computeCoordinatesInSaveCallback()`
+
 ## [2.87.0] - 2019-04-08
 
 ### Added
