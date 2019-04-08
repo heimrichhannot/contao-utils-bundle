@@ -45,7 +45,7 @@ class ModuleUtil
      */
     public function isSubModuleOf($module1, $module2): bool
     {
-        if (\is_string($module1) || false === strpos($module1, '\\')) {
+        if (!\is_string($module1) || false === strpos($module1, '\\')) {
             $module1 = $this->getClassByModule($module1);
         }
 
