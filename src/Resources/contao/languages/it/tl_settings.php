@@ -11,4 +11,4 @@ $lang['dbCacheMaxTime']  = ['Tempo massimo cache', 'Indicare il tempo massimo di
 /**
  * Legends
  */
-$lang['db_cache_legend'] = 'Cache del Database';
+$lang['utils_bundle_legend'] = 'Contao Utils Bundle';

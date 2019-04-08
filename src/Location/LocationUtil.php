@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Location;
 
+use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 
@@ -77,6 +78,8 @@ class LocationUtil
 
         if ($apiKey) {
             $url = System::getContainer()->get('huh.utils.url')->addQueryString('key='.$apiKey, $url);
+        } elseif (Config::get('utilsGoogleApiKey')) {
+            $url = System::getContainer()->get('huh.utils.url')->addQueryString('key='.Config::get('utilsGoogleApiKey'), $url);
         }
 
         $result = $curlUtil->request($url);

@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.87.0] - 2019-04-08
+
+### Added
+- tl_settings::utilsGoogleApiKey as a central point for specifying a google api key
+- localizations
+
 ## [2.86.2] - 2019-03-29
 
 ### Fixed
