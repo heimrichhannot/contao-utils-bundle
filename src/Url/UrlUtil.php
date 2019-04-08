@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Url;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Environment;
+use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
 
@@ -161,6 +162,24 @@ class UrlUtil
         }
 
         return $fallbackToObjPage ? $objPage : null;
+    }
+
+    public function getJumpToPageUrl(int $jumpTo, bool $fallbackToObjPage = true): ?string
+    {
+        $jumpToObject = $this->getJumpToPageObject($jumpTo, $fallbackToObjPage);
+
+        if (null === $jumpToObject || !($jumpToObject instanceof Model)) {
+            return null;
+        }
+
+        return $jumpToObject->getFrontendUrl();
+    }
+
+    public static function addAutoItemToPage(Model $page, Model $entity, $autoItemType = 'items')
+    {
+        $autoItem = ((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/' : '/'.$autoItemType.'/').((!\Config::get('disableAlias') && '' != $entity->alias) ? $entity->alias : $entity->id);
+
+        return \Controller::generateFrontendUrl($page->row(), $autoItem);
     }
 
     /**

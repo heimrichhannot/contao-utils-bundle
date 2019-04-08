@@ -1,15 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.87.4] - 2019-04-08
+
+### Added
+- `UrlUtil::getJumpToPageUrl()`
+- `UrlUtil::addAutoItemToPage()`
+
 ## [2.87.3] - 2019-04-08
 
 ### Fixed
-- ModuleUtil::getModulesByType
+- `ModuleUtil::getModulesByType()`
 
 ## [2.87.2] - 2019-04-08
 
 ### Fixed
-- ModuleUtil::isSubModuleOf()
+- `ModuleUtil::isSubModuleOf()`
 
 ## [2.87.1] - 2019-04-08
 
