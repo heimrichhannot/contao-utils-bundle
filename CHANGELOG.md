@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.89.0] - 2019-04-08
+
+### Changed
+- `DcaUtil::getFields()`: order in label swapped for usability reasons
+
 ## [2.88.0] - 2019-04-08
 
 ### Changed

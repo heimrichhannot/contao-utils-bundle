@@ -316,7 +316,13 @@ class DcaUtil
             if (isset($options['localizeLabels']) && !$options['localizeLabels']) {
                 $fields[$name] = $name;
             } else {
-                $fields[$name] = ($data['label'][0] ?: $name).($data['label'][0] ? ' <span style="display: inline; color:#999; padding-left:3px">['.$name.']</span>' : '');
+                $label = $name;
+
+                if (isset($data['label'][0]) && $data['label'][0]) {
+                    $label .= ' <span style="display: inline; color:#999; padding-left:3px">['.$data['label'][0].']</span>';
+                }
+
+                $fields[$name] = $label;
             }
         }
 
