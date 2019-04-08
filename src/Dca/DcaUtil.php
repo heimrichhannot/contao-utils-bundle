@@ -50,6 +50,10 @@ class DcaUtil
      */
     public function getEditLink(string $module, int $id, string $label = null): string
     {
+        $url = System::getContainer()->get('huh.utils.url')->getCurrentUrl([
+            'skipParams' => true,
+        ]);
+
         if (!$id) {
             return '';
         }
@@ -57,7 +61,7 @@ class DcaUtil
         $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
-            ' <a href="contao?do=%s&amp;act=edit&amp;id=%s&amp;rt=%s" title="%s" style="padding-left: 5px; padding-top: 2px; display: inline-block;">%s</a>',
+            ' <a href="'.$url.'?do=%s&amp;act=edit&amp;id=%s&amp;rt=%s" title="%s" style="padding-left: 5px; padding-top: 2px; display: inline-block;">%s</a>',
             $module,
             $id,
             System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
@@ -77,8 +81,12 @@ class DcaUtil
      *
      * @return string The modal edit link
      */
-    public function getModalEditLink(string $module, int $id, string $label = null, string $table = '', int $width = 768): string
+    public function getModalEditLink(string $module, int $id, string $label = null, string $table = '', int $width = 1024): string
     {
+        $url = System::getContainer()->get('huh.utils.url')->getCurrentUrl([
+            'skipParams' => true,
+        ]);
+
         if (!$id) {
             return '';
         }
@@ -86,8 +94,8 @@ class DcaUtil
         $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
-            ' <a href="contao?do=%s&amp;act=edit&amp;id=%s%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
-            .'style="padding-left: 5px; padding-top: 2px; display: inline-block;" onclick="Backend.openModalIframe({\'width\':\'%s\',\'title\':\'%s'.'\',\'url\':this.href});return false">%s</a>',
+            ' <a href="'.$url.'?do=%s&amp;act=edit&amp;id=%s%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
+            .'style="padding-left: 5px; padding-top: 2px; display: inline-block;" onclick="Backend.openModalIframe({\'width\':%s,\'title\':\'%s'.'\',\'url\':this.href});return false">%s</a>',
             $module,
             $id,
             ($table ? '&amp;table='.$table : ''),
@@ -110,8 +118,12 @@ class DcaUtil
      *
      * @return string The modal archive edit link
      */
-    public function getArchiveModalEditLink(string $module, int $id, string $table, string $label = null, int $width = 768): string
+    public function getArchiveModalEditLink(string $module, int $id, string $table, string $label = null, int $width = 1024): string
     {
+        $url = System::getContainer()->get('huh.utils.url')->getCurrentUrl([
+            'skipParams' => true,
+        ]);
+
         if (!$id) {
             return '';
         }
@@ -119,7 +131,7 @@ class DcaUtil
         $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
-            ' <a href="contao?do=%s&amp;id=%s&amp;table=%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
+            ' <a href="'.$url.'?do=%s&amp;id=%s&amp;table=%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
             .'style="padding-left:3px; float: right" onclick="Backend.openModalIframe({\'width\':\'%s\',\'title\':\'%s'.'\',\'url\':this.href});return false">%s</a>',
             $module,
             $id,

@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.88.0] - 2019-04-08
+
+### Changed
+- default modal width to 1024 in `DcaUtil::getModalEditLink()` and `DcaUtil::getArchiveModalEditLink`
+
+### Fixed
+- `DcaUtil::getEditLink()` now respects symfony environment
+- `DcaUtil::getModalEditLink` now respects symfony environment
+- `DcaUtil::getArchiveModalEditLink` now respects symfony environment
+
 ## [2.87.4] - 2019-04-08
 
 ### Added
