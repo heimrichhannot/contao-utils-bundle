@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.89.1] - 2019-04-09
+
+### Changed
+- `huh.utils.form` method `prepareSpecialValueForOutput` now supports `multiColumnEditor` bundle only
+
 ## [2.89.0] - 2019-04-08
 
 ### Changed

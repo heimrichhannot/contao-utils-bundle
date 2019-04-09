@@ -132,7 +132,7 @@ class FormUtil
 
         // multicolumneditor
         if ('multiColumnEditor' == $data['inputType']
-            && $this->container->get('huh.utils.container')->isBundleActive('multi_column_editor')) {
+            && $this->container->get('huh.utils.container')->isBundleActive('HeimrichHannot\MultiColumnEditorBundle\HeimrichHannotContaoMultiColumnEditorBundle')) {
             if (\is_array($value)) {
                 $rows = [];
 
