@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.89.2] - 2019-04-09
+
+### Changed
+- `huh.utils.form` method `prepareSpecialValueForOutput` for `multiColumnEditor` formatted with linebreaks and tabs 
+
 ## [2.89.1] - 2019-04-09
 
 ### Changed

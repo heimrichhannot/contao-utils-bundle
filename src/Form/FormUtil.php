@@ -134,25 +134,26 @@ class FormUtil
         if ('multiColumnEditor' == $data['inputType']
             && $this->container->get('huh.utils.container')->isBundleActive('HeimrichHannot\MultiColumnEditorBundle\HeimrichHannotContaoMultiColumnEditorBundle')) {
             if (\is_array($value)) {
-                $rows = [];
+                $formatted = '';
 
                 foreach ($value as $row) {
-                    $fields = [];
+                    // new line - add "\t\n" after each line and not only "\n" to prevent outlook line break remover
+                    $formatted .= "\t\n";
 
                     foreach ($row as $fieldName => $fieldValue) {
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        $fields[] = ($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
+                        // intend new line
+                        $formatted .= "\t".($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
                                 '_dcaOverride' => $dca,
                             ]));
                     }
-
-                    $rows[] = '['.implode(', ', $fields).']';
                 }
 
-                $value = implode(', ', $rows);
+                // new line - add "\t\n" after each line and not only "\n" to prevent outlook line break remover
+                $formatted .= "\t\n";
 
-                return $value;
+                return $formatted;
             }
         }
 
