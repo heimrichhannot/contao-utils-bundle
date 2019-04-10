@@ -57,7 +57,7 @@ class ModelUtilTest extends TestCaseEnvironment
             $framework = $this->prepareFramework();
         }
         $container->set('contao.framework', $framework);
-        $container->set('huh.utils.dca', new DcaUtil($framework));
+        $container->set('huh.utils.dca', new DcaUtil($container));
 
         return $container;
     }

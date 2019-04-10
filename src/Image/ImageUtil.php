@@ -10,24 +10,32 @@ namespace HeimrichHannot\UtilsBundle\Image;
 
 use Contao\Config;
 use Contao\Controller;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Psr\Log\LogLevel;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ImageUtil
 {
     /**
-     * @var ContaoFrameworkInterface
+     * @var ContaoFramework
      */
     protected $framework;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
@@ -55,11 +63,12 @@ class ImageUtil
         string $lightboxName = null,
         FilesModel $model = null
     ) {
-        $containerUtil = System::getContainer()->get('huh.utils.container');
+        $containerUtil = $this->container->get('huh.utils.container');
+        $rootDir = $this->container->getParameter('kernel.project_dir');
 
         try {
             if (Validator::isUuid($item[$imageField])) {
-                $file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($item[$imageField]);
+                $file = $this->container->get('huh.utils.file')->getFileFromUuid($item[$imageField]);
 
                 if (null === $file) {
                     return;
@@ -128,12 +137,12 @@ class ImageUtil
         $imageFile = $file;
 
         try {
-            $src = System::getContainer()->get('contao.image.image_factory')->create(TL_ROOT.'/'.$file->path, $size)->getUrl(TL_ROOT);
-            $picture = System::getContainer()->get('contao.image.picture_factory')->create(TL_ROOT.'/'.$file->path, $size);
+            $src = $this->container->get('contao.image.image_factory')->create($rootDir.'/'.$file->path, $size)->getUrl($rootDir);
+            $picture = $this->container->get('contao.image.picture_factory')->create($rootDir.'/'.$file->path, $size);
 
             $picture = [
-                'img' => $picture->getImg(TL_ROOT, TL_FILES_URL),
-                'sources' => $picture->getSources(TL_ROOT, TL_FILES_URL),
+                'img' => $picture->getImg($rootDir, TL_FILES_URL),
+                'sources' => $picture->getSources($rootDir, TL_FILES_URL),
                 'ratio' => '1.0',
             ];
 
@@ -141,7 +150,11 @@ class ImageUtil
                 $imageFile = new File(rawurldecode($src));
             }
         } catch (\Exception $e) {
-            System::log('Image "'.$file->path.'" could not be processed: '.$e->getMessage(), __METHOD__, TL_ERROR);
+            $this->container->get('monolog.logger.contao')->log(
+                LogLevel::ERROR,
+                'Image "'.$file->path.'" could not be processed: '.$e->getMessage(),
+                ['contao' => new ContaoContext(__METHOD__, TL_ERROR)]
+            );
 
             $src = '';
             $picture = ['img' => ['src' => '', 'srcset' => ''], 'sources' => []];
@@ -174,7 +187,7 @@ class ImageUtil
                 $meta = Frontend::getMetaData($model->meta, $GLOBALS['TL_LANGUAGE']);
             }
 
-            Controller::loadDataContainer('tl_files');
+            $this->container->get('contao.framework')->getAdapter(Controller::class)->loadDataContainer('tl_files');
 
             // Add any missing fields
             foreach (array_keys($GLOBALS['TL_DCA']['tl_files']['fields']['meta']['eval']['metaFields']) as $k) {

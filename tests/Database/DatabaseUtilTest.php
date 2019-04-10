@@ -26,9 +26,9 @@ class DatabaseUtilTest extends TestCaseEnvironment
         }
 
         $container = System::getContainer();
-        $arrayUtils = new ArrayUtil($this->mockContaoFramework());
-        $container->set('huh.utils.array', $arrayUtils);
         $container->setParameter('contao.image.target_dir', TL_ROOT.'/data');
+        $arrayUtils = new ArrayUtil($container);
+        $container->set('huh.utils.array', $arrayUtils);
         System::setContainer($container);
     }
 

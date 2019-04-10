@@ -8,10 +8,24 @@
 
 namespace HeimrichHannot\UtilsBundle\Classes;
 
-use Contao\System;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ClassUtil
 {
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * ClassUtil constructor.
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+
     /**
      * @param string $class
      * @param array  $parents
@@ -34,11 +48,12 @@ class ClassUtil
     /**
      * Filter class constants by given prefixes and return the extracted constants.
      *
-     * @param string $class            the class that should be searched for constants in
-     * @param array  $prefixes         an array of prefixes that should be used to filter the class constants
-     * @param bool   $returnValueAsKey boolean Return the extracted array keys from its value, if true
+     * @param string $class the class that should be searched for constants in
+     * @param array $prefixes an array of prefixes that should be used to filter the class constants
+     * @param bool $returnValueAsKey boolean Return the extracted array keys from its value, if true
      *
      * @return array the extracted constants as array
+     * @throws \ReflectionException
      */
     public function getConstantsByPrefixes(string $class, array $prefixes = [], bool $returnValueAsKey = true)
     {
@@ -55,7 +70,7 @@ class ClassUtil
             return $arrExtract;
         }
 
-        $arrExtract = System::getContainer()->get('huh.utils.array')->filterByPrefixes($arrConstants, $prefixes);
+        $arrExtract = $this->container->get('huh.utils.array')->filterByPrefixes($arrConstants, $prefixes);
 
         return $returnValueAsKey ? array_combine($arrExtract, $arrExtract) : $arrExtract;
     }
@@ -72,7 +87,7 @@ class ClassUtil
         $arrOptions = [];
 
         foreach (get_declared_classes() as $strName) {
-            if (System::getContainer()->get('huh.utils.string')->startsWith($strName, $namespace)) {
+            if ($this->container->get('huh.utils.string')->startsWith($strName, $namespace)) {
                 $arrOptions[$strName] = $strName;
             }
         }

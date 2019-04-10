@@ -8,36 +8,50 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Classes;
 
-use Contao\System;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Classes\ClassUtil;
 use HeimrichHannot\UtilsBundle\Classes\JsonSerializeTestClass;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ClassUtilTest extends ContaoTestCase
 {
-    public function setUp()
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework $framework
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
     {
-        parent::setUp();
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
 
-        $container = $this->mockContainer();
-        $container->set('contao.framework', $this->mockContaoFramework([]));
+        if (!$framework)
+        {
+            $framework = $this->mockContaoFramework();
+        }
+        $container->set('contao.framework', $framework);
+
         $container->set('huh.utils.string', new StringUtil($this->mockContaoFramework()));
-        $container->set('huh.utils.array', new ArrayUtil($this->mockContaoFramework()));
-        System::setContainer($container);
+        $container->set('huh.utils.array', new ArrayUtil($container));
+
+        return $container;
     }
 
     public function testClassesInNamespace()
     {
-        $classUtil = new ClassUtil();
+        $classUtil = new ClassUtil($this->getContainerMock());
         $classes = $classUtil->getClassesInNamespace('HeimrichHannot\UtilsBundle\Arrays');
         $this->assertSame(['HeimrichHannot\UtilsBundle\Arrays\ArrayUtil' => 'HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'], $classes);
     }
 
     public function testGetChildClasses()
     {
-        $classUtil = new ClassUtil();
+        $classUtil = new ClassUtil($this->getContainerMock());
         $childClasses = $classUtil->getChildClasses('HeimrichHannot\UtilsBundle\Choice\AbstractChoice');
         $this->assertSame([
             'HeimrichHannot\UtilsBundle\Choice\DataContainerChoice' => 'HeimrichHannot\UtilsBundle\Choice\DataContainerChoice',
@@ -50,7 +64,7 @@ class ClassUtilTest extends ContaoTestCase
 
     public function testGetConstantByPrefixes()
     {
-        $classUtil = new ClassUtil();
+        $classUtil = new ClassUtil($this->getContainerMock());
         $constants = $classUtil->getConstantsByPrefixes('HeimrichHannot\UtilsBundle\Dca\DcaUtil', ['AUTHOR_TYPE']);
         $this->assertSame(['none' => 'none', 'member' => 'member', 'user' => 'user'], $constants);
 
@@ -63,7 +77,7 @@ class ClassUtilTest extends ContaoTestCase
 
     public function testGetParentClasses()
     {
-        $classUtil = new ClassUtil();
+        $classUtil = new ClassUtil($this->getContainerMock());
         $classes = $classUtil->getParentClasses('HeimrichHannot\UtilsBundle\Choice\DataContainerChoice');
         $this->assertSame(['HeimrichHannot\UtilsBundle\Choice\AbstractChoice'], $classes);
     }
@@ -74,7 +88,7 @@ class ClassUtilTest extends ContaoTestCase
             include_once __DIR__.'/JsonSerializeTestClass.php';
         }
 
-        $classUtil = new ClassUtil();
+        $classUtil = new ClassUtil($this->getContainerMock());
 
         $testClass = new JsonSerializeTestClass();
 

@@ -37,8 +37,9 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $fs->mkdir($this->getTempDir());
 
         $this->container = $this->mockContainer();
+        $this->container->set('contao.framework', $this->mockContaoFramework());
 
-        $this->container->set('huh.utils.array', new ArrayUtil($this->mockContaoFramework()));
+        $this->container->set('huh.utils.array', new ArrayUtil($this->container));
         $this->container->set('huh.utils.string', new StringUtil($this->mockContaoFramework()));
 
         $translator = $this->mockAdapter(['getCatalogue', 'all']);

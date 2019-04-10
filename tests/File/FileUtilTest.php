@@ -37,9 +37,7 @@ class FileUtilTest extends TestCaseEnvironment
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir().'/files/');
 
-        $arrayUtils = new ArrayUtil($this->mockContaoFramework());
         $container = $this->mockContainer();
-        $container->set('huh.utils.array', $arrayUtils);
 
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'files']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
@@ -52,6 +50,11 @@ class FileUtilTest extends TestCaseEnvironment
         $containerUtils = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
         $container->set('huh.utils.container', $containerUtils);
         $container->setParameter('kernel.project_dir', sys_get_temp_dir().\DIRECTORY_SEPARATOR);
+
+
+        $arrayUtils = new ArrayUtil($container);
+        $container->set('huh.utils.array', $arrayUtils);
+
         System::setContainer($container);
 
         if (!\function_exists('standardize')) {

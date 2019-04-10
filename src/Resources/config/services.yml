@@ -56,11 +56,6 @@ services:
     public: true
     arguments:
     - "@contao.framework"
-  huh.utils.dca:
-    class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
-    public: true
-    arguments:
-    - "@contao.framework"
   huh.utils.file:
     class: HeimrichHannot\UtilsBundle\File\FileUtil
     public: true
@@ -72,11 +67,6 @@ services:
     arguments:
     - "@service_container"
     - '@contao.framework'
-  huh.utils.image:
-    class: HeimrichHannot\UtilsBundle\Image\ImageUtil
-    public: true
-    arguments:
-    - "@contao.framework"
   huh.utils.location:
     class: HeimrichHannot\UtilsBundle\Location\LocationUtil
     public: true
@@ -136,9 +126,6 @@ services:
     public: true
     arguments:
     - "@contao.framework"
-  huh.utils.class:
-    class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
-    public: true
   huh.utils.member:
     class: HeimrichHannot\UtilsBundle\Member\MemberUtil
     public: true
@@ -198,5 +185,4 @@ services:
   huh.utils.pdf_writer:
     alias: huh.utils.pdf.writer
   # Symfony 4 autowire convention fix (ambiguous namespace alias)
-  HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"
   HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"

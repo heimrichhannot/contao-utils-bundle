@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [DEV] - 2019-04-09
+
+### Changed 
+* refactoring due changes in internal coding standards
+* refactored service loading into Plugin class
+* updated a lot of tests
+
+### Fixed
+* possible warnings in AccordionUtil
+
 ## [2.89.2] - 2019-04-09
 
 ### Changed

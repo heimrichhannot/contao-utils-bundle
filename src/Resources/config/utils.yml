@@ -11,7 +11,17 @@ services:
     class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: "@huh.utils.array"
 
+  huh.utils.class:
+    class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
+  HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"
 
+  huh.utils.dca:
+    class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
+  HeimrichHannot\UtilsBundle\Dca\DcaUtil: "@huh.utils.dca"
+
+  huh.utils.image:
+    class: HeimrichHannot\UtilsBundle\Image\ImageUtil
+  HeimrichHannot\UtilsBundle\Image\ImageUtil: "@huh.utils.image"
 
   huh.utils.model:
     class: HeimrichHannot\UtilsBundle\Model\ModelUtil

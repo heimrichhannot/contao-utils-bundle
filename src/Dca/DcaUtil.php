@@ -16,10 +16,13 @@ use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Image;
+use Contao\Input;
 use Contao\Model;
+use Contao\RequestToken;
 use Contao\StringUtil;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DcaUtil
 {
@@ -33,10 +36,15 @@ class DcaUtil
 
     /** @var ContaoFrameworkInterface */
     protected $framework;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
@@ -50,7 +58,7 @@ class DcaUtil
      */
     public function getEditLink(string $module, int $id, string $label = null): string
     {
-        $url = System::getContainer()->get('huh.utils.url')->getCurrentUrl([
+        $url = $this->container->get('huh.utils.url')->getCurrentUrl([
             'skipParams' => true,
         ]);
 
@@ -58,13 +66,13 @@ class DcaUtil
             return '';
         }
 
-        $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
+        $label = sprintf(StringUtil::specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
             ' <a href="'.$url.'?do=%s&amp;act=edit&amp;id=%s&amp;rt=%s" title="%s" style="padding-left: 5px; padding-top: 2px; display: inline-block;">%s</a>',
             $module,
             $id,
-            System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
+            $this->container->get('security.csrf.token_manager')->getToken($this->container->getParameter('contao.csrf_token_name'))->getValue(),
             $label,
             Image::getHtml('alias.svg', $label, 'style="vertical-align:top"')
         );
@@ -83,7 +91,7 @@ class DcaUtil
      */
     public function getModalEditLink(string $module, int $id, string $label = null, string $table = '', int $width = 1024): string
     {
-        $url = System::getContainer()->get('huh.utils.url')->getCurrentUrl([
+        $url = $this->container->get('huh.utils.url')->getCurrentUrl([
             'skipParams' => true,
         ]);
 
@@ -91,7 +99,7 @@ class DcaUtil
             return '';
         }
 
-        $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
+        $label = sprintf(StringUtil::specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
             ' <a href="'.$url.'?do=%s&amp;act=edit&amp;id=%s%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
@@ -99,7 +107,7 @@ class DcaUtil
             $module,
             $id,
             ($table ? '&amp;table='.$table : ''),
-            System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
+            $this->container->get('security.csrf.token_manager')->getToken($this->container->getParameter('contao.csrf_token_name'))->getValue(),
             $label,
             $width,
             $label,
@@ -120,7 +128,7 @@ class DcaUtil
      */
     public function getArchiveModalEditLink(string $module, int $id, string $table, string $label = null, int $width = 1024): string
     {
-        $url = System::getContainer()->get('huh.utils.url')->getCurrentUrl([
+        $url = $this->container->get('huh.utils.url')->getCurrentUrl([
             'skipParams' => true,
         ]);
 
@@ -128,7 +136,7 @@ class DcaUtil
             return '';
         }
 
-        $label = sprintf(specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
+        $label = sprintf(StringUtil::specialchars($label ?: $GLOBALS['TL_LANG']['tl_content']['editalias'][1]), $id);
 
         return sprintf(
             ' <a href="'.$url.'?do=%s&amp;id=%s&amp;table=%s&amp;popup=1&amp;nb=1&amp;rt=%s" title="%s" '
@@ -136,7 +144,7 @@ class DcaUtil
             $module,
             $id,
             $table,
-            System::getContainer()->get('security.csrf.token_manager')->getToken(System::getContainer()->getParameter('contao.csrf_token_name'))->getValue(),
+            $this->container->get('security.csrf.token_manager')->getToken($this->container->getParameter('contao.csrf_token_name'))->getValue(),
             $label,
             $width,
             $label,
@@ -167,7 +175,7 @@ class DcaUtil
                     $varData->{$k} = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                     // Encrypt the default value (see #3740)
                     if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
-                        $varData->{$k} = System::getContainer()->get('huh.utils.encryption')->encrypt($varData->{$k});
+                        $varData->{$k} = $this->container->get('huh.utils.encryption')->encrypt($varData->{$k});
                     }
                 } else {
                     if (null === $varData) {
@@ -178,7 +186,7 @@ class DcaUtil
                         $varData[$k] = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                         // Encrypt the default value (see #3740)
                         if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
-                            $varData[$k] = System::getContainer()->get('huh.utils.encryption')->encrypt($varData[$k]);
+                            $varData[$k] = $this->container->get('huh.utils.encryption')->encrypt($varData[$k]);
                         }
                     }
                 }
@@ -243,7 +251,7 @@ class DcaUtil
      */
     public function setDateAdded(DataContainer $dc)
     {
-        $modelUtil = System::getContainer()->get('huh.utils.model');
+        $modelUtil = $this->container->get('huh.utils.model');
 
         if (null === $dc || null === ($model = $modelUtil->findModelInstanceByPk($dc->table, $dc->id)) || $model->dateAdded > 0) {
             return null;
@@ -260,7 +268,7 @@ class DcaUtil
      */
     public function setDateAddedOnCopy($insertId, DataContainer $dc)
     {
-        $modelUtil = System::getContainer()->get('huh.utils.model');
+        $modelUtil = $this->container->get('huh.utils.model');
 
         if (null === $dc || null === ($model = $modelUtil->findModelInstanceByPk($dc->table, $insertId)) || $model->dateAdded > 0) {
             return null;
@@ -378,10 +386,10 @@ class DcaUtil
 
             if (!isset($options['skipLocalization']) || !$options['skipLocalization']) {
                 $GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname] = [
-                    System::getContainer()->get('translator')->trans('huh.utils.misc.override.label', [
+                    $this->container->get('translator')->trans('huh.utils.misc.override.label', [
                         '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
                     ]),
-                    System::getContainer()->get('translator')->trans('huh.utils.misc.override.desc', [
+                    $this->container->get('translator')->trans('huh.utils.misc.override.desc', [
                         '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
                     ]),
                 ];
@@ -411,7 +419,7 @@ class DcaUtil
         // prepare instances
         foreach ($instances as $instance) {
             if (\is_array($instance)) {
-                if (null !== ($objInstance = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($instance[0], $instance[1]))) {
+                if (null !== ($objInstance = $this->container->get('huh.utils.model')->findModelInstanceByPk($instance[0], $instance[1]))) {
                     $preparedInstances[] = $objInstance;
                 }
             } elseif ($instance instanceof Model || \is_object($instance)) {
@@ -445,7 +453,7 @@ class DcaUtil
         Controller::loadDataContainer($table);
 
         $dca = &$GLOBALS['TL_DCA'][$table];
-        $arrayUtil = System::getContainer()->get('huh.utils.array');
+        $arrayUtil = $this->container->get('huh.utils.array');
 
         // palette
         foreach ($overridableFields as $field) {
@@ -570,7 +578,7 @@ class DcaUtil
             'filter' => true,
             'inputType' => 'select',
             'options_callback' => function () {
-                return System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
+                return $this->container->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_member',
                     'labelPattern' => '%firstname% %lastname% (ID %id%)',
                 ]);
@@ -587,7 +595,7 @@ class DcaUtil
 
     public function setAuthorIDOnCreate(string $table, int $id, array $row, DataContainer $dc)
     {
-        $model = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($table, $id);
+        $model = $this->container->get('huh.utils.model')->findModelInstanceByPk($table, $id);
         /** @var Database $db */
         $db = $this->framework->createInstance(Database::class);
 
@@ -597,7 +605,7 @@ class DcaUtil
             return false;
         }
 
-        if (System::getContainer()->get('huh.utils.container')->isFrontend()) {
+        if ($this->container->get('huh.utils.container')->isFrontend()) {
             if (FE_USER_LOGGED_IN) {
                 $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_MEMBER;
                 $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(FrontendUser::class)->getInstance()->id;
@@ -612,7 +620,7 @@ class DcaUtil
 
     public function modifyAuthorPaletteOnLoad(DataContainer $dc)
     {
-        if (!System::getContainer()->get('huh.utils.container')->isBackend()) {
+        if (!$this->container->get('huh.utils.container')->isBackend()) {
             return false;
         }
 
@@ -620,7 +628,7 @@ class DcaUtil
             return false;
         }
 
-        if (null === ($model = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk($dc->table, $dc->id))) {
+        if (null === ($model = $this->container->get('huh.utils.model')->findModelInstanceByPk($dc->table, $dc->id))) {
             return false;
         }
 
@@ -633,7 +641,7 @@ class DcaUtil
 
         if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_USER) {
             $dca['fields']['author']['options_callback'] = function () {
-                return System::getContainer()->get('huh.utils.choice.model_instance')->getCachedChoices([
+                return $this->container->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_user',
                     'labelPattern' => '%name% (ID %id%)',
                 ]);
@@ -783,7 +791,7 @@ class DcaUtil
 
         return isset($GLOBALS['TL_DCA'][$table]['config']['dataContainer']) &&
             'Multilingual' === $GLOBALS['TL_DCA'][$table]['config']['dataContainer'] &&
-            System::getContainer()->get('huh.utils.container')->isBundleActive($bundleName);
+            $this->container->get('huh.utils.container')->isBundleActive($bundleName);
     }
 
     public function generateDcOperationsButtons($row, $table, $rootIds = [])
@@ -791,7 +799,7 @@ class DcaUtil
         $return = '';
 
         // Edit multiple
-        if ('select' == \Input::get('act')) {
+        if ('select' == Input::get('act')) {
             $return .= '<input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'">';
         } // Regular buttons
         else {
@@ -813,7 +821,7 @@ class DcaUtil
 
         foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations'] as $k => $v) {
             $v = \is_array($v) ? $v : [$v];
-            $id = \StringUtil::specialchars(rawurldecode($arrRow['id']));
+            $id = StringUtil::specialchars(rawurldecode($arrRow['id']));
 
             $label = $v['label'][0] ?: $k;
             $title = sprintf($v['label'][1] ?: $k, $id);
@@ -841,10 +849,10 @@ class DcaUtil
             // Generate all buttons except "move up" and "move down" buttons
             if ('move' != $k && 'move' != $v) {
                 if ('show' == $k) {
-                    $return .= '<a href="'.Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1&amp;rt='.\RequestToken::get()).'" title="'.\StringUtil::specialchars($title).'" onclick="Backend.openModalIframe({\'title\':\''.\StringUtil::specialchars(str_replace("'", "\\'",
-                            sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.\Image::getHtml($v['icon'], $label).'</a> ';
+                    $return .= '<a href="'.Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1&amp;rt='.\RequestToken::get()).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'",
+                            sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Image::getHtml($v['icon'], $label).'</a> ';
                 } else {
-                    $return .= '<a href="'.Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].(\Input::get('nb') ? '&amp;nc=1' : '')).'&amp;rt='.\RequestToken::get().'" title="'.\StringUtil::specialchars($title).'"'.$attributes.'>'.\Image::getHtml($v['icon'], $label).'</a> ';
+                    $return .= '<a href="'.Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].(\Input::get('nb') ? '&amp;nc=1' : '')).'&amp;rt='.RequestToken::get().'" title="'.\StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($v['icon'], $label).'</a> ';
                 }
 
                 continue;

@@ -95,6 +95,8 @@ abstract class TestCaseEnvironment extends ContaoTestCase
 
     /**
      * @return string
+     *
+     * @deprecated Use FixturesTrait instead
      */
     protected function getFixturesDir(): string
     {

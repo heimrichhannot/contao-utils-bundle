@@ -8,18 +8,26 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Image;
 
+use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Image\ImageInterface;
 use Contao\Image\Picture;
 use Contao\PageModel;
 use Contao\System;
+use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\Image\ImageUtil;
-use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use HeimrichHannot\UtilsBundle\Tests\FixturesTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
-class ImageUtilTest extends TestCaseEnvironment
+class ImageUtilTest extends ContaoTestCase
 {
+    use FixturesTrait;
+
     public function setUp()
     {
         parent::setUp();
@@ -36,38 +44,56 @@ class ImageUtilTest extends TestCaseEnvironment
             $GLOBALS['TL_LANGUAGE'] = 'de';
         }
 
-        $container = System::getContainer();
+        $fs = new Filesystem();
+        $fs->mkdir($this->getTempDir().'/files');
+
+        copy(
+            $this->getFixturesDir().'/files/screenshot.png',
+            $this->getTempDir().'/files/screenshot.png'
+        );
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework $framework
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
+    {
+        if (!$container) {
+            $container = $this->mockContainer($this->getTempDir());
+        }
+
+        if (!$framework)
+        {
+            $controllerAdapter = $this->mockAdapter(['loadDataContainer']);
+
+            $framework = $this->mockContaoFramework([
+                Controller::class => $controllerAdapter,
+            ]);
+        }
+        $container->set('contao.framework', $framework);
 
         $utilsContainer = $this->mockAdapter(['isBackend', 'isFrontend']);
         $utilsContainer->method('isBackend')->willReturn(false);
         $utilsContainer->method('isFrontend')->willReturn(true);
         $container->set('huh.utils.container', $utilsContainer);
 
-        if (!is_dir('/tmp/files')) {
-            mkdir('/tmp/files');
-        }
-        copy($this->getFixturesDir().'/files/screenshot.png', '/tmp/files/screenshot.png');
-
-        $imageFile = $this->mockClassWithProperties(
-            File::class,
-            [
-                'path' => '/tmp/files/screenshot.png',
-                'imageSize' => [
-                    800,
-                    1200,
-                    0, // replace this with IMAGETYPE_SVG when it becomes available
-                    'width="'. 1200 .'" height="'. 800 .'"',
-                    'bits' => 8,
-                    'channels' => 3,
-                    'mime' => 'image/png',
-                ],
-                'extension' => 'png',
-            ]
-        );
-
+        $imageFile = $this->mockClassWithProperties(File::class, [
+            'path'      => $this->getTempDir().'/files/screenshot.png',
+            'imageSize' => [
+                800,
+                1200,
+                0, // replace this with IMAGETYPE_SVG when it becomes available
+                'width="' . 1200 . '" height="' . 800 . '"',
+                'bits'     => 8,
+                'channels' => 3,
+                'mime'     => 'image/png',
+            ],
+            'extension' => 'png',
+        ]);
         $fileUtil = $this->createMock(FileUtil::class);
         $fileUtil->method('getFileFromUuid')->willReturn($imageFile);
-
         $container->set('huh.utils.file', $fileUtil);
 
         $imageAdapter = $this->mockAdapter(['getUrl']);
@@ -81,7 +107,8 @@ class ImageUtilTest extends TestCaseEnvironment
         $pictureFactoryAdapter = $this->mockAdapter(['create']);
         $pictureFactoryAdapter->method('create')->willReturn($pictureMock);
         $container->set('contao.image.picture_factory', $pictureFactoryAdapter);
-        System::setContainer($container);
+
+        return $container;
     }
 
     public function testAddToTemplateDataWithoutModel()
@@ -93,7 +120,7 @@ class ImageUtilTest extends TestCaseEnvironment
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
         $imageArray['floating'] = false;
-        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
+        $imageArray['imageUrl'] = $this->getTempDir().'/files/screenshot.png';
         $imageArray['imageTitle'] = 'imageTitle';
         $imageArray['linkTitle'] = false;
         $imageArray['id'] = 12;
@@ -101,14 +128,22 @@ class ImageUtilTest extends TestCaseEnvironment
         $templateData['href'] = true;
         $templateData['singleSRC'] = [];
 
-        $image = new ImageUtil($this->mockContaoFramework());
+        $container = $this->getContainerMock();
+        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock->method('log');
+        $container->set('monolog.logger.contao', $monologLoggerMock);
+
+        System::setContainer($container);
+        $image = new ImageUtil($container);
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
-        $this->assertSame('/tmp/files/screenshot.png', $templateData['singleSRC']);
+        $this->assertSame($this->getTempDir().'/files/screenshot.png', $templateData['singleSRC']);
         $this->assertSame('imageTitle', $templateData['linkTitle']);
-        $this->assertSame('/tmp/files/screenshot.png', $templateData['imageHref']);
+        $this->assertSame($this->getTempDir().'/files/screenshot.png', $templateData['imageHref']);
         $this->assertSame(' data-lightbox="5dc05b"', $templateData['attributes']);
+
+        $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray);
     }
 
     public function testAddToTemplateDataWithModel()
@@ -126,7 +161,7 @@ class ImageUtilTest extends TestCaseEnvironment
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
-        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
+        $imageArray['imageUrl'] = $this->getTempDir().'/files/screenshot.png';
         $imageArray['linkTitle'] = 'linkTitle';
         $imageArray['floating'] = 'floating';
         $imageArray['overwriteMeta'] = false;
@@ -139,11 +174,16 @@ class ImageUtilTest extends TestCaseEnvironment
 
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
-        $image = new ImageUtil($this->mockContaoFramework());
+        $container = $this->getContainerMock();
+        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock->method('log');
+        $container->set('monolog.logger.contao', $monologLoggerMock);
+
+        $image = new ImageUtil($container);
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, null, null, $model);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
-        $this->assertSame('/tmp/files/screenshot.png', $templateData['singleSRC']);
+        $this->assertSame($this->getTempDir().'/files/screenshot.png', $templateData['singleSRC']);
         $this->assertSame('margin:10px;', $templateData['margin']);
         $this->assertSame('Diebstahl', $templateData['imageTitle']);
         $this->assertSame(' float_floating', $templateData['floatClass']);
@@ -151,12 +191,12 @@ class ImageUtilTest extends TestCaseEnvironment
 
     public function testAddToTemplateDataError()
     {
-        $container = System::getContainer();
+
+        $container = $this->getContainerMock();
         $exception = new \Exception();
         $pictureFactoryAdapter = $this->mockAdapter(['create']);
         $pictureFactoryAdapter->method('create')->willThrowException($exception);
         $container->set('contao.image.picture_factory', $pictureFactoryAdapter);
-        System::setContainer($container);
 
         $templateData = [];
         global $objPage;
@@ -183,7 +223,12 @@ class ImageUtilTest extends TestCaseEnvironment
 
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
-        $image = new ImageUtil($this->mockContaoFramework());
+        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock->expects($this->once())->method('log');
+        $container->set('monolog.logger.contao', $monologLoggerMock);
+
+        System::setContainer($container);
+        $image = new ImageUtil($container);
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 4, 12, 'lightBoxName', $model);
         $this->assertSame('', $templateData['src']);
         $this->assertSame('margin-top:10px;margin-bottom:10px;', $templateData['margin']);
@@ -198,27 +243,27 @@ class ImageUtilTest extends TestCaseEnvironment
         $imageArray['imageUrl'] = 'files/screensho';
 
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, 12, 'lightBoxName', $model);
-        $this->assertNull($templateData['width']);
-        $this->assertNull($templateData['height']);
-        $this->assertNull($templateData['attributes']);
+        $this->assertArrayNotHasKey('width', $templateData);
+        $this->assertArrayNotHasKey('height', $templateData);
+        $this->assertArrayNotHasKey('attributes', $templateData);
 
-        $container = System::getContainer();
         $utilsContainer = $this->mockAdapter(['isBackend', 'isFrontend']);
         $utilsContainer->method('isBackend')->willReturn(true);
         $utilsContainer->method('isFrontend')->willReturn(false);
         $container->set('huh.utils.container', $utilsContainer);
-        System::setContainer($container);
+
+        $image = new ImageUtil($container);
 
         $templateData = [];
         $templateData['href'] = true;
         $templateData['singleSRC'] = [];
 
-        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
-        $imageArray['singleSRC'] = '/tmp/files/screenshot.png';
+        $imageArray['imageUrl'] = $this->getTempDir().'/files/screenshot.png';
+        $imageArray['singleSRC'] = $this->getTempDir().'/files/screenshot.png';
         $imageArray['size'] = 12;
 
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 4, 12, 'lightBoxName', $model);
-        $this->assertNull($templateData['margin']);
+        $this->assertArrayNotHasKey('margin', $templateData);
     }
 
     public function addImageToTemplateDataHook(
@@ -253,7 +298,7 @@ class ImageUtilTest extends TestCaseEnvironment
         $imageArray['size'] = 'a:3:{i:0;s:0:"2";i:1;s:0:"2";i:2;s:0:"2";}';
         $imageArray['alt'] = '';
         $imageArray['fullsize'] = true;
-        $imageArray['imageUrl'] = '/tmp/files/screenshot.png';
+        $imageArray['imageUrl'] = $this->getTempDir().'/files/screenshot.png';
         $imageArray['linkTitle'] = 'linkTitle';
         $imageArray['floating'] = 'floating';
         $imageArray['overwriteMeta'] = false;
@@ -266,11 +311,16 @@ class ImageUtilTest extends TestCaseEnvironment
 
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
-        $image = new ImageUtil($this->mockContaoFramework());
+        $container = $this->getContainerMock();
+        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock->method('log');
+        $container->set('monolog.logger.contao', $monologLoggerMock);
+
+        $image = new ImageUtil($container);
         $image->addToTemplateData('singleSRC', 'addImage', $templateData, $imageArray, 400, null, null, $model);
 
         $this->assertNotSame(['href' => true, 'singleSRC' => []], $templateData);
-        $this->assertSame('/tmp/files/screenshot.png', $templateData['singleSRC']);
+        $this->assertSame($this->getTempDir().'/files/screenshot.png', $templateData['singleSRC']);
         $this->assertSame('margin:10px;', $templateData['margin']);
         $this->assertSame('Diebstahl', $templateData['imageTitle']);
         $this->assertSame(' float_floating', $templateData['floatClass']);
@@ -279,7 +329,7 @@ class ImageUtilTest extends TestCaseEnvironment
 
     public function testGetPixelValue()
     {
-        $class = new ImageUtil($this->mockContaoFramework());
+        $class = new ImageUtil($this->getContainerMock());
 
         $result = $class->getPixelValue('10px');
         $this->assertSame(10, $result);

@@ -24,6 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AccordionUtilTest extends ContaoTestCase
 {
     use ModelMockTrait;
+
     /**
      * @param ContainerBuilder|null $container
      * @param ContaoFramework $framework
