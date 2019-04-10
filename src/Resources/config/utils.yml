@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+
+  huh.utils.accordion:
+    class: HeimrichHannot\UtilsBundle\Accordion\AccordionUtil
+  HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: "@huh.utils.accordion"
+  huh.utils.array:
+    class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
+  HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: "@huh.utils.array"

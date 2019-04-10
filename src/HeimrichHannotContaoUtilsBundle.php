@@ -13,11 +13,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class HeimrichHannotContaoUtilsBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainerExtension()
-    {
-        return new UtilsExtension();
-    }
 }

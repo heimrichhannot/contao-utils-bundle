@@ -8,19 +8,24 @@
 
 namespace HeimrichHannot\UtilsBundle\Arrays;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Contao\System;
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ArrayUtil
 {
     /**
-     * @var ContaoFrameworkInterface
+     * @var ContaoFramework
      */
     protected $framework;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
@@ -41,7 +46,7 @@ class ArrayUtil
 
         foreach ($data as $key => $value) {
             foreach ($prefixes as $prefix) {
-                if (System::getContainer()->get('huh.utils.string')->startsWith($key, $prefix)) {
+                if ($this->container->get('huh.utils.string')->startsWith($key, $prefix)) {
                     $extract[$key] = $value;
                 }
             }
@@ -98,7 +103,7 @@ class ArrayUtil
         $result = [];
 
         foreach ($array as $key => $value) {
-            $result[System::getContainer()->get('huh.utils.string')->removeLeadingString($prefix, $key)] = $value;
+            $result[$this->container->get('huh.utils.string')->removeLeadingString($prefix, $key)] = $value;
         }
 
         return $result;

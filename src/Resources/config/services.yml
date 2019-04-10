@@ -7,16 +7,7 @@ services:
       calls:
         - ["setContainer", ["@service_container"]]
   # util services
-  huh.utils.accordion:
-    class: HeimrichHannot\UtilsBundle\Accordion\AccordionUtil
-    public: true
-    arguments:
-    - "@contao.framework"
-  huh.utils.array:
-    class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
-    public: true
-    arguments:
-    - "@contao.framework"
+
   huh.utils.cache.database:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
     public: true

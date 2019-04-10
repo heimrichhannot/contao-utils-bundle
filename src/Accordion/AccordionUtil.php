@@ -8,13 +8,13 @@
 
 namespace HeimrichHannot\UtilsBundle\Accordion;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Contao\System;
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AccordionUtil
 {
     /**
-     * @var ContaoFrameworkInterface
+     * @var ContaoFramework
      */
     protected $framework;
 
@@ -31,10 +31,16 @@ class AccordionUtil
      * @var array
      */
     protected static $accordionStartStopCache = [];
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
@@ -49,7 +55,7 @@ class AccordionUtil
     public function structureAccordionSingle(array &$data, string $prefix = 'accordion_')
     {
         if (!isset(self::$accordionSingleCache[$data['pid']])) {
-            if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy(
+            if (null !== ($elements = $this->container->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',
                     [
                         'ptable=?',
@@ -125,7 +131,7 @@ class AccordionUtil
     public function structureAccordionStartStop(array &$data, string $prefix = 'accordion_')
     {
         if (!isset(self::$accordionStartStopCache[$data['pid']])) {
-            if (null !== ($elements = System::getContainer()->get('huh.utils.model')->findModelInstancesBy(
+            if (null !== ($elements = $this->container->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',
                     [
                         'tl_content.ptable=?',

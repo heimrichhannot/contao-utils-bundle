@@ -12,12 +12,14 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use Contao\ManagerPlugin\Config\ContainerBuilder;
 use Contao\ManagerPlugin\Config\ExtensionPluginInterface;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
+use Symfony\Component\Config\Loader\LoaderInterface;
 
-class Plugin implements BundlePluginInterface, ExtensionPluginInterface
+class Plugin implements BundlePluginInterface, ExtensionPluginInterface, ConfigPluginInterface
 {
     /**
      * {@inheritdoc}
@@ -38,5 +40,16 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface
             $extensionConfigs,
             __DIR__.'/../Resources/config/config_encore.yml'
         );
+    }
+
+    /**
+     * Allows a plugin to load container configuration.
+     */
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    {
+        $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/services.yml');
+        $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/listener.yml');
+        $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/parameters.yml');
+        $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/utils.yml');
     }
 }

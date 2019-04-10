@@ -8,10 +8,12 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Arrays;
 
-use Contao\System;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ArrayUtilTest extends ContaoTestCase
 {
@@ -23,7 +25,35 @@ class ArrayUtilTest extends ContaoTestCase
 
         $container = $this->mockContainer();
         $container->set('huh.utils.string', $stringUtil);
-        System::setContainer($container);
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework $framework
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
+    {
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
+
+        if (!$framework)
+        {
+            $framework = $this->mockContaoFramework();
+        }
+        $container->set('contao.framework', $framework);
+
+        try
+        {
+            /** @noinspection PhpParamsInspection */
+            $stringUtil = new StringUtil($container->get('contao.framework'));
+        } catch (\Exception $e)
+        {
+            $this->fail("Could net get service from container. Message: ".$e->getMessage());
+        }
+        $container->set('huh.utils.string', $stringUtil);
+        return $container;
     }
 
     /**
@@ -31,15 +61,13 @@ class ArrayUtilTest extends ContaoTestCase
      */
     public function testCanBeInstantiated()
     {
-        $framework = $this->mockContaoFramework();
-        $instance = new ArrayUtil($framework);
+        $instance = new ArrayUtil($this->getContainerMock());
         $this->assertInstanceOf(ArrayUtil::class, $instance);
     }
 
     public function testAasort()
     {
-        $framework = $this->mockContaoFramework();
-        $arrayUtil = new ArrayUtil($framework);
+        $arrayUtil = new ArrayUtil($this->getContainerMock());
 
         $array = [0 => ['filename' => 'testfile3'], 1 => ['filename' => 'testfile1'], 2 => ['filename' => 'testfile2']];
 
@@ -49,8 +77,7 @@ class ArrayUtilTest extends ContaoTestCase
 
     public function testRemoveValue()
     {
-        $framework = $this->mockContaoFramework();
-        $arrayUtil = new ArrayUtil($framework);
+        $arrayUtil = new ArrayUtil($this->getContainerMock());
 
         $array = [0 => 0, 1 => 1, 2 => 2];
         $result = $arrayUtil->removeValue(1, $array);
@@ -65,8 +92,7 @@ class ArrayUtilTest extends ContaoTestCase
 
     public function testFilterByPrefixes()
     {
-        $framework = $this->mockContaoFramework();
-        $arrayUtil = new ArrayUtil($framework);
+        $arrayUtil = new ArrayUtil($this->getContainerMock());
 
         $array = ['ls_0' => 0, 1 => 1, 2 => 2];
         $result = $arrayUtil->filterByPrefixes($array);
@@ -81,8 +107,7 @@ class ArrayUtilTest extends ContaoTestCase
 
     public function testRemovePrefix()
     {
-        $framework = $this->mockContaoFramework();
-        $arrayUtil = new ArrayUtil($framework);
+        $arrayUtil = new ArrayUtil($this->getContainerMock());
 
         $array = ['ls_prefix_1' => 1];
         $result = $arrayUtil->removePrefix('ls_', $array);
@@ -91,7 +116,7 @@ class ArrayUtilTest extends ContaoTestCase
 
     public function testArrayToObject()
     {
-        $arrayUtil = new ArrayUtil($this->mockContaoFramework());
+        $arrayUtil = new ArrayUtil($this->getContainerMock());
         $result = $arrayUtil->arrayToObject([]);
         $this->assertInstanceOf(\stdClass::class, $result);
         $this->assertCount(0, (array) $result);
@@ -110,7 +135,7 @@ class ArrayUtilTest extends ContaoTestCase
 
     public function testGetArrayRowByFieldValue()
     {
-        $arrayUtil = new ArrayUtil($this->mockContaoFramework());
+        $arrayUtil = new ArrayUtil($this->getContainerMock());
         $this->assertSame(['id' => 5, 'hallo' => 'welt5'], $arrayUtil->getArrayRowByFieldValue('id', 5, [
             ['id' => 1, 'hallo' => 'welt'],
             ['id' => 5, 'hallo' => 'welt5'],
@@ -145,7 +170,7 @@ class ArrayUtilTest extends ContaoTestCase
 
     public function testFlattenArray()
     {
-        $arrayUtil = new ArrayUtil($this->mockContaoFramework());
+        $arrayUtil = new ArrayUtil($this->getContainerMock());
         $this->assertSame(['hallo'], $arrayUtil->flattenArray([1 => 'hallo']));
         $this->assertSame(['hallo'], $arrayUtil->flattenArray([1 => ['hallo']]));
         $this->assertSame(['hallo'], $arrayUtil->flattenArray([1 => ['hallo']]));
