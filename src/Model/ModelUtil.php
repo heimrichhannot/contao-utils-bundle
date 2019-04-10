@@ -17,10 +17,9 @@ use Contao\Model;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Contao\PageModel;
-use Contao\System;
-use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use Symfony\Component\Cache\Simple\FilesystemCache;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -28,15 +27,16 @@ class ModelUtil
 {
     /** @var ContaoFrameworkInterface */
     protected $framework;
-    /**
-     * @var ContainerUtil
-     */
-    private $containerUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework, ContainerUtil $containerUtil)
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
-        $this->containerUtil = $containerUtil;
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
@@ -48,7 +48,7 @@ class ModelUtil
      */
     public function setDefaultsFromDca(Model $objModel)
     {
-        return System::getContainer()->get('huh.utils.dca')->setDefaultsFromDca($objModel->getTable(), $objModel);
+        return $this->container->get('huh.utils.dca')->setDefaultsFromDca($objModel->getTable(), $objModel);
     }
 
     /**
@@ -163,7 +163,7 @@ class ModelUtil
             return null;
         }
 
-        if (System::getContainer()->get('huh.utils.dca')->isDcMultilingual($table)) {
+        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table)) {
             $table = 't1';
         }
 
@@ -190,7 +190,7 @@ class ModelUtil
             return null;
         }
 
-        if (System::getContainer()->get('huh.utils.dca')->isDcMultilingual($table)) {
+        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table)) {
             $table = 't1';
         }
 
@@ -230,7 +230,7 @@ class ModelUtil
      */
     public function fixTablePrefixForDcMultilingual(string $table, &$columns, array &$options = [])
     {
-        if (!System::getContainer()->get('huh.utils.dca')->isDcMultilingual($table)) {
+        if (!$this->container->get('huh.utils.dca')->isDcMultilingual($table)) {
             return $columns;
         }
 
@@ -285,11 +285,11 @@ class ModelUtil
         $translatableLangs = $this->getDcMultilingualTranslatableLanguages($table);
 
         /** @var SessionInterface $objSessionBag */
-        $objSessionBag = System::getContainer()->get('session')->getBag('contao_backend');
+        $objSessionBag = $this->container->get('session')->getBag('contao_backend');
         $sessionKey = 'dc_multilingual:'.$table.':'.$id;
 
         /** @var Request $request */
-        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+        $request = $this->container->get('request_stack')->getCurrentRequest();
 
         if ('tl_language' === $request->request->get('FORM_SUBMIT')) {
             $language = $request->request->get('language');
@@ -419,7 +419,7 @@ class ModelUtil
         return preg_replace_callback(
             '@%([^%]+)%@i',
             function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
-                return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput($matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig);
+                return $this->container->get('huh.utils.form')->prepareSpecialValueForOutput($matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig);
             },
             $pattern
         );
@@ -517,7 +517,7 @@ class ModelUtil
                 $pageIds = $result->fetchEach('id');
             }
 
-            if (\array_key_exists('blocks', System::getContainer()->getParameter('kernel.bundles'))) {
+            if (\array_key_exists('blocks', $this->container->getParameter('kernel.bundles'))) {
                 $result = $db->prepare(
                     "SELECT `tl_page`.`id` FROM `tl_page`
                 JOIN `tl_article` ON `tl_article`.`pid` = `tl_page`.`id`

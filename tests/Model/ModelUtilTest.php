@@ -10,16 +10,19 @@ namespace HeimrichHannot\UtilsBundle\Tests\Model;
 
 use Contao\ContentModel;
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Model;
 use Contao\ModuleModel;
 use Contao\PageModel;
-use Contao\System;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ModelUtilTest extends TestCaseEnvironment
 {
@@ -38,25 +41,44 @@ class ModelUtilTest extends TestCaseEnvironment
         );
     }
 
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework $framework
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
+    {
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
+
+        if (!$framework)
+        {
+            $framework = $this->prepareFramework();
+        }
+        $container->set('contao.framework', $framework);
+        $container->set('huh.utils.dca', new DcaUtil($framework));
+
+        return $container;
+    }
+
     public function testInstantiation()
     {
-        $util = $this->createModelUtilMock();
+        $util = new ModelUtil($this->getContainerMock());
         $this->assertInstanceOf(ModelUtil::class, $util);
     }
 
     public function testSetDefaultsFromDca()
     {
-        $container = System::getContainer();
-        $container->set('huh.utils.dca', new DcaUtil($this->mockContaoFramework()));
+        $container = $this->mockContainer();
 
         $dbalAdapter = $this->mockAdapter(['getParams']);
         $container->set('doctrine.dbal.default_connection', $dbalAdapter);
 
-        System::setContainer($container);
 
         error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
 
-        $util = $this->createModelUtilMock();
+        $util = new ModelUtil($this->getContainerMock($container));
 
         $GLOBALS['loadDataContainer']['tl_module'] = true;
         $GLOBALS['TL_DCA']['tl_module']['fields']['test'] = ['default' => 'test'];
@@ -68,10 +90,8 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModelInstanceByPk()
     {
-        $container = System::getContainer();
-        $container->set('huh.utils.dca', new DcaUtil($this->prepareFramework()));
+        $util = new ModelUtil($this->getContainerMock());
 
-        $util = $this->createModelUtilMock();
         $this->assertNull($util->findModelInstanceByPk('tl_null', 5));
         $this->assertNull($util->findModelInstanceByPk('tl_null_class', 5));
         $this->assertNull($util->findModelInstanceByPk('tl_content', 4));
@@ -82,10 +102,8 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModelInstancesBy()
     {
-        $container = System::getContainer();
-        $container->set('huh.utils.dca', new DcaUtil($this->prepareFramework()));
+        $util = new ModelUtil($this->getContainerMock());
 
-        $util = $this->createModelUtilMock();
         $this->assertNull($util->findModelInstancesBy('tl_null', ['id'], [5]));
         $this->assertNull($util->findModelInstancesBy('tl_null_class', ['id'], [5]));
         $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id'], [5])->id);
@@ -94,10 +112,8 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindOneModelInstanceBy()
     {
-        $container = System::getContainer();
-        $container->set('huh.utils.dca', new DcaUtil($this->prepareFramework()));
+        $util = new ModelUtil($this->getContainerMock());
 
-        $util = $this->createModelUtilMock();
         $result = $util->findOneModelInstanceBy('tl_content', [], []);
         $this->assertInstanceOf(ContentModel::class, $result);
 
@@ -141,7 +157,9 @@ class ModelUtilTest extends TestCaseEnvironment
             ]
         );
         $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
-        $util = new ModelUtil($this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]), $this->createMock(ContainerUtil::class));
+        $framework = $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]);
+        $util = new ModelUtil($this->getContainerMock(null, $framework));
+
         $result = $util->findRootParentRecursively('id', 'tl_content', $this->getModel());
         $this->assertInstanceOf(\Contao\Model::class, $result);
     }
@@ -179,11 +197,11 @@ class ModelUtilTest extends TestCaseEnvironment
             ]
         );
         $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
-        $util = new ModelUtil(
-            $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]), $this->createMock(ContainerUtil::class)
-        );
-        $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
-        $this->assertInstanceOf(\PHPUnit_Framework_MockObject_MockObject::class, $result[0]);
+        $contaoFramework = $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]);
+
+        $util            = new ModelUtil($this->getContainerMock(null, $contaoFramework));
+        $result          = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
+        $this->assertInstanceOf(MockObject::class, $result[0]);
 
         $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel(true));
         $this->assertSame([], $result);
@@ -191,15 +209,17 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModulePages()
     {
+
         $this->count = 0;
-        $util = $this->createModelUtilMock();
+
         $module = $this->mockClassWithProperties(ModuleModel::class, ['id' => 1]);
-        $container = $this->mockContainer();
+        $container = $this->getContainerMock();
         $container->setParameter('kernel.bundles', []);
-        System::setContainer($container);
+        $util = new ModelUtil($container);
         $this->assertCount(1, $util->findModulePages($module, false, false));
+
         $container->setParameter('kernel.bundles', ['blocks' => 'blocks']);
-        System::setContainer($container);
+        $util = new ModelUtil($container);
         $this->assertCount(1, $util->findModulePages($module, false, false));
 
         $this->assertSame(
@@ -209,10 +229,10 @@ class ModelUtilTest extends TestCaseEnvironment
 
         $module = $this->mockClassWithProperties(ModuleModel::class, ['id' => 2]);
         $container->setParameter('kernel.bundles', []);
-        System::setContainer($container);
+        $util = new ModelUtil($container);
         $this->assertCount(2, $util->findModulePages($module, false, false));
         $container->setParameter('kernel.bundles', ['blocks' => 'blocks']);
-        System::setContainer($container);
+        $util = new ModelUtil($container);
         $this->count = 0;
         $this->assertCount(4, $util->findModulePages($module, false, false));
         $this->count = 0;

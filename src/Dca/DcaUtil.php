@@ -777,7 +777,7 @@ class DcaUtil
 
     public function isDcMultilingual(string $table)
     {
-        System::getContainer()->get('huh.utils.dca')->loadDc($table);
+        $this->loadDc($table);
 
         $bundleName = 'Terminal42\DcMultilingualBundle\Terminal42DcMultilingualBundle';
 

@@ -17,16 +17,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ArrayUtilTest extends ContaoTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $stringUtil = new StringUtil($this->mockContaoFramework());
-
-        $container = $this->mockContainer();
-        $container->set('huh.utils.string', $stringUtil);
-    }
-
     /**
      * @param ContainerBuilder|null $container
      * @param ContaoFramework $framework

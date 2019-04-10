@@ -82,12 +82,6 @@ services:
     public: true
     arguments:
     - "@contao.framework"
-  huh.utils.model:
-    class: HeimrichHannot\UtilsBundle\Model\ModelUtil
-    public: true
-    arguments:
-    - "@contao.framework"
-    - '@huh.utils.container'
   huh.utils.request.curl:
     class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
     public: true
@@ -206,4 +200,3 @@ services:
   # Symfony 4 autowire convention fix (ambiguous namespace alias)
   HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"
   HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
-  HeimrichHannot\UtilsBundle\Model\ModelUtil: '@huh.utils.model'

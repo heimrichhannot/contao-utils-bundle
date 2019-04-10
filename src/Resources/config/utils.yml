@@ -6,6 +6,13 @@ services:
   huh.utils.accordion:
     class: HeimrichHannot\UtilsBundle\Accordion\AccordionUtil
   HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: "@huh.utils.accordion"
+
   huh.utils.array:
     class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: "@huh.utils.array"
+
+
+
+  huh.utils.model:
+    class: HeimrichHannot\UtilsBundle\Model\ModelUtil
+  HeimrichHannot\UtilsBundle\Model\ModelUtil: '@huh.utils.model'
