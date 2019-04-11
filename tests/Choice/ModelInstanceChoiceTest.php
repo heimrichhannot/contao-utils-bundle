@@ -44,6 +44,10 @@ class ModelInstanceChoiceTest extends ContaoTestCase
         $modelUtilAdapter->method('findModelInstancesBy')->willReturn($collection);
         $container->set('huh.utils.model', $modelUtilAdapter);
 
+        $dcaUtilMock = $this->mockAdapter(['getConfigByArrayOrCallbackOrFunction']);
+        $dcaUtilMock->method('getConfigByArrayOrCallbackOrFunction')->willReturn(null);
+        $container->set('huh.utils.dca', $dcaUtilMock);
+
         System::setContainer($container);
     }
 

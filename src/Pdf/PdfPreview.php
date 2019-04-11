@@ -154,7 +154,7 @@ class PdfPreview
         try {
             $this->containerUtil->isBundleActive('alchemy/ghostscript');
         } catch (\Exception $e) {
-            throw new \Exception('Package alchemy/ghostscript is not installed. Please install or use another pdf ttranscoder.');
+            throw new \Exception('Package alchemy/ghostscript is not installed. Please install or use another pdf transcoder.');
         }
         $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
         $allowedExtensions = ['jpg', 'jpeg', 'png'];

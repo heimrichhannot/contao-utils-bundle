@@ -8,7 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\File;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\DataContainer;
 use Contao\Dbafs;
 use Contao\File;
@@ -18,17 +18,23 @@ use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use Ghostscript\Transcoder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FileUtil
 {
     const FILE_UTIL_CONVERT_FILE_TYPE = 'png';
 
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     protected $framework;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
@@ -40,13 +46,14 @@ class FileUtil
      * @param        $i      integer Internal counter for recursion usage or if you want to add the number to the file
      *
      * @return string | false The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)
+     * @throws \Exception
      */
     public function getUniqueFileNameWithinTarget($target, $prefix = null, $i = 0)
     {
+        $target = ltrim(str_replace($this->container->getParameter('kernel.project_dir'), '', $target), '/');
         $file = new File($target);
 
-        $target = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $target), '/');
-
+        $path = $target;
         if ($file->extension) {
             $path = str_replace('.'.$file->extension, '', $target);
         }
@@ -58,7 +65,7 @@ class FileUtil
 
         // Create the parent folder
         if (!file_exists($file->dirname)) {
-            $folder = new Folder(ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/'));
+            $folder = new Folder(ltrim(str_replace($this->container->getParameter('kernel.project_dir'), '', $file->dirname), '/'));
 
             // something went wrong with folder creation
             if (null === $folder->getModel()) {
@@ -66,9 +73,9 @@ class FileUtil
             }
         }
 
-        if (file_exists(System::getContainer()->getParameter('kernel.project_dir').'/'.$target)) {
+        if (file_exists($this->container->getParameter('kernel.project_dir').'/'.$target)) {
             // remove suffix
-            if ($i > 0 && System::getContainer()->get('huh.utils.string')->endsWith($path, '_'.$i)) {
+            if ($i > 0 && $this->container->get('huh.utils.string')->endsWith($path, '_'.$i)) {
                 $path = rtrim($path, '_'.$i);
             }
 
@@ -127,7 +134,7 @@ class FileUtil
             }
         }
 
-        System::getContainer()->get('huh.utils.array')->aasort($results, 'filename');
+        $this->container->get('huh.utils.array')->aasort($results, 'filename');
 
         return $results;
     }
@@ -184,7 +191,10 @@ class FileUtil
                 return $file->path;
             }
 
-            if (file_exists(System::getContainer()->getParameter('kernel.project_dir').'/'.$file->path)) {
+            $a = $this->container->getParameter('kernel.project_dir');
+            $b = $file->path;
+            $path = $this->container->getParameter('kernel.project_dir').'/'.$file->path;
+            if (file_exists($this->container->getParameter('kernel.project_dir').'/'.$file->path)) {
                 return $file->path;
             }
         }
@@ -201,7 +211,8 @@ class FileUtil
     public function getFileFromUuid($uuid)
     {
         if ($path = $this->getPathFromUuid($uuid)) {
-            if (is_dir(System::getContainer()->get('huh.utils.container')->getProjectDir().\DIRECTORY_SEPARATOR.$path)) {
+
+            if (is_dir($this->container->get('huh.utils.container')->getProjectDir().\DIRECTORY_SEPARATOR.$path)) {
                 return null;
             }
 
@@ -238,7 +249,7 @@ class FileUtil
     {
         $file = new File($fileName);
 
-        $directory = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/');
+        $directory = ltrim(str_replace($this->container->getParameter('kernel.project_dir'), '', $file->dirname), '/');
 
         return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).($file->extension ? '.'
                                                                                                                             .$file->extension : '');
@@ -261,7 +272,7 @@ class FileUtil
 
         $name = \Patchwork\Utf8::toAscii(StringUtil::standardize($name, $preserveUppercase), '');
 
-        if ('id-' != $name && !System::getContainer()->get('huh.utils.string')->startsWith($fileName, 'id-')) {
+        if ('id-' != $name && !$this->container->get('huh.utils.string')->startsWith($fileName, 'id-')) {
             $name = preg_replace('/^(id-)/', '', $name);
         }
 
@@ -269,7 +280,7 @@ class FileUtil
             $name = substr($name, 0, $maxCount - 1);
         }
 
-        $directory = ltrim(str_replace(System::getContainer()->getParameter('kernel.project_dir'), '', $file->dirname), '/');
+        $directory = ltrim(str_replace($this->container->getParameter('kernel.project_dir'), '', $file->dirname), '/');
 
         return ($directory ? $directory.'/' : '').$name.($file->extension ? ('.'.strtolower($file->extension)) : '');
     }
@@ -333,8 +344,8 @@ class FileUtil
         $count = 0;
 
         try {
-            if (false === strpos($file, System::getContainer()->getParameter('kernel.project_dir'))) {
-                $file = System::getContainer()->getParameter('kernel.project_dir').$file;
+            if (false === strpos($file, $this->container->getParameter('kernel.project_dir'))) {
+                $file = $this->container->getParameter('kernel.project_dir').$file;
             }
 
             $handle = fopen($file, 'r');
@@ -358,6 +369,8 @@ class FileUtil
      *
      * @param FilesModel $file
      * @param int        $page
+     *
+     * @deprecated Dublicate to PdfPreview util
      *
      * @return FilesModel
      */

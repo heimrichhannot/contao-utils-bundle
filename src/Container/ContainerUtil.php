@@ -8,17 +8,17 @@
 
 namespace HeimrichHannot\UtilsBundle\Container;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\System;
 use Psr\Log\LogLevel;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
 class ContainerUtil
 {
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     protected $framework;
     /**
      * @var FileLocator
@@ -28,12 +28,17 @@ class ContainerUtil
      * @var ScopeMatcher
      */
     private $scopeMatcher;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-    public function __construct(ContaoFrameworkInterface $framework, FileLocator $fileLocator, ScopeMatcher $scopeMatcher)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
-        $this->fileLocator = $fileLocator;
-        $this->scopeMatcher = $scopeMatcher;
+        $this->framework = $container->get('contao.framework');
+        $this->fileLocator = $container->get('file_locator');
+        $this->scopeMatcher = $container->get('contao.routing.scope_matcher');
+        $this->container = $container;
     }
 
     /**
@@ -43,7 +48,7 @@ class ContainerUtil
      */
     public function getActiveBundles(): array
     {
-        return System::getContainer()->getParameter('kernel.bundles');
+        return $this->container->getParameter('kernel.bundles');
     }
 
     /**
@@ -78,7 +83,7 @@ class ContainerUtil
 
     public function getCurrentRequest()
     {
-        return System::getContainer()->get('request_stack')->getCurrentRequest();
+        return $this->container->get('request_stack')->getCurrentRequest();
     }
 
     /**
@@ -89,7 +94,7 @@ class ContainerUtil
     public function log(string $text, string $function, string $category)
     {
         $level = (ContaoContext::ERROR === $category ? LogLevel::ERROR : LogLevel::INFO);
-        $logger = System::getContainer()->get('monolog.logger.contao');
+        $logger = $this->container->get('monolog.logger.contao');
 
         $logger->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
     }
@@ -101,7 +106,7 @@ class ContainerUtil
      */
     public function getProjectDir()
     {
-        return System::getContainer()->getParameter('kernel.project_dir');
+        return $this->container->getParameter('kernel.project_dir');
     }
 
     /**
@@ -111,7 +116,7 @@ class ContainerUtil
      */
     public function getWebDir()
     {
-        return System::getContainer()->getParameter('contao.web_dir');
+        return $this->container->getParameter('contao.web_dir');
     }
 
     /**

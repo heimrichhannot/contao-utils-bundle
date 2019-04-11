@@ -8,28 +8,25 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\File;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\DataContainer;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\System;
+use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
-use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
-class FileUtilTest extends TestCaseEnvironment
+class FileUtilTest extends ContaoTestCase
 {
-    public static function tearDownAfterClass(): void
-    {
-        // The temporary directory would not be removed without this call!
-        parent::tearDownAfterClass();
-    }
-
     public function setUp()
     {
         parent::setUp();
@@ -37,34 +34,51 @@ class FileUtilTest extends TestCaseEnvironment
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir().'/files/');
 
-        $container = $this->mockContainer();
-
-        $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'files']);
-        $filesAdapter = $this->mockAdapter(['findByUuid']);
-        $filesAdapter->method('findByUuid')->willReturn($filesModel);
-        $container->set('contao.framework', $this->mockContaoFramework([FilesModel::class => $filesAdapter]));
-
-        $utilsString = new StringUtil($this->mockContaoFramework());
-        $container->set('huh.utils.string', $utilsString);
-
-        $containerUtils = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
-        $container->set('huh.utils.container', $containerUtils);
-        $container->setParameter('kernel.project_dir', sys_get_temp_dir().\DIRECTORY_SEPARATOR);
-
-
-        $arrayUtils = new ArrayUtil($container);
-        $container->set('huh.utils.array', $arrayUtils);
-
-        System::setContainer($container);
-
         if (!\function_exists('standardize')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
         }
     }
 
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework $framework
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
+    {
+        if (!$container) {
+            $container = $this->mockContainer($this->getTempDir());
+        }
+
+        if (!$framework)
+        {
+            $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'files']);
+            $filesAdapter = $this->mockAdapter(['findByUuid']);
+            $filesAdapter->method('findByUuid')->willReturn($filesModel);
+            $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
+        }
+        $container->set('contao.framework', $framework);
+        $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
+
+        $utilsString = new StringUtil($this->mockContaoFramework());
+        $container->set('huh.utils.string', $utilsString);
+
+        $container->set('file_locator', $this->createMock(FileLocator::class));
+        $container->set('contao.routing.scope_matcher', $this->createMock(ScopeMatcher::class));
+
+        /** @noinspection PhpParamsInspection */
+        $containerUtils = new ContainerUtil($container);
+        $container->set('huh.utils.container', $containerUtils);
+
+        $arrayUtils = new ArrayUtil($container);
+        $container->set('huh.utils.array', $arrayUtils);
+
+        return $container;
+    }
+
     public function testGetFileList()
     {
-        $fileUtil = new FileUtil($this->mockContaoFramework());
+        $fileUtil = new FileUtil($this->getContainerMock());
         file_put_contents($this->getTempDir().'/files/testfile1', 'test');
 
         $fileList = $fileUtil->getFileList($this->getTempDir().'/files', __DIR__, 'protectBaseUrl');
@@ -93,33 +107,32 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testGetUniqueFileNameWithinTarget()
     {
-        $this->markTestSkipped('While TL_ROOT is currently not testable, this test is skipped.');
-
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
+        $container = $this->getContainerMock();
+        System::setContainer($container); // Need for contao core file class
+        $fileUtil = new FileUtil($container);
+        $projectDir = $container->getParameter('kernel.project_dir');
 
         $fileName = $fileUtil->getUniqueFileNameWithinTarget('/files/test', 'te');
         $this->assertSame('files/_1.', $fileName);
 
-        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/test/test/test');
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($projectDir.'/test/test/test');
         $this->assertFalse($fileName);
 
-        file_put_contents(TL_ROOT.$this->getTempDir().'/files/test', 'test');
-        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test');
-        $this->assertSame(ltrim($this->getTempDir().'/files/test_1.', '/'), $fileName);
+        file_put_contents($projectDir.'/files/test', 'test');
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($projectDir.'/files/test');
+        $this->assertSame('files/test_1.', $fileName);
 
-        file_put_contents(TL_ROOT.$this->getTempDir().'/files/test_10', 'test');
-        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test_10', null, 10);
-        $this->assertNotSame(ltrim($this->getTempDir().'/files/test', '/'), $fileName);
+        file_put_contents($projectDir.'/files/test_10', 'test');
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($projectDir.'/files/test_10', null, 10);
+        $this->assertNotSame('files/test', $fileName);
 
-        $fileName = $fileUtil->getUniqueFileNameWithinTarget($this->getTempDir().'/files/test', null, 100);
-        $this->assertNotSame(ltrim($this->getTempDir().'/files/test', '/'), $fileName);
+        $fileName = $fileUtil->getUniqueFileNameWithinTarget($projectDir.'/files/test', null, 100);
+        $this->assertNotSame('files/test', $fileName);
     }
 
     public function testFormatSizeUnits()
     {
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
+        $fileUtil = new FileUtil($this->getContainerMock());
 
         $bytes = $fileUtil->formatSizeUnits(1073741824);
         $this->assertSame('1.00 GB', $bytes);
@@ -147,8 +160,7 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testGetPathWithoutFilename()
     {
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
+        $fileUtil = new FileUtil($this->getContainerMock());
         $path = $fileUtil->getPathWithoutFilename($this->getTempDir().'/file/testfile1');
         $this->assertSame($this->getTempDir().'/file', $path);
 
@@ -161,8 +173,7 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testGetFileExtension()
     {
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
+        $fileUtil = new FileUtil($this->getContainerMock());
         $fileExtension = $fileUtil->getFileExtension($this->getTempDir().'/file/testfile1');
         $this->assertSame('', $fileExtension);
         $fileExtension = $fileUtil->getFileExtension($this->getTempDir().'/file/testfile1.txt');
@@ -183,8 +194,9 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testAddUniqueIdToFilename()
     {
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
+        $container = $this->getContainerMock();
+        System::setContainer($container);
+        $fileUtil = new FileUtil($container);
 
         $file = $fileUtil->addUniqueIdToFilename('testFile');
         $this->assertNotSame('testFile', $file);
@@ -192,8 +204,7 @@ class FileUtilTest extends TestCaseEnvironment
 
     public function testSanitizeFileName()
     {
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
+        $fileUtil = new FileUtil($this->getContainerMock());
 
         $fileName = $fileUtil->sanitizeFileName('fileName');
         $this->assertSame('filename', $fileName);
@@ -210,8 +221,9 @@ class FileUtilTest extends TestCaseEnvironment
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => 'files']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
-        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
 
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
         $file = $fileUtil->getFileFromUuid('uuid');
         $this->assertNull($file);
 
@@ -219,14 +231,17 @@ class FileUtilTest extends TestCaseEnvironment
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => 'files/testFile']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
-        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
 
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
         $file = $fileUtil->getFileFromUuid('uuid');
         $this->assertInstanceOf(File::class, $file);
 
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn(null);
-        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
+
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
         $file = $fileUtil->getFileFromUuid('uuid');
         $this->assertNull($file);
     }
@@ -236,8 +251,9 @@ class FileUtilTest extends TestCaseEnvironment
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => 'files/testfile1']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
-        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
 
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
         $path = $fileUtil->getPathFromUuid($this->getTempDir().'/files', false);
         $this->assertSame('files/testfile1', $path);
 
@@ -247,8 +263,8 @@ class FileUtilTest extends TestCaseEnvironment
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn(null);
         $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
-        $fileUtil = new FileUtil($framework);
 
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
         $path = $fileUtil->getPathFromUuid($this->getTempDir().'files');
         $this->assertNull($path);
     }
@@ -258,14 +274,18 @@ class FileUtilTest extends TestCaseEnvironment
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => 'files']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
-        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
+
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
 
         $path = $fileUtil->getFolderFromUuid('uuid');
         $this->assertInstanceOf(Folder::class, $path);
 
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn(null);
-        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
+
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
         $path = $fileUtil->getFolderFromUuid('uuid');
         $this->assertFalse($path);
     }
@@ -274,14 +294,14 @@ class FileUtilTest extends TestCaseEnvironment
     {
         file_put_contents($this->getTempDir().'/files/testFile', 'test');
 
-        $framework = $this->mockContaoFramework();
-        $fileUtil = new FileUtil($framework);
+        $container = $this->getContainerMock();
+        $fileUtil = new FileUtil($container);
 
         $lines = $fileUtil->getFileLineCount($this->getTempDir().'/files/testFile');
         $this->assertSame(1, $lines);
 
-        $lines = $fileUtil->getFileLineCount('foo');
-        $this->assertTrue(false !== strpos($lines, 'fopen('.TL_ROOT.'/foo): failed to open stream:'));
+        $lines = $fileUtil->getFileLineCount('/foo');
+        $this->assertTrue(false !== strpos($lines, 'fopen('.$container->getParameter('kernel.project_dir').'/foo): failed to open stream:'));
     }
 
     public function testGetFolderFromDca()
@@ -289,7 +309,9 @@ class FileUtilTest extends TestCaseEnvironment
         $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => 'files']);
         $filesAdapter = $this->mockAdapter(['findByUuid']);
         $filesAdapter->method('findByUuid')->willReturn($filesModel);
-        $fileUtil = new FileUtil($this->mockContaoFramework([FilesModel::class => $filesAdapter]));
+        $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
+
+        $fileUtil = new FileUtil($this->getContainerMock(null, $framework));
         $folder = $fileUtil->getFolderFromDca($this->getTempDir().'files');
         $this->assertSame($this->getTempDir().'files', $folder);
 

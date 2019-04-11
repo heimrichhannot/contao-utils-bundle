@@ -11,6 +11,10 @@ services:
     class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: "@huh.utils.array"
 
+  huh.utils.container:
+    class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
+  HeimrichHannot\UtilsBundle\Container\ContainerUtil: "@huh.utils.container"
+
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
   HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"

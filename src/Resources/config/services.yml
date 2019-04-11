@@ -39,13 +39,6 @@ services:
     public: true
     arguments:
     - "@contao.framework"
-  huh.utils.container:
-    class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
-    public: true
-    arguments:
-    - "@contao.framework"
-    - "@file_locator"
-    - "@contao.routing.scope_matcher"
   huh.utils.database:
     class: HeimrichHannot\UtilsBundle\Database\DatabaseUtil
     public: true
