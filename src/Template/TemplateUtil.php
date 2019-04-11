@@ -9,9 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Template;
 
 use Contao\Controller;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\PageModel;
-use Contao\System;
 use Contao\ThemeModel;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Event\RenderTwigTemplateEvent;
@@ -25,9 +23,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class TemplateUtil
 {
-    /** @var ContaoFrameworkInterface */
-    protected $framework;
-
     /**
      * @var FilesystemAdapter
      */
@@ -52,11 +47,9 @@ class TemplateUtil
      */
     private $kernel;
 
-    public function __construct(ContaoFrameworkInterface $framework, KernelInterface $kernel, ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
-        $this->cache = new FilesystemAdapter('', 0, $kernel->getCacheDir());
-        $this->kernel = $kernel;
+        $this->kernel = $container->get('kernel');
         $this->container = $container;
         $this->containerUtil = $container->get('huh.utils.container');
     }
@@ -179,7 +172,7 @@ class TemplateUtil
                 }
             }
 
-            foreach (System::getContainer()->get('contao.resource_finder')->findIn('templates')->name('/'.$prefix.'.*'.$format.'/') as $file) {
+            foreach ($this->container->get('contao.resource_finder')->findIn('templates')->name('/'.$prefix.'.*'.$format.'/') as $file) {
                 /* @var SplFileInfo $file */
                 $strTemplate = 'html.twig' === $format ? $file->getBasename('.'.$format) : $file->getFilename(); // Backward compability for html.twig templates
                 $arrTemplates[$strTemplate]['name'] = $file->getBasename();
@@ -212,7 +205,7 @@ class TemplateUtil
                 /**
                  * @var ThemeModel
                  */
-                $adapter = $this->framework->getAdapter(ThemeModel::class);
+                $adapter = $this->container->get('contao.framework')->getAdapter(ThemeModel::class);
 
                 $objTheme = $adapter->findAll(['order' => 'name']);
             } catch (\Exception $e) {

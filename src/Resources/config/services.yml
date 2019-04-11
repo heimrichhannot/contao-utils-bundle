@@ -127,10 +127,6 @@ services:
   huh.utils.module:
     class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
     public: true
-  huh.utils.template:
-    class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
-    public: true
-    autowire: true
   huh.utils.user:
     class: HeimrichHannot\UtilsBundle\User\UserUtil
     public: true
@@ -177,5 +173,3 @@ services:
 
   huh.utils.pdf_writer:
     alias: huh.utils.pdf.writer
-  # Symfony 4 autowire convention fix (ambiguous namespace alias)
-  HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"

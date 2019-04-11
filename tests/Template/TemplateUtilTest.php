@@ -12,9 +12,12 @@ use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\System;
+use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
+use HeimrichHannot\UtilsBundle\Tests\FixturesTrait;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +25,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class TemplateUtilTest extends TestCaseEnvironment
+class TemplateUtilTest extends ContaoTestCase
 {
+    use FixturesTrait;
+
     public function setUp()
     {
         parent::setUp();
@@ -37,12 +42,14 @@ class TemplateUtilTest extends TestCaseEnvironment
      *
      * @return TemplateUtil
      */
-    public function getTemplateUtilMock(ContainerInterface $container = null, ContaoFrameworkInterface $framework = null)
+    public function getTemplateUtilMock(ContainerInterface $container = null)
     {
-        if (!$framework) {
-            $framework = $this->mockContaoFramework();
-        }
+        $util = new TemplateUtil($this->getContainerMock());
+        return $util;
+    }
 
+    protected function getContainerMock(ContainerBuilder $container = null)
+    {
         if (!$container) {
             $container = $this->mockContainer();
         }
@@ -55,27 +62,12 @@ class TemplateUtilTest extends TestCaseEnvironment
             $container->set('kernel', $kernel);
         }
 
-        if (!$container->has('contao.resource_finder')) {
-            $file1 = $this->createMock(\SplFileInfo::class);
-            $file1->method('getBasename')->willReturn('basename');
-
-            $file2 = $this->createMock(\SplFileInfo::class);
-            $file2->method('getBasename')->willReturn('basename');
-
-            $finder = $this->mockAdapter(['findIn', 'name']);
-            $finder->method('findIn')->willReturnSelf();
-            $finder->method('name')->willReturn([$file1, $file2]);
-
-            $container->set('contao.resource_finder', $finder);
-        }
         $container->set('contao.resource_finder', new ResourceFinder([$this->getFixturesDir()]));
 
         if (!$container->has('request_stack')) {
             $request = new Request();
-
             $requestStack = $this->createMock(RequestStack::class);
             $requestStack->method('getCurrentRequest')->willReturn($request);
-
             $container->set('request_stack', $requestStack);
         }
 
@@ -86,11 +78,7 @@ class TemplateUtilTest extends TestCaseEnvironment
             $containerUtil->method('getProjectDir')->willReturn($this->getFixturesDir());
             $container->set('huh.utils.container', $containerUtil);
         }
-
-        System::setContainer($container);
-        $util = new TemplateUtil($framework, $kernel, $container);
-
-        return $util;
+        return $container;
     }
 
     public function testInstantiation()
@@ -101,7 +89,8 @@ class TemplateUtilTest extends TestCaseEnvironment
 
     public function testGetTwigTemplate()
     {
-        $util = $this->getTemplateUtilMock();
+        $container = $this->getContainerMock();
+        $util = new TemplateUtil($container);
         $util->getAllTemplates();
 
         if (!\defined('TL_MODE')) {
@@ -113,14 +102,6 @@ class TemplateUtilTest extends TestCaseEnvironment
                 $this->getFixturesDir(),
             ])
         );
-
-        $container = System::getContainer();
-        $container->set('contao.resource_finder', $finder);
-
-        $containerUtil = new ContainerUtil($this->mockContaoFramework(), $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
-        $container->set('huh.utils.container', $containerUtil);
-
-        System::setContainer($container);
 
         global $objPage;
 
@@ -136,28 +117,17 @@ class TemplateUtilTest extends TestCaseEnvironment
             \define('TL_MODE', 'FE');
         }
 
-        $finder = new ResourceFinder(
-            ([
-                $this->getFixturesDir(),
-            ])
-        );
+        $container = $this->getContainerMock();
 
-        $container = System::getContainer();
-        $container->set('contao.resource_finder', $finder);
-
-        $container->setParameter('kernel.project_dir', $this->getFixturesDir());
         $containerUtil = $this->createMock(ContainerUtil::class);
         $containerUtil->method('getProjectDir')->willReturn($this->getFixturesDir());
         $containerUtil->method('isFrontend')->willReturn(true);
         $container->set('huh.utils.container', $containerUtil);
 
-        $util = $this->getTemplateUtilMock($container);
+        $util = new TemplateUtil($container);
         $util->getAllTemplates();
 
-        System::setContainer($container);
-
         global $objPage;
-
         $objPage = new \stdClass();
         $objPage->templateGroup = 'templates/myTheme';
 
@@ -166,7 +136,9 @@ class TemplateUtilTest extends TestCaseEnvironment
 
     public function testRemoveTemplateComment()
     {
-        $util = $this->getTemplateUtilMock();
+        $container = $this->getContainerMock();
+        $util = new TemplateUtil($container);
+        System::setContainer($container);
 
         $this->assertEmpty($util->removeTemplateComment(null));
         $this->assertSame(
