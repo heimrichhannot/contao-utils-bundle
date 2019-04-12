@@ -11,17 +11,25 @@ services:
     class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: "@huh.utils.array"
 
-  huh.utils.container:
-    class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
-  HeimrichHannot\UtilsBundle\Container\ContainerUtil: "@huh.utils.container"
+  huh.utils.cache.file:
+    class: HeimrichHannot\UtilsBundle\Cache\FileCache
+  HeimrichHannot\UtilsBundle\Cache\FileCache: "@huh.utils.cache.file"
 
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
   HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"
 
+  huh.utils.container:
+    class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
+  HeimrichHannot\UtilsBundle\Container\ContainerUtil: "@huh.utils.container"
+
   huh.utils.dca:
     class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
   HeimrichHannot\UtilsBundle\Dca\DcaUtil: "@huh.utils.dca"
+
+  huh.utils.file:
+    class: HeimrichHannot\UtilsBundle\File\FileUtil
+  HeimrichHannot\UtilsBundle\File\FileUtil: "@huh.utils.file"
 
   huh.utils.image:
     class: HeimrichHannot\UtilsBundle\Image\ImageUtil

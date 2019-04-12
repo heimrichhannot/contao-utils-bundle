@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 ## [DEV] - 2019-04-09
 
 ### Changed 
+* made $fileExtension parameter optional in FileCache::exist() and FileCache::get()
+* FileCache now uses kernel.project_dir instead of contao.web_dir for root path
 * refactoring due changes in internal coding standards
 * refactored service loading into Plugin class
 * updated a lot of tests
+
+### Fixed
+* FileCache::getNamespace() error when namespace not initialized
 
 ### Fixed
 * possible warnings in AccordionUtil

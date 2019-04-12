@@ -25,10 +25,6 @@ services:
     public: true
     arguments:
     - "@contao.framework"
-  huh.utils.cache.file:
-    class: HeimrichHannot\UtilsBundle\Cache\FileCache
-    public: true
-    arguments: ['%huh.utils.filecache.folder%', '%contao.web_dir%', '@huh.utils.file']
   huh.utils.code:
     class: HeimrichHannot\UtilsBundle\Security\CodeUtil
     public: true
@@ -46,11 +42,6 @@ services:
     - "@contao.framework"
   huh.utils.date:
     class: HeimrichHannot\UtilsBundle\Date\DateUtil
-    public: true
-    arguments:
-    - "@contao.framework"
-  huh.utils.file:
-    class: HeimrichHannot\UtilsBundle\File\FileUtil
     public: true
     arguments:
     - "@contao.framework"

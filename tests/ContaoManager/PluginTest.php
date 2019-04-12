@@ -14,9 +14,12 @@ use Contao\ManagerPlugin\Bundle\Parser\DelegatingParser;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Accordion\AccordionUtil;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
+use HeimrichHannot\UtilsBundle\Cache\FileCache;
+use HeimrichHannot\UtilsBundle\Classes\ClassUtil;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\ContaoManager\Plugin;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
+use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
 use HeimrichHannot\UtilsBundle\Image\ImageUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
@@ -24,6 +27,7 @@ use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
@@ -80,8 +84,11 @@ class PluginTest extends ContaoTestCase
         $utils = [
             'huh.utils.accordion' => AccordionUtil::class,
             'huh.utils.array' => ArrayUtil::class,
+            'huh.utils.cache.file' => FileCache::class,
+            'huh.utils.class' => ClassUtil::class,
             'huh.utils.container' => ContainerUtil::class,
             'huh.utils.dca' => DcaUtil::class,
+            'huh.utils.file' => FileUtil::class,
             'huh.utils.image' => ImageUtil::class,
             'huh.utils.model' => ModelUtil::class,
             'huh.utils.template' => TemplateUtil::class,
@@ -94,6 +101,13 @@ class PluginTest extends ContaoTestCase
             $this->assertSame($class, $definition->getClass());
             $this->assertEmpty($definition->getArguments());
             $this->assertTrue($definition->isAutowired());
+
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $testClass   = new \ReflectionClass($class);
+            $constructor = $testClass->getConstructor();
+            $this->assertSame(1, $constructor->getNumberOfRequiredParameters());
+            $this->assertSame(1, $constructor->getNumberOfParameters());
+            $this->assertSame(ContainerInterface::class,$constructor->getParameters()[0]->getClass()->getName());
         }
     }
 
