@@ -15,6 +15,10 @@ services:
     class: HeimrichHannot\UtilsBundle\Cache\FileCache
   HeimrichHannot\UtilsBundle\Cache\FileCache: "@huh.utils.cache.file"
 
+  huh.utils.cache.remote_image_cache:
+    class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
+  HeimrichHannot\UtilsBundle\Cache\RemoteImageCache: "@huh.utils.cache.remote_image_cache"
+
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
   HeimrichHannot\UtilsBundle\Classes\ClassUtil: "@huh.utils.class"

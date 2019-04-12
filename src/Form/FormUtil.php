@@ -258,7 +258,7 @@ class FormUtil
         }
 
         // Convert special characters (see #1890)
-        return specialchars($value);
+        return StringUtil::specialchars($value);
     }
 
     public function escapeAllHtmlEntities($table, $field, $value)

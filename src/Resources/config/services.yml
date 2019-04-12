@@ -20,11 +20,6 @@ services:
       - "@contao.framework"
       - "@filesystem"
       - "@huh.utils.model"
-  huh.utils.cache.remote_image_cache:
-    class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
-    public: true
-    arguments:
-    - "@contao.framework"
   huh.utils.code:
     class: HeimrichHannot\UtilsBundle\Security\CodeUtil
     public: true

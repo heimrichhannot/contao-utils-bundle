@@ -15,6 +15,7 @@ use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Accordion\AccordionUtil;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Cache\FileCache;
+use HeimrichHannot\UtilsBundle\Cache\RemoteImageCache;
 use HeimrichHannot\UtilsBundle\Classes\ClassUtil;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\ContaoManager\Plugin;
@@ -85,6 +86,7 @@ class PluginTest extends ContaoTestCase
             'huh.utils.accordion' => AccordionUtil::class,
             'huh.utils.array' => ArrayUtil::class,
             'huh.utils.cache.file' => FileCache::class,
+            'huh.utils.cache.remote_image_cache' => RemoteImageCache::class,
             'huh.utils.class' => ClassUtil::class,
             'huh.utils.container' => ContainerUtil::class,
             'huh.utils.dca' => DcaUtil::class,

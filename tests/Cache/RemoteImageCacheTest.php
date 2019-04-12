@@ -8,82 +8,56 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Cache;
 
+use Contao\Files;
 use Contao\FilesModel;
 use Contao\System;
+use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Cache\RemoteImageCache;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\Request\CurlRequestUtil;
-use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use HeimrichHannot\UtilsBundle\Tests\ResetContaoSingletonTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class RemoteImageCacheTest extends TestCaseEnvironment
+class RemoteImageCacheTest extends ContaoTestCase
 {
-    protected $tempPath;
+    use ResetContaoSingletonTrait;
+
+    /**
+     * @var string
+     */
+    protected $projectRoot;
+
 
     public function setUp()
     {
         parent::setUp();
 
-        $key = basename(strtr(static::class, '\\', '/'));
-        $this->tempPath = uniqid($key.'_');
+        $this->projectRoot = $this->getTempDir();
 
         $fs = new Filesystem();
-        $fs->mkdir(TL_ROOT.\DIRECTORY_SEPARATOR.$this->tempPath);
-        $fs->mkdir(TL_ROOT.\DIRECTORY_SEPARATOR.'system/tmp');
+        $fs->mkdir($this->projectRoot.'/tmp');
+        $fs->mkdir($this->projectRoot.'/system/tmp');
     }
 
-    protected function tearDown()
+    protected function getContainerMock(ContainerBuilder $container = null)
     {
-        $fs = new Filesystem();
-        $fs->remove(TL_ROOT.\DIRECTORY_SEPARATOR.$this->tempPath);
-        $fs->remove(TL_ROOT.\DIRECTORY_SEPARATOR.'system');
-    }
+        if (!$container)
+        {
+            $container = $this->mockContainer($this->projectRoot);
+        }
 
-    /**
-     * Tests the object instantiation.
-     */
-    public function testCanBeInstantiated()
-    {
-        $framework = $this->mockContaoFramework();
-        $container = $this->prepareContainer($framework);
+        $requestStack = new RequestStack();
+        $request = new Request();
+        $request->attributes->set('_contao_referer_id', 'foobar');
+        $requestStack->push($request);
+        $container->set('request_stack', $requestStack);
 
-        $curlMock = $this->createMock(CurlRequestUtil::class);
-        $curlMock->method('request')->willReturnCallback(
-            function ($argument) {
-                switch ($argument) {
-                    case 'remoteNull':
-                        return null;
+        System::setContainer($container);
 
-                    case 'remoteFalse':
-                        return false;
-
-                    case 'remoteEmpty':
-                        return 'null';
-
-                    case 'remoteImage':
-                    default:
-                        return 'validImage';
-                }
-            }
-        );
-
-        System::getContainer()->set('huh.utils.curl', $curlMock);
-
-        $instance = new RemoteImageCache($framework);
-        $this->assertInstanceOf(RemoteImageCache::class, $instance);
-    }
-
-    public function testGet()
-    {
-        $path = TL_ROOT.\DIRECTORY_SEPARATOR.$this->tempPath;
-        $testFile = $path.'/test01.jpg';
-
-        $filesModel = new \stdClass();
-        $filesModel->path = str_replace(TL_ROOT.\DIRECTORY_SEPARATOR, '', $path);
-        $filesModel->uuid = 'fade6980-1641-11e8-b642-0ed5f89f718b';
-
-        $filesModelAdapter = $this->mockAdapter(['findByUuid']);
-        $filesModelAdapter->method('findByUuid')->willReturn($filesModel);
+        $container->set('contao.framework', $this->mockContaoFramework());
 
         $curlMock = $this->createMock(CurlRequestUtil::class);
         $curlMock->method('request')->willReturnCallback(
@@ -104,83 +78,7 @@ class RemoteImageCacheTest extends TestCaseEnvironment
                 }
             }
         );
-
-        System::getContainer()->set('huh.utils.request.curl', $curlMock);
-
-        $framework = $this->mockContaoFramework(
-            [
-                FilesModel::class => $filesModelAdapter,
-            ]
-        );
-
-        System::getContainer()->set('huh.utils.file', new FileUtil($framework));
-
-        $fs = new Filesystem();
-        $fs->dumpFile($testFile, 'test01');
-
-        System::getContainer()->setParameter('kernel.project_dir', sys_get_temp_dir().\DIRECTORY_SEPARATOR);
-
-        $cache = new RemoteImageCache($framework);
-
-        $this->assertSame(
-            $this->tempPath.'/test01.jpg',
-            $cache->get('test01', $this->tempPath, 'http://www.google.de')
-        );
-        $this->assertSame(
-            $this->tempPath.'/test01.jpg',
-            $cache->get('test01', 'fade6980-1641-11e8-b642-0ed5f89f718b', 'http://www.google.de')
-        );
-
-        $this->assertSame(
-            $this->tempPath.'/test02.jpg',
-            $cache->get('test02', $this->tempPath, 'http://www.google.de')
-        );
-
-        $this->assertFalse(
-            $cache->get('test03', $this->tempPath, 'remoteFalse')
-        );
-
-        $filesModelAdapter = $this->mockAdapter(['findByUuid']);
-        $filesModelAdapter->method('findByUuid')->willReturn(null);
-
-        $framework = $this->mockContaoFramework(
-            [
-                FilesModel::class => $filesModelAdapter,
-            ]
-        );
-
-        System::getContainer()->set('huh.utils.file', new FileUtil($framework));
-
-        $this->assertFalse($cache->get('test01', '0c23ab88-1642-11e8-b642-0ed5f89f718b', 'http://www.google.de'));
-    }
-
-    public function prepareContainer($framework)
-    {
-        $container = $this->mockContainer();
-
-        $container->set('contao.framework', $framework);
-
-        $curlMock = $this->createMock(CurlRequestUtil::class);
-        $curlMock->method('request')->willReturnCallback(
-            function ($argument) {
-                switch ($argument) {
-                    case 'remoteNull':
-                        return null;
-
-                    case 'remoteFalse':
-                        return false;
-
-                    case 'remoteEmpty':
-                        return 'null';
-
-                    case 'remoteImage':
-                    default:
-                        return 'test02';
-                }
-            }
-        );
-
-        System::getContainer()->set('huh.utils.request.curl', $curlMock);
+        $container->set('huh.utils.request.curl', $curlMock);
 
         $fileUtilMock = $this->createMock(FileUtil::class);
         $fileUtilMock->method('getFolderFromUuid')->willReturnCallback(
@@ -192,15 +90,83 @@ class RemoteImageCacheTest extends TestCaseEnvironment
                     case 'fade6980-1641-11e8-b642-0ed5f89f718b':
                     default:
                         $folder = new \stdClass();
-                        $folder->value = $this->tempPath;
+                        $folder->value = 'tmp';
 
                         return $folder;
                 }
             }
         );
-
-        System::getContainer()->set('huh.utils.file', $fileUtilMock);
-
+        $container->set('huh.utils.file', $fileUtilMock);
         return $container;
+    }
+
+    /**
+     * Tests the object instantiation.
+     */
+    public function testCanBeInstantiated()
+    {
+        $instance = new RemoteImageCache($this->getContainerMock());
+        $this->assertInstanceOf(RemoteImageCache::class, $instance);
+    }
+
+    public function testGet()
+    {
+        $container = $this->getContainerMock();
+        $this->resetFilesInstance($container);
+        System::setContainer($container);
+
+        $path = $this->projectRoot.'/tmp';
+        $testFile = $path.'/test01.jpg';
+
+        $filesModel = new \stdClass();
+        $filesModel->path = str_replace($this->projectRoot.\DIRECTORY_SEPARATOR, '', $path);
+        $filesModel->uuid = 'fade6980-1641-11e8-b642-0ed5f89f718b';
+
+        $filesModelAdapter = $this->mockAdapter(['findByUuid']);
+        $filesModelAdapter->method('findByUuid')->willReturn($filesModel);
+
+        $framework = $this->mockContaoFramework([
+                FilesModel::class => $filesModelAdapter,
+        ]);
+
+        $container->set('contao.framework', $framework);
+
+        $container->set('huh.utils.file', new FileUtil($container));
+
+        $fs = new Filesystem();
+        $fs->dumpFile($testFile, 'test01');
+
+        $cache = new RemoteImageCache($container);
+
+        $this->assertSame(
+            'tmp/test01.jpg',
+            $cache->get('test01', 'tmp', 'http://www.google.de')
+        );
+        $this->assertSame(
+            'tmp/test01.jpg',
+            $cache->get('test01', 'fade6980-1641-11e8-b642-0ed5f89f718b', 'http://www.google.de')
+        );
+
+        $this->assertSame(
+            'tmp/test02.jpg',
+            $cache->get('test02', 'tmp', 'http://www.google.de')
+        );
+
+        $this->assertFalse(
+            $cache->get('test03', 'tmp', 'remoteFalse')
+        );
+
+        $filesModelAdapter = $this->mockAdapter(['findByUuid']);
+        $filesModelAdapter->method('findByUuid')->willReturn(null);
+
+        $framework = $this->mockContaoFramework([
+                FilesModel::class => $filesModelAdapter,
+        ]);
+        $container->set('contao.framework', $framework);
+
+        $container->set('huh.utils.file', new FileUtil($container));
+
+
+        $this->assertFalse($cache->get('test01', '0c23ab88-1642-11e8-b642-0ed5f89f718b', 'http://www.google.de'));
     }
 }

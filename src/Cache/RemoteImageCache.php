@@ -12,6 +12,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\File;
 use Contao\System;
 use Contao\Validator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RemoteImageCache
 {
@@ -19,10 +20,15 @@ class RemoteImageCache
      * @var ContaoFrameworkInterface
      */
     protected $framework;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
@@ -32,18 +38,19 @@ class RemoteImageCache
      * Else returns the url or, if $returnUuid is set true, the uuid of the image.
      *
      * @param string $identifier Used as filename of the cached image. Should be unique within the folder scope
-     * @param string $folder     Folder path or uuid of the file
-     * @param string $remoteUrl  The url of the cached (or to cache) file
-     * @param bool   $returnUuid Return uuid instead of the path
+     * @param string $folder Folder path or uuid of the file
+     * @param string $remoteUrl The url of the cached (or to cache) file
+     * @param bool $returnUuid Return uuid instead of the path
      *
      * @return bool|string
+     * @throws \Exception
      */
     public function get(string $identifier, $folder, $remoteUrl, $returnUuid = false)
     {
         $strFilename = $identifier.'.jpg';
 
         if (Validator::isUuid($folder)) {
-            $objFolder = System::getContainer()->get('huh.utils.file')->getFolderFromUuid($folder);
+            $objFolder = $this->container->get('huh.utils.file')->getFolderFromUuid($folder);
 
             if (false === $objFolder) {
                 return false;
@@ -57,7 +64,7 @@ class RemoteImageCache
             return $returnUuid ? $objFile->getModel()->uuid : $objFile->path;
         }
 
-        $strContent = System::getContainer()->get('huh.utils.request.curl')->request($remoteUrl);
+        $strContent = $this->container->get('huh.utils.request.curl')->request($remoteUrl);
 
         if (!$strContent || !\is_string($strContent)) {
             return false;

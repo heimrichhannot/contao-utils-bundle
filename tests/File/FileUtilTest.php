@@ -20,6 +20,7 @@ use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Tests\ResetContaoSingletonTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -27,6 +28,8 @@ use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class FileUtilTest extends ContaoTestCase
 {
+    use ResetContaoSingletonTrait;
+
     public function setUp()
     {
         parent::setUp();
@@ -38,6 +41,8 @@ class FileUtilTest extends ContaoTestCase
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
         }
     }
+
+
 
     /**
      * @param ContainerBuilder|null $container
@@ -73,6 +78,7 @@ class FileUtilTest extends ContaoTestCase
         $arrayUtils = new ArrayUtil($container);
         $container->set('huh.utils.array', $arrayUtils);
 
+        System::setContainer($container);
         return $container;
     }
 
@@ -108,6 +114,7 @@ class FileUtilTest extends ContaoTestCase
     public function testGetUniqueFileNameWithinTarget()
     {
         $container = $this->getContainerMock();
+        $this->resetFilesInstance($container);
         System::setContainer($container); // Need for contao core file class
         $fileUtil = new FileUtil($container);
         $projectDir = $container->getParameter('kernel.project_dir');
