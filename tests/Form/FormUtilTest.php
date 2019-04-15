@@ -319,7 +319,7 @@ class FormUtilTest extends ContaoTestCase
         ];
 
         $result = $formUtil->prepareSpecialValueForOutput('myField', $value, $this->dc);
-        $this->assertSame('[Firstname: John1, Lastname: Doe1, Language: Deutsch], [Firstname: John2, Lastname: Doe2, Language: Englisch]', $result);
+        $this->assertSame("\t\n\tFirstname: John1\tLastname: Doe1\tLanguage: Deutsch\t\n\tFirstname: John2\tLastname: Doe2\tLanguage: Englisch\t\n", $result);
 
         $adapter = $this->mockAdapter(['getConfigByArrayOrCallbackOrFunction']);
         $adapter->method('getConfigByArrayOrCallbackOrFunction')->willThrowException(new \ErrorException('This is an error exception'));
@@ -329,7 +329,7 @@ class FormUtilTest extends ContaoTestCase
         $formUtil = $this->getFormUtilMock($container);
 
         $result = $formUtil->prepareSpecialValueForOutput('myField', $value, $this->dc);
-        $this->assertSame('[Firstname: John1, Lastname: Doe1, Language: Deutsch], [Firstname: John2, Lastname: Doe2, Language: Englisch]', $result);
+        $this->assertSame("\t\n\tFirstname: John1\tLastname: Doe1\tLanguage: Deutsch\t\n\tFirstname: John2\tLastname: Doe2\tLanguage: Englisch\t\n", $result);
     }
 
     public function testEscapeAllHtmlEntities()
