@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [DEV] - 2019-04-09
+## [2.90.0] - 2019-04-16
 
 ### Changed 
 * made $fileExtension parameter optional in FileCache::exist() and FileCache::get()
