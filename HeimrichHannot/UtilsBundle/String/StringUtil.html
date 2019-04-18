@@ -185,13 +185,22 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_camelCaseToDashed">camelCaseToDashed</a>($value)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Convert a camel case string to a dashed string.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_camelCaseToSnake">camelCaseToSnake</a>(string $value)
+        
+                                            <p>Convert a camel case string to a snake cased string.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -307,7 +316,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_convertToInlineCss">convertToInlineCss</a>(string $text, string $cssText)
+                    <a href="#method_convertToInlineCss">convertToInlineCss</a>(string $text, string $cssText = null)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -332,6 +341,16 @@
                     <a href="#method_lowerCase">lowerCase</a>($value, DataContainer $objDc)
         
                                             <p>Convenience method for lower casing in a save callback.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_ensureLineBreaks">ensureLineBreaks</a>(string $buffer, string $language = &#039;en&#039;)
+        
+                                            <p>Ensure line breaks for several languages.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -461,8 +480,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_camelCaseToDashed">
-        <div class="location">at         line 58</div>
-        <code>                    
+        <div class="location">at         line 67</div>
+        <code>                    string
     <strong>camelCaseToDashed</strong>($value)
         </code>
     </h3>
@@ -470,6 +489,8 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Convert a camel case string to a dashed string.</p>                    <p>Example: MyPrettyClass to my-pretty-class</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -482,6 +503,55 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_camelCaseToSnake">
+        <div class="location">at         line 81</div>
+        <code>                    string
+    <strong>camelCaseToSnake</strong>(string $value)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Convert a camel case string to a snake cased string.</p>                    <p>Example: MyPrettyClass to my_pretty_class</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -490,7 +560,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_randomChar">
-        <div class="location">at         line 70</div>
+        <div class="location">at         line 93</div>
         <code>                    mixed
     <strong>randomChar</strong>(bool $includeAmbiguousChars = false)
         </code>
@@ -528,7 +598,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_randomLetter">
-        <div class="location">at         line 88</div>
+        <div class="location">at         line 111</div>
         <code>                    mixed
     <strong>randomLetter</strong>(bool $includeAmbiguousChars = false)
         </code>
@@ -566,7 +636,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_randomNumber">
-        <div class="location">at         line 106</div>
+        <div class="location">at         line 129</div>
         <code>                    mixed
     <strong>randomNumber</strong>(bool $includeAmbiguousChars = false)
         </code>
@@ -604,7 +674,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_random">
-        <div class="location">at         line 124</div>
+        <div class="location">at         line 147</div>
         <code>                    mixed
     <strong>random</strong>(string $charList)
         </code>
@@ -642,7 +712,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_truncateHtml">
-        <div class="location">at         line 140</div>
+        <div class="location">at         line 163</div>
         <code>                    bool|string
     <strong>truncateHtml</strong>(string $text, int $length = 100, string $ending = &#039;&amp;nbsp;&amp;hellip;&#039;, bool $exact = false, bool $considerHtml = true)
         </code>
@@ -702,7 +772,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_pregReplaceLast">
-        <div class="location">at         line 247</div>
+        <div class="location">at         line 270</div>
         <code>                    mixed|string
     <strong>pregReplaceLast</strong>(string $regExp, string $subject)
         </code>
@@ -745,7 +815,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeLeadingAndTrailingSlash">
-        <div class="location">at         line 259</div>
+        <div class="location">at         line 282</div>
         <code>                    string
     <strong>removeLeadingAndTrailingSlash</strong>(string $string)
         </code>
@@ -783,7 +853,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeLeadingString">
-        <div class="location">at         line 264</div>
+        <div class="location">at         line 287</div>
         <code>                    
     <strong>removeLeadingString</strong>(string $string, string $subject)
         </code>
@@ -817,7 +887,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeTrailingString">
-        <div class="location">at         line 269</div>
+        <div class="location">at         line 292</div>
         <code>                    
     <strong>removeTrailingString</strong>(string $string, string $subject)
         </code>
@@ -851,7 +921,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_restoreBasicEntities">
-        <div class="location">at         line 281</div>
+        <div class="location">at         line 304</div>
         <code>                    string
     <strong>restoreBasicEntities</strong>(string $string)
         </code>
@@ -891,9 +961,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_convertToInlineCss">
-        <div class="location">at         line 292</div>
+        <div class="location">at         line 313</div>
         <code>                    
-    <strong>convertToInlineCss</strong>(string $text, string $cssText)
+    <strong>convertToInlineCss</strong>(string $text, string $cssText = null)
         </code>
     </h3>
     <div class="details">
@@ -918,15 +988,6 @@
 
             
             
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="TijsVerkoyen\CssToInlineStyles\Exception">Exception</abbr></td>
-                <td></td>
-            </tr>
-            </table>
-
             
                     </div>
     </div>
@@ -934,7 +995,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_html2Text">
-        <div class="location">at         line 309</div>
+        <div class="location">at         line 327</div>
         <code>                    string
     <strong>html2Text</strong>(string $html, array $options = [])
         </code>
@@ -977,7 +1038,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_lowerCase">
-        <div class="location">at         line 324</div>
+        <div class="location">at         line 342</div>
         <code>                    
     <strong>lowerCase</strong>($value, DataContainer $objDc)
         </code>
@@ -1005,6 +1066,51 @@
             </table>
 
             
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_ensureLineBreaks">
+        <div class="location">at         line 355</div>
+        <code>                    string
+    <strong>ensureLineBreaks</strong>(string $buffer, string $language = &#039;en&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Ensure line breaks for several languages.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$buffer</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$language</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>

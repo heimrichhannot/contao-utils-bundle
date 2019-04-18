@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache | Contao Utils Bundle</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Cache_DatabaseTreeCache" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Contao Utils Bundle</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Cache.html">Cache</a></li><li class="backslash">\</li><li>DatabaseTreeCache</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            DatabaseTreeCache
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>DatabaseTreeCache</strong>
+</p>
+
+        
+    
+
+    
+    
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_cache">
+                    static                    protected                                        array
+                </td>
+                <td>$cache</td>
+                <td class="last">Cache tree.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_framework">
+                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr>
+                </td>
+                <td>$framework</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_filesystem">
+                                        protected                                        <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr>
+                </td>
+                <td>$filesystem</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_modelUtil">
+                                        protected                                        <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a>
+                </td>
+                <td>$modelUtil</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_database">
+                                        protected                                        <abbr title="Contao\Database">Database</abbr>
+                </td>
+                <td>$database</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_cacheDir">
+                                        protected                                        string
+                </td>
+                <td>$cacheDir</td>
+                <td class="last">Tree cache directory.</td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr> $filesystem, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_loadDataContainer">loadDataContainer</a>($table)
+        
+                                            <p>Generate tree cache.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addConfigToTreeCache">addConfigToTreeCache</a>(string $table, string $key, array $config = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getChildRecords">getChildRecords</a>(string $table, array $ids = [], int $maxLevels = null, string $key = &#039;id&#039;, array $children = [], int $level = 0)
+        
+                                            <p>Get all child records for given parent entities.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getParentRecords">getParentRecords</a>(string $table, int $id, int $maxLevels = null, string $key = &#039;id&#039;, array $parents = [], int $level = 0)
+        
+                                            <p>Get all parent records for given child entity.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getTreeCache">getTreeCache</a>(string $table, string $key)
+        
+                                            <p>Get the tree cache for a given table and key.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_generateCacheTree">generateCacheTree</a>(string $table, array $ids = [], string $key = &#039;id&#039;, array $config = [], $return = [])
+        
+                                            <p>Generate the flat cache tree.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_generateAllCacheTree">generateAllCacheTree</a>($cacheDir)
+        
+                                            <p>Generate all cache trees.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_registerDcaToCacheTree">registerDcaToCacheTree</a>(string $table, array $columns = [], array $values = [], array $options = [], string $key = &#039;id&#039;)
+        
+                                            <p>Register a dca to the tree cache.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_purgeCacheTree">purgeCacheTree</a>()
+        
+                                            <p>Purge the tree cache completely in order to take table relations into consideration.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         line 53</div>
+        <code>                    
+    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr> $filesystem, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr></td>
+                <td>$framework</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr></td>
+                <td>$filesystem</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a></td>
+                <td>$modelUtil</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_loadDataContainer">
+        <div class="location">at         line 65</div>
+        <code>                    
+    <strong>loadDataContainer</strong>($table)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Generate tree cache.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addConfigToTreeCache">
+        <div class="location">at         line 78</div>
+        <code>                    
+    <strong>addConfigToTreeCache</strong>(string $table, string $key, array $config = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getChildRecords">
+        <div class="location">at         line 110</div>
+        <code>                    array
+    <strong>getChildRecords</strong>(string $table, array $ids = [], int $maxLevels = null, string $key = &#039;id&#039;, array $children = [], int $level = 0)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get all child records for given parent entities.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td>The database table</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$ids</td>
+                <td>The parent entity ids</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$maxLevels</td>
+                <td>The max stop level</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>Custom index key (default: primary key from model)</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$children</td>
+                <td>Internal children return array</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$level</td>
+                <td>Internal depth attribute</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array containing all children for given parent entities</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getParentRecords">
+        <div class="location">at         line 153</div>
+        <code>                    array
+    <strong>getParentRecords</strong>(string $table, int $id, int $maxLevels = null, string $key = &#039;id&#039;, array $parents = [], int $level = 0)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get all parent records for given child entity.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td>The database table</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td>The current entity id</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$maxLevels</td>
+                <td>The max stop level</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>Custom index key (default: primary key from model)</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$parents</td>
+                <td>Internal children return array</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$level</td>
+                <td>Internal depth attribute</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>An array containing all children for given parent entities</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getTreeCache">
+        <div class="location">at         line 196</div>
+        <code>                    array|null
+    <strong>getTreeCache</strong>(string $table, string $key)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the tree cache for a given table and key.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td>The database table</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>Custom index key (default: primary key from model)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_generateCacheTree">
+        <div class="location">at         line 218</div>
+        <code>                    array
+    <strong>generateCacheTree</strong>(string $table, array $ids = [], string $key = &#039;id&#039;, array $config = [], $return = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Generate the flat cache tree.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$ids</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$return</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>The flat cache tree</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_generateAllCacheTree">
+        <div class="location">at         line 241</div>
+        <code>                    
+    <strong>generateAllCacheTree</strong>($cacheDir)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Generate all cache trees.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$cacheDir</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_registerDcaToCacheTree">
+        <div class="location">at         line 264</div>
+        <code>                    bool
+    <strong>registerDcaToCacheTree</strong>(string $table, array $columns = [], array $values = [], array $options = [], string $key = &#039;id&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Register a dca to the tree cache.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td>(The dca table)</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$columns</td>
+                <td>Parent sql filter columns (e.g. <code>tl_page.type</code>)</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$values</td>
+                <td>Parent sql filter values (e.g. <code>root</code> for <code>tl_page.type</code>)</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>SQL Options for sorting</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>Custom index key (default: primary key from model)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Acknowledge state if register succeeded</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_purgeCacheTree">
+        <div class="location">at         line 290</div>
+        <code>                    
+    <strong>purgeCacheTree</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Purge the tree cache completely in order to take table relations into consideration.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

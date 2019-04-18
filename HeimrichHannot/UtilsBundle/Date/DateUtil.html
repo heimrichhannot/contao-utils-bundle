@@ -121,7 +121,7 @@
                     int
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getTimeStamp">getTimeStamp</a>(string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a> $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
+                    <a href="#method_getTimeStamp">getTimeStamp</a>(string|int|<a target="_blank" href="http://php.net/DateTime">DateTime</a>|null $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
         
                                             <p>Get the timestamp based on input date, no matter input is timestamp or string date.</p>                </div>
                 <div class="col-md-2"></div>
@@ -239,6 +239,28 @@
                                             <p>Translates available months inside a given string from English to the current language.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFormattedDateTime">getFormattedDateTime</a>($startDate, $endDate = 0, $addTime = false, $startTime = 0, $endTime = 0, array $options = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFormattedDateTimeByEvent">getFormattedDateTimeByEvent</a>(<abbr title="Contao\Model">Model</abbr> $event)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -247,7 +269,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 21</div>
+        <div class="location">at         line 23</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
         </code>
@@ -276,9 +298,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTimeStamp">
-        <div class="location">at         line 35</div>
+        <div class="location">at         line 37</div>
         <code>                    int
-    <strong>getTimeStamp</strong>(string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a> $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
+    <strong>getTimeStamp</strong>(string|int|<a target="_blank" href="http://php.net/DateTime">DateTime</a>|null $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
         </code>
     </h3>
     <div class="details">
@@ -292,7 +314,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string|int|null|<a target="_blank" href="http://php.net/DateTime">DateTime</a></td>
+                <td>string|int|<a target="_blank" href="http://php.net/DateTime">DateTime</a>|null</td>
                 <td>$date</td>
                 <td>The input date/timestamp/insertTag</td>
             </tr>
@@ -326,7 +348,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTimePeriodInSeconds">
-        <div class="location">at         line 67</div>
+        <div class="location">at         line 69</div>
         <code>                    
     <strong>getTimePeriodInSeconds</strong>($timePeriod)
         </code>
@@ -355,7 +377,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformPhpDateFormatToRFC3339">
-        <div class="location">at         line 104</div>
+        <div class="location">at         line 106</div>
         <code>                    string
     <strong>transformPhpDateFormatToRFC3339</strong>(string $format)
         </code>
@@ -395,7 +417,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformPhpDateFormatToISO8601">
-        <div class="location">at         line 167</div>
+        <div class="location">at         line 169</div>
         <code>                    string
     <strong>transformPhpDateFormatToISO8601</strong>(string $format)
         </code>
@@ -435,7 +457,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getGMTMidnightTstamp">
-        <div class="location">at         line 230</div>
+        <div class="location">at         line 232</div>
         <code>                    int
     <strong>getGMTMidnightTstamp</strong>(int $tstamp)
         </code>
@@ -475,7 +497,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isMonthInDateFormat">
-        <div class="location">at         line 246</div>
+        <div class="location">at         line 248</div>
         <code>                    bool
     <strong>isMonthInDateFormat</strong>(string $dateFormat)
         </code>
@@ -515,7 +537,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isDayInDateFormat">
-        <div class="location">at         line 261</div>
+        <div class="location">at         line 263</div>
         <code>                    bool
     <strong>isDayInDateFormat</strong>(string $dateFormat)
         </code>
@@ -555,7 +577,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isYearInDateFormat">
-        <div class="location">at         line 278</div>
+        <div class="location">at         line 280</div>
         <code>                    bool
     <strong>isYearInDateFormat</strong>(string $dateFormat)
         </code>
@@ -595,7 +617,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMonthTranslationMap">
-        <div class="location">at         line 285</div>
+        <div class="location">at         line 287</div>
         <code>                    
     <strong>getMonthTranslationMap</strong>()
         </code>
@@ -614,7 +636,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getShortMonthTranslationMap">
-        <div class="location">at         line 313</div>
+        <div class="location">at         line 315</div>
         <code>                    
     <strong>getShortMonthTranslationMap</strong>()
         </code>
@@ -633,7 +655,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_translateMonthsToEnglish">
-        <div class="location">at         line 348</div>
+        <div class="location">at         line 350</div>
         <code>                    mixed|string
     <strong>translateMonthsToEnglish</strong>(string $date)
         </code>
@@ -673,7 +695,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_translateMonths">
-        <div class="location">at         line 372</div>
+        <div class="location">at         line 374</div>
         <code>                    mixed|string
     <strong>translateMonths</strong>(string $date)
         </code>
@@ -701,6 +723,107 @@
                     <table class="table table-condensed">
         <tr>
             <td>mixed|string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFormattedDateTime">
+        <div class="location">at         line 391</div>
+        <code>                    string|null
+    <strong>getFormattedDateTime</strong>($startDate, $endDate = 0, $addTime = false, $startTime = 0, $endTime = 0, array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$startDate</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$endDate</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$addTime</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$startTime</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$endTime</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFormattedDateTimeByEvent">
+        <div class="location">at         line 418</div>
+        <code>                    string|null
+    <strong>getFormattedDateTimeByEvent</strong>(<abbr title="Contao\Model">Model</abbr> $event)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Contao\Model">Model</abbr></td>
+                <td>$event</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
             <td></td>
         </tr>
     </table>

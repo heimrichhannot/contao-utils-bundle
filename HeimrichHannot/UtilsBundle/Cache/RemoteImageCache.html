@@ -110,7 +110,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -134,9 +134,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 23</div>
+        <div class="location">at         line 28</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
     </h3>
     <div class="details">
@@ -148,8 +148,8 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr></td>
-                <td>$framework</td>
+                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
+                <td>$container</td>
                 <td></td>
             </tr>
             </table>
@@ -163,7 +163,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">at         line 41</div>
+        <div class="location">at         line 48</div>
         <code>                    bool|string
     <strong>get</strong>(string $identifier, string $folder, string $remoteUrl, bool $returnUuid = false)
         </code>
@@ -212,6 +212,15 @@ Else returns the url or, if $returnUuid is set true, the uuid of the image.</p> 
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>

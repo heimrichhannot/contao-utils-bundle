@@ -93,7 +93,7 @@
             <table class="table table-condensed">
                     <tr>
                 <td class="type" id="property_framework">
-                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr>
+                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>
                 </td>
                 <td>$framework</td>
                 <td class="last"></td>
@@ -110,7 +110,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -215,9 +215,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 21</div>
+        <div class="location">at         line 25</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
     </h3>
     <div class="details">
@@ -229,8 +229,8 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr></td>
-                <td>$framework</td>
+                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
+                <td>$container</td>
                 <td></td>
             </tr>
             </table>
@@ -244,7 +244,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_filterByPrefixes">
-        <div class="location">at         line 34</div>
+        <div class="location">at         line 39</div>
         <code>                    array
     <strong>filterByPrefixes</strong>(array $data = [], array $prefixes = [])
         </code>
@@ -289,7 +289,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_aasort">
-        <div class="location">at         line 58</div>
+        <div class="location">at         line 63</div>
         <code>                    
     <strong>aasort</strong>(array $array, $key)
         </code>
@@ -325,7 +325,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeValue">
-        <div class="location">at         line 85</div>
+        <div class="location">at         line 90</div>
         <code>                    bool
     <strong>removeValue</strong>($value, array $array)
         </code>
@@ -370,7 +370,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removePrefix">
-        <div class="location">at         line 96</div>
+        <div class="location">at         line 101</div>
         <code>                    array
     <strong>removePrefix</strong>(string $prefix, array $array)
         </code>
@@ -413,7 +413,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_insertInArrayByName">
-        <div class="location">at         line 116</div>
+        <div class="location">at         line 121</div>
         <code>                    
     <strong>insertInArrayByName</strong>(array $current, string $key, mixed $value, int $offset = 0, bool $strict = false)
         </code>
@@ -431,27 +431,27 @@
                     <tr>
                 <td>array</td>
                 <td>$current</td>
-                <td></td>
+                <td>The target array</td>
             </tr>
                     <tr>
                 <td>string</td>
                 <td>$key</td>
-                <td></td>
+                <td>The existing target key in the array.</td>
             </tr>
                     <tr>
                 <td>mixed</td>
                 <td>$value</td>
-                <td></td>
+                <td>The new value to be inserted.</td>
             </tr>
                     <tr>
                 <td>int</td>
                 <td>$offset</td>
-                <td></td>
+                <td>Offset for inserting the new value.</td>
             </tr>
                     <tr>
                 <td>bool</td>
                 <td>$strict</td>
-                <td></td>
+                <td>Use strict behavior for array search.</td>
             </tr>
             </table>
 
@@ -464,7 +464,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_arrayToObject">
-        <div class="location">at         line 130</div>
+        <div class="location">at         line 135</div>
         <code>                    <a target="_blank" href="http://php.net/stdClass">stdClass</a>
     <strong>arrayToObject</strong>(array $array)
         </code>
@@ -504,7 +504,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getArrayRowByFieldValue">
-        <div class="location">at         line 151</div>
+        <div class="location">at         line 156</div>
         <code>                    mixed
     <strong>getArrayRowByFieldValue</strong>(string|int $key, mixed $value, array $haystack, bool $strictType = false)
         </code>
@@ -559,7 +559,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_flattenArray">
-        <div class="location">at         line 183</div>
+        <div class="location">at         line 188</div>
         <code>                    array
     <strong>flattenArray</strong>(array $array)
         </code>
@@ -599,7 +599,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_insertBeforeKey">
-        <div class="location">at         line 208</div>
+        <div class="location">at         line 213</div>
         <code>        static            
     <strong>insertBeforeKey</strong>(array $array, string $key, string $newKey, mixed $newValue)
         </code>

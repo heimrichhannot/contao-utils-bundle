@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>HeimrichHannot\UtilsBundle\Image\ImageUtil | Contao Utils Bundle</title>
+    <title>HeimrichHannot\UtilsBundle\Twig\FileExtension | Contao Utils Bundle</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Image_ImageUtil" data-root-path="../../../">
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Twig_FileExtension" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,82 +66,87 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Image.html">Image</a></li><li class="backslash">\</li><li>ImageUtil</li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Twig.html">Twig</a></li><li class="backslash">\</li><li>FileExtension</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            ImageUtil
+            FileExtension
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>ImageUtil</strong>
+    <strong>FileExtension</strong>        extends <abbr title="Twig\Extension\AbstractExtension">AbstractExtension</abbr>        implements
+        <abbr title="Symfony\Component\DependencyInjection\ContainerAwareInterface">ContainerAwareInterface</abbr>
 </p>
 
         
     
 
     
+            <h2>Traits</h2>
+
+        
+    <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-6">
+                                            <abbr title="Symfony\Component\DependencyInjection\ContainerAwareTrait">ContainerAwareTrait</abbr>
+                                            
+                </div>
+                <div class="col-md-6">
+                    
+                </div>
+            </div>
+            </div>
     
-    
-            <h2>Properties</h2>
+            <h2>Constants</h2>
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_framework">
-                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>
+                <td>FILE_OBJECT_PROPERTIES</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
                 </td>
-                <td>$framework</td>
-                <td class="last"></td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_container">
-                                        protected                                        <abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr>
-                </td>
-                <td>$container</td>
-                <td class="last"></td>
-                <td></td>
             </tr>
             </table>
 
+    
     
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    array|Twig_SimpleFilter[]
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
+                    <a href="#method_getFilters">getFilters</a>()
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Get list of twig filters.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_addToTemplateData">addToTemplateData</a>(string $imageField, string $imageSelectorField, array $templateData, array $item, int $maxWidth = null, string $lightboxId = null, string $lightboxName = null, <abbr title="Contao\FilesModel">FilesModel</abbr> $model = null)
+                    <a href="#method_getFileData">getFileData</a>(mixed $file, array $data = [], array $jsonSerializeOptions = [])
         
-                                            <p>Add an image to a template.</p>                </div>
+                                            <p>Get file data based on given uuid.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    int
+                    string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getPixelValue">getPixelValue</a>(string $size)
+                    <a href="#method_getFilePath">getFilePath</a>(mixed $file)
         
-                                            <p>Convert sizes like 2em, 10cm or 12pt to pixels.</p>                </div>
+                                            <p>Get file path based on given uuid.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -151,39 +156,10 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method___construct">
-        <div class="location">at         line 35</div>
-        <code>                    
-    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
-                <td>$container</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_addToTemplateData">
-        <div class="location">at         line 56</div>
-        <code>                    
-    <strong>addToTemplateData</strong>(string $imageField, string $imageSelectorField, array $templateData, array $item, int $maxWidth = null, string $lightboxId = null, string $lightboxName = null, <abbr title="Contao\FilesModel">FilesModel</abbr> $model = null)
+                    <h3 id="method_getFilters">
+        <div class="location">at         line 57</div>
+        <code>                    array|Twig_SimpleFilter[]
+    <strong>getFilters</strong>()
         </code>
     </h3>
     <div class="details">
@@ -191,55 +167,18 @@
     
 
                     <div class="method-description">
-                                    <p>Add an image to a template.</p>                    <p>Advanced version of Controller::addImageToTemplate
-with custom imageField and imageSelectorField and array instead of FrontendTemplate.</p>                            </div>
+                                    <p>Get list of twig filters.</p>                                                </div>
                 <div class="tags">
-                            <h4>Parameters</h4>
+            
+                            <h4>Return Value</h4>
 
                     <table class="table table-condensed">
-                    <tr>
-                <td>string</td>
-                <td>$imageField</td>
-                <td>the image field name (typical singleSRC)</td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$imageSelectorField</td>
-                <td>the image selector field indicated if an image is added (typical addImage)</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$templateData</td>
-                <td>An array to add the generated data to</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$item</td>
-                <td>The source data containing the imageField and imageSelectorField</td>
-            </tr>
-                    <tr>
-                <td>int</td>
-                <td>$maxWidth</td>
-                <td>An optional maximum width of the image</td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$lightboxId</td>
-                <td>An optional lightbox ID</td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$lightboxName</td>
-                <td>An optional lightbox name</td>
-            </tr>
-                    <tr>
-                <td><abbr title="Contao\FilesModel">FilesModel</abbr></td>
-                <td>$model</td>
-                <td>an optional file model used to read meta data</td>
-            </tr>
-            </table>
+        <tr>
+            <td>array|Twig_SimpleFilter[]</td>
+            <td></td>
+        </tr>
+    </table>
 
-            
             
             
                     </div>
@@ -247,10 +186,10 @@ with custom imageField and imageSelectorField and array instead of FrontendTempl
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_getPixelValue">
-        <div class="location">at         line 302</div>
-        <code>                    int
-    <strong>getPixelValue</strong>(string $size)
+                    <h3 id="method_getFileData">
+        <div class="location">at         line 86</div>
+        <code>                    array
+    <strong>getFileData</strong>(mixed $file, array $data = [], array $jsonSerializeOptions = [])
         </code>
     </h3>
     <div class="details">
@@ -258,15 +197,25 @@ with custom imageField and imageSelectorField and array instead of FrontendTempl
     
 
                     <div class="method-description">
-                                    <p>Convert sizes like 2em, 10cm or 12pt to pixels.</p>                                                </div>
+                                    <p>Get file data based on given uuid.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
-                <td>$size</td>
-                <td>The size string</td>
+                <td>mixed</td>
+                <td>$file</td>
+                <td>File uuid</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$data</td>
+                <td>Add file data here</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$jsonSerializeOptions</td>
+                <td>Options for the object to array transformation</td>
             </tr>
             </table>
 
@@ -275,8 +224,57 @@ with custom imageField and imageSelectorField and array instead of FrontendTempl
 
                     <table class="table table-condensed">
         <tr>
-            <td>int</td>
-            <td>The pixel value</td>
+            <td>array</td>
+            <td>File data</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/ReflectionException">ReflectionException</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFilePath">
+        <div class="location">at         line 108</div>
+        <code>                    string
+    <strong>getFilePath</strong>(mixed $file)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get file path based on given uuid.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$file</td>
+                <td>File uuid</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>File path</td>
         </tr>
     </table>
 

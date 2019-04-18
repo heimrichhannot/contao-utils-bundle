@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>HeimrichHannot\UtilsBundle\Member\MemberUtil | Contao Utils Bundle</title>
+    <title>HeimrichHannot\UtilsBundle\Event\RenderTwigTemplateEvent | Contao Utils Bundle</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Member_MemberUtil" data-root-path="../../../">
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Event_RenderTwigTemplateEvent" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,20 +66,20 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Member.html">Member</a></li><li class="backslash">\</li><li>MemberUtil</li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Event.html">Event</a></li><li class="backslash">\</li><li>RenderTwigTemplateEvent</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            MemberUtil
+            RenderTwigTemplateEvent
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>MemberUtil</strong>
+    <strong>RenderTwigTemplateEvent</strong>        extends <abbr title="Symfony\Component\EventDispatcher\Event">Event</abbr>
 </p>
 
         
@@ -87,16 +87,36 @@
 
     
     
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
             <table class="table table-condensed">
                     <tr>
-                <td class="type" id="property_framework">
-                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr>
+                <td class="type" id="property_template">
+                                        protected                                        string
                 </td>
-                <td>$framework</td>
-                <td class="last"></td>
+                <td>$template</td>
+                <td class="last">The name of the twig template.</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_context">
+                                        protected                                        array
+                </td>
+                <td>$context</td>
+                <td class="last">The context template data.</td>
                 <td></td>
             </tr>
             </table>
@@ -110,7 +130,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+                    <a href="#method___construct">__construct</a>(string $template, array $context = [])
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -118,30 +138,10 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    static&nbsp;bool|string
+                    string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_addHomeDir">addHomeDir</a>($member, string $booleanProperty = &#039;assignDir&#039;, string $propertyName = &#039;homeDir&#039;, $rootFolder = &#039;files/members&#039;, bool|false $overwrite = false)
-        
-                                            <p>Adds a new home dir to a member. Therefore a folder named with the members's id is created in $varRootFolder.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    static&nbsp;bool|string
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_getHomeDir">getHomeDir</a>($member, string $booleanProperty = &#039;assignDir&#039;, string $propertyName = &#039;homeDir&#039;, $rootFolder = &#039;files/members&#039;, bool|false $overwrite = false)
-        
-                                            <p>Returns a member home dir and creates one, if desired.</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    <abbr title="Contao\MemberModel">MemberModel</abbr>|<abbr title="Contao\MemberModel">MemberModel</abbr>[]|<abbr title="Contao\Model\Collection">Collection</abbr>|null
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_findActiveByGroups">findActiveByGroups</a>(array $groups, array $options = [])
+                    <a href="#method_getTemplate">getTemplate</a>()
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -152,7 +152,29 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_findOrCreate">findOrCreate</a>(string $email)
+                    <a href="#method_setTemplate">setTemplate</a>(string $template)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getContext">getContext</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setContext">setContext</a>(array $context)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -166,9 +188,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 25</div>
+        <div class="location">at         line 31</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+    <strong>__construct</strong>(string $template, array $context = [])
         </code>
     </h3>
     <div class="details">
@@ -180,173 +202,42 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr></td>
-                <td>$framework</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_addHomeDir">
-        <div class="location">at         line 42</div>
-        <code>        static            bool|string
-    <strong>addHomeDir</strong>($member, string $booleanProperty = &#039;assignDir&#039;, string $propertyName = &#039;homeDir&#039;, $rootFolder = &#039;files/members&#039;, bool|false $overwrite = false)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Adds a new home dir to a member. Therefore a folder named with the members's id is created in $varRootFolder.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$member</td>
-                <td>MemberModel|int The member as object or member id</td>
-            </tr>
-                    <tr>
                 <td>string</td>
-                <td>$booleanProperty</td>
-                <td>string The name of the boolean member property (e.g. "assignDir")</td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$propertyName</td>
-                <td>string The name of the member property (e.g. "homeDir")</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$rootFolder</td>
-                <td>string|object The base folder as instance of \FilesModel, path string or uuid</td>
-            </tr>
-                    <tr>
-                <td>bool|false</td>
-                <td>$overwrite</td>
-                <td>bool Determines if an existing folder can be overridden</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>bool|string</td>
-            <td>returns true, if a directory has already been linked with the member, the folders uuid if successfully added and false if
-                    errors occurred</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_getHomeDir">
-        <div class="location">at         line 98</div>
-        <code>        static            bool|string
-    <strong>getHomeDir</strong>($member, string $booleanProperty = &#039;assignDir&#039;, string $propertyName = &#039;homeDir&#039;, $rootFolder = &#039;files/members&#039;, bool|false $overwrite = false)
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                    <div class="method-description">
-                                    <p>Returns a member home dir and creates one, if desired.</p>                                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td></td>
-                <td>$member</td>
-                <td>MemberModel|int The member as object or member id</td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$booleanProperty</td>
-                <td>string The name of the boolean member property (e.g. "assignDir")</td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$propertyName</td>
-                <td>string The name of the member property (e.g. "homeDir")</td>
-            </tr>
-                    <tr>
-                <td></td>
-                <td>$rootFolder</td>
-                <td>string|FilesModel The base folder as instance of FilesModel, path string or uuid</td>
-            </tr>
-                    <tr>
-                <td>bool|false</td>
-                <td>$overwrite</td>
-                <td>bool Determines if an existing folder can be overridden</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>bool|string</td>
-            <td>returns the home dir or false if an error occurred</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_findActiveByGroups">
-        <div class="location">at         line 124</div>
-        <code>                    <abbr title="Contao\MemberModel">MemberModel</abbr>|<abbr title="Contao\MemberModel">MemberModel</abbr>[]|<abbr title="Contao\Model\Collection">Collection</abbr>|null
-    <strong>findActiveByGroups</strong>(array $groups, array $options = [])
-        </code>
-    </h3>
-    <div class="details">
-            
-    
-
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>array</td>
-                <td>$groups</td>
+                <td>$template</td>
                 <td></td>
             </tr>
                     <tr>
                 <td>array</td>
-                <td>$options</td>
+                <td>$context</td>
                 <td></td>
             </tr>
             </table>
 
             
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getTemplate">
+        <div class="location">at         line 40</div>
+        <code>                    string
+    <strong>getTemplate</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
                             <h4>Return Value</h4>
 
                     <table class="table table-condensed">
         <tr>
-            <td><abbr title="Contao\MemberModel">MemberModel</abbr>|<abbr title="Contao\MemberModel">MemberModel</abbr>[]|<abbr title="Contao\Model\Collection">Collection</abbr>|null</td>
+            <td>string</td>
             <td></td>
         </tr>
     </table>
@@ -358,10 +249,10 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_findOrCreate">
-        <div class="location">at         line 150</div>
+                    <h3 id="method_setTemplate">
+        <div class="location">at         line 48</div>
         <code>                    
-    <strong>findOrCreate</strong>(string $email)
+    <strong>setTemplate</strong>(string $template)
         </code>
     </h3>
     <div class="details">
@@ -374,7 +265,64 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>string</td>
-                <td>$email</td>
+                <td>$template</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getContext">
+        <div class="location">at         line 56</div>
+        <code>                    array
+    <strong>getContext</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setContext">
+        <div class="location">at         line 64</div>
+        <code>                    
+    <strong>setContext</strong>(array $context)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
                 <td></td>
             </tr>
             </table>

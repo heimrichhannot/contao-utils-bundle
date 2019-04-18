@@ -118,6 +118,14 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 <td class="last">The complete path to the current cache folder including namespace.</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td class="type" id="property_container">
+                                        protected                                        <abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr>
+                </td>
+                <td>$container</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
             </table>
 
     
@@ -129,7 +137,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(string $cacheFolder, string $webDir, <a href="../../../HeimrichHannot/UtilsBundle/File/FileUtil.html"><abbr title="HeimrichHannot\UtilsBundle\File\FileUtil">FileUtil</abbr></a> $fileUtil, string $namespace = &#039;&#039;)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -140,9 +148,9 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                     bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_exist">exist</a>(string $identifier, string $fileExtension)
+                    <a href="#method_exist">exist</a>(string $identifier, string $fileExtension = &#039;&#039;)
         
-                                            <p>Checks if a cached file already exist.</p>                </div>
+                                            <p>Checks if a cached file already exist in cache. Namespace is taken into account.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -150,9 +158,9 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                     bool|string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_get">get</a>(string $identifier, string $fileExtension, callable $saveCallback = null)
+                    <a href="#method_get">get</a>(string $identifier, string $fileExtension = &#039;&#039;, callable $saveCallback = null)
         
-                                            <p>Get the file path for the given identifier.</p>                </div>
+                                            <p>Get the file path for the given identifier. Namespace is taken into account.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -265,9 +273,9 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 57</div>
+        <div class="location">at         line 62</div>
         <code>                    
-    <strong>__construct</strong>(string $cacheFolder, string $webDir, <a href="../../../HeimrichHannot/UtilsBundle/File/FileUtil.html"><abbr title="HeimrichHannot\UtilsBundle\File\FileUtil">FileUtil</abbr></a> $fileUtil, string $namespace = &#039;&#039;)
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
     </h3>
     <div class="details">
@@ -279,23 +287,8 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
-                <td>$cacheFolder</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$webDir</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td><a href="../../../HeimrichHannot/UtilsBundle/File/FileUtil.html"><abbr title="HeimrichHannot\UtilsBundle\File\FileUtil">FileUtil</abbr></a></td>
-                <td>$fileUtil</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td>string</td>
-                <td>$namespace</td>
+                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
+                <td>$container</td>
                 <td></td>
             </tr>
             </table>
@@ -309,9 +302,9 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
             </div>
                     <div class="method-item">
                     <h3 id="method_exist">
-        <div class="location">at         line 74</div>
+        <div class="location">at         line 81</div>
         <code>                    bool
-    <strong>exist</strong>(string $identifier, string $fileExtension)
+    <strong>exist</strong>(string $identifier, string $fileExtension = &#039;&#039;)
         </code>
     </h3>
     <div class="details">
@@ -319,7 +312,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
     
 
                     <div class="method-description">
-                                    <p>Checks if a cached file already exist.</p>                                                </div>
+                                    <p>Checks if a cached file already exist in cache. Namespace is taken into account.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -332,7 +325,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                     <tr>
                 <td>string</td>
                 <td>$fileExtension</td>
-                <td></td>
+                <td>If not set, a file with no file extension is searched</td>
             </tr>
             </table>
 
@@ -347,6 +340,15 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
@@ -354,9 +356,9 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">at         line 95</div>
+        <div class="location">at         line 108</div>
         <code>                    bool|string
-    <strong>get</strong>(string $identifier, string $fileExtension, callable $saveCallback = null)
+    <strong>get</strong>(string $identifier, string $fileExtension = &#039;&#039;, callable $saveCallback = null)
         </code>
     </h3>
     <div class="details">
@@ -364,7 +366,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
     
 
                     <div class="method-description">
-                                    <p>Get the file path for the given identifier.</p>                                                </div>
+                                    <p>Get the file path for the given identifier. Namespace is taken into account.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -392,11 +394,20 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                     <table class="table table-condensed">
         <tr>
             <td>bool|string</td>
-            <td></td>
+            <td>Returns the path of the cached file or false, if cached file could not be found.</td>
         </tr>
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
@@ -404,7 +415,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
             </div>
                     <div class="method-item">
                     <h3 id="method_generateCacheName">
-        <div class="location">at         line 126</div>
+        <div class="location">at         line 146</div>
         <code>                    string
     <strong>generateCacheName</strong>(string $identifier = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true, string $fileExtension = &#039;&#039;)
         </code>
@@ -460,7 +471,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFileName">
-        <div class="location">at         line 148</div>
+        <div class="location">at         line 168</div>
         <code>                    string
     <strong>getCacheFileName</strong>($identifier)
         </code>
@@ -500,7 +511,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFilePath">
-        <div class="location">at         line 164</div>
+        <div class="location">at         line 184</div>
         <code>                    string
     <strong>getCacheFilePath</strong>(string $filename = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true)
         </code>
@@ -550,7 +561,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getAbsoluteCachePath">
-        <div class="location">at         line 174</div>
+        <div class="location">at         line 194</div>
         <code>                    string
     <strong>getAbsoluteCachePath</strong>()
         </code>
@@ -580,7 +591,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getNamespace">
-        <div class="location">at         line 182</div>
+        <div class="location">at         line 202</div>
         <code>                    string
     <strong>getNamespace</strong>()
         </code>
@@ -608,7 +619,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_setNamespace">
-        <div class="location">at         line 190</div>
+        <div class="location">at         line 210</div>
         <code>                    
     <strong>setNamespace</strong>(string $namespace)
         </code>
@@ -637,7 +648,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFolder">
-        <div class="location">at         line 201</div>
+        <div class="location">at         line 221</div>
         <code>                    string
     <strong>getCacheFolder</strong>()
         </code>
@@ -667,7 +678,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_setCacheFolder">
-        <div class="location">at         line 211</div>
+        <div class="location">at         line 231</div>
         <code>                    
     <strong>setCacheFolder</strong>(string $cacheFolder)
         </code>
@@ -698,7 +709,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFolderWithNamespace">
-        <div class="location">at         line 222</div>
+        <div class="location">at         line 242</div>
         <code>                    string
     <strong>getCacheFolderWithNamespace</strong>()
         </code>
@@ -728,7 +739,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_generatePath">
-        <div class="location">at         line 230</div>
+        <div class="location">at         line 250</div>
         <code>            protected        
     <strong>generatePath</strong>()
         </code>
