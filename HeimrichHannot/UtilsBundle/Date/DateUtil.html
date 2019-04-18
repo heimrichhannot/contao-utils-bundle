@@ -93,9 +93,17 @@
             <table class="table table-condensed">
                     <tr>
                 <td class="type" id="property_framework">
-                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr>
+                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>
                 </td>
                 <td>$framework</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_container">
+                                        protected                                        <abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr>
+                </td>
+                <td>$container</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -110,7 +118,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -128,13 +136,12 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    float|int|null
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getTimePeriodInSeconds">getTimePeriodInSeconds</a>($timePeriod)
+                    <a href="#method_getTimePeriodInSeconds">getTimePeriodInSeconds</a>(string|array $timePeriod)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Returns the time in seconds of an given time period</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -269,9 +276,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 23</div>
+        <div class="location">at         line 28</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
     </h3>
     <div class="details">
@@ -283,8 +290,8 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr></td>
-                <td>$framework</td>
+                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
+                <td>$container</td>
                 <td></td>
             </tr>
             </table>
@@ -298,7 +305,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTimeStamp">
-        <div class="location">at         line 37</div>
+        <div class="location">at         line 44</div>
         <code>                    int
     <strong>getTimeStamp</strong>(string|int|<a target="_blank" href="http://php.net/DateTime">DateTime</a>|null $date = null, bool $replaceInsertTags = true, string|null $timezone = null)
         </code>
@@ -341,6 +348,15 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td>Throws error in case of an error when creating new DateTime instances</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
@@ -348,27 +364,38 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTimePeriodInSeconds">
-        <div class="location">at         line 69</div>
-        <code>                    
-    <strong>getTimePeriodInSeconds</strong>($timePeriod)
+        <div class="location">at         line 82</div>
+        <code>                    float|int|null
+    <strong>getTimePeriodInSeconds</strong>(string|array $timePeriod)
         </code>
     </h3>
     <div class="details">
             
     
 
+                    <div class="method-description">
+                                    <p>Returns the time in seconds of an given time period</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td>string|array</td>
                 <td>$timePeriod</td>
-                <td></td>
+                <td>Array or serialized string containing an value and an unit key</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>float|int|null</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -377,7 +404,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformPhpDateFormatToRFC3339">
-        <div class="location">at         line 106</div>
+        <div class="location">at         line 119</div>
         <code>                    string
     <strong>transformPhpDateFormatToRFC3339</strong>(string $format)
         </code>
@@ -417,7 +444,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformPhpDateFormatToISO8601">
-        <div class="location">at         line 169</div>
+        <div class="location">at         line 182</div>
         <code>                    string
     <strong>transformPhpDateFormatToISO8601</strong>(string $format)
         </code>
@@ -457,7 +484,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getGMTMidnightTstamp">
-        <div class="location">at         line 232</div>
+        <div class="location">at         line 245</div>
         <code>                    int
     <strong>getGMTMidnightTstamp</strong>(int $tstamp)
         </code>
@@ -497,7 +524,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isMonthInDateFormat">
-        <div class="location">at         line 248</div>
+        <div class="location">at         line 261</div>
         <code>                    bool
     <strong>isMonthInDateFormat</strong>(string $dateFormat)
         </code>
@@ -537,7 +564,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isDayInDateFormat">
-        <div class="location">at         line 263</div>
+        <div class="location">at         line 276</div>
         <code>                    bool
     <strong>isDayInDateFormat</strong>(string $dateFormat)
         </code>
@@ -577,7 +604,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isYearInDateFormat">
-        <div class="location">at         line 280</div>
+        <div class="location">at         line 293</div>
         <code>                    bool
     <strong>isYearInDateFormat</strong>(string $dateFormat)
         </code>
@@ -617,7 +644,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMonthTranslationMap">
-        <div class="location">at         line 287</div>
+        <div class="location">at         line 300</div>
         <code>                    
     <strong>getMonthTranslationMap</strong>()
         </code>
@@ -636,7 +663,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getShortMonthTranslationMap">
-        <div class="location">at         line 315</div>
+        <div class="location">at         line 328</div>
         <code>                    
     <strong>getShortMonthTranslationMap</strong>()
         </code>
@@ -655,7 +682,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_translateMonthsToEnglish">
-        <div class="location">at         line 350</div>
+        <div class="location">at         line 363</div>
         <code>                    mixed|string
     <strong>translateMonthsToEnglish</strong>(string $date)
         </code>
@@ -695,7 +722,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_translateMonths">
-        <div class="location">at         line 374</div>
+        <div class="location">at         line 387</div>
         <code>                    mixed|string
     <strong>translateMonths</strong>(string $date)
         </code>
@@ -735,7 +762,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFormattedDateTime">
-        <div class="location">at         line 391</div>
+        <div class="location">at         line 404</div>
         <code>                    string|null
     <strong>getFormattedDateTime</strong>($startDate, $endDate = 0, $addTime = false, $startTime = 0, $endTime = 0, array $options = [])
         </code>
@@ -798,7 +825,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFormattedDateTimeByEvent">
-        <div class="location">at         line 418</div>
+        <div class="location">at         line 431</div>
         <code>                    string|null
     <strong>getFormattedDateTimeByEvent</strong>(<abbr title="Contao\Model">Model</abbr> $event)
         </code>
