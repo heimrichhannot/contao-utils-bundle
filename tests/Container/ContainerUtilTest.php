@@ -41,107 +41,121 @@ class ContainerUtilTest extends ContaoTestCase
 
         $container->setParameter('kernel.bundles', [ContaoCoreBundle::class]);
         $container->setParameter('contao.web_dir', 'webDir');
-        $container->set('request_stack', $this->createRequestStackMock());
+        if (!$container->has('request_stack'))
+        {
+            $container->set('request_stack', $this->createRequestStackMock());
+        }
 
         $container->set('monolog.logger.contao', new Logger());
-
-        $fileLocatorMock = $this->createMock(FileLocator::class);
-        $fileLocatorMock->method('locate')->willReturnCallback(function ($path, $currentPath = null, $first = false) {
-            switch ($path) {
-                case '@HeimrichHannotContaoUtilsBundle':
-                    return static::FILE_LOCATOR_BUNDLE_PATH;
-
-                case '@HeimrichHannotContaoUtilsBundle/Resources/views/image.html.twig':
-                    $result = static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig';
-
-                    break;
-
-                case \InvalidArgumentException::class:
-                    throw new \InvalidArgumentException();
-
-                default:
-                    throw new FileLocatorFileNotFoundException();
-            }
-
-            if ($first) {
-                return $result;
-            }
-
-            return [$result];
-        });
-        $container->set('file_locator', $fileLocatorMock);
-
-        $scopeAdapter = $this->createMock(ScopeMatcher::class);
-        $scopeAdapter->method('isBackendRequest')->willReturn(true);
-        $scopeAdapter->method('isFrontendRequest')->willReturn(true);
-        $container->set('contao.routing.scope_matcher', $scopeAdapter);
 
         return $container;
     }
 
+    protected function getContainerUtilMock(ContainerBuilder $container = null, FileLocator $fileLocator = null, ScopeMatcher $scopeMatcher = null)
+    {
+        $container = $this->getContainerMock($container);
+
+        if (!$fileLocator)
+        {
+            $fileLocator = $this->createMock(FileLocator::class);
+            $fileLocator->method('locate')->willReturnCallback(function ($path, $currentPath = null, $first = false) {
+                switch ($path) {
+                    case '@HeimrichHannotContaoUtilsBundle':
+                        return static::FILE_LOCATOR_BUNDLE_PATH;
+
+                    case '@HeimrichHannotContaoUtilsBundle/Resources/views/image.html.twig':
+                        $result = static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig';
+
+                        break;
+
+                    case \InvalidArgumentException::class:
+                        throw new \InvalidArgumentException();
+
+                    default:
+                        throw new FileLocatorFileNotFoundException();
+                }
+
+                if ($first) {
+                    return $result;
+                }
+
+                return [$result];
+            });
+        }
+
+        if (!$scopeMatcher)
+        {
+            $scopeMatcher = $this->createMock(ScopeMatcher::class);
+            $scopeMatcher->method('isBackendRequest')->willReturn(true);
+            $scopeMatcher->method('isFrontendRequest')->willReturn(true);
+        }
+        return new ContainerUtil($container, $fileLocator, $scopeMatcher);
+    }
+
     public function testCanBeInstantiated()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $this->assertInstanceOf(ContainerUtil::class, $containerUtil);
     }
 
     public function testGetActiveBundles()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $bundles = $containerUtil->getActiveBundles();
         $this->assertSame([ContaoCoreBundle::class], $bundles);
     }
 
     public function testIsBundleActive()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $result = $containerUtil->isBundleActive(ContaoCoreBundle::class);
         $this->assertTrue($result);
     }
 
     public function testGetCurrentRequest()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $request = $containerUtil->getCurrentRequest();
         $this->assertInstanceOf(\Symfony\Component\HttpFoundation\Request::class, $request);
     }
 
     public function testGetProjectDir()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $projectDir = $containerUtil->getProjectDir();
         $this->assertSame('projectDir', $projectDir);
     }
 
     public function testGetWebDir()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $webDir = $containerUtil->getWebDir();
         $this->assertSame('webDir', $webDir);
     }
 
     public function testIsBackend()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $result = $containerUtil->isBackend();
         $this->assertTrue($result);
     }
 
     public function testIsFrontend()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $result = $containerUtil->isFrontend();
         $this->assertTrue($result);
     }
 
     public function testIsFrontendBackendFalse()
     {
-        $container = $this->getContainerMock();
+
+        $container = $this->mockContainer();
         $adapter = $this->mockAdapter(['getCurrentRequest']);
         $adapter->method('getCurrentRequest')->willReturn(false);
         $container->set('request_stack', $adapter);
 
-        $containerUtil = new ContainerUtil($container);
+        $containerUtil = $this->getContainerUtilMock($container);
         $result = $containerUtil->isFrontend();
         $this->assertFalse($result);
         $result = $containerUtil->isBackend();
@@ -150,7 +164,7 @@ class ContainerUtilTest extends ContaoTestCase
 
     public function testLog()
     {
-        $utils = new ContainerUtil($this->getContainerMock());
+        $utils = $this->getContainerUtilMock();
 
         try {
             $utils->log('log', '', 'WARNING');
@@ -181,7 +195,7 @@ class ContainerUtilTest extends ContaoTestCase
 
     public function testGetBundleResourcePath()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $this->assertFalse($containerUtil->getBundleResourcePath(5, 'Resources/views/image.html.twig'));
         $this->assertSame(static::FILE_LOCATOR_BUNDLE_PATH, $containerUtil->getBundleResourcePath(HeimrichHannotContaoUtilsBundle::class));
         $this->assertFalse($containerUtil->getBundleResourcePath(FileLocatorFileNotFoundException::class, 'Resources/views/image.html.twig'));
@@ -192,7 +206,7 @@ class ContainerUtilTest extends ContaoTestCase
 
     public function testGetBundlePath()
     {
-        $containerUtil = new ContainerUtil($this->getContainerMock());
+        $containerUtil = $this->getContainerUtilMock();
         $this->assertFalse($containerUtil->getBundlePath('No Path'));
         $this->assertFalse($containerUtil->getBundlePath(5));
         $this->assertSame(static::FILE_LOCATOR_BUNDLE_PATH, $containerUtil->getBundlePath(HeimrichHannotContaoUtilsBundle::class));

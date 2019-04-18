@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.90.1] - 2019-04-18
+
+### Fixed
+* non-public services in ContainerUtil
+
 ## [2.90.0] - 2019-04-16
 
 ### Changed 

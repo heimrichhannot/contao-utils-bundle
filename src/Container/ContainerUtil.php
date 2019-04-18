@@ -33,11 +33,11 @@ class ContainerUtil
      */
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, FileLocator $fileLocator, ScopeMatcher $scopeMatcher)
     {
         $this->framework = $container->get('contao.framework');
-        $this->fileLocator = $container->get('file_locator');
-        $this->scopeMatcher = $container->get('contao.routing.scope_matcher');
+        $this->fileLocator = $fileLocator;
+        $this->scopeMatcher = $scopeMatcher;
         $this->container = $container;
     }
 

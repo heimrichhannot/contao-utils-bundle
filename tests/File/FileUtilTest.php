@@ -68,11 +68,8 @@ class FileUtilTest extends ContaoTestCase
         $utilsString = new StringUtil($this->mockContaoFramework());
         $container->set('huh.utils.string', $utilsString);
 
-        $container->set('file_locator', $this->createMock(FileLocator::class));
-        $container->set('contao.routing.scope_matcher', $this->createMock(ScopeMatcher::class));
-
         /** @noinspection PhpParamsInspection */
-        $containerUtils = new ContainerUtil($container);
+        $containerUtils = new ContainerUtil($container, $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
         $container->set('huh.utils.container', $containerUtils);
 
         $arrayUtils = new ArrayUtil($container);

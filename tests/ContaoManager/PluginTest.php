@@ -83,32 +83,76 @@ class PluginTest extends ContaoTestCase
         $plugin->registerContainerConfiguration($loader, []);
 
         $utils = [
-            'huh.utils.accordion' => AccordionUtil::class,
-            'huh.utils.array' => ArrayUtil::class,
-            'huh.utils.cache.file' => FileCache::class,
-            'huh.utils.cache.remote_image_cache' => RemoteImageCache::class,
-            'huh.utils.class' => ClassUtil::class,
-            'huh.utils.container' => ContainerUtil::class,
-            'huh.utils.dca' => DcaUtil::class,
-            'huh.utils.file' => FileUtil::class,
-            'huh.utils.image' => ImageUtil::class,
-            'huh.utils.model' => ModelUtil::class,
-            'huh.utils.template' => TemplateUtil::class,
+            [
+                'alias' => 'huh.utils.accordion',
+                'class' => AccordionUtil::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.array',
+                'class' => ArrayUtil::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.cache.file',
+                'class' => FileCache::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.cache.remote_image_cache',
+                'class' => RemoteImageCache::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.class',
+                'class' => ClassUtil::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.container',
+                'class' => ContainerUtil::class,
+                'parameters' => 3
+            ],
+            [
+                'alias' => 'huh.utils.dca',
+                'class' => DcaUtil::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.file',
+                'class' => FileUtil::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.image',
+                'class' => ImageUtil::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.model',
+                'class' => ModelUtil::class,
+                'parameters' => 1
+            ],
+            [
+                'alias' => 'huh.utils.template',
+                'class' => TemplateUtil::class,
+                'parameters' => 1
+            ],
         ];
 
-        foreach ($utils as $alias => $class)
+        foreach ($utils as $util)
         {
-            $this->assertTrue($container->has($alias));
-            $definition = $container->getDefinition($alias);
-            $this->assertSame($class, $definition->getClass());
+            $this->assertTrue($container->has($util['alias']));
+            $definition = $container->getDefinition($util['alias']);
+            $this->assertSame($util['class'], $definition->getClass());
             $this->assertEmpty($definition->getArguments());
             $this->assertTrue($definition->isAutowired());
 
             /** @noinspection PhpUnhandledExceptionInspection */
-            $testClass   = new \ReflectionClass($class);
+            $testClass   = new \ReflectionClass($util['class']);
             $constructor = $testClass->getConstructor();
-            $this->assertSame(1, $constructor->getNumberOfRequiredParameters());
-            $this->assertSame(1, $constructor->getNumberOfParameters());
+            $this->assertSame($util['parameters'], $constructor->getNumberOfRequiredParameters());
+            $this->assertSame($util['parameters'], $constructor->getNumberOfParameters());
             $this->assertSame(ContainerInterface::class,$constructor->getParameters()[0]->getClass()->getName());
         }
     }

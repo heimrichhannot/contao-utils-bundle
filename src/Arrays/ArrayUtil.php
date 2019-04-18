@@ -112,11 +112,11 @@ class ArrayUtil
     /**
      * Insert a value into an existing array by key name.
      *
-     * @param array  $current
-     * @param string $key
-     * @param mixed  $value
-     * @param int    $offset
-     * @param bool   $strict
+     * @param array  $current The target array
+     * @param string $key The existing target key in the array.
+     * @param mixed  $value The new value to be inserted.
+     * @param int    $offset Offset for inserting the new value.
+     * @param bool   $strict Use strict behavior for array search.
      */
     public function insertInArrayByName(array &$current, string $key, $value, int $offset = 0, bool $strict = false)
     {
