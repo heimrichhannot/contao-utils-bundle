@@ -119,6 +119,14 @@
                 <td class="last"></td>
                 <td></td>
             </tr>
+                    <tr>
+                <td class="type" id="property_container">
+                                        protected                                        <abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr>
+                </td>
+                <td>$container</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
             </table>
 
     
@@ -130,7 +138,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -174,9 +182,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 31</div>
+        <div class="location">at         line 36</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
     </h3>
     <div class="details">
@@ -188,8 +196,8 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr></td>
-                <td>$framework</td>
+                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
+                <td>$container</td>
                 <td></td>
             </tr>
             </table>
@@ -203,7 +211,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_keyExists">
-        <div class="location">at         line 44</div>
+        <div class="location">at         line 50</div>
         <code>                    bool
     <strong>keyExists</strong>(string $key)
         </code>
@@ -243,7 +251,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getValue">
-        <div class="location">at         line 58</div>
+        <div class="location">at         line 63</div>
         <code>                    mixed
     <strong>getValue</strong>(string $key)
         </code>
@@ -283,7 +291,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_cacheValue">
-        <div class="location">at         line 86</div>
+        <div class="location">at         line 91</div>
         <code>                    bool
     <strong>cacheValue</strong>(string $key, $value)
         </code>
