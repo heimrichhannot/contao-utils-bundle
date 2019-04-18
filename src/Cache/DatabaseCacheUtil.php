@@ -12,7 +12,6 @@ use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\StringUtil;
-use Contao\System;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DatabaseCacheUtil
@@ -50,6 +49,7 @@ class DatabaseCacheUtil
     public function keyExists(string $key): bool
     {
         $result = $this->database->prepare('SELECT * FROM tl_db_cache WHERE cacheKey = ?')->execute($key);
+
         return $result->numRows > 0;
     }
 

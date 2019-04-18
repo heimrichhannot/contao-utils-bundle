@@ -14,7 +14,6 @@ use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Model;
 use Contao\StringUtil;
-use Contao\System;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
@@ -32,47 +31,6 @@ class DcaUtilTest extends TestCaseEnvironment
         if (!\defined('FE_USER_LOGGED_IN')) {
             \define('FE_USER_LOGGED_IN', true);
         }
-    }
-
-    /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework $framework
-     * @return ContainerBuilder|ContainerInterface
-     */
-    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
-    {
-        if (!$container) {
-            $container = $this->mockContainer();
-        }
-
-        if (!$framework)
-        {
-            $framework = $this->mockContaoFramework();
-        }
-        $container->set('contao.framework', $framework);
-
-        $translator = new Translator('de');
-        $container->set('translator', $translator);
-
-        $mockedModel = $this->mockClassWithProperties(Model::class, ['overrideTitle' => 'title', 'title' => 'title', 'author' => null, 'authorType' => 'none']);
-        $mockedModel->method('save');
-        $utilsModel = $this->createMock(ModelUtil::class);
-        $utilsModel->method('findModelInstanceByPk')->willReturn($mockedModel);
-        $container->set('huh.utils.model', $utilsModel);
-
-        $choiceModel = $this->mockAdapter(['getCachedChoices']);
-        $choiceModel->method('getCachedChoices')->willReturn(['dataContainer' => 'data', 'labelPattern' => 'label']);
-        $container->set('huh.utils.choice.model_instance', $choiceModel);
-
-        $containerUtils = $this->mockAdapter(['isFrontend', 'isBackend']);
-        $containerUtils->method('isFrontend')->willReturn(true);
-        $containerUtils->method('isBackend')->willReturn(true);
-        $container->set('huh.utils.container', $containerUtils);
-
-        $arrayUtil = new ArrayUtil($container);
-        $container->set('huh.utils.array', $arrayUtil);
-
-        return $container;
     }
 
     public function testInstantiation()
@@ -271,7 +229,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $fields = $dcaUtil->getFields('table');
         $this->assertSame([
             'addSubmission' => 'addSubmission <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-            'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>'], $fields);
+            'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>', ], $fields);
 
         $fields = $dcaUtil->getFields('table', ['inputTypes' => ['select']]);
         $this->assertSame([], $fields);
@@ -282,13 +240,13 @@ class DcaUtilTest extends TestCaseEnvironment
         $fields = $dcaUtil->getFields('table', ['skipSorting' => false]);
         $this->assertSame([
             'addSubmission' => 'addSubmission <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-            'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>'
+            'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
         ], $fields);
 
         $fields = $dcaUtil->getFields('table', ['skipSorting' => true]);
         $this->assertSame([
             'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-            'addSubmission' => 'addSubmission <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>'
+            'addSubmission' => 'addSubmission <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
         ], $fields);
     }
 
@@ -460,8 +418,6 @@ class DcaUtilTest extends TestCaseEnvironment
         $containerUtils->method('isFrontend')->willReturn(false);
         $container->set('huh.utils.container', $containerUtils);
 
-
-
         $backendUserModel = $this->mockClassWithProperties(FrontendUser::class, ['id' => 2]);
         $backendUser = $this->mockAdapter(['getInstance']);
         $backendUser->method('getInstance')->willReturn($backendUserModel);
@@ -582,6 +538,48 @@ class DcaUtilTest extends TestCaseEnvironment
         if ($properties) {
             return $this->mockClassWithProperties(DataContainer::class, ['id' => 1, 'table' => 'testTable']);
         }
+
         return $this->createMock(DataContainer::class);
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework       $framework
+     *
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
+
+        if (!$framework) {
+            $framework = $this->mockContaoFramework();
+        }
+        $container->set('contao.framework', $framework);
+
+        $translator = new Translator('de');
+        $container->set('translator', $translator);
+
+        $mockedModel = $this->mockClassWithProperties(Model::class, ['overrideTitle' => 'title', 'title' => 'title', 'author' => null, 'authorType' => 'none']);
+        $mockedModel->method('save');
+        $utilsModel = $this->createMock(ModelUtil::class);
+        $utilsModel->method('findModelInstanceByPk')->willReturn($mockedModel);
+        $container->set('huh.utils.model', $utilsModel);
+
+        $choiceModel = $this->mockAdapter(['getCachedChoices']);
+        $choiceModel->method('getCachedChoices')->willReturn(['dataContainer' => 'data', 'labelPattern' => 'label']);
+        $container->set('huh.utils.choice.model_instance', $choiceModel);
+
+        $containerUtils = $this->mockAdapter(['isFrontend', 'isBackend']);
+        $containerUtils->method('isFrontend')->willReturn(true);
+        $containerUtils->method('isBackend')->willReturn(true);
+        $container->set('huh.utils.container', $containerUtils);
+
+        $arrayUtil = new ArrayUtil($container);
+        $container->set('huh.utils.array', $arrayUtil);
+
+        return $container;
     }
 }

@@ -25,7 +25,6 @@ class ClassUtil
         $this->container = $container;
     }
 
-
     /**
      * @param string $class
      * @param array  $parents
@@ -48,12 +47,13 @@ class ClassUtil
     /**
      * Filter class constants by given prefixes and return the extracted constants.
      *
-     * @param string $class the class that should be searched for constants in
-     * @param array $prefixes an array of prefixes that should be used to filter the class constants
-     * @param bool $returnValueAsKey boolean Return the extracted array keys from its value, if true
+     * @param string $class            the class that should be searched for constants in
+     * @param array  $prefixes         an array of prefixes that should be used to filter the class constants
+     * @param bool   $returnValueAsKey boolean Return the extracted array keys from its value, if true
+     *
+     * @throws \ReflectionException
      *
      * @return array the extracted constants as array
-     * @throws \ReflectionException
      */
     public function getConstantsByPrefixes(string $class, array $prefixes = [], bool $returnValueAsKey = true)
     {

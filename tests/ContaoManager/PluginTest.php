@@ -65,8 +65,7 @@ class PluginTest extends ContaoTestCase
     public function testRegisterContainerConfiguration()
     {
         $kernelMock = $this->createMock(Kernel::class);
-        $kernelMock->method('locateResource')->willReturnCallback(function ($file, $currentDir, $first)
-        {
+        $kernelMock->method('locateResource')->willReturnCallback(function ($file, $currentDir, $first) {
             return $currentDir.'/../src/Resources/config/'.pathinfo($file, PATHINFO_BASENAME);
         });
 
@@ -87,67 +86,66 @@ class PluginTest extends ContaoTestCase
             [
                 'alias' => 'huh.utils.accordion',
                 'class' => AccordionUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.array',
                 'class' => ArrayUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.cache.file',
                 'class' => FileCache::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.cache.remote_image_cache',
                 'class' => RemoteImageCache::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.class',
                 'class' => ClassUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.container',
                 'class' => ContainerUtil::class,
-                'parameters' => 3
+                'parameters' => 3,
             ],
             [
                 'alias' => 'huh.utils.date',
                 'class' => DateUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.dca',
                 'class' => DcaUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.file',
                 'class' => FileUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.image',
                 'class' => ImageUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.model',
                 'class' => ModelUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
             [
                 'alias' => 'huh.utils.template',
                 'class' => TemplateUtil::class,
-                'parameters' => 1
+                'parameters' => 1,
             ],
         ];
 
-        foreach ($utils as $util)
-        {
+        foreach ($utils as $util) {
             $this->assertTrue($container->has($util['alias']));
             $definition = $container->getDefinition($util['alias']);
             $this->assertSame($util['class'], $definition->getClass());
@@ -155,11 +153,11 @@ class PluginTest extends ContaoTestCase
             $this->assertTrue($definition->isAutowired());
 
             /** @noinspection PhpUnhandledExceptionInspection */
-            $testClass   = new \ReflectionClass($util['class']);
+            $testClass = new \ReflectionClass($util['class']);
             $constructor = $testClass->getConstructor();
             $this->assertSame($util['parameters'], $constructor->getNumberOfRequiredParameters());
             $this->assertSame($util['parameters'], $constructor->getNumberOfParameters());
-            $this->assertSame(ContainerInterface::class,$constructor->getParameters()[0]->getClass()->getName());
+            $this->assertSame(ContainerInterface::class, $constructor->getParameters()[0]->getClass()->getName());
         }
     }
 
@@ -171,6 +169,5 @@ class PluginTest extends ContaoTestCase
         $this->assertNotEmpty($config);
         $this->assertArrayHasKey('huh', $config);
         $this->assertArrayHasKey('encore', $config['huh']);
-
     }
 }

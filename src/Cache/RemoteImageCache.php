@@ -10,7 +10,6 @@ namespace HeimrichHannot\UtilsBundle\Cache;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\File;
-use Contao\System;
 use Contao\Validator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,12 +37,13 @@ class RemoteImageCache
      * Else returns the url or, if $returnUuid is set true, the uuid of the image.
      *
      * @param string $identifier Used as filename of the cached image. Should be unique within the folder scope
-     * @param string $folder Folder path or uuid of the file
-     * @param string $remoteUrl The url of the cached (or to cache) file
-     * @param bool $returnUuid Return uuid instead of the path
+     * @param string $folder     Folder path or uuid of the file
+     * @param string $remoteUrl  The url of the cached (or to cache) file
+     * @param bool   $returnUuid Return uuid instead of the path
+     *
+     * @throws \Exception
      *
      * @return bool|string
-     * @throws \Exception
      */
     public function get(string $identifier, $folder, $remoteUrl, $returnUuid = false)
     {

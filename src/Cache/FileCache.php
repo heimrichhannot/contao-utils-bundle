@@ -45,6 +45,10 @@ class FileCache
      * @var string
      */
     protected $cacheFolderWithNamespace;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
     /**
      * @var FileUtil
@@ -54,16 +58,12 @@ class FileCache
      * @var string
      */
     private $projectDir;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->cacheFolder = $container->getParameter('huh.utils.filecache.folder');
-        $this->fileUtil    = $container->get('huh.utils.file');
-        $this->projectDir  = $container->getParameter('kernel.project_dir');
+        $this->fileUtil = $container->get('huh.utils.file');
+        $this->projectDir = $container->getParameter('kernel.project_dir');
         $this->generatePath();
         $this->container = $container;
     }
@@ -72,21 +72,22 @@ class FileCache
      * Checks if a cached file already exist in cache. Namespace is taken into account.
      *
      *
-     * @param string $identifier The identifier
+     * @param string $identifier    The identifier
      * @param string $fileExtension If not set, a file with no file extension is searched
      *
-     * @return bool
      * @throws \Exception
+     *
+     * @return bool
      */
     public function exist(string $identifier, string $fileExtension = '')
     {
         $fileName = $this->getCacheFileName($identifier);
-        $cachePath  = $this->cacheFolderWithNamespace . '/' . $fileName;
-        if(!empty($fileExtension))
-        {
+        $cachePath = $this->cacheFolderWithNamespace.'/'.$fileName;
+
+        if (!empty($fileExtension)) {
             $cachePath .= '.'.$fileExtension;
         }
-        $file     = new File($cachePath);
+        $file = new File($cachePath);
 
         if ($file->exists()) {
             return true;
@@ -98,24 +99,24 @@ class FileCache
     /**
      * Get the file path for the given identifier. Namespace is taken into account.
      *
-     * @param string $identifier
-     * @param string $fileExtension
-     * @param callable $saveCallback A callback handles the file save functionality. Get filepath, filename and the identifier as parameter. Expects a boolean return value.
+     * @param string   $identifier
+     * @param string   $fileExtension
+     * @param callable $saveCallback  A callback handles the file save functionality. Get filepath, filename and the identifier as parameter. Expects a boolean return value.
      *
-     * @return bool|string Returns the path of the cached file or false, if cached file could not be found.
      * @throws \Exception
+     *
+     * @return bool|string returns the path of the cached file or false, if cached file could not be found
      */
     public function get(string $identifier, string $fileExtension = '', callable $saveCallback = null)
     {
         $fileName = $this->getCacheFileName($identifier);
-        $cachePath  = $this->cacheFolderWithNamespace . '/' . $fileName;
-        if(!empty($fileExtension))
-        {
+        $cachePath = $this->cacheFolderWithNamespace.'/'.$fileName;
+
+        if (!empty($fileExtension)) {
             $fileName .= '.'.$fileExtension;
             $cachePath .= '.'.$fileExtension;
-
         }
-        $file     = new File($cachePath);
+        $file = new File($cachePath);
 
         if (!$file->exists()) {
             if (null !== $saveCallback) {
@@ -251,7 +252,7 @@ class FileCache
     {
         $filesystem = new Filesystem();
         $path = $this->cacheFolder;
-        $path = trim($path, "/");
+        $path = trim($path, '/');
 
         if (!empty($this->namespace)) {
             $path .= '/'.$this->namespace;

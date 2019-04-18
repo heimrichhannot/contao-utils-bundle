@@ -42,43 +42,6 @@ class FileUtilTest extends ContaoTestCase
         }
     }
 
-
-
-    /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework $framework
-     * @return ContainerBuilder|ContainerInterface
-     */
-    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
-    {
-        if (!$container) {
-            $container = $this->mockContainer($this->getTempDir());
-        }
-
-        if (!$framework)
-        {
-            $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'files']);
-            $filesAdapter = $this->mockAdapter(['findByUuid']);
-            $filesAdapter->method('findByUuid')->willReturn($filesModel);
-            $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
-        }
-        $container->set('contao.framework', $framework);
-        $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
-
-        $utilsString = new StringUtil($this->mockContaoFramework());
-        $container->set('huh.utils.string', $utilsString);
-
-        /** @noinspection PhpParamsInspection */
-        $containerUtils = new ContainerUtil($container, $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
-        $container->set('huh.utils.container', $containerUtils);
-
-        $arrayUtils = new ArrayUtil($container);
-        $container->set('huh.utils.array', $arrayUtils);
-
-        System::setContainer($container);
-        return $container;
-    }
-
     public function testGetFileList()
     {
         $fileUtil = new FileUtil($this->getContainerMock());
@@ -363,5 +326,41 @@ class FileUtilTest extends ContaoTestCase
     public function getFolder($dca)
     {
         return 'files';
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework       $framework
+     *
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer($this->getTempDir());
+        }
+
+        if (!$framework) {
+            $filesModel = $this->mockClassWithProperties(FilesModel::class, ['path' => $this->getTempDir().'files']);
+            $filesAdapter = $this->mockAdapter(['findByUuid']);
+            $filesAdapter->method('findByUuid')->willReturn($filesModel);
+            $framework = $this->mockContaoFramework([FilesModel::class => $filesAdapter]);
+        }
+        $container->set('contao.framework', $framework);
+        $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
+
+        $utilsString = new StringUtil($this->mockContaoFramework());
+        $container->set('huh.utils.string', $utilsString);
+
+        /** @noinspection PhpParamsInspection */
+        $containerUtils = new ContainerUtil($container, $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
+        $container->set('huh.utils.container', $containerUtils);
+
+        $arrayUtils = new ArrayUtil($container);
+        $container->set('huh.utils.array', $arrayUtils);
+
+        System::setContainer($container);
+
+        return $container;
     }
 }

@@ -45,8 +45,9 @@ class FileUtil
      * @param string $prefix A uniqid prefix from the given target file, that was added to the file before and should be removed again
      * @param        $i      integer Internal counter for recursion usage or if you want to add the number to the file
      *
-     * @return string | false The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)
      * @throws \Exception
+     *
+     * @return string | false The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)
      */
     public function getUniqueFileNameWithinTarget($target, $prefix = null, $i = 0)
     {
@@ -54,6 +55,7 @@ class FileUtil
         $file = new File($target);
 
         $path = $target;
+
         if ($file->extension) {
             $path = str_replace('.'.$file->extension, '', $target);
         }
@@ -194,6 +196,7 @@ class FileUtil
             $a = $this->container->getParameter('kernel.project_dir');
             $b = $file->path;
             $path = $this->container->getParameter('kernel.project_dir').'/'.$file->path;
+
             if (file_exists($this->container->getParameter('kernel.project_dir').'/'.$file->path)) {
                 return $file->path;
             }
@@ -211,7 +214,6 @@ class FileUtil
     public function getFileFromUuid($uuid)
     {
         if ($path = $this->getPathFromUuid($uuid)) {
-
             if (is_dir($this->container->get('huh.utils.container')->getProjectDir().\DIRECTORY_SEPARATOR.$path)) {
                 return null;
             }

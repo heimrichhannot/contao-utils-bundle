@@ -34,12 +34,13 @@ class DateUtil
     /**
      * Get the timestamp based on input date, no matter input is timestamp or string date.
      *
-     * @param string|int|\DateTime|null $date The input date/timestamp/insertTag
-     * @param bool $replaceInsertTags Disable/enable {{date::}} insertTag support
-     * @param string|null $timezone A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp
+     * @param string|int|\DateTime|null $date              The input date/timestamp/insertTag
+     * @param bool                      $replaceInsertTags Disable/enable {{date::}} insertTag support
+     * @param string|null               $timezone          A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp
+     *
+     * @throws \Exception Throws error in case of an error when creating new DateTime instances
      *
      * @return int The integer timestamp presentation of the input date with added timezone offset
-     * @throws \Exception Throws error in case of an error when creating new DateTime instances
      */
     public function getTimeStamp($date = null, $replaceInsertTags = true, $timezone = null)
     {
@@ -74,9 +75,10 @@ class DateUtil
     }
 
     /**
-     * Returns the time in seconds of an given time period
+     * Returns the time in seconds of an given time period.
      *
      * @param string|array $timePeriod Array or serialized string containing an value and an unit key
+     *
      * @return float|int|null
      */
     public function getTimePeriodInSeconds($timePeriod)

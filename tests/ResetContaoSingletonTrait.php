@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Tests;
-
 
 use Contao\Files;
 use Contao\System;
@@ -19,9 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 trait ResetContaoSingletonTrait
 {
     /**
-     * Reset the contao Files singleton
+     * Reset the contao Files singleton.
      *
      * @param ContainerBuilder $container
+     *
      * @throws \ReflectionException
      */
     protected function resetFilesInstance(ContainerBuilder $container)

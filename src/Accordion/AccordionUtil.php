@@ -38,7 +38,6 @@ class AccordionUtil
 
     public function __construct(ContainerInterface $container)
     {
-
         $this->framework = $container->get('contao.framework');
         $this->container = $container;
     }
@@ -56,10 +55,10 @@ class AccordionUtil
      */
     public function structureAccordionSingle(array &$data, string $prefix = 'accordion_'): void
     {
-        if(!isset($data['id']) || !isset($data['pid']))
-        {
+        if (!isset($data['id']) || !isset($data['pid'])) {
             return;
         }
+
         if (!isset($this->accordionSingleCache[$data['pid']])) {
             if (null !== ($elements = $this->container->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',
@@ -136,10 +135,10 @@ class AccordionUtil
      */
     public function structureAccordionStartStop(array &$data, string $prefix = 'accordion_')
     {
-        if(!isset($data['id']) || !isset($data['pid']))
-        {
+        if (!isset($data['id']) || !isset($data['pid'])) {
             return;
         }
+
         if (!isset($this->accordionStartStopCache[$data['pid']])) {
             if (null !== ($elements = $this->container->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',

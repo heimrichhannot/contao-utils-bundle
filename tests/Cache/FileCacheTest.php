@@ -26,18 +26,6 @@ class FileCacheTest extends ContaoTestCase
         $GLOBALS['TL_CONFIG']['characterSet'] = 'UTF-8';
     }
 
-
-    protected function getContainerMock(ContainerBuilder $container = null)
-    {
-        if (!$container)
-        {
-            $container = $this->mockContainer($this->getTempDir());
-        }
-        $container->setParameter('huh.utils.filecache.folder', 'cache');
-        $container->set('huh.utils.file', $this->createMock(FileUtil::class));
-        return $container;
-    }
-
     public function testCanBeInstantiated()
     {
         $fileCache = new FileCache($this->getContainerMock());
@@ -66,7 +54,6 @@ class FileCacheTest extends ContaoTestCase
         $this->assertFalse($fileCache->exist('test3'));
         $this->assertFalse($fileCache->exist('test3', 'doc'));
         $this->assertFalse($fileCache->exist('test', 'txt'));
-
     }
 
     public function testGet()
@@ -84,8 +71,9 @@ class FileCacheTest extends ContaoTestCase
         $this->assertSame('hallo', file_get_contents($this->getTempDir().'/'.$file));
         $this->assertFalse($fileCache->get('test123'));
 
-        $file = $fileCache->get('test123', '', function($identifier, $cacheFolderWithNamespace, $fileName) {
+        $file = $fileCache->get('test123', '', function ($identifier, $cacheFolderWithNamespace, $fileName) {
             file_put_contents($this->getTempDir().'/'.$cacheFolderWithNamespace.'/'.$fileName, 'callback');
+
             return true;
         });
         $this->assertSame('callback', file_get_contents($this->getTempDir().'/'.$file));
@@ -105,12 +93,11 @@ class FileCacheTest extends ContaoTestCase
         $this->assertSame('test', $fileCache->generateCacheName('test', 'prefix', false));
         $this->assertSame('test.jpg', $fileCache->generateCacheName('test', 'prefix', false, 'jpg'));
 
-        $this->assertSame(23, strlen($fileCache->generateCacheName()));
-        $this->assertSame(13, strlen($fileCache->generateCacheName('', '', false)));
-        $this->assertSame(19, strlen($fileCache->generateCacheName('', 'prefix', false)));
-        $this->assertSame(29, strlen($fileCache->generateCacheName('', 'prefix')));
-        $this->assertSame(33, strlen($fileCache->generateCacheName('', 'prefix', true, 'jpg')));
-
+        $this->assertSame(23, \strlen($fileCache->generateCacheName()));
+        $this->assertSame(13, \strlen($fileCache->generateCacheName('', '', false)));
+        $this->assertSame(19, \strlen($fileCache->generateCacheName('', 'prefix', false)));
+        $this->assertSame(29, \strlen($fileCache->generateCacheName('', 'prefix')));
+        $this->assertSame(33, \strlen($fileCache->generateCacheName('', 'prefix', true, 'jpg')));
     }
 
     public function testGetFilePath()
@@ -125,7 +112,7 @@ class FileCacheTest extends ContaoTestCase
         $this->assertSame('cache/abc/hallo-welt', $fileCache->getCacheFilePath('Hallo Welt'));
 
         $fileCache->setNamespace('');
-        $this->assertSame(29, strlen($fileCache->getCacheFilePath()));
+        $this->assertSame(29, \strlen($fileCache->getCacheFilePath()));
     }
 
     public function testGetAbsoluteCachePath()
@@ -183,5 +170,14 @@ class FileCacheTest extends ContaoTestCase
         $this->assertSame('cache/namespace', $fileCache->getCacheFolderWithNamespace());
     }
 
+    protected function getContainerMock(ContainerBuilder $container = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer($this->getTempDir());
+        }
+        $container->setParameter('huh.utils.filecache.folder', 'cache');
+        $container->set('huh.utils.file', $this->createMock(FileUtil::class));
 
+        return $container;
+    }
 }

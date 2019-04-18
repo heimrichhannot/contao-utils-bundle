@@ -41,40 +41,8 @@ class TemplateUtilTest extends ContaoTestCase
     public function getTemplateUtilMock(ContainerInterface $container = null)
     {
         $util = new TemplateUtil($this->getContainerMock());
+
         return $util;
-    }
-
-    protected function getContainerMock(ContainerBuilder $container = null)
-    {
-        if (!$container) {
-            $container = $this->mockContainer();
-        }
-
-        if (!$container->has('kernel')) {
-            $kernel = $this->createMock(KernelInterface::class);
-            $kernel->method('getCacheDir')->willReturn($this->getTempDir());
-            $kernel->method('isDebug')->willReturn(false);
-            $container->setParameter('kernel.debug', true);
-            $container->set('kernel', $kernel);
-        }
-
-        $container->set('contao.resource_finder', new ResourceFinder([$this->getFixturesDir()]));
-
-        if (!$container->has('request_stack')) {
-            $request = new Request();
-            $requestStack = $this->createMock(RequestStack::class);
-            $requestStack->method('getCurrentRequest')->willReturn($request);
-            $container->set('request_stack', $requestStack);
-        }
-
-        $container->setParameter('kernel.project_dir', $this->getFixturesDir());
-
-        if (!$container->has('huh.utils.container')) {
-            $containerUtil = $this->createMock(ContainerUtil::class);
-            $containerUtil->method('getProjectDir')->willReturn($this->getFixturesDir());
-            $container->set('huh.utils.container', $containerUtil);
-        }
-        return $container;
     }
 
     public function testInstantiation()
@@ -162,5 +130,39 @@ class TemplateUtilTest extends ContaoTestCase
         );
         $this->assertFalse($util->isTemplatePartEmpty('<!-- TEMPLATE START: system/modules/blocks/templates/modules/mod_block.html5 --><div class="my_block"></div><!-- TEMPLATE END: system/modules/blocks/templates/modules/mod_block.html5 -->'));
         $this->assertTrue($util->isTemplatePartEmpty(null));
+    }
+
+    protected function getContainerMock(ContainerBuilder $container = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
+
+        if (!$container->has('kernel')) {
+            $kernel = $this->createMock(KernelInterface::class);
+            $kernel->method('getCacheDir')->willReturn($this->getTempDir());
+            $kernel->method('isDebug')->willReturn(false);
+            $container->setParameter('kernel.debug', true);
+            $container->set('kernel', $kernel);
+        }
+
+        $container->set('contao.resource_finder', new ResourceFinder([$this->getFixturesDir()]));
+
+        if (!$container->has('request_stack')) {
+            $request = new Request();
+            $requestStack = $this->createMock(RequestStack::class);
+            $requestStack->method('getCurrentRequest')->willReturn($request);
+            $container->set('request_stack', $requestStack);
+        }
+
+        $container->setParameter('kernel.project_dir', $this->getFixturesDir());
+
+        if (!$container->has('huh.utils.container')) {
+            $containerUtil = $this->createMock(ContainerUtil::class);
+            $containerUtil->method('getProjectDir')->willReturn($this->getFixturesDir());
+            $container->set('huh.utils.container', $containerUtil);
+        }
+
+        return $container;
     }
 }

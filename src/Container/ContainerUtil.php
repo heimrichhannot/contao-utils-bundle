@@ -21,6 +21,10 @@ class ContainerUtil
     /** @var ContaoFramework */
     protected $framework;
     /**
+     * @var ContainerInterface
+     */
+    protected $container;
+    /**
      * @var FileLocator
      */
     private $fileLocator;
@@ -28,10 +32,6 @@ class ContainerUtil
      * @var ScopeMatcher
      */
     private $scopeMatcher;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
 
     public function __construct(ContainerInterface $container, FileLocator $fileLocator, ScopeMatcher $scopeMatcher)
     {

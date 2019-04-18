@@ -64,10 +64,10 @@ class DatabaseTreeCache
      */
     public function loadDataContainer($table)
     {
-        if (!$this->database->tableExists($table))
-        {
+        if (!$this->database->tableExists($table)) {
             return;
         }
+
         if (!isset($GLOBALS['TL_DCA'][$table]) || !isset($GLOBALS['TL_DCA'][$table]['config']['treeCache']) || !\is_array($GLOBALS['TL_DCA'][$table]['config']['treeCache'])) {
             return;
         }

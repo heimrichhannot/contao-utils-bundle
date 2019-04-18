@@ -53,64 +53,6 @@ class ImageUtilTest extends ContaoTestCase
         );
     }
 
-    /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework $framework
-     * @return ContainerBuilder|ContainerInterface
-     */
-    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
-    {
-        if (!$container) {
-            $container = $this->mockContainer($this->getTempDir());
-        }
-
-        if (!$framework)
-        {
-            $controllerAdapter = $this->mockAdapter(['loadDataContainer']);
-
-            $framework = $this->mockContaoFramework([
-                Controller::class => $controllerAdapter,
-            ]);
-        }
-        $container->set('contao.framework', $framework);
-
-        $utilsContainer = $this->mockAdapter(['isBackend', 'isFrontend']);
-        $utilsContainer->method('isBackend')->willReturn(false);
-        $utilsContainer->method('isFrontend')->willReturn(true);
-        $container->set('huh.utils.container', $utilsContainer);
-
-        $imageFile = $this->mockClassWithProperties(File::class, [
-            'path'      => $this->getTempDir().'/files/screenshot.png',
-            'imageSize' => [
-                800,
-                1200,
-                0, // replace this with IMAGETYPE_SVG when it becomes available
-                'width="' . 1200 . '" height="' . 800 . '"',
-                'bits'     => 8,
-                'channels' => 3,
-                'mime'     => 'image/png',
-            ],
-            'extension' => 'png',
-        ]);
-        $fileUtil = $this->createMock(FileUtil::class);
-        $fileUtil->method('getFileFromUuid')->willReturn($imageFile);
-        $container->set('huh.utils.file', $fileUtil);
-
-        $imageAdapter = $this->mockAdapter(['getUrl']);
-        $imageAdapter->method('getUrl')->willReturn('files/screenshot.png');
-        $imageFactoryAdapter = $this->mockAdapter(['create']);
-        $imageFactoryAdapter->method('create')->willReturn($imageAdapter);
-        $container->set('contao.image.image_factory', $imageFactoryAdapter);
-
-        $imageMock = $this->createMock(ImageInterface::class);
-        $pictureMock = new Picture(['src' => $imageMock, 'srcset' => []], []);
-        $pictureFactoryAdapter = $this->mockAdapter(['create']);
-        $pictureFactoryAdapter->method('create')->willReturn($pictureMock);
-        $container->set('contao.image.picture_factory', $pictureFactoryAdapter);
-
-        return $container;
-    }
-
     public function testAddToTemplateDataWithoutModel()
     {
         $templateData = [];
@@ -129,7 +71,7 @@ class ImageUtilTest extends ContaoTestCase
         $templateData['singleSRC'] = [];
 
         $container = $this->getContainerMock();
-        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock = $this->mockAdapter(['log']);
         $monologLoggerMock->method('log');
         $container->set('monolog.logger.contao', $monologLoggerMock);
 
@@ -175,7 +117,7 @@ class ImageUtilTest extends ContaoTestCase
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
         $container = $this->getContainerMock();
-        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock = $this->mockAdapter(['log']);
         $monologLoggerMock->method('log');
         $container->set('monolog.logger.contao', $monologLoggerMock);
 
@@ -191,7 +133,6 @@ class ImageUtilTest extends ContaoTestCase
 
     public function testAddToTemplateDataError()
     {
-
         $container = $this->getContainerMock();
         $exception = new \Exception();
         $pictureFactoryAdapter = $this->mockAdapter(['create']);
@@ -223,7 +164,7 @@ class ImageUtilTest extends ContaoTestCase
 
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
-        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock = $this->mockAdapter(['log']);
         $monologLoggerMock->expects($this->once())->method('log');
         $container->set('monolog.logger.contao', $monologLoggerMock);
 
@@ -312,7 +253,7 @@ class ImageUtilTest extends ContaoTestCase
         $model = $this->mockClassWithProperties(FilesModel::class, ['meta' => 'a:1:{s:2:"de";a:4:{s:5:"title";s:9:"Diebstahl";s:3:"alt";s:0:"";s:4:"link";s:0:"";s:7:"caption";s:209:"Ob Stifte, Druckerpapier oder Büroklammern: Jeder vierte Arbeitnehmer lässt im Büro etwas mitgehen. Doch egal, wie günstig die gestohlenen Gegenstände sein mögen: Eine Abmahnung ist gerechtfertigt.";}}']);
 
         $container = $this->getContainerMock();
-        $monologLoggerMock =  $this->mockAdapter(['log']);
+        $monologLoggerMock = $this->mockAdapter(['log']);
         $monologLoggerMock->method('log');
         $container->set('monolog.logger.contao', $monologLoggerMock);
 
@@ -351,5 +292,63 @@ class ImageUtilTest extends ContaoTestCase
         $this->assertSame(2, $result);
         $result = $class->getPixelValue('10%%%');
         $this->assertSame(0, $result);
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework       $framework
+     *
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer($this->getTempDir());
+        }
+
+        if (!$framework) {
+            $controllerAdapter = $this->mockAdapter(['loadDataContainer']);
+
+            $framework = $this->mockContaoFramework([
+                Controller::class => $controllerAdapter,
+            ]);
+        }
+        $container->set('contao.framework', $framework);
+
+        $utilsContainer = $this->mockAdapter(['isBackend', 'isFrontend']);
+        $utilsContainer->method('isBackend')->willReturn(false);
+        $utilsContainer->method('isFrontend')->willReturn(true);
+        $container->set('huh.utils.container', $utilsContainer);
+
+        $imageFile = $this->mockClassWithProperties(File::class, [
+            'path' => $this->getTempDir().'/files/screenshot.png',
+            'imageSize' => [
+                800,
+                1200,
+                0, // replace this with IMAGETYPE_SVG when it becomes available
+                'width="'. 1200 .'" height="'. 800 .'"',
+                'bits' => 8,
+                'channels' => 3,
+                'mime' => 'image/png',
+            ],
+            'extension' => 'png',
+        ]);
+        $fileUtil = $this->createMock(FileUtil::class);
+        $fileUtil->method('getFileFromUuid')->willReturn($imageFile);
+        $container->set('huh.utils.file', $fileUtil);
+
+        $imageAdapter = $this->mockAdapter(['getUrl']);
+        $imageAdapter->method('getUrl')->willReturn('files/screenshot.png');
+        $imageFactoryAdapter = $this->mockAdapter(['create']);
+        $imageFactoryAdapter->method('create')->willReturn($imageAdapter);
+        $container->set('contao.image.image_factory', $imageFactoryAdapter);
+
+        $imageMock = $this->createMock(ImageInterface::class);
+        $pictureMock = new Picture(['src' => $imageMock, 'srcset' => []], []);
+        $pictureFactoryAdapter = $this->mockAdapter(['create']);
+        $pictureFactoryAdapter->method('create')->willReturn($pictureMock);
+        $container->set('contao.image.picture_factory', $pictureFactoryAdapter);
+
+        return $container;
     }
 }

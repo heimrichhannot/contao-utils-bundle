@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Tests\Accordion;
-
 
 use Contao\ContentModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
@@ -25,29 +21,6 @@ class AccordionUtilTest extends ContaoTestCase
 {
     use ModelMockTrait;
 
-    /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework $framework
-     * @return ContainerBuilder|ContainerInterface
-     */
-    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
-    {
-        if (!$container) {
-            $container = $this->mockContainer();
-        }
-
-        if (!$framework)
-        {
-            $framework = $this->mockContaoFramework();
-        }
-        $container->set('contao.framework', $framework);
-
-        $modelUtil = new ModelUtil($container);
-        $container->set('huh.utils.model', $modelUtil);
-
-        return $container;
-    }
-
     public function testCanBeInstantiated()
     {
         $instance = new AccordionUtil($this->getContainerMock());
@@ -58,22 +31,24 @@ class AccordionUtilTest extends ContaoTestCase
     {
         $container = $this->getContainerMock();
         $modelUtilMock = $this->createMock(ModelUtil::class);
-        $modelUtilMock->method('findModelInstancesBy')->willReturnCallback(function (string $table, array $columns, array $values, array $options = [])
-        {
+        $modelUtilMock->method('findModelInstancesBy')->willReturnCallback(function (string $table, array $columns, array $values, array $options = []) {
             $pid = $values[1];
-            switch ($pid)
-            {
+
+            switch ($pid) {
                 case 1: return null;
+
                 case 2:
                     return [
                         $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
                     ];
+
                 case 3:
                     return [
                         $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
                         $this->mockModelObject(ContentModel::class, ['id' => 2, 'type' => 'text']),
                         $this->mockModelObject(ContentModel::class, ['id' => 3, 'type' => 'accordionSingle']),
                     ];
+
                 case 4:
                     return [
                         $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
@@ -81,6 +56,7 @@ class AccordionUtilTest extends ContaoTestCase
                         $this->mockModelObject(ContentModel::class, ['id' => 3, 'type' => 'text']),
                     ];
             }
+
             return null;
         });
         $container->set('huh.utils.model', $modelUtilMock);
@@ -125,15 +101,12 @@ class AccordionUtilTest extends ContaoTestCase
         $this->assertArraySubset(['card_parentId' => 1, 'card_last' => true], $data);
         $this->assertArrayNotHasKey('card_first', $data);
 
-
-
         $container = $this->getContainerMock();
         $modelUtilMock = $this->createMock(ModelUtil::class);
-        $modelUtilMock->expects($this->once())->method('findModelInstancesBy')->willReturnCallback(function (string $table, array $columns, array $values, array $options = [])
-        {
+        $modelUtilMock->expects($this->once())->method('findModelInstancesBy')->willReturnCallback(function (string $table, array $columns, array $values, array $options = []) {
             $pid = $values[1];
-            switch ($pid)
-            {
+
+            switch ($pid) {
                 case 4:
                     return [
                         $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
@@ -141,6 +114,7 @@ class AccordionUtilTest extends ContaoTestCase
                         $this->mockModelObject(ContentModel::class, ['id' => 3, 'type' => 'text']),
                     ];
             }
+
             return null;
         });
         $container->set('huh.utils.model', $modelUtilMock);
@@ -162,18 +136,19 @@ class AccordionUtilTest extends ContaoTestCase
     {
         $container = $this->getContainerMock();
         $modelUtilMock = $this->createMock(ModelUtil::class);
-        $modelUtilMock->method('findModelInstancesBy')->willReturnCallback(function (string $table, array $columns, array $values, array $options = [])
-        {
+        $modelUtilMock->method('findModelInstancesBy')->willReturnCallback(function (string $table, array $columns, array $values, array $options = []) {
             $pid = $values[1];
-            switch ($pid)
-            {
+
+            switch ($pid) {
                 case 1: return null;
+
                 case 2:
                     return [
                         $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionStart']),
                         $this->mockModelObject(ContentModel::class, ['id' => 2, 'type' => 'text']),
                         $this->mockModelObject(ContentModel::class, ['id' => 3, 'type' => 'accordionStop']),
                     ];
+
                 case 3:
                     return [
                         $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionStart']),
@@ -184,6 +159,7 @@ class AccordionUtilTest extends ContaoTestCase
                         $this->mockModelObject(ContentModel::class, ['id' => 6, 'type' => 'text']),
                         $this->mockModelObject(ContentModel::class, ['id' => 7, 'type' => 'accordionStop']),
                     ];
+
                 case 4:
                     return [
                         $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionStart']),
@@ -195,6 +171,7 @@ class AccordionUtilTest extends ContaoTestCase
                         $this->mockModelObject(ContentModel::class, ['id' => 7, 'type' => 'accordionStop']),
                     ];
             }
+
             return null;
         });
         $container->set('huh.utils.model', $modelUtilMock);
@@ -231,7 +208,6 @@ class AccordionUtilTest extends ContaoTestCase
         $this->assertArraySubset(['accordion_last' => true, 'accordion_parentId' => 1], $data);
         $this->assertArrayNotHasKey('accordion_first', $data);
 
-
         $data = ['id' => 1, 'pid' => 3];
         $accordionUtil->structureAccordionStartStop($data);
         $this->assertArraySubset(['accordion_first' => true, 'accordion_parentId' => 1], $data);
@@ -246,5 +222,28 @@ class AccordionUtilTest extends ContaoTestCase
         $accordionUtil->structureAccordionStartStop($data);
         $this->assertArraySubset(['accordion_last' => true, 'accordion_parentId' => 5], $data);
         $this->assertArrayNotHasKey('accordion_first', $data);
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework       $framework
+     *
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
+
+        if (!$framework) {
+            $framework = $this->mockContaoFramework();
+        }
+        $container->set('contao.framework', $framework);
+
+        $modelUtil = new ModelUtil($container);
+        $container->set('huh.utils.model', $modelUtil);
+
+        return $container;
     }
 }

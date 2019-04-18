@@ -8,7 +8,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests;
 
-use HeimrichHannot\UtilsBundle\DependencyInjection\UtilsExtension;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
 use PHPUnit\Framework\TestCase;
 

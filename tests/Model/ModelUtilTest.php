@@ -41,27 +41,6 @@ class ModelUtilTest extends TestCaseEnvironment
         );
     }
 
-    /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework $framework
-     * @return ContainerBuilder|ContainerInterface
-     */
-    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
-    {
-        if (!$container) {
-            $container = $this->mockContainer();
-        }
-
-        if (!$framework)
-        {
-            $framework = $this->prepareFramework();
-        }
-        $container->set('contao.framework', $framework);
-        $container->set('huh.utils.dca', new DcaUtil($container));
-
-        return $container;
-    }
-
     public function testInstantiation()
     {
         $util = new ModelUtil($this->getContainerMock());
@@ -74,7 +53,6 @@ class ModelUtilTest extends TestCaseEnvironment
 
         $dbalAdapter = $this->mockAdapter(['getParams']);
         $container->set('doctrine.dbal.default_connection', $dbalAdapter);
-
 
         error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
 
@@ -199,8 +177,8 @@ class ModelUtilTest extends TestCaseEnvironment
         $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
         $contaoFramework = $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]);
 
-        $util            = new ModelUtil($this->getContainerMock(null, $contaoFramework));
-        $result          = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
+        $util = new ModelUtil($this->getContainerMock(null, $contaoFramework));
+        $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
         $this->assertInstanceOf(MockObject::class, $result[0]);
 
         $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel(true));
@@ -209,7 +187,6 @@ class ModelUtilTest extends TestCaseEnvironment
 
     public function testFindModulePages()
     {
-
         $this->count = 0;
 
         $module = $this->mockClassWithProperties(ModuleModel::class, ['id' => 1]);
@@ -400,6 +377,27 @@ class ModelUtilTest extends TestCaseEnvironment
         }
 
         return $this->mockClassWithProperties(Model::class, ['id' => 5]);
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework       $framework
+     *
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
+
+        if (!$framework) {
+            $framework = $this->prepareFramework();
+        }
+        $container->set('contao.framework', $framework);
+        $container->set('huh.utils.dca', new DcaUtil($container));
+
+        return $container;
     }
 
     protected function createModelUtilMock()

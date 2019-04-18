@@ -19,29 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ClassUtilTest extends ContaoTestCase
 {
-    /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework $framework
-     * @return ContainerBuilder|ContainerInterface
-     */
-    protected function getContainerMock(ContainerBuilder $container = null, $framework = null )
-    {
-        if (!$container) {
-            $container = $this->mockContainer();
-        }
-
-        if (!$framework)
-        {
-            $framework = $this->mockContaoFramework();
-        }
-        $container->set('contao.framework', $framework);
-
-        $container->set('huh.utils.string', new StringUtil($this->mockContaoFramework()));
-        $container->set('huh.utils.array', new ArrayUtil($container));
-
-        return $container;
-    }
-
     public function testClassesInNamespace()
     {
         $classUtil = new ClassUtil($this->getContainerMock());
@@ -104,5 +81,28 @@ class ClassUtilTest extends ContaoTestCase
         $this->assertTrue($result['addDetails']);
         $this->assertArrayNotHasKey('protectedMap', $result);
         $this->assertArrayHasKey('mapWithAttributes', $result);
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework       $framework
+     *
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer();
+        }
+
+        if (!$framework) {
+            $framework = $this->mockContaoFramework();
+        }
+        $container->set('contao.framework', $framework);
+
+        $container->set('huh.utils.string', new StringUtil($this->mockContaoFramework()));
+        $container->set('huh.utils.array', new ArrayUtil($container));
+
+        return $container;
     }
 }

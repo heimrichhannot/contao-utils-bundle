@@ -8,7 +8,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Cache;
 
-use Contao\Files;
 use Contao\FilesModel;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
@@ -30,7 +29,6 @@ class RemoteImageCacheTest extends ContaoTestCase
      */
     protected $projectRoot;
 
-
     public function setUp()
     {
         parent::setUp();
@@ -40,64 +38,6 @@ class RemoteImageCacheTest extends ContaoTestCase
         $fs = new Filesystem();
         $fs->mkdir($this->projectRoot.'/tmp');
         $fs->mkdir($this->projectRoot.'/system/tmp');
-    }
-
-    protected function getContainerMock(ContainerBuilder $container = null)
-    {
-        if (!$container)
-        {
-            $container = $this->mockContainer($this->projectRoot);
-        }
-
-        $requestStack = new RequestStack();
-        $request = new Request();
-        $request->attributes->set('_contao_referer_id', 'foobar');
-        $requestStack->push($request);
-        $container->set('request_stack', $requestStack);
-
-        System::setContainer($container);
-
-        $container->set('contao.framework', $this->mockContaoFramework());
-
-        $curlMock = $this->createMock(CurlRequestUtil::class);
-        $curlMock->method('request')->willReturnCallback(
-            function ($argument) {
-                switch ($argument) {
-                    case 'remoteNull':
-                        return null;
-
-                    case 'remoteFalse':
-                        return false;
-
-                    case 'remoteEmpty':
-                        return 'null';
-
-                    case 'remoteImage':
-                    default:
-                        return 'test01';
-                }
-            }
-        );
-        $container->set('huh.utils.request.curl', $curlMock);
-
-        $fileUtilMock = $this->createMock(FileUtil::class);
-        $fileUtilMock->method('getFolderFromUuid')->willReturnCallback(
-            function ($argument) {
-                switch ($argument) {
-                    case '0c23ab88-1642-11e8-b642-0ed5f89f718b':
-                        return false;
-
-                    case 'fade6980-1641-11e8-b642-0ed5f89f718b':
-                    default:
-                        $folder = new \stdClass();
-                        $folder->value = 'tmp';
-
-                        return $folder;
-                }
-            }
-        );
-        $container->set('huh.utils.file', $fileUtilMock);
-        return $container;
     }
 
     /**
@@ -166,7 +106,64 @@ class RemoteImageCacheTest extends ContaoTestCase
 
         $container->set('huh.utils.file', new FileUtil($container));
 
-
         $this->assertFalse($cache->get('test01', '0c23ab88-1642-11e8-b642-0ed5f89f718b', 'http://www.google.de'));
+    }
+
+    protected function getContainerMock(ContainerBuilder $container = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer($this->projectRoot);
+        }
+
+        $requestStack = new RequestStack();
+        $request = new Request();
+        $request->attributes->set('_contao_referer_id', 'foobar');
+        $requestStack->push($request);
+        $container->set('request_stack', $requestStack);
+
+        System::setContainer($container);
+
+        $container->set('contao.framework', $this->mockContaoFramework());
+
+        $curlMock = $this->createMock(CurlRequestUtil::class);
+        $curlMock->method('request')->willReturnCallback(
+            function ($argument) {
+                switch ($argument) {
+                    case 'remoteNull':
+                        return null;
+
+                    case 'remoteFalse':
+                        return false;
+
+                    case 'remoteEmpty':
+                        return 'null';
+
+                    case 'remoteImage':
+                    default:
+                        return 'test01';
+                }
+            }
+        );
+        $container->set('huh.utils.request.curl', $curlMock);
+
+        $fileUtilMock = $this->createMock(FileUtil::class);
+        $fileUtilMock->method('getFolderFromUuid')->willReturnCallback(
+            function ($argument) {
+                switch ($argument) {
+                    case '0c23ab88-1642-11e8-b642-0ed5f89f718b':
+                        return false;
+
+                    case 'fade6980-1641-11e8-b642-0ed5f89f718b':
+                    default:
+                        $folder = new \stdClass();
+                        $folder->value = 'tmp';
+
+                        return $folder;
+                }
+            }
+        );
+        $container->set('huh.utils.file', $fileUtilMock);
+
+        return $container;
     }
 }

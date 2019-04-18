@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.90.3] - 2019-04-18
+
+### Added
+* add possibility to invoke custom lazy loading config into `picture.html.twig`
+
 ## [2.90.2] - 2019-04-18
 
 ### Changed 

@@ -11,7 +11,6 @@ namespace HeimrichHannot\UtilsBundle\Tests\Container;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
@@ -25,72 +24,6 @@ use Symfony\Component\HttpKernel\Log\Logger;
 class ContainerUtilTest extends ContaoTestCase
 {
     const FILE_LOCATOR_BUNDLE_PATH = 'vendor/heimrichhannot/contao-utils-bundle';
-
-    /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework $framework
-     * @return ContainerBuilder|ContainerInterface
-     */
-    protected function getContainerMock(ContainerBuilder $container = null)
-    {
-        if (!$container) {
-            $container = $this->mockContainer('projectDir');
-        }
-        $framework = $this->mockContaoFramework();
-        $container->set('contao.framework', $framework);
-
-        $container->setParameter('kernel.bundles', [ContaoCoreBundle::class]);
-        $container->setParameter('contao.web_dir', 'webDir');
-        if (!$container->has('request_stack'))
-        {
-            $container->set('request_stack', $this->createRequestStackMock());
-        }
-
-        $container->set('monolog.logger.contao', new Logger());
-
-        return $container;
-    }
-
-    protected function getContainerUtilMock(ContainerBuilder $container = null, FileLocator $fileLocator = null, ScopeMatcher $scopeMatcher = null)
-    {
-        $container = $this->getContainerMock($container);
-
-        if (!$fileLocator)
-        {
-            $fileLocator = $this->createMock(FileLocator::class);
-            $fileLocator->method('locate')->willReturnCallback(function ($path, $currentPath = null, $first = false) {
-                switch ($path) {
-                    case '@HeimrichHannotContaoUtilsBundle':
-                        return static::FILE_LOCATOR_BUNDLE_PATH;
-
-                    case '@HeimrichHannotContaoUtilsBundle/Resources/views/image.html.twig':
-                        $result = static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig';
-
-                        break;
-
-                    case \InvalidArgumentException::class:
-                        throw new \InvalidArgumentException();
-
-                    default:
-                        throw new FileLocatorFileNotFoundException();
-                }
-
-                if ($first) {
-                    return $result;
-                }
-
-                return [$result];
-            });
-        }
-
-        if (!$scopeMatcher)
-        {
-            $scopeMatcher = $this->createMock(ScopeMatcher::class);
-            $scopeMatcher->method('isBackendRequest')->willReturn(true);
-            $scopeMatcher->method('isFrontendRequest')->willReturn(true);
-        }
-        return new ContainerUtil($container, $fileLocator, $scopeMatcher);
-    }
 
     public function testCanBeInstantiated()
     {
@@ -149,7 +82,6 @@ class ContainerUtilTest extends ContaoTestCase
 
     public function testIsFrontendBackendFalse()
     {
-
         $container = $this->mockContainer();
         $adapter = $this->mockAdapter(['getCurrentRequest']);
         $adapter->method('getCurrentRequest')->willReturn(false);
@@ -210,5 +142,71 @@ class ContainerUtilTest extends ContaoTestCase
         $this->assertFalse($containerUtil->getBundlePath('No Path'));
         $this->assertFalse($containerUtil->getBundlePath(5));
         $this->assertSame(static::FILE_LOCATOR_BUNDLE_PATH, $containerUtil->getBundlePath(HeimrichHannotContaoUtilsBundle::class));
+    }
+
+    /**
+     * @param ContainerBuilder|null $container
+     * @param ContaoFramework       $framework
+     *
+     * @return ContainerBuilder|ContainerInterface
+     */
+    protected function getContainerMock(ContainerBuilder $container = null)
+    {
+        if (!$container) {
+            $container = $this->mockContainer('projectDir');
+        }
+        $framework = $this->mockContaoFramework();
+        $container->set('contao.framework', $framework);
+
+        $container->setParameter('kernel.bundles', [ContaoCoreBundle::class]);
+        $container->setParameter('contao.web_dir', 'webDir');
+
+        if (!$container->has('request_stack')) {
+            $container->set('request_stack', $this->createRequestStackMock());
+        }
+
+        $container->set('monolog.logger.contao', new Logger());
+
+        return $container;
+    }
+
+    protected function getContainerUtilMock(ContainerBuilder $container = null, FileLocator $fileLocator = null, ScopeMatcher $scopeMatcher = null)
+    {
+        $container = $this->getContainerMock($container);
+
+        if (!$fileLocator) {
+            $fileLocator = $this->createMock(FileLocator::class);
+            $fileLocator->method('locate')->willReturnCallback(function ($path, $currentPath = null, $first = false) {
+                switch ($path) {
+                    case '@HeimrichHannotContaoUtilsBundle':
+                        return static::FILE_LOCATOR_BUNDLE_PATH;
+
+                    case '@HeimrichHannotContaoUtilsBundle/Resources/views/image.html.twig':
+                        $result = static::FILE_LOCATOR_BUNDLE_PATH.'/Resources/views/image.html.twig';
+
+                        break;
+
+                    case \InvalidArgumentException::class:
+                        throw new \InvalidArgumentException();
+
+                    default:
+                        throw new FileLocatorFileNotFoundException();
+                }
+
+                if ($first) {
+                    return $result;
+                }
+
+                return [$result];
+            });
+        }
+
+        if (!$scopeMatcher) {
+            $scopeMatcher = $this->createMock(ScopeMatcher::class);
+            $scopeMatcher->method('isBackendRequest')->willReturn(true);
+            $scopeMatcher->method('isFrontendRequest')->willReturn(true);
+        }
+
+        return new ContainerUtil($container, $fileLocator, $scopeMatcher);
     }
 }

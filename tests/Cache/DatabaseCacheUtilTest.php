@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Tests\Cache;
-
 
 use Contao\Config;
 use Contao\Database;
@@ -23,53 +19,53 @@ class DatabaseCacheUtilTest extends ContaoTestCase
 {
     public function getDatabaseCacheUtilMock(ContainerBuilder $container = null)
     {
-        if (!$container)
-        {
+        if (!$container) {
             $container = $this->mockContainer();
         }
         $framework = $this->mockContaoFramework();
         $framework->method('createInstance')->willReturnCallback(function ($class) {
-            switch ($class)
-            {
+            switch ($class) {
                 case Database::class:
-                    $db = $this->mockAdapter(['prepare','execute']);
+                    $db = $this->mockAdapter(['prepare', 'execute']);
                     $db->method('prepare')->willReturnSelf();
-                    $db->method('execute')->willReturnCallback(function() {
+                    $db->method('execute')->willReturnCallback(function () {
                         $arrParams = \func_get_args();
-                        if (!$arrParams || empty($arrParams))
-                        {
-                            throw new \Exception("No parameter set!");
+
+                        if (!$arrParams || empty($arrParams)) {
+                            throw new \Exception('No parameter set!');
                         }
 
-                        switch ($arrParams[0])
-                        {
-                            case "zero":
+                        switch ($arrParams[0]) {
+                            case 'zero':
                                 $resultSetMock = $this->mockClassWithProperties(Database\Result::class, [
-                                    'numRows' => 0
+                                    'numRows' => 0,
                                 ]);
+
                                 return $resultSetMock;
-                            case "one":
+
+                            case 'one':
                                 $resultSetMock = $this->mockClassWithProperties(Database\Result::class, [
                                     'numRows' => 1,
-                                    'cacheValue' => '1'
+                                    'cacheValue' => '1',
                                 ]);
+
                                 return $resultSetMock;
+
                             default:
-                                if (count($arrParams) > 1)
-                                {
+                                if (\count($arrParams) > 1) {
                                     $this->assertTrue(is_numeric($arrParams[0]));
                                     $this->assertTrue(is_numeric($arrParams[1]));
-                                    $this->assertTrue(is_string($arrParams[2]));
-                                    $this->assertTrue(is_string($arrParams[3]));
+                                    $this->assertTrue(\is_string($arrParams[2]));
+                                    $this->assertTrue(\is_string($arrParams[3]));
                                 }
                                 $resultSetMock = $this->mockClassWithProperties(Database\Result::class, [
-                                    'numRows' => 0
+                                    'numRows' => 0,
                                 ]);
+
                                 return $resultSetMock;
-
-
                         }
                     });
+
                     return $db;
             }
         });
@@ -79,7 +75,6 @@ class DatabaseCacheUtilTest extends ContaoTestCase
 
         return new DatabaseCacheUtil($container);
     }
-
 
     public function testKeyExists()
     {
@@ -109,9 +104,6 @@ class DatabaseCacheUtilTest extends ContaoTestCase
 
         Config::set('activateDbCache', true);
         $this->assertTrue($util->cacheValue('newkey', 'newvalue'));
-
-
-
     }
 
     public function testCacheValueException()
@@ -121,6 +113,6 @@ class DatabaseCacheUtilTest extends ContaoTestCase
 
         $this->expectException(\Exception::class);
 
-        $this->assertTrue($util->cacheValue('one', "value"));
+        $this->assertTrue($util->cacheValue('one', 'value'));
     }
 }

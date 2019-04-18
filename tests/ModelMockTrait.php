@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Tests;
-
 
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -30,6 +26,7 @@ trait ModelMockTrait
                 }
             )
         ;
+
         if (\in_array('__set', get_class_methods($class), true)) {
             $mock
                 ->method('__set')
@@ -40,6 +37,7 @@ trait ModelMockTrait
                 )
             ;
         }
+
         if (\in_array('__isset', get_class_methods($class), true)) {
             $mock
                 ->method('__isset')
@@ -50,6 +48,7 @@ trait ModelMockTrait
                 )
             ;
         }
+
         if (\in_array('row', get_class_methods($class), true)) {
             $mock
                 ->method('row')
@@ -60,6 +59,7 @@ trait ModelMockTrait
                 )
             ;
         }
+
         return $mock;
     }
 }
