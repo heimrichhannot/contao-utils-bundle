@@ -221,8 +221,14 @@ class ArrayUtilTest extends ContaoTestCase
         ]));
     }
 
-    public function skiptestInsertBeforeKey()
+    public function testInsertBeforeKey()
     {
-//        ArrayUtil::insertBeforeKey()
+        $current = ["hello" => "world"];
+        ArrayUtil::insertBeforeKey($current, 'hello', 'foo', 'bar');
+        $this->assertSame(["foo" => "bar", "hello" => "world"], $current);
+
+        $current = ["hello" => "world"];
+        ArrayUtil::insertBeforeKey($current, 'tux', 'foo', 'bar');
+        $this->assertSame(["hello" => "world", "foo" => "bar"], $current);
     }
 }

@@ -13,6 +13,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DatabaseCacheUtil
 {
@@ -27,11 +28,16 @@ class DatabaseCacheUtil
      * @var Database
      */
     protected $database;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+        $this->framework = $container->get('contao.framework');
         $this->database = $this->framework->createInstance(Database::class);
+        $this->container = $container;
     }
 
     /**
@@ -44,7 +50,6 @@ class DatabaseCacheUtil
     public function keyExists(string $key): bool
     {
         $result = $this->database->prepare('SELECT * FROM tl_db_cache WHERE cacheKey = ?')->execute($key);
-
         return $result->numRows > 0;
     }
 
@@ -85,11 +90,11 @@ class DatabaseCacheUtil
      */
     public function cacheValue(string $key, $value)
     {
-        if (!\Config::get('activateDbCache')) {
+        if (!Config::get('activateDbCache')) {
             return false;
         }
 
-        if (static::getValue($key)) {
+        if ($this->getValue($key)) {
             throw new \Exception('Duplicate entry in tl_db_cache for key '.$key);
         }
 
@@ -97,7 +102,7 @@ class DatabaseCacheUtil
 
         $this->database->prepare('INSERT INTO tl_db_cache (tstamp, expiration, cacheKey, cacheValue) VALUES (?, ?, ?, ?)')->execute(
             $now,
-            $now + System::getContainer()->get('huh.utils.date')->getTimePeriodInSeconds(
+            $now + $this->container->get('huh.utils.date')->getTimePeriodInSeconds(
                 StringUtil::deserialize(Config::get('dbCacheMaxTime'), true)
             ),
             $key,
