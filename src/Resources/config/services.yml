@@ -35,11 +35,6 @@ services:
     public: true
     arguments:
     - "@contao.framework"
-  huh.utils.date:
-    class: HeimrichHannot\UtilsBundle\Date\DateUtil
-    public: true
-    arguments:
-    - "@contao.framework"
   huh.utils.form:
     class: HeimrichHannot\UtilsBundle\Form\FormUtil
     public: true

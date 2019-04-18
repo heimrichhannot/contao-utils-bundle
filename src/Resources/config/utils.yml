@@ -27,6 +27,10 @@ services:
     class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
   HeimrichHannot\UtilsBundle\Container\ContainerUtil: "@huh.utils.container"
 
+  huh.utils.date:
+    class: HeimrichHannot\UtilsBundle\Date\DateUtil
+  HeimrichHannot\UtilsBundle\Date\DateUtil: "@huh.utils.date"
+
   huh.utils.dca:
     class: HeimrichHannot\UtilsBundle\Dca\DcaUtil
   HeimrichHannot\UtilsBundle\Dca\DcaUtil: "@huh.utils.dca"

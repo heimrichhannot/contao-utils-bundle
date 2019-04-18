@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.90.2] - 2019-04-18
+
+### Changed 
+* inject service container in DateUtil
+* updated tests
+* updated documentation
+
+### Fixed
+* loadDataContainer Hook error when empty database 
+
 ## [2.90.1] - 2019-04-18
 
 ### Fixed

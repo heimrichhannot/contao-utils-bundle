@@ -10,29 +10,36 @@ namespace HeimrichHannot\UtilsBundle\Date;
 
 use Contao\Config;
 use Contao\Controller;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DateUtil
 {
-    /** @var ContaoFrameworkInterface */
+    /** @var ContaoFramework */
     protected $framework;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container)
     {
-        $this->framework = $framework;
+        $this->framework = $container->get('contao.framework');
+        $this->container = $container;
     }
 
     /**
      * Get the timestamp based on input date, no matter input is timestamp or string date.
      *
-     * @param string|int|\DateTime|null $date              The input date/timestamp/insertTag
-     * @param bool                      $replaceInsertTags Disable/enable {{date::}} insertTag support
-     * @param string|null               $timezone          A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp
+     * @param string|int|\DateTime|null $date The input date/timestamp/insertTag
+     * @param bool $replaceInsertTags Disable/enable {{date::}} insertTag support
+     * @param string|null $timezone A valid timezone from DateTimeZone::ALL, if provided the timezone offset will be added to the timestamp
      *
      * @return int The integer timestamp presentation of the input date with added timezone offset
+     * @throws \Exception Throws error in case of an error when creating new DateTime instances
      */
     public function getTimeStamp($date = null, $replaceInsertTags = true, $timezone = null)
     {
@@ -66,6 +73,12 @@ class DateUtil
         return 0;
     }
 
+    /**
+     * Returns the time in seconds of an given time period
+     *
+     * @param string|array $timePeriod Array or serialized string containing an value and an unit key
+     * @return float|int|null
+     */
     public function getTimePeriodInSeconds($timePeriod)
     {
         $timePeriod = StringUtil::deserialize($timePeriod, true);

@@ -74,7 +74,7 @@ class DatabaseCacheUtilTest extends ContaoTestCase
             }
         });
         $container->set('contao.framework', $framework);
-        $dateUtilMock = new DateUtil($framework);
+        $dateUtilMock = new DateUtil($container);
         $container->set('huh.utils.date', $dateUtilMock);
 
         return new DatabaseCacheUtil($container);

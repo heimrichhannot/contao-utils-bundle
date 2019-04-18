@@ -26,6 +26,17 @@ class DateUtilTest extends ContaoTestCase
         $this->assertInstanceOf(self::class, $instance);
     }
 
+    public function getDateUtilMock()
+    {
+        $container = $this->mockContainer();
+
+        $framework = $this->mockContaoFramework();
+        $container->set('contao.framework', $framework);
+        System::setContainer($container);
+
+        return new DateUtil($container);
+    }
+
     /**
      * @dataProvider timeStampProvider
      */
@@ -35,10 +46,7 @@ class DateUtilTest extends ContaoTestCase
         $errorReporting = error_reporting();
         error_reporting($errorReporting & ~E_NOTICE);
 
-        $container = $this->mockContainer();
-        System::setContainer($container);
-
-        $instance = new DateUtil($this->mockContaoFramework());
+        $instance = $this->getDateUtilMock();
 
         if (null !== $timeZone) {
             Config::set('timeZone', $timeZone);
@@ -62,7 +70,7 @@ class DateUtilTest extends ContaoTestCase
      */
     public function testTransformPhpDateFormatToRFC3339($format, $expected)
     {
-        $instance = new DateUtil($this->mockContaoFramework());
+        $instance = $this->getDateUtilMock();
 
         $this->assertSame($expected, $instance->transformPhpDateFormatToRFC3339($format));
     }
@@ -78,7 +86,7 @@ class DateUtilTest extends ContaoTestCase
         $dateFormat = \IntlDateFormatter::MEDIUM; // default from Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer
         $timeFormat = \IntlDateFormatter::SHORT; // default from Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer
 
-        $utils = new DateUtil($this->mockContaoFramework());
+        $utils = $this->getDateUtilMock();
         $rfc3339Format = $utils->transformPhpDateFormatToRFC3339($format);
 
         $intlDateFormatter = new \IntlDateFormatter($locale, $dateFormat, $timeFormat, $timezone, $calendar, $pattern);
@@ -216,12 +224,25 @@ class DateUtilTest extends ContaoTestCase
         ];
     }
 
+    public function transformPhpDateFormatToISO8601Provider()
+    {
+        return [
+            ['F j, Y, g:i a', 'MM TT, JJJJ, hh:mm'],
+        ];
+    }
+
+    /**
+     * @dataProvider transformPhpDateFormatToISO8601Provider
+     */
+    public function skip_testTransformPhpDateFormatToISO8601($format, $target)
+    {
+        $util = $this->getDateUtilMock();
+        $this->assertSame($target, $util->transformPhpDateFormatToISO8601($format));
+    }
+
     public function testGetTimePeriodInSeconds()
     {
-        if (!\function_exists('deserialize')) {
-            include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/functions.php';
-        }
-        $date = new DateUtil($this->mockContaoFramework());
+        $date = $this->getDateUtilMock();
 
         $timePeriod = serialize(['unit' => 'h', 'value' => 12]);
         $result = $date->getTimePeriodInSeconds($timePeriod);
@@ -242,7 +263,7 @@ class DateUtilTest extends ContaoTestCase
 
     public function testGetGMTMidnightTstamp()
     {
-        $date = new DateUtil($this->mockContaoFramework());
+        $date = $this->getDateUtilMock();
         $time = time();
 
         $dateTime = new \DateTime(date('Y-m-d', $time));

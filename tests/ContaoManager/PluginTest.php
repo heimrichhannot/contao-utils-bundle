@@ -19,6 +19,7 @@ use HeimrichHannot\UtilsBundle\Cache\RemoteImageCache;
 use HeimrichHannot\UtilsBundle\Classes\ClassUtil;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\ContaoManager\Plugin;
+use HeimrichHannot\UtilsBundle\Date\DateUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
@@ -112,6 +113,11 @@ class PluginTest extends ContaoTestCase
                 'alias' => 'huh.utils.container',
                 'class' => ContainerUtil::class,
                 'parameters' => 3
+            ],
+            [
+                'alias' => 'huh.utils.date',
+                'class' => DateUtil::class,
+                'parameters' => 1
             ],
             [
                 'alias' => 'huh.utils.dca',
