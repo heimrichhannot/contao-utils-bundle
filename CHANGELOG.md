@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.91.0] - 2019-04-25
+
+### Added
+* invoke `huh.utils.listener.frontend_page` that ensure line breaks for several languages (in cs for instance one syllable words like a should stay together, e.g. `a stavět` -> `a&nbsp;stavět`)
+
 ## [2.90.3] - 2019-04-18
 
 ### Added
