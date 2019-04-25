@@ -3,42 +3,48 @@
 {% set wrapperID = ('image-wrapper-' ~ random()) %}
 <div id="{{ wrapperID }}" class="image-wrapper{% if class|default() or img.class|default() %} {{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}{% endif %}">
     <div class="image-aspect-ratio">
-    {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){max-width:' ~ (img.width == 0 ? 'none' : (img.width ~ 'px')) ~ ';max-height:' ~ (img.height == 0 ? 'none' : (img.height ~ 'px')) ~ '}')]) %}
-    {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (img.width == 0 ? 0 : (img.height/img.width)*100)|number_format(2, '.') ~ '%}')]) %}
-    {% endif %}
-    {% if sources|default() %}
-    <picture>
-        <!--[if IE 9]><video style="display: none;"><![endif]-->
-        {% for source in sources %}
-            {% if lazyload|default() %}
-                <source {{lazyload.srcset|default('data-srcset')}}="{{ '{{env::url}}' }}/{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
-                {% if source.media|default() %}
-                    {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded){max-width:'~ (source.width == 0 ? 'none' : (source.width ~ 'px')) ~';max-height:' ~ (source.height == 0 ? 'none' : (source.height ~ 'px')) ~ '}}')]) %}
-                    {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (source.width == 0 ? 0 : (source.height/source.width)*100)|number_format(2, '.') ~ '%}}')]) %}
+        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){max-width:' ~ (img.width == 0 ? 'none' : (img.width ~ 'px')) ~ ';max-height:' ~ (img.height == 0 ? 'none' : (img.height ~ 'px')) ~ '}')]) %}
+        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (img.width == 0 ? 0 : (img.height/img.width)*100)|number_format(2, '.') ~ '%}')]) %}
+        {% endif %}
+        {% if sources|default() %}
+        <picture>
+            <!--[if IE 9]><video style="display: none;"><![endif]-->
+            {% for source in sources %}
+                {% if lazyload|default() %}
+                    <source srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=" {{lazyload.srcset|default('data-srcset')}}="{{ '{{env::url}}' }}/{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
+                    {% if source.media|default() %}
+                        {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded){max-width:'~ (source.width == 0 ? 'none' : (source.width ~ 'px')) ~';max-height:' ~ (source.height == 0 ? 'none' : (source.height ~ 'px')) ~ '}}')]) %}
+                        {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (source.width == 0 ? 0 : (source.height/source.width)*100)|number_format(2, '.') ~ '%}}')]) %}
+                    {% endif %}
+                {% else %}
+                    <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
                 {% endif %}
-            {% else %}
-                <source srcset="{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
+            {% endfor %}
+            <!--[if IE 9]></video><![endif]-->
             {% endif %}
-        {% endfor %}
-        <!--[if IE 9]></video><![endif]-->
-        {% endif %}
 
-        {% if lazyload|default() %}
-            {% spaceless %}
-            <noscript>
+            {% if lazyload|default() %}
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=" data-wrapper="#{{ wrapperID }}" class="image {{ lazyload.class|default('lazy-img') }}" {{lazyload.src|default('data-src')}}="{{ '{{env::url}}' }}/{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ '{{env::url}}' }}/{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %} {{ attributes|default('') }} itemprop="image"{% if wrapperStyles|default() %} data-wrapper-style="{{ wrapperStyles|join('') }}"{% endif %}>
+            {% else %}
                 <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} itemprop="image">
-            </noscript>
-            {% endspaceless %}
-            <img data-wrapper="#{{ wrapperID }}" class="image {{ lazyload.class|default('lazy-img') }}" {{lazyload.src|default('data-src')}}="{{ '{{env::url}}' }}/{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ '{{env::url}}' }}/{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %} {{ attributes|default('') }} itemprop="image"{% if wrapperStyles|default() %} data-wrapper-style="{{ wrapperStyles|join('') }}"{% endif %}>
-        {% else %}
-            <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} itemprop="image">
-        {% endif %}
+            {% endif %}
 
-        {% if sources %}
-    </picture>
-    {% endif %}
-    {% if lazyload|default() %}
-</div></div>
+            {% if sources %}
+        </picture>
+        {% endif %}
+        {% if lazyload|default() %}
+        {% spaceless %}
+            <noscript>
+                {% if sources|default() %}
+                <picture>
+                    {% endif %}
+                    <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} itemprop="image">
+                    {% if sources|default() %}
+                </picture>
+                {% endif %}
+            </noscript>
+        {% endspaceless %}
+    </div></div>
 {% endif %}
 
 {% if sources|default() or img.src != img.srcset %}
@@ -48,4 +54,5 @@
         });
     </script>
 {% endif %}
+
 

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.91.1] - 2019-04-25
+
+### Fixed
+* w3c validator error in `picture.html.twig` occured by lazyload technique
+
 ## [2.91.0] - 2019-04-25
 
 ### Added
