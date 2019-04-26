@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.91.2] - 2019-04-26
+
+### Fixed
+* database error in AccordionUtil::structureAccordionSingle()
+
 ## [2.91.1] - 2019-04-25
 
 ### Fixed

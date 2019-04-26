@@ -63,9 +63,9 @@ class AccordionUtil
             if (null !== ($elements = $this->container->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',
                     [
-                        'ptable=?',
+                        'tl_content.ptable=?',
                         'tl_content.pid=?',
-                        'invisible!=1',
+                        'tl_content.invisible!=1',
                     ],
                     [
                         'tl_article',
