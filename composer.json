@@ -6,7 +6,7 @@
   "require": {
     "php": "^7.1",
     "contao/core-bundle": "^4.4",
-    "roderik/pwgen-php": ">=0.1.5",
+    "hackzilla/password-generator": "^1.4",
     "heimrichhannot/contao-request-bundle": "^1.0",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
     "html2text/html2text": "~4.0"
