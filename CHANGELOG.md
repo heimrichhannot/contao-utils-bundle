@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.92.0] - 2019-04-26
+## [2.93.0] - 2019-04-26
 
 ### Changed
 * replaced `roderik/pwgen-php` with `hackzilla/password-generator` due to GPL licence (`roderik/pwgen-php`) incompatibility
