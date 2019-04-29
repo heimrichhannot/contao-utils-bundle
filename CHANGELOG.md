@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.94.0] - 2019-04-29
+
+### Changed
+* replaced `html2text/html2text` with `soundasleep/html2text` due to GPL licence (`html2text/html2text`) incompatibility
+
 ## [2.93.0] - 2019-04-26
 
 ### Changed

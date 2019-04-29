@@ -22,6 +22,47 @@ class StringUtilTest extends ContaoTestCase
         System::setContainer($container);
     }
 
+    public function testHtml2Text()
+    {
+        $html = '
+        <html>
+        <title>Ignored Title</title>
+        <body>
+          <h1>Hello, World!</h1>
+        
+          <p>This is some e-mail content.
+          Even though it has whitespace and newlines, the e-mail converter
+          will handle it correctly.
+        
+          <p>Even mismatched tags.</p>
+        
+          <div>A div</div>
+          <div>Another div</div>
+          <div>A div<div>within a div</div></div>
+        
+          <a href="http://foo.com">A link</a>
+        
+        </body>
+        </html>';
+
+        $expected =
+'Hello, World!
+
+This is some e-mail content. Even though it has whitespace and newlines, the e-mail converter will handle it correctly.
+
+Even mismatched tags.
+
+A div
+Another div
+A div
+within a div
+[A link](http://foo.com)';
+
+        $stringUtil = new StringUtil($this->mockContaoFramework());
+
+        $this->assertSame($expected, $stringUtil->html2Text($html));
+    }
+
     public function testStartsWith()
     {
         $stringUtil = new StringUtil($this->mockContaoFramework());

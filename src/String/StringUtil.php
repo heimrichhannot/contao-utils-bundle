@@ -307,8 +307,12 @@ class StringUtil
     }
 
     /**
-     * @param       $text
-     * @param array $cssText the css as text (no paths allowed atm)
+     * Convert css into inline styles.
+     *
+     * @param string $text
+     * @param array  $cssText the css as text (no paths allowed atm)
+     *
+     * @return string
      */
     public function convertToInlineCss(string $text, string $cssText = null)
     {
@@ -319,25 +323,31 @@ class StringUtil
     }
 
     /**
+     * Converts html to text.
+     *
      * @param string $html
      * @param array  $options
+     *
+     * @throws \Soundasleep\Html2TextException
      *
      * @return string
      */
     public function html2Text(string $html, array $options = [])
     {
         $html = str_replace("\n", '', $html); // remove white spaces from html
-        $html = str_replace('</p>', '<br /></p>', $html); // Html2Text will replace paragraph by only one break
-        $objConverter = new Html2Text($html, $options);
+        $html = str_replace('</p>', '<br /></p>', $html); // interpret paragrah as block element
+        $html = str_replace('</div>', '<br /></div>', $html); // interpret div as block element
 
-        return $objConverter->getText();
+        return \Soundasleep\Html2Text::convert($html, $options);
     }
 
     /**
      * Convenience method for lower casing in a save callback.
      *
-     * @param                $value
+     * @param $value
      * @param \DataContainer $objDc
+     *
+     * @return string
      */
     public function lowerCase($value, \DataContainer $objDc)
     {
