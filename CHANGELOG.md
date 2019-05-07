@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.95.0] - 2019-05-07
+
+### Added
+* FormUtil::getBackendFormField()
+
 ## [2.94.0] - 2019-04-29
 
 ### Changed
