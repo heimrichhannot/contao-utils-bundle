@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.96.0] - 2019-05-07
+
+### Added
+* `aspectRatio` parameter (boolean) support added to `lazyload` attribute inside `picture.html.twig`
+
 ## [2.95.0] - 2019-05-07
 
 ### Added

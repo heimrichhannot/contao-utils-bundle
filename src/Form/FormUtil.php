@@ -91,11 +91,11 @@ class FormUtil
      * * skipOptionCaching -> skip caching options if $value is an array
      * * _dcaOverride: Array Set a custom dca from outside, which will be used instead of global dca value.
      *
-     * @param string $field
+     * @param string        $field
      * @param               $value
      * @param DataContainer $dc
-     * @param array $config
-     * @param bool $isRecursiveCall
+     * @param array         $config
+     * @param bool          $isRecursiveCall
      *
      * @return string
      */
@@ -288,21 +288,20 @@ class FormUtil
     }
 
     /**
-     * Get an instance of Widget by passing fieldname and dca data
+     * Get an instance of Widget by passing fieldname and dca data.
      *
-     * @param string $fieldName The field name
-     * @param array $dca The DCA
+     * @param string     $fieldName     The field name
+     * @param array      $dca           The DCA
      * @param array|null $value
-     * @param string $dbField The database field name
-     * @param string $table The table
-     * @param null $dataContainer object The data container
+     * @param string     $dbField       The database field name
+     * @param string     $table         The table
+     * @param null       $dataContainer object The data container
      *
      * @return Widget|null
      */
     public function getBackendFormField(string $fieldName, array $dca, $value = null, $dbField = '', $table = '', $dataContainer = null)
     {
-        if (!($strClass = $GLOBALS['BE_FFL'][$dca['inputType']]))
-        {
+        if (!($strClass = $GLOBALS['BE_FFL'][$dca['inputType']])) {
             return null;
         }
 
