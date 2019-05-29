@@ -14,7 +14,7 @@
             <!--[if IE 9]><video style="display: none;"><![endif]-->
             {% for source in sources %}
                 {% if lazyload|default() %}
-                    <source srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=" {{lazyload.srcset|default('data-srcset')}}="{{ '{{env::url}}' }}/{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
+                    <source {{lazyload.srcset|default('data-srcset')}}="{{ '{{env::url}}' }}/{{ source.srcset }}"{% if source.sizes|default() %} sizes="{{ source.sizes }}"{% endif %}{% if source.media|default() %} media="{{ source.media }}" {% endif %}>
                     {% if source.media|default() %}
                         {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded){max-width:'~ (source.width == 0 ? 'none' : (source.width ~ 'px')) ~';max-height:' ~ (source.height == 0 ? 'none' : (source.height ~ 'px')) ~ '}}')]) %}
                         {% set wrapperStyles = wrapperStyles|merge([('@media ' ~ source.media ~ '{#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (source.width == 0 ? 0 : (source.height/source.width)*100)|number_format(2, '.') ~ '%}}')]) %}

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.97.0] - 2019-05-29
+
+### Changed
+* removed `srcset` parameter related to `source` inside `picture.html.twig` to fix mobile issues
+
 ## [2.96.0] - 2019-05-07
 
 ### Added
