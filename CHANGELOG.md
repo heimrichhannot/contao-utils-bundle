@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.97.1] - 2019-06-06
+
+### Fixed
+* `huh.utils.dca` method `addAliasToDca` now properly supports replacement of fields by considering fieldset and field separator (comma and semikolon)
+
 ## [2.97.0] - 2019-05-29
 
 ### Changed
