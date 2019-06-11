@@ -212,7 +212,7 @@ class ArrayUtil
      */
     public static function insertBeforeKey(array &$array, string $key, string $newKey, $newValue)
     {
-        if (\array_key_exists($key, $array)) {
+        if (array_key_exists($key, $array)) {
             $new = [];
 
             foreach ($array as $k => $value) {

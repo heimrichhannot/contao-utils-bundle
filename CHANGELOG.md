@@ -1,88 +1,93 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.97.2] - 2019-06-11
+
+### Fixed
+- service injection
+
 ## [2.97.1] - 2019-06-06
 
 ### Fixed
-* `huh.utils.dca` method `addAliasToDca` now properly supports replacement of fields by considering fieldset and field separator (comma and semikolon)
+- `huh.utils.dca` method `addAliasToDca` now properly supports replacement of fields by considering fieldset and field separator (comma and semikolon)
 
 ## [2.97.0] - 2019-05-29
 
 ### Changed
-* removed `srcset` parameter related to `source` inside `picture.html.twig` to fix mobile issues
+- removed `srcset` parameter related to `source` inside `picture.html.twig` to fix mobile issues
 
 ## [2.96.0] - 2019-05-07
 
 ### Added
-* `aspectRatio` parameter (boolean) support added to `lazyload` attribute inside `picture.html.twig`
+- `aspectRatio` parameter (boolean) support added to `lazyload` attribute inside `picture.html.twig`
 
 ## [2.95.0] - 2019-05-07
 
 ### Added
-* FormUtil::getBackendFormField()
+- FormUtil::getBackendFormField()
 
 ## [2.94.0] - 2019-04-29
 
 ### Changed
-* replaced `html2text/html2text` with `soundasleep/html2text` due to GPL licence (`html2text/html2text`) incompatibility
+- replaced `html2text/html2text` with `soundasleep/html2text` due to GPL licence (`html2text/html2text`) incompatibility
 
 ## [2.93.0] - 2019-04-26
 
 ### Changed
-* replaced `roderik/pwgen-php` with `hackzilla/password-generator` due to GPL licence (`roderik/pwgen-php`) incompatibility
+- replaced `roderik/pwgen-php` with `hackzilla/password-generator` due to GPL licence (`roderik/pwgen-php`) incompatibility
 
 ### Added
-* GNU LESSER GENERAL PUBLIC LICENSE  
+- GNU LESSER GENERAL PUBLIC LICENSE  
 
 ## [2.91.2] - 2019-04-26
 
 ### Fixed
-* database error in AccordionUtil::structureAccordionSingle()
+- database error in AccordionUtil::structureAccordionSingle()
 
 ## [2.91.1] - 2019-04-25
 
 ### Fixed
-* w3c validator error in `picture.html.twig` occured by lazyload technique
+- w3c validator error in `picture.html.twig` occured by lazyload technique
 
 ## [2.91.0] - 2019-04-25
 
 ### Added
-* invoke `huh.utils.listener.frontend_page` that ensure line breaks for several languages (in cs for instance one syllable words like a should stay together, e.g. `a stavět` -> `a&nbsp;stavět`)
+- invoke `huh.utils.listener.frontend_page` that ensure line breaks for several languages (in cs for instance one syllable words like a should stay together, e.g. `a stavět` -> `a&nbsp;stavět`)
 
 ## [2.90.3] - 2019-04-18
 
 ### Added
-* add possibility to invoke custom lazy loading config into `picture.html.twig`
+- add possibility to invoke custom lazy loading config into `picture.html.twig`
 
 ## [2.90.2] - 2019-04-18
 
 ### Changed 
-* inject service container in DateUtil
-* updated tests
-* updated documentation
+- inject service container in DateUtil
+- updated tests
+- updated documentation
 
 ### Fixed
-* loadDataContainer Hook error when empty database 
+- loadDataContainer Hook error when empty database 
 
 ## [2.90.1] - 2019-04-18
 
 ### Fixed
-* non-public services in ContainerUtil
+- non-public services in ContainerUtil
 
 ## [2.90.0] - 2019-04-16
 
 ### Changed 
-* made $fileExtension parameter optional in FileCache::exist() and FileCache::get()
-* FileCache now uses kernel.project_dir instead of contao.web_dir for root path
-* refactoring due changes in internal coding standards
-* refactored service loading into Plugin class
-* updated a lot of tests
+- made $fileExtension parameter optional in FileCache::exist() and FileCache::get()
+- FileCache now uses kernel.project_dir instead of contao.web_dir for root path
+- refactoring due changes in internal coding standards
+- refactored service loading into Plugin class
+- updated a lot of tests
 
 ### Fixed
-* FileCache::getNamespace() error when namespace not initialized
+- FileCache::getNamespace() error when namespace not initialized
 
 ### Fixed
-* possible warnings in AccordionUtil
+- possible warnings in AccordionUtil
 
 ## [2.89.2] - 2019-04-09
 
@@ -976,8 +981,8 @@ All notable changes to this project will be documented in this file.
 ## [2.12.2] - 2018-05-16
 
 ### Fixed
-* picture template twig error if title not defined
-* enhanced code documentation
+- picture template twig error if title not defined
+- enhanced code documentation
 
 ## [2.12.1] - 2018-05-11
 
