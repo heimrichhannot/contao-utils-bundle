@@ -104,7 +104,7 @@
         }], (n = null) && i(t.prototype, n), r && i(t, r), e;
     }();
 
-    function l(e, t) {
+    function u(e, t) {
       for (var n = 0; n < t.length; n++) {
         var r = t[n];
         r.enumerable = r.enumerable || !1, r.configurable = !0, 'value' in r &&
@@ -112,7 +112,7 @@
       }
     }
 
-    var u = function() {
+    var l = function() {
       function e() {
         !function(e, t) {
           if (!(e instanceof t)) throw new TypeError('Cannot call a class as a function');
@@ -150,7 +150,7 @@
             for (var n = 0; n < t.length; n++) t[n] === document && t.splice(n, 1);
             return t;
           },
-        }], (n = null) && l(t.prototype, n), r && l(t, r), e;
+        }], (n = null) && u(t.prototype, n), r && u(t, r), e;
     }();
 
     function c(e, t) {
@@ -189,7 +189,7 @@
       }
     }
 
-    var p = function() {
+    var d = function() {
       function e() {
         !function(e, t) {
           if (!(e instanceof t)) throw new TypeError('Cannot call a class as a function');
@@ -204,7 +204,7 @@
               var r;
               f.isTruthy(o) ?
                   r = [e.target] :
-                  e.target !== document && (r = u.getAllParentNodes(e.target)), Array.isArray(r) ?
+                  e.target !== document && (r = l.getAllParentNodes(e.target)), Array.isArray(r) ?
                   r.reverse().forEach(function(r) {
                     r && r.matches(t) && n(r, e);
                   }) :
@@ -216,7 +216,7 @@
         }], (n = null) && s(t.prototype, n), r && s(t, r), e;
     }();
 
-    function d(e, t) {
+    function p(e, t) {
       for (var n = 0; n < t.length; n++) {
         var r = t[n];
         r.enumerable = r.enumerable || !1, r.configurable = !0, 'value' in r &&
@@ -282,23 +282,85 @@
           key: 'parseQueryString', value: function(e) {
             return JSON.parse('{"' + decodeURI(e).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
           },
-        }], (n = null) && d(t.prototype, n), r && d(t, r), e;
+        }, {
+          key: 'buildQueryString', value: function(e) {
+            var t = '';
+            for (var n in e) '' !== t && (t += '&'), t += n + '=' + e[n];
+            return t;
+          },
+        }], (n = null) && p(t.prototype, n), r && p(t, r), e;
+    }();
+
+    function v(e, t) {
+      for (var n = 0; n < t.length; n++) {
+        var r = t[n];
+        r.enumerable = r.enumerable || !1, r.configurable = !0, 'value' in r &&
+        (r.writable = !0), Object.defineProperty(e, r.key, r);
+      }
+    }
+
+    var h = function() {
+      function e() {
+        !function(e, t) {
+          if (!(e instanceof t)) throw new TypeError('Cannot call a class as a function');
+        }(this, e);
+      }
+
+      var t, n, r;
+      return t = e, r = [
+        {
+          key: 'get', value: function(t, n, r) {
+            r = e.modifyConfig(r);
+            var o = e.initializeRequest('GET', y.addParametersToUri(t, n), r), i = {config: r, action: t, data: n};
+            e.doAjaxSubmit(o, i);
+          },
+        }, {
+          key: 'post', value: function(t, n, r) {
+            r = e.modifyConfig(r);
+            var o = e.initializeRequest('POST', t, r), i = {config: r, action: t, data: n, body: y.buildQueryString(n)};
+            e.doAjaxSubmit(o, i);
+          },
+        }, {
+          key: 'doAjaxSubmit', value: function(e, t) {
+            var n = t.config;
+            e.onload = function() {
+              e.status >= 200 && e.status < 400 ? f.call(n.onSuccess, e) : f.call(n.onError, e);
+            }, f.call(n.beforeSubmit, t.action, t.data, n), void 0 === t.body ? e.send() : e.send(t.body), f.call(
+                n.afterSubmit, t.action, t.data, n);
+          },
+        }, {
+          key: 'initializeRequest', value: function(t, n, r) {
+            var o = new XMLHttpRequest;
+            return o.open(t, n, !0), o = e.setRequestHeaders(o, r);
+          },
+        }, {
+          key: 'setRequestHeaders', value: function(e, t) {
+            if (void 0 !== t.headers) for (var n in t.headers) e.setRequestHeader(n, t.headers[n]);
+            return e;
+          },
+        }, {
+          key: 'modifyConfig', value: function(e) {
+            return void 0 === e.headers && (e.headers = {'X-Requested-With': 'XMLHttpRequest'}), e;
+          },
+        }], (n = null) && v(t.prototype, n), r && v(t, r), e;
     }();
     n.d(t, 'utilsBundle', function() {
-      return v;
+      return m;
+    }), n.d(t, 'AjaxUtil', function() {
+      return h;
     }), n.d(t, 'ArrayUtil', function() {
       return a;
     }), n.d(t, 'DomUtil', function() {
-      return u;
+      return l;
     }), n.d(t, 'EventUtil', function() {
-      return p;
+      return d;
     }), n.d(t, 'GeneralUtil', function() {
       return f;
     }), n.d(t, 'UrlUtil', function() {
       return y;
     });
-    var v = {array: a, dom: u, event: p, url: y, util: f};
-    window.utilsBundle = v;
+    var m = {ajax: h, array: a, dom: l, event: d, url: y, util: f};
+    window.utilsBundle = m;
   }, Fqrg: function(e, t) {
     window.NodeList && !NodeList.prototype.forEach && (NodeList.prototype.forEach = function(e, t) {
       t = t || window;

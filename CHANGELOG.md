@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.98.0] - 2019-06-13
+
+### Changed
+- moved js from component directly into bundle
+
 ## [2.97.2] - 2019-06-11
 
 ### Fixed
