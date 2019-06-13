@@ -1,0 +1,15 @@
+.build/
+.buildpath
+.idea/
+nbproject/
+.project
+.settings/
+
+# nodejs
+node_modules
+
+# yarn
+yarn-error.log
+
+# others
+debug.txt
