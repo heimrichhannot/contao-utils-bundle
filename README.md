@@ -80,6 +80,51 @@ The bundle assets (js) are prepared to be used with webpack/encore. If you don't
 
 See [package Repository](https://github.com/heimrichhannot-contao-components/contao-utils-bundle) for documentation.
 
+### JavaScript Utils
+
+#### Ajax Util
+This util offers a shorthand for POST- and GET-ajax-requests. 
+
+```
+static post(url, data, config) {...}
+# or
+static get(url, data, config) {...}
+``` 
+Both take the following parameters
+ 
+name | description 
+| --- | --- |
+| url | The url the request will be send to. |
+| data | The data that is used for the request. It has to be passed as JSON. |
+| config | An object that can hold the onSuccess-, onError-, beforeSubmit-, afterSubmit-callback and the request headers | 
+ 
+ 
+Parameters of config
+
+name | description
+| --- | --- |
+| onSuccess | Is called when the request was successfull. The request is passed as parameter. |
+| onError | Is called when the request had an error. The request is passed as parameter. |
+| beforeSubmit | Is called before the request is submitted. The url, data and config are passed as parameters. |
+| afterSubmit | Is called before the request is submitted. The url, data and config are passed as parameters. |
+| headers | The headers will be set when the request is initialized. |
+ 
+The contents of the config parameter are all optional. If you pass an empty config to the ajaxUtil a silent request will be processed.
+The data will be transformed in the fitting format accordion wether you use a POST- or a GET-request.
+
+To use the shorthands import the utilsBundle into your script. After that just call the method an pass the needed parameters.
+
+```
+import "@hundh/contao-utils-bundle";
+
+...
+
+utilsBundle.ajax.get(url, data, config);
+# or
+utilsBundle.ajax.post(url, data, config);
+```
+
+
 ## Twig Extensions
 
 ### Image Extension

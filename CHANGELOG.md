@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.98.2] - 2019-06-14
+
+### Added
+- description for usage of js ajaxUtil in readme
+
 ## [2.98.1] - 2019-06-14
 
 ### Changed
