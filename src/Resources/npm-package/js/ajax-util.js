@@ -38,6 +38,8 @@ class AjaxUtil {
       } else {
         GeneralUtil.call(config.onError, request);
       }
+
+      GeneralUtil.call(config.afterSubmit, submitData.action, submitData.data, config);
     };
 
     GeneralUtil.call(config.beforeSubmit, submitData.action, submitData.data, config);
@@ -47,8 +49,6 @@ class AjaxUtil {
     } else {
       request.send(submitData.body);
     }
-
-    GeneralUtil.call(config.afterSubmit, submitData.action, submitData.data, config);
   }
 
   static initializeRequest(method, url, config) {
