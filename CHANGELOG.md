@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.98.1] - 2019-06-14
+
+### Changed
+- moved afterSubmit callback in ajax util to correct position
+
 ## [2.98.0] - 2019-06-13
 
 ### Changed
