@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.98.3] - 2019-06-14
+
+### Added
+* `readableFilesize` as Twig attribute to `FileExtension.php` in TwigUtil
+
 ## [2.97.0] - 2019-05-29
 
 ### Changed
