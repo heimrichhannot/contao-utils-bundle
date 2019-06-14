@@ -502,7 +502,7 @@ class ModelUtil
         if ($useCache && $cache->has('huh.utils.model.modulepages')) {
             $modulePagesCache = $cache->get('huh.utils.model.modulepages');
 
-            if (\is_array($modulePagesCache) && array_key_exists($module->id, $modulePagesCache)) {
+            if (\is_array($modulePagesCache) && \array_key_exists($module->id, $modulePagesCache)) {
                 $pageIds = $modulePagesCache[$module->id];
                 $cacheHit = true;
             }
@@ -517,7 +517,7 @@ class ModelUtil
                 $pageIds = $result->fetchEach('id');
             }
 
-            if (array_key_exists('blocks', $this->container->getParameter('kernel.bundles'))) {
+            if (\array_key_exists('blocks', $this->container->getParameter('kernel.bundles'))) {
                 $result = $db->prepare(
                     "SELECT `tl_page`.`id` FROM `tl_page`
                 JOIN `tl_article` ON `tl_article`.`pid` = `tl_page`.`id`

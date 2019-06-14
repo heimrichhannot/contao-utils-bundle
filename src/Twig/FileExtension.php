@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Twig;
 
+use Contao\System;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Twig\Extension\AbstractExtension;
@@ -19,6 +20,7 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
 
     const FILE_OBJECT_PROPERTIES = [
         'size',
+        'readableFilesize',
         'filesize',
         'name',
         'basename',
@@ -93,9 +95,10 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
 
         foreach (static::FILE_OBJECT_PROPERTIES as $property) {
             $fileData[$property] = $fileObj->{$property};
+            $fileData['readableFilesize'] = System::getReadableSize($fileObj->filesize, 1);
         }
 
-        return $fileData;
+        return array_merge($fileData, $data);
     }
 
     /**
