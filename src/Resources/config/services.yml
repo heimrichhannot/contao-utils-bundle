@@ -6,13 +6,13 @@ services:
     Symfony\Component\DependencyInjection\ContainerAwareInterface:
       calls:
         - ["setContainer", ["@service_container"]]
-  # util services
 
+  # util services
   huh.utils.cache.database:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
     public: true
     arguments:
-      - "@contao.framework"
+      - "@service_container"
   huh.utils.cache.database_tree:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache
     public: true

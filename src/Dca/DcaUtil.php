@@ -724,7 +724,7 @@ class DcaUtil
 
         // add to palettes
         foreach ($palettes as $strPalette) {
-            $arrDca['palettes'][$strPalette] = str_replace($paletteField.',', $paletteField.',alias,', $arrDca['palettes'][$strPalette]);
+            $arrDca['palettes'][$strPalette] = preg_replace('/('.$paletteField.')(;|,)/', '$1,alias$2', $arrDca['palettes'][$strPalette]);
         }
 
         // add field
