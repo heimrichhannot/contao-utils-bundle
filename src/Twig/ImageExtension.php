@@ -30,6 +30,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
             new TwigFilter('image_caption', [$this, 'getImageCaption']),
             new TwigFilter('image_width', [$this, 'getImageWidth']),
             new TwigFilter('image_data', [$this, 'getImageData']),
+            new TwigFilter('image_gallery', [$this, 'getImageGallery']),
         ];
     }
 
@@ -118,5 +119,22 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
         }
 
         return $file->width;
+    }
+
+    public function getImageGallery($images, string $template = 'image_gallery.html.twig'): string
+    {
+        $galleryArray = \is_array($images) ? $images : StringUtil::deserialize($images, true);
+        $galleryObjects = [];
+
+        foreach ($galleryArray as $k => $v) {
+            $galleryObjects['imageGallery'][$k] = $this->getImageData($v);
+            $galleryObjects['imageGallery'][$k]['alt'] = $this->container->get('huh.utils.file')->getFileFromUuid($v)->name;
+        }
+
+        if (empty($galleryObjects)) {
+            return [];
+        }
+
+        return $this->container->get('huh.utils.template')->renderTwigTemplate($template, $galleryObjects);
     }
 }
