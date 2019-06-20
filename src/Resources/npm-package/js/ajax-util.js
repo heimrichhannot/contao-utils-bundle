@@ -9,7 +9,7 @@ class AjaxUtil {
         submitData = {
           config: config,
           action: url,
-          data: data,
+          data: data
         };
 
     AjaxUtil.doAjaxSubmit(request, submitData);
@@ -22,8 +22,7 @@ class AjaxUtil {
         submitData = {
           config: config,
           action: url,
-          data: data,
-          body: UrlUtil.buildQueryString(data),
+          data: data
         };
 
     AjaxUtil.doAjaxSubmit(request, submitData);
@@ -44,10 +43,10 @@ class AjaxUtil {
 
     GeneralUtil.call(config.beforeSubmit, submitData.action, submitData.data, config);
 
-    if ('undefined' === typeof submitData.body) {
+    if ('undefined' === typeof submitData.data) {
       request.send();
     } else {
-      request.send(submitData.body);
+      request.send(submitData.data);
     }
   }
 
