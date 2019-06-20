@@ -1,0 +1,18 @@
+{{ dump() }}
+{% if imageGallery %}
+    {% block slides %}
+        <ul class="list-images">
+            {% for image in imageGallery %}
+                <li class="image">
+                    <figure class="image_container" itemscope itemtype="http://schema.org/ImageObject" itemprop="associatedMedia">
+                        {{ include('@HeimrichHannotContaoUtils/picture.html.twig', image.picture) }}
+
+                        {% if image.caption|default() %}
+                            <figcaption class="caption" itemprop="caption">{{ image.caption }}</figcaption>
+                        {% endif %}
+                    </figure>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
+{% endif %}
