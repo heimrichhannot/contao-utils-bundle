@@ -31,6 +31,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
             new TwigFilter('image_width', [$this, 'getImageWidth']),
             new TwigFilter('image_data', [$this, 'getImageData']),
             new TwigFilter('image_gallery', [$this, 'getImageGallery']),
+            new TwigFilter('image_size', [$this, 'getImageSize']),
         ];
     }
 
@@ -136,5 +137,23 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
         }
 
         return $this->container->get('huh.utils.template')->renderTwigTemplate($template, $galleryObjects);
+    }
+
+    public function getImageSize($size)
+    {
+        $result = [];
+
+        $size = \is_array($size) ? $size : StringUtil::deserialize($size, true);
+
+        if (isset($size[2]) && $size[2] &&
+            null !== ($imageSize = $this->container->get('huh.utils.model')->findModelInstanceByPk('tl_image_size', $size[2]))) {
+            $result['width'] = $imageSize->width;
+            $result['height'] = $imageSize->height;
+        } else {
+            $result['width'] = $size[0];
+            $result['height'] = $size[1];
+        }
+
+        return $result;
     }
 }

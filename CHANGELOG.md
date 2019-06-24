@@ -1,20 +1,25 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.100.0] - 2019-06-24
+
+### Added
+- `ImageExtension::getImageGallery()`
+
 ## [2.99.1] - 2019-06-17
 
 ### Changed
-* submitted data in request
+- submitted data in request
 
 ## [2.99.0] - 2019-06-17
 
 ### Added
-* `image_gallery` as Twig extension to show gallery items as image objects as list
+- `image_gallery` as Twig extension to show gallery items as image objects as list
 
 ## [2.98.3] - 2019-06-14
 
 ### Added
-* `readableFilesize` as Twig attribute to `FileExtension.php` in TwigUtil
+- `readableFilesize` as Twig attribute to `FileExtension.php` in TwigUtil
 
 ## [2.98.2] - 2019-06-14
 
