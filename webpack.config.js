@@ -10,7 +10,6 @@ Encore
     // include to babel processing
     includeNodeModules: ['@hundh/contao-utils-bundle']
 })
-.enableSourceMaps(!Encore.isProduction())
-;
+.enableSourceMaps(!Encore.isProduction());
 
 module.exports = Encore.getWebpackConfig();

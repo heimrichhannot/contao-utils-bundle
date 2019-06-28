@@ -10,7 +10,7 @@
     "nodelist-foreach-polyfill": "^1.2.0"
   },
   "devDependencies": {
-    "@symfony/webpack-encore": "^0.24"
+    "@symfony/webpack-encore": "^0.27"
   },
   "scripts": {
     "build-dev": "yarn encore dev",

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.100.1] - 2019-06-28
+
+### Fixed
+- js ajaxUtil for supporting objects
+
 ## [2.100.0] - 2019-06-24
 
 ### Added
