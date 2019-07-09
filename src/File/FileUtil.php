@@ -193,10 +193,6 @@ class FileUtil
                 return $file->path;
             }
 
-            $a = $this->container->getParameter('kernel.project_dir');
-            $b = $file->path;
-            $path = $this->container->getParameter('kernel.project_dir').'/'.$file->path;
-
             if (file_exists($this->container->getParameter('kernel.project_dir').'/'.$file->path)) {
                 return $file->path;
             }
@@ -207,9 +203,8 @@ class FileUtil
 
     /**
      * @param      $uuid
-     * @param bool $doNotCreate
-     *
      * @return File|null Return the file object
+     * @throws \Exception
      */
     public function getFileFromUuid($uuid)
     {
@@ -227,6 +222,7 @@ class FileUtil
      * @param bool $doNotCreate
      *
      * @return bool|Folder Return the folder object
+     * @throws \Exception
      */
     public function getFolderFromUuid($uuid)
     {

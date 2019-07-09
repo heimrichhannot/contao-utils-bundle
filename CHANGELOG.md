@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.100.2] - 2019-07-09
+
+### Fixed
+- debug code in files util
+
 ## [2.100.1] - 2019-06-28
 
 ### Fixed
