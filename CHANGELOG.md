@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.101.0] - 2019-07-10
+
+### Added
+- node module ajax-util set responseType
+
 ## [2.100.2] - 2019-07-09
 
 ### Fixed

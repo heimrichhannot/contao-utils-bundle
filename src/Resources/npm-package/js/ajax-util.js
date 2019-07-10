@@ -73,24 +73,26 @@ class AjaxUtil {
         request.open(method, url, true);
         request = AjaxUtil.setRequestHeaders(request, config);
 
+        if (config.hasOwnProperty('responseType'))
+        {
+            request.responseType = config.responseType;
+        }
         return request;
     }
 
     static setRequestHeaders(request, config) {
-        if ('undefined' !== typeof config.headers) {
+        if (config.hasOwnProperty('headers')) {
             Object.keys(config.headers).forEach(key => {
                 request.setRequestHeader(key, config.headers[key]);
             });
         }
-
         return request;
     }
 
     static setDefaults(config) {
-        if ('undefined' === typeof config.headers) {
+        if (!config.hasOwnProperty('headers')) {
             config.headers = {'X-Requested-With': 'XMLHttpRequest'};
         }
-
         return config;
     }
 }

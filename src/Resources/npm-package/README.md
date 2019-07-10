@@ -2,15 +2,36 @@
 
 This package contains the frontend assets of the composer bundle [heimrichhannot/contao-utils-bundle](https://github.com/heimrichhannot/contao-utils-bundle).
 
-## Setup
-
-### Install
+## Install
 
 `yarn add @hundh/contao-utils-bundle`
 
-### Usage
+## Usage
 
-#### Webpack/Encore
+### Ajax Util
+
+```js
+import AjaxUtil from "@hundh/contao-utils-bundle/js/ajax-util";
+
+let config = {
+    headers: {'X-Requested-With': 'XMLHttpRequest'},
+    responseType: undefined, // set XMLHttpRequest.responseType
+    onSuccess: undefined, //on success callback
+    onError: undefined, // on error callback
+    beforeSubmit: undefined, //before submit callback
+    afterSubmit: undefined // after submit callback
+};
+
+/**
+* @var {string} url
+* @var {FormData|object} data
+* @var {Object} config
+*/
+AjaxUtil.get(url, data, config);
+AjaxUtil.post(url, data, config);
+```
+
+### Webpack/Encore
 
 Usage example:
 
@@ -37,7 +58,7 @@ Following imports possible:
 
 Example usage: `UtilsBundle.util.isTruthy(value)`
 
-#### Legacy libraries
+### Legacy libraries
 
 If you run the package code at least once, the `UtilsBundle` object will be written to `window.utilsBundle;`.
 
