@@ -53,7 +53,7 @@ class AjaxUtil {
     }
 
     static prepareDataForSend(data) {
-        if ('object' === typeof(data))
+        if (!(data instanceof FormData))
         {
             let formData = new FormData();
 

@@ -202,9 +202,11 @@ class FileUtil
     }
 
     /**
-     * @param      $uuid
-     * @return File|null Return the file object
+     * @param $uuid
+     *
      * @throws \Exception
+     *
+     * @return File|null Return the file object
      */
     public function getFileFromUuid($uuid)
     {
@@ -221,8 +223,9 @@ class FileUtil
      * @param      $uuid
      * @param bool $doNotCreate
      *
-     * @return bool|Folder Return the folder object
      * @throws \Exception
+     *
+     * @return bool|Folder Return the folder object
      */
     public function getFolderFromUuid($uuid)
     {
