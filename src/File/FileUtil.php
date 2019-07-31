@@ -201,6 +201,17 @@ class FileUtil
         return null;
     }
 
+    public function getFileContentFromUuid($uuid)
+    {
+        $file = $this->getFileFromUuid($uuid);
+
+        if (!$file || !$file->exists()) {
+            return null;
+        }
+
+        return file_get_contents(System::getContainer()->get('huh.utils.container')->getProjectDir().'/'.$file->path);
+    }
+
     /**
      * @param $uuid
      *

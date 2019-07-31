@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.102.0] - 2019-07-31
+
+### Added
+- FileUtil::getFileContentFromUuid()
+- LocationUtil::getCoordinatesFromGpx()
+- LocationUtil::getCoordinatesFromKml()
+- StringUtil::convertXmlToArray()
+
 ## [2.101.1] - 2019-07-29
 
 ### Fixed

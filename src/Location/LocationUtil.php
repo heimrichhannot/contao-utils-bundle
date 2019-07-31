@@ -131,4 +131,82 @@ class LocationUtil
 
         return $result['lat'].','.$result['lng'];
     }
+
+    /**
+     * @param $kmlData string The KML data
+     *
+     * @return array
+     */
+    public function getCoordinatesFromKml(string $kmlData, array $options = [])
+    {
+        $kmlData = System::getContainer()->get('huh.utils.string')->convertXmlToArray($kmlData);
+
+        if (!\is_array($kmlData) || !isset($kmlData['Document']['Placemark']['LineString']['coordinates'])) {
+            return null;
+        }
+
+        $coordinates = preg_replace('/\s+/', ' ', $kmlData['Document']['Placemark']['LineString']['coordinates']);
+        $coordinates = explode(' ', $coordinates);
+
+        foreach ($coordinates as $coordinate) {
+            if (!$coordinate) {
+                continue;
+            }
+
+            $exploded = explode(',', $coordinate);
+
+            if (\count($exploded) < 2) {
+                continue;
+            }
+
+            $location = [
+                'lat' => $exploded[1],
+                'lng' => $exploded[0],
+            ];
+
+            if ((!isset($options['skipAltitude']) || !$options['skipAltitude']) && \count($exploded) > 2) {
+                $location['alt'] = $exploded[2];
+            }
+
+            $locations[] = $location;
+        }
+
+        return $locations;
+    }
+
+    /**
+     * @param $gpxData string The KML data
+     *
+     * @return array
+     */
+    public function getCoordinatesFromGpx(string $gpxData, array $options = [])
+    {
+        $locations = [];
+        $gpxData = System::getContainer()->get('huh.utils.string')->convertXmlToArray($gpxData);
+
+        if (!\is_array($gpxData) || !isset($gpxData['trk'])) {
+            return null;
+        }
+
+        foreach ($gpxData['trk'] as $trk) {
+            if (!\is_array($trk['trkseg']['trkpt'])) {
+                continue;
+            }
+
+            foreach ($trk['trkseg']['trkpt'] as $trkPt) {
+                $location = [
+                    'lat' => $trkPt['@attributes']['lat'],
+                    'lng' => $trkPt['@attributes']['lon'],
+                ];
+
+                if (isset($trkPt['ele']) && $trkPt['ele']) {
+                    $location['alt'] = $trkPt['ele'];
+                }
+
+                $locations[] = $location;
+            }
+        }
+
+        return $locations;
+    }
 }
