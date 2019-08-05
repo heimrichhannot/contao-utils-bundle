@@ -1,6 +1,25 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.103.0] - 2019-08-05
+
+### Added
+- FileArchiveUtil (huh.utils.file_archive)
+- FolderUtil (huh.utils.folder)
+
+## [2.102.0] - 2019-07-31
+
+### Added
+- FileUtil::getFileContentFromUuid()
+- LocationUtil::getCoordinatesFromGpx()
+- LocationUtil::getCoordinatesFromKml()
+- StringUtil::convertXmlToArray()
+
+## [2.101.1] - 2019-07-29
+
+### Fixed
+- ajax FormData issue
+
 ## [2.101.0] - 2019-07-10
 
 ### Added

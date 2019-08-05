@@ -29,41 +29,47 @@ huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostsc
 This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all functions. 
 We recommend to call the utils as service. You can either inject them (the Symfony recommend way) or call them from the service container (all util services are public).
 
-Available [Service](src/Resources/config/services.yml) (as of version 2.60):
+Available [Service](src/Resources/config/services.yml) (as of version 2.103):
 
 ```php
-huh.utils.accordion
-huh.utils.array
-huh.utils.cache.database
-huh.utils.cache.remote_image_cache
-huh.utils.cache.file
-huh.utils.code
-huh.utils.encryption
-huh.utils.container
-huh.utils.database
-huh.utils.date
-huh.utils.dca
-huh.utils.file
-huh.utils.form
-huh.utils.image
-huh.utils.location
-huh.utils.model
-huh.utils.request.curl
-huh.utils.string
-huh.utils.url
-huh.utils.choice.field
-huh.utils.choice.data_container
-huh.utils.choice.message
-huh.utils.choice.model_instance
-huh.utils.choice.twig_template
-huh.utils.routing
-huh.utils.salutation
-huh.utils.class
-huh.utils.member
-huh.utils.template
-huh.utils.user
-huh.utils.pdf.preview
-huh.utils.pdf.writer
+huh.utils.accordion                                      
+huh.utils.array                                          
+huh.utils.cache.database                                 
+huh.utils.cache.database_tree                            
+huh.utils.cache.file                                     
+huh.utils.cache.remote_image_cache                       
+huh.utils.choice.data_container                          
+huh.utils.choice.field                                   
+huh.utils.choice.message                                 
+huh.utils.choice.model_instance                          
+huh.utils.choice.twig_template                           
+huh.utils.class                                          
+huh.utils.code                                           
+huh.utils.container                                      
+huh.utils.database                                       
+huh.utils.date                                           
+huh.utils.dca                                            
+huh.utils.encryption                                     
+huh.utils.file                                           
+huh.utils.file_archive                                   
+huh.utils.folder                                         
+huh.utils.form                                           
+huh.utils.image                                          
+huh.utils.listener.frontend_page                         
+huh.utils.listener.insert_tags                           
+huh.utils.location                                       
+huh.utils.member                                         
+huh.utils.model                                          
+huh.utils.module                                         
+huh.utils.pdf.preview                                    
+huh.utils.pdf.writer                                     
+huh.utils.request.curl                                   
+huh.utils.routing                                        
+huh.utils.salutation                                     
+huh.utils.string                                         
+huh.utils.template                                       
+huh.utils.url                                            
+huh.utils.user                                           
 ```
 
 ## Documentation
@@ -124,6 +130,14 @@ utilsBundle.ajax.get(url, data, config);
 utilsBundle.ajax.post(url, data, config);
 ```
 
+### Configuration
+
+Following configuration parameter can be overridden:
+
+```yaml
+huh_utils:
+    tmpFolder: 'files/tmp/huh_utils_bundle'
+```
 
 ## Twig Extensions
 

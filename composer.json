@@ -4,6 +4,7 @@
   "description": "This bundle offers various utility functionality for the Contao CMS.",
   "license": "LGPL-3.0-or-later",
   "require": {
+    "ext-simplexml": "*",
     "php": "^7.1",
     "contao/core-bundle": "^4.4",
     "hackzilla/password-generator": "^1.4",
@@ -12,6 +13,7 @@
     "soundasleep/html2text": "^1.1"
   },
   "require-dev": {
+    "contao/core-bundle": "4.4.*",
     "contao/test-case": "1.1.*",
     "contao/manager-plugin": "^2.0",
     "friendsofphp/php-cs-fixer": "^2.2",

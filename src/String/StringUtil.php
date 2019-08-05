@@ -374,4 +374,16 @@ class StringUtil
 
         return $buffer;
     }
+
+    public function convertXmlToArray(string $xmlData)
+    {
+        // CDATA fix (see https://stackoverflow.com/a/6534234/1463757)
+        $xmlData = preg_replace_callback('/<!\[CDATA\[(.*)\]\]>/', function ($matches) {
+            return trim(htmlspecialchars($matches[1]));
+        }, $xmlData);
+
+        $kmlData = simplexml_load_string($xmlData);
+
+        return json_decode(json_encode($kmlData), true);
+    }
 }

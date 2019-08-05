@@ -201,10 +201,23 @@ class FileUtil
         return null;
     }
 
+    public function getFileContentFromUuid($uuid)
+    {
+        $file = $this->getFileFromUuid($uuid);
+
+        if (!$file || !$file->exists()) {
+            return null;
+        }
+
+        return file_get_contents(System::getContainer()->get('huh.utils.container')->getProjectDir().'/'.$file->path);
+    }
+
     /**
-     * @param      $uuid
-     * @return File|null Return the file object
+     * @param $uuid
+     *
      * @throws \Exception
+     *
+     * @return File|null Return the file object
      */
     public function getFileFromUuid($uuid)
     {
@@ -221,8 +234,9 @@ class FileUtil
      * @param      $uuid
      * @param bool $doNotCreate
      *
-     * @return bool|Folder Return the folder object
      * @throws \Exception
+     *
+     * @return bool|Folder Return the folder object
      */
     public function getFolderFromUuid($uuid)
     {
@@ -415,4 +429,6 @@ class FileUtil
 
         return $previewFile;
     }
+
+
 }

@@ -8,8 +8,14 @@
 
 namespace HeimrichHannot\UtilsBundle;
 
+use HeimrichHannot\UtilsBundle\DependencyInjection\UtilsBundleExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class HeimrichHannotContaoUtilsBundle extends Bundle
 {
+    public function getContainerExtension()
+    {
+        return new UtilsBundleExtension();
+    }
+
 }

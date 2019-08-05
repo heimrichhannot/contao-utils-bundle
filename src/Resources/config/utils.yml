@@ -2,6 +2,10 @@ services:
   _defaults:
     public: true
     autowire: true
+    bind:
+      $projectDir: '%kernel.project_dir%'
+      $webDir: '%contao.web_dir%'
+      $utilsConfig: '%huh_utils%'
 
   huh.utils.accordion:
     class: HeimrichHannot\UtilsBundle\Accordion\AccordionUtil
@@ -38,6 +42,12 @@ services:
   huh.utils.file:
     class: HeimrichHannot\UtilsBundle\File\FileUtil
   HeimrichHannot\UtilsBundle\File\FileUtil: "@huh.utils.file"
+
+  HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~
+  huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
+
+  HeimrichHannot\UtilsBundle\File\FolderUtil: ~
+  huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
 
   huh.utils.image:
     class: HeimrichHannot\UtilsBundle\Image\ImageUtil
