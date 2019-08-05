@@ -24,6 +24,7 @@ matrix:
     - env: COVERAGE=1 UPDATEDOC=1 DEFAULT=0
   fast_finish: true
 before_install:
+- echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || true; fi
 install:
   - composer require contao/core-bundle:${CONTAO_VERSION}
