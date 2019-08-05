@@ -55,7 +55,7 @@ class FileArchiveUtil
     public function createFileArchive(array $items, string $archiveName)
     {
         $filesystem = new Filesystem();
-        $tmpFolder = $this->utilsConfig['tmpFolder'].DIRECTORY_SEPARATOR.'file_archive_util';
+        $tmpFolder = $this->utilsConfig['tmp_folder'].DIRECTORY_SEPARATOR.'file_archive_util';
         $absoluteTmpFolder = $this->projectDir.DIRECTORY_SEPARATOR.$tmpFolder;
         if (!$filesystem->exists($absoluteTmpFolder)) {
             $filesystem->mkdir($absoluteTmpFolder);

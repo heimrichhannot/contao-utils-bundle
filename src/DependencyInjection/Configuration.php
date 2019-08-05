@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('huh_utils');
 
         $rootNode->children()
-            ->scalarNode('tmpFolder')->defaultValue('files/tmp/huh_utils_bundle')->end()
+            ->scalarNode('tmp_folder')->defaultValue('files/tmp/huh_utils_bundle')->end()
         ->end();
 
         return $treeBuilder;

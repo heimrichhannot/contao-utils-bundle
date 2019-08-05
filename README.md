@@ -136,7 +136,7 @@ Following configuration parameter can be overridden:
 
 ```yaml
 huh_utils:
-    tmpFolder: 'files/tmp/huh_utils_bundle'
+    tmp_folder: 'files/tmp/huh_utils_bundle'
 ```
 
 ## Twig Extensions

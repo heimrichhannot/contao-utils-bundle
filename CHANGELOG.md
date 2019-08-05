@@ -1,11 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.103.1] - 2019-08-05
+
+### Fixed
+- parameter name (tmp_folder instead of tmpFoldergit st)
+
 ## [2.103.0] - 2019-08-05
 
 ### Added
 - FileArchiveUtil (huh.utils.file_archive)
 - FolderUtil (huh.utils.folder)
+- Configuration
 
 ## [2.102.0] - 2019-07-31
 
