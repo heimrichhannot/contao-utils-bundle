@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Tests\File;
-
 
 use Contao\CoreBundle\Command\SymlinksCommand;
 use Contao\CoreBundle\Config\ResourceFinderInterface;
@@ -25,11 +21,11 @@ class FolderUtilTest extends ContaoTestCase
     protected function setUp()
     {
         parent::setUp();
+
         if (!\defined('TL_ROOT')) {
             \define('TL_ROOT', $this->getTempDir());
         }
     }
-
 
     public function testCreatePublicFolder()
     {
@@ -58,7 +54,7 @@ class FolderUtilTest extends ContaoTestCase
         $symlinkCommand = $this->getMockBuilder(SymlinksCommand::class)->setConstructorArgs([$tmpFolder, $tmpFolder, $tmpFolder, $resourceFinder])->setMethods(['execute'])->getMock();
         $symlinkCommand->method('execute')->willReturn(1);
         $folderUtil = new FolderUtil($tmpFolder.'/web', $kernel, $symlinkCommand);
-        $this->expectExceptionMessage("The symlink command exited with errors.");
+        $this->expectExceptionMessage('The symlink command exited with errors.');
         $folderUtil->createPublicFolder($folder);
     }
 }

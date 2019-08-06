@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.104.0] - 2019-08-06
+
+### Added
+- FPDIWriter
+
+### Changed
+- refactored PdfWriter
+
 ## [2.103.1] - 2019-08-05
 
 ### Fixed

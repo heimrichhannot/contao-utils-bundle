@@ -8,43 +8,18 @@
 
 namespace HeimrichHannot\UtilsBundle\Pdf;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Mpdf;
 
-class PdfWriter
+class PdfWriter extends AbstractPdfWriter
 {
-    /** @var ContaoFrameworkInterface */
-    protected $framework;
-
     /**
      * Current mpdf instance.
      *
      * @var Mpdf
      */
     protected $pdf;
-
-    /**
-     * Pdf html content including styles.
-     *
-     * @var string
-     */
-    protected $html;
-
-    /**
-     * Pdf file name.
-     *
-     * @var string
-     */
-    protected $fileName;
-
-    /**
-     * Pdf configuration.
-     *
-     * @var array
-     */
-    protected $config = [];
 
     /**
      * Master pdf template.
@@ -54,23 +29,19 @@ class PdfWriter
     protected $template;
 
     /**
-     * @var bool
+     * constructor.
      */
-    protected $isPrepared = false;
-
-    /**
-     * PdfWriter constructor.
-     *
-     * @param ContaoFrameworkInterface $framework
-     */
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct()
     {
-        $this->framework = $framework;
-
         if (!class_exists('Mpdf\Mpdf')) {
             throw new \Exception('The mPDF library could not be found and is required by this service. Please install it via "composer require mpdf/mpdf ^7.0".');
         }
 
+        parent::__construct();
+    }
+
+    public function setDefaultConfig()
+    {
         $this->config = [
             'mode' => \Config::get('characterSet'),
             'format' => 'A4',
@@ -106,8 +77,6 @@ class PdfWriter
 
     /**
      * Prepare the current mpdf object.
-     *
-     * @return Mpdf
      */
     public function prepare(): Mpdf
     {
@@ -131,17 +100,38 @@ class PdfWriter
     }
 
     /**
-     * Generate the pdf.
-     *
-     * @param bool $download Set false if the pdf should not be downloaded
+     * @param string $mode
      */
-    public function generate(bool $download = true): void
+    public function generate($mode = self::OUTPUT_MODE_DOWNLOAD): void
     {
         if (null === $this->pdf || !$this->isPrepared()) {
             $this->prepare();
         }
 
-        $this->pdf->output($this->getFileName(), true === $download ? 'D' : '');
+        $outputMode = '';
+
+        switch ($mode) {
+            case static::OUTPUT_MODE_DOWNLOAD:
+                $outputMode = 'D';
+
+                break;
+
+            case static::OUTPUT_MODE_FILE:
+                if ($folder = $this->getFolder()) {
+                    $this->setFileName(rtrim($folder, '/').'/'.$this->getFileName());
+                }
+
+                $outputMode = 'F';
+
+                break;
+
+            case static::OUTPUT_MODE_INLINE:
+                $outputMode = 'I';
+
+                break;
+        }
+
+        $this->pdf->output($this->getFileName(), $outputMode);
     }
 
     /**
@@ -185,30 +175,6 @@ class PdfWriter
     }
 
     /**
-     * Get html including styles.
-     *
-     * @return string
-     */
-    public function getHtml(): ?string
-    {
-        return $this->html;
-    }
-
-    /**
-     * Set html including styles.
-     *
-     * @param string $html
-     *
-     * @return PdfWriter
-     */
-    public function setHtml(string $html): self
-    {
-        $this->html = $html;
-
-        return $this;
-    }
-
-    /**
      * Get current pdf object.
      *
      * @param bool $init Set true if you want to create a new pdf regardless there is always an existing pdf
@@ -220,89 +186,5 @@ class PdfWriter
         $this->pdf = (null === $this->pdf || true === $init) ? new Mpdf($this->config) : $this->pdf;
 
         return $this->pdf;
-    }
-
-    /**
-     * Get the pdf file name.
-     *
-     * @return string
-     */
-    public function getFileName(): ?string
-    {
-        return $this->fileName;
-    }
-
-    /**
-     * Set the pdf filename.
-     *
-     * @param string $fileName
-     *
-     * @return PdfWriter Current pdf writer instance
-     */
-    public function setFileName(string $fileName): self
-    {
-        if (!preg_match('#.pdf$#i', $fileName)) {
-            $fileName .= '.pdf';
-        }
-
-        $this->fileName = System::getContainer()->get('huh.utils.file')->sanitizeFileName($fileName);
-
-        return $this;
-    }
-
-    /**
-     * Get the pdf config.
-     *
-     * @return array
-     */
-    public function getConfig(): array
-    {
-        return $this->config;
-    }
-
-    /**
-     * Set pdf config, replace default with custom config.
-     *
-     * @param array $config
-     *
-     * @return PdfWriter Current pdf writer instance
-     */
-    public function setConfig(array $config): self
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    /**
-     * Merge current pdf config with given.
-     *
-     * @param array $config
-     *
-     * @return PdfWriter Current pdf writer instance
-     */
-    public function mergeConfig(array $config): self
-    {
-        $this->config = array_merge($this->config, $config);
-
-        return $this;
-    }
-
-    /**
-     * Check if prepare was already triggered.
-     *
-     * @return bool
-     */
-    public function isPrepared(): bool
-    {
-        return $this->isPrepared;
-    }
-
-    /**
-     * @return ContaoFrameworkInterface
-     */
-    public function getFramework(): ContaoFrameworkInterface
-    {
-        return $this->framework;
     }
 }

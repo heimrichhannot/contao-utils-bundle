@@ -24,87 +24,87 @@ services:
     class: HeimrichHannot\UtilsBundle\Security\CodeUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.encryption:
     class: HeimrichHannot\UtilsBundle\Security\EncryptionUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.database:
     class: HeimrichHannot\UtilsBundle\Database\DatabaseUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.form:
     class: HeimrichHannot\UtilsBundle\Form\FormUtil
     public: true
     arguments:
-    - "@service_container"
-    - '@contao.framework'
+      - "@service_container"
+      - '@contao.framework'
   huh.utils.location:
     class: HeimrichHannot\UtilsBundle\Location\LocationUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.request.curl:
     class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
     public: true
     arguments:
-    - "@contao.framework"
-    - "@service_container"
+      - "@contao.framework"
+      - "@service_container"
   huh.utils.string:
     class: HeimrichHannot\UtilsBundle\String\StringUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.url:
     class: HeimrichHannot\UtilsBundle\Url\UrlUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   # choice
   huh.utils.choice.field:
     class: HeimrichHannot\UtilsBundle\Choice\FieldChoice
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.choice.data_container:
     class: HeimrichHannot\UtilsBundle\Choice\DataContainerChoice
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.choice.message:
     class: HeimrichHannot\UtilsBundle\Choice\MessageChoice
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.choice.model_instance:
     class: HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.choice.twig_template:
     class: HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.routing:
     class: HeimrichHannot\UtilsBundle\Routing\RoutingUtil
     public: true
     arguments:
-    - "@router"
-    - "@request_stack"
-    - "%contao.csrf_token_name%"
+      - "@router"
+      - "@request_stack"
+      - "%contao.csrf_token_name%"
   huh.utils.salutation:
     class: HeimrichHannot\UtilsBundle\Salutation\SalutationUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.member:
     class: HeimrichHannot\UtilsBundle\Member\MemberUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.module:
     class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
     public: true
@@ -112,7 +112,7 @@ services:
     class: HeimrichHannot\UtilsBundle\User\UserUtil
     public: true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
   huh.utils.pdf.preview:
     class: HeimrichHannot\UtilsBundle\Pdf\PdfPreview
     public: true
@@ -123,7 +123,11 @@ services:
     public: true
     lazy:  true
     arguments:
-    - "@contao.framework"
+      - "@contao.framework"
+  huh.utils.pdf.fpdi_writer:
+    class: HeimrichHannot\UtilsBundle\Pdf\FPDIWriter
+    public: true
+    lazy:  true
   huh.twig.extension.date:
     class: HeimrichHannot\UtilsBundle\Twig\DateExtension
     tags: [twig.extension]
