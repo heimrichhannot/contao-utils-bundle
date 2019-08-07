@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\File;
-
 
 use Contao\FilesModel;
 use Contao\ZipWriter;
@@ -33,8 +29,9 @@ class FileArchiveUtil
 
     /**
      * FileArchiveUtil constructor.
-     * @param string $projectDir
-     * @param array $utilsConfig
+     *
+     * @param string     $projectDir
+     * @param array      $utilsConfig
      * @param FolderUtil $folderUtil
      */
     public function __construct(string $projectDir, array $utilsConfig, FolderUtil $folderUtil)
@@ -45,28 +42,32 @@ class FileArchiveUtil
     }
 
     /**
-     * Create a temporary zip file and return the file path
+     * Create a temporary zip file and return the file path.
      *
      * @param FilesModel[]|array $items
-     * @param string $archiveName
-     * @return string The path to the temporary zip file.
+     * @param string             $archiveName
+     *
      * @throws \Exception
+     *
+     * @return string the path to the temporary zip file
      */
     public function createFileArchive(array $items, string $archiveName)
     {
         $filesystem = new Filesystem();
-        $tmpFolder = $this->utilsConfig['tmp_folder'].DIRECTORY_SEPARATOR.'file_archive_util';
-        $absoluteTmpFolder = $this->projectDir.DIRECTORY_SEPARATOR.$tmpFolder;
+        $tmpFolder = $this->utilsConfig['tmp_folder'].\DIRECTORY_SEPARATOR.'file_archive_util';
+        $absoluteTmpFolder = $this->projectDir.\DIRECTORY_SEPARATOR.$tmpFolder;
+
         if (!$filesystem->exists($absoluteTmpFolder)) {
             $filesystem->mkdir($absoluteTmpFolder);
         }
 
         $unique = false;
-        while(!$unique) {
+
+        while (!$unique) {
             $fileName = uniqid($archiveName.'_'.date('Ymd').'_').'.zip';
             $unique = !$filesystem->exists($absoluteTmpFolder.'/'.$fileName);
         }
-        $filePath = $tmpFolder.DIRECTORY_SEPARATOR.$fileName;
+        $filePath = $tmpFolder.\DIRECTORY_SEPARATOR.$fileName;
 
         $this->folderUtil->createPublicFolder($tmpFolder);
 
@@ -77,6 +78,7 @@ class FileArchiveUtil
         }
 
         $zipWriter->close();
+
         return $filePath;
     }
 }

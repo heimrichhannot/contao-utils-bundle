@@ -17,5 +17,4 @@ class HeimrichHannotContaoUtilsBundle extends Bundle
     {
         return new UtilsBundleExtension();
     }
-
 }

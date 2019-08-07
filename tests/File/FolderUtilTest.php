@@ -31,6 +31,12 @@ class FolderUtilTest extends ContaoTestCase
         if (!\defined('TL_ROOT')) {
             \define('TL_ROOT', $this->getTempDir());
         }
+    }
+
+
+    public function testCreatePublicFolder()
+    {
+        $tmpFolder = $this->getTempDir();
         $filesystem = new Filesystem();
         $container = $this->mockContainer();
         $container->setParameter('kernel.project_dir', $tmpFolder);

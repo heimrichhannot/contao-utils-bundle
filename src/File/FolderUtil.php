@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\File;
-
 
 use Contao\CoreBundle\Command\SymlinksCommand;
 use Contao\Folder;
@@ -34,10 +30,10 @@ class FolderUtil
      */
     private $symlinksCommand;
 
-
     /**
      * FolderUtil constructor.
-     * @param string $webDir
+     *
+     * @param string          $webDir
      * @param KernelInterface $kernel
      */
     public function __construct(string $webDir, KernelInterface $kernel, SymlinksCommand $symlinksCommand)
@@ -46,8 +42,6 @@ class FolderUtil
         $this->kernel = $kernel;
         $this->symlinksCommand = $symlinksCommand;
     }
-
-
 
     /**
      * Creates an symlink to the given folder in the web director, if not already exist.
@@ -58,8 +52,7 @@ class FolderUtil
      */
     public function createPublicFolder(string $folderPath): void
     {
-        if (!is_dir($this->webDir.DIRECTORY_SEPARATOR.$folderPath))
-        {
+        if (!is_dir($this->webDir.\DIRECTORY_SEPARATOR.$folderPath)) {
             $folder = new Folder($folderPath);
             $folder->unprotect();
 
@@ -71,8 +64,9 @@ class FolderUtil
             ]);
             $output = new NullOutput();
             $result = $application->run($input, $output);
+
             if ($result > 0) {
-                throw new \Exception("The symlink command exited with errors.");
+                throw new \Exception('The symlink command exited with errors.');
             }
         }
     }

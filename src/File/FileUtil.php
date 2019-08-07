@@ -429,6 +429,4 @@ class FileUtil
 
         return $previewFile;
     }
-
-
 }
