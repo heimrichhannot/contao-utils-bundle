@@ -20,23 +20,32 @@ use Contao\ZipWriter;
 use HeimrichHannot\UtilsBundle\File\FileArchiveUtil;
 use HeimrichHannot\UtilsBundle\File\FolderUtil;
 use HeimrichHannot\UtilsBundle\Tests\ModelMockTrait;
+use HeimrichHannot\UtilsBundle\Tests\ResetContaoSingletonTrait;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileArchiveUtilTest extends ContaoTestCase
 {
     use ModelMockTrait;
+    use ResetContaoSingletonTrait;
+
+
 
     public function testCreateFileArchive()
     {
         $tmpFolder = $this->getTempDir();
+
+        if (!\defined('TL_ROOT')) {
+            \define('TL_ROOT', $this->getTempDir());
+        }
+
         $container = $this->mockContainer();
         $container->setParameter('kernel.project_dir', $tmpFolder);
-        System::setContainer($container);
+        $this->resetFilesInstance($container);
 
         $folderUtilMock = $this->createMock(FolderUtil::class);
         $folderUtilMock->method('createPublicFolder');
 
-        $fileArchivUtil = new FileArchiveUtil($tmpFolder, ['tmpFolder' => 'utils-bundle'], $folderUtilMock);
+        $fileArchivUtil = new FileArchiveUtil($tmpFolder, ['tmp_folder' => 'utils-bundle'], $folderUtilMock);
 
         $filesystem = new Filesystem();
         $filesystem->dumpFile($tmpFolder.'/hello.txt', 'hello world');

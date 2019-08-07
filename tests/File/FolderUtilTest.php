@@ -17,28 +17,25 @@ use Contao\CoreBundle\Config\ResourceFinderInterface;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\File\FolderUtil;
+use HeimrichHannot\UtilsBundle\Tests\ResetContaoSingletonTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class FolderUtilTest extends ContaoTestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', $this->getTempDir());
-        }
-    }
-
+    use ResetContaoSingletonTrait;
 
     public function testCreatePublicFolder()
     {
         $tmpFolder = $this->getTempDir();
+        if (!\defined('TL_ROOT')) {
+            \define('TL_ROOT', $this->getTempDir());
+        }
         $filesystem = new Filesystem();
         $container = $this->mockContainer();
         $container->setParameter('kernel.project_dir', $tmpFolder);
         $container->set('filesystem', $filesystem);
-        System::setContainer($container);
+        $this->resetFilesInstance($container);
         $resourceFinder = $this->createMock(ResourceFinderInterface::class);
 
         $kernel = $this->createMock(KernelInterface::class);
