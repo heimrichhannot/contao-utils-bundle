@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.105.0] - 2019-08-07
+
+### Added
+- ContaoFrameworkMockTrait
+
+### Changed
+- updated tests
+
 ## [2.104.0] - 2019-08-06
 
 ### Added
