@@ -46,6 +46,8 @@ class FPDIWriter extends AbstractPdfWriter
             'format' => 'A4',
             'orientation' => 'P',
             'unit' => 'mm',
+            'diskcache' => false,
+            'pdfa' => false
         ];
     }
 
@@ -151,6 +153,8 @@ class FPDIWriter extends AbstractPdfWriter
                 $this->config['format'],
                 true,
                 $this->config['encoding'],
+                $this->config['diskcache'],
+                $this->config['pdfa']
             );
 
             // avoid having black borders in header and footer (see https://stackoverflow.com/a/17172044/1463757)
