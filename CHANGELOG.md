@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.104.2] - 2019-08-07
+
+### Fixed
+- autowiring issue with FolderUtil and Symfony 4 (#9)
+
 ## [2.104.1] - 2019-08-07
 
 ### Changed
