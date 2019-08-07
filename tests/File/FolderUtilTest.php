@@ -25,20 +25,20 @@ class FolderUtilTest extends ContaoTestCase
 {
     use ResetContaoSingletonTrait;
 
+    /**
+     * @throws \ReflectionException
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testCreatePublicFolder()
     {
         $tmpFolder = $this->getTempDir();
         if (!\defined('TL_ROOT')) {
-            \define('TL_ROOT', $this->getTempDir());
+            \define('TL_ROOT', $tmpFolder);
         }
-    }
-
-
-    public function testCreatePublicFolder()
-    {
-        $tmpFolder = $this->getTempDir();
         $filesystem = new Filesystem();
-        $container = $this->mockContainer();
+        $container = $this->mockContainer($tmpFolder);
         $container->setParameter('kernel.project_dir', $tmpFolder);
         $container->set('filesystem', $filesystem);
         $this->resetFilesInstance($container);
