@@ -150,7 +150,7 @@ class FPDIWriter extends AbstractPdfWriter
                 $this->config['unit'],
                 $this->config['format'],
                 true,
-                $this->config['encoding'],
+                $this->config['encoding']
             );
 
             // avoid having black borders in header and footer (see https://stackoverflow.com/a/17172044/1463757)
