@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [2.104.3] - 2019-08-08
 
 ### Fixed
-- removed trailing comma in FPDIWriter
+- removed trailing comma in FPDIWriter (#11)
 
 ## [2.104.2] - 2019-08-07
 
