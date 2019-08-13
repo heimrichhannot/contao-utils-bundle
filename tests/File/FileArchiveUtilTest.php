@@ -9,7 +9,6 @@
 namespace HeimrichHannot\UtilsBundle\Tests\File;
 
 use Contao\FilesModel;
-use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use Contao\ZipReader;
 use Contao\ZipWriter;
@@ -23,8 +22,6 @@ class FileArchiveUtilTest extends ContaoTestCase
 {
     use ModelMockTrait;
     use ResetContaoSingletonTrait;
-
-
 
     public function testCreateFileArchive()
     {

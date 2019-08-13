@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.104.4] - 2019-08-13
+
+### Changed
+- DcaUtil::addAuthorFieldAndCallback() has an additional parameter for prefixing the fields now
+
 ## [2.104.3] - 2019-08-08
 
 ### Fixed

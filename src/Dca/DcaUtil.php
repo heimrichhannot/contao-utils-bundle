@@ -546,7 +546,7 @@ class DcaUtil
         return $alias;
     }
 
-    public function addAuthorFieldAndCallback(string $table)
+    public function addAuthorFieldAndCallback(string $table, string $fieldPrefix = '')
     {
         Controller::loadDataContainer($table);
 
@@ -555,7 +555,7 @@ class DcaUtil
         $GLOBALS['TL_DCA'][$table]['config']['onload_callback']['modifyAuthorPaletteOnLoad'] = ['huh.utils.dca', 'modifyAuthorPaletteOnLoad', true];
 
         // fields
-        $GLOBALS['TL_DCA'][$table]['fields'][static::PROPERTY_AUTHOR_TYPE] = [
+        $GLOBALS['TL_DCA'][$table]['fields'][$fieldPrefix ? $fieldPrefix.ucfirst(static::PROPERTY_AUTHOR_TYPE) : static::PROPERTY_AUTHOR_TYPE] = [
             'label' => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['authorType'],
             'exclude' => true,
             'filter' => true,
@@ -571,7 +571,7 @@ class DcaUtil
             'sql' => "varchar(255) NOT NULL default 'none'",
         ];
 
-        $GLOBALS['TL_DCA'][$table]['fields'][static::PROPERTY_AUTHOR] = [
+        $GLOBALS['TL_DCA'][$table]['fields'][$fieldPrefix ? $fieldPrefix.ucfirst(static::PROPERTY_AUTHOR) : static::PROPERTY_AUTHOR] = [
             'label' => &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['author'],
             'exclude' => true,
             'search' => true,
