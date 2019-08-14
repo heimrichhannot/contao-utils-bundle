@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.106.0] - 2019-08-14
+
+### Added
+- DcaUtil::getPopupWizardLink()
+
 ## [2.105.0] - 2019-08-14
 
 ### Added

@@ -14,6 +14,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Database\Result;
 use Contao\DataContainer;
+use Contao\Environment;
 use Contao\FrontendUser;
 use Contao\Image;
 use Contao\Input;
@@ -88,6 +89,8 @@ class DcaUtil
      * @param int         $width  The modal window width
      *
      * @return string The modal edit link
+     *
+     * @deprecated Use DcaUtil::getPopupWizardLink() instead
      */
     public function getModalEditLink(string $module, int $id, string $label = null, string $table = '', int $width = 1024): string
     {
@@ -125,6 +128,8 @@ class DcaUtil
      * @param int         $width  The modal window width
      *
      * @return string The modal archive edit link
+     *
+     * @deprecated Use DcaUtil::getPopupWizardLink() instead
      */
     public function getArchiveModalEditLink(string $module, int $id, string $table, string $label = null, int $width = 1024): string
     {
@@ -149,6 +154,60 @@ class DcaUtil
             $width,
             $label,
             Image::getHtml('alias.svg', $label, 'style="vertical-align:top"')
+        );
+    }
+
+    /**
+     * Get a contao backend popup link.
+     *
+     * @param string $href    (e.g. do=news&id=1000&table=tl_news)
+     * @param array  $options
+     *
+     * @return string
+     */
+    public function getPopupWizardLink(string $href, array $options = [])
+    {
+        $requestToken = $this->container->get('security.csrf.token_manager')->getToken(
+            $this->container->getParameter('contao.csrf_token_name')
+        )->getValue();
+
+        $href = Environment::get('url').parse_url(Environment::get('uri'), PHP_URL_PATH).'?'.ltrim($href, '?');
+        $href = $this->container->get('huh.utils.url')->addQueryString('popup=1&nb=1&rt='.$requestToken, $href);
+
+        // title
+        if (!isset($options['title']) || !$options['title']) {
+            $title = $GLOBALS['TL_LANG']['tl_content']['edit'][0];
+        } else {
+            $title = StringUtil::specialchars($options['title']);
+        }
+
+        // style
+        $style = !isset($options['style']) ? 'padding-left: 5px; padding-top: 2px; display: inline-block;' : $options['style'];
+
+        // onclick
+        if (!isset($options['onclick']) || !$options['onclick']) {
+            $popupWidth = !isset($options['popupWidth']) || !$options['popupWidth'] ? 991 : $options['popupWidth'];
+            $popupTitle = !isset($options['popupTitle']) || !$options['popupTitle'] ? $title : $options['popupTitle'];
+
+            $onclick = sprintf(
+                'onclick="Backend.openModalIframe({\'width\':%s,\'title\':\'%s'.'\',\'url\':this.href});return false"',
+                $popupWidth,
+                $popupTitle
+            );
+        } else {
+            $onclick = $options['onclick'];
+        }
+
+        // icon
+        $icon = !isset($options['icon']) || !$options['icon'] ? 'alias.svg' : $options['icon'];
+
+        return sprintf(
+            '<a href="%s" title="%s" style="%s" %s>%s</a>',
+            $href,
+            $title,
+            $style,
+            $onclick,
+            Image::getHtml($icon, $title, 'style="vertical-align:top"')
         );
     }
 
