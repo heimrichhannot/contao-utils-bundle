@@ -81,6 +81,15 @@ class ContainerUtil
         return false;
     }
 
+    public function isInstall()
+    {
+        if ($request = $this->getCurrentRequest()) {
+            return 'contao_install' === $request->get('_route');
+        }
+
+        return false;
+    }
+
     public function getCurrentRequest()
     {
         return $this->container->get('request_stack')->getCurrentRequest();

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.105.0] - 2019-08-14
+
+### Added
+- ContainerUtil::isInstall()
+
 ## [2.104.4] - 2019-08-13
 
 ### Changed
