@@ -187,7 +187,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getModalEditLink">getModalEditLink</a>(string $module, int $id, string $label = null, string $table = &#039;&#039;, int $width = 1024)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Get a contao backend modal edit link.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -197,8 +197,18 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getArchiveModalEditLink">getArchiveModalEditLink</a>(string $module, int $id, string $table, string $label = null, int $width = 1024)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Get a contao backend modal archive edit link.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getPopupWizardLink">getPopupWizardLink</a>(string $href, array $options = [])
+        
+                                            <p>Get a contao backend popup link.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -451,7 +461,7 @@ palette where every field can be overridden.</p>                </div>
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 44</div>
+        <div class="location">at         line 45</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
@@ -480,7 +490,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getEditLink">
-        <div class="location">at         line 59</div>
+        <div class="location">at         line 60</div>
         <code>                    string
     <strong>getEditLink</strong>(string $module, int $id, string $label = null)
         </code>
@@ -530,13 +540,20 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getModalEditLink">
-        <div class="location">at         line 92</div>
+        <div class="location">at         line 95</div>
         <code>                    string
     <strong>getModalEditLink</strong>(string $module, int $id, string $label = null, string $table = &#039;&#039;, int $width = 1024)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Use</td>
+                    <td>DcaUtil::getPopupWizardLink() instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -590,13 +607,20 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getArchiveModalEditLink">
-        <div class="location">at         line 129</div>
+        <div class="location">at         line 134</div>
         <code>                    string
     <strong>getArchiveModalEditLink</strong>(string $module, int $id, string $table, string $label = null, int $width = 1024)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Use</td>
+                    <td>DcaUtil::getPopupWizardLink() instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -649,8 +673,53 @@ palette where every field can be overridden.</p>                </div>
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getPopupWizardLink">
+        <div class="location">at         line 168</div>
+        <code>                    string
+    <strong>getPopupWizardLink</strong>(string $href, array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get a contao backend popup link.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$href</td>
+                <td>(e.g. do=news&amp;id=1000&amp;table=tl_news)</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_setDefaultsFromDca">
-        <div class="location">at         line 163</div>
+        <div class="location">at         line 222</div>
         <code>                    mixed
     <strong>setDefaultsFromDca</strong>(string $strTable, mixed $varData = null)
         </code>
@@ -695,7 +764,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getConfigByArrayOrCallbackOrFunction">
-        <div class="location">at         line 212</div>
+        <div class="location">at         line 271</div>
         <code>                    mixed|null
     <strong>getConfigByArrayOrCallbackOrFunction</strong>(array $array, $property, array $arguments = [])
         </code>
@@ -750,7 +819,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_setDateAdded">
-        <div class="location">at         line 252</div>
+        <div class="location">at         line 311</div>
         <code>                    
     <strong>setDateAdded</strong>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -781,7 +850,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_setDateAddedOnCopy">
-        <div class="location">at         line 269</div>
+        <div class="location">at         line 328</div>
         <code>                    
     <strong>setDateAddedOnCopy</strong>($insertId, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -817,7 +886,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getFields">
-        <div class="location">at         line 294</div>
+        <div class="location">at         line 353</div>
         <code>                    array
     <strong>getFields</strong>(string $table, array $options = [])
         </code>
@@ -866,7 +935,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_addOverridableFields">
-        <div class="location">at         line 352</div>
+        <div class="location">at         line 411</div>
         <code>                    
     <strong>addOverridableFields</strong>(array $fields, string $sourceTable, string $destinationTable, array $options = [])
         </code>
@@ -912,7 +981,7 @@ palette where every field can be overridden.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getOverridableProperty">
-        <div class="location">at         line 414</div>
+        <div class="location">at         line 473</div>
         <code>                    mixed
     <strong>getOverridableProperty</strong>(string $property, array $instances)
         </code>
@@ -961,7 +1030,7 @@ in the instance.</p>                            </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_flattenPaletteForSubEntities">
-        <div class="location">at         line 451</div>
+        <div class="location">at         line 510</div>
         <code>                    
     <strong>flattenPaletteForSubEntities</strong>(string $table, array $overridableFields)
         </code>
@@ -1002,7 +1071,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_generateAlias">
-        <div class="location">at         line 513</div>
+        <div class="location">at         line 572</div>
         <code>                    string
     <strong>generateAlias</strong>(string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
         </code>
@@ -1071,7 +1140,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_addAuthorFieldAndCallback">
-        <div class="location">at         line 549</div>
+        <div class="location">at         line 608</div>
         <code>                    
     <strong>addAuthorFieldAndCallback</strong>(string $table, string $fieldPrefix = &#039;&#039;)
         </code>
@@ -1105,7 +1174,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_setAuthorIDOnCreate">
-        <div class="location">at         line 596</div>
+        <div class="location">at         line 655</div>
         <code>                    
     <strong>setAuthorIDOnCreate</strong>(string $table, int $id, array $row, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -1149,7 +1218,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_modifyAuthorPaletteOnLoad">
-        <div class="location">at         line 621</div>
+        <div class="location">at         line 680</div>
         <code>                    
     <strong>modifyAuthorPaletteOnLoad</strong>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -1178,7 +1247,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getDataContainers">
-        <div class="location">at         line 655</div>
+        <div class="location">at         line 714</div>
         <code>                    array
     <strong>getDataContainers</strong>()
         </code>
@@ -1206,7 +1275,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getNewNotificationTypeArray">
-        <div class="location">at         line 679</div>
+        <div class="location">at         line 738</div>
         <code>                    array
     <strong>getNewNotificationTypeArray</strong>(bool $includeNotificationCenterPlusTokens = false)
         </code>
@@ -1244,7 +1313,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_addAliasToDca">
-        <div class="location">at         line 719</div>
+        <div class="location">at         line 778</div>
         <code>                    
     <strong>addAliasToDca</strong>(string $dca, $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
         </code>
@@ -1290,7 +1359,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getLocalizedFieldName">
-        <div class="location">at         line 748</div>
+        <div class="location">at         line 807</div>
         <code>                    mixed
     <strong>getLocalizedFieldName</strong>($strField, $strTable)
         </code>
@@ -1333,7 +1402,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_loadDc">
-        <div class="location">at         line 761</div>
+        <div class="location">at         line 820</div>
         <code>                    
     <strong>loadDc</strong>(string $table)
         </code>
@@ -1364,7 +1433,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_loadLanguageFile">
-        <div class="location">at         line 776</div>
+        <div class="location">at         line 835</div>
         <code>                    
     <strong>loadLanguageFile</strong>(string $table)
         </code>
@@ -1395,7 +1464,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_isDcMultilingual">
-        <div class="location">at         line 786</div>
+        <div class="location">at         line 845</div>
         <code>                    
     <strong>isDcMultilingual</strong>(string $table)
         </code>
@@ -1424,7 +1493,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_generateDcOperationsButtons">
-        <div class="location">at         line 797</div>
+        <div class="location">at         line 856</div>
         <code>                    
     <strong>generateDcOperationsButtons</strong>($row, $table, $rootIds = [])
         </code>
@@ -1463,7 +1532,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_doGenerateDcOperationsButtons">
-        <div class="location">at         line 814</div>
+        <div class="location">at         line 873</div>
         <code>                    
     <strong>doGenerateDcOperationsButtons</strong>($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null)
         </code>
@@ -1512,7 +1581,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_generateSitemap">
-        <div class="location">at         line 865</div>
+        <div class="location">at         line 924</div>
         <code>                    
     <strong>generateSitemap</strong>()
         </code>
@@ -1531,7 +1600,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getDCTable">
-        <div class="location">at         line 879</div>
+        <div class="location">at         line 938</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Driver/DC_Table_Utils.html"><abbr title="HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils">DC_Table_Utils</abbr></a>
     <strong>getDCTable</strong>(string $table, $activeRecord)
         </code>
