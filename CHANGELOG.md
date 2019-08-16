@@ -1,12 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.106.1] - 2019-08-16
+## [2.106.0] - 2019-08-16
 
 ### Changed
 - enhanced DcaUtil::doGenerateDcOperationsButtons()
-
-## [2.106.0] - 2019-08-14
 
 ### Added
 - DcaUtil::getPopupWizardLink()
