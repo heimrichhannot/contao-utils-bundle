@@ -853,7 +853,7 @@ class DcaUtil
             $this->container->get('huh.utils.container')->isBundleActive($bundleName);
     }
 
-    public function generateDcOperationsButtons($row, $table, $rootIds = [])
+    public function generateDcOperationsButtons($row, $table, $rootIds = [], $skipOperations = [])
     {
         $return = '';
 
@@ -862,7 +862,7 @@ class DcaUtil
             $return .= '<input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'">';
         } // Regular buttons
         else {
-            $return .= $this->doGenerateDcOperationsButtons($row, $table, $rootIds, false, null);
+            $return .= $this->doGenerateDcOperationsButtons($row, $table, $rootIds, false, null, $skipOperations);
 
             // no picker support due to DataContainer not being extensible
         }
@@ -870,7 +870,7 @@ class DcaUtil
         return $return;
     }
 
-    public function doGenerateDcOperationsButtons($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null)
+    public function doGenerateDcOperationsButtons($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null, $skipOperations = [])
     {
         if (empty($GLOBALS['TL_DCA'][$strTable]['list']['operations'])) {
             return '';
@@ -879,6 +879,10 @@ class DcaUtil
         $return = '';
 
         foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations'] as $k => $v) {
+            if (\in_array($k, $skipOperations)) {
+                continue;
+            }
+
             $v = \is_array($v) ? $v : [$v];
             $id = StringUtil::specialchars(rawurldecode($arrRow['id']));
 
