@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.107.0] - 2019-08-27
+
+### Added
+- StringExtension (twig)
+
 ## [2.106.0] - 2019-08-16
 
 ### Changed
