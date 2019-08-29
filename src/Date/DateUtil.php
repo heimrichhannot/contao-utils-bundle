@@ -407,27 +407,41 @@ class DateUtil
     {
         $dateFormat = $options['dateFormat'] ?? Config::get('dateFormat');
         $datimFormat = $options['datimFormat'] ?? Config::get('datimFormat');
+        $timeFormat = $options['timeFormat'] ?? Config::get('timeFormat');
         $separator = $options['separator'] ?? ' – ';
-
-        if ($addTime) {
-            $startDateTimeFormatted = date($datimFormat, $startTime);
-            $endDateTimeFormatted = date($datimFormat, $endTime);
-
-            if (!$endTime || $startDateTimeFormatted === $endDateTimeFormatted) {
-                return $startDateTimeFormatted;
-            }
-
-            return $startDateTimeFormatted.$separator.$endDateTimeFormatted;
-        }
+        $translateMonths = $options['translateMonths'] ?? false;
 
         $startDateFormatted = date($dateFormat, $startDate);
         $endDateFormatted = date($dateFormat, $endDate);
 
-        if (!$endDate || $startDateFormatted === $endDateFormatted) {
-            return $startDateFormatted;
+        if ($addTime) {
+            if (!$endDate || $startDateFormatted === $endDateFormatted) {
+                $startTimeFormatted = date($timeFormat, $startTime);
+                $endTimeFormatted = date($timeFormat, $endTime);
+
+                if ($startTimeFormatted === $endTimeFormatted) {
+                    $result = $startDateFormatted.' '.$startTimeFormatted;
+                } else {
+                    $result = $startDateFormatted.' '.$startTimeFormatted.$separator.$endTimeFormatted;
+                }
+
+                return $translateMonths ? $this->translateMonths($result) : $result;
+            }
+            $startDateTimeFormatted = date($datimFormat, $startTime);
+            $endDateTimeFormatted = date($datimFormat, $endTime);
+
+            if (!$endTime || $startDateTimeFormatted === $endDateTimeFormatted) {
+                return $translateMonths ? $this->translateMonths($startDateTimeFormatted) : $startDateTimeFormatted;
+            }
+
+            return $translateMonths ? $this->translateMonths($startDateTimeFormatted.$separator.$endDateTimeFormatted) : $startDateTimeFormatted.$separator.$endDateTimeFormatted;
         }
 
-        return $startDateFormatted.$separator.$endDateFormatted;
+        if (!$endDate || $startDateFormatted === $endDateFormatted) {
+            return $translateMonths ? $this->translateMonths($startDateFormatted) : $startDateFormatted;
+        }
+
+        return $translateMonths ? $this->translateMonths($startDateFormatted.$separator.$endDateFormatted) : $startDateFormatted.$separator.$endDateFormatted;
     }
 
     public function getFormattedDateTimeByEvent(Model $event): ?string

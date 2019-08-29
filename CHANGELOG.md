@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.108.0] - 2019-08-29
+
+### Changed
+- DateUtil::getFormattedDateTime() now supports translating months
+
+### Fixed
+- issues in DateUtil::getFormattedDateTime()
+
 ## [2.107.0] - 2019-08-27
 
 ### Added
