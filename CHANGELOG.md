@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.109.0] - 2019-09-03
+
+### Added
+- styling for backend sub records
+
 ## [2.108.0] - 2019-08-29
 
 ### Changed

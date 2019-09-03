@@ -11,6 +11,13 @@ array_insert(
     ]
 );
 
+/*
+ * Assets
+ */
+if (System::getContainer()->get('huh.utils.container')->isBackend()) {
+    $GLOBALS['TL_CSS']['utils-bundle'] = 'bundles/heimrichhannotcontaoutils/css/contao-utils-bundle.be.css|static';
+}
+
 /**
  * Models
  */
