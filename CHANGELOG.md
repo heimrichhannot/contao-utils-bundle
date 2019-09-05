@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.110.0] - 2019-09-03
+
+### Added
+- subClass for dc operations template
+
+### Changed
+- DcaUtil::generateDcOperationsButtons() -> support for options
+
 ## [2.109.0] - 2019-09-03
 
 ### Added

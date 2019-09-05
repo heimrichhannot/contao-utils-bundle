@@ -853,7 +853,7 @@ class DcaUtil
             $this->container->get('huh.utils.container')->isBundleActive($bundleName);
     }
 
-    public function generateDcOperationsButtons($row, $table, $rootIds = [], $skipOperations = [])
+    public function generateDcOperationsButtons($row, $table, $rootIds = [], $options = [])
     {
         $return = '';
 
@@ -862,7 +862,7 @@ class DcaUtil
             $return .= '<input type="checkbox" name="IDS[]" id="ids_'.$row['id'].'" class="tl_tree_checkbox" value="'.$row['id'].'">';
         } // Regular buttons
         else {
-            $return .= $this->doGenerateDcOperationsButtons($row, $table, $rootIds, false, null, $skipOperations);
+            $return .= $this->doGenerateDcOperationsButtons($row, $table, $rootIds, false, null, $options);
 
             // no picker support due to DataContainer not being extensible
         }
@@ -870,7 +870,7 @@ class DcaUtil
         return $return;
     }
 
-    public function doGenerateDcOperationsButtons($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null, $skipOperations = [])
+    public function doGenerateDcOperationsButtons($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null, $options = [])
     {
         if (empty($GLOBALS['TL_DCA'][$strTable]['list']['operations'])) {
             return '';
@@ -878,8 +878,15 @@ class DcaUtil
 
         $return = '';
 
+        $skipOperations = $options['skipOperations'] ?? [];
+        $operations = $options['operations'] ?? array_keys($GLOBALS['TL_DCA'][$strTable]['list']['operations']);
+
+        if (!empty($skipOperations) && !isset($options['operations'])) {
+            $operations = array_diff($operations, $skipOperations);
+        }
+
         foreach ($GLOBALS['TL_DCA'][$strTable]['list']['operations'] as $k => $v) {
-            if (\in_array($k, $skipOperations)) {
+            if (!\in_array($k, $operations)) {
                 continue;
             }
 
