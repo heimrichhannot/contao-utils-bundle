@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.112.0] - 2019-09-17
+
+### Added
+- ArrayExtension
+
 ## [2.111.0] - 2019-09-17
 
 ### Added
