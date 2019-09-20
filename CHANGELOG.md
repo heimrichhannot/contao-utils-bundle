@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.113.0] - 2019-09-20
+
+### Removed
+- choice caching from AbstractChoice for backend
+
 ## [2.112.0] - 2019-09-17
 
 ### Added

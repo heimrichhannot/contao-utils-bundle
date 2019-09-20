@@ -88,8 +88,8 @@ abstract class AbstractChoice
             $this->setContext($context);
         }
 
-        // disable cache while in debug mode
-        if (true === System::getContainer()->getParameter('kernel.debug')) {
+        // disable cache while in debug mode or backend
+        if (true === System::getContainer()->getParameter('kernel.debug') || System::getContainer()->get('huh.utils.container')->isBackend()) {
             return $this->getChoices($this->getContext());
         }
 
