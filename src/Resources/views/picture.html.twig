@@ -6,8 +6,8 @@
     {% if(lazyload.aspectRatio|default()) %}
         <div class="image-aspect-ratio">
     {% endif %}
-        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){max-width:' ~ (img.width == 0 ? 'none' : (img.width ~ 'px')) ~ ';max-height:' ~ (img.height == 0 ? 'none' : (img.height ~ 'px')) ~ '}')]) %}
-        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (img.width == 0 ? 0 : (img.height/img.width)*100)|number_format(2, '.') ~ '%}')]) %}
+        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){max-width:' ~ (img.width|default ? img.width ~ 'px' : 'none') ~ ';max-height:' ~ (img.height == 0 ? 'none' : (img.height ~ 'px')) ~ '}')]) %}
+        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (img.width|default ? (img.height/img.width)*100 : 0)|number_format(2, '.') ~ '%}')]) %}
         {% endif %}
         {% if sources|default() %}
         <picture>
@@ -29,7 +29,7 @@
             {% if lazyload|default() %}
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=" data-wrapper="#{{ wrapperID }}" class="image {{ lazyload.class|default('lazy-img') }}" {{lazyload.src|default('data-src')}}="{{ '{{env::url}}' }}/{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ '{{env::url}}' }}/{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %} {{ attributes|default('') }} itemprop="image"{% if wrapperStyles|default() and lazyload.aspectRatio|default() %} data-wrapper-style="{{ wrapperStyles|join('') }}"{% endif %}>
             {% else %}
-                <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} itemprop="image">
+                <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width|default and img.height|default %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} itemprop="image">
             {% endif %}
 
             {% if sources %}
@@ -41,7 +41,7 @@
                 {% if sources|default() %}
                 <picture>
                     {% endif %}
-                    <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} itemprop="image">
+                    <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width|default and img.height|default %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} itemprop="image">
                     {% if sources|default() %}
                 </picture>
                 {% endif %}
