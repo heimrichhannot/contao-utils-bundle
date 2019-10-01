@@ -7,7 +7,7 @@ class EventUtil {
             scope = document;
         }
 
-        scope.addEventListener(eventName, function (e) {
+        scope.addEventListener(eventName, function(e) {
 
             let parents;
 
@@ -19,18 +19,33 @@ class EventUtil {
 
             // for instance window load/resize event
             if (!Array.isArray(parents)) {
-                document.querySelectorAll(selector).forEach(function (item) {
+                document.querySelectorAll(selector).forEach(function(item) {
                     callback(item, e);
                 });
                 return;
             }
 
-            parents.reverse().forEach(function (item) {
+            parents.reverse().forEach(function(item) {
                 if (item && item.matches(selector)) {
                     callback(item, e);
                 }
             });
         });
+    }
+
+    static createEventObject(type, bubbles = false, cancelable = false, composed = false) {
+        if (typeof (Event) === 'function') {
+            return new Event(type, {
+                bubbles: bubbles,
+                cancelable: cancelable,
+                composed: composed
+            });
+        } else {
+            let event = document.createEvent('Event');
+            event.initEvent(type, bubbles, cancelable);
+
+            return event;
+        }
     }
 }
 
