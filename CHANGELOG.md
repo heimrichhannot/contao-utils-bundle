@@ -1,10 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.115.0] - 2019-10-01
+
+### Added
+- js: event-util::createEventObject
+
 ## [2.114.0] - 2019-09-30
 
-### Added graceful degredation for picture (svg)
-- 
+### Added
+- graceful degredation for picture (svg)
 
 ## [2.113.0] - 2019-09-20
 
