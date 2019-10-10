@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.116.0] - 2019-10-10
+
+### Added 
+- ModuleUtil::getModuleClass
+
+### Fixed
+- ModuleUtil::isSubModuleOf
+
 ## [2.115.0] - 2019-10-01
 
 ### Added

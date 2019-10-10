@@ -105,9 +105,6 @@ services:
     public: true
     arguments:
       - "@contao.framework"
-  huh.utils.module:
-    class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
-    public: true
   huh.utils.user:
     class: HeimrichHannot\UtilsBundle\User\UserUtil
     public: true

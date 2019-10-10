@@ -58,6 +58,10 @@ services:
     class: HeimrichHannot\UtilsBundle\Model\ModelUtil
   HeimrichHannot\UtilsBundle\Model\ModelUtil: '@huh.utils.model'
 
+  huh.utils.module:
+    class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
+  HeimrichHannot\UtilsBundle\Module\ModuleUtil: '@huh.utils.module'
+
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
   HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
