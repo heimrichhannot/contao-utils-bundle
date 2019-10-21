@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.117.0] - 2019-10-21
+
+### Added 
+- polyfills to package.json: `element-closest`, `nodelist-foreach-polyfill`
+
 ## [2.116.0] - 2019-10-10
 
 ### Added 
