@@ -108,11 +108,7 @@ class DownloadExtension extends AbstractExtension
         $strHref = Environment::get('request');
 
         // Remove an existing file parameter (see #5683)
-        if (preg_match('/(&(amp;)?|\?)file=/', $strHref)) {
-            $strHref = preg_replace('/(&(amp;)?|\?)file=[^&]+/', '', $strHref);
-        }
-
-        $strHref .= (false !== strpos($strHref, '?') ? '&amp;' : '?').'file='.System::urlEncode($file->value);
+        $strHref = System::getContainer()->get('huh.utils.url')->addQueryString('file='.System::urlEncode($file->value), $strHref);
 
         $fileData['link'] = $fileData['linkTitle'];
         $fileData['title'] = StringUtil::specialchars($data['titleText'] ?: sprintf($GLOBALS['TL_LANG']['MSC']['download'], $file->basename));

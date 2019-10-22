@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.117.1] - 2019-10-22
+
+### Fixed
+* download extension
+
 ## [2.117.0] - 2019-10-21
 
 ### Added 
