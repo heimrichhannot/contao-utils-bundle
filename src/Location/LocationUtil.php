@@ -188,12 +188,8 @@ class LocationUtil
             return null;
         }
 
-        foreach ($gpxData['trk'] as $trk) {
-            if (!\is_array($trk['trkseg']['trkpt'])) {
-                continue;
-            }
-
-            foreach ($trk['trkseg']['trkpt'] as $trkPt) {
+        if (isset($gpxData['trk']['name'])) {
+            foreach ($gpxData['trk']['trkseg']['trkpt'] as $trkPt) {
                 $location = [
                     'lat' => $trkPt['@attributes']['lat'],
                     'lng' => $trkPt['@attributes']['lon'],
@@ -204,6 +200,25 @@ class LocationUtil
                 }
 
                 $locations[] = $location;
+            }
+        } else {
+            foreach ($gpxData['trk'] as $trk) {
+                if (!\is_array($trk['trkseg']['trkpt'])) {
+                    continue;
+                }
+
+                foreach ($trk['trkseg']['trkpt'] as $trkPt) {
+                    $location = [
+                        'lat' => $trkPt['@attributes']['lat'],
+                        'lng' => $trkPt['@attributes']['lon'],
+                    ];
+
+                    if (isset($trkPt['ele']) && $trkPt['ele']) {
+                        $location['alt'] = $trkPt['ele'];
+                    }
+
+                    $locations[] = $location;
+                }
             }
         }
 
