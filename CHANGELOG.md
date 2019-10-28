@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.119.0] - 2019-10-28
+
+### Added
+- support for exists() in filedata twig filter
+
 ## [2.118.0] - 2019-10-28
 
 ### Added

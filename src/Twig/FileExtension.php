@@ -98,6 +98,8 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
             $fileData['readableFilesize'] = System::getReadableSize($fileObj->filesize, 1);
         }
 
+        $fileData['exists'] = $fileObj->exists();
+
         return array_merge($fileData, $data);
     }
 
