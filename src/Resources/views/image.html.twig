@@ -13,7 +13,7 @@
     {% endif %}
 
     {% if caption|default() %}
-        <figcaption class="caption" itemprop="caption">{{ caption }}</figcaption>
+        <figcaption class="caption" itemprop="caption">{{ caption }}{% if picture.copyright|default %} (© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}){% endif %}</figcaption>
     {% endif %}
 
 </figure>

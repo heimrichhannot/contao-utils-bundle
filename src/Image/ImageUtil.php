@@ -144,6 +144,7 @@ class ImageUtil
                 'img' => $picture->getImg($rootDir, TL_FILES_URL),
                 'sources' => $picture->getSources($rootDir, TL_FILES_URL),
                 'ratio' => '1.0',
+                'copyright' => $file->getModel()->copyright,
             ];
 
             if ($src !== $file->path) {

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.118.0] - 2019-10-28
+
+### Added
+- copyright support for image
+
 ## [2.117.2] - 2019-10-23
 
 ### Fixed
