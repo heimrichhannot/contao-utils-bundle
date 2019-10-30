@@ -153,6 +153,13 @@ class FPDIWriter extends AbstractPdfWriter
                 $this->config['encoding']
             );
 
+            $this->pdf->setCellMargins(
+                $this->config['margins']['left'],
+                $this->config['margins']['top'],
+                $this->config['margins']['right'],
+                $this->config['margins']['bottom']
+            );
+
             // avoid having black borders in header and footer (see https://stackoverflow.com/a/17172044/1463757)
             $this->pdf->SetPrintHeader(false);
             $this->pdf->SetPrintFooter(false);
