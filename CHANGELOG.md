@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.119.1] - 2019-10-30
+
+### Fixed
+- margins in FPDIWriter
+- text length calculation in StringUtil::truncateHtml
+
 ## [2.119.0] - 2019-10-28
 
 ### Added
