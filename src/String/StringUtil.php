@@ -158,7 +158,7 @@ class StringUtil
      * @param bool   $exact
      * @param bool   $considerHtml
      *
-     * @return bool|string
+     * @return string
      */
     public function truncateHtml(string $text, int $length = 100, string $ending = '&nbsp;&hellip;', bool $exact = false, bool $considerHtml = true)
     {
@@ -166,7 +166,7 @@ class StringUtil
 
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
-            if (\strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
+            if (\strlen($this->html2Text($text, ['ignore_errors' => true])) <= $length) {
                 return $text;
             }
             // splits all html-tags to scanable lines
