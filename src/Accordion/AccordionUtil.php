@@ -59,7 +59,9 @@ class AccordionUtil
             return;
         }
 
-        if (!isset($this->accordionSingleCache[$data['pid']])) {
+        $cacheKey = $data['ptable'].'_'.$data['pid'];
+
+        if (!isset($this->accordionSingleCache[$cacheKey])) {
             if (null !== ($elements = $this->container->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',
                     [
@@ -68,7 +70,7 @@ class AccordionUtil
                         'tl_content.invisible!=1',
                     ],
                     [
-                        'tl_article',
+                        $data['ptable'],
                         $data['pid'],
                     ],
                     [
@@ -77,14 +79,14 @@ class AccordionUtil
                 ))) {
                 $lastOneIsAccordionSingle = false;
                 $elementGroup = [];
-                $this->accordionSingleCache[$data['pid']] = [];
+                $this->accordionSingleCache[$cacheKey] = [];
 
                 foreach ($elements as $i => $element) {
                     if ('accordionSingle' === $element->type) {
                         $elementGroup[] = $element->row();
                     } else {
                         if ($lastOneIsAccordionSingle) {
-                            $this->accordionSingleCache[$data['pid']][] = $elementGroup;
+                            $this->accordionSingleCache[$cacheKey][] = $elementGroup;
                             $elementGroup = [];
                         }
 
@@ -96,15 +98,15 @@ class AccordionUtil
                     $lastOneIsAccordionSingle = true;
 
                     if ($i === \count($elements) - 1) {
-                        $this->accordionSingleCache[$data['pid']][] = $elementGroup;
+                        $this->accordionSingleCache[$cacheKey][] = $elementGroup;
                         $elementGroup = [];
                     }
                 }
             }
         }
 
-        if (isset($this->accordionSingleCache[$data['pid']]) && \is_array($this->accordionSingleCache[$data['pid']])) {
-            foreach ($this->accordionSingleCache[$data['pid']] as $elementGroup) {
+        if (isset($this->accordionSingleCache[$cacheKey]) && \is_array($this->accordionSingleCache[$cacheKey])) {
+            foreach ($this->accordionSingleCache[$cacheKey] as $elementGroup) {
                 foreach ($elementGroup as $i => $element) {
                     if ($data['id'] == $element['id']) {
                         if (0 === $i) {
@@ -139,7 +141,9 @@ class AccordionUtil
             return;
         }
 
-        if (!isset($this->accordionStartStopCache[$data['pid']])) {
+        $cacheKey = $data['ptable'].'_'.$data['pid'];
+
+        if (!isset($this->accordionStartStopCache[$cacheKey])) {
             if (null !== ($elements = $this->container->get('huh.utils.model')->findModelInstancesBy(
                     'tl_content',
                     [
@@ -148,7 +152,7 @@ class AccordionUtil
                         'tl_content.invisible!=1',
                     ],
                     [
-                        'tl_article',
+                        $data['ptable'],
                         $data['pid'],
                     ],
                     [
@@ -156,25 +160,25 @@ class AccordionUtil
                     ]
                 ))) {
                 $lastOneIsAccordionStop = false;
-                $this->accordionStartStopCache[$data['pid']] = [];
+                $this->accordionStartStopCache[$cacheKey] = [];
 
                 foreach ($elements as $i => $element) {
                     if ('accordionStart' === $element->type) {
-                        if (\count($this->accordionStartStopCache[$data['pid']]) < 1) {
-                            $this->accordionStartStopCache[$data['pid']][] = [];
+                        if (\count($this->accordionStartStopCache[$cacheKey]) < 1) {
+                            $this->accordionStartStopCache[$cacheKey][] = [];
                         }
 
-                        $this->accordionStartStopCache[$data['pid']][\count($this->accordionStartStopCache[$data['pid']]) - 1][] = $element->row();
+                        $this->accordionStartStopCache[$cacheKey][\count($this->accordionStartStopCache[$cacheKey]) - 1][] = $element->row();
 
                         $lastOneIsAccordionStop = false;
                     } elseif ('accordionStop' === $element->type) {
-                        $this->accordionStartStopCache[$data['pid']][\count($this->accordionStartStopCache[$data['pid']]) - 1][] = $element->row();
+                        $this->accordionStartStopCache[$cacheKey][\count($this->accordionStartStopCache[$cacheKey]) - 1][] = $element->row();
 
                         $lastOneIsAccordionStop = true;
 
                         continue;
                     } elseif ($lastOneIsAccordionStop) {
-                        $this->accordionStartStopCache[$data['pid']][] = [];
+                        $this->accordionStartStopCache[$cacheKey][] = [];
                         $lastOneIsAccordionStop = false;
                     }
                 }
@@ -182,18 +186,18 @@ class AccordionUtil
                 // remove trailing empty arrays
                 $cleaned = [];
 
-                foreach ($this->accordionStartStopCache[$data['pid']] as $elementGroup) {
+                foreach ($this->accordionStartStopCache[$cacheKey] as $elementGroup) {
                     if (!empty($elementGroup)) {
                         $cleaned[] = $elementGroup;
                     }
                 }
 
-                $this->accordionStartStopCache[$data['pid']] = $cleaned;
+                $this->accordionStartStopCache[$cacheKey] = $cleaned;
             }
         }
 
-        if (isset($this->accordionStartStopCache[$data['pid']]) && \is_array($this->accordionStartStopCache[$data['pid']])) {
-            foreach ($this->accordionStartStopCache[$data['pid']] as $elementGroup) {
+        if (isset($this->accordionStartStopCache[$cacheKey]) && \is_array($this->accordionStartStopCache[$cacheKey])) {
+            foreach ($this->accordionStartStopCache[$cacheKey] as $elementGroup) {
                 foreach ($elementGroup as $i => $element) {
                     if ($data['id'] == $element['id']) {
                         if (0 === $i) {
