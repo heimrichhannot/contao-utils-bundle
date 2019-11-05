@@ -8,7 +8,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Model;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Model;
 use Contao\System;
@@ -16,14 +15,6 @@ use Contao\System;
 class CfgTagModel extends Model
 {
     protected static $strTable = 'tl_cfg_tag';
-
-    /** @var ContaoFrameworkInterface */
-    protected $framework;
-
-    public function __construct(ContaoFrameworkInterface $framework)
-    {
-        $this->framework = $framework;
-    }
 
     /**
      * @param       $source
@@ -34,7 +25,7 @@ class CfgTagModel extends Model
     public function findAllBySource($source, array $arrOptions = [])
     {
         /** @var CfgTagModel $adapter */
-        if (null === ($adapter = $this->framework->getAdapter(self::class))) {
+        if (null === ($adapter = System::getContainer()->get('contao.framework')->getAdapter(self::class))) {
             return null;
         }
 
