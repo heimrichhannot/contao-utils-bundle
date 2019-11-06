@@ -51,23 +51,25 @@ class ModuleUtil
      *
      * @param mixed $module1 First module as class string, module type string, module model object or module object
      * @param mixed $module2 Second module as class string, module type string, module model object or module object
+     * @param bool  $trueIfSame Return true if $module1 and $module2 are the same
      *
      * @return bool
      */
-    public function isSubModuleOf($module1, $module2): bool
+    public function isSubModuleOf($module1, $module2, $trueIfSame = false): bool
     {
         $module1 = $this->getModuleClass($module1);
 
         if (empty($module1)) {
             return false;
         }
+
         $module2 = $this->getModuleClass($module2);
 
         if (empty($module2)) {
             return false;
         }
 
-        return is_subclass_of($module1, $module2);
+        return $trueIfSame && $module1 === $module2 || is_subclass_of($module1, $module2);
     }
 
     /**

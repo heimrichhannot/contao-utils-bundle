@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.119.4] - 2019-11-05
+
+- fixed module isSubModuleOf in ModuleUtil
+
 ## [2.119.3] - 2019-11-05
 
 - fixed accordion ptable
