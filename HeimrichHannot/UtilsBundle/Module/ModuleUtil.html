@@ -118,7 +118,7 @@
                     bool
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_isSubModuleOf">isSubModuleOf</a>(mixed $module1, mixed $module2)
+                    <a href="#method_isSubModuleOf">isSubModuleOf</a>(mixed $module1, mixed $module2, bool $trueIfSame = false)
         
                                             <p>Check whether a module is a sub module of another.</p>                </div>
                 <div class="col-md-2"></div>
@@ -221,9 +221,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isSubModuleOf">
-        <div class="location">at         line 57</div>
+        <div class="location">at         line 58</div>
         <code>                    bool
-    <strong>isSubModuleOf</strong>(mixed $module1, mixed $module2)
+    <strong>isSubModuleOf</strong>(mixed $module1, mixed $module2, bool $trueIfSame = false)
         </code>
     </h3>
     <div class="details">
@@ -246,6 +246,11 @@
                 <td>$module2</td>
                 <td>Second module as class string, module type string, module model object or module object</td>
             </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$trueIfSame</td>
+                <td>Return true if $module1 and $module2 are the same</td>
+            </tr>
             </table>
 
             
@@ -266,7 +271,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getModuleClass">
-        <div class="location">at         line 80</div>
+        <div class="location">at         line 82</div>
         <code>                    string
     <strong>getModuleClass</strong>(<abbr title="Contao\ModuleModel">ModuleModel</abbr>|<abbr title="Contao\Module">Module</abbr>|string $module)
         </code>
@@ -306,7 +311,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getModulesByType">
-        <div class="location">at         line 97</div>
+        <div class="location">at         line 99</div>
         <code>                    <abbr title="Model\Collection">Collection</abbr>
     <strong>getModulesByType</strong>(string $type, array $options = [])
         </code>
