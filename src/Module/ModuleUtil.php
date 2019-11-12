@@ -49,8 +49,8 @@ class ModuleUtil
     /**
      * Check whether a module is a sub module of another.
      *
-     * @param mixed $module1 First module as class string, module type string, module model object or module object
-     * @param mixed $module2 Second module as class string, module type string, module model object or module object
+     * @param mixed $module1    First module as class string, module type string, module model object or module object
+     * @param mixed $module2    Second module as class string, module type string, module model object or module object
      * @param bool  $trueIfSame Return true if $module1 and $module2 are the same
      *
      * @return bool

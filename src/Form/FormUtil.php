@@ -57,7 +57,7 @@ class FormUtil
      *
      * @return Widget|null The new widget based on given attributes
      */
-    public function getWidgetFromAttributes(string $name, array $data, $value = null, string $dbName = '', string $table = '', DataContainer $dc = null, string $mode = ''): ? Widget
+    public function getWidgetFromAttributes(string $name, array $data, $value = null, string $dbName = '', string $table = '', DataContainer $dc = null, string $mode = ''): ?Widget
     {
         if ('' === $mode) {
             $mode = System::getContainer()->get('huh.utils.container')->isFrontend() ? 'FE' : 'BE';
@@ -122,6 +122,8 @@ class FormUtil
             $system->loadLanguageFile($table);
         }
 
+        $arraySeparator = $config['arraySeparator'] ?? ', ';
+
         // dca can be overridden from outside
         if (isset($config['_dcaOverride']) && \is_array($config['_dcaOverride'])) {
             $data = $config['_dcaOverride'];
@@ -132,6 +134,13 @@ class FormUtil
         }
 
         // multicolumneditor
+        $mceFieldSeparator = $config['mceFieldSeparator'] ?? "\t";
+        $mceRowSeparator = $config['mceRowSeparator'] ?? "\t\n";
+        $skipMceFieldLabels = $config['skipMceFieldLabels'] ?? false;
+        $skipMceFieldLabelFormatting = $config['skipMceFieldLabelFormatting'] ?? false;
+        $skipMceFields = isset($config['skipMceFields']) && \is_array($config['skipMceFields']) ? $config['skipMceFields'] : [];
+        $mceFields = isset($config['mceFields']) && \is_array($config['mceFields']) ? $config['mceFields'] : [];
+
         if ('multiColumnEditor' == $data['inputType']
             && $this->container->get('huh.utils.container')->isBundleActive('HeimrichHannot\MultiColumnEditorBundle\HeimrichHannotContaoMultiColumnEditorBundle')) {
             if (\is_array($value)) {
@@ -139,23 +148,52 @@ class FormUtil
 
                 foreach ($value as $row) {
                     // new line - add "\t\n" after each line and not only "\n" to prevent outlook line break remover
-                    $formatted .= "\t\n";
+                    $formatted .= $mceRowSeparator;
 
                     foreach ($row as $fieldName => $fieldValue) {
+                        if (\in_array($fieldName, $skipMceFields) || (\is_array($mceFields) && !\in_array($fieldName, $mceFields))) {
+                            continue;
+                        }
+
                         $dca = $data['eval']['multiColumnEditor']['fields'][$fieldName];
 
-                        // intend new line
-                        $formatted .= "\t".($dca['label'][0] ?: $fieldName).': '.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
+                        $label = '';
+
+                        if (!$skipMceFieldLabels) {
+                            $label = ($dca['label'][0] ?: $fieldName).': ';
+
+                            if ($skipMceFieldLabelFormatting) {
+                                $label = $fieldName.': ';
+                            }
+                        }
+
+                        // indent new line
+                        $formatted .= $mceFieldSeparator.$label.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
                                 '_dcaOverride' => $dca,
                             ]));
                     }
                 }
 
                 // new line - add "\t\n" after each line and not only "\n" to prevent outlook line break remover
-                $formatted .= "\t\n";
+                $formatted .= $mceRowSeparator;
 
                 return $formatted;
             }
+        }
+
+        // inputUnit
+        if ('inputUnit' == $data['inputType']) {
+            $data = StringUtil::deserialize($value, true);
+
+            if (!isset($data['value'])) {
+                $data['value'] = '';
+            }
+
+            if (!isset($data['unit'])) {
+                $data['unit'] = '';
+            }
+
+            return $data['value'].$arraySeparator.$data['unit'];
         }
 
         // Recursively apply logic to array
@@ -177,7 +215,7 @@ class FormUtil
             // reset caches
             $this->optionsCache = null;
 
-            return implode(', ', $value);
+            return implode($arraySeparator, $value);
         }
 
         $reference = null;
@@ -223,7 +261,7 @@ class FormUtil
 
             if (null !== $collection) {
                 $result = $collection->fetchEach('name');
-                $value = implode(', ', $result);
+                $value = implode($arraySeparator, $result);
             }
         } elseif ('date' == $rgxp) {
             $value = Date::parse(Config::get('dateFormat'), $value);

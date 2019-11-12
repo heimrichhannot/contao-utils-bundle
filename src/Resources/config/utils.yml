@@ -65,3 +65,9 @@ services:
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
   HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
+
+  huh.utils.form:
+    class: HeimrichHannot\UtilsBundle\Form\FormUtil
+  HeimrichHannot\UtilsBundle\Form\FormUtil: "@huh.utils.form"
+
+  HeimrichHannot\UtilsBundle\Rsce\RsceUtil: ~

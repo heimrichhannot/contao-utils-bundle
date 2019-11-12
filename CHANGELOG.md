@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.120.0] - 2019-11-12
+
+- added `RsceUtil`
+
 ## [2.119.4] - 2019-11-05
 
 - fixed module isSubModuleOf in ModuleUtil

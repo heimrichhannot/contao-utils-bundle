@@ -35,12 +35,6 @@ services:
     public: true
     arguments:
       - "@contao.framework"
-  huh.utils.form:
-    class: HeimrichHannot\UtilsBundle\Form\FormUtil
-    public: true
-    arguments:
-      - "@service_container"
-      - '@contao.framework'
   huh.utils.location:
     class: HeimrichHannot\UtilsBundle\Location\LocationUtil
     public: true
