@@ -8,13 +8,16 @@ services:
       $utilsConfig: '%huh_utils%'
       Contao\CoreBundle\Command\SymlinksCommand: '@contao.command.symlinks'
 
-  huh.utils.accordion:
-    class: HeimrichHannot\UtilsBundle\Accordion\AccordionUtil
-  HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: "@huh.utils.accordion"
+  HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: ~
+  HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
+  HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~
+  HeimrichHannot\UtilsBundle\File\FolderUtil: ~
+  HeimrichHannot\UtilsBundle\Form\FormUtil: ~
+  HeimrichHannot\UtilsBundle\Rsce\RsceUtil: ~
+  HeimrichHannot\UtilsBundle\String\StringUtil: ~
 
-  huh.utils.array:
-    class: HeimrichHannot\UtilsBundle\Arrays\ArrayUtil
-  HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: "@huh.utils.array"
+  huh.utils.accordion: '@HeimrichHannot\UtilsBundle\Accordion\AccordionUtil'
+  huh.utils.array: '@HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'
 
   huh.utils.cache.file:
     class: HeimrichHannot\UtilsBundle\Cache\FileCache
@@ -44,11 +47,9 @@ services:
     class: HeimrichHannot\UtilsBundle\File\FileUtil
   HeimrichHannot\UtilsBundle\File\FileUtil: "@huh.utils.file"
 
-  HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~
   huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
-
-  HeimrichHannot\UtilsBundle\File\FolderUtil: ~
   huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
+  huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
 
   huh.utils.image:
     class: HeimrichHannot\UtilsBundle\Image\ImageUtil
@@ -62,12 +63,8 @@ services:
     class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
   HeimrichHannot\UtilsBundle\Module\ModuleUtil: '@huh.utils.module'
 
+  huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
+
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
   HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
-
-  huh.utils.form:
-    class: HeimrichHannot\UtilsBundle\Form\FormUtil
-  HeimrichHannot\UtilsBundle\Form\FormUtil: "@huh.utils.form"
-
-  HeimrichHannot\UtilsBundle\Rsce\RsceUtil: ~

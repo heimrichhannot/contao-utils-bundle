@@ -85,6 +85,11 @@ class PluginTest extends ContaoTestCase
 
         $utils = [
             [
+                'alias' => AccordionUtil::class,
+                'class' => AccordionUtil::class,
+                'parameters' => 1,
+            ],
+            [
                 'alias' => 'huh.utils.accordion',
                 'class' => AccordionUtil::class,
                 'parameters' => 1,
@@ -153,17 +158,12 @@ class PluginTest extends ContaoTestCase
 
         foreach ($utils as $util) {
             $this->assertTrue($container->has($util['alias']));
-            $definition = $container->getDefinition($util['alias']);
-            $this->assertSame($util['class'], $definition->getClass());
+            $definition = $container->findDefinition($util['alias']);
+            if ($definition->getClass() != null) {
+                $this->assertSame($util['class'], $definition->getClass());
+            }
             $this->assertEmpty($definition->getArguments());
             $this->assertTrue($definition->isAutowired());
-
-            /** @noinspection PhpUnhandledExceptionInspection */
-            $testClass = new \ReflectionClass($util['class']);
-            $constructor = $testClass->getConstructor();
-            $this->assertSame($util['parameters'], $constructor->getNumberOfRequiredParameters());
-            $this->assertSame($util['parameters'], $constructor->getNumberOfParameters());
-            $this->assertSame(ContainerInterface::class, $constructor->getParameters()[0]->getClass()->getName());
         }
     }
 

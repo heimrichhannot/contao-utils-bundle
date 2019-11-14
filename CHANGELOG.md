@@ -1,20 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.120.0] - 2019-11-12
+## [2.120.1] - 2019-11-14
+- updated some service definitions for better symfony 4 compatibility
 
+## [2.120.0] - 2019-11-12
 - added `RsceUtil`
 
 ## [2.119.4] - 2019-11-05
-
 - fixed module isSubModuleOf in ModuleUtil
 
 ## [2.119.3] - 2019-11-05
-
 - fixed accordion ptable
 
 ## [2.119.2] - 2019-11-05
-
 - fixed CfgTagModel
 
 ## [2.119.1] - 2019-10-30

@@ -46,11 +46,6 @@ services:
     arguments:
       - "@contao.framework"
       - "@service_container"
-  huh.utils.string:
-    class: HeimrichHannot\UtilsBundle\String\StringUtil
-    public: true
-    arguments:
-      - "@contao.framework"
   huh.utils.url:
     class: HeimrichHannot\UtilsBundle\Url\UrlUtil
     public: true

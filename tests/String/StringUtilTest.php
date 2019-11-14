@@ -22,6 +22,21 @@ class StringUtilTest extends ContaoTestCase
         System::setContainer($container);
     }
 
+    /**
+     * @param array $parameters
+     * @param null $mock
+     * @return StringUtil
+     */
+    public function createStringUtil(array $parameters = [], $mock = null)
+    {
+        if (!$mock) {
+            $stringUtil = new StringUtil();
+        } else {
+            $stringUtil = $mock->setConstructorArgs()->getMock();
+        }
+        return $stringUtil;
+    }
+
     public function testHtml2Text()
     {
         $html = '
@@ -58,14 +73,14 @@ A div
 within a div
 [A link](http://foo.com)';
 
-        $stringUtil = new StringUtil($this->mockContaoFramework());
+        $stringUtil = $this->createStringUtil();
 
         $this->assertSame($expected, $stringUtil->html2Text($html));
     }
 
     public function testStartsWith()
     {
-        $stringUtil = new StringUtil($this->mockContaoFramework());
+        $stringUtil = $this->createStringUtil();
 
         $resultTrue = $stringUtil->startsWith('This is a test string', 'This ');
         $resultFalse = $stringUtil->startsWith('This is a test string', 'ABC');
@@ -76,7 +91,7 @@ within a div
 
     public function testEndsWith()
     {
-        $stringUtil = new StringUtil($this->mockContaoFramework());
+        $stringUtil = $this->createStringUtil();
 
         $resultTrue = $stringUtil->endsWith('This is a test string', ' string');
         $resultFalse = $stringUtil->endsWith('This is a test string', 'ABC');
@@ -87,7 +102,7 @@ within a div
 
     public function testCamelCaseToDashed()
     {
-        $stringUtil = new StringUtil($this->mockContaoFramework());
+        $stringUtil = $this->createStringUtil();
 
         $result = $stringUtil->camelCaseToDashed('someCamelCase');
 
@@ -96,7 +111,7 @@ within a div
 
     public function testPregReplaceLast()
     {
-        $stringUtil = new StringUtil($this->mockContaoFramework());
+        $stringUtil = $this->createStringUtil();
 
         $result = $stringUtil->pregReplaceLast('@_[a-f0-9]{13}@', 'dastusteeubfstz238572');
         $this->assertSame('dastusteeubfstz238572', $result);
@@ -110,7 +125,7 @@ within a div
      */
     public function testTruncateHtml($text, $expected, $length, $expectedTextLength, $ending, $exact, $considerHtml)
     {
-        $stringUtil = new StringUtil($this->mockContaoFramework());
+        $stringUtil = $this->createStringUtil();
         $result = $stringUtil->truncateHtml($text, (int) $length, $ending, $exact, $considerHtml);
         $this->assertSame($expected, $result);
         $this->assertSame($expectedTextLength, \strlen(strip_tags($result)));
@@ -174,5 +189,13 @@ within a div
                 false,
             ],
         ];
+    }
+
+    public function testCamelCaseToSnake()
+    {
+        $stringUtil = $this->createStringUtil();
+        $this->assertSame('some_camel_case', $stringUtil->camelCaseToSnake('someCamelCase'));
+        $this->assertSame('my_pretty_class', $stringUtil->camelCaseToSnake('MyPrettyClass'));
+        $this->assertSame('my_pretty_class', $stringUtil->camelCaseToSnake('my_pretty_class'));
     }
 }

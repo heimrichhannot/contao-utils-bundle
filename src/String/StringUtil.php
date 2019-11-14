@@ -8,8 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\String;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Html2Text\Html2Text;
+use Soundasleep\Html2Text;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class StringUtil
 {
@@ -19,14 +19,6 @@ class StringUtil
     const SMALL_LETTERS_NONAMBIGUOUS = 'abcdefghjkmnpqrstuvwx';
     const NUMBERS = '0123456789';
     const NUMBERS_NONAMBIGUOUS = '23456789';
-
-    /** @var ContaoFrameworkInterface */
-    protected $framework;
-
-    public function __construct(ContaoFrameworkInterface $framework)
-    {
-        $this->framework = $framework;
-    }
 
     /**
      * Check for the occurrence at the start of the string.
@@ -317,7 +309,7 @@ class StringUtil
     public function convertToInlineCss(string $text, string $cssText = null)
     {
         // apply the css inliner
-        $objCssInliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
+        $objCssInliner = new CssToInlineStyles();
 
         return $objCssInliner->convert($text, $cssText);
     }
@@ -338,7 +330,7 @@ class StringUtil
         $html = str_replace('</p>', '<br /></p>', $html); // interpret paragrah as block element
         $html = str_replace('</div>', '<br /></div>', $html); // interpret div as block element
 
-        return \Soundasleep\Html2Text::convert($html, $options);
+        return Html2Text::convert($html, $options);
     }
 
     /**
