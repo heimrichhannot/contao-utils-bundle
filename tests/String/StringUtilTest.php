@@ -24,7 +24,8 @@ class StringUtilTest extends ContaoTestCase
 
     /**
      * @param array $parameters
-     * @param null $mock
+     * @param null  $mock
+     *
      * @return StringUtil
      */
     public function createStringUtil(array $parameters = [], $mock = null)
@@ -34,6 +35,7 @@ class StringUtilTest extends ContaoTestCase
         } else {
             $stringUtil = $mock->setConstructorArgs()->getMock();
         }
+
         return $stringUtil;
     }
 

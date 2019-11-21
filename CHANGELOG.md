@@ -1,7 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.121.0] - 2019-11-21
+
+- added video twig template
+
 ## [2.120.1] - 2019-11-14
+
 - updated some service definitions for better symfony 4 compatibility
 
 ## [2.120.0] - 2019-11-12

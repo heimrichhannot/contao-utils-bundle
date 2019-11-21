@@ -30,7 +30,6 @@ use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
@@ -159,7 +158,8 @@ class PluginTest extends ContaoTestCase
         foreach ($utils as $util) {
             $this->assertTrue($container->has($util['alias']));
             $definition = $container->findDefinition($util['alias']);
-            if ($definition->getClass() != null) {
+
+            if (null != $definition->getClass()) {
                 $this->assertSame($util['class'], $definition->getClass());
             }
             $this->assertEmpty($definition->getArguments());
