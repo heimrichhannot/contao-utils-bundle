@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.122.0] - 2019-11-26
+
+- `CreateImageSizeCommand`
+
 ## [2.121.0] - 2019-11-21
 
 - added video twig template
