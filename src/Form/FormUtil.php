@@ -296,6 +296,8 @@ class FormUtil
             $this->optionsCache = null;
         }
 
+        $value = Controller::replaceInsertTags($value);
+
         // Convert special characters (see #1890)
         return StringUtil::specialchars($value);
     }
