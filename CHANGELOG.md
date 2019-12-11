@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.123.1] - 2019-12-11
+
+- added `ContainerUtil::isFrontendCron()`
+- fixed `StringUtil::replaceUnicodeEmojisByHtml()`
+
 ## [2.123.0] - 2019-11-27
 
 - replace inserttags in `FormUtil::prepareSpecialValueForOutput`

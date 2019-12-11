@@ -81,6 +81,11 @@ class ContainerUtil
         return false;
     }
 
+    public function isFrontendCron()
+    {
+        return 'contao_frontend_cron' === $this->getCurrentRequest()->get('_route');
+    }
+
     public function isInstall()
     {
         if ($request = $this->getCurrentRequest()) {
