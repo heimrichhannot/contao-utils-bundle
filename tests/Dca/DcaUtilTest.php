@@ -9,7 +9,10 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Dca;
 
 use Contao\BackendUser;
+use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\Database;
 use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Model;
@@ -24,6 +27,8 @@ use Symfony\Component\Translation\Translator;
 
 class DcaUtilTest extends TestCaseEnvironment
 {
+    protected $dataContainerTable = ['tl_module','tl_content'];
+
     public function setUp()
     {
         parent::setUp();
@@ -33,15 +38,82 @@ class DcaUtilTest extends TestCaseEnvironment
         }
     }
 
+    public function getTestInstance(array $properties = [])
+    {
+        if (!isset($properties['container'])) {
+            $properties['container'] = $this->getContainerMock();
+        }
+        if (!isset($properties['framework'])) {
+            $properties['framework'] = $this->getContaoFrameworkMock();
+        }
+        $instance = new DcaUtil($properties['container'], $properties['framework']);
+        return $instance;
+    }
+
+    public function getContaoFrameworkMock(array $parameters = []): ContaoFrameworkInterface
+    {
+        if (!isset($parameters['adapters'])) {
+            $controllerAdapter = $this->mockAdapter(['loadDataContainer']);
+            $parameters['adapters'] = [
+                Controller::class => $controllerAdapter,
+            ];
+        }
+        if (!isset($parameters['createInstanceCallback'])) {
+            $parameters['createInstanceCallback'] = function ($class) {
+                switch ($class) {
+                    case Database::class:
+                        return $this->getDatabaseMock();
+                        break;
+                }
+            };
+        }
+
+        $framework = $this->mockContaoFramework($parameters['adapters']);
+        $framework->method('createInstance')->willReturnCallback($parameters['createInstanceCallback']);
+        return $framework;
+    }
+
+    public function getDatabaseMock()
+    {
+        $databaseAdapter = $this->mockAdapter([
+            'getInstance',
+            'prepare',
+            'execute',
+            'fieldExists',
+            'listTables',
+        ]);
+        $databaseAdapter->method('getInstance')->willReturnSelf();
+        $databaseAdapter->method('prepare')->withAnyParameters()->willReturnSelf();
+        $databaseAdapter->method('fieldExists')->willReturn(true);
+        $databaseAdapter->method('execute')->with($this->anything())->willReturnCallback(function ($alias) {
+            $result = new \stdClass();
+            $result->numRows = 0;
+            $result->id = 5;
+
+            switch ($alias) {
+                case 'existing-alias':
+                    $result->numRows = 1;
+                    $result->id = 1;
+
+                    break;
+            }
+
+            return $result;
+        });
+        $databaseAdapter->method('listTables')->willReturn($this->dataContainerTable);
+
+        return $databaseAdapter;
+    }
+
     public function testInstantiation()
     {
-        $util = new DcaUtil($this->getContainerMock());
+        $util = $this->getTestInstance();
         $this->assertInstanceOf(DcaUtil::class, $util);
     }
 
     public function testSetDefaultsFromDcaWithoutDataContainer()
     {
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $this->assertEmpty($dcaUtil->setDefaultsFromDca('tl_unknown_datacontainer'));
     }
 
@@ -52,7 +124,7 @@ class DcaUtilTest extends TestCaseEnvironment
 
         error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
 
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $data = $dcaUtil->setDefaultsFromDca('tl_test', new \stdClass());
 
         $this->assertNotEmpty($data);
@@ -66,7 +138,7 @@ class DcaUtilTest extends TestCaseEnvironment
 
         error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
 
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $data = $dcaUtil->setDefaultsFromDca('tl_test', []);
 
         $this->assertNotEmpty($data);
@@ -80,7 +152,7 @@ class DcaUtilTest extends TestCaseEnvironment
 
         error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
 
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $data = $dcaUtil->setDefaultsFromDca('tl_test');
 
         $this->assertNotEmpty($data);
@@ -89,7 +161,7 @@ class DcaUtilTest extends TestCaseEnvironment
 
     public function testGetConfigByArrayOrCallbackOrFunction()
     {
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
 
         $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['array' => true], 'array');
         $this->assertTrue($result);
@@ -125,14 +197,14 @@ class DcaUtilTest extends TestCaseEnvironment
         $framework = $this->mockContaoFramework();
         $framework->method('createInstance')->willReturn($databaseAdapter);
 
-        $container = $this->getContainerMock(null, $framework);
+        $container = $this->getContainerMock();
 
         $model = $this->mockClassWithProperties(Model::class, ['dateAdded' => 0]);
         $modelUtils = $this->mockAdapter(['findModelInstanceByPk']);
         $modelUtils->method('findModelInstanceByPk')->willReturn($model);
         $container->set('huh.utils.model', $modelUtils);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container, 'framework' => $framework]);
 
         $dcaUtil->setDateAdded($this->getDataContainerMock());
 
@@ -151,7 +223,7 @@ class DcaUtilTest extends TestCaseEnvironment
 
         $container->set('contao.framework', $framework);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container]);
         $result = $dcaUtil->setDateAdded($this->getDataContainerMock());
         $this->assertNull($result);
     }
@@ -173,7 +245,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $framework->method('createInstance')->willReturn($databaseAdapter);
         $container->set('contao.framework', $framework);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container]);
         $dcaUtil->setDateAddedOnCopy(1, $this->getDataContainerMock());
 
         // fail run
@@ -191,7 +263,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $framework->method('createInstance')->willReturn($databaseAdapter);
         $container->set('contao.framework', $framework);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container]);
         $result = $dcaUtil->setDateAddedOnCopy(1, $this->getDataContainerMock());
         $this->assertNull($result);
     }
@@ -199,7 +271,7 @@ class DcaUtilTest extends TestCaseEnvironment
     public function testGetFields()
     {
         $GLOBALS['TL_LANGUAGE'] = 'de';
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
 
         $fields = $dcaUtil->getFields('bllaa');
         $this->assertSame([], $fields);
@@ -278,7 +350,7 @@ class DcaUtilTest extends TestCaseEnvironment
 
         $GLOBALS['TL_DCA']['destinationTable'] = ['palettes' => ['__selector__' => [], 'default' => '{general_legend},title, text;{submission_legend},addSubmission;{publish_legend},published'], 'subpalettes' => ['overrideTitle_test' => 'title', 'addSubmission']];
 
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $dcaUtil->addOverridableFields(['title', 'addSubmission'], 'sourceTable', 'destinationTable', [
             'skipLocalization' => true,
         ]);
@@ -313,7 +385,7 @@ class DcaUtilTest extends TestCaseEnvironment
     {
         $utilsModelMocked = $this->mockClassWithProperties(Model::class, ['overrideTitle2' => 'title2', 'title2' => 'title2']);
 
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $result = $dcaUtil->getOverridableProperty('title', [$utilsModelMocked, 'instance' => ['table', 'pk']]);
 
         $this->assertSame('title', $result);
@@ -321,16 +393,14 @@ class DcaUtilTest extends TestCaseEnvironment
 
     public function testFlattenPaletteForSubEntities()
     {
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $dcaUtil->flattenPaletteForSubEntities('destinationTable', ['overrideTitle', 'overrideAddSubmission']);
         $this->assertSame(['addSubmission'], $GLOBALS['TL_DCA']['destinationTable']['subpalettes']);
     }
 
     public function testGenerateAlias()
     {
-        $framework = $this->mockContaoFramework();
-        $framework->method('createInstance')->willReturn($this->getDatabaseMock());
-        $util = new DcaUtil($this->getContainerMock(null, $framework));
+        $util = $this->getTestInstance();
 
         $this->assertSame('alias', $util->generateAlias('alias', 15, 'tl_table', 'Alias'));
         $this->assertSame('alias', $util->generateAlias('', 15, 'tl_table', 'Alias'));
@@ -389,7 +459,7 @@ class DcaUtilTest extends TestCaseEnvironment
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ];
 
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $dcaUtil->addAuthorFieldAndCallback('testTable');
 
         $this->assertSame($array['TL_DCA']['testTable']['fields']['author']['label'], $GLOBALS['TL_DCA']['testTable']['fields']['author']['label']);
@@ -409,11 +479,11 @@ class DcaUtilTest extends TestCaseEnvironment
 
         $framework = $this->mockContaoFramework([FrontendUser::class => $frontendUser]);
         $framework->method('createInstance')->willReturn($this->getDatabaseMock());
-        $container = $this->getContainerMock(null, $framework);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['framework' => $framework]);
         $dcaUtil->setAuthorIDOnCreate('table', 2, ['row'], $this->getDataContainerMock());
 
+        $container = $this->getContainerMock();
         $containerUtils = $this->mockAdapter(['isFrontend']);
         $containerUtils->method('isFrontend')->willReturn(false);
         $container->set('huh.utils.container', $containerUtils);
@@ -424,23 +494,22 @@ class DcaUtilTest extends TestCaseEnvironment
 
         $framework = $this->mockContaoFramework([BackendUser::class => $backendUser]);
         $framework->method('createInstance')->willReturn($this->getDatabaseMock());
-        $container->set('contao.framework', $framework);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container, 'framework' => $framework]);
         $dcaUtil->setAuthorIDOnCreate('table', 2, ['row'], $this->getDataContainerMock());
 
         $utilsModel = $this->createMock(ModelUtil::class);
         $utilsModel->method('findModelInstanceByPk')->willReturn(null);
         $container->set('huh.utils.model', $utilsModel);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container, $framework]);
         $result = $dcaUtil->setAuthorIDOnCreate('table', 2, ['row'], $this->getDataContainerMock());
         $this->assertFalse($result);
     }
 
     public function testModifyAuthorPaletteOnLoad()
     {
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $dcaUtil = $this->getTestInstance();
         $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
 
         $this->assertArrayNotHasKey('author', $GLOBALS['TL_DCA']['testTable']['fields']);
@@ -451,7 +520,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $utilsModel->method('findModelInstanceByPk')->willReturn($mockedModel);
         $container->set('huh.utils.model', $utilsModel);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container]);
 
         $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
         $this->arrayHasKey('options_callback', $GLOBALS['TL_DCA']['testTable']['fields']['author']);
@@ -460,11 +529,11 @@ class DcaUtilTest extends TestCaseEnvironment
         $utilsModel->method('findModelInstanceByPk')->willReturn(null);
         $container->set('huh.utils.model', $utilsModel);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container]);
         $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
         $this->assertFalse($result);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container]);
         $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock(false));
         $this->assertFalse($result);
 
@@ -473,7 +542,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $containerUtils->method('isBackend')->willReturn(false);
         $container->set('huh.utils.container', $containerUtils);
 
-        $dcaUtil = new DcaUtil($container);
+        $dcaUtil = $this->getTestInstance(['container' => $container]);
         $result = $dcaUtil->modifyAuthorPaletteOnLoad($this->getDataContainerMock());
         $this->assertFalse($result);
     }
@@ -495,39 +564,16 @@ class DcaUtilTest extends TestCaseEnvironment
             ],
         ];
 
-        $dcaUtil = new DcaUtil($this->getContainerMock());
+        $databaseContainers = ['tl_content', 'tl_module', 'tl_news'];
+        $this->dataContainerTable = $databaseContainers;
+        $dcaUtil = $this->getTestInstance();
         $result = $dcaUtil->getDataContainers();
-        $this->assertSame(['tl_members', 'tl_news'], $result);
-    }
+        $this->assertCount(4, $result);
+        $this->assertSame(['tl_content', 'tl_members', 'tl_module', 'tl_news'], $result);
 
-    public function getDatabaseMock()
-    {
-        $databaseAdapter = $this->mockAdapter([
-            'getInstance',
-            'prepare',
-            'execute',
-            'fieldExists',
-        ]);
-        $databaseAdapter->method('getInstance')->willReturnSelf();
-        $databaseAdapter->method('prepare')->withAnyParameters()->willReturnSelf();
-        $databaseAdapter->method('fieldExists')->willReturn(true);
-        $databaseAdapter->method('execute')->with($this->anything())->willReturnCallback(function ($alias) {
-            $result = new \stdClass();
-            $result->numRows = 0;
-            $result->id = 5;
-
-            switch ($alias) {
-                case 'existing-alias':
-                    $result->numRows = 1;
-                    $result->id = 1;
-
-                    break;
-            }
-
-            return $result;
-        });
-
-        return $databaseAdapter;
+        $result = $dcaUtil->getDataContainers(['onlyTableType' => true]);
+        $this->assertCount(3, $result);
+        $this->assertSame($databaseContainers, $result);
     }
 
     /**

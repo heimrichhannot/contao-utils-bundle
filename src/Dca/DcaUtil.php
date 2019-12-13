@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 use Contao\BackendUser;
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Database\Result;
@@ -42,10 +43,10 @@ class DcaUtil
      */
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework)
     {
-        $this->framework = $container->get('contao.framework');
         $this->container = $container;
+        $this->framework = $framework;
     }
 
     /**
@@ -221,7 +222,7 @@ class DcaUtil
      */
     public function setDefaultsFromDca($strTable, $varData = null)
     {
-        Controller::loadDataContainer($strTable);
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($strTable);
 
         if (empty($GLOBALS['TL_DCA'][$strTable])) {
             return $varData;
@@ -358,7 +359,7 @@ class DcaUtil
             return $fields;
         }
 
-        Controller::loadDataContainer($table);
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
         System::loadLanguageFile($table);
 
         if (!isset($GLOBALS['TL_DCA'][$table]['fields'])) {
@@ -410,11 +411,11 @@ class DcaUtil
      */
     public function addOverridableFields(array $fields, string $sourceTable, string $destinationTable, array $options = [])
     {
-        Controller::loadDataContainer($sourceTable);
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($sourceTable);
         System::loadLanguageFile($sourceTable);
         $sourceDca = $GLOBALS['TL_DCA'][$sourceTable];
 
-        Controller::loadDataContainer($destinationTable);
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($destinationTable);
         System::loadLanguageFile($destinationTable);
         $destinationDca = &$GLOBALS['TL_DCA'][$destinationTable];
 
@@ -509,7 +510,7 @@ class DcaUtil
      */
     public function flattenPaletteForSubEntities(string $table, array $overridableFields)
     {
-        Controller::loadDataContainer($table);
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
 
         $dca = &$GLOBALS['TL_DCA'][$table];
         $arrayUtil = $this->container->get('huh.utils.array');
@@ -607,7 +608,7 @@ class DcaUtil
 
     public function addAuthorFieldAndCallback(string $table, string $fieldPrefix = '')
     {
-        Controller::loadDataContainer($table);
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
 
         // callbacks
         $GLOBALS['TL_DCA'][$table]['config']['oncreate_callback']['setAuthorIDOnCreate'] = ['huh.utils.dca', 'setAuthorIDOnCreate'];
@@ -709,25 +710,32 @@ class DcaUtil
     }
 
     /**
+     * Returns (nearly) all registered datacontainers as array.
+     *
+     * Options:
+     * - bool onlyTableType: Return only table data containers
+     *
      * @return array
      */
-    public function getDataContainers()
+    public function getDataContainers(array $options = [])
     {
-        $dca = [];
-
+        $dcaTables = $this->framework->createInstance(Database::class)->listTables();
+        if (isset($options['onlyTableType']) && true === $options['onlyTableType']) {
+            return $dcaTables;
+        }
         foreach ($GLOBALS['BE_MOD'] as $arrSection) {
             foreach ($arrSection as $strModule => $arrModule) {
                 foreach ($arrModule as $strKey => $varValue) {
                     if (\is_array($arrModule['tables'])) {
-                        $dca = array_merge($dca, $arrModule['tables']);
+                        $dcaTables = array_merge($dcaTables, $arrModule['tables']);
                     }
                 }
             }
         }
-        $dca = array_unique($dca);
-        asort($dca);
+        $dcaTables = array_unique($dcaTables);
+        asort($dcaTables);
 
-        return array_values($dca);
+        return array_values($dcaTables);
     }
 
     /**
