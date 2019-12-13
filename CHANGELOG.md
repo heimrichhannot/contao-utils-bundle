@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file.
 - added `ContainerUtil::isFrontendCron()`
 - fixed `StringUtil::replaceUnicodeEmojisByHtml()`
 
+## [2.124.0] - 2019-12-13
+- updated `DcaUtil::getDataContainers()` to list all database data containers
+- added  `DcaUtil::getDataContainers()` option to only list database data containers
+- updated dca util tests
+
 ## [2.123.0] - 2019-11-27
 
 - replace inserttags in `FormUtil::prepareSpecialValueForOutput`
