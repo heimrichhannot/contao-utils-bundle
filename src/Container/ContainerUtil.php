@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2019 Heimrich & Hannot GmbH
+ * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Container;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
+use Contao\System;
 use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
@@ -93,6 +94,11 @@ class ContainerUtil
         }
 
         return false;
+    }
+
+    public function isDev()
+    {
+        return 'dev' === System::getContainer()->getParameter('kernel.environment');
     }
 
     public function getCurrentRequest()

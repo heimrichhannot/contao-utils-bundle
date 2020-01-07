@@ -1,7 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.125.0] - 2020-01-07
+
+- added `ContainerUtil::isDev()`
+
 ## [2.124.0] - 2019-12-13
+
 - updated `DcaUtil::getDataContainers()` to list all database data containers
 - added  `DcaUtil::getDataContainers()` option to only list database data containers
 - updated dca util tests

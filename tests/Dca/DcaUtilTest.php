@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2019 Heimrich & Hannot GmbH
+ * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -27,7 +27,7 @@ use Symfony\Component\Translation\Translator;
 
 class DcaUtilTest extends TestCaseEnvironment
 {
-    protected $dataContainerTable = ['tl_module','tl_content'];
+    protected $dataContainerTable = ['tl_module', 'tl_content'];
 
     public function setUp()
     {
@@ -43,10 +43,12 @@ class DcaUtilTest extends TestCaseEnvironment
         if (!isset($properties['container'])) {
             $properties['container'] = $this->getContainerMock();
         }
+
         if (!isset($properties['framework'])) {
             $properties['framework'] = $this->getContaoFrameworkMock();
         }
         $instance = new DcaUtil($properties['container'], $properties['framework']);
+
         return $instance;
     }
 
@@ -58,11 +60,13 @@ class DcaUtilTest extends TestCaseEnvironment
                 Controller::class => $controllerAdapter,
             ];
         }
+
         if (!isset($parameters['createInstanceCallback'])) {
             $parameters['createInstanceCallback'] = function ($class) {
                 switch ($class) {
                     case Database::class:
                         return $this->getDatabaseMock();
+
                         break;
                 }
             };
@@ -70,6 +74,7 @@ class DcaUtilTest extends TestCaseEnvironment
 
         $framework = $this->mockContaoFramework($parameters['adapters']);
         $framework->method('createInstance')->willReturnCallback($parameters['createInstanceCallback']);
+
         return $framework;
     }
 

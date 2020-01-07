@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2019 Heimrich & Hannot GmbH
+ * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -10,7 +10,6 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 use Contao\BackendUser;
 use Contao\Controller;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Database\Result;
@@ -720,9 +719,11 @@ class DcaUtil
     public function getDataContainers(array $options = [])
     {
         $dcaTables = $this->framework->createInstance(Database::class)->listTables();
+
         if (isset($options['onlyTableType']) && true === $options['onlyTableType']) {
             return $dcaTables;
         }
+
         foreach ($GLOBALS['BE_MOD'] as $arrSection) {
             foreach ($arrSection as $strModule => $arrModule) {
                 foreach ($arrModule as $strKey => $varValue) {
