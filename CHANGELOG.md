@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.126.0] - 2020-01-09
+
+- added `DatabaseUtil::findResultByPk()`
+- added `DatabaseUtil::findOneResultBy()`
+
 ## [2.125.0] - 2020-01-07
 
 - added `ContainerUtil::isDev()`

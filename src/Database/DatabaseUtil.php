@@ -731,4 +731,94 @@ class DatabaseUtil
 
         return $children;
     }
+
+    /**
+     * Returns a database result for a given table and id(primary key).
+     *
+     * @param string $table
+     * @param mixed  $pk
+     * @param array  $options
+     *
+     * @return mixed
+     */
+    public function findResultByPk(string $table, $pk, array $options = [])
+    {
+        /* @var Database $adapter */
+        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+            return null;
+        }
+
+        $options = array_merge(
+            [
+                'limit' => 1,
+                'column' => 'id',
+                'value' => $pk,
+            ],
+            $options
+        );
+
+        $options['table'] = $table;
+        $query = \Contao\Model\QueryBuilder::find($options);
+
+        $statement = $adapter->getInstance()->prepare($query);
+
+        // Defaults for limit and offset
+        if (!isset($options['limit'])) {
+            $options['limit'] = 0;
+        }
+
+        if (!isset($options['offset'])) {
+            $options['offset'] = 0;
+        }
+
+        // Limit
+        if ($options['limit'] > 0 || $options['offset'] > 0) {
+            $statement->limit($options['limit'], $options['offset']);
+        }
+
+        return $statement->execute($options['value']);
+    }
+
+    /**
+     * Return a single database result by table and search criteria.
+     *
+     * @param string $table
+     * @param array  $columns
+     * @param array  $values
+     * @param array  $options
+     *
+     * @return mixed
+     */
+    public function findOneResultBy(string $table, array $columns, array $values, array $options = [])
+    {
+        /* @var Database $adapter */
+        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+            return null;
+        }
+
+        $options = array_merge(
+            [
+                'limit' => 1,
+                'column' => $columns,
+                'value' => $values,
+            ],
+            $options
+        );
+
+        $options['table'] = $table;
+        $query = \Contao\Model\QueryBuilder::find($options);
+
+        $statement = $adapter->getInstance()->prepare($query);
+
+        if (!isset($options['offset'])) {
+            $options['offset'] = 0;
+        }
+
+        // Limit
+        if ($options['limit'] > 0 || $options['offset'] > 0) {
+            $statement->limit($options['limit'], $options['offset']);
+        }
+
+        return $statement->execute($options['value']);
+    }
 }
