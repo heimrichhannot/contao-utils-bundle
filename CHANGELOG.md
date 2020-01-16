@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.127.0] - 2020-01-16
+
+- added support for dc_multilingual 4
+
 ## [2.126.0] - 2020-01-09
 
 - added `DatabaseUtil::findResultByPk()`

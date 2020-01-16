@@ -163,7 +163,7 @@ class ModelUtil
             return null;
         }
 
-        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table)) {
+        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table) && $this->container->get('huh.utils.dca')->isDcMultilingual3()) {
             $table = 't1';
         }
 
@@ -190,7 +190,7 @@ class ModelUtil
             return null;
         }
 
-        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table)) {
+        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table) && $this->container->get('huh.utils.dca')->isDcMultilingual3()) {
             $table = 't1';
         }
 
@@ -230,7 +230,7 @@ class ModelUtil
      */
     public function fixTablePrefixForDcMultilingual(string $table, &$columns, array &$options = [])
     {
-        if (!$this->container->get('huh.utils.dca')->isDcMultilingual($table)) {
+        if (!$this->container->get('huh.utils.dca')->isDcMultilingual($table) || !$this->container->get('huh.utils.dca')->isDcMultilingual3()) {
             return $columns;
         }
 

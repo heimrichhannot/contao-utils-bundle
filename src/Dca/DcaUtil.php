@@ -862,6 +862,12 @@ class DcaUtil
             $this->container->get('huh.utils.container')->isBundleActive($bundleName);
     }
 
+    public function isDcMultilingual3()
+    {
+        return class_exists('Terminal42\DcMultilingualBundle\Model\Multilingual') &&
+            !method_exists('Terminal42\DcMultilingualBundle\Model\Multilingual', 'createModelFromDbResult');
+    }
+
     public function generateDcOperationsButtons($row, $table, $rootIds = [], $options = [])
     {
         $return = '';
