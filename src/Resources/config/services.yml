@@ -114,6 +114,12 @@ services:
     class: HeimrichHannot\UtilsBundle\Pdf\FPDIWriter
     public: true
     lazy:  true
+  huh.utils.comparison:
+    class: HeimrichHannot\UtilsBundle\Comparison\CompareUtil
+    public: true
+    lazy:  true
+    arguments:
+      - "@contao.framework"
   huh.twig.extension.date:
     class: HeimrichHannot\UtilsBundle\Twig\DateExtension
     tags: [twig.extension]
