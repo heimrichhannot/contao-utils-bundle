@@ -429,4 +429,19 @@ class FileUtil
 
         return $previewFile;
     }
+
+    public function getFileIdFromPath($path)
+    {
+        if (is_dir(System::getContainer()->get('huh.utils.container')->getProjectDir().'/'.$path)) {
+            if (null !== ($folder = (new Folder($path)))) {
+                return $folder->getModel()->id;
+            }
+        } else {
+            if (null !== ($file = (new File($path)))) {
+                return $file->getModel()->id;
+            }
+        }
+
+        return null;
+    }
 }
