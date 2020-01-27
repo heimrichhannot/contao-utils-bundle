@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.128.1] - 2020-01-27
+
+- added reference for php operators
+
 ## [2.128.0] - 2020-01-23
 
 - added comparison util

@@ -105,6 +105,21 @@ $GLOBALS['TL_LANG']['MSC']['databaseOperators'] = [
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_EMPTY  => 'ist nicht leer (!=\'\')',
 ];
 
+$GLOBALS['TL_LANG']['MSC']['phpOperators'] = [
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_EQUAL => '=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_UNEQUAL => '!=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_LIKE => 'enthält (string)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_UNLIKE => 'enthält nicht (string)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_IN_ARRAY => 'enthält (array)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_NOT_IN_ARRAY => 'enthält nicht (array)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_LOWER => '&lt;',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_LOWER_EQUAL => '&lt;=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_GREATER => '&gt;',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_GREATER_EQUAL => '&gt;=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_IS_NULL => 'ist null',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_IS_NOT_NULL => 'ist nicht null',
+];
+
 $GLOBALS['TL_LANG']['MSC']['connectives'] = [
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_AND => 'und',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_OR  => 'oder',
