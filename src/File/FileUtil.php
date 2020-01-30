@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\File;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\Database;
 use Contao\DataContainer;
 use Contao\Dbafs;
 use Contao\File;
@@ -264,7 +265,7 @@ class FileUtil
         $directory = ltrim(str_replace($this->container->getParameter('kernel.project_dir'), '', $file->dirname), '/');
 
         return ($directory ? $directory.'/' : '').$file->filename.uniqid($prefix, $moreEntropy).($file->extension ? '.'
-                                                                                                                            .$file->extension : '');
+                .$file->extension : '');
     }
 
     /**
@@ -382,9 +383,9 @@ class FileUtil
      * @param FilesModel $file
      * @param int        $page
      *
-     * @deprecated Dublicate to PdfPreview util
-     *
      * @return FilesModel
+     *
+     * @deprecated Dublicate to PdfPreview util
      */
     public function getPreviewFromPdf(FilesModel $file, int $page = 0): FilesModel
     {
@@ -443,5 +444,65 @@ class FileUtil
         }
 
         return null;
+    }
+
+    public function getFolderContent($parentIds, $table, $options = [], $return = [])
+    {
+        $returnRows = $options['returnRows'] ?? false;
+        $sorting = $options['sorting'] ?? false;
+        $where = $options['where'] ?? '';
+
+        if (!\is_array($parentIds)) {
+            $parentIds = [$parentIds];
+        }
+
+        if (empty($parentIds)) {
+            return $return;
+        }
+
+        $values = [];
+
+        $parentIds = array_map(function ($pid) use (&$values, $returnRows) {
+            $pid = \is_array($pid) ? $pid['id'] : $pid;
+
+            $values[] = bin2hex(Validator::isStringUuid($pid) ? StringUtil::uuidToBin($pid) : $pid);
+
+            return 'UNHEX(?)';
+        }, $parentIds);
+
+        $query = 'SELECT '.($returnRows ? '*' : 'id, pid').' FROM '.$table.' WHERE pid IN('.implode(',', $parentIds).')'.($where ? " AND $where" : '').($sorting ? ' ORDER BY '.$sorting : '');
+
+        $objChilds = $this->framework->createInstance(Database::class)->prepare($query)->execute($values);
+
+        if ($objChilds->numRows > 0) {
+            if ($sorting) {
+                $arrChilds = [];
+                $arrOrdered = [];
+
+                while ($objChilds->next()) {
+                    $arrChilds[] = $returnRows ? $objChilds->row() : $objChilds->id;
+                    $arrOrdered[$objChilds->pid][] = $returnRows ? $objChilds->row() : $objChilds->id;
+                }
+
+                foreach (array_reverse(array_keys($arrOrdered)) as $pid) {
+                    $pos = (int) array_search($pid, $return);
+                    array_insert($return, $pos + 1, $arrOrdered[$pid]);
+                }
+
+                $return = $this->getFolderContent($arrChilds, $table, $options, $return);
+            } else {
+                if ($returnRows) {
+                    while ($objChilds->next()) {
+                        $arrChilds[] = $objChilds->row();
+                    }
+                } else {
+                    $arrChilds = $objChilds->fetchEach('id');
+                }
+
+                $return = array_merge($arrChilds, $this->getFolderContent($arrChilds, $table, $options, $return));
+            }
+        }
+
+        return $return;
     }
 }

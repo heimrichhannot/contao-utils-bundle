@@ -821,4 +821,41 @@ class DatabaseUtil
 
         return $statement->execute($options['value']);
     }
+
+    public function findResultsBy(string $table, array $columns, array $values, array $options = [])
+    {
+        /* @var Database $adapter */
+        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+            return null;
+        }
+
+        $options = array_merge(
+            [
+                'column' => $columns,
+                'value' => $values,
+            ],
+            $options
+        );
+
+        $options['table'] = $table;
+        $query = \Contao\Model\QueryBuilder::find($options);
+
+        $statement = $adapter->getInstance()->prepare($query);
+
+        // Defaults for limit and offset
+        if (!isset($options['limit'])) {
+            $options['limit'] = 0;
+        }
+
+        if (!isset($options['offset'])) {
+            $options['offset'] = 0;
+        }
+
+        // Limit
+        if ($options['limit'] > 0 || $options['offset'] > 0) {
+            $statement->limit($options['limit'], $options['offset']);
+        }
+
+        return $statement->execute($options['value']);
+    }
 }

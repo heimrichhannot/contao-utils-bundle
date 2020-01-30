@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.130.0] - 2020-01-30
+
+- added `FileUtil::getFolderContent()`
+- added `DatabaseUtil::findResultsBy()`
+
 ## [2.129.0] - 2020-01-27
 
 - added `FileUtil::getFileIdFromPath()`
