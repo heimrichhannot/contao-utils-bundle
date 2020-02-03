@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+
+  _instanceof:
+    Twig\Extension\AbstractExtension:
+      tags: [twig.extension]
+
+  HeimrichHannot\UtilsBundle\Twig\StringExtension: ~

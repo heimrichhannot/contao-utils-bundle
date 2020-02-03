@@ -132,9 +132,6 @@ services:
   huh.twig.extension.image:
     class: HeimrichHannot\UtilsBundle\Twig\ImageExtension
     tags: [twig.extension]
-  huh.twig.extension.string:
-    class: HeimrichHannot\UtilsBundle\Twig\StringExtension
-    tags: [twig.extension]
   huh.twig.extension.array:
     class: HeimrichHannot\UtilsBundle\Twig\ArrayExtension
     tags: [twig.extension]

@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.131.0] - 2020-02-03
+
+- added `AnonymizerUtil` with email anonymizer
+- added `anonymize_email` twig filter
+
 ## [2.130.0] - 2020-01-30
 
 - added `FileUtil::getFolderContent()`

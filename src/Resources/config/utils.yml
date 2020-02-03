@@ -10,22 +10,24 @@ services:
 
   HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: ~
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
+  HeimrichHannot\UtilsBundle\Cache\FileCache: ~
+  HeimrichHannot\UtilsBundle\Cache\RemoteImageCache: ~
   HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~
   HeimrichHannot\UtilsBundle\File\FolderUtil: ~
   HeimrichHannot\UtilsBundle\Form\FormUtil: ~
   HeimrichHannot\UtilsBundle\Rsce\RsceUtil: ~
+  HeimrichHannot\UtilsBundle\String\AnonymizerUtil: ~
   HeimrichHannot\UtilsBundle\String\StringUtil: ~
 
   huh.utils.accordion: '@HeimrichHannot\UtilsBundle\Accordion\AccordionUtil'
   huh.utils.array: '@HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'
-
-  huh.utils.cache.file:
-    class: HeimrichHannot\UtilsBundle\Cache\FileCache
-  HeimrichHannot\UtilsBundle\Cache\FileCache: "@huh.utils.cache.file"
-
-  huh.utils.cache.remote_image_cache:
-    class: HeimrichHannot\UtilsBundle\Cache\RemoteImageCache
-  HeimrichHannot\UtilsBundle\Cache\RemoteImageCache: "@huh.utils.cache.remote_image_cache"
+  huh.utils.cache.file: '@HeimrichHannot\UtilsBundle\Cache\FileCache'
+  huh.utils.cache.remote_image_cache: '@HeimrichHannot\UtilsBundle\Cache\RemoteImageCache'
+  huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
+  huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
+  huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
+  huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
+  huh.utils.string.anonymizer: '@HeimrichHannot\UtilsBundle\String\AnonymizerUtil'
 
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
@@ -47,10 +49,6 @@ services:
     class: HeimrichHannot\UtilsBundle\File\FileUtil
   HeimrichHannot\UtilsBundle\File\FileUtil: "@huh.utils.file"
 
-  huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
-  huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
-  huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
-
   huh.utils.image:
     class: HeimrichHannot\UtilsBundle\Image\ImageUtil
   HeimrichHannot\UtilsBundle\Image\ImageUtil: "@huh.utils.image"
@@ -62,8 +60,6 @@ services:
   huh.utils.module:
     class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
   HeimrichHannot\UtilsBundle\Module\ModuleUtil: '@huh.utils.module'
-
-  huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
 
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
