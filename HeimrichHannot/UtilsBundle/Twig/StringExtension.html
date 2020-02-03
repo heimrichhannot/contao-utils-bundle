@@ -79,34 +79,30 @@
     </div>
 
     <p>    class
-    <strong>StringExtension</strong>        extends <abbr title="Twig\Extension\AbstractExtension">AbstractExtension</abbr>        implements
-        <abbr title="Symfony\Component\DependencyInjection\ContainerAwareInterface">ContainerAwareInterface</abbr>
+    <strong>StringExtension</strong>        extends <abbr title="Twig\Extension\AbstractExtension">AbstractExtension</abbr>
 </p>
 
         
     
 
     
-            <h2>Traits</h2>
-
-        
-    <div class="container-fluid underlined">
-                    <div class="row">
-                <div class="col-md-6">
-                                            <abbr title="Symfony\Component\DependencyInjection\ContainerAwareTrait">ContainerAwareTrait</abbr>
-                                            
-                </div>
-                <div class="col-md-6">
-                    
-                </div>
-            </div>
-            </div>
     
     
     
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(<a href="../../../HeimrichHannot/UtilsBundle/String/AnonymizerUtil.html"><abbr title="HeimrichHannot\UtilsBundle\String\AnonymizerUtil">AnonymizerUtil</abbr></a> $anonymizerUtil)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     array|Twig_SimpleFilter[]
@@ -128,6 +124,17 @@
                                     </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_anonymizeEmail">anonymizeEmail</a>(string $text)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -135,8 +142,37 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         line 22</div>
+        <code>                    
+    <strong>__construct</strong>(<a href="../../../HeimrichHannot/UtilsBundle/String/AnonymizerUtil.html"><abbr title="HeimrichHannot\UtilsBundle\String\AnonymizerUtil">AnonymizerUtil</abbr></a> $anonymizerUtil)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../HeimrichHannot/UtilsBundle/String/AnonymizerUtil.html"><abbr title="HeimrichHannot\UtilsBundle\String\AnonymizerUtil">AnonymizerUtil</abbr></a></td>
+                <td>$anonymizerUtil</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getFilters">
-        <div class="location">at         line 25</div>
+        <div class="location">at         line 32</div>
         <code>                    array|Twig_SimpleFilter[]
     <strong>getFilters</strong>()
         </code>
@@ -166,7 +202,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_autolink">
-        <div class="location">at         line 32</div>
+        <div class="location">at         line 40</div>
         <code>                    string
     <strong>autolink</strong>(string $text, array $options = [])
         </code>
@@ -187,6 +223,44 @@
                     <tr>
                 <td>array</td>
                 <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_anonymizeEmail">
+        <div class="location">at         line 51</div>
+        <code>                    string
+    <strong>anonymizeEmail</strong>(string $text)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$text</td>
                 <td></td>
             </tr>
             </table>
