@@ -12,6 +12,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Twig;
 
 
+use Contao\Controller;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\String\AnonymizerUtil;
 use HeimrichHannot\UtilsBundle\Twig\StringExtension;
@@ -19,10 +20,13 @@ use Twig\TwigFilter;
 
 class StringExtensionTest extends ContaoTestCase
 {
-    public function createInstance()
+    public function createInstance($parameter = [])
     {
+        if (!isset($parameter['framework'])) {
+            $parameter['framework'] = $this->mockContaoFramework();
+        }
         $anonymizerUtil = new AnonymizerUtil();
-        $instance = new StringExtension($anonymizerUtil);
+        $instance = new StringExtension($anonymizerUtil, $parameter['framework']);
         return $instance;
     }
 
@@ -39,5 +43,17 @@ class StringExtensionTest extends ContaoTestCase
         $this->assertSame('max.mus*******@example.org', $instance->anonymizeEmail('max.mustermann@example.org'));
         $this->assertSame('digi****@heimrich-hannot.de', $instance->anonymizeEmail('digitales@heimrich-hannot.de'));
         $this->assertSame('dasIstKeinE-Mail', $instance->anonymizeEmail('dasIstKeinE-Mail'));
+    }
+
+    public function testReplaceInsertTag()
+    {
+        $controller = $this->mockAdapter(['replaceInsertTags']);
+        $controller->expects($this->once())->method('replaceInsertTags')->willReturnArgument(0);
+        $framework = $this->mockContaoFramework([
+           Controller::class => $controller,
+        ]);
+        $framework->expects($this->once())->method('initialize');
+        $instance = $this->createInstance(['framework' => $framework]);
+        $this->assertSame('No inserttag', $instance->replaceInsertTag('No inserttag'));
     }
 }

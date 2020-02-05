@@ -145,25 +145,26 @@ huh_utils:
 
 These bundle add server twig filters:
 
-Filter | Parameter | Description
------- | --------- | -----------
-autolink | array options | Create a link if string is an url.
-anonymize_email | - | Returns an anonymized email address. max.muster@example.org will be max.****@example.org
-deserialize | bool force_array = false | Deserialize an serialized array (using `\Contao\StringUtil`)
-download | download = true, data = [], template = "@HeimrichHannotContaoUtils\/download.html.twig" |
-download_data | data = [] |
-download_link | data = [] |
-download_path | data = [] |
-download_title | data = [] |
-file_data | data = [], jsonSerializeOptions = []
-file_path | | 
-image | size = null, data = [], template = "image.html.twig" |
-image_caption | | 
-image_data | size = null, data = [] |
-image_gallery | template = "image_gallery.html.twig"
-image_size | |
-image_width | |
-localized_date | format = null |
+Filter            | Parameter | Description
+----------------- | --------- | -----------
+autolink          | array options | Create a link if string is an url.
+anonymize_email   | - | Returns an anonymized email address. max.muster@example.org will be max.****@example.org
+deserialize       | bool force_array = false | Deserialize an serialized array (using `\Contao\StringUtil`)
+download          | download = true, data = [], template = "@HeimrichHannotContaoUtils\/download.html.twig" |
+download_data     | data = [] |
+download_link     | data = [] |
+download_path     | data = [] |
+download_title    | data = [] |
+file_data         | data = [], jsonSerializeOptions = []
+file_path         | | 
+image             | size = null, data = [], template = "image.html.twig" |
+image_caption     | | 
+image_data        | size = null, data = [] |
+image_gallery     | template = "image_gallery.html.twig"
+image_size        | |
+image_width       | |
+localized_date    | format = null |
+replace_inserttag | bool cache = true | Replace contao inserttag in twig string.
 
 
 ### Image Extension

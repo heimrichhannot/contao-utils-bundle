@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.132.0] - 2020-02-05
+- added `replace_inserttag` twig filter
+
 ## [2.131.0] - 2020-02-03
 
 - added `AnonymizerUtil` with email anonymizer

@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Twig;
 
+use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use HeimrichHannot\UtilsBundle\String\AnonymizerUtil;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -18,10 +20,15 @@ class StringExtension extends AbstractExtension
      * @var AnonymizerUtil
      */
     private $anonymizerUtil;
+    /**
+     * @var ContaoFrameworkInterface
+     */
+    private $framework;
 
-    public function __construct(AnonymizerUtil $anonymizerUtil)
+    public function __construct(AnonymizerUtil $anonymizerUtil, ContaoFrameworkInterface $framework)
     {
         $this->anonymizerUtil = $anonymizerUtil;
+        $this->framework = $framework;
     }
 
     /**
@@ -34,6 +41,7 @@ class StringExtension extends AbstractExtension
         return [
             new TwigFilter('autolink', [$this, 'autolink']),
             new TwigFilter('anonymize_email', [$this, 'anonymizeEmail']),
+            new TwigFilter('replace_inserttag', [$this, 'replaceInsertTag']),
         ];
     }
 
@@ -51,5 +59,11 @@ class StringExtension extends AbstractExtension
     public function anonymizeEmail(string $text): string
     {
         return $this->anonymizerUtil->anonymizeEmail($text);
+    }
+
+    public function replaceInsertTag(string $text, bool $cache = true)
+    {
+        $this->framework->initialize();
+        return $this->framework->getAdapter(Controller::class)->replaceInsertTags($text, $cache);
     }
 }
