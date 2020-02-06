@@ -55,7 +55,7 @@ class StringExtension extends AbstractExtension
             return '<a'.(isset($options['blank']) && $options['blank'] ? ' target=" _blank"' : '').' href="'.$matches['url'].'">'.$matches['url'].'</a>';
         }, $text, $options['limit'] ?? -1);
     }
-    
+
     public function anonymizeEmail(string $text): string
     {
         return $this->anonymizerUtil->anonymizeEmail($text);
@@ -64,6 +64,7 @@ class StringExtension extends AbstractExtension
     public function replaceInsertTag(string $text, bool $cache = true)
     {
         $this->framework->initialize();
+
         return $this->framework->getAdapter(Controller::class)->replaceInsertTags($text, $cache);
     }
 }

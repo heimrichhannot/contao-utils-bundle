@@ -1,21 +1,15 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
-
 
 namespace HeimrichHannot\UtilsBundle\String;
 
 /**
- * Class AnonymizerUtil
- * @package HeimrichHannot\UtilsBundle\String
- *
- * Service alias: huh.utils.string
+ * Class AnonymizerUtil.
  */
 class AnonymizerUtil
 {
@@ -28,17 +22,21 @@ class AnonymizerUtil
      * max.mustermann@example.org will be max.mus*******\@example.org
      *
      * @param string $email
+     *
      * @return string The anonymized email address
+     *
      * @since 2.131
      */
     public function anonymizeEmail(string $email)
     {
-        $em   = explode("@",$email);
-        if (count($em) !== 2) {
+        $em = explode('@', $email);
+
+        if (2 !== \count($em)) {
             return $email;
         }
-        $name = implode('@', array_slice($em, 0, count($em)-1));
-        $len  = floor(strlen($name)/2);
-        return substr($name,0, $len) . str_repeat('*', $len) . "@" . end($em);
+        $name = implode('@', \array_slice($em, 0, \count($em) - 1));
+        $len = floor(\strlen($name) / 2);
+
+        return substr($name, 0, $len).str_repeat('*', $len).'@'.end($em);
     }
 }

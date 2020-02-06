@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Choice;
 
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 
 class ModelInstanceChoice extends AbstractChoice
 {
@@ -56,13 +57,34 @@ class ModelInstanceChoice extends AbstractChoice
                 }
             }
 
-            $label = preg_replace_callback(
-                '@%([^%]+)%@i',
-                function ($matches) use ($instances) {
-                    return $instances->{$matches[1]};
-                },
-                $labelPattern
-            );
+            $skipFormatting = $context['skipFormatting'] ?? false;
+
+            if (!$skipFormatting) {
+                $dca = &$GLOBALS['TL_DCA']['tl_submission'];
+                $dc = new DC_Table_Utils($context['dataContainer']);
+                $dc->id = $instances->id;
+                $dc->activeRecord = $instances->current();
+
+                $label = preg_replace_callback(
+                    '@%([^%]+)%@i',
+                    function ($matches) use ($instances, $dca, $context, $dc) {
+                        return System::getContainer()->get('huh.utils.form')->prepareSpecialValueForOutput(
+                            $matches[1],
+                            $instances->{$matches[1]},
+                            $dc
+                        );
+                    },
+                    $labelPattern
+                );
+            } else {
+                $label = preg_replace_callback(
+                    '@%([^%]+)%@i',
+                    function ($matches) use ($instances) {
+                        return $instances->{$matches[1]};
+                    },
+                    $labelPattern
+                );
+            }
 
             if (null !== ($callbackLabel = System::getContainer()->get('huh.utils.dca')->getConfigByArrayOrCallbackOrFunction($context, 'label', [$label, $instances->row(), $context]))) {
                 $label = $callbackLabel;

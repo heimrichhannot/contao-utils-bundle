@@ -1,7 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.133.0] - 2020-02-06
+
+- added label formatting for `ModelInstanceChoice`
+
 ## [2.132.0] - 2020-02-05
+
 - added `replace_inserttag` twig filter
 
 ## [2.131.0] - 2020-02-03
