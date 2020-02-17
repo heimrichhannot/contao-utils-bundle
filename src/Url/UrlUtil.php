@@ -115,9 +115,11 @@ class UrlUtil
     /**
      * Remove query parameters from the current URL.
      *
-     * @param array $params
-     * @param string|int|null $url
+     * Options:
+     * - absoluteUrl: (boolean) Return absolute url instead of relative url. Only applicable if id or null is given as url. Default: false
      *
+     * @param array $params List of parameters to remove from url
+     * @param string|int|null $url Full Uri, Page id or null (for current environment uri)
      * @param array $options
      * @return string
      */
@@ -287,7 +289,7 @@ class UrlUtil
      * Prepare URL from ID and keep query string from current string.
      *
      * Options:
-     * - absoluteUrl: (boolean) Return absolute url instead of relative url. Only applicable if page id is given. Default: false
+     * - absoluteUrl: (boolean) Return absolute url instead of relative url. Only applicable if id or null is given as url. Default: false
      *
      * @param string|int|null Url or page id
      * @param array $options Pass additional options.
