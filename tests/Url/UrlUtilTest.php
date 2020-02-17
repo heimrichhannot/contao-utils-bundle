@@ -16,7 +16,9 @@ use Contao\PageModel;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\RequestBundle\Component\HttpFoundation\Request;
+use HeimrichHannot\UtilsBundle\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Url\UrlUtil;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\RequestMatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -48,10 +50,20 @@ class UrlUtilTest extends ContaoTestCase
         }
     }
 
+    public function createTestInstance(array $parameter = [])
+    {
+        if (!isset($parameter['framework'])) {
+            $parameter['framework'] = $this->mockContaoFramework();
+        }
+        /** @var RequestUtil|MockObject $requestUtil */
+        $requestUtil = $this->createMock(RequestUtil::class);
+        $instance = new UrlUtil($parameter['framework'], $requestUtil);
+        return $instance;
+    }
+
     public function testGetCurrentUrl()
     {
-        $framework = $this->mockContaoFramework();
-        $urlUtil = new UrlUtil($framework);
+        $urlUtil = $this->createTestInstance();
 
         $url = $urlUtil->getCurrentUrl(['skipParams' => false]);
         $urlWithoutParams = $urlUtil->getCurrentUrl(['skipParams' => true]);
@@ -62,14 +74,12 @@ class UrlUtilTest extends ContaoTestCase
 
     public function testAddQueryString()
     {
-        $framework = $this->mockContaoFramework();
-        $urlUtil = new UrlUtil($framework);
+        $urlUtil = $this->createTestInstance();
 
         $url = $urlUtil->addQueryString('question=1');
         $this->assertSame('?answer=12&question=1', $url);
 
-        $framework = $this->mockContaoFramework();
-        $urlUtil = new UrlUtil($framework);
+        $urlUtil = $this->createTestInstance();
 
         $url = $urlUtil->addQueryString('question=1', 'http://localhost');
         $this->assertSame('http://localhost?question=1', $url);
@@ -77,8 +87,7 @@ class UrlUtilTest extends ContaoTestCase
 
     public function testRemoveQueryString()
     {
-        $framework = $this->mockContaoFramework();
-        $urlUtil = new UrlUtil($framework);
+        $urlUtil = $this->createTestInstance();
 
         $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&bla=fuuu');
         $this->assertSame('http://localhost', $url);
@@ -91,6 +100,18 @@ class UrlUtilTest extends ContaoTestCase
 
         $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&blaaa=fuuu');
         $this->assertSame('http://localhost?blaaa=fuuu', $url);
+
+        Environment::set('uri', "https://example.org/page/1?foo=bar&test=1");
+        Environment::set('requestUri', "/page/1?foo=bar&test=1");
+
+        $url = $urlUtil->removeQueryString([], null, ['absoluteUrl' => true]);
+        $this->assertSame('https://example.org/page/1?foo=bar&test=1', $url);
+        $url = $urlUtil->removeQueryString(['foo'], null, ['absoluteUrl' => true]);
+        $this->assertSame('https://example.org/page/1?test=1', $url);
+        $url = $urlUtil->removeQueryString(['foo','test'], null, ['absoluteUrl' => true]);
+        $this->assertSame('https://example.org/page/1', $url);
+        $url = $urlUtil->removeQueryString(['test'], null);
+        $this->assertSame('/page/1?foo=bar', $url);
     }
 
     public function testGetJumpToPageObject()
@@ -98,8 +119,7 @@ class UrlUtilTest extends ContaoTestCase
         $objPage = $this->mockClassWithProperties(Model::class, ['id' => 2]);
         $GLOBALS['objPage'] = $objPage;
 
-        $framework = $this->mockContaoFramework();
-        $urlUtil = new UrlUtil($framework);
+        $urlUtil = $this->createTestInstance();
 
         $jumpToPage = $urlUtil->getJumpToPageObject(12);
 
@@ -111,8 +131,7 @@ class UrlUtilTest extends ContaoTestCase
         $container->set('huh.utils.model', $utilsModelAdapter);
         System::setContainer($container);
 
-        $framework = $this->mockContaoFramework();
-        $urlUtil = new UrlUtil($framework);
+        $urlUtil = $this->createTestInstance();
 
         $jumpToPage = $urlUtil->getJumpToPageObject(12);
         $this->assertSame($objPage, $jumpToPage);
@@ -123,29 +142,44 @@ class UrlUtilTest extends ContaoTestCase
 
     public function testPrepareUrl()
     {
-        if (!\defined('TL_MODE')) {
-            \define('TL_MODE', 'BE');
-        }
         $pageModel = $this->createMock(PageModel::class);
         $pageModel->method('row')->willReturn(['id' => 1, 'rootId' => 12, 'alias' => 'alias']);
+        $pageModel->method('getAbsoluteUrl')->willReturn('www.localhost.de/page');
+        $pageModel->method('getFrontendUrl')->willReturn('/page');
 
-        $pageModelAdapter = $this->mockAdapter(['findByPk']);
+        $pageModelAdapter = $this->mockAdapter(['findByPk', 'getAbsoluteUrl','getFrontendUrl']);
         $pageModelAdapter->method('findByPk')->willReturn(null);
-        $urlUtil = new UrlUtil($this->mockContaoFramework([PageModel::class => $pageModelAdapter]));
+
+        $urlUtil = $this->createTestInstance([
+            'framework' => $this->mockContaoFramework([PageModel::class => $pageModelAdapter])
+        ]);
 
         try {
-            $url = $urlUtil->removeQueryString([], 1);
+            $url = $urlUtil->prepareUrl(1);
         } catch (\Exception $exception) {
             $this->assertSame('Given page id does not exist.', $exception->getMessage());
         }
 
-        $controllerAdapter = $this->mockAdapter(['generateFrontendUrl']);
-        $controllerAdapter->method('generateFrontendUrl')->willReturn('www.localhost.de/page');
         $pageModelAdapter = $this->mockAdapter(['findByPk']);
         $pageModelAdapter->method('findByPk')->willReturn($pageModel);
-        $urlUtil = new UrlUtil($this->mockContaoFramework([PageModel::class => $pageModelAdapter, Controller::class => $controllerAdapter]));
-        $url = $urlUtil->removeQueryString([], 1);
+        $urlUtil = $this->createTestInstance([
+            'framework' => $this->mockContaoFramework([
+                PageModel::class => $pageModelAdapter,
+            ])
+        ]);
+
+        $url = $urlUtil->prepareUrl(1, ['absoluteUrl' => true]);
         $this->assertSame('www.localhost.de/page?answer=12', $url);
+        $url = $urlUtil->prepareUrl(1);
+        $this->assertSame('/page?answer=12', $url);
+
+        Environment::set('uri', "https://example.org/page/1");
+        Environment::set('requestUri', "/page/1");
+
+        $url = $urlUtil->prepareUrl(null, ['absoluteUrl' => true]);
+        $this->assertSame('https://example.org/page/1', $url);
+        $url = $urlUtil->prepareUrl(null);
+        $this->assertSame('/page/1', $url);
     }
 
     /**
@@ -165,7 +199,7 @@ class UrlUtilTest extends ContaoTestCase
 
         System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
 
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil = $this->createTestInstance();
         $this->assertSame(UrlUtil::TERMINATE_HEADERS_ALREADY_SENT, $urlUtil->redirect('/test?foo=bar&amp;test=123', 301, true));
     }
 
@@ -186,7 +220,7 @@ class UrlUtilTest extends ContaoTestCase
 
         System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
 
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil = $this->createTestInstance();
         $headers = $urlUtil->redirect('/test?foo=bar&amp;test=123', 301, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 301 Moved Permanently', 'Location: http://localhost/test?foo=bar&test=123'], $headers);
@@ -209,7 +243,7 @@ class UrlUtilTest extends ContaoTestCase
 
         System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
 
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil = $this->createTestInstance();
         $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 302, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 302 Found', 'Location: http://test.com/test?foo=bar'], $headers);
@@ -232,7 +266,7 @@ class UrlUtilTest extends ContaoTestCase
 
         System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
 
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil = $this->createTestInstance();
         $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 303, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 303 See Other', 'Location: http://test.com/test?foo=bar'], $headers);
@@ -255,7 +289,7 @@ class UrlUtilTest extends ContaoTestCase
 
         System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
 
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil = $this->createTestInstance();
         $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 307 Temporary Redirect', 'Location: http://test.com/test?foo=bar'], $headers);
@@ -278,7 +312,7 @@ class UrlUtilTest extends ContaoTestCase
 
         System::getContainer()->set('huh.request', new Request($this->mockContaoFramework(), $requestStack, $scopeMatcher));
 
-        $urlUtil = new UrlUtil($this->mockContaoFramework());
+        $urlUtil = $this->createTestInstance();
         $headers = $urlUtil->redirect('http://test.com/test?foo=bar', 307, true, true);
         $this->assertNotEmpty($headers);
         $this->assertSame(['HTTP/1.1 204 No Content', 'X-Ajax-Location: http://test.com/test?foo=bar'], $headers);

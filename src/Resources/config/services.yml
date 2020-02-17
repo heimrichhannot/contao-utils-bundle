@@ -49,8 +49,7 @@ services:
   huh.utils.url:
     class: HeimrichHannot\UtilsBundle\Url\UrlUtil
     public: true
-    arguments:
-      - "@contao.framework"
+    autowire: true
   # choice
   huh.utils.choice.field:
     class: HeimrichHannot\UtilsBundle\Choice\FieldChoice

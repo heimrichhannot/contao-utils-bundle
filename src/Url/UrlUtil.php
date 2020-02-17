@@ -14,6 +14,7 @@ use Contao\Environment;
 use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Request\RequestUtil;
 
 class UrlUtil
 {
@@ -22,23 +23,28 @@ class UrlUtil
 
     /** @var ContaoFrameworkInterface */
     protected $framework;
+    /**
+     * @var RequestUtil
+     */
+    private $requestUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, RequestUtil $requestUtil)
     {
         $this->framework = $framework;
+        $this->requestUtil = $requestUtil;
     }
 
     /**
      * Detect if user already visited our domain before.
      *
      * @return bool
+     * @deprecated Please use RequestUtil::isNewVisitor() instead.
+     * @codeCoverageIgnore
      */
     public function isNewVisitor(): bool
     {
-        $referer = System::getContainer()->get('request_stack')->getCurrentRequest()->headers->get('referer');
-        $schemeAndHttpHost = System::getContainer()->get('request_stack')->getCurrentRequest()->getSchemeAndHttpHost();
-
-        return null === $referer || false === preg_match('$^'.$schemeAndHttpHost.'$i', $referer);
+        trigger_error(__METHOD__." is deprecated and will be removed in a future version. Please use RequestUtil::isNewVisitor() instead.", E_USER_DEPRECATED);
+       return $this->requestUtil->isNewVisitor();
     }
 
     /**
@@ -84,9 +90,9 @@ class UrlUtil
         $explodedUrl = explode('?', $url, 2);
 
         if (2 === \count($explodedUrl)) {
-            list($script, $queryString) = $explodedUrl;
+            [$script, $queryString] = $explodedUrl;
         } else {
-            list($script) = $explodedUrl;
+            [$script] = $explodedUrl;
         }
 
         parse_str($queryString, $queries);
@@ -109,14 +115,15 @@ class UrlUtil
     /**
      * Remove query parameters from the current URL.
      *
-     * @param array           $params
+     * @param array $params
      * @param string|int|null $url
      *
+     * @param array $options
      * @return string
      */
-    public function removeQueryString(array $params, $url = null)
+    public function removeQueryString(array $params, $url = null, array $options = [])
     {
-        $strUrl = static::prepareUrl($url);
+        $strUrl = static::prepareUrl($url, $options);
 
         if (empty($params)) {
             return $strUrl;
@@ -125,9 +132,9 @@ class UrlUtil
         $explodedUrl = explode('?', $strUrl, 2);
 
         if (2 === \count($explodedUrl)) {
-            list($script, $queryString) = $explodedUrl;
+            [$script, $queryString] = $explodedUrl;
         } else {
-            list($script) = $explodedUrl;
+            [$script] = $explodedUrl;
 
             return $script;
         }
@@ -140,7 +147,7 @@ class UrlUtil
         $href = '';
 
         if (!empty($queries)) {
-            $href .= '?'.http_build_query($queries, '', '&');
+            $href .= '?'.http_build_query($queries);
         }
 
         return $script.$href;
@@ -279,22 +286,34 @@ class UrlUtil
     /**
      * Prepare URL from ID and keep query string from current string.
      *
-     * @param string|int|null
+     * Options:
+     * - absoluteUrl: (boolean) Return absolute url instead of relative url. Only applicable if page id is given. Default: false
      *
+     * @param string|int|null Url or page id
+     * @param array $options Pass additional options.
      * @return string
      */
-    protected function prepareUrl($url)
+    public function prepareUrl($url = null, array $options = [])
     {
         if (null === $url) {
-            $url = Environment::get('requestUri');
+            if (isset($options['absoluteUrl']) && true === $options['absoluteUrl']) {
+                $url = Environment::get('uri');
+            } else {
+                $url = Environment::get('requestUri');
+            }
         } elseif (is_numeric($url)) {
+            /** @var PageModel $jumpTo */
             if (null === ($jumpTo = $this->framework->getAdapter(PageModel::class)->findByPk($url))) {
                 throw new \InvalidArgumentException('Given page id does not exist.');
             }
 
-            $url = $this->framework->getAdapter(Controller::class)->generateFrontendUrl($jumpTo->row());
+            if (isset($options['absoluteUrl']) && true === $options['absoluteUrl']) {
+                $url = $jumpTo->getAbsoluteUrl();
+            } else {
+                $url = $jumpTo->getFrontendUrl();
+            }
 
-            list(, $queryString) = explode('?', Environment::get('request'), 2);
+            [, $queryString] = explode('?', Environment::get('request'), 2);
 
             if ('' != $queryString) {
                 $url .= '?'.$queryString;

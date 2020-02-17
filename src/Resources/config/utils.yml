@@ -15,6 +15,7 @@ services:
   HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~
   HeimrichHannot\UtilsBundle\File\FolderUtil: ~
   HeimrichHannot\UtilsBundle\Form\FormUtil: ~
+  HeimrichHannot\UtilsBundle\Request\RequestUtil: ~
   HeimrichHannot\UtilsBundle\Rsce\RsceUtil: ~
   HeimrichHannot\UtilsBundle\String\AnonymizerUtil: ~
   HeimrichHannot\UtilsBundle\String\StringUtil: ~
@@ -26,6 +27,7 @@ services:
   huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
   huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
   huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
+  huh.utils.request: '@HeimrichHannot\UtilsBundle\Request\RequestUtil'
   huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
   huh.utils.string.anonymizer: '@HeimrichHannot\UtilsBundle\String\AnonymizerUtil'
 

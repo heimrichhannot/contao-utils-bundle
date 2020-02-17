@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.134.0] - 2020-02-17
+
+- added absoluteUrl option to UrlUtil::removeQueryString()
+- added absoluteUrl option to UrlUtil::prepareUrl()
+- added RequestUtil::isNewVisitor()
+- deprecated UrlUtil::isNewVisitor()
+
 ## [2.133.0] - 2020-02-06
 
 - added label formatting for `ModelInstanceChoice`
