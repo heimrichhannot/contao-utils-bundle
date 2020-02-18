@@ -8,12 +8,12 @@
 
 namespace HeimrichHannot\UtilsBundle\Url;
 
-use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Environment;
 use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Exception\InvalidUrlException;
 use HeimrichHannot\UtilsBundle\Request\RequestUtil;
 
 class UrlUtil
@@ -325,5 +325,40 @@ class UrlUtil
         $url = ampersand($url, false);
 
         return $url;
+    }
+
+    /**
+     * Convert an absolute url to an relative url
+     *
+     * Options:
+     * - removeLeadingSlash: (boolean) Remove a
+     *
+     * @param string $url The url that should be made relative
+     * @param array $options Pass additional options
+     * @return string
+     * @throws InvalidUrlException
+     */
+    public function getRelativePath(string $url, array $options = []): string
+    {
+        $urlParts = parse_url($url);
+        if (false === $urlParts) {
+            throw new InvalidUrlException("Your given url is invalid and could not be parsed.");
+        }
+
+        $path = '';
+        if (isset($urlParts['path'])) {
+            $path .= $urlParts['path'];
+            if (isset($options['removeLeadingSlash']) && true === $options['removeLeadingSlash']) {
+                $path = ltrim($path, "/");
+            }
+        }
+        if (isset($urlParts['query'])) {
+            $path .= '?'.$urlParts['query'];
+        }
+        if (isset($urlParts['fragment'])) {
+            $path .= '#'.$urlParts['fragment'];
+        }
+
+        return $path;
     }
 }

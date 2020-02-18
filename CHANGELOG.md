@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.135.0] - 2020-02-18
+- added UrlUtil::getRelativePath()
+
 ## [2.134.0] - 2020-02-17
 
 - added absoluteUrl option to UrlUtil::removeQueryString()
