@@ -109,6 +109,7 @@ class PdfWriter extends AbstractPdfWriter
         }
 
         $outputMode = '';
+        $filename = $this->getFileName();
 
         switch ($mode) {
             case static::OUTPUT_MODE_DOWNLOAD:
@@ -118,7 +119,8 @@ class PdfWriter extends AbstractPdfWriter
 
             case static::OUTPUT_MODE_FILE:
                 if ($folder = $this->getFolder()) {
-                    $this->setFileName(rtrim($folder, '/').'/'.$this->getFileName());
+                    $projectDir = System::getContainer()->get('huh.utils.container')->getProjectDir();
+                    $filename = $projectDir . '/' . rtrim($folder, '/').'/'.$filename;
                 }
 
                 $outputMode = 'F';
@@ -131,7 +133,7 @@ class PdfWriter extends AbstractPdfWriter
                 break;
         }
 
-        $this->pdf->output($this->getFileName(), $outputMode);
+        $this->pdf->output($filename, $outputMode);
     }
 
     /**

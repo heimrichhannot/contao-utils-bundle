@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.135.1] - 2020-02-19
+- fixed PdfWriter::generate() to generate correct path
+
 ## [2.135.0] - 2020-02-18
 - added UrlUtil::getRelativePath()
 
