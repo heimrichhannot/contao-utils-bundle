@@ -170,7 +170,7 @@
                     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_removeQueryString">removeQueryString</a>(array $params, string|int|null $url = null, array $options = [])
+                    <a href="#method_removeQueryString">removeQueryString</a>(array $params, $url = null, array $options = [])
         
                                             <p>Remove query parameters from the current URL.</p>                </div>
                 <div class="col-md-2"></div>
@@ -290,7 +290,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isNewVisitor">
-        <div class="location">at         line 45</div>
+        <div class="location">at         line 43</div>
         <code>                    bool
     <strong>isNewVisitor</strong>()
         <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
@@ -327,7 +327,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getCurrentUrl">
-        <div class="location">at         line 63</div>
+        <div class="location">at         line 59</div>
         <code>                    string
     <strong>getCurrentUrl</strong>(array $options)
         </code>
@@ -372,7 +372,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addQueryString">
-        <div class="location">at         line 86</div>
+        <div class="location">at         line 82</div>
         <code>                    string
     <strong>addQueryString</strong>(string $query, mixed $url = null)
         </code>
@@ -426,9 +426,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeQueryString">
-        <div class="location">at         line 129</div>
+        <div class="location">at         line 124</div>
         <code>                    string
-    <strong>removeQueryString</strong>(array $params, string|int|null $url = null, array $options = [])
+    <strong>removeQueryString</strong>(array $params, $url = null, array $options = [])
         </code>
     </h3>
     <div class="details">
@@ -445,12 +445,12 @@
                     <tr>
                 <td>array</td>
                 <td>$params</td>
-                <td>List of parameters to remove from url</td>
+                <td></td>
             </tr>
                     <tr>
-                <td>string|int|null</td>
+                <td></td>
                 <td>$url</td>
-                <td>Full Uri, Page id or null (for current environment uri)</td>
+                <td></td>
             </tr>
                     <tr>
                 <td>array</td>
@@ -477,7 +477,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getJumpToPageObject">
-        <div class="location">at         line 167</div>
+        <div class="location">at         line 159</div>
         <code>                    <abbr title="Contao\PageModel">PageModel</abbr>|null
     <strong>getJumpToPageObject</strong>(int $jumpTo, bool $fallbackToObjPage = true)
         </code>
@@ -520,7 +520,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getJumpToPageUrl">
-        <div class="location">at         line 179</div>
+        <div class="location">at         line 171</div>
         <code>                    string|null
     <strong>getJumpToPageUrl</strong>(int $jumpTo, bool $fallbackToObjPage = true)
         </code>
@@ -563,7 +563,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addAutoItemToPage">
-        <div class="location">at         line 190</div>
+        <div class="location">at         line 182</div>
         <code>        static            
     <strong>addAutoItemToPage</strong>(<abbr title="Contao\Model">Model</abbr> $page, <abbr title="Contao\Model">Model</abbr> $entity, $autoItemType = &#039;items&#039;)
         </code>
@@ -602,7 +602,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_redirect">
-        <div class="location">at         line 207</div>
+        <div class="location">at         line 199</div>
         <code>                    int|array|null
     <strong>redirect</strong>(string $strLocation, int $intStatus = 303, bool $test = false, bool $skipSent = false)
         </code>
@@ -657,7 +657,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addURIScheme">
-        <div class="location">at         line 280</div>
+        <div class="location">at         line 267</div>
         <code>                    string
     <strong>addURIScheme</strong>(string $url = &#039;&#039;, string $protocol = &#039;http&#039;)
         </code>
@@ -702,7 +702,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareUrl">
-        <div class="location">at         line 302</div>
+        <div class="location">at         line 289</div>
         <code>                    string
     <strong>prepareUrl</strong>(string|int|null $url = null, array $options = [])
         </code>
@@ -748,7 +748,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getRelativePath">
-        <div class="location">at         line 347</div>
+        <div class="location">at         line 332</div>
         <code>                    string
     <strong>getRelativePath</strong>(string $url, array $options = [])
         </code>

@@ -149,7 +149,7 @@
                     array|mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_request">request</a>(string $url, array $requestHeaders = [], bool $returnResponseHeaders = false)
+                    <a href="#method_request">request</a>(string $url, array $requestHeaders = [], $returnResponseHeaders = false)
         
                                             <p>Executes a curl request while taking.</p>                </div>
                 <div class="col-md-2"></div>
@@ -289,9 +289,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_request">
-        <div class="location">at         line 90</div>
+        <div class="location">at         line 89</div>
         <code>                    array|mixed
-    <strong>request</strong>(string $url, array $requestHeaders = [], bool $returnResponseHeaders = false)
+    <strong>request</strong>(string $url, array $requestHeaders = [], $returnResponseHeaders = false)
         </code>
     </h3>
     <div class="details">
@@ -315,7 +315,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td>bool</td>
+                <td></td>
                 <td>$returnResponseHeaders</td>
                 <td></td>
             </tr>
@@ -339,7 +339,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_postRequest">
-        <div class="location">at         line 127</div>
+        <div class="location">at         line 121</div>
         <code>                    array|mixed
     <strong>postRequest</strong>(string $url, array $requestHeaders = [], array $postFields = [], bool $returnResponseHeaders = false)
         </code>
@@ -394,7 +394,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_recursiveGetRequest">
-        <div class="location">at         line 171</div>
+        <div class="location">at         line 161</div>
         <code>                    array|mixed|null
     <strong>recursiveGetRequest</strong>(int $maxRecursionCount, callable $callback, string $url, array $requestHeaders = [], bool $returnResponseHeaders = false)
         </code>
@@ -417,7 +417,7 @@
                     <tr>
                 <td>callable</td>
                 <td>$callback</td>
-                <td>Termination condition callback. Return true to terminate.</td>
+                <td></td>
             </tr>
                     <tr>
                 <td>string</td>
@@ -454,7 +454,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_recursivePostRequest">
-        <div class="location">at         line 198</div>
+        <div class="location">at         line 181</div>
         <code>                    array|mixed|null
     <strong>recursivePostRequest</strong>(int $maxRecursionCount, callable $callback, string $url, array $requestHeaders = [], array $post = [], bool $returnResponseHeaders = false)
         </code>
@@ -519,7 +519,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_splitResponseHeaderAndBody">
-        <div class="location">at         line 219</div>
+        <div class="location">at         line 199</div>
         <code>                    array
     <strong>splitResponseHeaderAndBody</strong>(string $response, int $statusCode)
         </code>
@@ -562,7 +562,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareHeaderArrayForPrint">
-        <div class="location">at         line 246</div>
+        <div class="location">at         line 224</div>
         <code>                    string
     <strong>prepareHeaderArrayForPrint</strong>(array $headers)
         </code>
@@ -602,7 +602,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHandle">
-        <div class="location">at         line 265</div>
+        <div class="location">at         line 243</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Request/HttpRequestInterface.html"><abbr title="HeimrichHannot\UtilsBundle\Request\HttpRequestInterface">HttpRequestInterface</abbr></a>|null
     <strong>getHandle</strong>()
         </code>
@@ -630,7 +630,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setHandle">
-        <div class="location">at         line 273</div>
+        <div class="location">at         line 248</div>
         <code>                    
     <strong>setHandle</strong>(<a href="../../../HeimrichHannot/UtilsBundle/Request/HttpRequestInterface.html"><abbr title="HeimrichHannot\UtilsBundle\Request\HttpRequestInterface">HttpRequestInterface</abbr></a> $handle)
         </code>
@@ -659,7 +659,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createCurlHandle">
-        <div class="location">at         line 285</div>
+        <div class="location">at         line 260</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Request/CurlRequest.html"><abbr title="HeimrichHannot\UtilsBundle\Request\CurlRequest">CurlRequest</abbr></a>
     <strong>createCurlHandle</strong>($url)
         </code>
@@ -699,7 +699,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareHeaders">
-        <div class="location">at         line 302</div>
+        <div class="location">at         line 275</div>
         <code>            protected        array
     <strong>prepareHeaders</strong>(array $headers)
         </code>

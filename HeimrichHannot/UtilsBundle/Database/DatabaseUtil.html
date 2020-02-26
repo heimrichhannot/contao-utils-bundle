@@ -327,7 +327,7 @@
                     array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_computeCondition">computeCondition</a>(string $field, string $operator, mixed $value, string $table = null, bool $skipTablePrefix = false)
+                    <a href="#method_computeCondition">computeCondition</a>(string $field, string $operator, $value, string $table = null, bool $skipTablePrefix = false)
         
                                             <p>Computes a MySQL condition appropriate for the given operator.</p>                </div>
                 <div class="col-md-2"></div>
@@ -359,7 +359,7 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_findResultByPk">findResultByPk</a>(string $table, mixed $pk, array $options = [])
+                    <a href="#method_findResultByPk">findResultByPk</a>(string $table, $pk, array $options = [])
         
                                             <p>Returns a database result for a given table and id(primary key).</p>                </div>
                 <div class="col-md-2"></div>
@@ -601,7 +601,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_transformVerboseOperator">
-        <div class="location">at         line 356</div>
+        <div class="location">at         line 354</div>
         <code>                    string|bool
     <strong>transformVerboseOperator</strong>(string $verboseOperator)
         </code>
@@ -641,9 +641,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_computeCondition">
-        <div class="location">at         line 418</div>
+        <div class="location">at         line 413</div>
         <code>                    array
-    <strong>computeCondition</strong>(string $field, string $operator, mixed $value, string $table = null, bool $skipTablePrefix = false)
+    <strong>computeCondition</strong>(string $field, string $operator, $value, string $table = null, bool $skipTablePrefix = false)
         </code>
     </h3>
     <div class="details">
@@ -667,7 +667,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td>mixed</td>
+                <td></td>
                 <td>$value</td>
                 <td></td>
             </tr>
@@ -701,7 +701,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_composeWhereForQueryBuilder">
-        <div class="location">at         line 556</div>
+        <div class="location">at         line 551</div>
         <code>                    
     <strong>composeWhereForQueryBuilder</strong>(<abbr title="Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr> $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
         </code>
@@ -750,7 +750,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getChildRecords">
-        <div class="location">at         line 711</div>
+        <div class="location">at         line 706</div>
         <code>                    array
     <strong>getChildRecords</strong>(array $parentIds, string $table, array $options = [])
         </code>
@@ -798,9 +798,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findResultByPk">
-        <div class="location">at         line 744</div>
+        <div class="location">at         line 737</div>
         <code>                    mixed
-    <strong>findResultByPk</strong>(string $table, mixed $pk, array $options = [])
+    <strong>findResultByPk</strong>(string $table, $pk, array $options = [])
         </code>
     </h3>
     <div class="details">
@@ -819,7 +819,7 @@
                 <td></td>
             </tr>
                     <tr>
-                <td>mixed</td>
+                <td></td>
                 <td>$pk</td>
                 <td></td>
             </tr>
@@ -848,7 +848,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findOneResultBy">
-        <div class="location">at         line 792</div>
+        <div class="location">at         line 780</div>
         <code>                    mixed
     <strong>findOneResultBy</strong>(string $table, array $columns, array $values, array $options = [])
         </code>
@@ -903,7 +903,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findResultsBy">
-        <div class="location">at         line 825</div>
+        <div class="location">at         line 813</div>
         <code>                    
     <strong>findResultsBy</strong>(string $table, array $columns, array $values, array $options = [])
         </code>
