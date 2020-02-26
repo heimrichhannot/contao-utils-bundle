@@ -967,4 +967,22 @@ class DcaUtil
 
         return $dc;
     }
+
+    public function getAuthorNameByUserId($id)
+    {
+        if (null !== ($user = $this->container->get('huh.utils.model')->findModelInstanceByPk('tl_user', $id))) {
+            return $user->name;
+        }
+
+        return false;
+    }
+
+    public function getAuthorNameLinkByUserId($id)
+    {
+        if (null !== ($user = $this->container->get('huh.utils.model')->findModelInstanceByPk('tl_user', $id))) {
+            return '<strong>'.Controller::replaceInsertTags('{{email_open::'.$user->email.'}}').$user->name.'</a></strong>';
+        }
+
+        return false;
+    }
 }
