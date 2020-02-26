@@ -14,7 +14,6 @@ use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 class UtilCacheWarmer implements CacheWarmerInterface
@@ -57,13 +56,7 @@ class UtilCacheWarmer implements CacheWarmerInterface
     /**
      * Constructor.
      *
-     * @param Filesystem               $filesystem
-     * @param ResourceFinderInterface  $finder
-     * @param FileLocator              $locator
-     * @param string                   $rootDir
-     * @param Connection               $connection
-     * @param TemplateUtil             $templateUtil
-     * @param ContaoFrameworkInterface $framework
+     * @param string $rootDir
      */
     public function __construct(Filesystem $filesystem, ResourceFinderInterface $finder, FileLocator $locator, $rootDir, Connection $connection, TemplateUtil $templateUtil, ContaoFrameworkInterface $framework)
     {

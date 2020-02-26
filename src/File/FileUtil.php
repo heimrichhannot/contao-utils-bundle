@@ -380,11 +380,6 @@ class FileUtil
      * convert pdf to png and return a preview file
      * delete the other png files.
      *
-     * @param FilesModel $file
-     * @param int        $page
-     *
-     * @return FilesModel
-     *
      * @deprecated Dublicate to PdfPreview util
      */
     public function getPreviewFromPdf(FilesModel $file, int $page = 0): FilesModel

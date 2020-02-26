@@ -31,7 +31,7 @@ class RoutingUtilTest extends ContaoTestCase
         $router
             ->method('generate')
             ->with('contao_backend', $this->anything())
-            ->will($this->returnCallback(function ($route, $params = []) {
+            ->willReturnCallback(function ($route, $params = []) {
                 $url = '/contao';
 
                 if (!empty($params)) {
@@ -45,7 +45,7 @@ class RoutingUtilTest extends ContaoTestCase
                 }
 
                 return $url;
-            }))
+            })
         ;
         $requestStack = new RequestStack();
         $request = new Request();

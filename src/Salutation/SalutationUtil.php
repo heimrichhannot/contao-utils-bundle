@@ -29,8 +29,6 @@ class SalutationUtil
      * Supported field names: firstname, lastname, academicTitle, additionalTitle, gender
      *
      * If some of the fields shouldn't go into the processed name, just leave them out of $arrData
-     *
-     * @param array $data
      */
     public function createNameByFields(string $language, array $data)
     {

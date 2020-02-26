@@ -12,8 +12,6 @@ trait FixturesTrait
 {
     /**
      * Return the fixtures folder.
-     *
-     * @return string
      */
     protected function getFixturesDir(): string
     {

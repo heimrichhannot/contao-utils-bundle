@@ -31,7 +31,6 @@ class ArrayUtil
     /**
      * Filter an Array by given prefixes.
      *
-     * @param array $data
      * @param array $prefixes
      *
      * @return array the filtered array or $arrData if $prefix is empty
@@ -57,8 +56,6 @@ class ArrayUtil
 
     /**
      * sort an array alphabetically by some key in the second layer (x => array(key1, key2, key3)).
-     *
-     * @param array $array
      */
     public function aasort(array &$array, $key)
     {
@@ -82,8 +79,7 @@ class ArrayUtil
     /**
      * Removes a value in an array.
      *
-     * @param       $value
-     * @param array $array
+     * @param $value
      *
      * @return bool Returns true if the value has been found and removed, false in other cases
      */
@@ -129,8 +125,6 @@ class ArrayUtil
      * Creates a stdClass from array.
      *
      * @param $array
-     *
-     * @return \stdClass
      */
     public function arrayToObject(array $array): \stdClass
     {
@@ -181,8 +175,6 @@ class ArrayUtil
     /**
      * Flattens an multidimensional array to one dimension. Keys are not preserved.
      *
-     * @param array $array
-     *
      * @return array
      */
     public function flattenArray(array $array)
@@ -212,7 +204,7 @@ class ArrayUtil
      */
     public static function insertBeforeKey(array &$array, string $key, string $newKey, $newValue)
     {
-        if (array_key_exists($key, $array)) {
+        if (\array_key_exists($key, $array)) {
             $new = [];
 
             foreach ($array as $k => $value) {

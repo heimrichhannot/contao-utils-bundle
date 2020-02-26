@@ -17,8 +17,7 @@ class CfgTagModel extends Model
     protected static $strTable = 'tl_cfg_tag';
 
     /**
-     * @param       $source
-     * @param array $arrOptions
+     * @param $source
      *
      * @return \Contao\Model\Collection|static|null
      */

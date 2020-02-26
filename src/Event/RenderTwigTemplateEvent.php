@@ -34,33 +34,21 @@ class RenderTwigTemplateEvent extends Event
         $this->context = $context;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplate(): string
     {
         return $this->template;
     }
 
-    /**
-     * @param string $template
-     */
     public function setTemplate(string $template)
     {
         $this->template = $template;
     }
 
-    /**
-     * @return array
-     */
     public function getContext(): array
     {
         return $this->context;
     }
 
-    /**
-     * @param array $context
-     */
     public function setContext(array $context)
     {
         $this->context = $context;

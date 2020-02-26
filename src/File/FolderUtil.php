@@ -32,9 +32,6 @@ class FolderUtil
 
     /**
      * FolderUtil constructor.
-     *
-     * @param string          $webDir
-     * @param KernelInterface $kernel
      */
     public function __construct(string $webDir, KernelInterface $kernel, SymlinksCommand $symlinksCommand)
     {
@@ -45,8 +42,6 @@ class FolderUtil
 
     /**
      * Creates an symlink to the given folder in the web director, if not already exist.
-     *
-     * @param string $folderPath
      *
      * @throws \Exception
      */

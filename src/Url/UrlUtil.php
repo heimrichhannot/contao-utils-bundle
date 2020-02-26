@@ -37,8 +37,6 @@ class UrlUtil
     /**
      * Detect if user already visited our domain before.
      *
-     * @return bool
-     *
      * @deprecated please use RequestUtil::isNewVisitor() instead
      * @codeCoverageIgnore
      */
@@ -55,8 +53,6 @@ class UrlUtil
      * Options:
      *
      * * skipParams: boolean
-     *
-     * @param array $options
      *
      * @return string
      */
@@ -120,9 +116,8 @@ class UrlUtil
      * Options:
      * - absoluteUrl: (boolean) Return absolute url instead of relative url. Only applicable if id or null is given as url. Default: false
      *
-     * @param array           $params  List of parameters to remove from url
-     * @param string|int|null $url     Full Uri, Page id or null (for current environment uri)
-     * @param array           $options
+     * @param array           $params List of parameters to remove from url
+     * @param string|int|null $url    Full Uri, Page id or null (for current environment uri)
      *
      * @return string
      */
@@ -159,9 +154,6 @@ class UrlUtil
     }
 
     /**
-     * @param int  $jumpTo
-     * @param bool $fallbackToObjPage
-     *
      * @return PageModel|null
      */
     public function getJumpToPageObject(int $jumpTo, bool $fallbackToObjPage = true)
@@ -271,11 +263,6 @@ class UrlUtil
 
     /**
      * Add a url scheme to a given url.
-     *
-     * @param string $url
-     * @param string $protocol
-     *
-     * @return string
      */
     public function addURIScheme(string $url = '', string $protocol = 'http'): string
     {
@@ -341,8 +328,6 @@ class UrlUtil
      * @param array  $options Pass additional options
      *
      * @throws InvalidUrlException
-     *
-     * @return string
      */
     public function getRelativePath(string $url, array $options = []): string
     {

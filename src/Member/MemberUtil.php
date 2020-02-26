@@ -116,9 +116,6 @@ class MemberUtil
     }
 
     /**
-     * @param array $groups
-     * @param array $options
-     *
      * @return MemberModel|MemberModel[]|\Contao\Model\Collection|null
      */
     public function findActiveByGroups(array $groups, array $options = [])

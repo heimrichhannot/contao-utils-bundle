@@ -240,8 +240,6 @@ class DateUtil
     /**
      * transfer a given timestamp to a gmt timestamp at midnight.
      *
-     * @param int $tstamp
-     *
      * @return int
      */
     public function getGMTMidnightTstamp(int $tstamp)
@@ -256,8 +254,6 @@ class DateUtil
     /**
      * Checks if a form of month is available in the date format.
      *
-     * @param string $dateFormat
-     *
      * @return bool
      */
     public function isMonthInDateFormat(string $dateFormat)
@@ -270,8 +266,6 @@ class DateUtil
 
     /**
      * Checks if a form of day is available in the date format.
-     *
-     * @param string $dateFormat
      *
      * @return bool
      */
@@ -287,8 +281,6 @@ class DateUtil
 
     /**
      * Checks if a form of year is available in the date format.
-     *
-     * @param string $dateFormat
      *
      * @return bool
      */
@@ -358,8 +350,6 @@ class DateUtil
     /**
      * Translates available months inside a given string into their English representations taking into account the current language.
      *
-     * @param string $date
-     *
      * @return mixed|string
      */
     public function translateMonthsToEnglish(string $date)
@@ -381,8 +371,6 @@ class DateUtil
 
     /**
      * Translates available months inside a given string from English to the current language.
-     *
-     * @param string $date
      *
      * @return mixed|string
      */

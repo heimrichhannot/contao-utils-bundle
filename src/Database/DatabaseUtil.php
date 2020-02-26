@@ -349,8 +349,6 @@ class DatabaseUtil
      * Transforms verbose operators to valid MySQL operators (aka junctors).
      * Supports: like, unlike, equal, unequal, lower, greater, lowerequal, greaterequal, in, notin.
      *
-     * @param string $verboseOperator
-     *
      * @return string|bool The transformed operator or false if not supported
      */
     public function transformVerboseOperator(string $verboseOperator)
@@ -407,11 +405,8 @@ class DatabaseUtil
     /**
      * Computes a MySQL condition appropriate for the given operator.
      *
-     * @param string $field
-     * @param string $operator
      * @param mixed  $value
      * @param string $table
-     * @param bool   $skipTablePrefix
      *
      * @return array Returns array($strQuery, $arrValues)
      */
@@ -735,9 +730,7 @@ class DatabaseUtil
     /**
      * Returns a database result for a given table and id(primary key).
      *
-     * @param string $table
-     * @param mixed  $pk
-     * @param array  $options
+     * @param mixed $pk
      *
      * @return mixed
      */
@@ -781,11 +774,6 @@ class DatabaseUtil
 
     /**
      * Return a single database result by table and search criteria.
-     *
-     * @param string $table
-     * @param array  $columns
-     * @param array  $values
-     * @param array  $options
      *
      * @return mixed
      */

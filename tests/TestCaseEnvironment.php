@@ -70,8 +70,7 @@ abstract class TestCaseEnvironment extends ContaoTestCase
     public function createRouterMock()
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->with('contao_backend', $this->anything())->will(
-            $this->returnCallback(
+        $router->method('generate')->with('contao_backend', $this->anything())->willReturnCallback(
                 function ($route, $params = []) {
                     $url = '/contao';
 
@@ -87,7 +86,6 @@ abstract class TestCaseEnvironment extends ContaoTestCase
 
                     return $url;
                 }
-            )
         );
 
         return $router;

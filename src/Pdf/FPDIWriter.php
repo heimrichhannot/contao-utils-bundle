@@ -62,8 +62,6 @@ class FPDIWriter extends AbstractPdfWriter
     /**
      * Set the master template path.
      *
-     * @param string $template
-     *
      * @return PdfWriter Current pdf writer instance
      */
     public function setTemplate(string $template): self
@@ -77,8 +75,6 @@ class FPDIWriter extends AbstractPdfWriter
 
     /**
      * Prepare the current fpdi object.
-     *
-     * @return Fpdi
      */
     public function prepare(): Fpdi
     {
@@ -204,8 +200,6 @@ class FPDIWriter extends AbstractPdfWriter
 
     /**
      * Check if prepare was already triggered.
-     *
-     * @return bool
      */
     public function isPrepared(): bool
     {

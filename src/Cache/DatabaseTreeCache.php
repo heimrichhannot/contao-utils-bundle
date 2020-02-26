@@ -194,8 +194,6 @@ class DatabaseTreeCache
      *
      * @param string $table The database table
      * @param string Custom index key (default: primary key from model)
-     *
-     * @return array|null
      */
     public function getTreeCache($table, $key): ?array
     {

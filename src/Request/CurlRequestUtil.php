@@ -82,8 +82,7 @@ class CurlRequestUtil
      * Executes a curl request while taking.
      *
      * @param $url
-     * @param array $requestHeaders
-     * @param bool  $returnResponseHeaders
+     * @param bool $returnResponseHeaders
      *
      * @return array|mixed
      */
@@ -116,11 +115,6 @@ class CurlRequestUtil
 
     /**
      * Create a curl post request.
-     *
-     * @param string $url
-     * @param array  $requestHeaders
-     * @param array  $postFields
-     * @param bool   $returnResponseHeaders
      *
      * @return array|mixed
      */
@@ -160,11 +154,7 @@ class CurlRequestUtil
     /**
      * Recursivly send get request and terminates if termination condition is given or max request count is reached.
      *
-     * @param int      $maxRecursionCount
-     * @param callable $callback              Termination condition callback. Return true to terminate.
-     * @param string   $url
-     * @param array    $requestHeaders
-     * @param bool     $returnResponseHeaders
+     * @param callable $callback Termination condition callback. Return true to terminate.
      *
      * @return array|mixed|null
      */
@@ -186,13 +176,6 @@ class CurlRequestUtil
     /**
      * Recursivly send post request and terminates if termination condition is given or max request count is reached.
      *
-     * @param int      $maxRecursionCount
-     * @param callable $callback
-     * @param string   $url
-     * @param array    $requestHeaders
-     * @param array    $post
-     * @param bool     $returnResponseHeaders
-     *
      * @return array|mixed|null
      */
     public function recursivePostRequest(int $maxRecursionCount, callable $callback, string $url, array $requestHeaders = [], array $post = [], bool $returnResponseHeaders = false)
@@ -211,9 +194,6 @@ class CurlRequestUtil
     }
 
     /**
-     * @param string $response
-     * @param int    $statusCode
-     *
      * @return array
      */
     public function splitResponseHeaderAndBody(string $response, int $statusCode)
@@ -238,8 +218,6 @@ class CurlRequestUtil
 
     /**
      * Creates a linebreak separated list of the headers in $arrHeaders -> see request() and postRequest().
-     *
-     * @param array $headers
      *
      * @return string
      */
@@ -267,9 +245,6 @@ class CurlRequestUtil
         return $this->handle;
     }
 
-    /**
-     * @param HttpRequestInterface $handle
-     */
     public function setHandle(HttpRequestInterface $handle)
     {
         $this->handle = $handle;
@@ -294,8 +269,6 @@ class CurlRequestUtil
 
     /**
      * Prepare headers for curl handle.
-     *
-     * @param array $headers
      *
      * @return array
      */

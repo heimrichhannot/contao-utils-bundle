@@ -29,8 +29,6 @@ class InsertTagsListener
 
     /**
      * Constructor.
-     *
-     * @param ContaoFrameworkInterface $framework
      */
     public function __construct(ContaoFrameworkInterface $framework)
     {
@@ -39,8 +37,6 @@ class InsertTagsListener
 
     /**
      * Replaces calendar insert tags.
-     *
-     * @param string $tag
      *
      * @return string|false
      */
@@ -60,15 +56,10 @@ class InsertTagsListener
     /**
      * Replace supported tags.
      *
-     * @param string $key
-     * @param array  $attributes
-     *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
-     *
-     * @return string
      */
     protected function replaceSupportedTags(string $key, array $attributes = []): string
     {
@@ -83,14 +74,10 @@ class InsertTagsListener
     /**
      * Replace twig template insert tags {{twig::logo.html.twig::a:1:{s:3:"foo";s:3:"bar";}}}.
      *
-     * @param array $attributes
-     *
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
-     *
-     * @return string
      */
     protected function replaceTwigTag(array $attributes = []): string
     {

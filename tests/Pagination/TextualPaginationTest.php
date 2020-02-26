@@ -156,9 +156,6 @@ class TextualPaginationTest extends ContaoTestCase
         ], $result);
     }
 
-    /**
-     * @return string
-     */
     protected function getFixturesDir(): string
     {
         return __DIR__.\DIRECTORY_SEPARATOR.'../..'.\DIRECTORY_SEPARATOR.'Fixtures';

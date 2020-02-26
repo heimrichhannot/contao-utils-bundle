@@ -23,8 +23,7 @@ class StringUtilTest extends ContaoTestCase
     }
 
     /**
-     * @param array $parameters
-     * @param null  $mock
+     * @param null $mock
      *
      * @return StringUtil
      */

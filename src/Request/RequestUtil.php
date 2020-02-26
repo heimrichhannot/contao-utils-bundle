@@ -27,8 +27,6 @@ class RequestUtil
 
     /**
      * Detect if user already visited our domain before.
-     *
-     * @return bool
      */
     public function isNewVisitor(): bool
     {

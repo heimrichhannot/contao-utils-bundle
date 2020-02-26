@@ -62,8 +62,6 @@ class PdfWriter extends AbstractPdfWriter
     /**
      * Set the master template path.
      *
-     * @param string $template
-     *
      * @return PdfWriter Current pdf writer instance
      */
     public function setTemplate(string $template): self
@@ -180,8 +178,6 @@ class PdfWriter extends AbstractPdfWriter
      * Get current pdf object.
      *
      * @param bool $init Set true if you want to create a new pdf regardless there is always an existing pdf
-     *
-     * @return Mpdf
      */
     public function getPdf(bool $init = false): Mpdf
     {

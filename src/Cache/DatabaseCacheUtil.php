@@ -41,10 +41,6 @@ class DatabaseCacheUtil
 
     /**
      * Check for a given cache key.
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     public function keyExists(string $key): bool
     {
@@ -55,8 +51,6 @@ class DatabaseCacheUtil
 
     /**
      * Retrieve a value from cache.
-     *
-     * @param string $key
      *
      * @return mixed
      */
@@ -81,8 +75,7 @@ class DatabaseCacheUtil
     /**
      * Store a given value to cache.
      *
-     * @param string $key
-     * @param        $value
+     * @param $value
      *
      * @throws \Exception
      *

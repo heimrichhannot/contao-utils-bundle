@@ -46,12 +46,6 @@ class CodeUtil
     /**
      * Generates a code by certain criteria.
      *
-     * @param int         $length
-     * @param bool        $preventAmbiguous
-     * @param array|null  $alphabets
-     * @param array|null  $rules
-     * @param string|null $allowedSpecialChars
-     *
      * @return mixed
      */
     public static function generate(

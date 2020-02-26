@@ -5,7 +5,7 @@
   "author": "Heimrich & Hannot GmbH <digitales@heimrich-hannot.de>",
   "license": "LGPL-3.0-or-later",
   "dependencies": {
-    "@hundh/contao-utils-bundle": "^1.8",
+    "@hundh/contao-utils-bundle": "^1.16",
     "element-closest": "^3.0.1",
     "nodelist-foreach-polyfill": "^1.2.0"
   },

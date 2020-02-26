@@ -42,8 +42,6 @@ class ModelUtil
     /**
      * Set the entity defaults from dca config (for new model entry).
      *
-     * @param Model $objModel
-     *
      * @return Model The modified model, containing the default values from all dca fields
      */
     public function setDefaultsFromDca(Model $objModel)
@@ -55,9 +53,7 @@ class ModelUtil
      * Returns a model instance if for a given table and id(primary key).
      * Return null, if model type or model instance with given id not exist.
      *
-     * @param string $table
-     * @param mixed  $pk
-     * @param array  $options
+     * @param mixed $pk
      *
      * @return mixed
      */
@@ -78,10 +74,8 @@ class ModelUtil
     /**
      * Returns model instances by given table and search criteria.
      *
-     * @param string $table
-     * @param mixed  $columns
-     * @param mixed  $values
-     * @param array  $options
+     * @param mixed $columns
+     * @param mixed $values
      *
      * @return mixed
      */
@@ -112,11 +106,6 @@ class ModelUtil
     /**
      * Return a single model instance by table and search criteria.
      *
-     * @param string $table
-     * @param array  $columns
-     * @param array  $values
-     * @param array  $options
-     *
      * @return mixed
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
@@ -146,10 +135,6 @@ class ModelUtil
     /**
      * Returns multiple model instances by given table and ids.
      *
-     * @param string $table
-     * @param array  $ids
-     * @param array  $options
-     *
      * @return mixed
      */
     public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = [])
@@ -173,9 +158,7 @@ class ModelUtil
     /**
      * Returns multiple model instances by given table and id or alias.
      *
-     * @param string $table
-     * @param mixed  $idOrAlias
-     * @param array  $options
+     * @param mixed $idOrAlias
      *
      * @return mixed
      */
@@ -223,7 +206,6 @@ class ModelUtil
     /**
      * Fixes existing table prefixed already aliased in MultilingualQueryBuilder::buildQueryBuilderForFind().
      *
-     * @param string $table
      * @param $columns
      *
      * @return array|mixed
@@ -274,9 +256,6 @@ class ModelUtil
     /**
      * Get the current dc_multilingual language even DC_Multilingual::edit() didn't run.
      * This can be used in onload_callbacks for example since here DC_Multilingual::edit() didn't run, yet.
-     *
-     * @param string $table
-     * @param int    $id
      *
      * @return bool|mixed
      */
@@ -340,11 +319,6 @@ class ModelUtil
     /**
      * Recursively finds the root parent.
      *
-     * @param string $parentProperty
-     * @param string $table
-     * @param Model  $instance
-     * @param bool   $returnInstanceIfNoParent
-     *
      * @return Model
      */
     public function findRootParentRecursively(string $parentProperty, string $table, Model $instance, bool $returnInstanceIfNoParent = true)
@@ -359,12 +333,6 @@ class ModelUtil
 
     /**
      * Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
-     *
-     * @param string $parentProperty
-     * @param string $table
-     * @param Model  $instance
-     *
-     * @return array
      */
     public function findParentsRecursively(string $parentProperty, string $table, Model $instance): array
     {
@@ -382,8 +350,6 @@ class ModelUtil
      *
      * @param string $table      The table name
      * @param array  $arrOptions Additional query options
-     *
-     * @return Collection|null
      */
     public function findAllModelInstances(string $table, array $arrOptions = []): ?Collection
     {
@@ -400,10 +366,7 @@ class ModelUtil
     }
 
     /**
-     * @param string       $pattern
      * @param Model|object $instance
-     * @param string       $table
-     * @param array        $specialValueConfig
      *
      * @return mixed
      */
@@ -447,10 +410,7 @@ class ModelUtil
     /**
      * Determine if given value is newer than DataContainer value.
      *
-     * @param mixed         $newValue
-     * @param DataContainer $dc
-     *
-     * @return bool
+     * @param mixed $newValue
      */
     public function hasValueChanged($newValue, DataContainer $dc): bool
     {
@@ -463,10 +423,6 @@ class ModelUtil
 
     /**
      * Get model instance value for given field.
-     *
-     * @param string $field
-     * @param string $table
-     * @param int    $id
      *
      * @return mixed|null
      */
@@ -486,9 +442,8 @@ class ModelUtil
      *
      * Also search within blocks (heimrichhannot/contao-blocks)
      *
-     * @param ModuleModel $module
-     * @param bool        $collection Return PageModel Collection if true. Default: false
-     * @param bool        $useCache   If true, a filesystem cache will be used to save pages ids. Default: true
+     * @param bool $collection Return PageModel Collection if true. Default: false
+     * @param bool $useCache   If true, a filesystem cache will be used to save pages ids. Default: true
      *
      * @return array|Collection|PageModel|PageModel[]|null An array of page Ids (can be empty if no page found!), a PageModel collection or null
      */
@@ -502,7 +457,7 @@ class ModelUtil
         if ($useCache && $cache->has('huh.utils.model.modulepages')) {
             $modulePagesCache = $cache->get('huh.utils.model.modulepages');
 
-            if (\is_array($modulePagesCache) && array_key_exists($module->id, $modulePagesCache)) {
+            if (\is_array($modulePagesCache) && \array_key_exists($module->id, $modulePagesCache)) {
                 $pageIds = $modulePagesCache[$module->id];
                 $cacheHit = true;
             }
@@ -517,7 +472,7 @@ class ModelUtil
                 $pageIds = $result->fetchEach('id');
             }
 
-            if (array_key_exists('blocks', $this->container->getParameter('kernel.bundles'))) {
+            if (\array_key_exists('blocks', $this->container->getParameter('kernel.bundles'))) {
                 $result = $db->prepare(
                     "SELECT `tl_page`.`id` FROM `tl_page`
                 JOIN `tl_article` ON `tl_article`.`pid` = `tl_page`.`id`

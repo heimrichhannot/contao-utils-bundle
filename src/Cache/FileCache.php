@@ -20,7 +20,6 @@ use Symfony\Component\Filesystem\Filesystem;
  * The cache will be created in the cache folder defined by the config (default the huh.utils.filecache.folder parameter)
  * Within the cache folder you can specify a namespace serving as subfolder.
  *
- *
  * @example /src/Pdf/PdfPreview.php
  */
 class FileCache
@@ -71,7 +70,6 @@ class FileCache
     /**
      * Checks if a cached file already exist in cache. Namespace is taken into account.
      *
-     *
      * @param string $identifier    The identifier
      * @param string $fileExtension If not set, a file with no file extension is searched
      *
@@ -99,9 +97,7 @@ class FileCache
     /**
      * Get the file path for the given identifier. Namespace is taken into account.
      *
-     * @param string   $identifier
-     * @param string   $fileExtension
-     * @param callable $saveCallback  A callback handles the file save functionality. Get filepath, filename and the identifier as parameter. Expects a boolean return value.
+     * @param callable $saveCallback A callback handles the file save functionality. Get filepath, filename and the identifier as parameter. Expects a boolean return value.
      *
      * @throws \Exception
      *
@@ -197,17 +193,11 @@ class FileCache
         return $this->projectDir.'/'.$this->cacheFolderWithNamespace;
     }
 
-    /**
-     * @return string
-     */
     public function getNamespace(): string
     {
         return $this->namespace;
     }
 
-    /**
-     * @param string $namespace
-     */
     public function setNamespace(string $namespace)
     {
         $this->namespace = trim($namespace, ' /');
@@ -216,8 +206,6 @@ class FileCache
 
     /**
      * The cache folder (without namespace).
-     *
-     * @return string
      */
     public function getCacheFolder(): string
     {
@@ -226,8 +214,6 @@ class FileCache
 
     /**
      * Set cache folder (without namespace).
-     *
-     * @param string $cacheFolder
      */
     public function setCacheFolder(string $cacheFolder)
     {
@@ -237,8 +223,6 @@ class FileCache
 
     /**
      * Get the cache folder (including namespace).
-     *
-     * @return string
      */
     public function getCacheFolderWithNamespace(): string
     {

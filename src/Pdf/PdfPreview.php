@@ -38,9 +38,8 @@ class PdfPreview
     }
 
     /**
-     * @param string $pdfPath       The path to the pdf file
-     * @param array  $options       Additional rendering options. See generatePdfPreview
-     * @param string $fileExtension
+     * @param string $pdfPath The path to the pdf file
+     * @param array  $options Additional rendering options. See generatePdfPreview
      *
      * @return string
      */
@@ -99,9 +98,6 @@ class PdfPreview
     }
 
     /**
-     * @param string $pdfPath
-     * @param string $imagePath
-     *
      * @throws \Exception
      *
      * @return bool
@@ -142,9 +138,6 @@ class PdfPreview
     }
 
     /**
-     * @param string $pdfPath
-     * @param string $imagePath
-     *
      * @throws \Exception
      *
      * @return bool
@@ -160,9 +153,7 @@ class PdfPreview
         $allowedExtensions = ['jpg', 'jpeg', 'png'];
 
         if (!\in_array($imageExtension, $allowedExtensions)) {
-            throw new InvalidTypeException('Only one of the following file types is allowed: '.implode(
-                ', ', $allowedExtensions)
-            );
+            throw new InvalidTypeException('Only one of the following file types is allowed: '.implode(', ', $allowedExtensions));
         }
 
         if ('jpg' === $imageExtension) {

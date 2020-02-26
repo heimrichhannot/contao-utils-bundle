@@ -77,11 +77,19 @@ class UrlUtil {
 
     static addParametersToUri(uri, parameters)
     {
-        for (let key in parameters)
-        {
-            if (parameters.hasOwnProperty(key))
+        if(parameters instanceof FormData) {
+            for(let entry of parameters.entries()) {
+                if(parameters.has(entry[0])) {
+                    uri = this.addParameterToUri(uri, entry[0], entry[1]);
+                }
+            }
+        } else {
+            for (let key in parameters)
             {
-                uri = this.addParameterToUri(uri, key, parameters[key]);
+                if (parameters.hasOwnProperty(key))
+                {
+                    uri = this.addParameterToUri(uri, key, parameters[key]);
+                }
             }
         }
 

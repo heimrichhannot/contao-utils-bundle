@@ -34,8 +34,6 @@ class TemplateUtilTest extends ContaoTestCase
     }
 
     /**
-     * @param ContainerInterface|null $container
-     *
      * @return TemplateUtil
      */
     public function getTemplateUtilMock(ContainerInterface $container = null)

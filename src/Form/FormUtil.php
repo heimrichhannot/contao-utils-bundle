@@ -91,11 +91,7 @@ class FormUtil
      * * skipOptionCaching -> skip caching options if $value is an array
      * * _dcaOverride: Array Set a custom dca from outside, which will be used instead of global dca value.
      *
-     * @param string        $field
-     * @param               $value
-     * @param DataContainer $dc
-     * @param array         $config
-     * @param bool          $isRecursiveCall
+     * @param $value
      *
      * @return string
      */

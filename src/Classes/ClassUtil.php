@@ -26,9 +26,6 @@ class ClassUtil
     }
 
     /**
-     * @param string $class
-     * @param array  $parents
-     *
      * @return array
      */
     public function getParentClasses(string $class, array $parents = [])
@@ -78,8 +75,6 @@ class ClassUtil
     /**
      * Returns all classes in the given namespace.
      *
-     * @param string $namespace
-     *
      * @return array
      */
     public function getClassesInNamespace(string $namespace)
@@ -127,8 +122,6 @@ class ClassUtil
      * @param array $options
      *
      * @throws \ReflectionException if the class or method does not exist
-     *
-     * @return array
      */
     public function jsonSerialize($object, $data = [], $options = []): array
     {
@@ -220,7 +213,6 @@ class ClassUtil
      * Calls an object's method which is inaccessible.
      *
      * @param $entity
-     * @param string $method
      *
      * @throws \ReflectionException
      *

@@ -294,9 +294,7 @@ class TemplateUtil
     /**
      * Return the files matching a GLOB pattern.
      *
-     * @param string $path
      * @param string $pattern
-     * @param string $format
      *
      * @return array
      */

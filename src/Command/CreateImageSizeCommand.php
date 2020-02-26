@@ -114,10 +114,6 @@ class CreateImageSizeCommand extends AbstractLockedCommand implements FrameworkA
 
     /**
      * @param ImageSizeModel $imageSize
-     * @param int            $index
-     * @param int            $breakpoint
-     * @param int|null       $nextBreakpoint
-     * @param int            $mode
      */
     protected function createItem(Model $imageSize, int $index, int $breakpoint, ?int $nextBreakpoint, int $mode)
     {

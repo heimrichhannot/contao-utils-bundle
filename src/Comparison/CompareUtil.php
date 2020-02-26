@@ -55,11 +55,8 @@ class CompareUtil
     }
 
     /**
-     * @param string $operator
      * @param $value1
      * @param $value2
-     *
-     * @return bool
      */
     public function compareValue(string $operator, $value1, $value2 = null): bool
     {
@@ -124,9 +121,6 @@ class CompareUtil
 
     /**
      * @param $value
-     * @param string $operator
-     *
-     * @return bool
      */
     public function compareSingleValue($value, string $operator): bool
     {

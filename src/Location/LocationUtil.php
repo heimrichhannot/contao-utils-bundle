@@ -33,8 +33,6 @@ class LocationUtil
      * - city
      * - country
      *
-     * @param array $data
-     *
      * @return array|bool
      */
     public function computeCoordinatesByArray(array $data)
@@ -65,8 +63,6 @@ class LocationUtil
      * - postal
      * - city
      * - country
-     *
-     * @param string $address
      *
      * @return array|bool
      */

@@ -104,8 +104,6 @@ abstract class AbstractPdfWriter
     /**
      * Set html including styles.
      *
-     * @param string $html
-     *
      * @return PdfWriter
      */
     public function setHtml(string $html): self
@@ -135,8 +133,6 @@ abstract class AbstractPdfWriter
     /**
      * Set the pdf filename.
      *
-     * @param string $fileName
-     *
      * @return PdfWriter Current pdf writer instance
      */
     public function setFileName(string $fileName): self
@@ -152,8 +148,6 @@ abstract class AbstractPdfWriter
 
     /**
      * Get the pdf config.
-     *
-     * @return array
      */
     public function getConfig(): array
     {
@@ -162,8 +156,6 @@ abstract class AbstractPdfWriter
 
     /**
      * Set pdf config, replace default with custom config.
-     *
-     * @param array $config
      *
      * @return PdfWriter Current pdf writer instance
      */
@@ -177,8 +169,6 @@ abstract class AbstractPdfWriter
     /**
      * Merge current pdf config with given.
      *
-     * @param array $config
-     *
      * @return PdfWriter Current pdf writer instance
      */
     public function mergeConfig(array $config): self
@@ -190,8 +180,6 @@ abstract class AbstractPdfWriter
 
     /**
      * Check if prepare was already triggered.
-     *
-     * @return bool
      */
     public function isPrepared(): bool
     {
@@ -206,9 +194,6 @@ abstract class AbstractPdfWriter
         return $this->folder;
     }
 
-    /**
-     * @param string $folder
-     */
     public function setFolder(string $folder): void
     {
         $this->folder = $folder;

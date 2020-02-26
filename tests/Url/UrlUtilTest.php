@@ -332,7 +332,7 @@ class UrlUtilTest extends ContaoTestCase
     public function createRouterMock()
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->with('contao_backend', $this->anything())->will($this->returnCallback(function ($route, $params = []) {
+        $router->method('generate')->with('contao_backend', $this->anything())->willReturnCallback(function ($route, $params = []) {
             $url = '/contao';
 
             if (!empty($params)) {
@@ -346,7 +346,7 @@ class UrlUtilTest extends ContaoTestCase
             }
 
             return $url;
-        }));
+        });
 
         return $router;
     }

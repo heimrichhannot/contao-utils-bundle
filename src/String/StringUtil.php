@@ -66,8 +66,6 @@ class StringUtil
      *
      * Example: MyPrettyClass to my_pretty_class
      *
-     * @param string $value
-     *
      * @return string
      */
     public function camelCaseToSnake(string $value)
@@ -77,8 +75,6 @@ class StringUtil
 
     /**
      * @codeCoverageIgnore
-     *
-     * @param bool $includeAmbiguousChars
      *
      * @return mixed
      */
@@ -96,8 +92,6 @@ class StringUtil
     /**
      * @codeCoverageIgnore
      *
-     * @param bool $includeAmbiguousChars
-     *
      * @return mixed
      */
     public function randomLetter(bool $includeAmbiguousChars = false)
@@ -113,8 +107,6 @@ class StringUtil
 
     /**
      * @codeCoverageIgnore
-     *
-     * @param bool $includeAmbiguousChars
      *
      * @return mixed
      */
@@ -132,8 +124,6 @@ class StringUtil
     /**
      * @codeCoverageIgnore
      *
-     * @param string $charList
-     *
      * @return mixed
      */
     public function random(string $charList)
@@ -143,12 +133,6 @@ class StringUtil
 
     /**
      * Truncates a given string respecting html element.
-     *
-     * @param string $text
-     * @param int    $length
-     * @param string $ending
-     * @param bool   $exact
-     * @param bool   $considerHtml
      *
      * @return string
      */
@@ -254,9 +238,6 @@ class StringUtil
     }
 
     /**
-     * @param string $regExp
-     * @param string $subject
-     *
      * @return mixed|string
      */
     public function pregReplaceLast(string $regExp, string $subject)
@@ -301,8 +282,7 @@ class StringUtil
     /**
      * Convert css into inline styles.
      *
-     * @param string $text
-     * @param array  $cssText the css as text (no paths allowed atm)
+     * @param array $cssText the css as text (no paths allowed atm)
      *
      * @return string
      */
@@ -316,9 +296,6 @@ class StringUtil
 
     /**
      * Converts html to text.
-     *
-     * @param string $html
-     * @param array  $options
      *
      * @throws \Soundasleep\Html2TextException
      *
@@ -337,7 +314,6 @@ class StringUtil
      * Convenience method for lower casing in a save callback.
      *
      * @param $value
-     * @param \DataContainer $objDc
      *
      * @return string
      */
@@ -348,11 +324,6 @@ class StringUtil
 
     /**
      * Ensure line breaks for several languages.
-     *
-     * @param string $buffer
-     * @param string $language
-     *
-     * @return string
      */
     public function ensureLineBreaks(string $buffer, string $language = 'en'): string
     {

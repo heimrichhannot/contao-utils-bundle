@@ -29,10 +29,6 @@ class FileArchiveUtil
 
     /**
      * FileArchiveUtil constructor.
-     *
-     * @param string     $projectDir
-     * @param array      $utilsConfig
-     * @param FolderUtil $folderUtil
      */
     public function __construct(string $projectDir, array $utilsConfig, FolderUtil $folderUtil)
     {
@@ -45,7 +41,6 @@ class FileArchiveUtil
      * Create a temporary zip file and return the file path.
      *
      * @param FilesModel[]|array $items
-     * @param string             $archiveName
      *
      * @throws \Exception
      *

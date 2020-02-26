@@ -93,8 +93,6 @@ class StubCurlRequest implements HttpRequestInterface
     }
 
     /**
-     * @param array $header
-     *
      * @return StubCurlRequest
      */
     public function setResponseHeader(array $header)
@@ -105,8 +103,6 @@ class StubCurlRequest implements HttpRequestInterface
     }
 
     /**
-     * @param string $body
-     *
      * @return StubCurlRequest
      */
     public function setResponseBody(string $body)
@@ -117,8 +113,6 @@ class StubCurlRequest implements HttpRequestInterface
     }
 
     /**
-     * @param bool $hasError
-     *
      * @return StubCurlRequest
      */
     public function setResponseError(bool $hasError)

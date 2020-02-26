@@ -374,8 +374,6 @@ class FormUtilTest extends ContaoTestCase
     }
 
     /**
-     * @param ContainerBuilder|null $container
-     *
      * @return \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     protected function getContainerMock(ContainerBuilder $container = null)

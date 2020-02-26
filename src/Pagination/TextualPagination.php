@@ -29,7 +29,6 @@ class TextualPagination extends Pagination
      * Set the number of rows, the number of results per pages and the number of links.
      *
      * @param array    $teasers          The teasers for the pagination
-     * @param string   $singlePageUrl
      * @param int      $intRows          The number of rows
      * @param int      $intPerPage       The number of items per page
      * @param int      $intNumberOfLinks The number of links to generate

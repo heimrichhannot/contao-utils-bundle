@@ -160,8 +160,7 @@ class DcaUtil
     /**
      * Get a contao backend popup link.
      *
-     * @param string $href    (e.g. do=news&id=1000&table=tl_news)
-     * @param array  $options
+     * @param string $href (e.g. do=news&id=1000&table=tl_news)
      *
      * @return string
      */
@@ -229,7 +228,7 @@ class DcaUtil
         // Get all default values for the new entry
         foreach ($GLOBALS['TL_DCA'][$strTable]['fields'] as $k => $v) {
             // Use array_key_exists here (see #5252)
-            if (array_key_exists('default', $v)) {
+            if (\array_key_exists('default', $v)) {
                 if (\is_object($varData)) {
                     $varData->{$k} = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                     // Encrypt the default value (see #3740)
@@ -262,9 +261,7 @@ class DcaUtil
      * 2. The value retrieved by $array[$property . '_callback'] which is a callback array like ['Class', 'method'] or ['service.id', 'method']
      * 3. The value retrieved by $array[$property . '_callback'] which is a function closure array like ['Class', 'method']
      *
-     * @param array $array
-     * @param       $property
-     * @param array $arguments
+     * @param $property
      *
      * @return mixed|null The value retrieved in the way mentioned above or null
      */
@@ -305,8 +302,6 @@ class DcaUtil
 
     /**
      * Sets the current date as the date added -> usually used on submit.
-     *
-     * @param DataContainer $dc
      */
     public function setDateAdded(DataContainer $dc)
     {
@@ -323,7 +318,6 @@ class DcaUtil
      * Sets the current date as the date added -> usually used on copy.
      *
      * @param $insertId
-     * @param DataContainer $dc
      */
     public function setDateAddedOnCopy($insertId, DataContainer $dc)
     {
@@ -344,11 +338,6 @@ class DcaUtil
      * - array evalConditions restrict to certain dca eval
      * - bool localizeLabels
      * - bool skipSorting
-     *
-     * @param string $table
-     * @param array  $options
-     *
-     * @return array
      */
     public function getFields(string $table, array $options = []): array
     {
@@ -402,11 +391,6 @@ class DcaUtil
 
     /**
      * Adds an override selector to every field in $fields to the dca associated with $destinationTable.
-     *
-     * @param array  $fields
-     * @param string $sourceTable
-     * @param string $destinationTable
-     * @param array  $options
      */
     public function addOverridableFields(array $fields, string $sourceTable, string $destinationTable, array $options = [])
     {
@@ -504,8 +488,6 @@ class DcaUtil
      *
      * This function is useful if you want to adjust a palette for sub entities that can override properties of their ancestor(s).
      * Use $this->getOverridableProperty() for computing the correct value respecting the entity hierarchy.
-     *
-     * @param string $table
      */
     public function flattenPaletteForSubEntities(string $table, array $overridableFields)
     {
@@ -823,8 +805,6 @@ class DcaUtil
 
     /**
      * Load a data container in a testable way.
-     *
-     * @param string $table
      */
     public function loadDc(string $table)
     {
@@ -838,8 +818,6 @@ class DcaUtil
 
     /**
      * Load a language file in a testable way.
-     *
-     * @param string $table
      */
     public function loadLanguageFile(string $table)
     {
@@ -954,10 +932,7 @@ class DcaUtil
     /**
      * Mostly used for Form::prepareSpecialValueForOutput().
      *
-     * @param string $table
      * @param $activeRecord
-     *
-     * @return DC_Table_Utils
      */
     public function getDCTable(string $table, $activeRecord): DC_Table_Utils
     {

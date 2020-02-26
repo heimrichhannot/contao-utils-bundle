@@ -26,9 +26,6 @@ class UserUtil
     }
 
     /**
-     * @param array $groups
-     * @param array $options
-     *
      * @return UserModel|UserModel[]|\Contao\Model\Collection|null
      */
     public function findActiveByGroups(array $groups, array $options = [])

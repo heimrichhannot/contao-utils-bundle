@@ -295,8 +295,7 @@ class ImageUtilTest extends ContaoTestCase
     }
 
     /**
-     * @param ContainerBuilder|null $container
-     * @param ContaoFramework       $framework
+     * @param ContaoFramework $framework
      *
      * @return ContainerBuilder|ContainerInterface
      */

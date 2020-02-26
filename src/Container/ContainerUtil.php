@@ -44,8 +44,6 @@ class ContainerUtil
 
     /**
      * Returns the active bundles.
-     *
-     * @return array
      */
     public function getActiveBundles(): array
     {
@@ -54,8 +52,6 @@ class ContainerUtil
 
     /**
      * Checks if some bundle is active. Pass in the class name (e.g. 'HeimrichHannot\FilterBundle\HeimrichHannotContaoFilterBundle' or the legacy Contao 3 name like 'news').
-     *
-     * @param string $bundleName
      *
      * @return bool
      */
@@ -107,8 +103,6 @@ class ContainerUtil
     }
 
     /**
-     * @param string $text
-     * @param string $function
      * @param string $category Use constants in ContaoContext
      */
     public function log(string $text, string $function, string $category)
@@ -183,11 +177,6 @@ class ContainerUtil
     /**
      * Recursively merges a config.yml with a $extensionConfigs array in the context of ExtensionPluginInterface::getExtensionConfig().
      * Must be static, because on Plugin::getExtensionConfig() no contao.framework nor service huh.utils.container is available.
-     *
-     * @param string $activeExtensionName
-     * @param string $extensionName
-     * @param array  $extensionConfigs
-     * @param string $configFile
      *
      * @return array
      */

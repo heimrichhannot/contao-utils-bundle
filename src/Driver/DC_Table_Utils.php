@@ -138,8 +138,6 @@ class DC_Table_Utils extends DC_Table
     /**
      * Create a DataContainer instance from a given Model.
      *
-     * @param Model $model
-     *
      * @return static
      */
     public static function createFromModel(Model $model)
@@ -159,7 +157,6 @@ class DC_Table_Utils extends DC_Table
      * Create a DataContainer instance from given model data.
      *
      * @param Model  $model
-     * @param string $table
      * @param string $field
      *
      * @return static

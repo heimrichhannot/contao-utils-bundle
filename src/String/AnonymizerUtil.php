@@ -21,8 +21,6 @@ class AnonymizerUtil
      * Example:
      * max.mustermann@example.org will be max.mus*******\@example.org
      *
-     * @param string $email
-     *
      * @return string The anonymized email address
      *
      * @since 2.131
