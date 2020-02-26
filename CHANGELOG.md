@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.137.0] - 2020-02-26
+
+- added DcaUtil::activateNotificationType()
+
 ## [2.136.1] - 2020-02-26
 
 - fixed adding formData to uri
