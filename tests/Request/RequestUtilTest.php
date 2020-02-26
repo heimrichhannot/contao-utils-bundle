@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Tests\Request;
-
 
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Request\RequestUtil;
@@ -22,16 +18,19 @@ class RequestUtilTest extends ContaoTestCase
     public function createTestInstance(array $parameter = [])
     {
         $requestStack = new RequestStack();
+
         if (!isset($parameter['url'])) {
             $parameter['url'] = 'http://example.org';
         }
         $request = Request::create($parameter['url']);
+
         if (isset($parameter['referer'])) {
             $request->headers->set('referer', $parameter['referer']);
         }
         $requestStack->push($request);
 
         $instance = new RequestUtil($requestStack);
+
         return $instance;
     }
 

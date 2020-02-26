@@ -843,12 +843,10 @@ class DcaUtil
      */
     public function loadLanguageFile(string $table)
     {
-        if (!isset($GLOBALS['TL_LANG'][$table]) || null === $GLOBALS['TL_LANG'][$table]) {
-            /** @var System $system */
-            $system = $this->framework->getAdapter(System::class);
+        /** @var System $system */
+        $system = $this->framework->getAdapter(System::class);
 
-            $system->loadLanguageFile($table);
-        }
+        $system->loadLanguageFile($table);
     }
 
     public function isDcMultilingual(string $table)

@@ -58,6 +58,7 @@ class UrlUtilTest extends ContaoTestCase
         /** @var RequestUtil|MockObject $requestUtil */
         $requestUtil = $this->createMock(RequestUtil::class);
         $instance = new UrlUtil($parameter['framework'], $requestUtil);
+
         return $instance;
     }
 
@@ -101,14 +102,14 @@ class UrlUtilTest extends ContaoTestCase
         $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&blaaa=fuuu');
         $this->assertSame('http://localhost?blaaa=fuuu', $url);
 
-        Environment::set('uri', "https://example.org/page/1?foo=bar&test=1");
-        Environment::set('requestUri', "/page/1?foo=bar&test=1");
+        Environment::set('uri', 'https://example.org/page/1?foo=bar&test=1');
+        Environment::set('requestUri', '/page/1?foo=bar&test=1');
 
         $url = $urlUtil->removeQueryString([], null, ['absoluteUrl' => true]);
         $this->assertSame('https://example.org/page/1?foo=bar&test=1', $url);
         $url = $urlUtil->removeQueryString(['foo'], null, ['absoluteUrl' => true]);
         $this->assertSame('https://example.org/page/1?test=1', $url);
-        $url = $urlUtil->removeQueryString(['foo','test'], null, ['absoluteUrl' => true]);
+        $url = $urlUtil->removeQueryString(['foo', 'test'], null, ['absoluteUrl' => true]);
         $this->assertSame('https://example.org/page/1', $url);
         $url = $urlUtil->removeQueryString(['test'], null);
         $this->assertSame('/page/1?foo=bar', $url);
@@ -147,11 +148,11 @@ class UrlUtilTest extends ContaoTestCase
         $pageModel->method('getAbsoluteUrl')->willReturn('www.localhost.de/page');
         $pageModel->method('getFrontendUrl')->willReturn('/page');
 
-        $pageModelAdapter = $this->mockAdapter(['findByPk', 'getAbsoluteUrl','getFrontendUrl']);
+        $pageModelAdapter = $this->mockAdapter(['findByPk', 'getAbsoluteUrl', 'getFrontendUrl']);
         $pageModelAdapter->method('findByPk')->willReturn(null);
 
         $urlUtil = $this->createTestInstance([
-            'framework' => $this->mockContaoFramework([PageModel::class => $pageModelAdapter])
+            'framework' => $this->mockContaoFramework([PageModel::class => $pageModelAdapter]),
         ]);
 
         try {
@@ -165,7 +166,7 @@ class UrlUtilTest extends ContaoTestCase
         $urlUtil = $this->createTestInstance([
             'framework' => $this->mockContaoFramework([
                 PageModel::class => $pageModelAdapter,
-            ])
+            ]),
         ]);
 
         $url = $urlUtil->prepareUrl(1, ['absoluteUrl' => true]);
@@ -173,8 +174,8 @@ class UrlUtilTest extends ContaoTestCase
         $url = $urlUtil->prepareUrl(1);
         $this->assertSame('/page?answer=12', $url);
 
-        Environment::set('uri', "https://example.org/page/1");
-        Environment::set('requestUri', "/page/1");
+        Environment::set('uri', 'https://example.org/page/1');
+        Environment::set('requestUri', '/page/1');
 
         $url = $urlUtil->prepareUrl(null, ['absoluteUrl' => true]);
         $this->assertSame('https://example.org/page/1', $url);
@@ -353,26 +354,26 @@ class UrlUtilTest extends ContaoTestCase
     public function testGetRelativePath()
     {
         $instance = $this->createTestInstance();
-        $this->assertSame("/de", $instance->getRelativePath("https://example.org/de"));
-        $this->assertSame("/pfad?argument=wert#textanker", $instance->getRelativePath("http://benutzername:passwort@hostname:9090/pfad?argument=wert#textanker"));
-        $this->assertSame("/path?googleguy=googley", $instance->getRelativePath("//www.example.com/path?googleguy=googley"));
-        $this->assertSame("/path?test=1&foo=bar&heimrich=hannot", $instance->getRelativePath("//www.example.com/path?test=1&foo=bar&heimrich=hannot"));
-        $this->assertSame("/mypath/myfile.php", $instance->getRelativePath("foobar.com:80/mypath/myfile.php"));
+        $this->assertSame('/de', $instance->getRelativePath('https://example.org/de'));
+        $this->assertSame('/pfad?argument=wert#textanker', $instance->getRelativePath('http://benutzername:passwort@hostname:9090/pfad?argument=wert#textanker'));
+        $this->assertSame('/path?googleguy=googley', $instance->getRelativePath('//www.example.com/path?googleguy=googley'));
+        $this->assertSame('/path?test=1&foo=bar&heimrich=hannot', $instance->getRelativePath('//www.example.com/path?test=1&foo=bar&heimrich=hannot'));
+        $this->assertSame('/mypath/myfile.php', $instance->getRelativePath('foobar.com:80/mypath/myfile.php'));
 
         $exception = null;
-        try
-        {
-            $instance->getRelativePath("http:///example.com");
+
+        try {
+            $instance->getRelativePath('http:///example.com');
         } catch (\Exception $e) {
             $exception = $e;
         }
         $this->assertInstanceOf(InvalidUrlException::class, $exception);
 
         $instance = $this->createTestInstance();
-        $this->assertSame("de", $instance->getRelativePath("https://example.org/de", ['removeLeadingSlash' => true]));
-        $this->assertSame("pfad?argument=wert#textanker", $instance->getRelativePath("http://benutzername:passwort@hostname:9090/pfad?argument=wert#textanker", ['removeLeadingSlash' => true]));
-        $this->assertSame("path?googleguy=googley", $instance->getRelativePath("//www.example.com/path?googleguy=googley", ['removeLeadingSlash' => true]));
-        $this->assertSame("path?test=1&foo=bar&heimrich=hannot", $instance->getRelativePath("//www.example.com/path?test=1&foo=bar&heimrich=hannot", ['removeLeadingSlash' => true]));
-        $this->assertSame("mypath/myfile.php", $instance->getRelativePath("foobar.com:80/mypath/myfile.php", ['removeLeadingSlash' => true]));
+        $this->assertSame('de', $instance->getRelativePath('https://example.org/de', ['removeLeadingSlash' => true]));
+        $this->assertSame('pfad?argument=wert#textanker', $instance->getRelativePath('http://benutzername:passwort@hostname:9090/pfad?argument=wert#textanker', ['removeLeadingSlash' => true]));
+        $this->assertSame('path?googleguy=googley', $instance->getRelativePath('//www.example.com/path?googleguy=googley', ['removeLeadingSlash' => true]));
+        $this->assertSame('path?test=1&foo=bar&heimrich=hannot', $instance->getRelativePath('//www.example.com/path?test=1&foo=bar&heimrich=hannot', ['removeLeadingSlash' => true]));
+        $this->assertSame('mypath/myfile.php', $instance->getRelativePath('foobar.com:80/mypath/myfile.php', ['removeLeadingSlash' => true]));
     }
 }

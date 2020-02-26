@@ -38,13 +38,15 @@ class UrlUtil
      * Detect if user already visited our domain before.
      *
      * @return bool
-     * @deprecated Please use RequestUtil::isNewVisitor() instead.
+     *
+     * @deprecated please use RequestUtil::isNewVisitor() instead
      * @codeCoverageIgnore
      */
     public function isNewVisitor(): bool
     {
-        trigger_error(__METHOD__." is deprecated and will be removed in a future version. Please use RequestUtil::isNewVisitor() instead.", E_USER_DEPRECATED);
-       return $this->requestUtil->isNewVisitor();
+        @trigger_error(__METHOD__.' is deprecated and will be removed in a future version. Please use RequestUtil::isNewVisitor() instead.', E_USER_DEPRECATED);
+
+        return $this->requestUtil->isNewVisitor();
     }
 
     /**
@@ -118,9 +120,10 @@ class UrlUtil
      * Options:
      * - absoluteUrl: (boolean) Return absolute url instead of relative url. Only applicable if id or null is given as url. Default: false
      *
-     * @param array $params List of parameters to remove from url
-     * @param string|int|null $url Full Uri, Page id or null (for current environment uri)
-     * @param array $options
+     * @param array           $params  List of parameters to remove from url
+     * @param string|int|null $url     Full Uri, Page id or null (for current environment uri)
+     * @param array           $options
+     *
      * @return string
      */
     public function removeQueryString(array $params, $url = null, array $options = [])
@@ -292,7 +295,8 @@ class UrlUtil
      * - absoluteUrl: (boolean) Return absolute url instead of relative url. Only applicable if id or null is given as url. Default: false
      *
      * @param string|int|null Url or page id
-     * @param array $options Pass additional options.
+     * @param array $options pass additional options
+     *
      * @return string
      */
     public function prepareUrl($url = null, array $options = [])
@@ -328,33 +332,40 @@ class UrlUtil
     }
 
     /**
-     * Convert an absolute url to an relative url
+     * Convert an absolute url to an relative url.
      *
      * Options:
      * - removeLeadingSlash: (boolean) Remove a
      *
-     * @param string $url The url that should be made relative
-     * @param array $options Pass additional options
-     * @return string
+     * @param string $url     The url that should be made relative
+     * @param array  $options Pass additional options
+     *
      * @throws InvalidUrlException
+     *
+     * @return string
      */
     public function getRelativePath(string $url, array $options = []): string
     {
         $urlParts = parse_url($url);
+
         if (false === $urlParts) {
-            throw new InvalidUrlException("Your given url is invalid and could not be parsed.");
+            throw new InvalidUrlException('Your given url is invalid and could not be parsed.');
         }
 
         $path = '';
+
         if (isset($urlParts['path'])) {
             $path .= $urlParts['path'];
+
             if (isset($options['removeLeadingSlash']) && true === $options['removeLeadingSlash']) {
-                $path = ltrim($path, "/");
+                $path = ltrim($path, '/');
             }
         }
+
         if (isset($urlParts['query'])) {
             $path .= '?'.$urlParts['query'];
         }
+
         if (isset($urlParts['fragment'])) {
             $path .= '#'.$urlParts['fragment'];
         }

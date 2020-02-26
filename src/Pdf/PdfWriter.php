@@ -120,7 +120,7 @@ class PdfWriter extends AbstractPdfWriter
             case static::OUTPUT_MODE_FILE:
                 if ($folder = $this->getFolder()) {
                     $projectDir = System::getContainer()->get('huh.utils.container')->getProjectDir();
-                    $filename = $projectDir . '/' . rtrim($folder, '/').'/'.$filename;
+                    $filename = $projectDir.'/'.rtrim($folder, '/').'/'.$filename;
                 }
 
                 $outputMode = 'F';
