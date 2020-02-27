@@ -343,4 +343,43 @@ class FormUtil
 
         return new $strClass(Widget::getAttributesFromDca($dca, $fieldName, $value, $dbField, $table, $dataContainer));
     }
+
+    public function getModelDataAsNotificationTokens(array $data, string $prefix, DataContainer $dc, array $config = [])
+    {
+        $prefix = $prefix ?? 'form_';
+        $skipRawValues = $config['skipRawValues'] ?? false;
+        $rawValuePrefix = $config['rawValuePrefix'] ?? 'raw_';
+        $skipFormattedValues = $config['skipFormattedValues'] ?? false;
+        $formattedValuePrefix = $config['formattedValuePrefix'] ?? '';
+        $skipFields = $config['skipFields'] ?? [];
+        $formatOptions = $config['formatOptions'] ?? [];
+
+        $result = [];
+
+        // raw values
+        if (!$skipRawValues) {
+            foreach ($data as $field => $value) {
+                if (\in_array($field, $skipFields)) {
+                    continue;
+                }
+
+                $result[$prefix.$rawValuePrefix.$field] = $value;
+            }
+        }
+
+        // formatted values
+        if (!$skipFormattedValues) {
+            foreach ($data as $field => $value) {
+                if (\in_array($field, $skipFields)) {
+                    continue;
+                }
+
+                $result[$prefix.$formattedValuePrefix.$field] = $this->prepareSpecialValueForOutput(
+                    $field, $value, $dc, $formatOptions
+                );
+            }
+        }
+
+        return $result;
+    }
 }

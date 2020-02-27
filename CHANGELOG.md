@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.138.0] - 2020-02-27
+
+- added FormUtil::getModelDataAsNotificationTokens()
+
 ## [2.137.0] - 2020-02-26
 
 - added DcaUtil::activateNotificationType()
