@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.139.0] - 2020-02-27
+
+- added UrlUtil::getBaseUrl()
+
 ## [2.138.0] - 2020-02-27
 
 - added FormUtil::getModelDataAsNotificationTokens()

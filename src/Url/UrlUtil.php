@@ -357,4 +357,9 @@ class UrlUtil
 
         return $path;
     }
+
+    public function getBaseUrl(bool $absolute = false)
+    {
+        return ($absolute ? Environment::get('host').'/' : '').System::getContainer()->get('huh.utils.container')->isDev() ? 'app_dev.php' : '';
+    }
 }
