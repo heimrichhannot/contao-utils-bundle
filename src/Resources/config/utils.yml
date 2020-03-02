@@ -10,15 +10,28 @@ services:
 
   HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: ~
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
+  HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil: ~
+  HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: ~
   HeimrichHannot\UtilsBundle\Cache\FileCache: ~
   HeimrichHannot\UtilsBundle\Cache\RemoteImageCache: ~
+  HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer: '@huh.cache.warm_internal'
+  HeimrichHannot\UtilsBundle\Comparison\CompareUtil: ~
+  HeimrichHannot\UtilsBundle\Database\DatabaseUtil: ~
   HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~
   HeimrichHannot\UtilsBundle\File\FolderUtil: ~
   HeimrichHannot\UtilsBundle\Form\FormUtil: ~
+  HeimrichHannot\UtilsBundle\Location\LocationUtil: ~
+  HeimrichHannot\UtilsBundle\Member\MemberUtil: ~
   HeimrichHannot\UtilsBundle\Request\RequestUtil: ~
+  HeimrichHannot\UtilsBundle\Routing\RoutingUtil: '@huh.utils.routing'
   HeimrichHannot\UtilsBundle\Rsce\RsceUtil: ~
+  HeimrichHannot\UtilsBundle\Salutation\SalutationUtil: ~
+  HeimrichHannot\UtilsBundle\Security\CodeUtil: ~
+  HeimrichHannot\UtilsBundle\Security\EncryptionUtil: ~
   HeimrichHannot\UtilsBundle\String\AnonymizerUtil: ~
   HeimrichHannot\UtilsBundle\String\StringUtil: ~
+  HeimrichHannot\UtilsBundle\Url\UrlUtil: ~
+  HeimrichHannot\UtilsBundle\User\UserUtil: ~
 
   huh.utils.accordion: '@HeimrichHannot\UtilsBundle\Accordion\AccordionUtil'
   huh.utils.array: '@HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'
