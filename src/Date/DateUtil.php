@@ -436,4 +436,20 @@ class DateUtil
     {
         return $this->getFormattedDateTime($event->startDate, $event->endDate, $event->addTime, $event->startTime, $event->endTime);
     }
+
+    /**
+     * @param int      $smallerTimestamp
+     * @param int|null $largerTimestamp
+     * @param bool     $returnFullDays   If true, only full days are returned (0.67 -> 0)
+     *
+     * @return float|int
+     */
+    public function getDaysBetween(int $smallerTimestamp, int $largerTimestamp = null, bool $returnFullDays = false)
+    {
+        $largerTimestamp = null === $largerTimestamp ? time() : $largerTimestamp;
+
+        $result = ($largerTimestamp - $smallerTimestamp) / (60 * 60 * 24);
+
+        return $returnFullDays ? floor($result) : $result;
+    }
 }

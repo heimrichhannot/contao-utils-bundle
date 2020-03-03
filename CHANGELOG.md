@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.141.0] - 2020-03-03
+
+- added DateUtil::getDaysBetween()
+- fixed UrlUtil::getBaseUrl()
+
 ## [2.140.0] - 2020-03-02
 
 - fixed service definitions for contao 4.9
