@@ -352,6 +352,7 @@ class FormUtil
         $skipFormattedValues = $config['skipFormattedValues'] ?? false;
         $formattedValuePrefix = $config['formattedValuePrefix'] ?? '';
         $skipFields = $config['skipFields'] ?? [];
+        $restrictFields = $config['restrictFields'] ?? [];
         $formatOptions = $config['formatOptions'] ?? [];
 
         $result = [];
@@ -359,7 +360,11 @@ class FormUtil
         // raw values
         if (!$skipRawValues) {
             foreach ($data as $field => $value) {
-                if (\in_array($field, $skipFields)) {
+                if (empty($restrictFields) && \in_array($field, $skipFields)) {
+                    continue;
+                }
+
+                if (!empty($restrictFields) && !\in_array($field, $restrictFields)) {
                     continue;
                 }
 
@@ -370,7 +375,11 @@ class FormUtil
         // formatted values
         if (!$skipFormattedValues) {
             foreach ($data as $field => $value) {
-                if (\in_array($field, $skipFields)) {
+                if (empty($restrictFields) && \in_array($field, $skipFields)) {
+                    continue;
+                }
+
+                if (!empty($restrictFields) && !\in_array($field, $restrictFields)) {
                     continue;
                 }
 
