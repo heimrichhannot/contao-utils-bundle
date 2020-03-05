@@ -972,4 +972,73 @@ class DcaUtil
 
         return false;
     }
+
+    public function setFieldsToReadOnly(&$dca, array $config = [])
+    {
+        $skipFields = $config['skipFields'] ?? [];
+
+        foreach ($dca['fields'] as $field => &$data) {
+            if (\in_array($field, $skipFields)) {
+                continue;
+            }
+
+            switch ($data['inputType']) {
+                case 'checkbox':
+                case 'radio':
+                case 'radioTable':
+                    $data['eval']['disabled'] = true;
+
+                    break;
+
+                case 'select':
+                case 'imageSize':
+                    $data['eval']['readonly'] = true;
+                    $data['eval']['class'] = 'readonly';
+
+                    break;
+
+                case 'fileTree':
+                case 'metaWizard':
+                case 'tagsinput':
+                    $data['eval']['readonly'] = true;
+                    $data['eval']['tl_class'] = $data['eval']['tl_class'].' readonly';
+
+                    break;
+
+                case 'multiColumnEditor':
+                    $data['eval']['readonly'] = true;
+
+                    $this->setFieldsToReadOnly($data['eval']['multiColumnEditor'], $config);
+
+                    break;
+
+                default:
+                    $data['eval']['readonly'] = true;
+
+                    // TODO dispatch event for custom
+                    break;
+            }
+        }
+    }
+
+    public function getTranslatedModuleNameByTable(string $table)
+    {
+        foreach ($GLOBALS['BE_MOD'] as $groupName => $groupModules) {
+            if (empty($groupModules)) {
+                continue;
+            }
+
+            foreach ($groupModules as $moduleName => $moduleConfig) {
+                if (!isset($moduleConfig['tables']) || !\is_array($moduleConfig['tables'])) {
+                    continue;
+                }
+
+                if (\in_array($table, $moduleConfig['tables'])) {
+                    return StringUtil::specialchars($GLOBALS['TL_LANG']['MOD'][$moduleName][0]);
+                }
+            }
+        }
+
+        return false;
+    }
 }
