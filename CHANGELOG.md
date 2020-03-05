@@ -1,18 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.144.0] - 2020-03-05
+## [2.143.0] - 2020-03-05
 
 - added `DcaUtil::getRenderedDiff()`
 - added `ArrayUtil::implodeRecursive()`
 
-## [2.143.0] - 2020-03-05
-
-- added `DcaUtil::getTranslatedModuleNameByTable()`
-
-## [2.142.0] - 2020-03-04
+## [2.142.0] - 2020-03-05
 
 - added `DcaUtil::setFieldsToReadOnly()`
+- added `DcaUtil::getTranslatedModuleNameByTable()`
 
 ## [2.141.1] - 2020-03-03
 
