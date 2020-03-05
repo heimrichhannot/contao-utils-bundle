@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Arrays;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\StringUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ArrayUtil
@@ -217,5 +218,30 @@ class ArrayUtil
         } else {
             $array[$newKey] = $newValue;
         }
+    }
+
+    public function implodeRecursive($var, $binary = false)
+    {
+        if (!\is_array($var)) {
+            return $binary ? StringUtil::binToUuid($var) : $var;
+        }
+
+        if (!\is_array(current($var))) {
+            if ($binary) {
+                $var = array_map(function ($v) {
+                    return $v ? StringUtil::binToUuid($v) : '';
+                }, $var);
+            }
+
+            return implode(', ', $var);
+        }
+
+        $buffer = '';
+
+        foreach ($var as $k => $v) {
+            $buffer .= $k.': '.$this->implodeRecursive($v)."\n";
+        }
+
+        return trim($buffer);
     }
 }

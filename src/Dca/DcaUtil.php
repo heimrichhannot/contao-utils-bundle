@@ -9,11 +9,14 @@
 namespace HeimrichHannot\UtilsBundle\Dca;
 
 use Contao\BackendUser;
+use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Database\Result;
 use Contao\DataContainer;
+use Contao\DcaExtractor;
+use Contao\DiffRenderer;
 use Contao\Environment;
 use Contao\FrontendUser;
 use Contao\Image;
@@ -22,6 +25,7 @@ use Contao\Model;
 use Contao\RequestToken;
 use Contao\StringUtil;
 use Contao\System;
+use Contao\Validator;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -1040,5 +1044,118 @@ class DcaUtil
         }
 
         return false;
+    }
+
+    public function getRenderedDiff(string $table, array $source, array $target, array $config = [])
+    {
+        $result = '';
+
+        $skipFields = $config['skipFields'] ?? [];
+        $tableCallbacks = $config['tableCallbacks'] ?? [];
+
+        $this->loadDc($table);
+        $this->loadLanguageFile($table);
+
+        $dca = $GLOBALS['TL_DCA'][$table];
+
+        $arrayUtil = System::getContainer()->get('huh.utils.array');
+
+        // Get the order fields
+        $dcaExtractor = DcaExtractor::getInstance($table);
+        $fields = $dcaExtractor->getFields();
+        $orderFields = $dcaExtractor->getOrderFields();
+
+        // Find the changed fields and highlight the changes
+        foreach ($target as $k => $v) {
+            if (\in_array($k, $skipFields)) {
+                continue;
+            }
+
+            if ($source[$k] != $target[$k]) {
+                if ($dca['fields'][$k]['eval']['doNotShow'] || $dca['fields'][$k]['eval']['hideInput']) {
+                    continue;
+                }
+
+                $isBinary = 0 === strncmp($fields[$k], 'binary(', 7) || 0 === strncmp($fields[$k], 'blob ', 5);
+
+                if ($dca['fields'][$k]['eval']['multiple'] || \in_array($k, $orderFields)) {
+                    if (isset($dca['fields'][$k]['eval']['csv'])) {
+                        $delimiter = $dca['fields'][$k]['eval']['csv'];
+
+                        if (isset($target[$k])) {
+                            $target[$k] = preg_replace('/'.preg_quote($delimiter, ' ?/').'/', $delimiter.' ', $target[$k]);
+                        }
+
+                        if (isset($source[$k])) {
+                            $source[$k] = preg_replace('/'.preg_quote($delimiter, ' ?/').'/', $delimiter.' ', $source[$k]);
+                        }
+                    } else {
+                        // Convert serialized arrays into strings
+                        if (\is_array(($tmp = StringUtil::deserialize($target[$k]))) && !\is_array($target[$k])) {
+                            $target[$k] = $arrayUtil->implodeRecursive($tmp, $isBinary);
+                        }
+
+                        if (\is_array(($tmp = StringUtil::deserialize($source[$k]))) && !\is_array($source[$k])) {
+                            $source[$k] = $arrayUtil->implodeRecursive($tmp, $isBinary);
+                        }
+                    }
+                }
+
+                unset($tmp);
+
+                // Convert binary UUIDs to their hex equivalents (see #6365)
+                if ($isBinary) {
+                    if (Validator::isBinaryUuid($target[$k])) {
+                        $target[$k] = StringUtil::binToUuid($target[$k]);
+                    }
+
+                    if (Validator::isBinaryUuid($source[$k])) {
+                        $source[$k] = StringUtil::binToUuid($source[$k]);
+                    }
+                }
+
+                // Convert date fields
+                if ('date' == $dca['fields'][$k]['eval']['rgxp']) {
+                    $target[$k] = \Date::parse(Config::get('dateFormat'), $target[$k] ?: '');
+                    $source[$k] = \Date::parse(Config::get('dateFormat'), $source[$k] ?: '');
+                } elseif ('time' == $dca['fields'][$k]['eval']['rgxp']) {
+                    $target[$k] = \Date::parse(Config::get('timeFormat'), $target[$k] ?: '');
+                    $source[$k] = \Date::parse(Config::get('timeFormat'), $source[$k] ?: '');
+                } elseif ('datim' == $dca['fields'][$k]['eval']['rgxp'] || 'tstamp' == $k) {
+                    $target[$k] = \Date::parse(Config::get('datimFormat'), $target[$k] ?: '');
+                    $source[$k] = \Date::parse(Config::get('datimFormat'), $source[$k] ?: '');
+                }
+
+                // Decode entities if the "decodeEntities" flag is not set (see #360)
+                if (empty($dca['fields'][$k]['eval']['decodeEntities'])) {
+                    $target[$k] = StringUtil::decodeEntities($target[$k]);
+                    $source[$k] = StringUtil::decodeEntities($source[$k]);
+                }
+
+                // Convert strings into arrays
+                if (!\is_array($target[$k])) {
+                    $target[$k] = explode("\n", $target[$k]);
+                }
+
+                if (!\is_array($source[$k])) {
+                    $source[$k] = explode("\n", $source[$k]);
+                }
+
+                // custom callbacks to modify data
+                if (isset($tableCallbacks[$table]) && \is_callable($tableCallbacks[$table])) {
+                    $tableCallbacks[$table]($k, $v, $source, $target);
+                }
+
+                $diff = new \Diff($source[$k], $target[$k]);
+                $result .= $diff->render(new DiffRenderer(['field' => ($dca['fields'][$k]['label'][0] ?: (isset($GLOBALS['TL_LANG']['MSC'][$k]) ? (\is_array($GLOBALS['TL_LANG']['MSC'][$k]) ? $GLOBALS['TL_LANG']['MSC'][$k][0] : $GLOBALS['TL_LANG']['MSC'][$k]) : $k))]));
+            }
+        }
+
+        // Identical versions
+        if ('' == $result) {
+            $result = '<p>'.$GLOBALS['TL_LANG']['MSC']['identicalVersions'].'</p>';
+        }
+
+        return $result;
     }
 }
