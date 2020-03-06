@@ -1051,6 +1051,7 @@ class DcaUtil
         $result = '';
 
         $skipFields = $config['skipFields'] ?? [];
+        $restrictFields = $config['restrictFields'] ?? [];
         $tableCallbacks = $config['tableCallbacks'] ?? [];
 
         $this->loadDc($table);
@@ -1067,7 +1068,11 @@ class DcaUtil
 
         // Find the changed fields and highlight the changes
         foreach ($target as $k => $v) {
-            if (\in_array($k, $skipFields)) {
+            if (empty($restrictFields) && \in_array($k, $skipFields)) {
+                continue;
+            }
+
+            if (!empty($restrictFields) && !\in_array($k, $restrictFields)) {
                 continue;
             }
 
@@ -1157,5 +1162,78 @@ class DcaUtil
         }
 
         return $result;
+    }
+
+    public function prepareRowEntryForList($table, string $field, $value)
+    {
+        $this->loadDc($table);
+        $this->loadLanguageFile($table);
+
+        $dca = $GLOBALS['TL_DCA'][$table];
+
+        $arrayUtil = System::getContainer()->get('huh.utils.array');
+
+        // Get the order fields
+        $dcaExtractor = DcaExtractor::getInstance($table);
+        $fields = $dcaExtractor->getFields();
+        $orderFields = $dcaExtractor->getOrderFields();
+
+        if ($dca['fields'][$field]['eval']['doNotShow'] || $dca['fields'][$field]['eval']['hideInput']) {
+            return '';
+        }
+
+        $sql = \is_array($fields[$field]) ? $fields[$field]['type'] : $fields[$field];
+
+        $isBinary = 0 === strncmp($sql, 'binary(', 7) || 0 === strncmp($sql, 'blob ', 5);
+
+        if ($dca['fields'][$field]['eval']['multiple'] || \in_array($field, $orderFields)) {
+            if (isset($dca['fields'][$field]['eval']['csv'])) {
+                $delimiter = $dca['fields'][$field]['eval']['csv'];
+
+                if ($value) {
+                    $value = preg_replace('/'.preg_quote($delimiter, ' ?/').'/', $delimiter.' ', $value);
+                }
+            } else {
+                // Convert serialized arrays into strings
+                if (\is_array(($tmp = StringUtil::deserialize($value))) && !\is_array($value)) {
+                    $value = $arrayUtil->implodeRecursive($tmp, $isBinary);
+                }
+            }
+        }
+
+        unset($tmp);
+
+        // Convert binary UUIDs to their hex equivalents (see #6365)
+        if ($isBinary) {
+            if (Validator::isBinaryUuid($value)) {
+                $value = StringUtil::binToUuid($value);
+            }
+        }
+
+        // Convert date fields
+        if ('date' == $dca['fields'][$field]['eval']['rgxp']) {
+            $value = \Date::parse(Config::get('dateFormat'), $value ?: '');
+        } elseif ('time' == $dca['fields'][$field]['eval']['rgxp']) {
+            $value = \Date::parse(Config::get('timeFormat'), $value ?: '');
+        } elseif ('datim' == $dca['fields'][$field]['eval']['rgxp'] || 'tstamp' == $field) {
+            $value = \Date::parse(Config::get('datimFormat'), $value ?: '');
+        }
+
+        // Decode entities if the "decodeEntities" flag is not set (see #360)
+        if (empty($dca['fields'][$field]['eval']['decodeEntities'])) {
+            $value = StringUtil::decodeEntities($value);
+        }
+
+        return $value;
+    }
+
+    public function getFieldLabel(string $table, string $field)
+    {
+        $this->loadDc($table);
+        $this->loadLanguageFile($table);
+
+        $dca = $GLOBALS['TL_DCA'][$table];
+
+        return $dca['fields'][$field]['label'][0] ?: (isset($GLOBALS['TL_LANG']['MSC'][$field]) ? (\is_array($GLOBALS['TL_LANG']['MSC'][$field]) ? $GLOBALS['TL_LANG']['MSC'][$field][0] : $GLOBALS['TL_LANG']['MSC'][$field]) : $field);
     }
 }

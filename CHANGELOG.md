@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.144.0] - 2020-03-06
+
+- added `DcaUtil::prepareRowEntryForList()`
+- added `DcaUtil::getFieldLabel()`
+
 ## [2.143.0] - 2020-03-05
 
 - added `DcaUtil::getRenderedDiff()`

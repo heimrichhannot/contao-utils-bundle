@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Arrays;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
+use Contao\Validator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ArrayUtil
@@ -229,7 +230,7 @@ class ArrayUtil
         if (!\is_array(current($var))) {
             if ($binary) {
                 $var = array_map(function ($v) {
-                    return $v ? StringUtil::binToUuid($v) : '';
+                    return $v ? (Validator::isBinaryUuid($v) ? StringUtil::binToUuid($v) : $v) : '';
                 }, $var);
             }
 
