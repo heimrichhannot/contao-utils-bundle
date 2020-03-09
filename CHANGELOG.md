@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.145.0] - 2020-03-09
+
+- added `DatabaseUtil::insert()`
+- added `DatabaseUtil::update()`
+- added `DatabaseUtil::delete()`
+
 ## [2.144.0] - 2020-03-06
 
 - added `DcaUtil::prepareRowEntryForList()`

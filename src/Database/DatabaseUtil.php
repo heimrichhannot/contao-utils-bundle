@@ -846,4 +846,50 @@ class DatabaseUtil
 
         return $statement->execute($options['value']);
     }
+
+    public function insert(string $table, array $set)
+    {
+        /* @var Database $adapter */
+        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+            return null;
+        }
+
+        $columnNames = implode(',', array_keys($set));
+
+        $wildcards = implode(',', array_map(function () {
+            return '?';
+        }, $set));
+
+        $query = "INSERT INTO $table ($columnNames) VALUES ($wildcards)";
+
+        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], array_values($set));
+    }
+
+    public function update(string $table, array $set, string $where = null, array $whereValues = [])
+    {
+        /* @var Database $adapter */
+        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+            return null;
+        }
+
+        $assignments = implode(',', array_map(function ($column) use ($table) {
+            return "$column=?";
+        }, array_keys($set)));
+
+        $query = "UPDATE $table SET $assignments".($where ? " WHERE $where" : '');
+
+        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
+    }
+
+    public function delete(string $table, string $where = null, array $whereValues = [])
+    {
+        /* @var Database $adapter */
+        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+            return null;
+        }
+
+        $query = "DELETE FROM $table".($where ? " WHERE $where" : '');
+
+        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], $whereValues);
+    }
 }
