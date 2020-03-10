@@ -134,6 +134,9 @@ services:
   huh.twig.extension.array:
     class: HeimrichHannot\UtilsBundle\Twig\ArrayExtension
     tags: [twig.extension]
+  huh.twig.extension.dca:
+    class: HeimrichHannot\UtilsBundle\Twig\DcaExtension
+    tags: [twig.extension]
   huh.cache.warm_internal:
     class: HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer
     arguments:

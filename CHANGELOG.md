@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.146.0] - 2020-03-10
+
+- added `DcaExtension`
+- added `DcaExtension::fieldLabel`
+
 ## [2.145.0] - 2020-03-09
 
 - added `DatabaseUtil::insert()`

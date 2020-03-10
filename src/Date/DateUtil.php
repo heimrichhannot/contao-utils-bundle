@@ -438,9 +438,7 @@ class DateUtil
     }
 
     /**
-     * @param int      $smallerTimestamp
-     * @param int|null $largerTimestamp
-     * @param bool     $returnFullDays   If true, only full days are returned (0.67 -> 0)
+     * @param bool $returnFullDays If true, only full days are returned (0.67 -> 0)
      *
      * @return float|int
      */
