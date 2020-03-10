@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.147.0] - 2020-03-10
+
+- fixed nested record style
+
 ## [2.146.0] - 2020-03-10
 
 - added `DcaExtension`
