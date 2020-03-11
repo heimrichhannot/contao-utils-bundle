@@ -98,11 +98,6 @@ services:
     public: true
     arguments:
       - "@contao.framework"
-  huh.utils.pdf.preview:
-    class: HeimrichHannot\UtilsBundle\Pdf\PdfPreview
-    public: true
-    lazy:  true
-    arguments: ['@huh.utils.cache.file', '@huh.utils.container', '%contao.web_dir%']
   huh.utils.pdf.writer:
     class: HeimrichHannot\UtilsBundle\Pdf\PdfWriter
     public: true

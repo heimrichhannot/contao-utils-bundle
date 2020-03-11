@@ -9,17 +9,14 @@
 namespace HeimrichHannot\UtilsBundle\Pdf;
 
 use Ghostscript\Transcoder;
-use HeimrichHannot\UtilsBundle\Cache\FileCache;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\File\FileStorageCallback;
+use HeimrichHannot\UtilsBundle\File\FileStorageUtil;
 use Spatie\PdfToImage\Pdf;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 class PdfPreview
 {
-    /**
-     * @var FileCache
-     */
-    private $cache;
     /**
      * @var string
      */
@@ -28,28 +25,41 @@ class PdfPreview
      * @var ContainerUtil
      */
     private $containerUtil;
+    /**
+     * @var FileStorageUtil
+     */
+    private $fileStorageUtil;
+    /**
+     * @var array
+     */
+    private $utilsConfig;
 
-    public function __construct(FileCache $cache, ContainerUtil $containerUtil, string $webDir)
+    public function __construct(array $utilsConfig, FileStorageUtil $fileStorageUtil, ContainerUtil $containerUtil, string $webDir)
     {
-        $this->cache = $cache;
-        $this->cache->setNamespace('pdfPreview');
         $this->webDir = $webDir.'/..';
         $this->containerUtil = $containerUtil;
+        $this->fileStorageUtil = $fileStorageUtil;
+        $this->utilsConfig = $utilsConfig;
     }
 
     /**
      * @param string $pdfPath The path to the pdf file
-     * @param array  $options Additional rendering options. See generatePdfPreview
+     * @param array $options Additional rendering options. See generatePdfPreview
      *
+     * @param string $fileExtension
      * @return string
+     * @throws \Exception
      */
     public function getCachedPdfPreview(string $pdfPath, array $options = [], string $fileExtension = 'jpg')
     {
-        $pdfCache = $this;
-        $imagePath = $this->cache->get($pdfPath, $fileExtension, function ($pdfPath, $cachePath, $cacheFileName) use ($pdfCache, $options) {
-            return $pdfCache->generatePdfPreview($pdfPath, $cachePath.'/'.$cacheFileName, $options);
-        });
-
+        $storage = $this->fileStorageUtil->createFileStorage($this->utilsConfig['pdfPreviewFolder'], $fileExtension);
+        $imagePath = $storage->get($pdfPath, null);
+        if (!$imagePath) {
+            $pdfCache = $this;
+            $imagePath = $storage->set($pdfPath, function (FileStorageCallback $fileStorageCallback) use ($pdfCache, $options) {
+                return $pdfCache->generatePdfPreview($fileStorageCallback->getIdentifier(), $fileStorageCallback->getStoragePath(), $options);
+            });
+        }
         return $imagePath ? $imagePath : null;
     }
 

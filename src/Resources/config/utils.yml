@@ -12,16 +12,19 @@ services:
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: ~
-  HeimrichHannot\UtilsBundle\Cache\FileCache: ~
+  HeimrichHannot\UtilsBundle\Cache\FileCache:
+    deprecated: "%service_id% will be removed in 3.0. Use FileStorageUtil instead"
   HeimrichHannot\UtilsBundle\Cache\RemoteImageCache: ~
   HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer: '@huh.cache.warm_internal'
   HeimrichHannot\UtilsBundle\Comparison\CompareUtil: ~
   HeimrichHannot\UtilsBundle\Database\DatabaseUtil: ~
   HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~
+  HeimrichHannot\UtilsBundle\File\FileStorageUtil: ~
   HeimrichHannot\UtilsBundle\File\FolderUtil: ~
   HeimrichHannot\UtilsBundle\Form\FormUtil: ~
   HeimrichHannot\UtilsBundle\Location\LocationUtil: ~
   HeimrichHannot\UtilsBundle\Member\MemberUtil: ~
+  HeimrichHannot\UtilsBundle\Pdf\PdfPreview: ~
   HeimrichHannot\UtilsBundle\Request\RequestUtil: ~
   HeimrichHannot\UtilsBundle\Routing\RoutingUtil: '@huh.utils.routing'
   HeimrichHannot\UtilsBundle\Rsce\RsceUtil: ~
@@ -35,14 +38,18 @@ services:
 
   huh.utils.accordion: '@HeimrichHannot\UtilsBundle\Accordion\AccordionUtil'
   huh.utils.array: '@HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'
-  huh.utils.cache.file: '@HeimrichHannot\UtilsBundle\Cache\FileCache'
+  huh.utils.cache.file:
+    alias: HeimrichHannot\UtilsBundle\Cache\FileCache
+    deprecated: "%alias_id% will be removed in 3.0. Use FileStorageUtil instead"
   huh.utils.cache.remote_image_cache: '@HeimrichHannot\UtilsBundle\Cache\RemoteImageCache'
   huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
   huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
   huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
+  huh.utils.pdf.preview: "@HeimrichHannot\UtilsBundle\Pdf\PdfPreview"
   huh.utils.request: '@HeimrichHannot\UtilsBundle\Request\RequestUtil'
   huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
   huh.utils.string.anonymizer: '@HeimrichHannot\UtilsBundle\String\AnonymizerUtil'
+
 
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
