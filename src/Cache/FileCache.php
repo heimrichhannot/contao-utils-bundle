@@ -67,8 +67,6 @@ class FileCache
         $this->container = $container;
     }
 
-
-
     /**
      * Checks if a cached file already exist in cache. Namespace is taken into account.
      *
@@ -208,8 +206,6 @@ class FileCache
     }
 
     /**
-     * @return string
-     *
      * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function getNamespace(): string
@@ -218,8 +214,6 @@ class FileCache
     }
 
     /**
-     * @param string $namespace
-     *
      * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function setNamespace(string $namespace)

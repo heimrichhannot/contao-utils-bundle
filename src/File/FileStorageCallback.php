@@ -1,25 +1,15 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
-
 
 namespace HeimrichHannot\UtilsBundle\File;
 
-
-use Contao\File;
-
 class FileStorageCallback
 {
-    /**
-     * @var File
-     */
-    private $file;
     /**
      * @var string
      */
@@ -27,53 +17,64 @@ class FileStorageCallback
     /**
      * @var string
      */
-    private $storagePath;
+    private $filename;
     /**
      * @var string
      */
-    private $filename;
+    private $relativeFilePath;
+    /**
+     * @var string
+     */
+    private $absoluteFilePath;
+    /**
+     * @var string
+     */
+    private $rootPath;
+    /**
+     * @var string
+     */
+    private $relativeStoragePath;
 
     /**
      * FileStorageCallback constructor.
      */
-    public function __construct(File $file, string $identifier, string $storagePath, string $filename)
+    public function __construct(string $identifier, string $filename, string $relativeFilePath, string $absoluteFilePath, string $rootPath, string $relativeStoragePath)
     {
-
-        $this->file = $file;
         $this->identifier = $identifier;
-        $this->storagePath = $storagePath;
         $this->filename = $filename;
+        $this->relativeFilePath = $relativeFilePath;
+        $this->absoluteFilePath = $absoluteFilePath;
+        $this->rootPath = $rootPath;
+        $this->relativeStoragePath = $relativeStoragePath;
     }
 
-    /**
-     * @return File
-     */
-    public function getFile(): File
-    {
-        return $this->file;
-    }
-
-    /**
-     * @return string
-     */
     public function getIdentifier(): string
     {
         return $this->identifier;
     }
 
-    /**
-     * @return string
-     */
-    public function getStoragePath(): string
-    {
-        return $this->storagePath;
-    }
-
-    /**
-     * @return string
-     */
     public function getFilename(): string
     {
         return $this->filename;
+    }
+
+    public function getRelativeFilePath(): string
+    {
+        return $this->relativeFilePath;
+    }
+
+    public function getAbsoluteFilePath(): string
+    {
+        return $this->absoluteFilePath;
+    }
+
+    public function getRootPath(): string
+    {
+        return $this->rootPath;
+    }
+
+    public function getRelativeStoragePath(): string
+    {
+        return $this->relativeStoragePath;
     }
 }

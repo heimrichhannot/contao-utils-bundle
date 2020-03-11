@@ -1,26 +1,22 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
-
 
 namespace HeimrichHannot\UtilsBundle\File;
 
-
 use Ausi\SlugGenerator\SlugGenerator;
-use Contao\File;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FileStorage
 {
     /**
      * @var string
      */
-    private $storagePath;
+    private $relativeStoragePath;
     /**
      * @var SlugGenerator
      */
@@ -29,14 +25,20 @@ class FileStorage
      * @var string
      */
     private $defaultFileExtension;
+    /**
+     * @var string
+     */
+    private $rootPath;
 
     /**
      * FileCache constructor.
      */
-    public function __construct(string $storagePath, string $defaultFileExtension = '')
+    public function __construct(string $rootPath, string $storagePath, string $defaultFileExtension = '')
     {
-        $this->storagePath = $storagePath;
-        $this->generator   = new SlugGenerator();
+        $this->rootPath = rtrim($rootPath, \DIRECTORY_SEPARATOR);
+        $this->relativeStoragePath = trim($storagePath, \DIRECTORY_SEPARATOR);
+        $this->generator = new SlugGenerator();
+        $this->filesystem = new Filesystem();
         $this->defaultFileExtension = $defaultFileExtension;
     }
 
@@ -46,24 +48,24 @@ class FileStorage
      * Options:
      * - fileExtension: (string) Override the default file extension.
      *
-     * @param string $key The key for the item in store.
+     * @param string      $key     the key for the item in store
      * @param string|null $default Default value to return if key does not exist
-     * @param array $options Additional options
-     * @return string|null Return the path of the item from the storage, or $default if not found.
+     * @param array       $options Additional options
+     *
      * @throws \Exception
+     *
+     * @return string|null return the path of the item from the storage, or $default if not found
      */
     public function get(string $key, ?string $default = null, array $options = []): ?string
     {
-        $filename    = $this->createFilename($key, $options);
-        $storagePath = $this->storagePath.DIRECTORY_SEPARATOR.$filename;
+        $filename = $this->createFilename($key, $options);
+        $absoluteFilePath = $this->createAbsoluteFilePath($filename);
 
-        $file = new File($storagePath);
-
-        if (!$file->exists()) {
+        if (!$this->filesystem->exists($absoluteFilePath)) {
             return $default;
         }
 
-        return $file->path;
+        return $this->createRelativeFilePath($filename);
     }
 
     /**
@@ -76,49 +78,40 @@ class FileStorage
      * Options:
      * - fileExtension: (string) Override the default file extension.
      *
-     * @param string $identifier The key of the item to store.
-     * @param callable|string $value The value of the item to store. Must be a callable or string.
-     * @param array $options
-     * @return bool
+     * @param string          $identifier the key of the item to store
+     * @param callable|string $value      The value of the item to store. Must be a callable or string.
+     *
      * @throws \InvalidArgumentException Is thrown when value is neither callable or string
-     * @throws \UnexpectedValueException Is thrown if callback not returning a bool.
-     * @throws \RuntimeException Is thrown when there is an io error when opening or writing a file.
+     * @throws \UnexpectedValueException is thrown if callback not returning a bool
+     *
+     * @return string return the path of the item from the storage
      */
     public function set(string $identifier, $value, array $options = []): string
     {
         $filename = $this->createFilename($identifier, $options);
-        $storagePath = $this->storagePath.DIRECTORY_SEPARATOR.$filename;
+        $relativeFilePath = $this->createRelativeFilePath($filename);
+        $absoluteFilePath = $this->createAbsoluteFilePath($filename);
 
-        try
-        {
-            $file = new File($storagePath);
-        } catch (\Exception $e)
-        {
-            throw new \RuntimeException("Error while creating store file object: ".$e->getMessage());
-        }
-
-        if (is_callable($value)) {
-            $fileStorageCallback = new FileStorageCallback($file, $identifier, $storagePath, $filename);
+        if (\is_callable($value)) {
+            $fileStorageCallback = new FileStorageCallback($identifier, $filename, $relativeFilePath, $absoluteFilePath, $this->rootPath, $this->relativeStoragePath);
             $result = $value($fileStorageCallback);
-            if (!is_bool($result)) {
-                throw new \UnexpectedValueException("Invalid callback return type. Must be bool, was ".gettype($result).".");
+
+            if (!\is_bool($result)) {
+                throw new \UnexpectedValueException('Invalid callback return type. Must be bool, was '.\gettype($result).'.');
             }
-            return $storagePath;
-        }
-        if (!is_string($value)) {
-            throw new \InvalidArgumentException("Invalid value, must be of type string or callable, was ".gettype($value).".");
+        } else {
+            if (!\is_string($value)) {
+                throw new \InvalidArgumentException('Invalid value, must be of type string or callable, was '.\gettype($value).'.');
+            }
+            $this->filesystem->dumpFile($absoluteFilePath, $value);
         }
 
-        if (!$file->write($value)) {
-            throw new \RuntimeException("Could not write file.");
-        }
-        return $storagePath;
+        return $relativeFilePath;
     }
 
     /**
-     * Normalize the key
+     * Normalize the key.
      *
-     * @param string $key
      * @return string
      */
     protected function normalizeKey(string $key)
@@ -127,27 +120,39 @@ class FileStorage
     }
 
     /**
-     * Create the filename out of key and file extension
-     *
-     * @param string $key
-     * @param array $options
-     * @return string
+     * Create the filename out of key and file extension.
      */
     protected function createFilename(string $key, array $options): string
     {
         $filename = $this->normalizeKey($key);
         $fileExtension = null;
-        if (!empty($this->defaultFileExtension))
-        {
+
+        if (!empty($this->defaultFileExtension)) {
             $fileExtension = $this->defaultFileExtension;
         }
-        if (isset($options['fileExtension']) && is_string($options['fileExtension']))
-        {
+
+        if (isset($options['fileExtension']) && \is_string($options['fileExtension'])) {
             $fileExtension = $options['fileExtension'];
         }
+
         if ($fileExtension) {
-            $filename .= '.' . $fileExtension;
+            $filename .= '.'.$fileExtension;
         }
+
         return $filename;
+    }
+
+    protected function createAbsoluteFilePath(string $filename): string
+    {
+        $storagePath = $this->rootPath.\DIRECTORY_SEPARATOR.$this->relativeStoragePath.\DIRECTORY_SEPARATOR.$filename;
+
+        return $storagePath;
+    }
+
+    protected function createRelativeFilePath(string $filename): string
+    {
+        $storagePath = $this->relativeStoragePath.\DIRECTORY_SEPARATOR.$filename;
+
+        return $storagePath;
     }
 }

@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->children()
             ->scalarNode('tmp_folder')->defaultValue('files/tmp/huh_utils_bundle')->end()
-            ->scalarNode('pdfPreviewFolder')->defaultNull()->info("Default folder where to store pdf preview images.")->end()
+            ->scalarNode('pdfPreviewFolder')->defaultNull()->info('Default folder where to store pdf preview images.')->end()
         ->end();
 
         return $treeBuilder;

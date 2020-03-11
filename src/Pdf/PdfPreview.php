@@ -44,22 +44,28 @@ class PdfPreview
 
     /**
      * @param string $pdfPath The path to the pdf file
-     * @param array $options Additional rendering options. See generatePdfPreview
+     * @param array  $options Additional rendering options. See generatePdfPreview
      *
-     * @param string $fileExtension
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getCachedPdfPreview(string $pdfPath, array $options = [], string $fileExtension = 'jpg')
     {
         $storage = $this->fileStorageUtil->createFileStorage($this->utilsConfig['pdfPreviewFolder'], $fileExtension);
         $imagePath = $storage->get($pdfPath, null);
+
         if (!$imagePath) {
             $pdfCache = $this;
             $imagePath = $storage->set($pdfPath, function (FileStorageCallback $fileStorageCallback) use ($pdfCache, $options) {
-                return $pdfCache->generatePdfPreview($fileStorageCallback->getIdentifier(), $fileStorageCallback->getStoragePath(), $options);
+                return $pdfCache->generatePdfPreview(
+                    $fileStorageCallback->getIdentifier(),
+                    $fileStorageCallback->getRelativeFilePath(),
+                    $options
+                );
             });
         }
+
         return $imagePath ? $imagePath : null;
     }
 

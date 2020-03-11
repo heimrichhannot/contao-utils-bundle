@@ -1,32 +1,35 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\File;
-
-
-use Ausi\SlugGenerator\SlugGenerator;
 
 class FileStorageUtil
 {
     /**
-     * @var SlugGenerator
+     * @var string
      */
-    private $generator;
+    private $projectDir;
 
-    public function createFileStorage(string $storagePath, string $fileExtension = '')
+    /**
+     * FileStorageUtil constructor.
+     */
+    public function __construct(string $projectDir)
     {
-        return new FileStorage($storagePath, $fileExtension);
+        $this->projectDir = $projectDir;
     }
 
-
-
-    
+    /**
+     * Returns a new FileStorage instance.
+     *
+     * @return FileStorage
+     */
+    public function createFileStorage(string $storagePath, string $fileExtension = '')
+    {
+        return new FileStorage($this->projectDir, $storagePath, $fileExtension);
+    }
 }

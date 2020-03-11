@@ -22,12 +22,12 @@ class UtilsBundleExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
-        /** @todo Remove this passage in version 3.0 */
+
+        /* @todo Remove this passage in version 3.0 */
         if (!isset($config['pdfPreviewFolder'])) {
-            $config['pdfPreviewFolder'] = $container->getParameter('huh.utils.filecache.folder').DIRECTORY_SEPARATOR.'pdfPreview';
+            $config['pdfPreviewFolder'] = $container->getParameter('huh.utils.filecache.folder').\DIRECTORY_SEPARATOR.'pdfPreview';
         }
-        
+
         $container->setParameter('huh_utils', $config);
     }
 }
