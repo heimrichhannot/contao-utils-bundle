@@ -74,7 +74,7 @@
     <div class="page-header">
         <h1>
             FileCache
-                
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
         </h1>
     </div>
 
@@ -83,6 +83,13 @@
 </p>
 
         
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in version 3.0. Use FileStorageUtil instead.</td>
+                </tr>
+                    </p>
     
 
             <div class="description">
@@ -149,7 +156,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_exist">exist</a>(string $identifier, string $fileExtension = &#039;&#039;)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Checks if a cached file already exist in cache. Namespace is taken into account.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -159,7 +166,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_get">get</a>(string $identifier, string $fileExtension = &#039;&#039;, callable $saveCallback = null)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Get the file path for the given identifier. Namespace is taken into account.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -169,7 +176,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_generateCacheName">generateCacheName</a>(string $identifier = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true, string $fileExtension = &#039;&#039;)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Generate a file name for cache.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -179,7 +186,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getCacheFileName">getCacheFileName</a>($identifier)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Get the cache file name by the given identifier.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -189,7 +196,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getCacheFilePath">getCacheFilePath</a>(string $filename = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Same as generateCacheName, but returns complete path to cache.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -199,7 +206,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getAbsoluteCachePath">getAbsoluteCachePath</a>()
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Returns the absolute path to the cache folder.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -209,7 +216,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getNamespace">getNamespace</a>()
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -220,7 +227,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_setNamespace">setNamespace</a>(string $namespace)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -231,7 +238,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getCacheFolder">getCacheFolder</a>()
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>The cache folder (without namespace).</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -241,7 +248,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_setCacheFolder">setCacheFolder</a>(string $cacheFolder)
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Set cache folder (without namespace).</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -251,7 +258,7 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getCacheFolderWithNamespace">getCacheFolderWithNamespace</a>()
-        
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
                                             <p>Get the cache folder (including namespace).</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -302,13 +309,20 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
             </div>
                     <div class="method-item">
                     <h3 id="method_exist">
-        <div class="location">at         line 80</div>
+        <div class="location">at         line 82</div>
         <code>                    bool
     <strong>exist</strong>(string $identifier, string $fileExtension = &#039;&#039;)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -356,13 +370,20 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">at         line 106</div>
+        <div class="location">at         line 110</div>
         <code>                    bool|string
     <strong>get</strong>(string $identifier, string $fileExtension = &#039;&#039;, callable $saveCallback = null)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -415,13 +436,20 @@ Within the cache folder you can specify a namespace serving as subfolder.</p>   
             </div>
                     <div class="method-item">
                     <h3 id="method_generateCacheName">
-        <div class="location">at         line 143</div>
+        <div class="location">at         line 149</div>
         <code>                    string
     <strong>generateCacheName</strong>(string $identifier = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true, string $fileExtension = &#039;&#039;)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -471,13 +499,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFileName">
-        <div class="location">at         line 165</div>
+        <div class="location">at         line 173</div>
         <code>                    string
     <strong>getCacheFileName</strong>($identifier)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -511,13 +546,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFilePath">
-        <div class="location">at         line 181</div>
+        <div class="location">at         line 191</div>
         <code>                    string
     <strong>getCacheFilePath</strong>(string $filename = &#039;&#039;, string $prefix = &#039;&#039;, bool $more_entropy = true)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -561,13 +603,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getAbsoluteCachePath">
-        <div class="location">at         line 191</div>
+        <div class="location">at         line 203</div>
         <code>                    string
     <strong>getAbsoluteCachePath</strong>()
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -591,13 +640,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getNamespace">
-        <div class="location">at         line 196</div>
+        <div class="location">at         line 211</div>
         <code>                    string
     <strong>getNamespace</strong>()
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                 <div class="tags">
@@ -619,13 +675,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_setNamespace">
-        <div class="location">at         line 201</div>
+        <div class="location">at         line 219</div>
         <code>                    
     <strong>setNamespace</strong>(string $namespace)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                 <div class="tags">
@@ -648,13 +711,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFolder">
-        <div class="location">at         line 210</div>
+        <div class="location">at         line 230</div>
         <code>                    string
     <strong>getCacheFolder</strong>()
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -678,13 +748,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_setCacheFolder">
-        <div class="location">at         line 218</div>
+        <div class="location">at         line 240</div>
         <code>                    
     <strong>setCacheFolder</strong>(string $cacheFolder)
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -709,13 +786,20 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_getCacheFolderWithNamespace">
-        <div class="location">at         line 227</div>
+        <div class="location">at         line 251</div>
         <code>                    string
     <strong>getCacheFolderWithNamespace</strong>()
-        </code>
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
     </h3>
     <div class="details">
             
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Will</td>
+                    <td>be removed in 3.0. Use FileStorageUtil instead</td>
+                </tr>
+                    </p>
     
 
                     <div class="method-description">
@@ -739,7 +823,7 @@ If no identifier is given, if will return a unique file name without extension.<
             </div>
                     <div class="method-item">
                     <h3 id="method_generatePath">
-        <div class="location">at         line 235</div>
+        <div class="location">at         line 259</div>
         <code>            protected        
     <strong>generatePath</strong>()
         </code>
