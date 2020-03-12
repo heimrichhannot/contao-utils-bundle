@@ -32,6 +32,10 @@ class FileStorage
 
     /**
      * FileCache constructor.
+     *
+     * @param string $rootPath             The project root path
+     * @param string $storagePath          The storage path relative to the project root path
+     * @param string $defaultFileExtension The default file extension of the files to store
      */
     public function __construct(string $rootPath, string $storagePath, string $defaultFileExtension = '')
     {
@@ -146,6 +150,9 @@ class FileStorage
         return $filename;
     }
 
+    /**
+     * Return the absoulte path to the file.
+     */
     protected function createAbsoluteFilePath(string $filename): string
     {
         $storagePath = $this->rootPath.\DIRECTORY_SEPARATOR.$this->relativeStoragePath.\DIRECTORY_SEPARATOR.$filename;
@@ -153,6 +160,9 @@ class FileStorage
         return $storagePath;
     }
 
+    /**
+     * Return the relative path to the file.
+     */
     protected function createRelativeFilePath(string $filename): string
     {
         $storagePath = $this->relativeStoragePath.\DIRECTORY_SEPARATOR.$filename;

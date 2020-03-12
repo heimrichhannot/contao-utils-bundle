@@ -1,11 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.148.1] - 2020-03-12
+- updated documentation
+
 ## [2.148.0] - 2020-03-12
 - added FileStorageUtil as replacement for FileCache
 - deprecated FileCache
 - replaced FileCache with FileStorageUtil in PdfPreview
-- fixed PdfPreview not working when destination folder does not exist
+- fixed PdfPreview not working when destination folder does not exist2.148.
 
 ## [2.147.0] - 2020-03-10
 

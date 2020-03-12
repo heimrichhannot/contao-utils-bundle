@@ -26,6 +26,11 @@ class FileStorageUtil
     /**
      * Returns a new FileStorage instance.
      *
+     * See PdfPreview for example usage.
+     *
+     * @param string $storagePath   The path where to store the files relative to the project dir
+     * @param string $fileExtension The default file extension of the stored files. E.g. jpg, txt, ...
+     *
      * @return FileStorage
      */
     public function createFileStorage(string $storagePath, string $fileExtension = '')
