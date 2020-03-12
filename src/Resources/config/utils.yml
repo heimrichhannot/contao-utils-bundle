@@ -45,7 +45,7 @@ services:
   huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
   huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
   huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
-  huh.utils.pdf.preview: "@HeimrichHannot\UtilsBundle\Pdf\PdfPreview"
+  huh.utils.pdf.preview: '@HeimrichHannot\UtilsBundle\Pdf\PdfPreview'
   huh.utils.request: '@HeimrichHannot\UtilsBundle\Request\RequestUtil'
   huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
   huh.utils.string.anonymizer: '@HeimrichHannot\UtilsBundle\String\AnonymizerUtil'

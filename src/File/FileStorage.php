@@ -99,6 +99,10 @@ class FileStorage
             if (!\is_bool($result)) {
                 throw new \UnexpectedValueException('Invalid callback return type. Must be bool, was '.\gettype($result).'.');
             }
+
+            if (!$result) {
+                throw new \RuntimeException('File could not be created. Callback returned false.');
+            }
         } else {
             if (!\is_string($value)) {
                 throw new \InvalidArgumentException('Invalid value, must be of type string or callable, was '.\gettype($value).'.');

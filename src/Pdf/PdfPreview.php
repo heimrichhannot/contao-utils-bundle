@@ -20,7 +20,7 @@ class PdfPreview
     /**
      * @var string
      */
-    private $webDir;
+    private $projectDir;
     /**
      * @var ContainerUtil
      */
@@ -34,9 +34,9 @@ class PdfPreview
      */
     private $utilsConfig;
 
-    public function __construct(array $utilsConfig, FileStorageUtil $fileStorageUtil, ContainerUtil $containerUtil, string $webDir)
+    public function __construct(array $utilsConfig, FileStorageUtil $fileStorageUtil, ContainerUtil $containerUtil, string $projectDir)
     {
-        $this->webDir = $webDir.'/..';
+        $this->projectDir = $projectDir;
         $this->containerUtil = $containerUtil;
         $this->fileStorageUtil = $fileStorageUtil;
         $this->utilsConfig = $utilsConfig;
@@ -95,13 +95,19 @@ class PdfPreview
     public function generatePdfPreview(string $pdfPath, string $imagePath, array $options = [])
     {
         if (!isset($options['absolutePdfPath']) || true !== $options['absolutePdfPath']) {
-            $pdfPath = $this->webDir.'/'.$pdfPath;
+            $pdfPath = $this->projectDir.'/'.$pdfPath;
         }
 
         if (!isset($options['absoluteImagePath']) || true !== $options['absoluteImagePath']) {
-            $imagePath = $this->webDir.'/'.$imagePath;
+            $imagePath = $this->projectDir.'/'.$imagePath;
         }
         $pdfTranscoder = isset($options['pdfTranscoder']) ? $options['pdfTranscoder'] : '';
+
+        $previewFolder = pathinfo($imagePath, PATHINFO_DIRNAME);
+
+        if (!is_dir($previewFolder)) {
+            mkdir($previewFolder);
+        }
 
         switch ($pdfTranscoder) {
             case 'alchemy':
@@ -175,6 +181,7 @@ class PdfPreview
         if ('jpg' === $imageExtension) {
             $imageExtension = 'jpeg';
         }
+
         $command = [
             '-sDEVICE='.$imageExtension,
             '-dNOPAUSE',
