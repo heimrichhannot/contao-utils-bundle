@@ -9,46 +9,62 @@
 namespace HeimrichHannot\UtilsBundle\Pdf;
 
 use Ghostscript\Transcoder;
-use HeimrichHannot\UtilsBundle\Cache\FileCache;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\File\FileStorageCallback;
+use HeimrichHannot\UtilsBundle\File\FileStorageUtil;
 use Spatie\PdfToImage\Pdf;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
 class PdfPreview
 {
     /**
-     * @var FileCache
-     */
-    private $cache;
-    /**
      * @var string
      */
-    private $webDir;
+    private $projectDir;
     /**
      * @var ContainerUtil
      */
     private $containerUtil;
+    /**
+     * @var FileStorageUtil
+     */
+    private $fileStorageUtil;
+    /**
+     * @var array
+     */
+    private $utilsConfig;
 
-    public function __construct(FileCache $cache, ContainerUtil $containerUtil, string $webDir)
+    public function __construct(array $utilsConfig, FileStorageUtil $fileStorageUtil, ContainerUtil $containerUtil, string $projectDir)
     {
-        $this->cache = $cache;
-        $this->cache->setNamespace('pdfPreview');
-        $this->webDir = $webDir.'/..';
+        $this->projectDir = $projectDir;
         $this->containerUtil = $containerUtil;
+        $this->fileStorageUtil = $fileStorageUtil;
+        $this->utilsConfig = $utilsConfig;
     }
 
     /**
      * @param string $pdfPath The path to the pdf file
      * @param array  $options Additional rendering options. See generatePdfPreview
      *
+     * @throws \Exception
+     *
      * @return string
      */
     public function getCachedPdfPreview(string $pdfPath, array $options = [], string $fileExtension = 'jpg')
     {
-        $pdfCache = $this;
-        $imagePath = $this->cache->get($pdfPath, $fileExtension, function ($pdfPath, $cachePath, $cacheFileName) use ($pdfCache, $options) {
-            return $pdfCache->generatePdfPreview($pdfPath, $cachePath.'/'.$cacheFileName, $options);
-        });
+        $storage = $this->fileStorageUtil->createFileStorage($this->utilsConfig['pdfPreviewFolder'], $fileExtension);
+        $imagePath = $storage->get($pdfPath, null);
+
+        if (!$imagePath) {
+            $pdfCache = $this;
+            $imagePath = $storage->set($pdfPath, function (FileStorageCallback $fileStorageCallback) use ($pdfCache, $options) {
+                return $pdfCache->generatePdfPreview(
+                    $fileStorageCallback->getIdentifier(),
+                    $fileStorageCallback->getRelativeFilePath(),
+                    $options
+                );
+            });
+        }
 
         return $imagePath ? $imagePath : null;
     }
@@ -79,13 +95,19 @@ class PdfPreview
     public function generatePdfPreview(string $pdfPath, string $imagePath, array $options = [])
     {
         if (!isset($options['absolutePdfPath']) || true !== $options['absolutePdfPath']) {
-            $pdfPath = $this->webDir.'/'.$pdfPath;
+            $pdfPath = $this->projectDir.'/'.$pdfPath;
         }
 
         if (!isset($options['absoluteImagePath']) || true !== $options['absoluteImagePath']) {
-            $imagePath = $this->webDir.'/'.$imagePath;
+            $imagePath = $this->projectDir.'/'.$imagePath;
         }
         $pdfTranscoder = isset($options['pdfTranscoder']) ? $options['pdfTranscoder'] : '';
+
+        $previewFolder = pathinfo($imagePath, PATHINFO_DIRNAME);
+
+        if (!is_dir($previewFolder)) {
+            mkdir($previewFolder);
+        }
 
         switch ($pdfTranscoder) {
             case 'alchemy':
@@ -159,6 +181,7 @@ class PdfPreview
         if ('jpg' === $imageExtension) {
             $imageExtension = 'jpeg';
         }
+
         $command = [
             '-sDEVICE='.$imageExtension,
             '-dNOPAUSE',

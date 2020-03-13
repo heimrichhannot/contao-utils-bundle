@@ -1,10 +1,9 @@
 .tl_content_left  {
   .tl_content {
-    margin-left: 20px;
     border-bottom: 0;
     border-top: 1px solid #e9e9e9;
     padding-right: 0;
-    margin-right: -7px;
+    padding-left: 30px;
 
     &::before {
       content: url('/bundles/heimrichhannotcontaoutils/img/icon-subrecord-arrow.png');
@@ -20,10 +19,6 @@
 
     &:last-of-type {
       padding-bottom: 0;
-    }
-
-    .tl_content_right {
-      margin-right: 7px;
     }
   }
 }

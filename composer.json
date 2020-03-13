@@ -10,7 +10,8 @@
     "hackzilla/password-generator": "^1.4",
     "heimrichhannot/contao-request-bundle": "^1.0",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
-    "soundasleep/html2text": "^1.1"
+    "soundasleep/html2text": "^1.1",
+    "ausi/slug-generator": "^1.1"
   },
   "require-dev": {
     "contao/core-bundle": "4.4.*",

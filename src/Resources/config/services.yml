@@ -102,11 +102,6 @@ services:
     public: true
     arguments:
       - "@contao.framework"
-  huh.utils.pdf.preview:
-    class: HeimrichHannot\UtilsBundle\Pdf\PdfPreview
-    public: true
-    lazy:  true
-    arguments: ['@huh.utils.cache.file', '@huh.utils.container', '%contao.web_dir%']
   huh.utils.pdf.writer:
     class: HeimrichHannot\UtilsBundle\Pdf\PdfWriter
     public: true
@@ -137,6 +132,9 @@ services:
     tags: [twig.extension]
   huh.twig.extension.array:
     class: HeimrichHannot\UtilsBundle\Twig\ArrayExtension
+    tags: [twig.extension]
+  huh.twig.extension.dca:
+    class: HeimrichHannot\UtilsBundle\Twig\DcaExtension
     tags: [twig.extension]
   huh.cache.warm_internal:
     class: HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer

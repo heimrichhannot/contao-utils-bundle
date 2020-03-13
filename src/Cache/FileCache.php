@@ -20,7 +20,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * The cache will be created in the cache folder defined by the config (default the huh.utils.filecache.folder parameter)
  * Within the cache folder you can specify a namespace serving as subfolder.
  *
- * @example /src/Pdf/PdfPreview.php
+ * @deprecated Will be removed in version 3.0. Use FileStorageUtil instead.
  */
 class FileCache
 {
@@ -75,6 +75,8 @@ class FileCache
      *
      * @throws \Exception
      *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
+     *
      * @return bool
      */
     public function exist(string $identifier, string $fileExtension = '')
@@ -102,6 +104,8 @@ class FileCache
      * @throws \Exception
      *
      * @return bool|string returns the path of the cached file or false, if cached file could not be found
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function get(string $identifier, string $fileExtension = '', callable $saveCallback = null)
     {
@@ -139,6 +143,8 @@ class FileCache
      * @param string $fileExtension optional: If set, the file extension will be appended to the generated file name
      *
      * @return string a unique filename for caching
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function generateCacheName(string $identifier = '', string $prefix = '', bool $more_entropy = true, string $fileExtension = '')
     {
@@ -161,6 +167,8 @@ class FileCache
      * @param $identifier
      *
      * @return string
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function getCacheFileName($identifier)
     {
@@ -177,6 +185,8 @@ class FileCache
      * @param bool   $more_entropy A longer name for the unique filename. Only if filename is empty. Default
      *
      * @return string the path including the filename to save the file to the cache
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function getCacheFilePath(string $filename = '', string $prefix = '', bool $more_entropy = true)
     {
@@ -187,17 +197,25 @@ class FileCache
      * Returns the absolute path to the cache folder.
      *
      * @return string
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function getAbsoluteCachePath()
     {
         return $this->projectDir.'/'.$this->cacheFolderWithNamespace;
     }
 
+    /**
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
+     */
     public function getNamespace(): string
     {
         return $this->namespace;
     }
 
+    /**
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
+     */
     public function setNamespace(string $namespace)
     {
         $this->namespace = trim($namespace, ' /');
@@ -206,6 +224,8 @@ class FileCache
 
     /**
      * The cache folder (without namespace).
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function getCacheFolder(): string
     {
@@ -214,6 +234,8 @@ class FileCache
 
     /**
      * Set cache folder (without namespace).
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function setCacheFolder(string $cacheFolder)
     {
@@ -223,6 +245,8 @@ class FileCache
 
     /**
      * Get the cache folder (including namespace).
+     *
+     * @deprecated Will be removed in 3.0. Use FileStorageUtil instead
      */
     public function getCacheFolderWithNamespace(): string
     {
