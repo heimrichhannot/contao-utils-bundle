@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.149.0] - 2020-03-17
+- added `FileUtil::getParentFoldersByUuid()`
+
 ## [2.148.1] - 2020-03-12
 - updated documentation
 

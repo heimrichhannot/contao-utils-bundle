@@ -500,4 +500,27 @@ class FileUtil
 
         return $return;
     }
+
+    public static function getParentFoldersByUuid($uuid, array $config = [])
+    {
+        $returnRows = $config['returnRows'] ?? true;
+
+        $parents = [];
+        $firstSkipped = false;
+
+        while ($uuid && null !== ($parent = System::getContainer()->get('huh.utils.model')->callModelMethod('tl_files', 'findByUuid', $uuid))) {
+            $uuid = $parent->pid;
+
+            // skip the file object passed into the function (only the parents should be returned)
+            if (!$firstSkipped) {
+                $firstSkipped = true;
+
+                continue;
+            }
+
+            $parents[] = $returnRows ? $parent : $parent->id;
+        }
+
+        return $parents;
+    }
 }
