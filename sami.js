@@ -566,6 +566,7 @@ window.projectVersion = 'master';
                                                         {"type": "Method", "fromName": "HeimrichHannot\\UtilsBundle\\User\\UserUtil", "fromLink": "HeimrichHannot/UtilsBundle/User/UserUtil.html", "link": "HeimrichHannot/UtilsBundle/User/UserUtil.html#method___construct", "name": "HeimrichHannot\\UtilsBundle\\User\\UserUtil::__construct", "doc": "&quot;&quot;"},
                     {"type": "Method", "fromName": "HeimrichHannot\\UtilsBundle\\User\\UserUtil", "fromLink": "HeimrichHannot/UtilsBundle/User/UserUtil.html", "link": "HeimrichHannot/UtilsBundle/User/UserUtil.html#method_findActiveByGroups", "name": "HeimrichHannot\\UtilsBundle\\User\\UserUtil::findActiveByGroups", "doc": "&quot;&quot;"},
                     {"type": "Method", "fromName": "HeimrichHannot\\UtilsBundle\\User\\UserUtil", "fromLink": "HeimrichHannot/UtilsBundle/User/UserUtil.html", "link": "HeimrichHannot/UtilsBundle/User/UserUtil.html#method_hasAccessToField", "name": "HeimrichHannot\\UtilsBundle\\User\\UserUtil::hasAccessToField", "doc": "&quot;&quot;"},
+                    {"type": "Method", "fromName": "HeimrichHannot\\UtilsBundle\\User\\UserUtil", "fromLink": "HeimrichHannot/UtilsBundle/User/UserUtil.html", "link": "HeimrichHannot/UtilsBundle/User/UserUtil.html#method_isAdmin", "name": "HeimrichHannot\\UtilsBundle\\User\\UserUtil::isAdmin", "doc": "&quot;&quot;"},
             
             
                                         // Fix trailing commas in the index
