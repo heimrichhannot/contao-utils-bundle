@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.150.0] - 2020-03-19
+- added `UserUtil::isAdmin()`
+
 ## [2.149.0] - 2020-03-17
 - added `FileUtil::getParentFoldersByUuid()`
 
