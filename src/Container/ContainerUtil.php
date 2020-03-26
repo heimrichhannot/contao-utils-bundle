@@ -194,4 +194,9 @@ class ContainerUtil
 
         return $extensionConfigs;
     }
+
+    public function isMaintenanceModeActive()
+    {
+        return $this->container->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
+    }
 }
