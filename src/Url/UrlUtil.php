@@ -360,6 +360,6 @@ class UrlUtil
 
     public function getBaseUrl(bool $absolute = false)
     {
-        return ($absolute ? Environment::get('host') : '').(System::getContainer()->get('huh.utils.container')->isDev() ? '/app_dev.php' : '');
+        return ($absolute ? Environment::get('url') : '').(System::getContainer()->get('huh.utils.container')->isDev() ? '/app_dev.php' : '');
     }
 }

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.151.1] - 2020-03-26
+- fixed `UrlUtil::getBaseUrl()`
+
 ## [2.151.0] - 2020-03-26
 - added `ContainerUtil::isMaintenanceModeActive()`
 
