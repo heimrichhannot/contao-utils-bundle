@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\String;
 
+use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Soundasleep\Html2Text;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -19,6 +21,16 @@ class StringUtil
     const SMALL_LETTERS_NONAMBIGUOUS = 'abcdefghjkmnpqrstuvwx';
     const NUMBERS = '0123456789';
     const NUMBERS_NONAMBIGUOUS = '23456789';
+
+    /**
+     * @var ContaoFrameworkInterface
+     */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $framework)
+    {
+        $this->framework = $framework;
+    }
 
     /**
      * Check for the occurrence at the start of the string.
@@ -357,5 +369,21 @@ class StringUtil
         return preg_replace_callback($regExp, function ($matches) {
             return '&#'.hexdec(bin2hex(mb_convert_encoding("$matches[0]", 'UTF-32', 'UTF-8'))).';';
         }, $text);
+    }
+
+    /**
+     * Replace insert tags with their values
+     *
+     * @param string  $buffer The text with the tags to be replaced
+     * @param boolean $cache  If false, non-cacheable tags will be replaced
+     *
+     * @return string The text with the replaced tags
+     */
+    public function replaceInsertTags(string $buffer, bool $cache=true)
+    {
+        /** @var Controller $controller */
+        $controller = $this->framework->getAdapter(Controller::class);
+
+        return $controller::replaceInsertTags($buffer, $cache);
     }
 }

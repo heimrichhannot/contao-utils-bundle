@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.152.0] - 2020-04-03
+- added `StringUtil::replaceInsertTags()`
+
 ## [2.151.1] - 2020-03-26
 - fixed `UrlUtil::getBaseUrl()`
 
