@@ -17,7 +17,6 @@ use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\DcaExtractor;
 use Contao\DiffRenderer;
-use Contao\Environment;
 use Contao\FrontendUser;
 use Contao\Image;
 use Contao\Input;
@@ -27,6 +26,7 @@ use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
+use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DcaUtil
@@ -45,11 +45,16 @@ class DcaUtil
      * @var ContainerInterface
      */
     protected $container;
+    /**
+     * @var RoutingUtil
+     */
+    private $routingUtil;
 
-    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework)
+    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework, RoutingUtil $routingUtil)
     {
         $this->container = $container;
         $this->framework = $framework;
+        $this->routingUtil = $routingUtil;
     }
 
     /**
@@ -164,18 +169,39 @@ class DcaUtil
     /**
      * Get a contao backend popup link.
      *
-     * @param string $href (e.g. do=news&id=1000&table=tl_news)
+     * Options:
+     * - title: (string) Overrride default link title
+     * - style: (string) Override default css style properties
+     * - onclick: (string) Override default onclick javascript code
+     * - icon: (string) Override default icon
+     * - url-only: (boolean) Return only url instead of a complete link element
+     *
+     * @param array $parameter An array of parameter. Using string is deprecated and will be removed in a future version.
      *
      * @return string
      */
-    public function getPopupWizardLink(string $href, array $options = [])
+    public function getPopupWizardLink($parameter, array $options = [])
     {
-        $requestToken = $this->container->get('security.csrf.token_manager')->getToken(
-            $this->container->getParameter('contao.csrf_token_name')
-        )->getValue();
+        if (\is_string($parameter)) {
+            @trigger_error('Using string as parameter is deprecated and will be removed in a future version.', E_USER_DEPRECATED);
+            $result = [];
+            $query = parse_url($parameter, PHP_URL_QUERY);
 
-        $href = Environment::get('url').parse_url(Environment::get('uri'), PHP_URL_PATH).'?'.ltrim($href, '?');
-        $href = $this->container->get('huh.utils.url')->addQueryString('popup=1&nb=1&rt='.$requestToken, $href);
+            if (\is_string($query)) {
+                $parameter = $query;
+            }
+            parse_str($parameter, $result);
+            $parameter = $result;
+        }
+
+        $parameter['popup'] = 1;
+        $parameter['nb'] = 1;
+
+        $url = $this->routingUtil->generateBackendRoute($parameter);
+
+        if (isset($options['url-only']) && true === $options['url-only']) {
+            return $url;
+        }
 
         // title
         if (!isset($options['title']) || !$options['title']) {
@@ -206,7 +232,7 @@ class DcaUtil
 
         return sprintf(
             '<a href="%s" title="%s" style="%s" %s>%s</a>',
-            $href,
+            $url,
             $title,
             $style,
             $onclick,
@@ -232,7 +258,7 @@ class DcaUtil
         // Get all default values for the new entry
         foreach ($GLOBALS['TL_DCA'][$strTable]['fields'] as $k => $v) {
             // Use array_key_exists here (see #5252)
-            if (array_key_exists('default', $v)) {
+            if (\array_key_exists('default', $v)) {
                 if (\is_object($varData)) {
                     $varData->{$k} = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
                     // Encrypt the default value (see #3740)

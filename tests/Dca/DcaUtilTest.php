@@ -20,6 +20,7 @@ use Contao\StringUtil;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,7 +48,30 @@ class DcaUtilTest extends TestCaseEnvironment
         if (!isset($properties['framework'])) {
             $properties['framework'] = $this->getContaoFrameworkMock();
         }
-        $instance = new DcaUtil($properties['container'], $properties['framework']);
+
+        if (!isset($properties['routingutil'])) {
+            $routingUtilMock = $this->createMock(RoutingUtil::class);
+            $routingUtilMock->method('generateBackendRoute')->willReturnCallback(function (array $params = [], $addToken = true, $addReferer = true) {
+                $url = '/contao';
+
+                if (true === $addToken) {
+                    $params['rt'] = 'token';
+                }
+
+                if (true === $addReferer) {
+                    $params['ref'] = 'referer';
+                }
+
+                if (!empty($params)) {
+                    $url .= '?'.http_build_query($params);
+                }
+
+                return $url;
+            });
+            $properties['routingutil'] = $routingUtilMock;
+        }
+
+        $instance = new DcaUtil($properties['container'], $properties['framework'], $properties['routingutil']);
 
         return $instance;
     }
@@ -579,6 +603,23 @@ class DcaUtilTest extends TestCaseEnvironment
         $result = $dcaUtil->getDataContainers(['onlyTableType' => true]);
         $this->assertCount(3, $result);
         $this->assertSame($databaseContainers, $result);
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Using string as parameter is deprecated and will be removed in a future version.
+     */
+    public function testGetPopupWizardLink()
+    {
+        $dcautil = $this->getTestInstance();
+        $this->assertSame('/contao?popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink([], ['url-only' => true]));
+        $this->assertSame('/contao?popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('', ['url-only' => true]));
+        $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink([
+            'do' => 'md_recipient_lists',
+            'act' => 'edit',
+            'id' => 1,
+            ], ['url-only' => true]));
+        $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('do=md_recipient_lists&act=edit&id=1', ['url-only' => true]));
     }
 
     /**

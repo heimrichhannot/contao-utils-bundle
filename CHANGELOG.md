@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.153.0] - 2020-04-06
+- partly rewrote DcaUtil::getPopupWizardLink()
+- deprecated DcaUtil::getPopupWizardLink() string as first parameter
+- updated documentation
+- updated tests
+
 ## [2.152.0] - 2020-04-03
 - added `StringUtil::replaceInsertTags()`
 

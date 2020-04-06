@@ -372,14 +372,14 @@ class StringUtil
     }
 
     /**
-     * Replace insert tags with their values
+     * Replace insert tags with their values.
      *
-     * @param string  $buffer The text with the tags to be replaced
-     * @param boolean $cache  If false, non-cacheable tags will be replaced
+     * @param string $buffer The text with the tags to be replaced
+     * @param bool   $cache  If false, non-cacheable tags will be replaced
      *
      * @return string The text with the replaced tags
      */
-    public function replaceInsertTags(string $buffer, bool $cache=true)
+    public function replaceInsertTags(string $buffer, bool $cache = true)
     {
         /** @var Controller $controller */
         $controller = $this->framework->getAdapter(Controller::class);
