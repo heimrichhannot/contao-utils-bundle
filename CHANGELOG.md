@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.152.1] - 2020-04-06
+- fixed `StringUtil::replaceInsertTags()`
+
 ## [2.152.0] - 2020-04-03
 - added `StringUtil::replaceInsertTags()`
 
