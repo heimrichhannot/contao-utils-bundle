@@ -384,6 +384,6 @@ class StringUtil
         /** @var Controller $controller */
         $controller = $this->framework->getAdapter(Controller::class);
 
-        return $controller::replaceInsertTags($buffer, $cache);
+        return $controller->replaceInsertTags($buffer, $cache);
     }
 }
