@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.154.0] - 2020-04-06
+- added attributes and linkText option to DcaUtil::getPopupWizardLink()
+
 ## [2.153.0] - 2020-04-06
 - partly rewrote DcaUtil::getPopupWizardLink()
 - deprecated DcaUtil::getPopupWizardLink() string as first parameter

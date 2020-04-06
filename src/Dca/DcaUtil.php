@@ -170,10 +170,12 @@ class DcaUtil
      * Get a contao backend popup link.
      *
      * Options:
+     * - attributes: (array) Link attributes as key value pairs. Will override title and style option. href and onclick are not allowed and will be removed from list.
      * - title: (string) Overrride default link title
      * - style: (string) Override default css style properties
      * - onclick: (string) Override default onclick javascript code
-     * - icon: (string) Override default icon
+     * - icon: (string) Link icon to show as link text. Overrides default icon.
+     * - linkText: (string) A linkTitle to show as link text. Will be displayed after the link icon. Default empty.
      * - url-only: (boolean) Return only url instead of a complete link element
      *
      * @param array $parameter An array of parameter. Using string is deprecated and will be removed in a future version.
@@ -203,6 +205,12 @@ class DcaUtil
             return $url;
         }
 
+        $attributes = [];
+
+        if (isset($options['attributes'])) {
+            $attributes = $options['attributes'];
+        }
+
         // title
         if (!isset($options['title']) || !$options['title']) {
             $title = $GLOBALS['TL_LANG']['tl_content']['edit'][0];
@@ -210,8 +218,16 @@ class DcaUtil
             $title = StringUtil::specialchars($options['title']);
         }
 
+        if (!isset($attributes['title'])) {
+            $attributes['title'] = $title;
+        }
+
         // style
         $style = !isset($options['style']) ? 'padding-left: 5px; padding-top: 2px; display: inline-block;' : $options['style'];
+
+        if (!empty($style) && !isset($attributes['style'])) {
+            $attributes['style'] = $style;
+        }
 
         // onclick
         if (!isset($options['onclick']) || !$options['onclick']) {
@@ -227,16 +243,39 @@ class DcaUtil
             $onclick = $options['onclick'];
         }
 
-        // icon
-        $icon = !isset($options['icon']) || !$options['icon'] ? 'alias.svg' : $options['icon'];
+        if (!isset($attributes['onclick'])) {
+            $attributes['onclick'] = $onclick;
+        }
+
+        // link text and icon
+        $linkText = '';
+
+        if (!isset($options['icon'])) {
+            $linkText .= $this->framework->getAdapter(Image::class)->getHtml('alias.svg', $title, 'style="vertical-align:top"');
+        } elseif (!empty($options['icon'])) {
+            $linkText = $this->framework->getAdapter(Image::class)->getHtml($options['icon'], $title, 'style="vertical-align:top"');
+        }
+
+        if (isset($options['linkText']) || !empty($options['linkText'])) {
+            $linkText .= $options['linkText'];
+        }
+
+        // Attributes
+        $attributeQuery = '';
+
+        foreach ($attributes as $key => $value) {
+            if (\in_array($key, ['href', 'onclick'])) {
+                continue;
+            }
+            $attributeQuery .= $key.'="'.htmlspecialchars($value).'" ';
+        }
 
         return sprintf(
-            '<a href="%s" title="%s" style="%s" %s>%s</a>',
+            '<a href="%s" %s %s>%s</a>',
             $url,
-            $title,
-            $style,
+            $attributeQuery,
             $onclick,
-            Image::getHtml($icon, $title, 'style="vertical-align:top"')
+            $linkText
         );
     }
 

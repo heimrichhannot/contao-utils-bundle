@@ -15,6 +15,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\FrontendUser;
+use Contao\Image;
 use Contao\Model;
 use Contao\StringUtil;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
@@ -611,7 +612,15 @@ class DcaUtilTest extends TestCaseEnvironment
      */
     public function testGetPopupWizardLink()
     {
-        $dcautil = $this->getTestInstance();
+        $imageAdapter = $this->mockAdapter(['getHtml']);
+        $imageAdapter->method('getHtml')->willReturnCallback(function ($src, $alt = '', $attributes = '') {
+            return '<img src="'.$src.'" alt="'.$alt.'" '.$attributes.'>';
+        });
+        $framework = $this->mockContaoFramework([
+            Image::class => $imageAdapter,
+        ]);
+
+        $dcautil = $this->getTestInstance(['framework' => $framework]);
         $this->assertSame('/contao?popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink([], ['url-only' => true]));
         $this->assertSame('/contao?popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('', ['url-only' => true]));
         $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink([
@@ -620,6 +629,66 @@ class DcaUtilTest extends TestCaseEnvironment
             'id' => 1,
             ], ['url-only' => true]));
         $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('do=md_recipient_lists&act=edit&id=1', ['url-only' => true]));
+        $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('https://example.org/contao?do=md_recipient_lists&act=edit&id=1', ['url-only' => true]));
+
+        $GLOBALS['TL_LANG']['tl_content']['edit'][0] = 'Edit';
+
+        $result = $dcautil->getPopupWizardLink([
+            'do' => 'md_recipient_lists',
+            'act' => 'edit',
+            'id' => 1,
+        ], []);
+        $this->assertStringStartsWith('<a href="/contao?do=md_recipient_lists', $result);
+        $this->assertNotFalse(strpos($result, 'style="padding-left: 5px; padding-top: 2px;'));
+        $this->assertNotFalse(strpos($result, '<img src="alias.svg"'));
+        $this->assertNotFalse(strpos($result, 'title="Edit"'));
+
+        $result = $dcautil->getPopupWizardLink([
+            'do' => 'newsletter',
+            'act' => 'edit',
+            'id' => 1,
+        ], [
+            'title' => 'Hello',
+            'icon' => 'hello.png',
+        ]);
+        $this->assertStringStartsWith('<a href="/contao?do=newsletter', $result);
+        $this->assertNotFalse(strpos($result, 'style="padding-left: 5px; padding-top: 2px;'));
+        $this->assertNotFalse(strpos($result, '<img src="hello.png"'));
+        $this->assertNotFalse(strpos($result, 'title="Hello"'));
+        $this->assertNotFalse(strpos($result, 'onclick="Backend.openModalIframe'));
+
+        $result = $dcautil->getPopupWizardLink([
+            'do' => 'newsletter',
+            'act' => 'edit',
+            'id' => 1,
+        ], [
+            'title' => 'Hello',
+            'icon' => 'hello.png',
+            'onclick' => 'onclick="alert(\'Wow!\');"',
+            'linkText' => 'Foo!',
+            'attributes' => [
+                'title' => 'World',
+                'class' => 'tl_button',
+                'href' => 'abc.html',
+                'onclick' => 'event();',
+            ],
+        ]);
+        $this->assertStringStartsWith('<a href="/contao?do=newsletter', $result);
+        $this->assertNotFalse(strpos($result, 'style="padding-left: 5px; padding-top: 2px;'));
+        $this->assertNotFalse(strpos($result, '<img src="hello.png"'));
+        $this->assertNotFalse(strpos($result, 'title="World"'));
+        $this->assertNotFalse(strpos($result, 'class="tl_button"'));
+        $this->assertNotFalse(strpos($result, 'onclick="alert(\'Wow!\');"'));
+        $this->assertNotFalse(strpos($result, 'Foo!</a>'));
+
+//        $this->assertNotFalse(strpos());
+//
+//
+//        $this->assertString('<a href="/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer"></a>', $dcautil->getPopupWizardLink([
+//            'do' => 'md_recipient_lists',
+//            'act' => 'edit',
+//            'id' => 1,
+//        ], []));
     }
 
     /**
