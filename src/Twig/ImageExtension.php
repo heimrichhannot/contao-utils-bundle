@@ -72,9 +72,16 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
      */
     public function getImageData($image, $size = null, array $data = []): array
     {
+        $imageData = [];
+
         $data['image'] = $image;
         $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size, true);
-        $imageData = [];
+
+        // remove empty imageSize passed in
+        if (isset($size) && empty(array_filter($size))) {
+            unset($data['size']);
+        }
+
         $this->container->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
 
         if (empty($imageData)) {

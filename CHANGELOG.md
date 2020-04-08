@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.155.1] - 2020-04-08
+- added empty check for `imageSize` in `ImageUtil`
+
 ## [2.155.0] - 2020-04-08
 - added `PageUtil`
 
