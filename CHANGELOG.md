@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.155.0] - 2020-04-08
+- added `PageUtil`
+
 ## [2.154.0] - 2020-04-06
 - added attributes and linkText option to DcaUtil::getPopupWizardLink()
 
