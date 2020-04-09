@@ -24,6 +24,7 @@ services:
   HeimrichHannot\UtilsBundle\Form\FormUtil: ~
   HeimrichHannot\UtilsBundle\Location\LocationUtil: ~
   HeimrichHannot\UtilsBundle\Member\MemberUtil: ~
+  HeimrichHannot\UtilsBundle\Page\PageUtil: ~
   HeimrichHannot\UtilsBundle\Pdf\PdfPreview: ~
   HeimrichHannot\UtilsBundle\Request\RequestUtil: ~
   HeimrichHannot\UtilsBundle\Routing\RoutingUtil: '@huh.utils.routing'
@@ -45,11 +46,11 @@ services:
   huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
   huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
   huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
+  huh.utils.page: '@HeimrichHannot\UtilsBundle\Page\PageUtil'
   huh.utils.pdf.preview: '@HeimrichHannot\UtilsBundle\Pdf\PdfPreview'
   huh.utils.request: '@HeimrichHannot\UtilsBundle\Request\RequestUtil'
   huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
   huh.utils.string.anonymizer: '@HeimrichHannot\UtilsBundle\String\AnonymizerUtil'
-
 
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil

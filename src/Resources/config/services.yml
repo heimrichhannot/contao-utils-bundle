@@ -114,10 +114,6 @@ services:
     lazy:  true
     arguments:
       - "@contao.framework"
-  huh.utils.page:
-    class: HeimrichHannot\UtilsBundle\Page\PageUtil
-    public: true
-    autowire: true
   huh.twig.extension.date:
     class: HeimrichHannot\UtilsBundle\Twig\DateExtension
     tags: [twig.extension]

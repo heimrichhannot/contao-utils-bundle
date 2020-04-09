@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.155.2] - 2020-04-09
+- fixed PageUtil service definition for symfony 4
+
 ## [2.155.1] - 2020-04-08
 - added empty check for `imageSize` in `ImageUtil`
 
