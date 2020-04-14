@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Location;
 use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 
 class LocationUtil
 {
@@ -87,7 +88,8 @@ class LocationUtil
         $response = json_decode($result);
 
         if ($response->error_message) {
-            $session = System::getContainer()->get('contao.session.contao_backend');
+            /** @var AttributeBagInterface $objSession */
+            $session = System::getContainer()->get('session')->getBag('contao_backend');
 
             $session->set('utils.location.error', $response->error_message);
 
@@ -116,7 +118,8 @@ class LocationUtil
         ]);
 
         if (false === $result || !\is_array($result)) {
-            $session = System::getContainer()->get('contao.session.contao_backend');
+            /** @var AttributeBagInterface $objSession */
+            $session = System::getContainer()->get('session')->getBag('contao_backend');
 
             if ($error = $session->get('utils.location.error')) {
                 throw new \Exception($session->get('utils.location.error'));

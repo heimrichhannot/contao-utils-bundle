@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.156.1] - 2020-04-14
+- fixed session bug for contao 4.9 in `LocationUtil`
+
 ## [2.156.0] - 2020-04-14
 - added `DatabaseUtil::select()`
 
