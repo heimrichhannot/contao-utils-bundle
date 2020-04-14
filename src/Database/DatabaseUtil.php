@@ -892,4 +892,23 @@ class DatabaseUtil
 
         \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], $whereValues);
     }
+
+    /**
+     * @param string|array $fields
+     */
+    public function select(string $table, $fields, ?string $where = null, array $whereValues = []): ?\Database\Result
+    {
+        /* @var Database $adapter */
+        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+            return null;
+        }
+
+        if (\is_array($fields)) {
+            $fields = implode(',', $fields);
+        }
+
+        $query = 'SELECT '.$fields." FROM $table".($where ? " WHERE $where" : '');
+
+        return \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], $whereValues);
+    }
 }

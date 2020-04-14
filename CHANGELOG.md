@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.156.0] - 2020-04-14
+- added `DatabaseUtil::select()`
+
 ## [2.155.2] - 2020-04-09
 - fixed PageUtil service definition for symfony 4
 
