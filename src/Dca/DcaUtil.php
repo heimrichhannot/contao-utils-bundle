@@ -1301,4 +1301,189 @@ class DcaUtil
 
         return $dca['fields'][$field]['label'][0] ?: (isset($GLOBALS['TL_LANG']['MSC'][$field]) ? (\is_array($GLOBALS['TL_LANG']['MSC'][$field]) ? $GLOBALS['TL_LANG']['MSC'][$field][0] : $GLOBALS['TL_LANG']['MSC'][$field]) : $field);
     }
+
+    /**
+     * Returns the set of pid and sorting to be used in an sql update statement. Also updates the existing records according to the usage.
+     *
+     * The method can be used in several ways:
+     *
+     * <ul>
+     *   <li>Insert in an archive of a certain pid as first item: $pid must be set (0 is also ok), $insertAfterId needs to be null</li>
+     *   <li>Insert after a record of a certain id: $insertAfterId must be set, $pid can be set if necessary</li>
+     * </ul>
+     *
+     * @example
+     *
+     * // insert a new record after another one with the ID 82
+     *
+     * $news = new \Contao\NewsModel();
+
+     * $news->pid = 3;
+     * $news->tstamp = time();
+     * $news->title = 'Something';
+     * $news->save();
+
+     * $set = System::getContainer()->get('huh.utils.dca')->getNewSortingPosition(
+     *   'tl_news', $news->id, 3, 82
+     * );
+     *
+     * // store the returned set to the news record created above as usual
+     *
+     * Hint: Mostly taken from DC_Table::getNewPosition(). Removed: handling if only a pid field is present, mode handling (since we don't have it in this context).
+     */
+    public function getNewSortingPosition(string $table, int $id, $pid = null, $insertAfterId = null): array
+    {
+        $set = [];
+
+        /* @var Database $db */
+        if (!($db = $this->framework->createInstance(Database::class))) {
+            return $set;
+        }
+
+        // If there is pid and sorting
+        if ($db->fieldExists('pid', $table) && $db->fieldExists('sorting', $table)) {
+            // PID is set (insert after or into the parent record)
+            if (is_numeric($pid)) {
+                // ID is set (insert after the current record)
+                if ($insertAfterId) {
+                    $objCurrentRecord = $db->prepare("SELECT * FROM $table WHERE id=? AND pid=?")
+                        ->limit(1)
+                        ->execute($insertAfterId, $pid);
+
+                    // Select current record
+                    if ($objCurrentRecord->numRows) {
+                        $newSorting = null;
+                        $curSorting = $objCurrentRecord->sorting;
+
+                        $objNextSorting = $db->prepare("SELECT MIN(sorting) AS sorting FROM $table WHERE sorting>? AND pid=?")
+                            ->execute($curSorting, $pid);
+
+                        // Select sorting value of the next record
+                        if ($objNextSorting->numRows && null !== $objNextSorting->sorting) {
+                            $nxtSorting = $objNextSorting->sorting;
+
+                            // Resort if the new sorting value is no integer or bigger than a MySQL integer field
+                            if (0 != (($curSorting + $nxtSorting) % 2) || $nxtSorting >= 4294967295) {
+                                $count = 1;
+
+                                $objNewSorting = $db->prepare("SELECT id, sorting FROM $table WHERE pid=? AND id!=? ORDER BY sorting")->execute($pid, $id);
+
+                                while ($objNewSorting->next()) {
+                                    $db->prepare("UPDATE $table SET sorting=? WHERE id=? AND pid=?")
+                                        ->execute(($count++ * 128), $objNewSorting->id, $pid);
+
+                                    if ($objNewSorting->sorting == $curSorting) {
+                                        $newSorting = ($count++ * 128);
+                                    }
+                                }
+                            } // Else new sorting = (current sorting + next sorting) / 2
+                            else {
+                                $newSorting = (($curSorting + $nxtSorting) / 2);
+                            }
+                        } // Else new sorting = (current sorting + 128)
+                        else {
+                            $newSorting = ($curSorting + 128);
+                        }
+
+                        // Set new sorting
+                        $set['sorting'] = (int) $newSorting;
+
+                        return $set;
+                    }
+                } else {
+                    // insert in first place
+                    $newPID = null;
+                    $newSorting = null;
+
+                    $newPID = $pid;
+
+                    $minSorting = $db->prepare("SELECT MIN(sorting) AS sorting FROM $table WHERE pid=?")->execute($pid);
+
+                    // Select sorting value of the first record
+                    if ($minSorting->numRows) {
+                        $curSorting = $minSorting->sorting;
+
+                        // Resort if the new sorting value is not an integer or smaller than 1
+                        if (0 != ($curSorting % 2) || $curSorting < 1) {
+                            $objNewSorting = $db->prepare("SELECT id FROM $table WHERE pid=? ORDER BY sorting")->execute($pid);
+
+                            $count = 2;
+                            $newSorting = 128;
+
+                            while ($objNewSorting->next()) {
+                                $db->prepare("UPDATE $table SET sorting=? WHERE id=?")
+                                    ->limit(1)
+                                    ->execute(($count++ * 128), $objNewSorting->id);
+                            }
+                        } // Else new sorting = (current sorting / 2)
+                        else {
+                            $newSorting = ($curSorting / 2);
+                        }
+                    } // Else new sorting = 128
+                    else {
+                        $newSorting = 128;
+                    }
+
+                    // Set new sorting and new parent ID
+                    $set['pid'] = (int) $newPID;
+                    $set['sorting'] = (int) $newSorting;
+                }
+            }
+        } // If there is only sorting
+        elseif ($db->fieldExists('sorting', $table)) {
+            // ID is set (insert after the current record)
+            if ($insertAfterId) {
+                $objCurrentRecord = $db->prepare("SELECT * FROM $table WHERE id=?")
+                    ->limit(1)
+                    ->execute($insertAfterId);
+
+                // Select current record
+                if ($objCurrentRecord->numRows) {
+                    $newSorting = null;
+                    $curSorting = $objCurrentRecord->sorting;
+
+                    $objNextSorting = $db->prepare("SELECT MIN(sorting) AS sorting FROM $table WHERE sorting>?")
+                        ->execute($curSorting);
+
+                    // Select sorting value of the next record
+                    if ($objNextSorting->numRows) {
+                        $nxtSorting = $objNextSorting->sorting;
+
+                        // Resort if the new sorting value is no integer or bigger than a MySQL integer field
+                        if (0 != (($curSorting + $nxtSorting) % 2) || $nxtSorting >= 4294967295) {
+                            $count = 1;
+
+                            $objNewSorting = $db->execute("SELECT id, sorting FROM $table ORDER BY sorting");
+
+                            while ($objNewSorting->next()) {
+                                $db->prepare("UPDATE $table SET sorting=? WHERE id=?")
+                                    ->execute(($count++ * 128), $objNewSorting->id);
+
+                                if ($objNewSorting->sorting == $curSorting) {
+                                    $newSorting = ($count++ * 128);
+                                }
+                            }
+                        } // Else new sorting = (current sorting + next sorting) / 2
+                        else {
+                            $newSorting = (($curSorting + $nxtSorting) / 2);
+                        }
+                    } // Else new sorting = (current sorting + 128)
+                    else {
+                        $newSorting = ($curSorting + 128);
+                    }
+
+                    // Set new sorting
+                    $set['sorting'] = (int) $newSorting;
+
+                    return $set;
+                }
+            }
+
+            // ID is not set or not found (insert at the end)
+            $objNextSorting = $db->execute('SELECT MAX(sorting) AS sorting FROM '.$table);
+            $set['sorting'] = ((int) $objNextSorting->sorting + 128);
+        }
+
+        return $set;
+    }
 }

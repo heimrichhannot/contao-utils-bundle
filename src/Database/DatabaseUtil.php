@@ -736,8 +736,8 @@ class DatabaseUtil
      */
     public function findResultByPk(string $table, $pk, array $options = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -753,7 +753,7 @@ class DatabaseUtil
         $options['table'] = $table;
         $query = \Contao\Model\QueryBuilder::find($options);
 
-        $statement = $adapter->getInstance()->prepare($query);
+        $statement = $db->getInstance()->prepare($query);
 
         // Defaults for limit and offset
         if (!isset($options['limit'])) {
@@ -779,8 +779,8 @@ class DatabaseUtil
      */
     public function findOneResultBy(string $table, array $columns, array $values, array $options = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -796,7 +796,7 @@ class DatabaseUtil
         $options['table'] = $table;
         $query = \Contao\Model\QueryBuilder::find($options);
 
-        $statement = $adapter->getInstance()->prepare($query);
+        $statement = $db->getInstance()->prepare($query);
 
         if (!isset($options['offset'])) {
             $options['offset'] = 0;
@@ -812,8 +812,8 @@ class DatabaseUtil
 
     public function findResultsBy(string $table, array $columns, array $values, array $options = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -828,7 +828,7 @@ class DatabaseUtil
         $options['table'] = $table;
         $query = \Contao\Model\QueryBuilder::find($options);
 
-        $statement = $adapter->getInstance()->prepare($query);
+        $statement = $db->getInstance()->prepare($query);
 
         // Defaults for limit and offset
         if (!isset($options['limit'])) {
@@ -849,8 +849,8 @@ class DatabaseUtil
 
     public function insert(string $table, array $set)
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -862,13 +862,13 @@ class DatabaseUtil
 
         $query = "INSERT INTO $table ($columnNames) VALUES ($wildcards)";
 
-        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], array_values($set));
+        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_values($set));
     }
 
     public function update(string $table, array $set, string $where = null, array $whereValues = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -878,19 +878,19 @@ class DatabaseUtil
 
         $query = "UPDATE $table SET $assignments".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
+        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
     }
 
     public function delete(string $table, string $where = null, array $whereValues = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
         $query = "DELETE FROM $table".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], $whereValues);
+        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], $whereValues);
     }
 
     /**
@@ -898,8 +898,8 @@ class DatabaseUtil
      */
     public function select(string $table, $fields, ?string $where = null, array $whereValues = []): ?\Database\Result
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -909,6 +909,6 @@ class DatabaseUtil
 
         $query = 'SELECT '.$fields." FROM $table".($where ? " WHERE $where" : '');
 
-        return \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], $whereValues);
+        return \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], $whereValues);
     }
 }
