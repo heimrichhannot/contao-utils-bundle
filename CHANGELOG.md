@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.157.1] - 2020-04-16
+- removed `select()` from `DatabaseUtil` as it's already covered by the various `findBy` methods
+
 ## [2.157.0] - 2020-04-16
 - added `DcaUtil::getNewSortingPosition()`
 

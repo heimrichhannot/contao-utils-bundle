@@ -13,6 +13,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Model;
 use Contao\System;
+use Database\Result;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 class DatabaseUtil
@@ -862,7 +863,7 @@ class DatabaseUtil
 
         $query = "INSERT INTO $table ($columnNames) VALUES ($wildcards)";
 
-        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_values($set));
+        return \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_values($set));
     }
 
     public function update(string $table, array $set, string $where = null, array $whereValues = [])
@@ -891,24 +892,5 @@ class DatabaseUtil
         $query = "DELETE FROM $table".($where ? " WHERE $where" : '');
 
         \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], $whereValues);
-    }
-
-    /**
-     * @param string|array $fields
-     */
-    public function select(string $table, $fields, ?string $where = null, array $whereValues = []): ?\Database\Result
-    {
-        /* @var Database $db */
-        if (!($db = $this->framework->getAdapter(Database::class))) {
-            return null;
-        }
-
-        if (\is_array($fields)) {
-            $fields = implode(',', $fields);
-        }
-
-        $query = 'SELECT '.$fields." FROM $table".($where ? " WHERE $where" : '');
-
-        return \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], $whereValues);
     }
 }
