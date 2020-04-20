@@ -379,11 +379,12 @@ class StringUtil
      *
      * @return string The text with the replaced tags
      */
-    public function replaceInsertTags(string $buffer, bool $cache = true)
+    public function replaceInsertTags(?string $buffer, bool $cache = true)
     {
         /** @var Controller $controller */
         $controller = $this->framework->getAdapter(Controller::class);
 
         return $controller->replaceInsertTags($buffer, $cache);
     }
+
 }

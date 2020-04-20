@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.157.2] - 2020-04-20
+- fixed types in replaceInsertTags() from StringUtil
+
 ## [2.157.1] - 2020-04-16
 - removed `select()` from `DatabaseUtil` as it's already covered by the various `findBy` methods
 
