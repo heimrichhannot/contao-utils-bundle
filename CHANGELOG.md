@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.159.0] - 2020-04-21
+- added `choices.yml` containing the service definitions for the choices
+
 ## [2.158.0] - 2020-04-21
 - added `DatabaseUtil::beginTransaction()` and `DatabaseUtil::commitTransaction()`
 

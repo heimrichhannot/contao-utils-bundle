@@ -50,32 +50,6 @@ services:
     class: HeimrichHannot\UtilsBundle\Url\UrlUtil
     public: true
     autowire: true
-  # choice
-  huh.utils.choice.field:
-    class: HeimrichHannot\UtilsBundle\Choice\FieldChoice
-    public: true
-    arguments:
-      - "@contao.framework"
-  huh.utils.choice.data_container:
-    class: HeimrichHannot\UtilsBundle\Choice\DataContainerChoice
-    public: true
-    arguments:
-      - "@contao.framework"
-  huh.utils.choice.message:
-    class: HeimrichHannot\UtilsBundle\Choice\MessageChoice
-    public: true
-    arguments:
-      - "@contao.framework"
-  huh.utils.choice.model_instance:
-    class: HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice
-    public: true
-    arguments:
-      - "@contao.framework"
-  huh.utils.choice.twig_template:
-    class: HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice
-    public: true
-    arguments:
-      - "@contao.framework"
   huh.utils.routing:
     class: HeimrichHannot\UtilsBundle\Routing\RoutingUtil
     public: true
