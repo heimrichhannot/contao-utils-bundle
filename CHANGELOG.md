@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.158.0] - 2020-04-21
+- added `DatabaseUtil::beginTransaction()` and `DatabaseUtil::commitTransaction()`
+
 ## [2.157.3] - 2020-04-21
 - fixed types in `DatabaseUtil`
 

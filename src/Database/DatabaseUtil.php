@@ -893,4 +893,24 @@ class DatabaseUtil
 
         \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], $whereValues);
     }
+
+    public function beginTransaction()
+    {
+        /* @var Database $db */
+        if (!($db = $this->framework->createInstance(Database::class))) {
+            return null;
+        }
+
+        $db->beginTransaction();
+    }
+
+    public function commitTransaction()
+    {
+        /* @var Database $db */
+        if (!($db = $this->framework->createInstance(Database::class))) {
+            return null;
+        }
+
+        $db->commitTransaction();
+    }
 }
