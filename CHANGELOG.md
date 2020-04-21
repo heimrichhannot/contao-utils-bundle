@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.157.3] - 2020-04-21
+- fixed types in `DatabaseUtil`
+
 ## [2.157.2] - 2020-04-20
 - fixed types in replaceInsertTags() from StringUtil
 

@@ -778,7 +778,7 @@ class DatabaseUtil
      *
      * @return mixed
      */
-    public function findOneResultBy(string $table, array $columns, array $values, array $options = [])
+    public function findOneResultBy(string $table, ?array $columns, ?array $values, array $options = [])
     {
         /* @var Database $db */
         if (!($db = $this->framework->getAdapter(Database::class))) {
@@ -811,7 +811,7 @@ class DatabaseUtil
         return $statement->execute($options['value']);
     }
 
-    public function findResultsBy(string $table, array $columns, array $values, array $options = [])
+    public function findResultsBy(string $table, ?array $columns, ?array $values, array $options = [])
     {
         /* @var Database $db */
         if (!($db = $this->framework->getAdapter(Database::class))) {

@@ -386,5 +386,4 @@ class StringUtil
 
         return $controller->replaceInsertTags($buffer, $cache);
     }
-
 }
