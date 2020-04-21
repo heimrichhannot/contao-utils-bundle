@@ -369,7 +369,7 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_findOneResultBy">findOneResultBy</a>(string $table, array $columns, array $values, array $options = [])
+                    <a href="#method_findOneResultBy">findOneResultBy</a>(string $table, array|null $columns, array|null $values, array $options = [])
         
                                             <p>Return a single database result by table and search criteria.</p>                </div>
                 <div class="col-md-2"></div>
@@ -379,7 +379,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_findResultsBy">findResultsBy</a>(string $table, array $columns, array $values, array $options = [])
+                    <a href="#method_findResultsBy">findResultsBy</a>(string $table, array|null $columns, array|null $values, array $options = [])
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -883,7 +883,7 @@
                     <h3 id="method_findOneResultBy">
         <div class="location">at         line 781</div>
         <code>                    mixed
-    <strong>findOneResultBy</strong>(string $table, array $columns, array $values, array $options = [])
+    <strong>findOneResultBy</strong>(string $table, array|null $columns, array|null $values, array $options = [])
         </code>
     </h3>
     <div class="details">
@@ -902,12 +902,12 @@
                 <td></td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>array|null</td>
                 <td>$columns</td>
                 <td></td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>array|null</td>
                 <td>$values</td>
                 <td></td>
             </tr>
@@ -938,7 +938,7 @@
                     <h3 id="method_findResultsBy">
         <div class="location">at         line 814</div>
         <code>                    
-    <strong>findResultsBy</strong>(string $table, array $columns, array $values, array $options = [])
+    <strong>findResultsBy</strong>(string $table, array|null $columns, array|null $values, array $options = [])
         </code>
     </h3>
     <div class="details">
@@ -955,12 +955,12 @@
                 <td></td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>array|null</td>
                 <td>$columns</td>
                 <td></td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>array|null</td>
                 <td>$values</td>
                 <td></td>
             </tr>
