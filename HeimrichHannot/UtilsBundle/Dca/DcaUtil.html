@@ -298,7 +298,7 @@ palette where every field can be overridden.</p>                </div>
                     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_generateAlias">generateAlias</a>(string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+                    <a href="#method_generateAlias">generateAlias</a>(string|null $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
         
                                             <p>Generate an alias.</p>                </div>
                 <div class="col-md-2"></div>
@@ -1198,7 +1198,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
                     <h3 id="method_generateAlias">
         <div class="location">at         line 623</div>
         <code>                    string
-    <strong>generateAlias</strong>(string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+    <strong>generateAlias</strong>(string|null $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
         </code>
     </h3>
     <div class="details">
@@ -1212,7 +1212,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
+                <td>string|null</td>
                 <td>$alias</td>
                 <td>The current alias (if available)</td>
             </tr>
