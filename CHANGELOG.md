@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.160.0] - 2020-04-22
+- added `TestExtension` for checking types in twig (e.g. `if [] is string` or `if '1' is numeric`)
+
 ## [2.159.1] - 2020-04-22
 - fixed type hinting for `DateUtil::generateAlias()`
 
