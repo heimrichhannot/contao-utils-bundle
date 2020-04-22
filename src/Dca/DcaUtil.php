@@ -620,7 +620,7 @@ class DcaUtil
      *
      * @return string
      */
-    public function generateAlias(string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+    public function generateAlias(?string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
     {
         $autoAlias = false;
 
