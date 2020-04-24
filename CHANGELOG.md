@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.161.0] - 2020-04-24
+- added TemplateLocator class
+- enhanced UtilsCacheWarmer
+- some code enhancements
+
 ## [2.160.0] - 2020-04-22
 - added `TestExtension` for checking types in twig (e.g. `if [] is string` or `if '1' is numeric`)
 

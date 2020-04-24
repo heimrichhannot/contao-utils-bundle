@@ -8,64 +8,42 @@
 
 namespace HeimrichHannot\UtilsBundle\Cache;
 
-use Contao\CoreBundle\Config\ResourceFinderInterface;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Doctrine\DBAL\Connection;
-use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
-use Symfony\Component\Config\FileLocator;
+use HeimrichHannot\UtilsBundle\Template\TemplateLocator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 class UtilCacheWarmer implements CacheWarmerInterface
 {
     /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var ResourceFinderInterface
-     */
-    private $finder;
-
-    /**
-     * @var FileLocator
-     */
-    private $locator;
-
-    /**
-     * @var string
-     */
-    private $rootDir;
-
-    /**
      * @var Connection
      */
     private $connection;
 
     /**
-     * @var ContaoFrameworkInterface
+     * @var TemplateLocator
+     */
+    private $templateLocator;
+    /**
+     * @var DatabaseTreeCache
+     */
+    private $databaseTreeCache;
+    /**
+     * @var ContaoFramework
      */
     private $framework;
-
-    /**
-     * @var TemplateUtil
-     */
-    private $templateUtil;
 
     /**
      * Constructor.
      *
      * @param string $rootDir
      */
-    public function __construct(Filesystem $filesystem, ResourceFinderInterface $finder, FileLocator $locator, $rootDir, Connection $connection, TemplateUtil $templateUtil, ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFramework $framework, Connection $connection, TemplateLocator $templateLocator, DatabaseTreeCache $databaseTreeCache)
     {
-        $this->filesystem = $filesystem;
-        $this->finder = $finder;
-        $this->locator = $locator;
-        $this->rootDir = $rootDir;
         $this->connection = $connection;
-        $this->templateUtil = $templateUtil;
+        $this->templateLocator = $templateLocator;
+        $this->databaseTreeCache = $databaseTreeCache;
         $this->framework = $framework;
     }
 
@@ -77,9 +55,6 @@ class UtilCacheWarmer implements CacheWarmerInterface
         if (!$this->isCompleteInstallation()) {
             return;
         }
-
-        $this->framework->initialize();
-
         $this->generateTemplateMapper($cacheDir);
         $this->generateDatabaseTreeCache($cacheDir);
     }
@@ -115,13 +90,14 @@ class UtilCacheWarmer implements CacheWarmerInterface
      */
     private function generateTemplateMapper($cacheDir)
     {
-        $files = $this->templateUtil->getAllTemplates();
+        $files = $this->templateLocator->getAllTemplates();
 
         if (empty($files)) {
             return;
         }
 
-        $this->filesystem->dumpFile(
+        $filesystem = new Filesystem();
+        $filesystem->dumpFile(
             $cacheDir.'/contao/config/twig-templates.php',
             sprintf("<?php\n\nreturn %s;\n", var_export($files, true))
         );
@@ -129,6 +105,7 @@ class UtilCacheWarmer implements CacheWarmerInterface
 
     private function generateDatabaseTreeCache($cacheDir)
     {
-        \Contao\System::getContainer()->get('huh.utils.cache.database_tree')->generateAllCacheTree($cacheDir);
+        $this->framework->initialize();
+        $this->databaseTreeCache->generateAllCacheTree($cacheDir);
     }
 }

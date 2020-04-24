@@ -11,11 +11,9 @@ services:
   HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: ~
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil: ~
-  HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: ~
   HeimrichHannot\UtilsBundle\Cache\FileCache:
     deprecated: "%service_id% will be removed in 3.0. Use FileStorageUtil instead"
   HeimrichHannot\UtilsBundle\Cache\RemoteImageCache: ~
-  HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer: '@huh.cache.warm_internal'
   HeimrichHannot\UtilsBundle\Comparison\CompareUtil: ~
   HeimrichHannot\UtilsBundle\Database\DatabaseUtil: ~
   HeimrichHannot\UtilsBundle\File\FileArchiveUtil: ~

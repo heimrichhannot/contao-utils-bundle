@@ -12,10 +12,10 @@ use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Template\TemplateLocator;
 use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
 use HeimrichHannot\UtilsBundle\Tests\FixturesTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,46 +31,47 @@ class TemplateUtilTest extends ContaoTestCase
 
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir());
+
+        if (!\defined('TL_ROOT')) {
+            \define('TL_ROOT', $this->getTempDir());
+        }
     }
 
     /**
      * @return TemplateUtil
      */
-    public function getTemplateUtilMock(ContainerInterface $container = null)
+    public function createTestInstance(array $parameters = [])
     {
-        $util = new TemplateUtil($this->getContainerMock());
+        if (!isset($parameters['container'])) {
+            $parameters['container'] = $this->getContainerMock();
+        }
+
+        if (!isset($parameters['templateLocator'])) {
+            $parameters['templateLocator'] = $this->createMock(TemplateLocator::class);
+        }
+        $util = new TemplateUtil($parameters['container'], $parameters['templateLocator']);
+        System::setContainer($parameters['container']);
 
         return $util;
     }
 
     public function testInstantiation()
     {
-        $util = $this->getTemplateUtilMock();
+        $util = $this->createTestInstance();
         $this->assertInstanceOf(TemplateUtil::class, $util);
     }
 
     public function testGetTwigTemplate()
     {
-        $container = $this->getContainerMock();
-        $util = new TemplateUtil($container);
+        $templateLocator = $this->createMock(TemplateLocator::class);
+        $templateLocator->expects($this->once())->method('getAllTemplates')->willReturn(['template' => 'templates/template.html.twig']);
+        $util = $this->createTestInstance(['templateLocator' => $templateLocator]);
+        $templates = $util->getAllTemplates();
+
+        $this->assertCount(1, $templates);
+        $this->assertArrayHasKey('template', $templates);
+
         $util->getAllTemplates();
-
-        if (!\defined('TL_MODE')) {
-            \define('TL_MODE', 'FE');
-        }
-
-        $finder = new ResourceFinder(
-            ([
-                $this->getFixturesDir(),
-            ])
-        );
-
-        global $objPage;
-
-        $objPage = new \stdClass();
-        $objPage->templateGroup = '';
-
-        $this->assertSame($this->getFixturesDir().'/templates/test.html.twig', $util->getTemplate('test'));
     }
 
     public function testGetTwigTemplateInThemePath()
@@ -86,7 +87,8 @@ class TemplateUtilTest extends ContaoTestCase
         $containerUtil->method('isFrontend')->willReturn(true);
         $container->set('huh.utils.container', $containerUtil);
 
-        $util = new TemplateUtil($container);
+        $util = $this->createTestInstance(['container' => $container]);
+
         $util->getAllTemplates();
 
         global $objPage;
@@ -98,9 +100,7 @@ class TemplateUtilTest extends ContaoTestCase
 
     public function testRemoveTemplateComment()
     {
-        $container = $this->getContainerMock();
-        $util = new TemplateUtil($container);
-        System::setContainer($container);
+        $util = $this->createTestInstance();
 
         $this->assertEmpty($util->removeTemplateComment(null));
         $this->assertSame(
@@ -114,7 +114,7 @@ class TemplateUtilTest extends ContaoTestCase
 
     public function testIsTemplatePartEmpty()
     {
-        $util = $this->getTemplateUtilMock();
+        $util = $this->createTestInstance();
 
         $this->assertTrue($util->isTemplatePartEmpty('    '));
         $this->assertTrue(

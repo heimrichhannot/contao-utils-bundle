@@ -39,24 +39,18 @@ class DatabaseTreeCache
     protected $modelUtil;
 
     /**
-     * @var Database
-     */
-    protected $database;
-
-    /**
      * Tree cache directory.
      *
      * @var string
      */
     protected $cacheDir;
 
-    public function __construct(ContaoFrameworkInterface $framework, Filesystem $filesystem, ModelUtil $modelUtil)
+    public function __construct(ContaoFrameworkInterface $framework, Filesystem $filesystem, ModelUtil $modelUtil, string $cacheDir)
     {
         $this->framework = $framework;
         $this->filesystem = $filesystem;
         $this->modelUtil = $modelUtil;
-        $this->database = $this->framework->createInstance(Database::class);
-        $this->cacheDir = \Contao\System::getContainer()->getParameter('kernel.cache_dir').'/tree_cache';
+        $this->cacheDir = $cacheDir;
     }
 
     /**
@@ -64,7 +58,7 @@ class DatabaseTreeCache
      */
     public function loadDataContainer($table)
     {
-        if (!$this->database->tableExists($table)) {
+        if (!Database::getInstance()->tableExists($table)) {
             return;
         }
 
@@ -114,7 +108,7 @@ class DatabaseTreeCache
     public function getChildRecords(string $table, array $ids = [], $maxLevels = null, string $key = 'id', array $children = [], int $level = 0): array
     {
         if (null === ($tree = $this->getTreeCache($table, $key))) {
-            return $this->database->getChildRecords($ids, $table);
+            return Database::getInstance()->getChildRecords($ids, $table);
         }
 
         foreach ($ids as $i => $id) {
@@ -157,7 +151,7 @@ class DatabaseTreeCache
     public function getParentRecords(string $table, int $id, $maxLevels = null, string $key = 'id', array $parents = [], int $level = 0): array
     {
         if (null === ($tree = $this->getTreeCache($table, $key))) {
-            return $this->database->getParentRecords($id, $table);
+            return Database::getInstance()->getParentRecords($id, $table);
         }
 
         if (isset($tree[$id]) && 0 === $level) {
@@ -244,7 +238,7 @@ class DatabaseTreeCache
     {
         $this->cacheDir = $cacheDir;
 
-        $tables = $this->database->listTables();
+        $tables = Database::getInstance()->listTables();
 
         foreach ($tables as $table) {
             // trigger loadDataContainer TL_HOOK
