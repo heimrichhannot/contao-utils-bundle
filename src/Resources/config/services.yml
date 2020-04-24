@@ -3,6 +3,7 @@ services:
     bind:
       $cacheDir: '%kernel.cache_dir%'
       $projectDir: '%kernel.project_dir%'
+      $resourceFinder: '@contao.resource_finder'
 
   _instanceof:
     Contao\CoreBundle\Framework\FrameworkAwareInterface:
