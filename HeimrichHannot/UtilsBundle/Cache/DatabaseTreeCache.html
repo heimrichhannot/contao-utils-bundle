@@ -124,6 +124,14 @@
                 <td></td>
             </tr>
                     <tr>
+                <td class="type" id="property_database">
+                                        protected                                        <abbr title="Contao\Database">Database</abbr>
+                </td>
+                <td>$database</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_cacheDir">
                                         protected                                        string
                 </td>
@@ -142,7 +150,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr> $filesystem, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil, string $cacheDir)
+                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr> $filesystem, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -247,9 +255,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 48</div>
+        <div class="location">at         line 53</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr> $filesystem, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil, string $cacheDir)
+    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <abbr title="Symfony\Component\Filesystem\Filesystem">Filesystem</abbr> $filesystem, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil)
         </code>
     </h3>
     <div class="details">
@@ -275,11 +283,6 @@
                 <td>$modelUtil</td>
                 <td></td>
             </tr>
-                    <tr>
-                <td>string</td>
-                <td>$cacheDir</td>
-                <td></td>
-            </tr>
             </table>
 
             
@@ -291,7 +294,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_loadDataContainer">
-        <div class="location">at         line 59</div>
+        <div class="location">at         line 65</div>
         <code>                    
     <strong>loadDataContainer</strong>($table)
         </code>
@@ -322,7 +325,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addConfigToTreeCache">
-        <div class="location">at         line 76</div>
+        <div class="location">at         line 82</div>
         <code>                    
     <strong>addConfigToTreeCache</strong>(string $table, string $key, array $config = [])
         </code>
@@ -361,7 +364,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getChildRecords">
-        <div class="location">at         line 108</div>
+        <div class="location">at         line 114</div>
         <code>                    array
     <strong>getChildRecords</strong>(string $table, array $ids = [], int $maxLevels = null, string $key = &#039;id&#039;, array $children = [], int $level = 0)
         </code>
@@ -426,7 +429,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getParentRecords">
-        <div class="location">at         line 151</div>
+        <div class="location">at         line 157</div>
         <code>                    array
     <strong>getParentRecords</strong>(string $table, int $id, int $maxLevels = null, string $key = &#039;id&#039;, array $parents = [], int $level = 0)
         </code>
@@ -491,7 +494,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTreeCache">
-        <div class="location">at         line 192</div>
+        <div class="location">at         line 198</div>
         <code>                    array|null
     <strong>getTreeCache</strong>(string $table, string $key)
         </code>
@@ -536,7 +539,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generateCacheTree">
-        <div class="location">at         line 214</div>
+        <div class="location">at         line 220</div>
         <code>                    array
     <strong>generateCacheTree</strong>(string $table, array $ids = [], string $key = &#039;id&#039;, array $config = [], $return = [])
         </code>
@@ -596,7 +599,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generateAllCacheTree">
-        <div class="location">at         line 237</div>
+        <div class="location">at         line 243</div>
         <code>                    
     <strong>generateAllCacheTree</strong>($cacheDir)
         </code>
@@ -627,7 +630,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_registerDcaToCacheTree">
-        <div class="location">at         line 260</div>
+        <div class="location">at         line 266</div>
         <code>                    bool
     <strong>registerDcaToCacheTree</strong>(string $table, array $columns = [], array $values = [], array $options = [], string $key = &#039;id&#039;)
         </code>
@@ -687,7 +690,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_purgeCacheTree">
-        <div class="location">at         line 286</div>
+        <div class="location">at         line 292</div>
         <code>                    
     <strong>purgeCacheTree</strong>()
         </code>

@@ -134,7 +134,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container, <a href="../../../HeimrichHannot/UtilsBundle/Template/TemplateLocator.html"><abbr title="HeimrichHannot\UtilsBundle\Template\TemplateLocator">TemplateLocator</abbr></a> $templateLocator)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -142,7 +142,7 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    array
+                    
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getAllTemplates">getAllTemplates</a>()
@@ -176,7 +176,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_findTemplates">findTemplates</a>(string $path, string $pattern = null, string $format = &#039;twig&#039;)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small>
+        
                                             <p>Return the files matching a GLOB pattern.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -239,9 +239,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 53</div>
+        <div class="location">at         line 50</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container, <a href="../../../HeimrichHannot/UtilsBundle/Template/TemplateLocator.html"><abbr title="HeimrichHannot\UtilsBundle\Template\TemplateLocator">TemplateLocator</abbr></a> $templateLocator)
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
     </h3>
     <div class="details">
@@ -257,11 +257,6 @@
                 <td>$container</td>
                 <td></td>
             </tr>
-                    <tr>
-                <td><a href="../../../HeimrichHannot/UtilsBundle/Template/TemplateLocator.html"><abbr title="HeimrichHannot\UtilsBundle\Template\TemplateLocator">TemplateLocator</abbr></a></td>
-                <td>$templateLocator</td>
-                <td></td>
-            </tr>
             </table>
 
             
@@ -273,8 +268,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getAllTemplates">
-        <div class="location">at         line 66</div>
-        <code>                    array
+        <div class="location">at         line 60</div>
+        <code>                    
     <strong>getAllTemplates</strong>()
         </code>
     </h3>
@@ -286,15 +281,6 @@
                                     <p>Get a list of all available templates.</p>                                                </div>
                 <div class="tags">
             
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>array</td>
-            <td></td>
-        </tr>
-    </table>
-
             
             
                     </div>
@@ -303,7 +289,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplateGroup">
-        <div class="location">at         line 85</div>
+        <div class="location">at         line 144</div>
         <code>                    array
     <strong>getTemplateGroup</strong>(string $prefix, string $format = &#039;html.twig&#039;)
         </code>
@@ -348,7 +334,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplate">
-        <div class="location">at         line 208</div>
+        <div class="location">at         line 267</div>
         <code>                    string
     <strong>getTemplate</strong>(string $name, string $format = &#039;twig&#039;)
         </code>
@@ -410,20 +396,13 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findTemplates">
-        <div class="location">at         line 244</div>
+        <div class="location">at         line 301</div>
         <code>                    array
     <strong>findTemplates</strong>(string $path, string $pattern = null, string $format = &#039;twig&#039;)
-        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
+        </code>
     </h3>
     <div class="details">
             
-            <p>
-                <small><sup><span class="label label-danger">deprecated</span></sup></small>
-                            <tr>
-                    <td>use</td>
-                    <td>TemplateLocator::findTemplates instead</td>
-                </tr>
-                    </p>
     
 
                     <div class="method-description">
@@ -467,7 +446,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_removeTemplateComment">
-        <div class="location">at         line 256</div>
+        <div class="location">at         line 339</div>
         <code>                    mixed
     <strong>removeTemplateComment</strong>($template)
         </code>
@@ -507,7 +486,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isTemplatePartEmpty">
-        <div class="location">at         line 278</div>
+        <div class="location">at         line 361</div>
         <code>                    bool
     <strong>isTemplatePartEmpty</strong>(string $template = null)
         </code>
@@ -549,7 +528,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getPageAliasAsCssClass">
-        <div class="location">at         line 287</div>
+        <div class="location">at         line 370</div>
         <code>                    
     <strong>getPageAliasAsCssClass</strong>()
         </code>
@@ -568,7 +547,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_renderTwigTemplate">
-        <div class="location">at         line 307</div>
+        <div class="location">at         line 390</div>
         <code>                    string
     <strong>renderTwigTemplate</strong>(string $name, array $context = [])
         </code>
@@ -634,7 +613,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getBundleTemplate">
-        <div class="location">at         line 335</div>
+        <div class="location">at         line 418</div>
         <code>                    string
     <strong>getBundleTemplate</strong>(string $name, string $format = &#039;html.twig&#039;)
         </code>
