@@ -1,10 +1,4 @@
 services:
-  _defaults:
-    bind:
-      $cacheDir: '%kernel.cache_dir%'
-      $projectDir: '%kernel.project_dir%'
-      $resourceFinder: '@contao.resource_finder'
-
   _instanceof:
     Contao\CoreBundle\Framework\FrameworkAwareInterface:
       calls:
@@ -13,28 +7,19 @@ services:
       calls:
         - ["setContainer", ["@service_container"]]
 
-  HeimrichHannot\UtilsBundle\Template\TemplateLocator:
-    autowire: true
-
-  HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer:
-    autowire: true
-    tags:
-      - { name: kernel.cache_warmer }
-
-
   # util services
   huh.utils.cache.database:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
     public: true
     arguments:
       - "@service_container"
-      -
   huh.utils.cache.database_tree:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache
     public: true
-    autowire: true
-  HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: '@huh.utils.cache.database_tree'
-
+    arguments:
+      - "@contao.framework"
+      - "@filesystem"
+      - "@huh.utils.model"
   huh.utils.code:
     class: HeimrichHannot\UtilsBundle\Security\CodeUtil
     public: true
@@ -124,6 +109,18 @@ services:
   huh.twig.extension.dca:
     class: HeimrichHannot\UtilsBundle\Twig\DcaExtension
     tags: [twig.extension]
+  huh.cache.warm_internal:
+    class: HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer
+    arguments:
+      - "@filesystem"
+      - "@contao.resource_finder"
+      - "@contao.resource_locator"
+      - "%kernel.project_dir%"
+      - "@database_connection"
+      - "@huh.utils.template"
+      - "@contao.framework"
+    tags:
+      - { name: kernel.cache_warmer }
 
   # Deprecations:
   # @TODO: remove in next major version
