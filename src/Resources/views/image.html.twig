@@ -7,13 +7,12 @@
 
     {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture) }}
 
-
     {% if href|default() %}
         </a>
     {% endif %}
 
     {% if caption|default() %}
-        <figcaption class="caption" itemprop="caption">{{ caption }}{% if picture.copyright|default %} (© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}){% endif %}</figcaption>
+            <figcaption class="caption" itemprop="caption">{{ caption }}{% if picture.copyright|default and picture.copyright != 'a:1:{i:0;s:0:"";}' %} (© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}){% endif %}</figcaption>
     {% endif %}
 
 </figure>

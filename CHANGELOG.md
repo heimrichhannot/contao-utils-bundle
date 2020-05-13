@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.163.0] - 2020-05-13
+- added new tests to `TestExtension`
+- fixed copyright issue in `image.html.twig`
+
 ## [2.162.0] - 2020-04-28
 - revoked 2.161.0 and 2.161.1 due to problems in contao 4.9 -> pages can't be saved anymore
 

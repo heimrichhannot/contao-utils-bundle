@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Twig;
 
+use Contao\Validator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Twig\Extension\AbstractExtension;
@@ -30,6 +31,11 @@ class TestExtension extends AbstractExtension implements ContainerAwareInterface
             new TwigTest('array', [$this, 'isArray']),
             new TwigTest('bool', [$this, 'isBool']),
             new TwigTest('int', [$this, 'isInt']),
+            new TwigTest('uuid', [$this, 'isUuid']),
+            new TwigTest('binaryUuid', [$this, 'isBinaryUuid']),
+            new TwigTest('stringUuid', [$this, 'isStringUuid']),
+            new TwigTest('url', [$this, 'isUrl']),
+            new TwigTest('email', [$this, 'isEmail']),
         ];
     }
 
@@ -66,5 +72,30 @@ class TestExtension extends AbstractExtension implements ContainerAwareInterface
     public function isInt($value): bool
     {
         return \is_int($value);
+    }
+
+    public function isUuid($value): bool
+    {
+        return Validator::isUuid($value);
+    }
+
+    public function isBinaryUuid($value): bool
+    {
+        return Validator::isBinaryUuid($value);
+    }
+
+    public function isStringUuid($value): bool
+    {
+        return Validator::isStringUuid($value);
+    }
+
+    public function isUrl($value): bool
+    {
+        return Validator::isUrl($value);
+    }
+
+    public function isEmail($value): bool
+    {
+        return Validator::isEmail($value);
     }
 }
