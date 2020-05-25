@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.164.0] - 2020-05-25
+- added new twig filter `|file_content` (takes uuid as binary or string)
+
 ## [2.163.0] - 2020-05-13
 - added new tests to `TestExtension`
 - fixed copyright issue in `image.html.twig`
