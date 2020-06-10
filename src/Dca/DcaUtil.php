@@ -639,7 +639,7 @@ class DcaUtil
          */
         $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
 
-        if ($existingAlias->id == $id) {
+        if ($existingAlias->count() > 0 && $existingAlias->id == $id) {
             return $alias;
         }
 
