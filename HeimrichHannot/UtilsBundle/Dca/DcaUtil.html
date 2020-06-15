@@ -1224,7 +1224,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
                     <tr>
                 <td>string</td>
                 <td>$table</td>
-                <td>The entity's table</td>
+                <td>The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member)</td>
             </tr>
                     <tr>
                 <td>string</td>
@@ -1265,7 +1265,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_addAuthorFieldAndCallback">
-        <div class="location">at         line 659</div>
+        <div class="location">at         line 684</div>
         <code>                    
     <strong>addAuthorFieldAndCallback</strong>(string $table, string $fieldPrefix = &#039;&#039;)
         </code>
@@ -1299,7 +1299,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_setAuthorIDOnCreate">
-        <div class="location">at         line 706</div>
+        <div class="location">at         line 731</div>
         <code>                    
     <strong>setAuthorIDOnCreate</strong>(string $table, int $id, array $row, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -1343,7 +1343,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_modifyAuthorPaletteOnLoad">
-        <div class="location">at         line 731</div>
+        <div class="location">at         line 756</div>
         <code>                    
     <strong>modifyAuthorPaletteOnLoad</strong>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
         </code>
@@ -1372,7 +1372,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getDataContainers">
-        <div class="location">at         line 770</div>
+        <div class="location">at         line 795</div>
         <code>                    array
     <strong>getDataContainers</strong>(array $options = [])
         </code>
@@ -1413,7 +1413,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getNewNotificationTypeArray">
-        <div class="location">at         line 798</div>
+        <div class="location">at         line 823</div>
         <code>                    array
     <strong>getNewNotificationTypeArray</strong>(bool $includeNotificationCenterPlusTokens = false)
         </code>
@@ -1451,7 +1451,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_activateNotificationType">
-        <div class="location">at         line 830</div>
+        <div class="location">at         line 855</div>
         <code>                    
     <strong>activateNotificationType</strong>($strGroup, $strType, $arrType)
         </code>
@@ -1490,7 +1490,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_addAliasToDca">
-        <div class="location">at         line 850</div>
+        <div class="location">at         line 875</div>
         <code>                    
     <strong>addAliasToDca</strong>(string $dca, $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
         </code>
@@ -1536,7 +1536,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getLocalizedFieldName">
-        <div class="location">at         line 879</div>
+        <div class="location">at         line 904</div>
         <code>                    mixed
     <strong>getLocalizedFieldName</strong>($strField, $strTable)
         </code>
@@ -1579,7 +1579,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_loadDc">
-        <div class="location">at         line 890</div>
+        <div class="location">at         line 915</div>
         <code>                    
     <strong>loadDc</strong>(string $table)
         </code>
@@ -1610,7 +1610,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_loadLanguageFile">
-        <div class="location">at         line 903</div>
+        <div class="location">at         line 928</div>
         <code>                    
     <strong>loadLanguageFile</strong>(string $table)
         </code>
@@ -1641,7 +1641,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_isDcMultilingual">
-        <div class="location">at         line 911</div>
+        <div class="location">at         line 936</div>
         <code>                    
     <strong>isDcMultilingual</strong>(string $table)
         </code>
@@ -1670,7 +1670,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_isDcMultilingual3">
-        <div class="location">at         line 922</div>
+        <div class="location">at         line 947</div>
         <code>                    
     <strong>isDcMultilingual3</strong>()
         </code>
@@ -1689,7 +1689,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_generateDcOperationsButtons">
-        <div class="location">at         line 928</div>
+        <div class="location">at         line 953</div>
         <code>                    
     <strong>generateDcOperationsButtons</strong>($row, $table, $rootIds = [], $options = [])
         </code>
@@ -1733,7 +1733,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_doGenerateDcOperationsButtons">
-        <div class="location">at         line 945</div>
+        <div class="location">at         line 970</div>
         <code>                    
     <strong>doGenerateDcOperationsButtons</strong>($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null, $options = [])
         </code>
@@ -1787,7 +1787,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_generateSitemap">
-        <div class="location">at         line 1007</div>
+        <div class="location">at         line 1032</div>
         <code>                    
     <strong>generateSitemap</strong>()
         </code>
@@ -1806,7 +1806,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getDCTable">
-        <div class="location">at         line 1018</div>
+        <div class="location">at         line 1043</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Driver/DC_Table_Utils.html"><abbr title="HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils">DC_Table_Utils</abbr></a>
     <strong>getDCTable</strong>(string $table, $activeRecord)
         </code>
@@ -1851,7 +1851,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getAuthorNameByUserId">
-        <div class="location">at         line 1027</div>
+        <div class="location">at         line 1052</div>
         <code>                    
     <strong>getAuthorNameByUserId</strong>($id)
         </code>
@@ -1880,7 +1880,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getAuthorNameLinkByUserId">
-        <div class="location">at         line 1036</div>
+        <div class="location">at         line 1061</div>
         <code>                    
     <strong>getAuthorNameLinkByUserId</strong>($id)
         </code>
@@ -1909,7 +1909,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_setFieldsToReadOnly">
-        <div class="location">at         line 1045</div>
+        <div class="location">at         line 1070</div>
         <code>                    
     <strong>setFieldsToReadOnly</strong>($dca, array $config = [])
         </code>
@@ -1943,7 +1943,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getTranslatedModuleNameByTable">
-        <div class="location">at         line 1093</div>
+        <div class="location">at         line 1118</div>
         <code>                    
     <strong>getTranslatedModuleNameByTable</strong>(string $table)
         </code>
@@ -1972,7 +1972,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getRenderedDiff">
-        <div class="location">at         line 1114</div>
+        <div class="location">at         line 1139</div>
         <code>                    
     <strong>getRenderedDiff</strong>(string $table, array $source, array $target, array $config = [])
         </code>
@@ -2016,7 +2016,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_prepareRowEntryForList">
-        <div class="location">at         line 1232</div>
+        <div class="location">at         line 1257</div>
         <code>                    
     <strong>prepareRowEntryForList</strong>($table, string $field, $value)
         </code>
@@ -2055,7 +2055,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getFieldLabel">
-        <div class="location">at         line 1295</div>
+        <div class="location">at         line 1320</div>
         <code>                    
     <strong>getFieldLabel</strong>(string $table, string $field)
         </code>
@@ -2089,7 +2089,7 @@ Use $this->getOverridableProperty() for computing the correct value respecting t
             </div>
                     <div class="method-item">
                     <h3 id="method_getNewSortingPosition">
-        <div class="location">at         line 1334</div>
+        <div class="location">at         line 1359</div>
         <code>                    array
     <strong>getNewSortingPosition</strong>(string $table, int $id, $pid = null, $insertAfterId = null)
         </code>
