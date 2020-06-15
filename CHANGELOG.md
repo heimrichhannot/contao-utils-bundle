@@ -1,8 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.165.0] - 2020-06-15
+- added option to pass multiple tables into `DcaUtil::generateAlias()` as a comma separated list
+
 ## [2.164.2] - 2020-06-10
-- fixed warning if no result in DcaUtil::generateAlias()
+- fixed warning if no result in `DcaUtil::generateAlias()`
 
 ## [2.164.1] - 2020-05-29
 - fixed size issue in twig image filter
