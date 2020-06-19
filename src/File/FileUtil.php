@@ -523,4 +523,44 @@ class FileUtil
 
         return $parents;
     }
+
+    /**
+     * Tries to get the binary content from a file in various sources and returns it if possible.
+     *
+     * Possible sources:
+     *   - url
+     *   - contao uuid
+     *   - string is already a binary file content
+     *
+     * @param $source
+     *
+     * @return bool|mixed Returns false if the file content could not be retrieved
+     */
+    public function retrieveFileContent($source)
+    {
+        // url
+        if (Validator::isUrl($source)) {
+            $content = @file_get_contents($source);
+
+            if (false !== $content) {
+                return $content;
+            }
+        }
+
+        // contao uuid
+        if (Validator::isUuid($source)) {
+            $content = $this->getFileContentFromUuid($source);
+
+            if (false !== $content) {
+                return $content;
+            }
+        }
+
+        // already binary -> ctype_print() checks if non-printable characters are in the string -> if so, it's most likely a file
+        if (!ctype_print($source)) {
+            return $source;
+        }
+
+        return false;
+    }
 }
