@@ -322,6 +322,16 @@ delete the other png files.</p>                </div>
                                     </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool|mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_retrieveFileContent">retrieveFileContent</a>($source)
+        
+                                            <p>Tries to get the binary content from a file in various sources and returns it if possible.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -1115,6 +1125,49 @@ delete the other png files.</p>                                                <
             </table>
 
             
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_retrieveFileContent">
+        <div class="location">at         line 539</div>
+        <code>                    bool|mixed
+    <strong>retrieveFileContent</strong>($source)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Tries to get the binary content from a file in various sources and returns it if possible.</p>                    <p>Possible sources:
+  - url
+  - contao uuid
+  - string is already a binary file content</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$source</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool|mixed</td>
+            <td>Returns false if the file content could not be retrieved</td>
+        </tr>
+    </table>
+
             
             
                     </div>
