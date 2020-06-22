@@ -15,10 +15,13 @@ use Contao\Dbafs;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
+use Contao\Message;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use Ghostscript\Transcoder;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FileUtil
@@ -536,14 +539,25 @@ class FileUtil
      *
      * @return bool|mixed Returns false if the file content could not be retrieved
      */
-    public function retrieveFileContent($source)
+    public function retrieveFileContent($source, $silent = true)
     {
         // url
         if (Validator::isUrl($source)) {
-            $content = @file_get_contents($source);
+            $client = new Client();
+            $request = $client->request('GET', $source);
 
-            if (false !== $content) {
-                return $content;
+            if (200 === $request->getStatusCode()) {
+                $content = $request->getBody()->__toString();
+
+                if ($content) {
+                    return $content;
+                }
+            } else {
+                if (!$silent) {
+                    $body = $request->getBody()->__toString();
+
+                    Message::addError(sprintf($GLOBALS['TL_LANG']['ERR']['httpRequestError'], $source, 'Code '.$request->getStatusCode().': '.$body));
+                }
             }
         }
 
@@ -559,6 +573,32 @@ class FileUtil
         // already binary -> ctype_print() checks if non-printable characters are in the string -> if so, it's most likely a file
         if (!ctype_print($source)) {
             return $source;
+        }
+
+        return false;
+    }
+
+    public function getExtensionFromFileContent($content)
+    {
+        if (!class_exists('\finfo')) {
+            return false;
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+
+        return $this->getExtensionByMimeType($finfo->buffer($content));
+    }
+
+    public function getExtensionByMimeType($mimeType)
+    {
+        foreach ($GLOBALS['TL_MIME'] as $extension => $data) {
+            if ($data[0] === $mimeType) {
+                if ('jpeg' === $extension) {
+                    $extension = 'jpg';
+                }
+
+                return $extension;
+            }
         }
 
         return false;

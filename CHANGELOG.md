@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.167.0] - 2020-06-22
+- added `FileUtil::getExtensionFromFileContent()`
+- added `FileUtil::getExtensionByMimeType()`
+- fixed `FileUtil::retrieveFileContent()`
+
 ## [2.166.0] - 2020-06-19
 - added `FileUtil::retrieveFileContent()`
 
