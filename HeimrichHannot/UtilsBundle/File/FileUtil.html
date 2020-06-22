@@ -327,9 +327,31 @@ delete the other png files.</p>                </div>
                     bool|mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_retrieveFileContent">retrieveFileContent</a>($source)
+                    <a href="#method_retrieveFileContent">retrieveFileContent</a>($source, $silent = true)
         
                                             <p>Tries to get the binary content from a file in various sources and returns it if possible.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getExtensionFromFileContent">getExtensionFromFileContent</a>($content)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getExtensionByMimeType">getExtensionByMimeType</a>($mimeType)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -340,7 +362,7 @@ delete the other png files.</p>                </div>
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 35</div>
+        <div class="location">at         line 38</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
         </code>
@@ -369,7 +391,7 @@ delete the other png files.</p>                </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_getUniqueFileNameWithinTarget">
-        <div class="location">at         line 53</div>
+        <div class="location">at         line 56</div>
         <code>                    string
     <strong>getUniqueFileNameWithinTarget</strong>(string $target, string $prefix = null, $i = 0)
         </code>
@@ -429,7 +451,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getFileList">
-        <div class="location">at         line 108</div>
+        <div class="location">at         line 111</div>
         <code>                    array
     <strong>getFileList</strong>(string $dir, string $baseUrl, string $protectedBaseUrl = null)
         </code>
@@ -488,7 +510,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_formatSizeUnits">
-        <div class="location">at         line 145</div>
+        <div class="location">at         line 148</div>
         <code>                    
     <strong>formatSizeUnits</strong>(int $bytes, $keepTogether = false)
         </code>
@@ -522,7 +544,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getPathWithoutFilename">
-        <div class="location">at         line 164</div>
+        <div class="location">at         line 167</div>
         <code>                    
     <strong>getPathWithoutFilename</strong>($pathToFile)
         </code>
@@ -551,7 +573,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getFileExtension">
-        <div class="location">at         line 175</div>
+        <div class="location">at         line 178</div>
         <code>                    
     <strong>getFileExtension</strong>($path)
         </code>
@@ -580,7 +602,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getPathFromUuid">
-        <div class="location">at         line 190</div>
+        <div class="location">at         line 193</div>
         <code>                    string|null
     <strong>getPathFromUuid</strong>($uuid, bool $checkIfExists = true)
         </code>
@@ -623,7 +645,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getFileContentFromUuid">
-        <div class="location">at         line 205</div>
+        <div class="location">at         line 208</div>
         <code>                    
     <strong>getFileContentFromUuid</strong>($uuid)
         </code>
@@ -652,7 +674,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getFileFromUuid">
-        <div class="location">at         line 223</div>
+        <div class="location">at         line 226</div>
         <code>                    <abbr title="Contao\File">File</abbr>|null
     <strong>getFileFromUuid</strong>($uuid)
         </code>
@@ -699,7 +721,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolderFromUuid">
-        <div class="location">at         line 242</div>
+        <div class="location">at         line 245</div>
         <code>                    bool|<abbr title="Contao\Folder">Folder</abbr>
     <strong>getFolderFromUuid</strong>($uuid)
         </code>
@@ -746,7 +768,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_addUniqueIdToFilename">
-        <div class="location">at         line 261</div>
+        <div class="location">at         line 264</div>
         <code>                    string
     <strong>addUniqueIdToFilename</strong>(string $fileName, string $prefix = null, bool $moreEntropy = true)
         </code>
@@ -797,7 +819,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_sanitizeFileName">
-        <div class="location">at         line 280</div>
+        <div class="location">at         line 283</div>
         <code>                    string
     <strong>sanitizeFileName</strong>(string $fileName, int $maxCount = 0, bool $preserveUppercase = false)
         </code>
@@ -847,7 +869,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_sendTextAsFileToBrowser">
-        <div class="location">at         line 301</div>
+        <div class="location">at         line 304</div>
         <code>                    
     <strong>sendTextAsFileToBrowser</strong>($content, $fileName)
         </code>
@@ -881,7 +903,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolderFromDca">
-        <div class="location">at         line 321</div>
+        <div class="location">at         line 324</div>
         <code>                    mixed|null
     <strong>getFolderFromDca</strong>(mixed $folder, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc = null)
         </code>
@@ -935,7 +957,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getFileLineCount">
-        <div class="location">at         line 355</div>
+        <div class="location">at         line 358</div>
         <code>                    int|string
     <strong>getFileLineCount</strong>($file)
         </code>
@@ -973,7 +995,7 @@ file if file with same name already exists in target folder.</p>                
             </div>
                     <div class="method-item">
                     <h3 id="method_getPreviewFromPdf">
-        <div class="location">at         line 385</div>
+        <div class="location">at         line 388</div>
         <code>                    <abbr title="Contao\FilesModel">FilesModel</abbr>
     <strong>getPreviewFromPdf</strong>(<abbr title="Contao\FilesModel">FilesModel</abbr> $file, int $page = 0)
         <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
@@ -1026,7 +1048,7 @@ delete the other png files.</p>                                                <
             </div>
                     <div class="method-item">
                     <h3 id="method_getFileIdFromPath">
-        <div class="location">at         line 429</div>
+        <div class="location">at         line 432</div>
         <code>                    
     <strong>getFileIdFromPath</strong>($path)
         </code>
@@ -1055,7 +1077,7 @@ delete the other png files.</p>                                                <
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolderContent">
-        <div class="location">at         line 444</div>
+        <div class="location">at         line 447</div>
         <code>                    
     <strong>getFolderContent</strong>($parentIds, $table, $options = [], $return = [])
         </code>
@@ -1099,7 +1121,7 @@ delete the other png files.</p>                                                <
             </div>
                     <div class="method-item">
                     <h3 id="method_getParentFoldersByUuid">
-        <div class="location">at         line 504</div>
+        <div class="location">at         line 507</div>
         <code>        static            
     <strong>getParentFoldersByUuid</strong>($uuid, array $config = [])
         </code>
@@ -1133,9 +1155,9 @@ delete the other png files.</p>                                                <
             </div>
                     <div class="method-item">
                     <h3 id="method_retrieveFileContent">
-        <div class="location">at         line 539</div>
+        <div class="location">at         line 542</div>
         <code>                    bool|mixed
-    <strong>retrieveFileContent</strong>($source)
+    <strong>retrieveFileContent</strong>($source, $silent = true)
         </code>
     </h3>
     <div class="details">
@@ -1156,6 +1178,11 @@ delete the other png files.</p>                                                <
                 <td>$source</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td></td>
+                <td>$silent</td>
+                <td></td>
+            </tr>
             </table>
 
             
@@ -1168,6 +1195,64 @@ delete the other png files.</p>                                                <
         </tr>
     </table>
 
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getExtensionFromFileContent">
+        <div class="location">at         line 581</div>
+        <code>                    
+    <strong>getExtensionFromFileContent</strong>($content)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$content</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getExtensionByMimeType">
+        <div class="location">at         line 592</div>
+        <code>                    
+    <strong>getExtensionByMimeType</strong>($mimeType)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$mimeType</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
             
             
                     </div>
