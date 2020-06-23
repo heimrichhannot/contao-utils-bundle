@@ -622,6 +622,7 @@ class DcaUtil
     public function generateAlias(?string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
     {
         $autoAlias = false;
+        $originalAlias = $alias;
 
         // Generate alias if there is none
         if (empty($alias)) {
@@ -648,7 +649,7 @@ class DcaUtil
 
                 // Add ID to alias
                 if ($existingAlias->numRows && (0 === $i && $existingAlias->id != $id) && $autoAlias || !$alias) {
-                    $alias = $alias.'-'.$id;
+                    $alias = $originalAlias.'-'.$id;
 
                     $error = false;
 
