@@ -13,7 +13,6 @@ use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
-use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\DcaExtractor;
 use Contao\DiffRenderer;
@@ -612,7 +611,7 @@ class DcaUtil
      *
      * @param mixed  $alias       The current alias (if available)
      * @param int    $id          The entity's id
-     * @param string $table       The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member)
+     * @param string $table       The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member; ATTENTION: the first table needs to be the one we're currently in)
      * @param string $title       The value to use as a base for the alias
      * @param bool   $keepUmlauts Set to true if German umlauts should be kept
      *
@@ -634,17 +633,14 @@ class DcaUtil
             $alias = preg_replace(['/ä/i', '/ö/i', '/ü/i', '/ß/i'], ['ae', 'oe', 'ue', 'ss'], $alias);
         }
 
-        /*
-         * @var Result
-         */
         // multiple tables?
         if (false !== strpos($table, ',')) {
             $tables = explode(',', $table);
 
-            foreach ($tables as $partTable) {
+            foreach ($tables as $i => $partTable) {
                 $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $partTable WHERE alias=?")->execute($alias);
 
-                if ($existingAlias->count() > 0 && $existingAlias->id == $id) {
+                if (0 === $i && $existingAlias->numRows > 0 && $existingAlias->id == $id) {
                     return $alias;
                 }
 
@@ -663,7 +659,7 @@ class DcaUtil
         } else {
             $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
 
-            if ($existingAlias->count() > 0 && $existingAlias->id == $id) {
+            if ($existingAlias->numRows > 0 && $existingAlias->id == $id) {
                 return $alias;
             }
 

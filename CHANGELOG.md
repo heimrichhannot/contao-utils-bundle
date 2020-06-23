@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.168.0] - 2020-06-23
+- fixed `DcaUtil::generateAlias()`
+
 ## [2.167.0] - 2020-06-22
 - added `FileUtil::getExtensionFromFileContent()`
 - added `FileUtil::getExtensionByMimeType()`
