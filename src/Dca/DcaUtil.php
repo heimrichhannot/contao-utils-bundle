@@ -637,6 +637,8 @@ class DcaUtil
         if (false !== strpos($table, ',')) {
             $tables = explode(',', $table);
 
+            $error = true;
+
             foreach ($tables as $i => $partTable) {
                 $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $partTable WHERE alias=?")->execute($alias);
 
@@ -644,17 +646,19 @@ class DcaUtil
                     return $alias;
                 }
 
-                // Check whether the alias exists
-                if ($existingAlias->numRows > 0 && !$autoAlias) {
-                    throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
-                }
-
                 // Add ID to alias
-                if ($existingAlias->numRows && $existingAlias->id != $id && $autoAlias || !$alias) {
-                    $alias .= '-'.$id;
+                if ($existingAlias->numRows && (0 === $i && $existingAlias->id != $id) && $autoAlias || !$alias) {
+                    $alias = $alias.'-'.$id;
+
+                    $error = false;
 
                     break;
                 }
+            }
+
+            // Check whether the alias exists
+            if ($error) {
+                throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
             }
         } else {
             $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
