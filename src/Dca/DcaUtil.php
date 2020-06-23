@@ -622,7 +622,6 @@ class DcaUtil
     public function generateAlias(?string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
     {
         $autoAlias = false;
-        $originalAlias = $alias;
 
         // Generate alias if there is none
         if (empty($alias)) {
@@ -634,32 +633,38 @@ class DcaUtil
             $alias = preg_replace(['/ä/i', '/ö/i', '/ü/i', '/ß/i'], ['ae', 'oe', 'ue', 'ss'], $alias);
         }
 
+        $originalAlias = $alias;
+
         // multiple tables?
         if (false !== strpos($table, ',')) {
             $tables = explode(',', $table);
 
-            $error = true;
-
             foreach ($tables as $i => $partTable) {
-                $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $partTable WHERE alias=?")->execute($alias);
+                // the table in which the entity is
+                if (0 === $i) {
+                    $objAlias = \Database::getInstance()->prepare(
+                        "SELECT id FROM {$partTable} WHERE id != ? AND alias=?"
+                    )->execute($id, $alias);
 
-                if (0 === $i && $existingAlias->numRows > 0 && $existingAlias->id == $id) {
-                    return $alias;
+                    // Check whether the alias exists
+                    if ($objAlias->numRows > 0) {
+                        if (!$autoAlias) {
+                            throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
+                        }
+
+                        $alias = $originalAlias.'-'.$id;
+                    }
+                } else {
+                    // another table
+                    $objAlias = \Database::getInstance()->prepare(
+                        "SELECT id FROM {$partTable} WHERE alias=?"
+                    )->execute($alias);
+
+                    // Check whether the alias exists
+                    if ($objAlias->numRows > 0) {
+                        throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
+                    }
                 }
-
-                // Add ID to alias
-                if ($existingAlias->numRows && (0 === $i && $existingAlias->id != $id) && $autoAlias || !$alias) {
-                    $alias = $originalAlias.'-'.$id;
-
-                    $error = false;
-
-                    break;
-                }
-            }
-
-            // Check whether the alias exists
-            if ($error) {
-                throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
             }
         } else {
             $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
