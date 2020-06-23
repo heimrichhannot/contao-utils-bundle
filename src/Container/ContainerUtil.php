@@ -199,4 +199,9 @@ class ContainerUtil
     {
         return $this->container->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
     }
+
+    public function isPreviewMode()
+    {
+        return \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && \Input::cookie('FE_PREVIEW');
+    }
 }
