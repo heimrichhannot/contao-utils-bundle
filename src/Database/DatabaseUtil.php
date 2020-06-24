@@ -818,13 +818,23 @@ class DatabaseUtil
             return null;
         }
 
-        $options = array_merge(
-            [
-                'column' => $columns,
-                'value' => $values,
-            ],
-            $options
-        );
+        if (null !== $columns) {
+            $options = array_merge(
+                [
+                    'column' => $columns,
+                ],
+                $options
+            );
+        }
+
+        if (null !== $values) {
+            $options = array_merge(
+                [
+                    'value' => $values,
+                ],
+                $options
+            );
+        }
 
         $options['table'] = $table;
         $query = \Contao\Model\QueryBuilder::find($options);
@@ -845,7 +855,7 @@ class DatabaseUtil
             $statement->limit($options['limit'], $options['offset']);
         }
 
-        return $statement->execute($options['value']);
+        return isset($options['value']) ? $statement->execute($options['value']) : $statement->execute();
     }
 
     public function insert(string $table, array $set)

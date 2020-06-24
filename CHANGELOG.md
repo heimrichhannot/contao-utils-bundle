@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.169.2] - 2020-06-23
+- fixed `DatabaseUtil::findResultsBy()` to accept also null as columns and values
+
 ## [2.169.1] - 2020-06-23
 - fixed `DcaUtil::generateAlias()`
 
