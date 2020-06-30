@@ -1,8 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.170.0] - 2020-06-30
+## [2.171.0] - 2020-06-30
 - added ignoreLogin to `MemberUtil::findActiveByGroups()`
+
+## [2.170.0] - 2020-06-30
+- fixed attributes issue in `image.html.twig` -> now link gets its correct `attributes`; "wrong" `linkAttributes` is still in place for compatibility reasons
+- fixed lightbox issues in `ImageUtil::addToTemplate()`
 
 ## [2.169.2] - 2020-06-23
 - fixed `DatabaseUtil::findResultsBy()` to accept also null as columns and values
