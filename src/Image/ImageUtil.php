@@ -232,11 +232,14 @@ class ImageUtil
             $picture['title'] = StringUtil::specialchars($item['imageTitle']);
         }
 
+        // empty the attributes in order to avoid passing the link attributes to the img element
+        $picture['attributes'] = '';
+
         $templateData['picture'] = $picture;
 
         // Provide an ID for single lightbox images in HTML5 (see #3742)
         if (null === $lightboxId && $item['fullsize']) {
-            $lightboxId = 'lightbox['.substr(md5($lightboxName.'_'.$item['id']), 0, 6).']';
+            $lightboxId = substr(md5($lightboxName.'_'.$item['id']), 0, 6);
         }
 
         // Float image
@@ -260,7 +263,7 @@ class ImageUtil
                         $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($item['imageUrl']);
                     }
 
-                    $templateData['attributes'] = ' data-lightbox="'.substr($lightboxId, 9, -1).'"';
+                    $templateData['attributes'] = ' data-lightbox="'.$lightboxId.'"';
                 } else {
                     $templateData['attributes'] = ' target="_blank"';
                 }
@@ -268,7 +271,7 @@ class ImageUtil
         } // Fullsize view
         elseif ($item['fullsize'] && $containerUtil->isFrontend()) {
             $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($file->path);
-            $templateData['attributes'] = ' data-lightbox="'.substr($lightboxId, 9, -1).'"';
+            $templateData['attributes'] = ' data-lightbox="'.$lightboxId.'"';
         }
 
         // Add the meta data to the template
