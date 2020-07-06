@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.171.1] - 2020-07-06
+- fixed type hinting
+
 ## [2.171.0] - 2020-06-30
 - added ignoreLogin to `MemberUtil::findActiveByGroups()`
 
