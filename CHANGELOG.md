@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.171.2] - 2020-07-15
+- added latest unicode characters for `StringUtil::replaceUnicodeEmojisByHtml()`
+
 ## [2.171.1] - 2020-07-06
 - fixed type hinting
 
