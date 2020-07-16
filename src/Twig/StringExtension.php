@@ -47,7 +47,7 @@ class StringExtension extends AbstractExtension
 
     public function autolink(string $text, array $options = []): string
     {
-        return preg_replace_callback('@(?P<url>(?:http(s)?://)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#\[\]\@!$&\'()*+,;=]+)@i', function ($matches) use ($options) {
+        return preg_replace_callback('@(?P<url>(?:http(s)?://)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#\[\]\@!$&\'()*+,;=]+)@i', function ($matches) use ($options) {
             if (!isset($matches['url'])) {
                 return '';
             }
