@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.171.5] - 2020-07-20
+- fixed UrlUtil::getCurrentUrl() options parameter not optional
+
 ## [2.171.4] - 2020-07-16
 - fixed `StringExtension::autolink()` (German dates like 15.7. have been translated to links)
 

@@ -56,7 +56,7 @@ class UrlUtil
      *
      * @return string
      */
-    public function getCurrentUrl(array $options)
+    public function getCurrentUrl(array $options = [])
     {
         $url = Environment::get('url');
 

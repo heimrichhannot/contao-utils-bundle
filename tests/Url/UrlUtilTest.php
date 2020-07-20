@@ -66,11 +66,13 @@ class UrlUtilTest extends ContaoTestCase
     {
         $urlUtil = $this->createTestInstance();
 
-        $url = $urlUtil->getCurrentUrl(['skipParams' => false]);
+        $url = $urlUtil->getCurrentUrl();
+        $url2 = $urlUtil->getCurrentUrl(['skipParams' => false]);
         $urlWithoutParams = $urlUtil->getCurrentUrl(['skipParams' => true]);
 
         $this->assertSame('http://localhost', $urlWithoutParams);
         $this->assertSame('http://localhost?answer=12', $url);
+        $this->assertSame('http://localhost?answer=12', $url2);
     }
 
     public function testAddQueryString()
