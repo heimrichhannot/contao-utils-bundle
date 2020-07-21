@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>HeimrichHannot\UtilsBundle\Dca\DcaUtil | Contao Utils Bundle</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_Dca_DcaUtil" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Contao Utils Bundle</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/Dca.html">Dca</a></li><li class="backslash">\</li><li>DcaUtil</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            DcaUtil
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>DcaUtil</strong>
+</p>
+
+        
+    
+
+    
+    
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>PROPERTY_SESSION_ID</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>PROPERTY_AUTHOR</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>PROPERTY_AUTHOR_TYPE</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>AUTHOR_TYPE_NONE</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>AUTHOR_TYPE_MEMBER</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>AUTHOR_TYPE_USER</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_framework">
+                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr>
+                </td>
+                <td>$framework</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_container">
+                                        protected                                        <abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr>
+                </td>
+                <td>$container</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container, <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <a href="../../../HeimrichHannot/UtilsBundle/Routing/RoutingUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Routing\RoutingUtil">RoutingUtil</abbr></a> $routingUtil, <abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getEditLink">getEditLink</a>(string $module, int $id, string $label = null)
+        
+                                            <p>Get a contao backend modal edit link.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getModalEditLink">getModalEditLink</a>(string $module, int $id, string $label = null, string $table = &#039;&#039;, int $width = 1024)
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                                            <p>Get a contao backend modal edit link.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getArchiveModalEditLink">getArchiveModalEditLink</a>(string $module, int $id, string $table, string $label = null, int $width = 1024)
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                                            <p>Get a contao backend modal archive edit link.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getPopupWizardLink">getPopupWizardLink</a>($parameter, array $options = [])
+        
+                                            <p>Get a contao backend popup link.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setDefaultsFromDca">setDefaultsFromDca</a>(string $strTable, mixed $varData = null)
+        
+                                            <p>Set initial $varData from dca.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getConfigByArrayOrCallbackOrFunction">getConfigByArrayOrCallbackOrFunction</a>(array $array, $property, array $arguments = [])
+        
+                                            <p>Retrieves an array from a dca config (in most cases eval) in the following priorities:.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setDateAdded">setDateAdded</a>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        
+                                            <p>Sets the current date as the date added -> usually used on submit.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setDateAddedOnCopy">setDateAddedOnCopy</a>($insertId, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        
+                                            <p>Sets the current date as the date added -> usually used on copy.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFields">getFields</a>(string $table, array $options = [])
+        
+                                            <p>Returns a list of fields as an option array for dca fields.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addOverridableFields">addOverridableFields</a>(array $fields, string $sourceTable, string $destinationTable, array $options = [])
+        
+                                            <p>Adds an override selector to every field in $fields to the dca associated with $destinationTable.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getOverridableProperty">getOverridableProperty</a>(string $property, array $instances)
+        
+                                            <p>Retrieves a property of given contao model instances by <em>ascending</em> priority, i.e. the last instance of $instances
+will have the highest priority.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flattenPaletteForSubEntities">flattenPaletteForSubEntities</a>(string $table, array $overridableFields)
+        
+                                            <p>This function transforms an entity's palette (that can also contain sub palettes and concatenated type selectors) to a flatten
+palette where every field can be overridden.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_aliasExist">aliasExist</a>(string $alias, int $id, string $table)
+        
+                                            <p>Return if the current alias already exist in table.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_generateAlias">generateAlias</a>(string|null $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+        
+                                            <p>Generate an alias.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addAuthorFieldAndCallback">addAuthorFieldAndCallback</a>(string $table, string $fieldPrefix = &#039;&#039;)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setAuthorIDOnCreate">setAuthorIDOnCreate</a>(string $table, int $id, array $row, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_modifyAuthorPaletteOnLoad">modifyAuthorPaletteOnLoad</a>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getDataContainers">getDataContainers</a>(array $options = [])
+        
+                                            <p>Returns (nearly) all registered datacontainers as array.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNewNotificationTypeArray">getNewNotificationTypeArray</a>(bool $includeNotificationCenterPlusTokens = false)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_activateNotificationType">activateNotificationType</a>($strGroup, $strType, $arrType)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addAliasToDca">addAliasToDca</a>(string $dca, $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
+        
+                                            <p>Adds an alias field to the dca and to the desired palettes.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getLocalizedFieldName">getLocalizedFieldName</a>($strField, $strTable)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_loadDc">loadDc</a>(string $table)
+        
+                                            <p>Load a data container in a testable way.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_loadLanguageFile">loadLanguageFile</a>(string $table)
+        
+                                            <p>Load a language file in a testable way.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isDcMultilingual">isDcMultilingual</a>(string $table)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isDcMultilingual3">isDcMultilingual3</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_generateDcOperationsButtons">generateDcOperationsButtons</a>($row, $table, $rootIds = [], $options = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_doGenerateDcOperationsButtons">doGenerateDcOperationsButtons</a>($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null, $options = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_generateSitemap">generateSitemap</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../HeimrichHannot/UtilsBundle/Driver/DC_Table_Utils.html"><abbr title="HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils">DC_Table_Utils</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getDCTable">getDCTable</a>(string $table, $activeRecord)
+        
+                                            <p>Mostly used for Form::prepareSpecialValueForOutput().</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAuthorNameByUserId">getAuthorNameByUserId</a>($id)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAuthorNameLinkByUserId">getAuthorNameLinkByUserId</a>($id)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setFieldsToReadOnly">setFieldsToReadOnly</a>($dca, array $config = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getTranslatedModuleNameByTable">getTranslatedModuleNameByTable</a>(string $table)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getRenderedDiff">getRenderedDiff</a>(string $table, array $source, array $target, array $config = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_prepareRowEntryForList">prepareRowEntryForList</a>($table, string $field, $value)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFieldLabel">getFieldLabel</a>(string $table, string $field)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNewSortingPosition">getNewSortingPosition</a>(string $table, int $id, $pid = null, $insertAfterId = null)
+        
+                                            <p>Returns the set of pid and sorting to be used in an sql update statement. Also updates the existing records according to the usage.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         line 58</div>
+        <code>                    
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container, <abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <a href="../../../HeimrichHannot/UtilsBundle/Routing/RoutingUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Routing\RoutingUtil">RoutingUtil</abbr></a> $routingUtil, <abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
+                <td>$container</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr></td>
+                <td>$framework</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><a href="../../../HeimrichHannot/UtilsBundle/Routing/RoutingUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Routing\RoutingUtil">RoutingUtil</abbr></a></td>
+                <td>$routingUtil</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="Doctrine\DBAL\Connection">Connection</abbr></td>
+                <td>$connection</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getEditLink">
+        <div class="location">at         line 75</div>
+        <code>                    string
+    <strong>getEditLink</strong>(string $module, int $id, string $label = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get a contao backend modal edit link.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$module</td>
+                <td>Name of the module</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td>Id of the entity</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$label</td>
+                <td>The label text</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>The edit link</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getModalEditLink">
+        <div class="location">at         line 110</div>
+        <code>                    string
+    <strong>getModalEditLink</strong>(string $module, int $id, string $label = null, string $table = &#039;&#039;, int $width = 1024)
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
+    </h3>
+    <div class="details">
+            
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Use</td>
+                    <td>DcaUtil::getPopupWizardLink() instead</td>
+                </tr>
+                    </p>
+    
+
+                    <div class="method-description">
+                                    <p>Get a contao backend modal edit link.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$module</td>
+                <td>Name of the module</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td>Id of the entity</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$label</td>
+                <td>The label text</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td>The dataContainer table</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$width</td>
+                <td>The modal window width</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>The modal edit link</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getArchiveModalEditLink">
+        <div class="location">at         line 149</div>
+        <code>                    string
+    <strong>getArchiveModalEditLink</strong>(string $module, int $id, string $table, string $label = null, int $width = 1024)
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
+    </h3>
+    <div class="details">
+            
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Use</td>
+                    <td>DcaUtil::getPopupWizardLink() instead</td>
+                </tr>
+                    </p>
+    
+
+                    <div class="method-description">
+                                    <p>Get a contao backend modal archive edit link.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$module</td>
+                <td>Name of the module</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td>Id of the entity</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td>The dataContainer table</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$label</td>
+                <td>The label text</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$width</td>
+                <td>The modal window width</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>The modal archive edit link</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getPopupWizardLink">
+        <div class="location">at         line 191</div>
+        <code>                    string
+    <strong>getPopupWizardLink</strong>($parameter, array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get a contao backend popup link.</p>                    <p>Options:
+- attributes: (array) Link attributes as key value pairs. Will override title and style option. href and onclick are not allowed and will be removed from list.
+- title: (string) Overrride default link title
+- style: (string) Override default css style properties
+- onclick: (string) Override default onclick javascript code
+- icon: (string) Link icon to show as link text. Overrides default icon.
+- linkText: (string) A linkTitle to show as link text. Will be displayed after the link icon. Default empty.
+- url-only: (boolean) Return only url instead of a complete link element</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$parameter</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setDefaultsFromDca">
+        <div class="location">at         line 296</div>
+        <code>                    mixed
+    <strong>setDefaultsFromDca</strong>(string $strTable, mixed $varData = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set initial $varData from dca.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$strTable</td>
+                <td>Dca table name</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$varData</td>
+                <td>Object or array</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>Object or array with the default values</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getConfigByArrayOrCallbackOrFunction">
+        <div class="location">at         line 343</div>
+        <code>                    mixed|null
+    <strong>getConfigByArrayOrCallbackOrFunction</strong>(array $array, $property, array $arguments = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Retrieves an array from a dca config (in most cases eval) in the following priorities:.</p>                    <p><ol>
+<li>The value associated to $array[$property]</li>
+<li>The value retrieved by $array[$property . '_callback'] which is a callback array like ['Class', 'method'] or ['service.id', 'method']</li>
+<li>The value retrieved by $array[$property . '_callback'] which is a function closure array like ['Class', 'method']</li>
+</ol>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$array</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$property</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$arguments</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed|null</td>
+            <td>The value retrieved in the way mentioned above or null</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setDateAdded">
+        <div class="location">at         line 381</div>
+        <code>                    
+    <strong>setDateAdded</strong>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sets the current date as the date added -> usually used on submit.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Contao\DataContainer">DataContainer</abbr></td>
+                <td>$dc</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setDateAddedOnCopy">
+        <div class="location">at         line 397</div>
+        <code>                    
+    <strong>setDateAddedOnCopy</strong>($insertId, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sets the current date as the date added -> usually used on copy.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$insertId</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="Contao\DataContainer">DataContainer</abbr></td>
+                <td>$dc</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFields">
+        <div class="location">at         line 417</div>
+        <code>                    array
+    <strong>getFields</strong>(string $table, array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns a list of fields as an option array for dca fields.</p>                    <p>Possible options:
+- array inputTypes Restrict to certain input types
+- array evalConditions restrict to certain dca eval
+- bool localizeLabels
+- bool skipSorting</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addOverridableFields">
+        <div class="location">at         line 470</div>
+        <code>                    
+    <strong>addOverridableFields</strong>(array $fields, string $sourceTable, string $destinationTable, array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Adds an override selector to every field in $fields to the dca associated with $destinationTable.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$fields</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$sourceTable</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$destinationTable</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getOverridableProperty">
+        <div class="location">at         line 532</div>
+        <code>                    mixed
+    <strong>getOverridableProperty</strong>(string $property, array $instances)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Retrieves a property of given contao model instances by <em>ascending</em> priority, i.e. the last instance of $instances
+will have the highest priority.</p>                    <p>CAUTION: This function assumes that you have used addOverridableFields() in this class!! That means, that a value in a
+model instance is only used if it's either the first instance in $arrInstances or "overrideFieldname" is set to true
+in the instance.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$property</td>
+                <td>The property name to retrieve</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$instances</td>
+                <td>An array of instances in ascending priority. Instances can be passed in the following form:
+                         ['tl_some_table', $instanceId] or $objInstance</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_flattenPaletteForSubEntities">
+        <div class="location">at         line 567</div>
+        <code>                    
+    <strong>flattenPaletteForSubEntities</strong>(string $table, array $overridableFields)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>This function transforms an entity's palette (that can also contain sub palettes and concatenated type selectors) to a flatten
+palette where every field can be overridden.</p>                    <p>CAUTION: This function assumes that you have used addOverridableFields() for adding the fields that are overridable. The latter ones
+are $overridableFields</p>
+
+<p>This function is useful if you want to adjust a palette for sub entities that can override properties of their ancestor(s).
+Use $this->getOverridableProperty() for computing the correct value respecting the entity hierarchy.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$overridableFields</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_aliasExist">
+        <div class="location">at         line 621</div>
+        <code>                    bool
+    <strong>aliasExist</strong>(string $alias, int $id, string $table)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Return if the current alias already exist in table.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$alias</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Doctrine\DBAL\DBALException">DBALException</abbr></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_generateAlias">
+        <div class="location">at         line 642</div>
+        <code>                    string
+    <strong>generateAlias</strong>(string|null $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Generate an alias.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|null</td>
+                <td>$alias</td>
+                <td>The current alias (if available)</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td>The entity's id</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td>The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member; ATTENTION: the first table needs to be the one we're currently in)</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$title</td>
+                <td>The value to use as a base for the alias</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$keepUmlauts</td>
+                <td>Set to true if German umlauts should be kept</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addAuthorFieldAndCallback">
+        <div class="location">at         line 700</div>
+        <code>                    
+    <strong>addAuthorFieldAndCallback</strong>(string $table, string $fieldPrefix = &#039;&#039;)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$fieldPrefix</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setAuthorIDOnCreate">
+        <div class="location">at         line 747</div>
+        <code>                    
+    <strong>setAuthorIDOnCreate</strong>(string $table, int $id, array $row, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$row</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td><abbr title="Contao\DataContainer">DataContainer</abbr></td>
+                <td>$dc</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_modifyAuthorPaletteOnLoad">
+        <div class="location">at         line 772</div>
+        <code>                    
+    <strong>modifyAuthorPaletteOnLoad</strong>(<abbr title="Contao\DataContainer">DataContainer</abbr> $dc)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Contao\DataContainer">DataContainer</abbr></td>
+                <td>$dc</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getDataContainers">
+        <div class="location">at         line 811</div>
+        <code>                    array
+    <strong>getDataContainers</strong>(array $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns (nearly) all registered datacontainers as array.</p>                    <p>Options:
+- bool onlyTableType: Return only table data containers</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNewNotificationTypeArray">
+        <div class="location">at         line 839</div>
+        <code>                    array
+    <strong>getNewNotificationTypeArray</strong>(bool $includeNotificationCenterPlusTokens = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$includeNotificationCenterPlusTokens</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_activateNotificationType">
+        <div class="location">at         line 871</div>
+        <code>                    
+    <strong>activateNotificationType</strong>($strGroup, $strType, $arrType)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$strGroup</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$strType</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$arrType</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addAliasToDca">
+        <div class="location">at         line 891</div>
+        <code>                    
+    <strong>addAliasToDca</strong>(string $dca, $generateAliasCallback, string $paletteField, array $palettes = [&#039;default&#039;])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Adds an alias field to the dca and to the desired palettes.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$dca</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$generateAliasCallback</td>
+                <td>mixed The callback to call for generating the alias</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$paletteField</td>
+                <td>String The field after which to insert the alias field in the palettes</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$palettes</td>
+                <td>The palettes in which to insert the field</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getLocalizedFieldName">
+        <div class="location">at         line 920</div>
+        <code>                    mixed
+    <strong>getLocalizedFieldName</strong>($strField, $strTable)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$strField</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$strTable</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_loadDc">
+        <div class="location">at         line 931</div>
+        <code>                    
+    <strong>loadDc</strong>(string $table)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Load a data container in a testable way.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_loadLanguageFile">
+        <div class="location">at         line 944</div>
+        <code>                    
+    <strong>loadLanguageFile</strong>(string $table)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Load a language file in a testable way.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isDcMultilingual">
+        <div class="location">at         line 952</div>
+        <code>                    
+    <strong>isDcMultilingual</strong>(string $table)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isDcMultilingual3">
+        <div class="location">at         line 963</div>
+        <code>                    
+    <strong>isDcMultilingual3</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_generateDcOperationsButtons">
+        <div class="location">at         line 969</div>
+        <code>                    
+    <strong>generateDcOperationsButtons</strong>($row, $table, $rootIds = [], $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$row</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$rootIds</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_doGenerateDcOperationsButtons">
+        <div class="location">at         line 986</div>
+        <code>                    
+    <strong>doGenerateDcOperationsButtons</strong>($arrRow, $strTable, $arrRootIds = [], $blnCircularReference = false, $arrChildRecordIds = null, $options = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$arrRow</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$strTable</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$arrRootIds</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$blnCircularReference</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$arrChildRecordIds</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_generateSitemap">
+        <div class="location">at         line 1048</div>
+        <code>                    
+    <strong>generateSitemap</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getDCTable">
+        <div class="location">at         line 1059</div>
+        <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Driver/DC_Table_Utils.html"><abbr title="HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils">DC_Table_Utils</abbr></a>
+    <strong>getDCTable</strong>(string $table, $activeRecord)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Mostly used for Form::prepareSpecialValueForOutput().</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$activeRecord</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../HeimrichHannot/UtilsBundle/Driver/DC_Table_Utils.html"><abbr title="HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils">DC_Table_Utils</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAuthorNameByUserId">
+        <div class="location">at         line 1068</div>
+        <code>                    
+    <strong>getAuthorNameByUserId</strong>($id)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAuthorNameLinkByUserId">
+        <div class="location">at         line 1077</div>
+        <code>                    
+    <strong>getAuthorNameLinkByUserId</strong>($id)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setFieldsToReadOnly">
+        <div class="location">at         line 1086</div>
+        <code>                    
+    <strong>setFieldsToReadOnly</strong>($dca, array $config = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$dca</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getTranslatedModuleNameByTable">
+        <div class="location">at         line 1134</div>
+        <code>                    
+    <strong>getTranslatedModuleNameByTable</strong>(string $table)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getRenderedDiff">
+        <div class="location">at         line 1155</div>
+        <code>                    
+    <strong>getRenderedDiff</strong>(string $table, array $source, array $target, array $config = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$source</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$target</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_prepareRowEntryForList">
+        <div class="location">at         line 1273</div>
+        <code>                    
+    <strong>prepareRowEntryForList</strong>($table, string $field, $value)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFieldLabel">
+        <div class="location">at         line 1336</div>
+        <code>                    
+    <strong>getFieldLabel</strong>(string $table, string $field)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$field</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNewSortingPosition">
+        <div class="location">at         line 1375</div>
+        <code>                    array
+    <strong>getNewSortingPosition</strong>(string $table, int $id, $pid = null, $insertAfterId = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the set of pid and sorting to be used in an sql update statement. Also updates the existing records according to the usage.</p>                    <p>The method can be used in several ways:</p>
+
+<ul>
+  <li>Insert in an archive of a certain pid as first item: $pid must be set (0 is also ok), $insertAfterId needs to be null</li>
+  <li>Insert after a record of a certain id: $insertAfterId must be set, $pid can be set if necessary</li>
+</ul>
+</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$pid</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$insertAfterId</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>
