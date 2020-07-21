@@ -50,7 +50,10 @@ class DcaUtil
      */
     private $routingUtil;
 
-    private Connection $connection;
+    /**
+     * @var Connection
+     */
+    private $connection;
 
     public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework, RoutingUtil $routingUtil, Connection $connection)
     {

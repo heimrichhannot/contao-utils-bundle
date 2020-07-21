@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.172.1] - 2020-07-21
+- fixed a error with php version prior to 7.4
+
 ## [2.172.0] - 2020-07-21
 - added DcaUtil::aliasExist()
 
