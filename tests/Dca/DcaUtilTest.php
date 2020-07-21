@@ -18,11 +18,14 @@ use Contao\FrontendUser;
 use Contao\Image;
 use Contao\Model;
 use Contao\StringUtil;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Statement;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\Translator;
@@ -51,6 +54,7 @@ class DcaUtilTest extends TestCaseEnvironment
         }
 
         if (!isset($properties['routingutil'])) {
+            /** @var RoutingUtil|MockObject $routingUtilMock */
             $routingUtilMock = $this->createMock(RoutingUtil::class);
             $routingUtilMock->method('generateBackendRoute')->willReturnCallback(function (array $params = [], $addToken = true, $addReferer = true) {
                 $url = '/contao';
@@ -72,7 +76,13 @@ class DcaUtilTest extends TestCaseEnvironment
             $properties['routingutil'] = $routingUtilMock;
         }
 
-        $instance = new DcaUtil($properties['container'], $properties['framework'], $properties['routingutil']);
+        if (!isset($properties['connection'])) {
+            /** @var Connection $connectionMock */
+            $connectionMock = $this->createMock(Connection::class);
+            $properties['connection'] = $connectionMock;
+        }
+
+        $instance = new DcaUtil($properties['container'], $properties['framework'], $properties['routingutil'], $properties['connection']);
 
         return $instance;
     }
@@ -428,23 +438,105 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertSame(['addSubmission'], $GLOBALS['TL_DCA']['destinationTable']['subpalettes']);
     }
 
-    public function testGenerateAlias()
+    public function testAliasExist()
     {
-        $util = $this->getTestInstance();
+        $connection = $this->createMock(Connection::class);
+        $statement = $this->createMock(Statement::class);
+
+        $statement->method('execute')->willReturnCallback(function (array $parameter = []) use ($statement) {
+            $statement->alias = $parameter[0];
+
+            if (\count($parameter) > 1) {
+                $statement->id = $parameter[1];
+            }
+        });
+        $statement->method('rowCount')->willReturnCallback(function () use ($statement) {
+            $data = [
+                'hello-world' => 0,
+                'existing-alias' => 5,
+                'another-table' => 7,
+            ];
+
+            if ('another-table' === $statement->alias) {
+                if (!isset($statement->anotherTableCount) || 0 === $statement->anotherTableCount) {
+                    $statement->anotherTableCount = 1;
+
+                    return 0;
+                }
+
+                return 1;
+            }
+
+            if (\array_key_exists($statement->alias, $data)) {
+                if (isset($statement->id) && $data[$statement->alias] === $statement->id) {
+                    return 0;
+                }
+
+                return 1;
+
+                return 1;
+            }
+
+            return 0;
+        });
+        $connection->method('prepare')->willReturn($statement);
+
+        $instance = $this->getTestInstance(['connection' => $connection]);
+        $this->assertFalse($instance->aliasExist('hello-world', 0, 'tl_news'));
+        $this->assertTrue($instance->aliasExist('hello-world', 1, 'tl_news'));
+        $this->assertFalse($instance->aliasExist('goodbye-world', 1, 'tl_news'));
+
+        return $instance;
+    }
+
+    /**
+     * @param DcaUtil $util
+     * @depends testAliasExist
+     */
+    public function testGenerateAlias($util)
+    {
+        $GLOBALS['TL_LANG']['ERR']['aliasExists'] = 'Alias %s already exist!';
 
         $this->assertSame('alias', $util->generateAlias('alias', 15, 'tl_table', 'Alias'));
         $this->assertSame('alias', $util->generateAlias('', 15, 'tl_table', 'Alias'));
         $this->assertSame('hans-dieter', $util->generateAlias('', 15, 'tl_table', 'Hans Dieter'));
         $this->assertSame('hans-däter', $util->generateAlias('', 15, 'tl_table', 'Hans Däter'));
         $this->assertSame('hans-daeter', $util->generateAlias('', 15, 'tl_table', 'Hans Däter', false));
-        $this->assertSame('existing-alias', $util->generateAlias('', 1, 'tl_table', 'Existing Alias'));
-        $this->assertSame('existing-alias-5', $util->generateAlias('', 5, 'tl_table', 'Existing Alias'));
-        $this->assertSame('existing-alias', $util->generateAlias('existing-alias', 1, 'tl_table', 'Existing Alias'));
+        $this->assertSame('existing-alias', $util->generateAlias('', 5, 'tl_table', 'Existing Alias'));
+        $this->assertSame('existing-alias-6', $util->generateAlias('', 6, 'tl_table', 'Existing Alias'));
+        $this->assertSame('existing-alias', $util->generateAlias('existing-alias', 5, 'tl_table', 'Existing Alias'));
         $this->assertSame('ich-du-cookies-für-alle', $util->generateAlias('', 6, 'tl_table', 'Ich & du || Cookie\'s für $alle'));
         $this->assertSame('ich-du-cookies-fuer-alle', $util->generateAlias('', 6, 'tl_table', 'Ich & du || Cookie\'s für $alle', false));
-        $GLOBALS['TL_LANG']['ERR']['aliasExists'] = 'Alias %s already exist!';
-        $this->expectException(\Exception::class);
-        $util->generateAlias('existing-alias', 5, 'tl_table', 'Existing Alias');
+
+        $this->assertSame('alias', $util->generateAlias('alias', 15, 'tl_table,tl_news', 'Alias'));
+        $this->assertSame('existing-alias-7', $util->generateAlias('', 7, 'tl_table,tl_news', 'Existing Alias'));
+
+        $exception = false;
+
+        try {
+            $util->generateAlias('existing-alias', 6, 'tl_table', 'Existing Alias');
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertTrue($exception);
+
+        $exception = false;
+
+        try {
+            $this->assertSame('existing-alias-7', $util->generateAlias('existing-alias', 7, 'tl_table,tl_news', 'Existing Alias'));
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertTrue($exception);
+
+        $exception = false;
+
+        try {
+            $util->generateAlias('another-table', 7, 'tl_table,tl_news', 'Another Table');
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertTrue($exception);
     }
 
     public function testAddAuthorFieldAndCallback()

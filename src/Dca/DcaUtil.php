@@ -24,6 +24,7 @@ use Contao\RequestToken;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -48,12 +49,17 @@ class DcaUtil
      * @var RoutingUtil
      */
     private $routingUtil;
+    /**
+     * @var Connection
+     */
+    private Connection $connection;
 
-    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework, RoutingUtil $routingUtil)
+    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework, RoutingUtil $routingUtil, Connection $connection)
     {
         $this->container = $container;
         $this->framework = $framework;
         $this->routingUtil = $routingUtil;
+        $this->connection = $connection;
     }
 
     /**
@@ -607,6 +613,19 @@ class DcaUtil
     }
 
     /**
+     * Return if the current alias already exist in table.
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function aliasExist(string $alias, int $id, string $table): bool
+    {
+        $stmt = $this->connection->prepare("SELECT id FROM {$table} WHERE alias=? AND id!=?");
+        $stmt->execute([$alias, $id]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
      * Generate an alias.
      *
      * @param mixed  $alias       The current alias (if available)
@@ -642,12 +661,7 @@ class DcaUtil
             foreach ($tables as $i => $partTable) {
                 // the table in which the entity is
                 if (0 === $i) {
-                    $objAlias = \Database::getInstance()->prepare(
-                        "SELECT id FROM {$partTable} WHERE id != ? AND alias=?"
-                    )->execute($id, $alias);
-
-                    // Check whether the alias exists
-                    if ($objAlias->numRows > 0) {
+                    if ($this->aliasExist($alias, $id, $table)) {
                         if (!$autoAlias) {
                             throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
                         }
@@ -656,32 +670,27 @@ class DcaUtil
                     }
                 } else {
                     // another table
-                    $objAlias = \Database::getInstance()->prepare(
-                        "SELECT id FROM {$partTable} WHERE alias=?"
-                    )->execute($alias);
+                    $stmt = $this->connection->prepare("SELECT id FROM {$partTable} WHERE alias=?");
+                    $stmt->execute([$alias]);
 
                     // Check whether the alias exists
-                    if ($objAlias->numRows > 0) {
+                    if ($stmt->rowCount() > 0) {
                         throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
                     }
                 }
             }
         } else {
-            $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
-
-            if ($existingAlias->numRows > 0 && $existingAlias->id == $id) {
+            if (!$this->aliasExist($alias, $id, $table)) {
                 return $alias;
             }
 
             // Check whether the alias exists
-            if ($existingAlias->numRows > 0 && !$autoAlias) {
+            if (!$autoAlias) {
                 throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
             }
 
             // Add ID to alias
-            if ($existingAlias->numRows && $existingAlias->id != $id && $autoAlias || !$alias) {
-                $alias .= '-'.$id;
-            }
+            $alias .= '-'.$id;
         }
 
         return $alias;

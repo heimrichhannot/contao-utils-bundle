@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.172.0] - 2020-07-21
+- added DcaUtil::aliasExist()
+
 ## [2.171.5] - 2020-07-20
 - fixed UrlUtil::getCurrentUrl() options parameter not optional
 
