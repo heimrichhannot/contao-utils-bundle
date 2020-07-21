@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>HeimrichHannot\UtilsBundle\File\FileUtil | Contao Utils Bundle</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_File_FileUtil" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Contao Utils Bundle</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/File.html">File</a></li><li class="backslash">\</li><li>FileUtil</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            FileUtil
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>FileUtil</strong>
+</p>
+
+        
+    
+
+    
+    
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>FILE_UTIL_CONVERT_FILE_TYPE</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_framework">
+                                        protected                                        <abbr title="Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>
+                </td>
+                <td>$framework</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getUniqueFileNameWithinTarget">getUniqueFileNameWithinTarget</a>(string $target, string $prefix = null, $i = 0)
+        
+                                            <p>Get a unique filename within given target folder, remove uniqid() suffix from file (optional, add $prefix) and append file count by name to
+file if file with same name already exists in target folder.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFileList">getFileList</a>(string $dir, string $baseUrl, string $protectedBaseUrl = null)
+        
+                                            <p>Returns the file list for a given directory.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_formatSizeUnits">formatSizeUnits</a>(int $bytes, $keepTogether = false)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getPathWithoutFilename">getPathWithoutFilename</a>($pathToFile)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFileExtension">getFileExtension</a>($path)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getPathFromUuid">getPathFromUuid</a>($uuid, bool $checkIfExists = true)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFileContentFromUuid">getFileContentFromUuid</a>($uuid)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Contao\File">File</abbr>|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFileFromUuid">getFileFromUuid</a>($uuid)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool|<abbr title="Contao\Folder">Folder</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFolderFromUuid">getFolderFromUuid</a>($uuid)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_addUniqueIdToFilename">addUniqueIdToFilename</a>(string $fileName, string $prefix = null, bool $moreEntropy = true)
+        
+                                            <p>Add a unique identifier to a file name.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_sanitizeFileName">sanitizeFileName</a>(string $fileName, int $maxCount = 0, bool $preserveUppercase = false)
+        
+                                            <p>Sanitize filename and removes "id-" prefix generated by contao standardize method.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_sendTextAsFileToBrowser">sendTextAsFileToBrowser</a>($content, $fileName)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFolderFromDca">getFolderFromDca</a>(mixed $folder, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc = null)
+        
+                                            <p>Get real folder from datacontainer attribute.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int|string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFileLineCount">getFileLineCount</a>($file)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Contao\FilesModel">FilesModel</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getPreviewFromPdf">getPreviewFromPdf</a>(<abbr title="Contao\FilesModel">FilesModel</abbr> $file, int $page = 0)
+        <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                                            <p>convert pdf to png and return a preview file
+delete the other png files.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFileIdFromPath">getFileIdFromPath</a>($path)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getFolderContent">getFolderContent</a>($parentIds, $table, $options = [], $return = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getParentFoldersByUuid">getParentFoldersByUuid</a>($uuid, array $config = [])
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool|mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_retrieveFileContent">retrieveFileContent</a>($source, $silent = true)
+        
+                                            <p>Tries to get the binary content from a file in various sources and returns it if possible.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getExtensionFromFileContent">getExtensionFromFileContent</a>($content)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getExtensionByMimeType">getExtensionByMimeType</a>($mimeType)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         line 38</div>
+        <code>                    
+    <strong>__construct</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr> $container)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Symfony\Component\DependencyInjection\ContainerInterface">ContainerInterface</abbr></td>
+                <td>$container</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getUniqueFileNameWithinTarget">
+        <div class="location">at         line 56</div>
+        <code>                    string
+    <strong>getUniqueFileNameWithinTarget</strong>(string $target, string $prefix = null, $i = 0)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get a unique filename within given target folder, remove uniqid() suffix from file (optional, add $prefix) and append file count by name to
+file if file with same name already exists in target folder.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$target</td>
+                <td>The target file path</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$prefix</td>
+                <td>A uniqid prefix from the given target file, that was added to the file before and should be removed again</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$i</td>
+                <td>integer Internal counter for recursion usage or if you want to add the number to the file</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>| false The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFileList">
+        <div class="location">at         line 111</div>
+        <code>                    array
+    <strong>getFileList</strong>(string $dir, string $baseUrl, string $protectedBaseUrl = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Returns the file list for a given directory.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$dir</td>
+                <td><ul>
+<li>the absolute local path to the directory (e.g. /dir/mydir)</li>
+</ul>
+</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$baseUrl</td>
+                <td><ul>
+<li>the relative uri (e.g. /tl_files/mydir)</li>
+</ul>
+</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$protectedBaseUrl</td>
+                <td><ul>
+<li>domain + request uri -> absUrl will be domain + request uri + ?file=$baseUrl/filename.ext</li>
+</ul>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array</td>
+            <td>file list containing file objects</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_formatSizeUnits">
+        <div class="location">at         line 148</div>
+        <code>                    
+    <strong>formatSizeUnits</strong>(int $bytes, $keepTogether = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$bytes</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$keepTogether</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getPathWithoutFilename">
+        <div class="location">at         line 167</div>
+        <code>                    
+    <strong>getPathWithoutFilename</strong>($pathToFile)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$pathToFile</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFileExtension">
+        <div class="location">at         line 178</div>
+        <code>                    
+    <strong>getFileExtension</strong>($path)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$path</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getPathFromUuid">
+        <div class="location">at         line 193</div>
+        <code>                    string|null
+    <strong>getPathFromUuid</strong>($uuid, bool $checkIfExists = true)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$uuid</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$checkIfExists</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td>Return the path of the file, or null if not exists</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFileContentFromUuid">
+        <div class="location">at         line 208</div>
+        <code>                    
+    <strong>getFileContentFromUuid</strong>($uuid)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$uuid</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFileFromUuid">
+        <div class="location">at         line 226</div>
+        <code>                    <abbr title="Contao\File">File</abbr>|null
+    <strong>getFileFromUuid</strong>($uuid)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$uuid</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Contao\File">File</abbr>|null</td>
+            <td>Return the file object</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFolderFromUuid">
+        <div class="location">at         line 245</div>
+        <code>                    bool|<abbr title="Contao\Folder">Folder</abbr>
+    <strong>getFolderFromUuid</strong>($uuid)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$uuid</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool|<abbr title="Contao\Folder">Folder</abbr></td>
+            <td>Return the folder object</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_addUniqueIdToFilename">
+        <div class="location">at         line 264</div>
+        <code>                    string
+    <strong>addUniqueIdToFilename</strong>(string $fileName, string $prefix = null, bool $moreEntropy = true)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Add a unique identifier to a file name.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$fileName</td>
+                <td>The file name, can be with or without path</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$prefix</td>
+                <td>add a prefix to the unique identifier, with an empty prefix, the returned string will be 13 characters long</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$moreEntropy</td>
+                <td>if set to TRUE, will add additional entropy (using the combined linear congruential generator) at the end of the
+                           return value, which increases the likelihood that the result will be unique</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>Filename with timestamp based unique identifier</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_sanitizeFileName">
+        <div class="location">at         line 283</div>
+        <code>                    string
+    <strong>sanitizeFileName</strong>(string $fileName, int $maxCount = 0, bool $preserveUppercase = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Sanitize filename and removes "id-" prefix generated by contao standardize method.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$fileName</td>
+                <td>The file name, can be with or without path</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$maxCount</td>
+                <td>Max filename length</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$preserveUppercase</td>
+                <td>Set to true if you want to lower case the file name</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>The sanitized filename</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_sendTextAsFileToBrowser">
+        <div class="location">at         line 304</div>
+        <code>                    
+    <strong>sendTextAsFileToBrowser</strong>($content, $fileName)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$content</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$fileName</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFolderFromDca">
+        <div class="location">at         line 324</div>
+        <code>                    mixed|null
+    <strong>getFolderFromDca</strong>(mixed $folder, <abbr title="Contao\DataContainer">DataContainer</abbr> $dc = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get real folder from datacontainer attribute.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$folder</td>
+                <td>The folder as uuid, function, callback array('CLASS', 'method') or string (files/...)</td>
+            </tr>
+                    <tr>
+                <td><abbr title="Contao\DataContainer">DataContainer</abbr></td>
+                <td>$dc</td>
+                <td>Optional \DataContainer, required for function and callback</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed|null</td>
+            <td>The folder path or null</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/Exception">Exception</a></td>
+                <td>If ../ is part of the path</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFileLineCount">
+        <div class="location">at         line 358</div>
+        <code>                    int|string
+    <strong>getFileLineCount</strong>($file)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$file</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int|string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getPreviewFromPdf">
+        <div class="location">at         line 388</div>
+        <code>                    <abbr title="Contao\FilesModel">FilesModel</abbr>
+    <strong>getPreviewFromPdf</strong>(<abbr title="Contao\FilesModel">FilesModel</abbr> $file, int $page = 0)
+        <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
+    </h3>
+    <div class="details">
+            
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Dublicate</td>
+                    <td>to PdfPreview util</td>
+                </tr>
+                    </p>
+    
+
+                    <div class="method-description">
+                                    <p>convert pdf to png and return a preview file
+delete the other png files.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Contao\FilesModel">FilesModel</abbr></td>
+                <td>$file</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$page</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Contao\FilesModel">FilesModel</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFileIdFromPath">
+        <div class="location">at         line 432</div>
+        <code>                    
+    <strong>getFileIdFromPath</strong>($path)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$path</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFolderContent">
+        <div class="location">at         line 447</div>
+        <code>                    
+    <strong>getFolderContent</strong>($parentIds, $table, $options = [], $return = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$parentIds</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$table</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$options</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$return</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getParentFoldersByUuid">
+        <div class="location">at         line 507</div>
+        <code>        static            
+    <strong>getParentFoldersByUuid</strong>($uuid, array $config = [])
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$uuid</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_retrieveFileContent">
+        <div class="location">at         line 542</div>
+        <code>                    bool|mixed
+    <strong>retrieveFileContent</strong>($source, $silent = true)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Tries to get the binary content from a file in various sources and returns it if possible.</p>                    <p>Possible sources:
+  - url
+  - contao uuid
+  - string is already a binary file content</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$source</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$silent</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool|mixed</td>
+            <td>Returns false if the file content could not be retrieved</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getExtensionFromFileContent">
+        <div class="location">at         line 581</div>
+        <code>                    
+    <strong>getExtensionFromFileContent</strong>($content)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$content</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getExtensionByMimeType">
+        <div class="location">at         line 592</div>
+        <code>                    
+    <strong>getExtensionByMimeType</strong>($mimeType)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td></td>
+                <td>$mimeType</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>
