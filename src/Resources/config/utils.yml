@@ -87,3 +87,7 @@ services:
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
   HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
+
+  huh.utils.request.curl:
+    class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
+  HeimrichHannot\UtilsBundle\Request\CurlRequestUtil: '@huh.utils.request.curl'
