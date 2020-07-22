@@ -627,19 +627,19 @@ class DcaUtil
     }
 
     /**
-     * Generate an alias.
+     * Generate an alias with unique check.
      *
-     * @param mixed  $alias       The current alias (if available)
-     * @param int    $id          The entity's id
-     * @param string $table       The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member; ATTENTION: the first table needs to be the one we're currently in)
-     * @param string $title       The value to use as a base for the alias
-     * @param bool   $keepUmlauts Set to true if German umlauts should be kept
+     * @param mixed       $alias       The current alias (if available)
+     * @param int         $id          The entity's id
+     * @param string|null $table       The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member. ATTENTION: the first table needs to be the one we're currently in). Pass null to skip unqiue check.
+     * @param string      $title       The value to use as a base for the alias
+     * @param bool        $keepUmlauts Set to true if German umlauts should be kept
      *
      * @throws \Exception
      *
      * @return string
      */
-    public function generateAlias(?string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+    public function generateAlias(?string $alias, int $id, ?string $table, string $title, bool $keepUmlauts = true)
     {
         $autoAlias = false;
 
@@ -651,6 +651,10 @@ class DcaUtil
 
         if (!$keepUmlauts) {
             $alias = preg_replace(['/ä/i', '/ö/i', '/ü/i', '/ß/i'], ['ae', 'oe', 'ue', 'ss'], $alias);
+        }
+
+        if (null === $table) {
+            return $alias;
         }
 
         $originalAlias = $alias;

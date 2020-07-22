@@ -537,6 +537,15 @@ class DcaUtilTest extends TestCaseEnvironment
             $exception = true;
         }
         $this->assertTrue($exception);
+
+        $exception = false;
+
+        try {
+            $util->generateAlias('existing-alias', 6, null, 'Existing Alias');
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertFalse($exception);
     }
 
     public function testAddAuthorFieldAndCallback()

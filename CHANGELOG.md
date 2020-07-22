@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.173.0] - 2020-07-22
+- DcaUtil::generateAlias() now accepts null as table parameter to skip unique check
+
 ## [2.172.1] - 2020-07-21
 - fixed a error with php version prior to 7.4
 
