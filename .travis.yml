@@ -10,16 +10,16 @@ env:
   - COMPOSER_ALLOW_XDEBUG=0
 matrix:
   include:
-    - php: 7.1
+    - php: 7.2
       env: CONTAO_VERSION='4.4.*'
-    - php: 7.3
+    - php: 7.4
       env: CONTAO_VERSION='4.4.*'
-    - php: 7.1
-      env: CONTAO_VERSION='4.7.*'
-    - php: 7.3
-      env: CONTAO_VERSION='4.7.*'
-    - php: 7.3
-      env: COVERAGE=1 UPDATEDOC=1 CONTAO_VERSION='4.7.*'
+    - php: 7.2
+      env: CONTAO_VERSION='4.9.*'
+    - php: 7.4
+      env: CONTAO_VERSION='4.9.*'
+    - php: 7.4
+      env: COVERAGE=1 UPDATEDOC=1 CONTAO_VERSION='4.9.*'
   allow_failures:
     - env: COVERAGE=1 UPDATEDOC=1 DEFAULT=0
   fast_finish: true
@@ -28,7 +28,7 @@ before_install:
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || true; fi
 install:
   - composer require contao/core-bundle:${CONTAO_VERSION}
-  - if [[ "$UPDATEDOC" = "1" ]]; then wget -O sami.phar http://get.sensiolabs.org/sami.phar; fi
+  - if [[ "$UPDATEDOC" = "1" ]]; then wget -O sami.phar https://github.com/hanreev/Sami/raw/6c3e00fc5dd61933bc47510efc5044dbe272688d/bin/sami.phar; fi
 notifications:
   email:
     recipients:

@@ -1,8 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.171.6] - 2020-07-22
+## [2.173.1] - 2020-07-22
 - added alias for curlRequestUtil
+
+## [2.173.0] - 2020-07-22
+- DcaUtil::generateAlias() now accepts null as table parameter to skip unique check
+
+## [2.172.1] - 2020-07-21
+- fixed a error with php version prior to 7.4
+
+## [2.172.0] - 2020-07-21
+- added DcaUtil::aliasExist()
 
 ## [2.171.5] - 2020-07-20
 - fixed UrlUtil::getCurrentUrl() options parameter not optional

@@ -24,6 +24,7 @@ use Contao\RequestToken;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
 use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -49,11 +50,17 @@ class DcaUtil
      */
     private $routingUtil;
 
-    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework, RoutingUtil $routingUtil)
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework, RoutingUtil $routingUtil, Connection $connection)
     {
         $this->container = $container;
         $this->framework = $framework;
         $this->routingUtil = $routingUtil;
+        $this->connection = $connection;
     }
 
     /**
@@ -607,19 +614,32 @@ class DcaUtil
     }
 
     /**
-     * Generate an alias.
+     * Return if the current alias already exist in table.
      *
-     * @param mixed  $alias       The current alias (if available)
-     * @param int    $id          The entity's id
-     * @param string $table       The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member; ATTENTION: the first table needs to be the one we're currently in)
-     * @param string $title       The value to use as a base for the alias
-     * @param bool   $keepUmlauts Set to true if German umlauts should be kept
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function aliasExist(string $alias, int $id, string $table): bool
+    {
+        $stmt = $this->connection->prepare("SELECT id FROM {$table} WHERE alias=? AND id!=?");
+        $stmt->execute([$alias, $id]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Generate an alias with unique check.
+     *
+     * @param mixed       $alias       The current alias (if available)
+     * @param int         $id          The entity's id
+     * @param string|null $table       The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member. ATTENTION: the first table needs to be the one we're currently in). Pass null to skip unqiue check.
+     * @param string      $title       The value to use as a base for the alias
+     * @param bool        $keepUmlauts Set to true if German umlauts should be kept
      *
      * @throws \Exception
      *
      * @return string
      */
-    public function generateAlias(?string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+    public function generateAlias(?string $alias, int $id, ?string $table, string $title, bool $keepUmlauts = true)
     {
         $autoAlias = false;
 
@@ -633,6 +653,10 @@ class DcaUtil
             $alias = preg_replace(['/ä/i', '/ö/i', '/ü/i', '/ß/i'], ['ae', 'oe', 'ue', 'ss'], $alias);
         }
 
+        if (null === $table) {
+            return $alias;
+        }
+
         $originalAlias = $alias;
 
         // multiple tables?
@@ -642,12 +666,7 @@ class DcaUtil
             foreach ($tables as $i => $partTable) {
                 // the table in which the entity is
                 if (0 === $i) {
-                    $objAlias = \Database::getInstance()->prepare(
-                        "SELECT id FROM {$partTable} WHERE id != ? AND alias=?"
-                    )->execute($id, $alias);
-
-                    // Check whether the alias exists
-                    if ($objAlias->numRows > 0) {
+                    if ($this->aliasExist($alias, $id, $table)) {
                         if (!$autoAlias) {
                             throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
                         }
@@ -656,32 +675,27 @@ class DcaUtil
                     }
                 } else {
                     // another table
-                    $objAlias = \Database::getInstance()->prepare(
-                        "SELECT id FROM {$partTable} WHERE alias=?"
-                    )->execute($alias);
+                    $stmt = $this->connection->prepare("SELECT id FROM {$partTable} WHERE alias=?");
+                    $stmt->execute([$alias]);
 
                     // Check whether the alias exists
-                    if ($objAlias->numRows > 0) {
+                    if ($stmt->rowCount() > 0) {
                         throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
                     }
                 }
             }
         } else {
-            $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
-
-            if ($existingAlias->numRows > 0 && $existingAlias->id == $id) {
+            if (!$this->aliasExist($alias, $id, $table)) {
                 return $alias;
             }
 
             // Check whether the alias exists
-            if ($existingAlias->numRows > 0 && !$autoAlias) {
+            if (!$autoAlias) {
                 throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
             }
 
             // Add ID to alias
-            if ($existingAlias->numRows && $existingAlias->id != $id && $autoAlias || !$alias) {
-                $alias .= '-'.$id;
-            }
+            $alias .= '-'.$id;
         }
 
         return $alias;
