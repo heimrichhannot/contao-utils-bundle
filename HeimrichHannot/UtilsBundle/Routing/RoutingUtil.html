@@ -129,7 +129,7 @@
                     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_generateBackendRoute">generateBackendRoute</a>(array $params = [], bool $addToken = true, bool $addReferer = true)
+                    <a href="#method_generateBackendRoute">generateBackendRoute</a>(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = &#039;contao_backend&#039;)
         
                                             <p>Generate a backend route with token and referer.</p>                </div>
                 <div class="col-md-2"></div>
@@ -181,9 +181,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generateBackendRoute">
-        <div class="location">at         line 53</div>
+        <div class="location">at         line 51</div>
         <code>                    string
-    <strong>generateBackendRoute</strong>(array $params = [], bool $addToken = true, bool $addReferer = true)
+    <strong>generateBackendRoute</strong>(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = &#039;contao_backend&#039;)
         </code>
     </h3>
     <div class="details">
@@ -199,7 +199,7 @@
                     <tr>
                 <td>array</td>
                 <td>$params</td>
-                <td>Url-Parameters</td>
+                <td></td>
             </tr>
                     <tr>
                 <td>bool</td>
@@ -209,6 +209,11 @@
                     <tr>
                 <td>bool</td>
                 <td>$addReferer</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$route</td>
                 <td></td>
             </tr>
             </table>
