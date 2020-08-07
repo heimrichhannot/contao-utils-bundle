@@ -44,13 +44,11 @@ class RoutingUtil
     /**
      * Generate a backend route with token and referer.
      *
-     * @param array $params     Url-Parameters
-     * @param bool  $addToken
-     * @param bool  $addReferer
+     * @param array $params Url-Parameters
      *
      * @return string The backend route url
      */
-    public function generateBackendRoute(array $params = [], $addToken = true, $addReferer = true)
+    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = 'contao_backend')
     {
         if ($addToken) {
             // >= contao 4.6.8 uses contao.csrf.token_manager service to validate token
@@ -65,6 +63,6 @@ class RoutingUtil
             $params['ref'] = $this->request->getCurrentRequest()->get('_contao_referer_id');
         }
 
-        return $this->router->generate('contao_backend', $params);
+        return $this->router->generate($route, $params);
     }
 }

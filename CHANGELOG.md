@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.174.0] - 2020-08-07
+- added possibility to add a custom backend route in `DcaUtil::getPopupWizardLink()`
+
 ## [2.173.1] - 2020-07-22
 - added alias for curlRequestUtil
 

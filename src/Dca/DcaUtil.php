@@ -202,10 +202,12 @@ class DcaUtil
             $parameter = $result;
         }
 
+        $route = $options['route'] ?? 'contao_backend';
+
         $parameter['popup'] = 1;
         $parameter['nb'] = 1;
 
-        $url = $this->routingUtil->generateBackendRoute($parameter);
+        $url = $this->routingUtil->generateBackendRoute($parameter, true, true, $route);
 
         if (isset($options['url-only']) && true === $options['url-only']) {
             return $url;
