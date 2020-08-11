@@ -100,49 +100,82 @@ class SalutationUtil
 
         switch ($language) {
             case 'en':
-                if ($informal) {
-                    if ($hasFirstname && $firstnameOnly) {
-                        $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutation'].' '.$entity->firstname;
-                    } elseif ($hasLastname && !$firstnameOnly) {
-                        $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutation'].' '.$entity->lastname;
+                if ('divers' === $entity->gender) {
+                    if ($informal) {
+                        if ($hasFirstname && $firstnameOnly) {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'].' '.$entity->firstname;
+                        } elseif ($hasFirstname && $hasLastname && !$firstnameOnly) {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'].' '.$entity->firstname.' '.$entity->lastname;
+                        } else {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'];
+                        }
                     } else {
-                        $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutation'];
+                        $suffix = $entity->firstname && $entity->lastname ? ' '.$entity->firstname.' '.$entity->lastname : '';
+                        $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'].$suffix;
                     }
-                } elseif ($hasLastname) {
-                    if ($hasTitle) {
-                        $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutation'].' '.($entity->title ?: $entity->academicTitle);
-                    } else {
-                        $salutation =
-                            $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutation'.('female' == $entity->gender ? 'Female' : 'Male')];
-                    }
-
-                    $salutation = $salutation.' '.$entity->lastname;
                 } else {
-                    $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutationGeneric'];
+                    if ($informal) {
+                        if ($hasFirstname && $firstnameOnly) {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'].' '.$entity->firstname;
+                        } elseif ($hasLastname) {
+                            $salutationPart = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['gender'.('female' == $entity->gender ? 'Female' : 'Male')];
+
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'].' '.$salutationPart.' '.$entity->lastname;
+                        } else {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'];
+                        }
+                    } elseif ($hasLastname) {
+                        if ($hasTitle) {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'].' '.($entity->title ?: $entity->academicTitle);
+                        } else {
+                            $salutation =
+                                $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'.('female' == $entity->gender ? 'Female' : 'Male')];
+                        }
+
+                        $salutation = $salutation.' '.$entity->lastname;
+                    } else {
+                        $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'];
+                    }
                 }
 
                 break;
 
             default:
                 // de
-                if ($informal) {
-                    if ($hasFirstname && $firstnameOnly) {
-                        $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutationGenericInformal'].' '.$entity->firstname;
-                    } elseif ($hasLastname && !$firstnameOnly) {
-                        $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutationGenericInformal'].' '.$entity->lastname;
+                if ('divers' === $entity->gender) {
+                    if ($informal) {
+                        if ($hasFirstname && $firstnameOnly) {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'].' '.$entity->firstname;
+                        } elseif ($hasFirstname && $hasLastname && !$firstnameOnly) {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'].' '.$entity->firstname.' '.$entity->lastname;
+                        } else {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'];
+                        }
                     } else {
-                        $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutationGenericInformal'];
+                        $suffix = $entity->firstname && $entity->lastname ? ', '.$entity->firstname.' '.$entity->lastname : '';
+                        $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'].$suffix;
                     }
-                } elseif ($hasLastname && !$informal) {
-                    $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutation'.('female' == $entity->gender ? 'Female' : 'Male')];
-
-                    if ($hasTitle) {
-                        $salutation .= ' '.($entity->title ?: $entity->academicTitle);
-                    }
-
-                    $salutation = $salutation.' '.$entity->lastname;
                 } else {
-                    $salutation = $GLOBALS['TL_LANG']['MSC']['haste_plus']['salutationGeneric'];
+                    if ($informal) {
+                        if ($hasFirstname && $firstnameOnly) {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'].' '.$entity->firstname;
+                        } elseif ($hasLastname && !$firstnameOnly) {
+                            $salutationPart = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['gender'.('female' == $entity->gender ? 'Female' : 'Male')];
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'].' '.$salutationPart.' '.$entity->lastname;
+                        } else {
+                            $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'];
+                        }
+                    } elseif ($hasLastname && !$informal) {
+                        $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'.('female' == $entity->gender ? 'Female' : 'Male')];
+
+                        if ($hasTitle) {
+                            $salutation .= ' '.($entity->title ?: $entity->academicTitle);
+                        }
+
+                        $salutation = $salutation.' '.$entity->lastname;
+                    } else {
+                        $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGeneric'];
+                    }
                 }
 
                 break;

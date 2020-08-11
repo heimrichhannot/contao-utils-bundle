@@ -17,6 +17,7 @@ $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUti
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'] = 'Dear';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationMale'] = 'Dear Mr.';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationFemale'] = 'Dear Mrs.';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'] = 'Dear';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGeneric'] = 'Dear Sir or Madam';
 
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderMale'] = 'Mr.';

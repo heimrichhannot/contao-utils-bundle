@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.175.0] - 2020-08-11
+- added support for divers gender-based salutations
+
 ## [2.174.0] - 2020-08-07
 - added possibility to add a custom backend route in `DcaUtil::getPopupWizardLink()`
 
