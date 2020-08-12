@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.175.1] - 2020-08-12
+- fixed comparison issue in `DatabaseUtil::doBulkInsert()`
+
 ## [2.175.0] - 2020-08-11
 - added support for divers gender-based salutations
 

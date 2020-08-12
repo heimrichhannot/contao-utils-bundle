@@ -189,9 +189,9 @@ class DatabaseUtil
 
         $query = '';
         $duplicateKey = '';
-        $startQuery = sprintf('INSERT %s INTO %s (%s) VALUES ', self::ON_DUPLICATE_KEY_IGNORE == $onDuplicateKey ? 'IGNORE' : '', $table, implode(',', $fields));
+        $startQuery = sprintf('INSERT %s INTO %s (%s) VALUES ', self::ON_DUPLICATE_KEY_IGNORE === $onDuplicateKey ? 'IGNORE' : '', $table, implode(',', $fields));
 
-        if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
+        if (self::ON_DUPLICATE_KEY_UPDATE === $onDuplicateKey) {
             $duplicateKey = ' ON DUPLICATE KEY UPDATE '.implode(
                     ',',
                     array_map(
@@ -214,7 +214,7 @@ class DatabaseUtil
         );
 
         foreach ($data as $key => $varData) {
-            if (0 == $i) {
+            if (0 === $i) {
                 $values = [];
                 $return = [];
                 $query = $startQuery;
@@ -234,7 +234,7 @@ class DatabaseUtil
                 }
 
                 // replace SQL Keyword DEFAULT within wildcards ?
-                if ('DEFAULT' == $varValue) {
+                if ('DEFAULT' === $varValue) {
                     $columns[$n] = 'DEFAULT';
 
                     continue;
@@ -258,7 +258,7 @@ class DatabaseUtil
                     $varValue = isset($varCallback[$strField]) ? $varCallback[$strField] : 'DEFAULT';
 
                     // replace SQL Keyword DEFAULT within wildcards ?
-                    if ('DEFAULT' == $varValue) {
+                    if ('DEFAULT' === $varValue) {
                         $columns[$n] = 'DEFAULT';
 
                         continue;
@@ -276,10 +276,10 @@ class DatabaseUtil
 
             ++$i;
 
-            if ($bulkSize == $i) {
+            if ($bulkSize === $i) {
                 $query = rtrim($query, ',');
 
-                if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
+                if (self::ON_DUPLICATE_KEY_UPDATE === $onDuplicateKey) {
                     $query .= $duplicateKey;
                 }
 
@@ -299,7 +299,7 @@ class DatabaseUtil
         if ($query) {
             $query = rtrim($query, ',');
 
-            if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
+            if (self::ON_DUPLICATE_KEY_UPDATE === $onDuplicateKey) {
                 $query .= $duplicateKey;
             }
 
