@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Template;
 
+use Contao\Config;
 use Contao\Controller;
 use Contao\PageModel;
 use Contao\ThemeModel;
@@ -396,10 +397,17 @@ class TemplateUtil
             )
         );
 
+        $templatePath = $this->getTemplate($event->getTemplate());
         $buffer = $this->container->get('twig')->render(
-            $this->getTemplate($event->getTemplate()),
+            $templatePath,
             $event->getContext()
         );
+
+        // Add start and end markers in debug mode
+        if (Config::get('debugMode')) {
+            $strRelPath = $templatePath;
+            $buffer = "\n<!-- TWIG TEMPLATE START: $strRelPath -->\n$buffer\n<!-- TWIG TEMPLATE END: $strRelPath -->\n";
+        }
 
         return $buffer;
     }
