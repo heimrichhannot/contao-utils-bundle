@@ -52,10 +52,12 @@ abstract class AbstractPdfCreator
     protected $fonts;
     /** @var array|null */
     protected $margins;
-    /** @var string|null */
+    /** @var array|string|null */
     protected $format;
     /** @var string|null */
     protected $orientation;
+    /** @var string|null */
+    protected $templateFilePath;
 
     /**
      * Return an unique type alias.
@@ -205,7 +207,14 @@ abstract class AbstractPdfCreator
         return $this->format;
     }
 
-    public function setFormat(?string $format): self
+    /**
+     * Set the document format.
+     *
+     * @param string|array $format A format type like A4, A5, Letter, Legal,... or an array of integers (width and height in mm).
+     *
+     * @return $this
+     */
+    public function setFormat($format): self
     {
         $this->format = $format;
 
@@ -220,9 +229,26 @@ abstract class AbstractPdfCreator
     /**
      * Set orientation. Use AbstractPdfCreator::ORIENTATION_LANDSCAPE or AbstractPdfCreator::ORIENTATION_PORTRAIT.
      */
-    public function setOrientation(?string $orientation): self
+    public function setOrientation(string $orientation): self
     {
         $this->orientation = $orientation;
+
+        return $this;
+    }
+
+    public function getTemplateFilePath(): ?string
+    {
+        return $this->templateFilePath;
+    }
+
+    /**
+     * Set the absolute path to a pdf template file.
+     *
+     * @param string|null $templateFilePath
+     */
+    public function setTemplateFilePath(string $templateFilePath): self
+    {
+        $this->templateFilePath = $templateFilePath;
 
         return $this;
     }

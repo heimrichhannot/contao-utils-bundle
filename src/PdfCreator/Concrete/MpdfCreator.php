@@ -224,6 +224,14 @@ class MpdfCreator extends AbstractPdfCreator
             }
         }
 
+        if ($this->getFormat()) {
+            if (\is_string($this->getFormat()) && static::ORIENTATION_LANDSCAPE === $this->getOrientation()) {
+                $config['format'] = $this->getFormat().'-L';
+            } else {
+                $config['format'] = $this->getFormat();
+            }
+        }
+
         return $config;
     }
 }
