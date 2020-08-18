@@ -74,7 +74,7 @@
     <div class="page-header">
         <h1>
             PdfWriter
-                
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
         </h1>
     </div>
 
@@ -83,8 +83,17 @@
 </p>
 
         
+            <p>
+                <small><sup><span class="label label-danger">deprecated</span></sup></small>
+                            <tr>
+                    <td>Use</td>
+                    <td>PdfCreatorFactory::createInstance(MpdfCreator::getType()) instead</td>
+                </tr>
+                    </p>
     
 
+            <div class="description">
+            <p>Class PdfWriter.</p>                                </div>
     
     
             <h2>Constants</h2>
@@ -378,7 +387,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 34</div>
+        <div class="location">at         line 39</div>
         <code>                    
     <strong>__construct</strong>()
         </code>
@@ -399,7 +408,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setDefaultConfig">
-        <div class="location">at         line 43</div>
+        <div class="location">at         line 48</div>
         <code>                    
     <strong>setDefaultConfig</strong>()
         </code>
@@ -418,7 +427,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_prepare">
-        <div class="location">at         line 79</div>
+        <div class="location">at         line 84</div>
         <code>                    
     <strong>prepare</strong>()
         </code>
@@ -439,7 +448,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_generate">
-        <div class="location">at         line 103</div>
+        <div class="location">at         line 108</div>
         <code>                    void
     <strong>generate</strong>(string $mode = self::OUTPUT_MODE_DOWNLOAD)
         </code>
@@ -477,7 +486,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHtml">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getHtml"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 99</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getHtml"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 104</div>
         <code>                    string|null
     <strong>getHtml</strong>()
         </code>
@@ -507,7 +516,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setHtml">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setHtml"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 109</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setHtml"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 114</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a>
     <strong>setHtml</strong>(string $html)
         </code>
@@ -547,7 +556,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getPdf">
-        <div class="location">at         line 182</div>
+        <div class="location">at         line 187</div>
         <code>                    
     <strong>getPdf</strong>(bool $init = false)
         </code>
@@ -578,7 +587,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFileName">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getFileName"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 128</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getFileName"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 133</div>
         <code>                    string|null
     <strong>getFileName</strong>()
         </code>
@@ -608,7 +617,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setFileName">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setFileName"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 138</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setFileName"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 143</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a>
     <strong>setFileName</strong>(string $fileName)
         </code>
@@ -648,7 +657,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getConfig">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getConfig"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 152</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getConfig"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 157</div>
         <code>                    array
     <strong>getConfig</strong>()
         </code>
@@ -678,7 +687,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setConfig">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setConfig"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 162</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setConfig"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 167</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a>
     <strong>setConfig</strong>(array $config)
         </code>
@@ -718,7 +727,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_mergeConfig">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_mergeConfig"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 174</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_mergeConfig"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 179</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a>
     <strong>mergeConfig</strong>(array $config)
         </code>
@@ -758,7 +767,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isPrepared">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_isPrepared"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 184</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_isPrepared"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 189</div>
         <code>                    bool
     <strong>isPrepared</strong>()
         </code>
@@ -788,7 +797,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolder">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getFolder"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 192</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_getFolder"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 197</div>
         <code>                    string|null
     <strong>getFolder</strong>()
         </code>
@@ -816,7 +825,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setFolder">
-        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setFolder"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 197</div>
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Pdf/AbstractPdfWriter.html#method_setFolder"><abbr title="HeimrichHannot\UtilsBundle\Pdf\AbstractPdfWriter">AbstractPdfWriter</abbr></a> at         line 202</div>
         <code>                    void
     <strong>setFolder</strong>(string $folder)
         </code>
@@ -854,7 +863,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplate">
-        <div class="location">at         line 57</div>
+        <div class="location">at         line 62</div>
         <code>                    string|null
     <strong>getTemplate</strong>()
         </code>
@@ -884,7 +893,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setTemplate">
-        <div class="location">at         line 67</div>
+        <div class="location">at         line 72</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Pdf/PdfWriter.html"><abbr title="HeimrichHannot\UtilsBundle\Pdf\PdfWriter">PdfWriter</abbr></a>
     <strong>setTemplate</strong>(string $template)
         </code>
@@ -924,7 +933,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addFontDirectories">
-        <div class="location">at         line 144</div>
+        <div class="location">at         line 149</div>
         <code>                    <a href="../../../HeimrichHannot/UtilsBundle/Pdf/PdfWriter.html"><abbr title="HeimrichHannot\UtilsBundle\Pdf\PdfWriter">PdfWriter</abbr></a>
     <strong>addFontDirectories</strong>(array $paths)
         </code>
