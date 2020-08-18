@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.176.0] - 2020-08-18
+- added PdfCreator as replacement for PdfWriter
+
 ## [2.175.2] - 2020-08-13
 - show twig template start and stop comments in dev mode
 

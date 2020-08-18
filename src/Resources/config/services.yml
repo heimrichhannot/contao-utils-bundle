@@ -78,10 +78,12 @@ services:
     lazy:  true
     arguments:
       - "@contao.framework"
+    deprecated: "Service %service_id% is deprecated and will be removed in next major verison. Use PDFCreator instead."
   huh.utils.pdf.fpdi_writer:
     class: HeimrichHannot\UtilsBundle\Pdf\FPDIWriter
     public: true
     lazy:  true
+    deprecated: "Service %service_id% is deprecated and will be removed in next major verison. Use PDFCreator instead."
   huh.utils.comparison:
     class: HeimrichHannot\UtilsBundle\Comparison\CompareUtil
     public: true
@@ -127,3 +129,4 @@ services:
 
   huh.utils.pdf_writer:
     alias: huh.utils.pdf.writer
+    deprecated: "Service %alias_id% is deprecated and will be removed in next major verison. Use PDFCreator instead."

@@ -12,6 +12,11 @@ use Contao\System;
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Mpdf;
 
+/**
+ * Class PdfWriter.
+ *
+ * @deprecated Use PdfCreatorFactory::createInstance(MpdfCreator::getType()) instead
+ */
 class PdfWriter extends AbstractPdfWriter
 {
     /**

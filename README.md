@@ -16,6 +16,8 @@ composer require heimrichhannot/contao-utils-bundle
 
 ### Additional Requirements: 
 
+
+
 Add following dependencies to your project composer file, if you want to use one of the following utils:
 
 Util                  | Dependency
@@ -61,10 +63,7 @@ huh.utils.location
 huh.utils.member
 huh.utils.model
 huh.utils.module
-huh.utils.pdf.fpdi_writer
 huh.utils.pdf.preview
-huh.utils.pdf.writer
-huh.utils.pdf_writer
 huh.utils.request.curl
 huh.utils.routing
 huh.utils.salutation
@@ -80,7 +79,7 @@ huh.utils.user
 
 ### Utils 
 
-[PDF Writer](docs/utils/pdf/pdf_writer.md) (`huh.utils.pdf.writer`)
+[PdfCreator](docs/utils/pdf/pdfcreator.md) - High-level API to create pdf files with PHP
 
 ### Using with Webpack/Encore
 
