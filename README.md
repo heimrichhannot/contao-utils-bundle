@@ -22,7 +22,7 @@ Add following dependencies to your project composer file, if you want to use one
 
 Util                  | Dependency
 ----------------------|-----------
-huh.utils.pdf.writer  | `"mpdf/mpdf": "^7.0"`
+[PdfCreator - mPDF](docs/utils/pdf/pdfcreator.md)  | `"mpdf/mpdf": "^7.0\|^8.0"`
 huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostscript": "^4.1"`
 
 
