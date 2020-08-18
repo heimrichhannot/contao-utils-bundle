@@ -49,6 +49,8 @@ class MpdfCreator extends AbstractPdfCreator
 
         $pdf = new Mpdf($config);
 
+        $this->applyTemplate($pdf);
+
         if ($this->getHtmlContent()) {
             $pdf->WriteHTML($this->getHtmlContent());
         }
@@ -128,7 +130,7 @@ class MpdfCreator extends AbstractPdfCreator
                 ]);
             }
 
-            $this->legacyFontDirectoryConfig = array_merge($this->legacyFontDirectoryConfig, $fontConfig);
+            $this->legacyFontDirectoryConfig = array_merge($this->legacyFontDirectoryConfig ?: [], $fontConfig);
         }
 
         return $this;
@@ -233,5 +235,31 @@ class MpdfCreator extends AbstractPdfCreator
         }
 
         return $config;
+    }
+
+    /**
+     * @throws \setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException
+     * @throws \setasign\Fpdi\PdfParser\PdfParserException
+     * @throws \setasign\Fpdi\PdfParser\Type\PdfTypeException
+     */
+    protected function applyTemplate(Mpdf $pdf): void
+    {
+        if ($this->getTemplateFilePath()) {
+            if (file_exists($this->getTemplateFilePath())) {
+                if (version_compare(Mpdf::VERSION, '8', '>')) {
+                    $pageCount = $pdf->setSourceFile($this->getTemplateFilePath());
+                    $tplIdx = $pdf->importPage($pageCount);
+                    $pdf->useTemplate($tplIdx);
+                } else {
+                    // mpdf 7.x support
+                    $pdf->SetImportUse();
+                    $pageCount = $pdf->SetSourceFile($this->getTemplateFilePath());
+                    $tplIdx = $pdf->ImportPage($pageCount);
+                    $pdf->UseTemplate($tplIdx);
+                }
+            } else {
+                trigger_error('Pdf template does not exist.', E_USER_NOTICE);
+            }
+        }
     }
 }
