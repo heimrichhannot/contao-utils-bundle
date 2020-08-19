@@ -138,21 +138,21 @@ class MpdfCreator extends AbstractPdfCreator
 
     protected function applyFonts(array $config): array
     {
+        if ($this->legacyFontDirectoryConfig) {
+            $fontDirs = $this->legacyFontDirectoryConfig['fontDir'];
+        } else {
+            $defaultConfig = (new ConfigVariables())->getDefaults();
+            $fontDirs = $defaultConfig['fontDir'];
+        }
+
+        if ($this->legacyFontDirectoryConfig) {
+            $fontData = $this->legacyFontDirectoryConfig['fontdata'];
+        } else {
+            $defaultFontConfig = (new FontVariables())->getDefaults();
+            $fontData = $defaultFontConfig['fontdata'];
+        }
+
         if ($this->getFonts()) {
-            if ($this->legacyFontDirectoryConfig) {
-                $fontDirs = $this->legacyFontDirectoryConfig['fontDir'];
-            } else {
-                $defaultConfig = (new ConfigVariables())->getDefaults();
-                $fontDirs = $defaultConfig['fontDir'];
-            }
-
-            if ($this->legacyFontDirectoryConfig) {
-                $fontData = $this->legacyFontDirectoryConfig['fontdata'];
-            } else {
-                $defaultFontConfig = (new FontVariables())->getDefaults();
-                $fontData = $defaultFontConfig['fontdata'];
-            }
-
             $dirs = [];
             $families = [];
 
@@ -185,9 +185,12 @@ class MpdfCreator extends AbstractPdfCreator
                 $families[$font['family']][$fontStyle] = $file['basename'];
             }
 
-            $config['fontDir'] = array_merge($fontDirs, array_unique($dirs));
-            $config['fontdata'] = array_merge($fontData, $families);
+            $fontDirs = array_merge($fontDirs, array_unique($dirs));
+            $fontData = array_merge($fontData, $families);
         }
+
+        $config['fontDir'] = $fontDirs;
+        $config['fontdata'] = $fontData;
 
         return $config;
     }
