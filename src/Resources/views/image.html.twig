@@ -11,8 +11,20 @@
         </a>
     {% endif %}
 
+    {% set captionData = [] %}
+
     {% if caption|default() %}
-        <figcaption class="caption" itemprop="caption">{{ caption }}{% if picture.copyright|default and picture.copyright != 'a:1:{i:0;s:0:"";}' %} (© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}){% endif %}</figcaption>
+        {% set captionData = captionData|merge([caption]) %}
+    {% endif %}
+
+    {% if picture.copyright|default and picture.copyright|default != 'a:0:{}' and picture.copyright|default != 'a:1:{i:0;s:0:"";}' %}
+        {% set captionData = captionData|merge(['© ' ~ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''})]) %}
+    {% endif %}
+
+    {% if captionData is not empty %}
+        <figcaption class="caption" itemprop="caption">
+            {{ captionData|join(', ') }}
+        </figcaption>
     {% endif %}
 
 </figure>

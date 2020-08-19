@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.177.1] - 2020-08-19
+- fixed caption and copyrights issue
+
 ## [2.177.0] - 2020-08-19
 - added callbacks to PdfCreator
 
