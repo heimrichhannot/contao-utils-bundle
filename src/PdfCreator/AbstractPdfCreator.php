@@ -58,6 +58,10 @@ abstract class AbstractPdfCreator
     protected $orientation;
     /** @var string|null */
     protected $templateFilePath;
+    /** @var callable|null */
+    protected $beforeCreateInstanceCallback;
+    /** @var callable|null */
+    protected $beforeOutputPdfCallback;
 
     /**
      * Return an unique type alias.
@@ -249,6 +253,38 @@ abstract class AbstractPdfCreator
     public function setTemplateFilePath(string $templateFilePath): self
     {
         $this->templateFilePath = $templateFilePath;
+
+        return $this;
+    }
+
+    public function getBeforeCreateInstanceCallback(): ?callable
+    {
+        return $this->beforeCreateInstanceCallback;
+    }
+
+    /**
+     * Add an callback to modify constructor parameters for pdf library.
+     * Callback gets an BeforeCreateLibraryInstanceCallback object as parameter and should return an BeforeCreateLibraryInstanceCallback object.
+     */
+    public function setBeforeCreateInstanceCallback(?callable $beforeCreateInstanceCallback): self
+    {
+        $this->beforeCreateInstanceCallback = $beforeCreateInstanceCallback;
+
+        return $this;
+    }
+
+    public function getBeforeOutputPdfCallback(): ?callable
+    {
+        return $this->beforeOutputPdfCallback;
+    }
+
+    /**
+     * Add an callback to modify the configuration or parameters before outputting the pdf file.
+     * Callback gets an BeforeOutputPdfCallback object as parameter and should return an BeforeOutputPdfCallback object.
+     */
+    public function setBeforeOutputPdfCallback(?callable $beforeOutputPdfCallback): self
+    {
+        $this->beforeOutputPdfCallback = $beforeOutputPdfCallback;
 
         return $this;
     }

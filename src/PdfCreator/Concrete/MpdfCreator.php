@@ -9,6 +9,8 @@
 namespace HeimrichHannot\UtilsBundle\PdfCreator\Concrete;
 
 use HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator;
+use HeimrichHannot\UtilsBundle\PdfCreator\BeforeCreateLibraryInstanceCallback;
+use HeimrichHannot\UtilsBundle\PdfCreator\BeforeOutputPdfCallback;
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Config\FontVariables;
 use Mpdf\Mpdf;
@@ -47,6 +49,15 @@ class MpdfCreator extends AbstractPdfCreator
 
         $config = $this->applyFonts($config);
 
+        if ($this->getBeforeCreateInstanceCallback()) {
+            /** @var BeforeCreateLibraryInstanceCallback $result */
+            $result = \call_user_func($this->getBeforeCreateInstanceCallback(), new BeforeCreateLibraryInstanceCallback(['config' => $config]));
+
+            if ($result && isset($result->getConstructorParameters()['config'])) {
+                $config = $result->getConstructorParameters()['config'];
+            }
+        }
+
         $pdf = new Mpdf($config);
 
         $this->applyTemplate($pdf);
@@ -82,6 +93,24 @@ class MpdfCreator extends AbstractPdfCreator
                 $outputMode = Destination::INLINE;
 
                 break;
+        }
+
+        if ($this->getBeforeOutputPdfCallback()) {
+            /** @var BeforeOutputPdfCallback $result */
+            $result = \call_user_func($this->getBeforeCreateInstanceCallback(), new BeforeOutputPdfCallback($pdf, [
+                'name' => $filename,
+                'dest' => $outputMode,
+            ]));
+
+            if ($result) {
+                if (isset($result->getOutputParameters()['name'])) {
+                    $filename = $result->getOutputParameters()['name'];
+                }
+
+                if (isset($result->getOutputParameters()['dest'])) {
+                    $filename = $result->getOutputParameters()['dest'];
+                }
+            }
         }
 
         $pdf->Output($filename, $outputMode);
