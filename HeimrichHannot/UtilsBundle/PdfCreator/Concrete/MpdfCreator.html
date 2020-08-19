@@ -254,6 +254,22 @@
                 <td><small>from&nbsp;<a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#property_templateFilePath"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></small></td>
             </tr>
                     <tr>
+                <td class="type" id="property_beforeCreateInstanceCallback">
+                                        protected                                        callable|null
+                </td>
+                <td>$beforeCreateInstanceCallback</td>
+                <td class="last"></td>
+                <td><small>from&nbsp;<a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#property_beforeCreateInstanceCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_beforeOutputPdfCallback">
+                                        protected                                        callable|null
+                </td>
+                <td>$beforeOutputPdfCallback</td>
+                <td class="last"></td>
+                <td><small>from&nbsp;<a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#property_beforeOutputPdfCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></small></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_legacyFontDirectoryConfig">
                                         protected                                        array
                 </td>
@@ -527,6 +543,48 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    callable|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBeforeCreateInstanceCallback">getBeforeCreateInstanceCallback</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getBeforeCreateInstanceCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setBeforeCreateInstanceCallback">setBeforeCreateInstanceCallback</a>(callable|null $beforeCreateInstanceCallback)
+        
+                                            <p>Add an callback to modify constructor parameters for pdf library.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setBeforeCreateInstanceCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    callable|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBeforeOutputPdfCallback">getBeforeOutputPdfCallback</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getBeforeOutputPdfCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setBeforeOutputPdfCallback">setBeforeOutputPdfCallback</a>(callable|null $beforeOutputPdfCallback)
+        
+                                            <p>Add an callback to modify the configuration or parameters before outputting the pdf file.</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setBeforeOutputPdfCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     
                 </div>
                 <div class="col-md-8 type">
@@ -586,7 +644,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_getType">
-        <div class="location">at         line 95</div>
+        <div class="location">at         line 124</div>
         <code>        static            string
     <strong>getType</strong>()
         </code>
@@ -616,7 +674,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getHtmlContent">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getHtmlContent"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 70</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getHtmlContent"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 74</div>
         <code>                    string|null
     <strong>getHtmlContent</strong>()
         </code>
@@ -644,7 +702,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setHtmlContent">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setHtmlContent"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 78</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setHtmlContent"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 82</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setHtmlContent</strong>(mixed $htmlContent)
         </code>
@@ -682,7 +740,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_render">
-        <div class="location">at         line 38</div>
+        <div class="location">at         line 40</div>
         <code>                    void
     <strong>render</strong>()
         </code>
@@ -710,7 +768,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFilename">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFilename"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 90</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFilename"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 94</div>
         <code>                    string|null
     <strong>getFilename</strong>()
         </code>
@@ -738,7 +796,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setFilename">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFilename"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 95</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFilename"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 99</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setFilename</strong>(string $filename)
         </code>
@@ -776,7 +834,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getOutputMode">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getOutputMode"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 105</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getOutputMode"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 109</div>
         <code>                    string|null
     <strong>getOutputMode</strong>()
         </code>
@@ -804,7 +862,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setOutputMode">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setOutputMode"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 110</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setOutputMode"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 114</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setOutputMode</strong>(string $outputMode)
         </code>
@@ -842,7 +900,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getSupportedOutputModes">
-        <div class="location">at         line 90</div>
+        <div class="location">at         line 119</div>
         <code>                    array
     <strong>getSupportedOutputModes</strong>()
         </code>
@@ -870,7 +928,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFolder">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFolder"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 123</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFolder"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 127</div>
         <code>                    string|null
     <strong>getFolder</strong>()
         </code>
@@ -898,7 +956,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setFolder">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFolder"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 131</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFolder"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 135</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setFolder</strong>(string $folder)
         </code>
@@ -938,7 +996,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMediaType">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getMediaType"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 138</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getMediaType"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 142</div>
         <code>                    string|null
     <strong>getMediaType</strong>()
         </code>
@@ -966,7 +1024,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setMediaType">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setMediaType"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 146</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setMediaType"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 150</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setMediaType</strong>(string $mediaType)
         </code>
@@ -1004,7 +1062,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFonts">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFonts"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 153</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFonts"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 157</div>
         <code>                    array|null
     <strong>getFonts</strong>()
         </code>
@@ -1032,7 +1090,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setFonts">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFonts"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 158</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFonts"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 162</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setFonts</strong>(array $fonts)
         </code>
@@ -1070,7 +1128,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addFont">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_addFont"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 173</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_addFont"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 177</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>addFont</strong>(string $filepath, string $family, string $style, string $weight)
         </code>
@@ -1123,7 +1181,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getMargins">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getMargins"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 183</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getMargins"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 187</div>
         <code>                    array|null
     <strong>getMargins</strong>()
         </code>
@@ -1151,7 +1209,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setMargins">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setMargins"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 193</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setMargins"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 197</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setMargins</strong>(int|null $top, int|null $right = null, int|null $bottom = null, int|null $left = null)
         </code>
@@ -1206,7 +1264,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFormat">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFormat"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 205</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getFormat"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 209</div>
         <code>                    string|null
     <strong>getFormat</strong>()
         </code>
@@ -1234,7 +1292,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setFormat">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFormat"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 217</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setFormat"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 221</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setFormat</strong>(string|array $format)
         </code>
@@ -1274,7 +1332,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getOrientation">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getOrientation"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 224</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getOrientation"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 228</div>
         <code>                    string|null
     <strong>getOrientation</strong>()
         </code>
@@ -1302,7 +1360,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setOrientation">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setOrientation"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 232</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setOrientation"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 236</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setOrientation</strong>(string $orientation)
         </code>
@@ -1342,7 +1400,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTemplateFilePath">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getTemplateFilePath"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 239</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getTemplateFilePath"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 243</div>
         <code>                    string|null
     <strong>getTemplateFilePath</strong>()
         </code>
@@ -1370,7 +1428,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setTemplateFilePath">
-        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setTemplateFilePath"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 249</div>
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setTemplateFilePath"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 253</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
     <strong>setTemplateFilePath</strong>(string $templateFilePath)
         </code>
@@ -1409,8 +1467,144 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getBeforeCreateInstanceCallback">
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getBeforeCreateInstanceCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 260</div>
+        <code>                    callable|null
+    <strong>getBeforeCreateInstanceCallback</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>callable|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setBeforeCreateInstanceCallback">
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setBeforeCreateInstanceCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 269</div>
+        <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
+    <strong>setBeforeCreateInstanceCallback</strong>(callable|null $beforeCreateInstanceCallback)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Add an callback to modify constructor parameters for pdf library.</p>                    <p>Callback gets an BeforeCreateLibraryInstanceCallback object as parameter and should return an BeforeCreateLibraryInstanceCallback object.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>callable|null</td>
+                <td>$beforeCreateInstanceCallback</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getBeforeOutputPdfCallback">
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_getBeforeOutputPdfCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 276</div>
+        <code>                    callable|null
+    <strong>getBeforeOutputPdfCallback</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>callable|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setBeforeOutputPdfCallback">
+        <div class="location">in <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html#method_setBeforeOutputPdfCallback"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a> at         line 285</div>
+        <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a>
+    <strong>setBeforeOutputPdfCallback</strong>(callable|null $beforeOutputPdfCallback)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Add an callback to modify the configuration or parameters before outputting the pdf file.</p>                    <p>Callback gets an BeforeOutputPdfCallback object as parameter and should return an BeforeOutputPdfCallback object.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>callable|null</td>
+                <td>$beforeOutputPdfCallback</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/AbstractPdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator">AbstractPdfCreator</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 27</div>
+        <div class="location">at         line 29</div>
         <code>                    
     <strong>__construct</strong>()
         </code>
@@ -1431,7 +1625,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addFontDirectories">
-        <div class="location">at         line 110</div>
+        <div class="location">at         line 139</div>
         <code>                    <a href="../../../../HeimrichHannot/UtilsBundle/PdfCreator/Concrete/MpdfCreator.html"><abbr title="HeimrichHannot\UtilsBundle\PdfCreator\Concrete\MpdfCreator">MpdfCreator</abbr></a>
     <strong>addFontDirectories</strong>(array $paths)
         <small><sup><span class="label label-danger">deprecated</span></sup></small></code>
@@ -1478,7 +1672,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_applyFonts">
-        <div class="location">at         line 139</div>
+        <div class="location">at         line 168</div>
         <code>            protected        array
     <strong>applyFonts</strong>(array $config)
         </code>
@@ -1516,7 +1710,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_applyDocumentFormatConfiguration">
-        <div class="location">at         line 198</div>
+        <div class="location">at         line 227</div>
         <code>            protected        array
     <strong>applyDocumentFormatConfiguration</strong>(array $config)
         </code>
@@ -1554,7 +1748,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_applyTemplate">
-        <div class="location">at         line 248</div>
+        <div class="location">at         line 277</div>
         <code>            protected        void
     <strong>applyTemplate</strong>(<abbr title="Mpdf\Mpdf">Mpdf</abbr> $pdf)
         </code>
