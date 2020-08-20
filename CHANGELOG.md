@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.177.2] - 2020-08-20
+- removed database tree cache for `tl_page` from utils-bundle since only needed for contao-blocks
+- fixed missing prefixes in database tree cache
+
 ## [2.177.1] - 2020-08-19
 - fixed caption and copyrights issue
 

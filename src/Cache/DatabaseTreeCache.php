@@ -72,6 +72,10 @@ class DatabaseTreeCache
             return;
         }
 
+        if (!$this->isCompleteInstallation($table)) {
+            return;
+        }
+
         $configurations = $GLOBALS['TL_DCA'][$table]['config']['treeCache'];
 
         foreach ($configurations as $key => $config) {
@@ -220,7 +224,7 @@ class DatabaseTreeCache
     public function generateCacheTree(string $table, array $ids = [], string $key = 'id', array $config = [], $return = []): array
     {
         foreach ($ids as $id) {
-            if (null === ($children = $this->modelUtil->findModelInstancesBy($table, ['pid = ?'], $id, $config['options']))) {
+            if (null === ($children = $this->modelUtil->findModelInstancesBy($table, [$table.'.pid = ?'], $id, $config['options']))) {
                 $return[$id] = [];
 
                 continue;
@@ -292,5 +296,16 @@ class DatabaseTreeCache
     public function purgeCacheTree()
     {
         $this->filesystem->remove($this->cacheDir);
+    }
+
+    private function isCompleteInstallation($table)
+    {
+        try {
+            $this->modelUtil->findOneModelInstanceBy($table, [], []);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 }
