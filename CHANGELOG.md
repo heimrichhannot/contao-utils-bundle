@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.177.3] - 2020-08-20
+- fixed caption and copyrights issue in `image.html.twig` -> the flag `includeCopyright` has to be added to `image.html.twig` in order to print the copyright without a caption set
+
 ## [2.177.2] - 2020-08-20
 - removed database tree cache for `tl_page` from utils-bundle since only needed for contao-blocks
 - fixed missing prefixes in database tree cache
