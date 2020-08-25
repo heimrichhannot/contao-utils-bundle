@@ -227,6 +227,21 @@ class DcaUtilTest extends TestCaseEnvironment
 
         $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['deserialize_callback' => [StringUtil::class, 'deseridalize']], 'deserialize', ['test']);
         $this->assertNull($result);
+
+        $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['test_callback' => [new class() {
+            public function testCallback()
+            {
+                throw new \Error('Invalid method call');
+            }
+        }, 'testCallback']], 'test', ['test']);
+        $this->assertNull($result);
+
+        $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction([
+            'test_callback' => function ($arguments) {
+                throw new \Error('Method does not exist!');
+            },
+        ], 'test', ['test']);
+        $this->assertNull($result);
     }
 
     public function testSetDateAdded()
