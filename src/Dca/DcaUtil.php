@@ -369,9 +369,17 @@ class DcaUtil
                 return null;
             }
 
-            return \call_user_func_array([$instance, $callback[1]], $arguments);
+            try {
+                return \call_user_func_array([$instance, $callback[1]], $arguments);
+            } catch (\Error $e) {
+                return null;
+            }
         } elseif (\is_callable($array[$property.'_callback'])) {
-            return \call_user_func_array($array[$property.'_callback'], $arguments);
+            try {
+                return \call_user_func_array($array[$property.'_callback'], $arguments);
+            } catch (\Error $e) {
+                return null;
+            }
         }
 
         return null;

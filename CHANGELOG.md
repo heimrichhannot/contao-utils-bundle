@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.177.4] - 2020-08-25
+- fixed uncatched errors in DcaUtil::getConfigByArrayOrCallbackOrFunction() when used in frontend and contao 4.9
+
 ## [2.177.3] - 2020-08-20
 - fixed caption and copyrights issue in `image.html.twig` -> the flag `includeCopyright` has to be added to `image.html.twig` in order to print the copyright without a caption set
 
