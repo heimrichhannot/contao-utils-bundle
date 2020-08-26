@@ -15,7 +15,7 @@
 
     {% if caption|default() %}
         <figcaption class="caption" itemprop="caption">{{ caption }}{% if hasCopyright %} (© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}){% endif %}</figcaption>
-    {% elseif (hasCopyright and includeCopyright) %}
+    {% elseif (hasCopyright and includeCopyright|default) %}
         <figcaption class="caption" itemprop="caption">© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}</figcaption>
     {% endif %}
 </figure>

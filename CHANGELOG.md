@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.177.5] - 2020-08-26
+- added missing default check for includeCopyright in `image.html.twig`
+
 ## [2.177.4] - 2020-08-25
 - fixed uncatched errors in DcaUtil::getConfigByArrayOrCallbackOrFunction() when used in frontend and contao 4.9
 
