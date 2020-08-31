@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.177.6] - 2020-08-31
+- fixed class inheritance for CfgTagModel to respect the one existing
+
 ## [2.177.5] - 2020-08-26
 - added missing default check for includeCopyright in `image.html.twig`
 
