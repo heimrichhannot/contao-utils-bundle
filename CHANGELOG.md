@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.178.0] - 2020-09-09
+- js: added `GeneralUtil.runRecursiveFunction()`
+
 ## [2.177.6] - 2020-08-31
 - fixed class inheritance for CfgTagModel to respect the one existing
 
