@@ -42,6 +42,7 @@ class LocationUtil
             'street',
             'postal',
             'city',
+            'state',
             'country',
         ];
 
@@ -85,18 +86,18 @@ class LocationUtil
             return false;
         }
 
-        $response = json_decode($result);
+        $response = json_decode($result, true);
 
-        if ($response->error_message) {
+        if (isset($response['error_message'])) {
             /** @var AttributeBagInterface $objSession */
             $session = System::getContainer()->get('session')->getBag('contao_backend');
 
-            $session->set('utils.location.error', $response->error_message);
+            $session->set('utils.location.error', $response['error_message']);
 
             return false;
         }
 
-        return ['lat' => $response->results[0]->geometry->location->lat, 'lng' => $response->results[0]->geometry->location->lng];
+        return ['lat' => $response['results'][0]['geometry']['location']['lat'], 'lng' => $response['results'][0]['geometry']['location']['lng']];
     }
 
     public function computeCoordinatesInSaveCallback($value, \Contao\DataContainer $dc)

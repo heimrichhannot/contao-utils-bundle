@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.178.1] - 2020-09-15
+- added state as possibility for `LocationUtil::computeCoordinatesByString()`
+
 ## [2.178.0] - 2020-09-09
 - js: added `GeneralUtil.runRecursiveFunction()`
 
