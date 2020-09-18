@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.178.2] - 2020-09-18
+- do not throw error when calling protected or private methods in ClassUtil::jsonSerialize() when ignoreMethodVisibility is set to true
+
 ## [2.178.1] - 2020-09-15
 - added state as possibility for `LocationUtil::computeCoordinatesByString()`
 
