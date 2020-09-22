@@ -80,6 +80,10 @@ services:
     class: HeimrichHannot\UtilsBundle\Model\ModelUtil
   HeimrichHannot\UtilsBundle\Model\ModelUtil: '@huh.utils.model'
 
+  huh.utils.content:
+    class: HeimrichHannot\UtilsBundle\Content\ContentUtil
+  HeimrichHannot\UtilsBundle\Content\ContentUtil: '@huh.utils.content'
+
   huh.utils.module:
     class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
   HeimrichHannot\UtilsBundle\Module\ModuleUtil: '@huh.utils.module'

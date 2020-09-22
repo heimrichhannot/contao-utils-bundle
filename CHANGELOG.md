@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.179.0] - 2020-09-22
+- added `ContentUtil`
+
 ## [2.178.2] - 2020-09-18
 - do not throw error when calling protected or private methods in ClassUtil::jsonSerialize() when ignoreMethodVisibility is set to true
 
