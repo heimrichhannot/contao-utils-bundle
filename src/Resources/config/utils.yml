@@ -36,6 +36,7 @@ services:
   HeimrichHannot\UtilsBundle\String\StringUtil: ~
   HeimrichHannot\UtilsBundle\Url\UrlUtil: ~
   HeimrichHannot\UtilsBundle\User\UserUtil: ~
+  HeimrichHannot\UtilsBundle\Ics\IcsUtil: ~
 
   huh.utils.accordion: '@HeimrichHannot\UtilsBundle\Accordion\AccordionUtil'
   huh.utils.array: '@HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'
