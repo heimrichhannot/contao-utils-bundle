@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.180.1] - 2020-09-30
+- fix remove dump from image_gallery template
+
 ## [2.180.0] - 2020-09-28
 - added `IcsUtil`
 
