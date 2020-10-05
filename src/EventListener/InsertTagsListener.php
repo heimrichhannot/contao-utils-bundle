@@ -93,6 +93,6 @@ class InsertTagsListener
 
         $template = System::getContainer()->get('huh.utils.template')->getTemplate(preg_replace('#.html.twig$#i', '', $attributes[0]));
 
-        return Controller::replaceInsertTags(System::getContainer()->get('twig')->render($template, $data));
+        return Controller::replaceInsertTags(System::getContainer()->get('huh.utils.template')->renderTwigTemplate($template, $data));
     }
 }

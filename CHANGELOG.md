@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.180.2] - 2020-10-05
+- changed template rendering in InsertTagsListener::replaceTwigTag() to TemplateUtil::renderTwigTemplate
+
 ## [2.180.1] - 2020-09-30
 - fix remove dump from image_gallery template
 
