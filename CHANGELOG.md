@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.181.1] - 2020-10-06
+- modified autowiring for InsertTagsListener
+
 ## [2.181.0] - 2020-10-06
 - refactored InsertTagsListener
 - added Tests for InsertTagsListener
