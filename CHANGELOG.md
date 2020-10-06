@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.181.0] - 2020-10-06
+- refactored InsertTagsListener
+- added Tests for InsertTagsListener
+
 ## [2.180.2] - 2020-10-05
 - changed template rendering in InsertTagsListener::replaceTwigTag() to TemplateUtil::renderTwigTemplate
 
