@@ -75,10 +75,10 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
         $imageData = [];
 
         $data['image'] = $image;
-        $size = $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size, true);
+        $size = $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size);
 
         // remove empty imageSize passed in
-        if (isset($size) && empty(array_filter($size))) {
+        if (empty($size) || (\is_array($size) && empty(array_filter($size)))) {
             unset($data['size']);
         }
 

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.181.2] - 2020-10-13
+- fixed twig image filter not allowed image size to be an id or name
+
 ## [2.181.1] - 2020-10-06
 - modified autowiring for InsertTagsListener
 
