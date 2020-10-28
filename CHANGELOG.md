@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.181.3] - 2020-10-28
+- fixed `UrlUtil::getBaseUrl` to enable non-app_dev.php base url for versions later than 4.8 
+
 ## [2.181.2] - 2020-10-13
 - fixed twig image filter not allowed image size to be an id or name
 
