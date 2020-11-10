@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.182.0] - 2020-11-10
+- fixed `DcaUtil::setDefaultsFromDca()` to also respect sql default values
+
 ## [2.181.4] - 2020-11-05
 - added check for empty request in `ContainerUtil` (e.g. in command situations)
 

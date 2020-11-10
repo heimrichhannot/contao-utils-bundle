@@ -302,27 +302,53 @@ class DcaUtil
         if (empty($GLOBALS['TL_DCA'][$strTable])) {
             return $varData;
         }
+
+        $dbFields = [];
+
+        foreach (Database::getInstance()->listFields($strTable) as $data) {
+            if (!isset($data['default'])) {
+                continue;
+            }
+
+            $dbFields[$data['name']] = $data['default'];
+        }
+
         // Get all default values for the new entry
         foreach ($GLOBALS['TL_DCA'][$strTable]['fields'] as $k => $v) {
-            // Use array_key_exists here (see #5252)
+            $addDefaultValue = false;
+            $defaultValue = null;
+
+            // check sql definition
+            if (isset($dbFields[$k])) {
+                $addDefaultValue = true;
+                $defaultValue = $dbFields[$k];
+            }
+
+            // check dca default value
             if (\array_key_exists('default', $v)) {
+                $addDefaultValue = true;
+                $defaultValue = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
+            }
+
+            if (!$addDefaultValue) {
+                continue;
+            }
+
+            // Encrypt the default value (see #3740)
+            if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
+                $defaultValue = $this->container->get('huh.utils.encryption')->encrypt($defaultValue);
+            }
+
+            if ($addDefaultValue) {
                 if (\is_object($varData)) {
-                    $varData->{$k} = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
-                    // Encrypt the default value (see #3740)
-                    if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
-                        $varData->{$k} = $this->container->get('huh.utils.encryption')->encrypt($varData->{$k});
-                    }
+                    $varData->{$k} = $defaultValue;
                 } else {
                     if (null === $varData) {
                         $varData = [];
                     }
 
                     if (\is_array($varData)) {
-                        $varData[$k] = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
-                        // Encrypt the default value (see #3740)
-                        if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
-                            $varData[$k] = $this->container->get('huh.utils.encryption')->encrypt($varData[$k]);
-                        }
+                        $varData[$k] = $defaultValue;
                     }
                 }
             }
