@@ -216,7 +216,7 @@
                     mixed
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setDefaultsFromDca">setDefaultsFromDca</a>(string $strTable, mixed $varData = null)
+                    <a href="#method_setDefaultsFromDca">setDefaultsFromDca</a>($strTable, $varData = null, bool $includeSql = false)
         
                                             <p>Set initial $varData from dca.</p>                </div>
                 <div class="col-md-2"></div>
@@ -861,7 +861,7 @@ palette where every field can be overridden.</p>                </div>
                     <h3 id="method_setDefaultsFromDca">
         <div class="location">at         line 298</div>
         <code>                    mixed
-    <strong>setDefaultsFromDca</strong>(string $strTable, mixed $varData = null)
+    <strong>setDefaultsFromDca</strong>($strTable, $varData = null, bool $includeSql = false)
         </code>
     </h3>
     <div class="details">
@@ -875,14 +875,19 @@ palette where every field can be overridden.</p>                </div>
 
                     <table class="table table-condensed">
                     <tr>
-                <td>string</td>
+                <td></td>
                 <td>$strTable</td>
-                <td>Dca table name</td>
+                <td></td>
             </tr>
                     <tr>
-                <td>mixed</td>
+                <td></td>
                 <td>$varData</td>
-                <td>Object or array</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$includeSql</td>
+                <td></td>
             </tr>
             </table>
 
