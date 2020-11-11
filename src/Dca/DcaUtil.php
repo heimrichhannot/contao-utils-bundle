@@ -295,7 +295,7 @@ class DcaUtil
      *
      * @return mixed Object or array with the default values
      */
-    public function setDefaultsFromDca($strTable, $varData = null)
+    public function setDefaultsFromDca($strTable, $varData = null, bool $includeSql = false)
     {
         $this->framework->getAdapter(Controller::class)->loadDataContainer($strTable);
 
@@ -319,7 +319,7 @@ class DcaUtil
             $defaultValue = null;
 
             // check sql definition
-            if (isset($dbFields[$k])) {
+            if ($includeSql && isset($dbFields[$k])) {
                 $addDefaultValue = true;
                 $defaultValue = $dbFields[$k];
             }

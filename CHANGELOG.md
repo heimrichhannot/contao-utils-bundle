@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.182.1] - 2020-11-10
+- added a parameter to `DcaUtil::setDefaultsFromDca()` for BC reasons
+
 ## [2.182.0] - 2020-11-10
 - fixed `DcaUtil::setDefaultsFromDca()` to also respect sql default values
 
