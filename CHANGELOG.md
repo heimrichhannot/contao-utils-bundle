@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.183.0] - 2020-11-23
+- added support for `loading` attribute if set from outside (lazy loading)
+
 ## [2.182.1] - 2020-11-10
 - added a parameter to `DcaUtil::setDefaultsFromDca()` for BC reasons
 

@@ -5,7 +5,9 @@
         <a href="{{ href }}"{% if linkTitle|default() %} title="{{ linkTitle }}"{% endif %}{% if target|default() %} target="_blank"{% endif %} {{ attributes|default()|raw }} {{ linkAttributes|default()|raw }} itemprop="contentUrl">
     {% endif %}
 
-    {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture) }}
+    {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture|merge({
+            loading: loading|default('auto')
+    })) }}
 
     {% if href|default() %}
         </a>
