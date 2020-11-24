@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.184.0] - 2020-11-24
+- added `DateUtil::convertSecondsToHumanReadableFormat()`
+
 ## [2.183.0] - 2020-11-23
 - added support for `loading` attribute if set from outside (lazy loading)
 

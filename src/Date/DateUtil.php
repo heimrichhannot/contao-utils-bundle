@@ -450,4 +450,33 @@ class DateUtil
 
         return $returnFullDays ? floor($result) : $result;
     }
+
+    public function convertSecondsToHumanReadableFormat($seconds)
+    {
+        $days = floor($seconds / 86400);
+        $seconds -= ($days * 86400);
+
+        $hours = floor($seconds / 3600);
+        $seconds -= ($hours * 3600);
+
+        $minutes = floor($seconds / 60);
+        $seconds -= ($minutes * 60);
+
+        $values = [
+            'day' => $days,
+            'hour' => $hours,
+            'minute' => $minutes,
+            'second' => $seconds,
+        ];
+
+        $parts = [];
+
+        foreach ($values as $text => $value) {
+            if ($value > 0) {
+                $parts[] = $value.' '.strtolower($GLOBALS['TL_LANG']['MSC'][$text.($value > 1 ? 's' : '')]);
+            }
+        }
+
+        return implode(', ', $parts);
+    }
 }
