@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.184.1] - 2020-11-25
+- fixed loading attribute has no default value in picture.html.twig
+- enhance an annotation in ModelUtil
+
 ## [2.184.0] - 2020-11-24
 - added `DateUtil::convertSecondsToHumanReadableFormat()`
 

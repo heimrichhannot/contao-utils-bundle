@@ -77,7 +77,7 @@ class ModelUtil
      * @param mixed $columns
      * @param mixed $values
      *
-     * @return mixed
+     * @return Model[]|Collection|null
      */
     public function findModelInstancesBy(string $table, $columns, $values, array $options = [])
     {
