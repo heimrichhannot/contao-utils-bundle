@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.185.0] - 2020-11-30
+- added DatabaseUtil::createWhereForSerializedBlob() option parameter and inline_values option
+
 ## [2.184.1] - 2020-11-25
 - fixed loading attribute has no default value in picture.html.twig
 - enhance an annotation in ModelUtil

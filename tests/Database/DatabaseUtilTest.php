@@ -32,6 +32,15 @@ class DatabaseUtilTest extends TestCaseEnvironment
         System::setContainer($container);
     }
 
+    public function createTestInstance(array $parameters = [])
+    {
+        if (!isset($parameters['framework'])) {
+            $parameters['framework'] = $this->mockContaoFramework();
+        }
+
+        return new DatabaseUtil($parameters['framework']);
+    }
+
     /**
      * Tests the object instantiation.
      */
@@ -355,5 +364,28 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $mock->expects($this->any())->method('setParameter');
 
         return $mock;
+    }
+
+    public function testCreateWhereForSerializedBlob()
+    {
+        $instance = $this->createTestInstance();
+        $result = $instance->createWhereForSerializedBlob('test', ['A', 'B']);
+        $this->assertCount(2, $result);
+        $this->assertSame('(test REGEXP (?) OR test REGEXP (?))', $result[0]);
+        $this->assertCount(2, $result[1]);
+        $this->assertSame("':\"A\"'", $result[1][0]);
+
+        $instance = $this->createTestInstance();
+        $result = $instance->createWhereForSerializedBlob('test', ['A', 'B'], $instance::SQL_CONDITION_AND);
+        $this->assertCount(2, $result);
+        $this->assertSame('((test REGEXP (?)) AND (test REGEXP (?)))', $result[0]);
+        $this->assertCount(2, $result[1]);
+        $this->assertSame("':\"A\"'", $result[1][0]);
+
+        $result = $instance->createWhereForSerializedBlob('test', ['A', 'B'], $instance::SQL_CONDITION_OR, ['inline_values' => true]);
+        $this->assertCount(2, $result);
+        $this->assertSame("(test REGEXP (':\"A\"') OR test REGEXP (':\"B\"'))", $result[0]);
+        $this->assertCount(2, $result[1]);
+        $this->assertSame("':\"A\"'", $result[1][0]);
     }
 }

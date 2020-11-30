@@ -317,13 +317,18 @@ class DatabaseUtil
      * @param string $field      The field the condition should be checked against accordances
      * @param array  $values     The values array to check the field against
      * @param string $connective SQL_CONDITION_OR | SQL_CONDITION_AND
+     * @param array  $options    Pass additional options.
+     *
+     * Options:
+     * - inline_values: (bool) Inline the values in the sql part instead of using ? ('REGEXP (':"3"')' instead of 'REGEXP (?)'). Return value not change (still an array with an values index)
      *
      * @return array
      */
-    public function createWhereForSerializedBlob(string $field, array $values, string $connective = self::SQL_CONDITION_OR)
+    public function createWhereForSerializedBlob(string $field, array $values, string $connective = self::SQL_CONDITION_OR, array $options = [])
     {
         $where = null;
         $returnValues = [];
+        $inlineValues = (isset($options['inline_values']) && true === $options['inline_values']);
 
         if (!\in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND])) {
             throw new \Exception('Unknown sql junctor');
@@ -334,13 +339,15 @@ class DatabaseUtil
                 $where .= " $connective ";
             }
 
+            $value = "':\"$val\"'";
+
             $where .= self::SQL_CONDITION_AND == $connective ? '(' : '';
 
-            $where .= "$field REGEXP (?)";
+            $where .= "$field REGEXP (".($inlineValues ? $value : '?').')';
 
             $where .= self::SQL_CONDITION_AND == $connective ? ')' : '';
 
-            $returnValues[] = "':\"$val\"'";
+            $returnValues[] = $value;
         }
 
         return ["($where)", $returnValues];
