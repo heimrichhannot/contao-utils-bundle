@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.186.0] - 2020-12-15
+- fixed DownloadExtension (see https://github.com/heimrichhannot/contao-utils-bundle/issues/22)
+
 ## [2.185.0] - 2020-11-30
 - added DatabaseUtil::createWhereForSerializedBlob() option parameter and inline_values option
 

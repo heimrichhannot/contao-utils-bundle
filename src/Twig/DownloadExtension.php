@@ -84,6 +84,7 @@ class DownloadExtension extends AbstractExtension
         // Send the file to the browser and do not send a 404 header (see #4632)
         if ('' != $requestedFile && $requestedFile == $file->path) {
             try {
+                ob_clean();
                 Controller::sendFileToBrowser($requestedFile);
             } catch (ResponseException $e) {
                 $e->getResponse()->send();
