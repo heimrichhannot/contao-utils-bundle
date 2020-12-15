@@ -10,8 +10,9 @@ namespace HeimrichHannot\UtilsBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
-class UtilsBundleExtension extends Extension
+class UtilsBundleExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * Loads a specific configuration.
@@ -20,14 +21,12 @@ class UtilsBundleExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+    }
 
-        /* @todo Remove this passage in version 3.0 */
-        if (!isset($config['pdfPreviewFolder'])) {
-            $config['pdfPreviewFolder'] = $container->getParameter('huh.utils.filecache.folder').\DIRECTORY_SEPARATOR.'pdfPreview';
-        }
-
-        $container->setParameter('huh_utils', $config);
+    public function prepend(ContainerBuilder $container)
+    {
+        $configs = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        $container->prependExtensionConfig('huh_utils', $config);
     }
 }

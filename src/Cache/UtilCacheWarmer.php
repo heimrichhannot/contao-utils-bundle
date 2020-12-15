@@ -24,21 +24,6 @@ class UtilCacheWarmer implements CacheWarmerInterface
     private $filesystem;
 
     /**
-     * @var ResourceFinderInterface
-     */
-    private $finder;
-
-    /**
-     * @var FileLocator
-     */
-    private $locator;
-
-    /**
-     * @var string
-     */
-    private $rootDir;
-
-    /**
      * @var Connection
      */
     private $connection;
@@ -61,9 +46,6 @@ class UtilCacheWarmer implements CacheWarmerInterface
     public function __construct(Filesystem $filesystem, ResourceFinderInterface $finder, FileLocator $locator, $rootDir, Connection $connection, TemplateUtil $templateUtil, ContaoFrameworkInterface $framework)
     {
         $this->filesystem = $filesystem;
-        $this->finder = $finder;
-        $this->locator = $locator;
-        $this->rootDir = $rootDir;
         $this->connection = $connection;
         $this->templateUtil = $templateUtil;
         $this->framework = $framework;
