@@ -13,13 +13,10 @@ use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Config\ConfigPluginInterface;
-use Contao\ManagerPlugin\Config\ContainerBuilder;
-use Contao\ManagerPlugin\Config\ExtensionPluginInterface;
-use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
-class Plugin implements BundlePluginInterface, ExtensionPluginInterface, ConfigPluginInterface
+class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
     /**
      * {@inheritdoc}
@@ -30,16 +27,6 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface, ConfigP
             BundleConfig::create(HeimrichHannotContaoUtilsBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
         ];
-    }
-
-    public function getExtensionConfig($extensionName, array $extensionConfigs, ContainerBuilder $container)
-    {
-        return ContainerUtil::mergeConfigFile(
-            'huh_encore',
-            $extensionName,
-            $extensionConfigs,
-            __DIR__.'/../Resources/config/config_encore.yml'
-        );
     }
 
     /**
@@ -54,5 +41,9 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface, ConfigP
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/services.yml');
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/twig.yml');
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/utils.yml');
+
+        if (class_exists('HeimrichHannot\EncoreBundle\HeimrichHannotContaoEncoreBundle')) {
+            $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/config_encore.yml');
+        }
     }
 }

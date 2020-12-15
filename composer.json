@@ -24,6 +24,9 @@
     "php-coveralls/php-coveralls": "^2.0",
     "symfony/phpunit-bridge": "^3.2"
   },
+  "conflict": {
+    "heimrichhannot/contao-encore-bundle": "<1.5"
+  },
   "autoload": {
     "psr-4": {
       "HeimrichHannot\\UtilsBundle\\": "src/"

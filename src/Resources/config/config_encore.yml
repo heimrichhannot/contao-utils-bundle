@@ -1,5 +1,4 @@
-huh:
-  encore:
-    legacy:
-      js:
-        - contao-utils-bundle
+huh_encore:
+  unset_global_keys:
+    js:
+      - contao-utils-bundle

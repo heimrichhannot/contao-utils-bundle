@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.187.0-DEV] - 2020-12-15
+- updated encore bundle integration, minimum supported encore bundle version is now 1.5
+
 ## [2.186.0] - 2020-12-15
 - fixed DownloadExtension (see https://github.com/heimrichhannot/contao-utils-bundle/issues/22)
 
