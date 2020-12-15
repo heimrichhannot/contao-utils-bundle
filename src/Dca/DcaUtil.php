@@ -13,11 +13,9 @@ use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
-use Contao\Database\Result;
 use Contao\DataContainer;
 use Contao\DcaExtractor;
 use Contao\DiffRenderer;
-use Contao\Environment;
 use Contao\FrontendUser;
 use Contao\Image;
 use Contao\Input;
@@ -26,7 +24,9 @@ use Contao\RequestToken;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
+use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DcaUtil
@@ -45,11 +45,22 @@ class DcaUtil
      * @var ContainerInterface
      */
     protected $container;
+    /**
+     * @var RoutingUtil
+     */
+    private $routingUtil;
 
-    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework)
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct(ContainerInterface $container, ContaoFrameworkInterface $framework, RoutingUtil $routingUtil, Connection $connection)
     {
         $this->container = $container;
         $this->framework = $framework;
+        $this->routingUtil = $routingUtil;
+        $this->connection = $connection;
     }
 
     /**
@@ -164,18 +175,49 @@ class DcaUtil
     /**
      * Get a contao backend popup link.
      *
-     * @param string $href (e.g. do=news&id=1000&table=tl_news)
+     * Options:
+     * - attributes: (array) Link attributes as key value pairs. Will override title and style option. href and onclick are not allowed and will be removed from list.
+     * - title: (string) Overrride default link title
+     * - style: (string) Override default css style properties
+     * - onclick: (string) Override default onclick javascript code
+     * - icon: (string) Link icon to show as link text. Overrides default icon.
+     * - linkText: (string) A linkTitle to show as link text. Will be displayed after the link icon. Default empty.
+     * - url-only: (boolean) Return only url instead of a complete link element
+     *
+     * @param array $parameter An array of parameter. Using string is deprecated and will be removed in a future version.
      *
      * @return string
      */
-    public function getPopupWizardLink(string $href, array $options = [])
+    public function getPopupWizardLink($parameter, array $options = [])
     {
-        $requestToken = $this->container->get('security.csrf.token_manager')->getToken(
-            $this->container->getParameter('contao.csrf_token_name')
-        )->getValue();
+        if (\is_string($parameter)) {
+            @trigger_error('Using string as parameter is deprecated and will be removed in a future version.', E_USER_DEPRECATED);
+            $result = [];
+            $query = parse_url($parameter, PHP_URL_QUERY);
 
-        $href = Environment::get('url').parse_url(Environment::get('uri'), PHP_URL_PATH).'?'.ltrim($href, '?');
-        $href = $this->container->get('huh.utils.url')->addQueryString('popup=1&nb=1&rt='.$requestToken, $href);
+            if (\is_string($query)) {
+                $parameter = $query;
+            }
+            parse_str($parameter, $result);
+            $parameter = $result;
+        }
+
+        $route = $options['route'] ?? 'contao_backend';
+
+        $parameter['popup'] = 1;
+        $parameter['nb'] = 1;
+
+        $url = $this->routingUtil->generateBackendRoute($parameter, true, true, $route);
+
+        if (isset($options['url-only']) && true === $options['url-only']) {
+            return $url;
+        }
+
+        $attributes = [];
+
+        if (isset($options['attributes'])) {
+            $attributes = $options['attributes'];
+        }
 
         // title
         if (!isset($options['title']) || !$options['title']) {
@@ -184,8 +226,16 @@ class DcaUtil
             $title = StringUtil::specialchars($options['title']);
         }
 
+        if (!isset($attributes['title'])) {
+            $attributes['title'] = $title;
+        }
+
         // style
         $style = !isset($options['style']) ? 'padding-left: 5px; padding-top: 2px; display: inline-block;' : $options['style'];
+
+        if (!empty($style) && !isset($attributes['style'])) {
+            $attributes['style'] = $style;
+        }
 
         // onclick
         if (!isset($options['onclick']) || !$options['onclick']) {
@@ -201,16 +251,39 @@ class DcaUtil
             $onclick = $options['onclick'];
         }
 
-        // icon
-        $icon = !isset($options['icon']) || !$options['icon'] ? 'alias.svg' : $options['icon'];
+        if (!isset($attributes['onclick'])) {
+            $attributes['onclick'] = $onclick;
+        }
+
+        // link text and icon
+        $linkText = '';
+
+        if (!isset($options['icon'])) {
+            $linkText .= $this->framework->getAdapter(Image::class)->getHtml('alias.svg', $title, 'style="vertical-align:top"');
+        } elseif (!empty($options['icon'])) {
+            $linkText = $this->framework->getAdapter(Image::class)->getHtml($options['icon'], $title, 'style="vertical-align:top"');
+        }
+
+        if (isset($options['linkText']) || !empty($options['linkText'])) {
+            $linkText .= $options['linkText'];
+        }
+
+        // Attributes
+        $attributeQuery = '';
+
+        foreach ($attributes as $key => $value) {
+            if (\in_array($key, ['href', 'onclick'])) {
+                continue;
+            }
+            $attributeQuery .= $key.'="'.htmlspecialchars($value).'" ';
+        }
 
         return sprintf(
-            '<a href="%s" title="%s" style="%s" %s>%s</a>',
-            $href,
-            $title,
-            $style,
+            '<a href="%s" %s %s>%s</a>',
+            $url,
+            $attributeQuery,
             $onclick,
-            Image::getHtml($icon, $title, 'style="vertical-align:top"')
+            $linkText
         );
     }
 
@@ -222,34 +295,60 @@ class DcaUtil
      *
      * @return mixed Object or array with the default values
      */
-    public function setDefaultsFromDca($strTable, $varData = null)
+    public function setDefaultsFromDca($strTable, $varData = null, bool $includeSql = false)
     {
         $this->framework->getAdapter(Controller::class)->loadDataContainer($strTable);
 
         if (empty($GLOBALS['TL_DCA'][$strTable])) {
             return $varData;
         }
+
+        $dbFields = [];
+
+        foreach (Database::getInstance()->listFields($strTable) as $data) {
+            if (!isset($data['default'])) {
+                continue;
+            }
+
+            $dbFields[$data['name']] = $data['default'];
+        }
+
         // Get all default values for the new entry
         foreach ($GLOBALS['TL_DCA'][$strTable]['fields'] as $k => $v) {
-            // Use array_key_exists here (see #5252)
+            $addDefaultValue = false;
+            $defaultValue = null;
+
+            // check sql definition
+            if ($includeSql && isset($dbFields[$k])) {
+                $addDefaultValue = true;
+                $defaultValue = $dbFields[$k];
+            }
+
+            // check dca default value
             if (\array_key_exists('default', $v)) {
+                $addDefaultValue = true;
+                $defaultValue = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
+            }
+
+            if (!$addDefaultValue) {
+                continue;
+            }
+
+            // Encrypt the default value (see #3740)
+            if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
+                $defaultValue = $this->container->get('huh.utils.encryption')->encrypt($defaultValue);
+            }
+
+            if ($addDefaultValue) {
                 if (\is_object($varData)) {
-                    $varData->{$k} = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
-                    // Encrypt the default value (see #3740)
-                    if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
-                        $varData->{$k} = $this->container->get('huh.utils.encryption')->encrypt($varData->{$k});
-                    }
+                    $varData->{$k} = $defaultValue;
                 } else {
                     if (null === $varData) {
                         $varData = [];
                     }
 
                     if (\is_array($varData)) {
-                        $varData[$k] = \is_array($v['default']) ? serialize($v['default']) : $v['default'];
-                        // Encrypt the default value (see #3740)
-                        if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
-                            $varData[$k] = $this->container->get('huh.utils.encryption')->encrypt($varData[$k]);
-                        }
+                        $varData[$k] = $defaultValue;
                     }
                 }
             }
@@ -296,9 +395,17 @@ class DcaUtil
                 return null;
             }
 
-            return \call_user_func_array([$instance, $callback[1]], $arguments);
+            try {
+                return \call_user_func_array([$instance, $callback[1]], $arguments);
+            } catch (\Error $e) {
+                return null;
+            }
         } elseif (\is_callable($array[$property.'_callback'])) {
-            return \call_user_func_array($array[$property.'_callback'], $arguments);
+            try {
+                return \call_user_func_array($array[$property.'_callback'], $arguments);
+            } catch (\Error $e) {
+                return null;
+            }
         }
 
         return null;
@@ -543,19 +650,32 @@ class DcaUtil
     }
 
     /**
-     * Generate an alias.
+     * Return if the current alias already exist in table.
      *
-     * @param mixed  $alias       The current alias (if available)
-     * @param int    $id          The entity's id
-     * @param string $table       The entity's table
-     * @param string $title       The value to use as a base for the alias
-     * @param bool   $keepUmlauts Set to true if German umlauts should be kept
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function aliasExist(string $alias, int $id, string $table): bool
+    {
+        $stmt = $this->connection->prepare("SELECT id FROM {$table} WHERE alias=? AND id!=?");
+        $stmt->execute([$alias, $id]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * Generate an alias with unique check.
+     *
+     * @param mixed       $alias       The current alias (if available)
+     * @param int         $id          The entity's id
+     * @param string|null $table       The entity's table (pass a comma separated list if the validation should be expanded to multiple tables like tl_news AND tl_member. ATTENTION: the first table needs to be the one we're currently in). Pass null to skip unqiue check.
+     * @param string      $title       The value to use as a base for the alias
+     * @param bool        $keepUmlauts Set to true if German umlauts should be kept
      *
      * @throws \Exception
      *
      * @return string
      */
-    public function generateAlias(string $alias, int $id, string $table, string $title, bool $keepUmlauts = true)
+    public function generateAlias(?string $alias, int $id, ?string $table, string $title, bool $keepUmlauts = true)
     {
         $autoAlias = false;
 
@@ -569,22 +689,48 @@ class DcaUtil
             $alias = preg_replace(['/ä/i', '/ö/i', '/ü/i', '/ß/i'], ['ae', 'oe', 'ue', 'ss'], $alias);
         }
 
-        /**
-         * @var Result
-         */
-        $existingAlias = $this->framework->createInstance(Database::class)->getInstance()->prepare("SELECT id FROM $table WHERE alias=?")->execute($alias);
-
-        if ($existingAlias->id == $id) {
+        if (null === $table) {
             return $alias;
         }
 
-        // Check whether the alias exists
-        if ($existingAlias->numRows > 0 && !$autoAlias) {
-            throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
-        }
+        $originalAlias = $alias;
 
-        // Add ID to alias
-        if ($existingAlias->numRows && $existingAlias->id != $id && $autoAlias || !$alias) {
+        // multiple tables?
+        if (false !== strpos($table, ',')) {
+            $tables = explode(',', $table);
+
+            foreach ($tables as $i => $partTable) {
+                // the table in which the entity is
+                if (0 === $i) {
+                    if ($this->aliasExist($alias, $id, $table)) {
+                        if (!$autoAlias) {
+                            throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
+                        }
+
+                        $alias = $originalAlias.'-'.$id;
+                    }
+                } else {
+                    // another table
+                    $stmt = $this->connection->prepare("SELECT id FROM {$partTable} WHERE alias=?");
+                    $stmt->execute([$alias]);
+
+                    // Check whether the alias exists
+                    if ($stmt->rowCount() > 0) {
+                        throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
+                    }
+                }
+            }
+        } else {
+            if (!$this->aliasExist($alias, $id, $table)) {
+                return $alias;
+            }
+
+            // Check whether the alias exists
+            if (!$autoAlias) {
+                throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
+            }
+
+            // Add ID to alias
             $alias .= '-'.$id;
         }
 
@@ -1235,5 +1381,190 @@ class DcaUtil
         $dca = $GLOBALS['TL_DCA'][$table];
 
         return $dca['fields'][$field]['label'][0] ?: (isset($GLOBALS['TL_LANG']['MSC'][$field]) ? (\is_array($GLOBALS['TL_LANG']['MSC'][$field]) ? $GLOBALS['TL_LANG']['MSC'][$field][0] : $GLOBALS['TL_LANG']['MSC'][$field]) : $field);
+    }
+
+    /**
+     * Returns the set of pid and sorting to be used in an sql update statement. Also updates the existing records according to the usage.
+     *
+     * The method can be used in several ways:
+     *
+     * <ul>
+     *   <li>Insert in an archive of a certain pid as first item: $pid must be set (0 is also ok), $insertAfterId needs to be null</li>
+     *   <li>Insert after a record of a certain id: $insertAfterId must be set, $pid can be set if necessary</li>
+     * </ul>
+     *
+     * @example
+     *
+     * // insert a new record after another one with the ID 82
+     *
+     * $news = new \Contao\NewsModel();
+
+     * $news->pid = 3;
+     * $news->tstamp = time();
+     * $news->title = 'Something';
+     * $news->save();
+
+     * $set = System::getContainer()->get('huh.utils.dca')->getNewSortingPosition(
+     *   'tl_news', $news->id, 3, 82
+     * );
+     *
+     * // store the returned set to the news record created above as usual
+     *
+     * Hint: Mostly taken from DC_Table::getNewPosition(). Removed: handling if only a pid field is present, mode handling (since we don't have it in this context).
+     */
+    public function getNewSortingPosition(string $table, int $id, $pid = null, $insertAfterId = null): array
+    {
+        $set = [];
+
+        /* @var Database $db */
+        if (!($db = $this->framework->createInstance(Database::class))) {
+            return $set;
+        }
+
+        // If there is pid and sorting
+        if ($db->fieldExists('pid', $table) && $db->fieldExists('sorting', $table)) {
+            // PID is set (insert after or into the parent record)
+            if (is_numeric($pid)) {
+                // ID is set (insert after the current record)
+                if ($insertAfterId) {
+                    $objCurrentRecord = $db->prepare("SELECT * FROM $table WHERE id=? AND pid=?")
+                        ->limit(1)
+                        ->execute($insertAfterId, $pid);
+
+                    // Select current record
+                    if ($objCurrentRecord->numRows) {
+                        $newSorting = null;
+                        $curSorting = $objCurrentRecord->sorting;
+
+                        $objNextSorting = $db->prepare("SELECT MIN(sorting) AS sorting FROM $table WHERE sorting>? AND pid=?")
+                            ->execute($curSorting, $pid);
+
+                        // Select sorting value of the next record
+                        if ($objNextSorting->numRows && null !== $objNextSorting->sorting) {
+                            $nxtSorting = $objNextSorting->sorting;
+
+                            // Resort if the new sorting value is no integer or bigger than a MySQL integer field
+                            if (0 != (($curSorting + $nxtSorting) % 2) || $nxtSorting >= 4294967295) {
+                                $count = 1;
+
+                                $objNewSorting = $db->prepare("SELECT id, sorting FROM $table WHERE pid=? AND id!=? ORDER BY sorting")->execute($pid, $id);
+
+                                while ($objNewSorting->next()) {
+                                    $db->prepare("UPDATE $table SET sorting=? WHERE id=? AND pid=?")
+                                        ->execute(($count++ * 128), $objNewSorting->id, $pid);
+
+                                    if ($objNewSorting->sorting == $curSorting) {
+                                        $newSorting = ($count++ * 128);
+                                    }
+                                }
+                            } // Else new sorting = (current sorting + next sorting) / 2
+                            else {
+                                $newSorting = (($curSorting + $nxtSorting) / 2);
+                            }
+                        } // Else new sorting = (current sorting + 128)
+                        else {
+                            $newSorting = ($curSorting + 128);
+                        }
+
+                        // Set new sorting
+                        $set['sorting'] = (int) $newSorting;
+
+                        return $set;
+                    }
+                } else {
+                    // insert in first place
+                    $newPID = null;
+                    $newSorting = null;
+
+                    $newPID = $pid;
+
+                    $minSorting = $db->prepare("SELECT MIN(sorting) AS sorting FROM $table WHERE pid=?")->execute($pid);
+
+                    // Select sorting value of the first record
+                    if ($minSorting->numRows) {
+                        $curSorting = $minSorting->sorting;
+
+                        // Resort if the new sorting value is not an integer or smaller than 1
+                        if (0 != ($curSorting % 2) || $curSorting < 1) {
+                            $objNewSorting = $db->prepare("SELECT id FROM $table WHERE pid=? ORDER BY sorting")->execute($pid);
+
+                            $count = 2;
+                            $newSorting = 128;
+
+                            while ($objNewSorting->next()) {
+                                $db->prepare("UPDATE $table SET sorting=? WHERE id=?")
+                                    ->limit(1)
+                                    ->execute(($count++ * 128), $objNewSorting->id);
+                            }
+                        } // Else new sorting = (current sorting / 2)
+                        else {
+                            $newSorting = ($curSorting / 2);
+                        }
+                    } // Else new sorting = 128
+                    else {
+                        $newSorting = 128;
+                    }
+
+                    // Set new sorting and new parent ID
+                    $set['pid'] = (int) $newPID;
+                    $set['sorting'] = (int) $newSorting;
+                }
+            }
+        } // If there is only sorting
+        elseif ($db->fieldExists('sorting', $table)) {
+            // ID is set (insert after the current record)
+            if ($insertAfterId) {
+                $objCurrentRecord = $db->prepare("SELECT * FROM $table WHERE id=?")
+                    ->limit(1)
+                    ->execute($insertAfterId);
+
+                // Select current record
+                if ($objCurrentRecord->numRows) {
+                    $newSorting = null;
+                    $curSorting = $objCurrentRecord->sorting;
+
+                    $objNextSorting = $db->prepare("SELECT MIN(sorting) AS sorting FROM $table WHERE sorting>?")
+                        ->execute($curSorting);
+
+                    // Select sorting value of the next record
+                    if ($objNextSorting->numRows) {
+                        $nxtSorting = $objNextSorting->sorting;
+
+                        // Resort if the new sorting value is no integer or bigger than a MySQL integer field
+                        if (0 != (($curSorting + $nxtSorting) % 2) || $nxtSorting >= 4294967295) {
+                            $count = 1;
+
+                            $objNewSorting = $db->execute("SELECT id, sorting FROM $table ORDER BY sorting");
+
+                            while ($objNewSorting->next()) {
+                                $db->prepare("UPDATE $table SET sorting=? WHERE id=?")
+                                    ->execute(($count++ * 128), $objNewSorting->id);
+
+                                if ($objNewSorting->sorting == $curSorting) {
+                                    $newSorting = ($count++ * 128);
+                                }
+                            }
+                        } // Else new sorting = (current sorting + next sorting) / 2
+                        else {
+                            $newSorting = (($curSorting + $nxtSorting) / 2);
+                        }
+                    } // Else new sorting = (current sorting + 128)
+                    else {
+                        $newSorting = ($curSorting + 128);
+                    }
+
+                    // Set new sorting
+                    $set['sorting'] = (int) $newSorting;
+
+                    return $set;
+                }
+            }
+
+            // ID is not set or not found (insert at the end)
+            $objNextSorting = $db->execute('SELECT MAX(sorting) AS sorting FROM '.$table);
+            $set['sorting'] = ((int) $objNextSorting->sorting + 128);
+        }
+
+        return $set;
     }
 }

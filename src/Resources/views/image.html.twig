@@ -2,19 +2,22 @@
         itemprop="associatedMedia">
 
     {% if href|default() %}
-        <a href="{{ href }}"{% if linkTitle|default() %} title="{{ linkTitle }}"{% endif %}{% if target|default() %} target="_blank"{% endif %} {{ linkAttributes|default()|raw }} itemprop="contentUrl">
+        <a href="{{ href }}"{% if linkTitle|default() %} title="{{ linkTitle }}"{% endif %}{% if target|default() %} target="_blank"{% endif %} {{ attributes|default()|raw }} {{ linkAttributes|default()|raw }} itemprop="contentUrl">
     {% endif %}
 
-    {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture) }}
-
+    {{ include('@HeimrichHannotContaoUtils/picture.html.twig', picture|merge({
+            loading: loading|default('auto')
+    })) }}
 
     {% if href|default() %}
         </a>
     {% endif %}
 
+    {% set hasCopyright = picture.copyright|default and picture.copyright != 'a:1:{i:0;s:0:"";}' and picture.copyright != 'a:0:{}' %}
+
     {% if caption|default() %}
-        <figcaption class="caption" itemprop="caption">{{ caption }}{% if picture.copyright|default %} (© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}){% endif %}</figcaption>
+        <figcaption class="caption" itemprop="caption">{{ caption }}{% if hasCopyright %} (© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}){% endif %}</figcaption>
+    {% elseif (hasCopyright and includeCopyright|default) %}
+        <figcaption class="caption" itemprop="caption">© {{ picture.copyright|deserialize(true)|join(', ')|raw|replace({'©': ''}) }}</figcaption>
     {% endif %}
-
 </figure>
-

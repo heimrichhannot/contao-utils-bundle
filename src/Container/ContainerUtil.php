@@ -80,7 +80,7 @@ class ContainerUtil
 
     public function isFrontendCron()
     {
-        return 'contao_frontend_cron' === $this->getCurrentRequest()->get('_route');
+        return $this->getCurrentRequest() && 'contao_frontend_cron' === $this->getCurrentRequest()->get('_route');
     }
 
     public function isInstall()
@@ -193,5 +193,15 @@ class ContainerUtil
         }
 
         return $extensionConfigs;
+    }
+
+    public function isMaintenanceModeActive()
+    {
+        return $this->container->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
+    }
+
+    public function isPreviewMode()
+    {
+        return \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && \Input::cookie('FE_PREVIEW');
     }
 }

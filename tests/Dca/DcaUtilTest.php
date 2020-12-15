@@ -15,12 +15,17 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\FrontendUser;
+use Contao\Image;
 use Contao\Model;
 use Contao\StringUtil;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Statement;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Tests\TestCaseEnvironment;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\Translator;
@@ -47,7 +52,37 @@ class DcaUtilTest extends TestCaseEnvironment
         if (!isset($properties['framework'])) {
             $properties['framework'] = $this->getContaoFrameworkMock();
         }
-        $instance = new DcaUtil($properties['container'], $properties['framework']);
+
+        if (!isset($properties['routingutil'])) {
+            /** @var RoutingUtil|MockObject $routingUtilMock */
+            $routingUtilMock = $this->createMock(RoutingUtil::class);
+            $routingUtilMock->method('generateBackendRoute')->willReturnCallback(function (array $params = [], $addToken = true, $addReferer = true) {
+                $url = '/contao';
+
+                if (true === $addToken) {
+                    $params['rt'] = 'token';
+                }
+
+                if (true === $addReferer) {
+                    $params['ref'] = 'referer';
+                }
+
+                if (!empty($params)) {
+                    $url .= '?'.http_build_query($params);
+                }
+
+                return $url;
+            });
+            $properties['routingutil'] = $routingUtilMock;
+        }
+
+        if (!isset($properties['connection'])) {
+            /** @var Connection $connectionMock */
+            $connectionMock = $this->createMock(Connection::class);
+            $properties['connection'] = $connectionMock;
+        }
+
+        $instance = new DcaUtil($properties['container'], $properties['framework'], $properties['routingutil'], $properties['connection']);
 
         return $instance;
     }
@@ -191,6 +226,21 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertNull($result);
 
         $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['deserialize_callback' => [StringUtil::class, 'deseridalize']], 'deserialize', ['test']);
+        $this->assertNull($result);
+
+        $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction(['test_callback' => [new class() {
+            public function testCallback()
+            {
+                throw new \Error('Invalid method call');
+            }
+        }, 'testCallback']], 'test', ['test']);
+        $this->assertNull($result);
+
+        $result = $dcaUtil->getConfigByArrayOrCallbackOrFunction([
+            'test_callback' => function ($arguments) {
+                throw new \Error('Method does not exist!');
+            },
+        ], 'test', ['test']);
         $this->assertNull($result);
     }
 
@@ -403,23 +453,114 @@ class DcaUtilTest extends TestCaseEnvironment
         $this->assertSame(['addSubmission'], $GLOBALS['TL_DCA']['destinationTable']['subpalettes']);
     }
 
-    public function testGenerateAlias()
+    public function testAliasExist()
     {
-        $util = $this->getTestInstance();
+        $connection = $this->createMock(Connection::class);
+        $statement = $this->createMock(Statement::class);
+
+        $statement->method('execute')->willReturnCallback(function (array $parameter = []) use ($statement) {
+            $statement->alias = $parameter[0];
+
+            if (\count($parameter) > 1) {
+                $statement->id = $parameter[1];
+            }
+        });
+        $statement->method('rowCount')->willReturnCallback(function () use ($statement) {
+            $data = [
+                'hello-world' => 0,
+                'existing-alias' => 5,
+                'another-table' => 7,
+            ];
+
+            if ('another-table' === $statement->alias) {
+                if (!isset($statement->anotherTableCount) || 0 === $statement->anotherTableCount) {
+                    $statement->anotherTableCount = 1;
+
+                    return 0;
+                }
+
+                return 1;
+            }
+
+            if (\array_key_exists($statement->alias, $data)) {
+                if (isset($statement->id) && $data[$statement->alias] === $statement->id) {
+                    return 0;
+                }
+
+                return 1;
+
+                return 1;
+            }
+
+            return 0;
+        });
+        $connection->method('prepare')->willReturn($statement);
+
+        $instance = $this->getTestInstance(['connection' => $connection]);
+        $this->assertFalse($instance->aliasExist('hello-world', 0, 'tl_news'));
+        $this->assertTrue($instance->aliasExist('hello-world', 1, 'tl_news'));
+        $this->assertFalse($instance->aliasExist('goodbye-world', 1, 'tl_news'));
+
+        return $instance;
+    }
+
+    /**
+     * @param DcaUtil $util
+     * @depends testAliasExist
+     */
+    public function testGenerateAlias($util)
+    {
+        $GLOBALS['TL_LANG']['ERR']['aliasExists'] = 'Alias %s already exist!';
 
         $this->assertSame('alias', $util->generateAlias('alias', 15, 'tl_table', 'Alias'));
         $this->assertSame('alias', $util->generateAlias('', 15, 'tl_table', 'Alias'));
         $this->assertSame('hans-dieter', $util->generateAlias('', 15, 'tl_table', 'Hans Dieter'));
         $this->assertSame('hans-däter', $util->generateAlias('', 15, 'tl_table', 'Hans Däter'));
         $this->assertSame('hans-daeter', $util->generateAlias('', 15, 'tl_table', 'Hans Däter', false));
-        $this->assertSame('existing-alias', $util->generateAlias('', 1, 'tl_table', 'Existing Alias'));
-        $this->assertSame('existing-alias-5', $util->generateAlias('', 5, 'tl_table', 'Existing Alias'));
-        $this->assertSame('existing-alias', $util->generateAlias('existing-alias', 1, 'tl_table', 'Existing Alias'));
+        $this->assertSame('existing-alias', $util->generateAlias('', 5, 'tl_table', 'Existing Alias'));
+        $this->assertSame('existing-alias-6', $util->generateAlias('', 6, 'tl_table', 'Existing Alias'));
+        $this->assertSame('existing-alias', $util->generateAlias('existing-alias', 5, 'tl_table', 'Existing Alias'));
         $this->assertSame('ich-du-cookies-für-alle', $util->generateAlias('', 6, 'tl_table', 'Ich & du || Cookie\'s für $alle'));
         $this->assertSame('ich-du-cookies-fuer-alle', $util->generateAlias('', 6, 'tl_table', 'Ich & du || Cookie\'s für $alle', false));
-        $GLOBALS['TL_LANG']['ERR']['aliasExists'] = 'Alias %s already exist!';
-        $this->expectException(\Exception::class);
-        $util->generateAlias('existing-alias', 5, 'tl_table', 'Existing Alias');
+
+        $this->assertSame('alias', $util->generateAlias('alias', 15, 'tl_table,tl_news', 'Alias'));
+        $this->assertSame('existing-alias-7', $util->generateAlias('', 7, 'tl_table,tl_news', 'Existing Alias'));
+
+        $exception = false;
+
+        try {
+            $util->generateAlias('existing-alias', 6, 'tl_table', 'Existing Alias');
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertTrue($exception);
+
+        $exception = false;
+
+        try {
+            $this->assertSame('existing-alias-7', $util->generateAlias('existing-alias', 7, 'tl_table,tl_news', 'Existing Alias'));
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertTrue($exception);
+
+        $exception = false;
+
+        try {
+            $util->generateAlias('another-table', 7, 'tl_table,tl_news', 'Another Table');
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertTrue($exception);
+
+        $exception = false;
+
+        try {
+            $util->generateAlias('existing-alias', 6, null, 'Existing Alias');
+        } catch (\Exception $e) {
+            $exception = true;
+        }
+        $this->assertFalse($exception);
     }
 
     public function testAddAuthorFieldAndCallback()
@@ -579,6 +720,91 @@ class DcaUtilTest extends TestCaseEnvironment
         $result = $dcaUtil->getDataContainers(['onlyTableType' => true]);
         $this->assertCount(3, $result);
         $this->assertSame($databaseContainers, $result);
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Using string as parameter is deprecated and will be removed in a future version.
+     */
+    public function testGetPopupWizardLink()
+    {
+        $imageAdapter = $this->mockAdapter(['getHtml']);
+        $imageAdapter->method('getHtml')->willReturnCallback(function ($src, $alt = '', $attributes = '') {
+            return '<img src="'.$src.'" alt="'.$alt.'" '.$attributes.'>';
+        });
+        $framework = $this->mockContaoFramework([
+            Image::class => $imageAdapter,
+        ]);
+
+        $dcautil = $this->getTestInstance(['framework' => $framework]);
+        $this->assertSame('/contao?popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink([], ['url-only' => true]));
+        $this->assertSame('/contao?popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('', ['url-only' => true]));
+        $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink([
+            'do' => 'md_recipient_lists',
+            'act' => 'edit',
+            'id' => 1,
+            ], ['url-only' => true]));
+        $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('do=md_recipient_lists&act=edit&id=1', ['url-only' => true]));
+        $this->assertSame('/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer', $dcautil->getPopupWizardLink('https://example.org/contao?do=md_recipient_lists&act=edit&id=1', ['url-only' => true]));
+
+        $GLOBALS['TL_LANG']['tl_content']['edit'][0] = 'Edit';
+
+        $result = $dcautil->getPopupWizardLink([
+            'do' => 'md_recipient_lists',
+            'act' => 'edit',
+            'id' => 1,
+        ], []);
+        $this->assertStringStartsWith('<a href="/contao?do=md_recipient_lists', $result);
+        $this->assertNotFalse(strpos($result, 'style="padding-left: 5px; padding-top: 2px;'));
+        $this->assertNotFalse(strpos($result, '<img src="alias.svg"'));
+        $this->assertNotFalse(strpos($result, 'title="Edit"'));
+
+        $result = $dcautil->getPopupWizardLink([
+            'do' => 'newsletter',
+            'act' => 'edit',
+            'id' => 1,
+        ], [
+            'title' => 'Hello',
+            'icon' => 'hello.png',
+        ]);
+        $this->assertStringStartsWith('<a href="/contao?do=newsletter', $result);
+        $this->assertNotFalse(strpos($result, 'style="padding-left: 5px; padding-top: 2px;'));
+        $this->assertNotFalse(strpos($result, '<img src="hello.png"'));
+        $this->assertNotFalse(strpos($result, 'title="Hello"'));
+        $this->assertNotFalse(strpos($result, 'onclick="Backend.openModalIframe'));
+
+        $result = $dcautil->getPopupWizardLink([
+            'do' => 'newsletter',
+            'act' => 'edit',
+            'id' => 1,
+        ], [
+            'title' => 'Hello',
+            'icon' => 'hello.png',
+            'onclick' => 'onclick="alert(\'Wow!\');"',
+            'linkText' => 'Foo!',
+            'attributes' => [
+                'title' => 'World',
+                'class' => 'tl_button',
+                'href' => 'abc.html',
+                'onclick' => 'event();',
+            ],
+        ]);
+        $this->assertStringStartsWith('<a href="/contao?do=newsletter', $result);
+        $this->assertNotFalse(strpos($result, 'style="padding-left: 5px; padding-top: 2px;'));
+        $this->assertNotFalse(strpos($result, '<img src="hello.png"'));
+        $this->assertNotFalse(strpos($result, 'title="World"'));
+        $this->assertNotFalse(strpos($result, 'class="tl_button"'));
+        $this->assertNotFalse(strpos($result, 'onclick="alert(\'Wow!\');"'));
+        $this->assertNotFalse(strpos($result, 'Foo!</a>'));
+
+//        $this->assertNotFalse(strpos());
+//
+//
+//        $this->assertString('<a href="/contao?do=md_recipient_lists&act=edit&id=1&popup=1&nb=1&rt=token&ref=referer"></a>', $dcautil->getPopupWizardLink([
+//            'do' => 'md_recipient_lists',
+//            'act' => 'edit',
+//            'id' => 1,
+//        ], []));
     }
 
     /**

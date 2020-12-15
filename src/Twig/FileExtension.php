@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Twig;
 
+use Contao\File;
 use Contao\System;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -61,6 +62,7 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
         return [
             new TwigFilter('file_data', [$this, 'getFileData']),
             new TwigFilter('file_path', [$this, 'getFilePath']),
+            new TwigFilter('file_content', [$this, 'getFileContent']),
         ];
     }
 
@@ -117,5 +119,15 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
         }
 
         return $fileObj->path;
+    }
+
+    public function getFileContent($file)
+    {
+        /** @var File $fileObj */
+        if (null === ($fileObj = $this->container->get('huh.utils.file')->getFileFromUuid($file))) {
+            return '';
+        }
+
+        return $fileObj->getContent();
     }
 }

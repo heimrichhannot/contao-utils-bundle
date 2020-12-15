@@ -64,4 +64,15 @@ class UserUtil
 
         return $objUser->isAdmin || \in_array($table.'::'.$field, $user->alexf);
     }
+
+    public function isAdmin(): bool
+    {
+        $user = $this->framework->createInstance(BackendUser::class);
+
+        if (null === $user || !\is_array($user->alexf)) {
+            return false;
+        }
+
+        return $user->isAdmin;
+    }
 }

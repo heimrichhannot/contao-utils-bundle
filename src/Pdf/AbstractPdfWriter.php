@@ -10,6 +10,11 @@ namespace HeimrichHannot\UtilsBundle\Pdf;
 
 use Contao\System;
 
+/**
+ * Class AbstractPdfWriter.
+ *
+ * @deprecated Use PdfCreator instead
+ */
 abstract class AbstractPdfWriter
 {
     const OUTPUT_MODE_DOWNLOAD = 'download';

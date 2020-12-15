@@ -194,7 +194,12 @@ class ClassUtil
 
             $property = lcfirst(substr($method->name, $start));
 
-            $data[$property] = $object->{$method->name}();
+            if (!$method->isPublic()) {
+                $method->setAccessible(true);
+                $data[$property] = $method->invoke($object);
+            } else {
+                $data[$property] = $object->{$method->name}();
+            }
 
             if (\is_object($data[$property])) {
                 if (!($data[$property] instanceof \JsonSerializable)) {

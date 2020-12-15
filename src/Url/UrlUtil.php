@@ -56,7 +56,7 @@ class UrlUtil
      *
      * @return string
      */
-    public function getCurrentUrl(array $options)
+    public function getCurrentUrl(array $options = [])
     {
         $url = Environment::get('url');
 
@@ -360,6 +360,12 @@ class UrlUtil
 
     public function getBaseUrl(bool $absolute = false)
     {
-        return ($absolute ? Environment::get('host') : '').(System::getContainer()->get('huh.utils.container')->isDev() ? '/app_dev.php' : '');
+        $url = $absolute ? Environment::get('url') : '';
+
+        if (version_compare(VERSION, '4.8', '<') && System::getContainer()->get('huh.utils.container')->isDev()) {
+            $url .= '/app_dev.php';
+        }
+
+        return $url;
     }
 }

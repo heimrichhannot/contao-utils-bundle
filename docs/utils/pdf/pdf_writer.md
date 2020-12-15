@@ -1,5 +1,7 @@
 # PDF Writer `huh.utils.pdf.writer`
 
+> PDF writer is deprecate and will be removed in a future version. Please use PDFCreator instead
+
 Example to create a custom pdf.
 ```
 $pdf = System::getContainer()->get('huh.utils.pdf.writer')

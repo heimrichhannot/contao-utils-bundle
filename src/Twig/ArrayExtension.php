@@ -30,7 +30,7 @@ class ArrayExtension extends AbstractExtension implements ContainerAwareInterfac
         ];
     }
 
-    public function deserialize(string $text, bool $forceArray = false): ?array
+    public function deserialize(?string $text, bool $forceArray = false): ?array
     {
         return StringUtil::deserialize($text, $forceArray);
     }

@@ -2,8 +2,7 @@ services:
   huh.utils.listener.insert_tags:
     class: HeimrichHannot\UtilsBundle\EventListener\InsertTagsListener
     public: true
-    arguments:
-      - "@contao.framework"
+    autowire: true
   huh.utils.listener.frontend_page:
     class: HeimrichHannot\UtilsBundle\EventListener\FrontendPageListener
     public: true

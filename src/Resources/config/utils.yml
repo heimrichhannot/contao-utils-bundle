@@ -24,6 +24,7 @@ services:
   HeimrichHannot\UtilsBundle\Form\FormUtil: ~
   HeimrichHannot\UtilsBundle\Location\LocationUtil: ~
   HeimrichHannot\UtilsBundle\Member\MemberUtil: ~
+  HeimrichHannot\UtilsBundle\Page\PageUtil: ~
   HeimrichHannot\UtilsBundle\Pdf\PdfPreview: ~
   HeimrichHannot\UtilsBundle\Request\RequestUtil: ~
   HeimrichHannot\UtilsBundle\Routing\RoutingUtil: '@huh.utils.routing'
@@ -35,6 +36,7 @@ services:
   HeimrichHannot\UtilsBundle\String\StringUtil: ~
   HeimrichHannot\UtilsBundle\Url\UrlUtil: ~
   HeimrichHannot\UtilsBundle\User\UserUtil: ~
+  HeimrichHannot\UtilsBundle\Ics\IcsUtil: ~
 
   huh.utils.accordion: '@HeimrichHannot\UtilsBundle\Accordion\AccordionUtil'
   huh.utils.array: '@HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'
@@ -45,11 +47,11 @@ services:
   huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
   huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
   huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
+  huh.utils.page: '@HeimrichHannot\UtilsBundle\Page\PageUtil'
   huh.utils.pdf.preview: '@HeimrichHannot\UtilsBundle\Pdf\PdfPreview'
   huh.utils.request: '@HeimrichHannot\UtilsBundle\Request\RequestUtil'
   huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
   huh.utils.string.anonymizer: '@HeimrichHannot\UtilsBundle\String\AnonymizerUtil'
-
 
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil
@@ -79,6 +81,10 @@ services:
     class: HeimrichHannot\UtilsBundle\Model\ModelUtil
   HeimrichHannot\UtilsBundle\Model\ModelUtil: '@huh.utils.model'
 
+  huh.utils.content:
+    class: HeimrichHannot\UtilsBundle\Content\ContentUtil
+  HeimrichHannot\UtilsBundle\Content\ContentUtil: '@huh.utils.content'
+
   huh.utils.module:
     class: HeimrichHannot\UtilsBundle\Module\ModuleUtil
   HeimrichHannot\UtilsBundle\Module\ModuleUtil: '@huh.utils.module'
@@ -86,3 +92,7 @@ services:
   huh.utils.template:
     class: HeimrichHannot\UtilsBundle\Template\TemplateUtil
   HeimrichHannot\UtilsBundle\Template\TemplateUtil: "@huh.utils.template"
+
+  huh.utils.request.curl:
+    class: HeimrichHannot\UtilsBundle\Request\CurlRequestUtil
+  HeimrichHannot\UtilsBundle\Request\CurlRequestUtil: '@huh.utils.request.curl'

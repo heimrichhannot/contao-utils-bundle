@@ -15,10 +15,13 @@ use Contao\Dbafs;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Folder;
+use Contao\Message;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use Ghostscript\Transcoder;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FileUtil
@@ -499,5 +502,105 @@ class FileUtil
         }
 
         return $return;
+    }
+
+    public static function getParentFoldersByUuid($uuid, array $config = [])
+    {
+        $returnRows = $config['returnRows'] ?? true;
+
+        $parents = [];
+        $firstSkipped = false;
+
+        while ($uuid && null !== ($parent = System::getContainer()->get('huh.utils.model')->callModelMethod('tl_files', 'findByUuid', $uuid))) {
+            $uuid = $parent->pid;
+
+            // skip the file object passed into the function (only the parents should be returned)
+            if (!$firstSkipped) {
+                $firstSkipped = true;
+
+                continue;
+            }
+
+            $parents[] = $returnRows ? $parent : $parent->id;
+        }
+
+        return $parents;
+    }
+
+    /**
+     * Tries to get the binary content from a file in various sources and returns it if possible.
+     *
+     * Possible sources:
+     *   - url
+     *   - contao uuid
+     *   - string is already a binary file content
+     *
+     * @param $source
+     *
+     * @return bool|mixed Returns false if the file content could not be retrieved
+     */
+    public function retrieveFileContent($source, $silent = true)
+    {
+        // url
+        if (Validator::isUrl($source)) {
+            $client = new Client();
+            $request = $client->request('GET', $source);
+
+            if (200 === $request->getStatusCode()) {
+                $content = $request->getBody()->__toString();
+
+                if ($content) {
+                    return $content;
+                }
+            } else {
+                if (!$silent) {
+                    $body = $request->getBody()->__toString();
+
+                    Message::addError(sprintf($GLOBALS['TL_LANG']['ERR']['httpRequestError'], $source, 'Code '.$request->getStatusCode().': '.$body));
+                }
+            }
+        }
+
+        // contao uuid
+        if (Validator::isUuid($source)) {
+            $content = $this->getFileContentFromUuid($source);
+
+            if (false !== $content) {
+                return $content;
+            }
+        }
+
+        // already binary -> ctype_print() checks if non-printable characters are in the string -> if so, it's most likely a file
+        if (!ctype_print($source)) {
+            return $source;
+        }
+
+        return false;
+    }
+
+    public function getExtensionFromFileContent($content)
+    {
+        if (!class_exists('\finfo')) {
+            return false;
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+
+        return $this->getExtensionByMimeType($finfo->buffer($content));
+    }
+
+    public function getExtensionByMimeType($mimeType)
+    {
+        foreach ($GLOBALS['TL_MIME'] as $extension => $data) {
+            if ($data[0] === $mimeType) {
+                if ('jpeg' === $extension) {
+                    $extension = 'jpg';
+                }
+
+                return $extension;
+            }
+        }
+
+        return false;
     }
 }

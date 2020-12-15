@@ -48,6 +48,7 @@
     "mpdf/mpdf": "Required by huh.utils.pdf.writer service in version ^7.0",
     "setasign/fpdi-tcpdf": "Required by huh.utils.pdf.fpdi-writer service in version ^2.2",
     "spatie/pdf-to-image": "Optional requirement for huh.utils.pdf.preview in version ^1.8. Please read the docs.",
-    "alchemy/ghostscript": "Optional requirement for huh.utils.pdf.preview in version ^4.1. Please read the docs."
+    "alchemy/ghostscript": "Optional requirement for huh.utils.pdf.preview in version ^4.1. Please read the docs.",
+    "eluceo/ical": "Optional requirement for IcsUtil in version ^0.16. Please read the docs."
   }
 }

@@ -13,6 +13,7 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Model;
 use Contao\System;
+use Database\Result;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 class DatabaseUtil
@@ -188,9 +189,9 @@ class DatabaseUtil
 
         $query = '';
         $duplicateKey = '';
-        $startQuery = sprintf('INSERT %s INTO %s (%s) VALUES ', self::ON_DUPLICATE_KEY_IGNORE == $onDuplicateKey ? 'IGNORE' : '', $table, implode(',', $fields));
+        $startQuery = sprintf('INSERT %s INTO %s (%s) VALUES ', self::ON_DUPLICATE_KEY_IGNORE === $onDuplicateKey ? 'IGNORE' : '', $table, implode(',', $fields));
 
-        if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
+        if (self::ON_DUPLICATE_KEY_UPDATE === $onDuplicateKey) {
             $duplicateKey = ' ON DUPLICATE KEY UPDATE '.implode(
                     ',',
                     array_map(
@@ -213,7 +214,7 @@ class DatabaseUtil
         );
 
         foreach ($data as $key => $varData) {
-            if (0 == $i) {
+            if (0 === $i) {
                 $values = [];
                 $return = [];
                 $query = $startQuery;
@@ -233,7 +234,7 @@ class DatabaseUtil
                 }
 
                 // replace SQL Keyword DEFAULT within wildcards ?
-                if ('DEFAULT' == $varValue) {
+                if ('DEFAULT' === $varValue) {
                     $columns[$n] = 'DEFAULT';
 
                     continue;
@@ -257,7 +258,7 @@ class DatabaseUtil
                     $varValue = isset($varCallback[$strField]) ? $varCallback[$strField] : 'DEFAULT';
 
                     // replace SQL Keyword DEFAULT within wildcards ?
-                    if ('DEFAULT' == $varValue) {
+                    if ('DEFAULT' === $varValue) {
                         $columns[$n] = 'DEFAULT';
 
                         continue;
@@ -275,10 +276,10 @@ class DatabaseUtil
 
             ++$i;
 
-            if ($bulkSize == $i) {
+            if ($bulkSize === $i) {
                 $query = rtrim($query, ',');
 
-                if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
+                if (self::ON_DUPLICATE_KEY_UPDATE === $onDuplicateKey) {
                     $query .= $duplicateKey;
                 }
 
@@ -298,7 +299,7 @@ class DatabaseUtil
         if ($query) {
             $query = rtrim($query, ',');
 
-            if (self::ON_DUPLICATE_KEY_UPDATE == $onDuplicateKey) {
+            if (self::ON_DUPLICATE_KEY_UPDATE === $onDuplicateKey) {
                 $query .= $duplicateKey;
             }
 
@@ -316,13 +317,18 @@ class DatabaseUtil
      * @param string $field      The field the condition should be checked against accordances
      * @param array  $values     The values array to check the field against
      * @param string $connective SQL_CONDITION_OR | SQL_CONDITION_AND
+     * @param array  $options    Pass additional options.
+     *
+     * Options:
+     * - inline_values: (bool) Inline the values in the sql part instead of using ? ('REGEXP (':"3"')' instead of 'REGEXP (?)'). Return value not change (still an array with an values index)
      *
      * @return array
      */
-    public function createWhereForSerializedBlob(string $field, array $values, string $connective = self::SQL_CONDITION_OR)
+    public function createWhereForSerializedBlob(string $field, array $values, string $connective = self::SQL_CONDITION_OR, array $options = [])
     {
         $where = null;
         $returnValues = [];
+        $inlineValues = (isset($options['inline_values']) && true === $options['inline_values']);
 
         if (!\in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND])) {
             throw new \Exception('Unknown sql junctor');
@@ -333,13 +339,15 @@ class DatabaseUtil
                 $where .= " $connective ";
             }
 
+            $value = "':\"$val\"'";
+
             $where .= self::SQL_CONDITION_AND == $connective ? '(' : '';
 
-            $where .= "$field REGEXP (?)";
+            $where .= "$field REGEXP (".($inlineValues ? $value : '?').')';
 
             $where .= self::SQL_CONDITION_AND == $connective ? ')' : '';
 
-            $returnValues[] = "':\"$val\"'";
+            $returnValues[] = $value;
         }
 
         return ["($where)", $returnValues];
@@ -736,8 +744,8 @@ class DatabaseUtil
      */
     public function findResultByPk(string $table, $pk, array $options = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -753,7 +761,7 @@ class DatabaseUtil
         $options['table'] = $table;
         $query = \Contao\Model\QueryBuilder::find($options);
 
-        $statement = $adapter->getInstance()->prepare($query);
+        $statement = $db->getInstance()->prepare($query);
 
         // Defaults for limit and offset
         if (!isset($options['limit'])) {
@@ -777,10 +785,10 @@ class DatabaseUtil
      *
      * @return mixed
      */
-    public function findOneResultBy(string $table, array $columns, array $values, array $options = [])
+    public function findOneResultBy(string $table, ?array $columns, ?array $values, array $options = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -796,7 +804,7 @@ class DatabaseUtil
         $options['table'] = $table;
         $query = \Contao\Model\QueryBuilder::find($options);
 
-        $statement = $adapter->getInstance()->prepare($query);
+        $statement = $db->getInstance()->prepare($query);
 
         if (!isset($options['offset'])) {
             $options['offset'] = 0;
@@ -810,25 +818,35 @@ class DatabaseUtil
         return $statement->execute($options['value']);
     }
 
-    public function findResultsBy(string $table, array $columns, array $values, array $options = [])
+    public function findResultsBy(string $table, ?array $columns, ?array $values, array $options = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
-        $options = array_merge(
-            [
-                'column' => $columns,
-                'value' => $values,
-            ],
-            $options
-        );
+        if (null !== $columns) {
+            $options = array_merge(
+                [
+                    'column' => $columns,
+                ],
+                $options
+            );
+        }
+
+        if (null !== $values) {
+            $options = array_merge(
+                [
+                    'value' => $values,
+                ],
+                $options
+            );
+        }
 
         $options['table'] = $table;
         $query = \Contao\Model\QueryBuilder::find($options);
 
-        $statement = $adapter->getInstance()->prepare($query);
+        $statement = $db->getInstance()->prepare($query);
 
         // Defaults for limit and offset
         if (!isset($options['limit'])) {
@@ -844,13 +862,13 @@ class DatabaseUtil
             $statement->limit($options['limit'], $options['offset']);
         }
 
-        return $statement->execute($options['value']);
+        return isset($options['value']) ? $statement->execute($options['value']) : $statement->execute();
     }
 
     public function insert(string $table, array $set)
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -862,13 +880,13 @@ class DatabaseUtil
 
         $query = "INSERT INTO $table ($columnNames) VALUES ($wildcards)";
 
-        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], array_values($set));
+        return \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_values($set));
     }
 
     public function update(string $table, array $set, string $where = null, array $whereValues = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
@@ -878,18 +896,38 @@ class DatabaseUtil
 
         $query = "UPDATE $table SET $assignments".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
+        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
     }
 
     public function delete(string $table, string $where = null, array $whereValues = [])
     {
-        /* @var Database $adapter */
-        if (!($adapter = $this->framework->getAdapter(Database::class))) {
+        /* @var Database $db */
+        if (!($db = $this->framework->getAdapter(Database::class))) {
             return null;
         }
 
         $query = "DELETE FROM $table".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$adapter->getInstance()->prepare($query), 'execute'], $whereValues);
+        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], $whereValues);
+    }
+
+    public function beginTransaction()
+    {
+        /* @var Database $db */
+        if (!($db = $this->framework->createInstance(Database::class))) {
+            return null;
+        }
+
+        $db->beginTransaction();
+    }
+
+    public function commitTransaction()
+    {
+        /* @var Database $db */
+        if (!($db = $this->framework->createInstance(Database::class))) {
+            return null;
+        }
+
+        $db->commitTransaction();
     }
 }

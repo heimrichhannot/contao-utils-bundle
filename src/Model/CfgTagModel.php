@@ -9,10 +9,18 @@
 namespace HeimrichHannot\UtilsBundle\Model;
 
 use Contao\Database;
-use Contao\Model;
 use Contao\System;
 
-class CfgTagModel extends Model
+if (class_exists('Codefog\TagsBundle\Model\TagModel')) {
+    class TagModelBase extends \Codefog\TagsBundle\Model\TagModel
+    {
+    }
+} else {
+    class TagModelBase extends \Contao\Model
+    {
+    }
+}
+class CfgTagModel extends TagModelBase
 {
     protected static $strTable = 'tl_cfg_tag';
 

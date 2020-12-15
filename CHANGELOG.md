@@ -1,6 +1,255 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.186.0] - 2020-12-15
+- fixed DownloadExtension (see https://github.com/heimrichhannot/contao-utils-bundle/issues/22)
+
+## [2.185.0] - 2020-11-30
+- added DatabaseUtil::createWhereForSerializedBlob() option parameter and inline_values option
+
+## [2.184.1] - 2020-11-25
+- fixed loading attribute has no default value in picture.html.twig
+- enhance an annotation in ModelUtil
+
+## [2.184.0] - 2020-11-24
+- added `DateUtil::convertSecondsToHumanReadableFormat()`
+
+## [2.183.0] - 2020-11-23
+- added support for `loading` attribute if set from outside (lazy loading)
+
+## [2.182.1] - 2020-11-10
+- added a parameter to `DcaUtil::setDefaultsFromDca()` for BC reasons
+
+## [2.182.0] - 2020-11-10
+- fixed `DcaUtil::setDefaultsFromDca()` to also respect sql default values
+
+## [2.181.4] - 2020-11-05
+- added check for empty request in `ContainerUtil` (e.g. in command situations)
+
+## [2.181.3] - 2020-10-28
+- fixed `UrlUtil::getBaseUrl` to enable non-app_dev.php base url for versions later than 4.8 
+
+## [2.181.2] - 2020-10-13
+- fixed twig image filter not allowed image size to be an id or name
+
+## [2.181.1] - 2020-10-06
+- modified autowiring for InsertTagsListener
+
+## [2.181.0] - 2020-10-06
+- refactored InsertTagsListener
+- added Tests for InsertTagsListener
+
+## [2.180.2] - 2020-10-05
+- changed template rendering in InsertTagsListener::replaceTwigTag() to TemplateUtil::renderTwigTemplate
+
+## [2.180.1] - 2020-09-30
+- fix remove dump from image_gallery template
+
+## [2.180.0] - 2020-09-28
+- added `IcsUtil`
+
+## [2.179.0] - 2020-09-22
+- added `ContentUtil`
+
+## [2.178.2] - 2020-09-18
+- do not throw error when calling protected or private methods in ClassUtil::jsonSerialize() when ignoreMethodVisibility is set to true
+
+## [2.178.1] - 2020-09-15
+- added state as possibility for `LocationUtil::computeCoordinatesByString()`
+
+## [2.178.0] - 2020-09-09
+- js: added `GeneralUtil.runRecursiveFunction()`
+
+## [2.177.6] - 2020-08-31
+- fixed class inheritance for CfgTagModel to respect the one existing
+
+## [2.177.5] - 2020-08-26
+- added missing default check for includeCopyright in `image.html.twig`
+
+## [2.177.4] - 2020-08-25
+- fixed uncatched errors in DcaUtil::getConfigByArrayOrCallbackOrFunction() when used in frontend and contao 4.9
+
+## [2.177.3] - 2020-08-20
+- fixed caption and copyrights issue in `image.html.twig` -> the flag `includeCopyright` has to be added to `image.html.twig` in order to print the copyright without a caption set
+
+## [2.177.2] - 2020-08-20
+- removed database tree cache for `tl_page` from utils-bundle since only needed for contao-blocks
+- fixed missing prefixes in database tree cache
+
+## [2.177.1] - 2020-08-19
+- fixed caption and copyrights issue
+
+## [2.177.0] - 2020-08-19
+- added callbacks to PdfCreator
+
+## [2.176.1] - 2020-08-19
+- fixed MpdfCreator font directory support
+
+## [2.176.0] - 2020-08-18
+- added PdfCreator as replacement for PdfWriterpull
+
+## [2.175.2] - 2020-08-13
+- show twig template start and stop comments in dev mode
+
+## [2.175.1] - 2020-08-12
+- fixed comparison issue in `DatabaseUtil::doBulkInsert()`
+
+## [2.175.0] - 2020-08-11
+- added support for divers gender-based salutations
+
+## [2.174.0] - 2020-08-07
+- added possibility to add a custom backend route in `DcaUtil::getPopupWizardLink()`
+
+## [2.173.1] - 2020-07-22
+- added alias for curlRequestUtil
+
+## [2.173.0] - 2020-07-22
+- DcaUtil::generateAlias() now accepts null as table parameter to skip unique check
+
+## [2.172.1] - 2020-07-21
+- fixed a error with php version prior to 7.4
+
+## [2.172.0] - 2020-07-21
+- added DcaUtil::aliasExist()
+
+## [2.171.5] - 2020-07-20
+- fixed UrlUtil::getCurrentUrl() options parameter not optional
+
+## [2.171.4] - 2020-07-16
+- fixed `StringExtension::autolink()` (German dates like 15.7. have been translated to links)
+
+## [2.171.3] - 2020-07-16
+- fixed unicode characters for `StringUtil::replaceUnicodeEmojisByHtml()` to also contain skin tones
+
+## [2.171.2] - 2020-07-15
+- added latest unicode characters for `StringUtil::replaceUnicodeEmojisByHtml()`
+
+## [2.171.1] - 2020-07-06
+- fixed type hinting
+
+## [2.171.0] - 2020-06-30
+- added ignoreLogin to `MemberUtil::findActiveByGroups()`
+
+## [2.170.0] - 2020-06-30
+- fixed attributes issue in `image.html.twig` -> now link gets its correct `attributes`; "wrong" `linkAttributes` is still in place for compatibility reasons
+- fixed lightbox issues in `ImageUtil::addToTemplate()`
+
+## [2.169.2] - 2020-06-23
+- fixed `DatabaseUtil::findResultsBy()` to accept also null as columns and values
+
+## [2.169.1] - 2020-06-23
+- fixed `DcaUtil::generateAlias()`
+
+## [2.169.0] - 2020-06-23
+- added `ContainerUtil::isPreviewMode()`
+
+## [2.168.2] - 2020-06-23
+- fixed `DcaUtil::generateAlias()`
+
+## [2.168.1] - 2020-06-23
+- fixed `DcaUtil::generateAlias()`
+
+## [2.168.0] - 2020-06-23
+- fixed `DcaUtil::generateAlias()`
+
+## [2.167.0] - 2020-06-22
+- added `FileUtil::getExtensionFromFileContent()`
+- added `FileUtil::getExtensionByMimeType()`
+- fixed `FileUtil::retrieveFileContent()`
+
+## [2.166.0] - 2020-06-19
+- added `FileUtil::retrieveFileContent()`
+
+## [2.165.0] - 2020-06-15
+- added option to pass multiple tables into `DcaUtil::generateAlias()` as a comma separated list
+
+## [2.164.2] - 2020-06-10
+- fixed warning if no result in `DcaUtil::generateAlias()`
+
+## [2.164.1] - 2020-05-29
+- fixed size issue in twig image filter
+
+## [2.164.0] - 2020-05-25
+- added new twig filter `|file_content` (takes uuid as binary or string)
+
+## [2.163.0] - 2020-05-13
+- added new tests to `TestExtension`
+- fixed copyright issue in `image.html.twig`
+
+## [2.162.0] - 2020-04-28
+- revoked 2.161.0 and 2.161.1 due to problems in contao 4.9 -> pages can't be saved anymore
+
+## [2.161.0] - 2020-04-24
+- added TemplateLocator class
+- enhanced UtilsCacheWarmer
+- some code enhancements
+
+## [2.160.0] - 2020-04-22
+- added `TestExtension` for checking types in twig (e.g. `if [] is string` or `if '1' is numeric`)
+
+## [2.159.1] - 2020-04-22
+- fixed type hinting for `DateUtil::generateAlias()`
+
+## [2.159.0] - 2020-04-21
+- added `choices.yml` containing the service definitions for the choices
+
+## [2.158.0] - 2020-04-21
+- added `DatabaseUtil::beginTransaction()` and `DatabaseUtil::commitTransaction()`
+
+## [2.157.3] - 2020-04-21
+- fixed types in `DatabaseUtil`
+
+## [2.157.2] - 2020-04-20
+- fixed types in replaceInsertTags() from StringUtil
+
+## [2.157.1] - 2020-04-16
+- removed `select()` from `DatabaseUtil` as it's already covered by the various `findBy` methods
+
+## [2.157.0] - 2020-04-16
+- added `DcaUtil::getNewSortingPosition()`
+
+## [2.156.1] - 2020-04-14
+- fixed session bug for contao 4.9 in `LocationUtil`
+
+## [2.156.0] - 2020-04-14
+- added `DatabaseUtil::select()`
+
+## [2.155.2] - 2020-04-09
+- fixed PageUtil service definition for symfony 4
+
+## [2.155.1] - 2020-04-08
+- added empty check for `imageSize` in `ImageUtil`
+
+## [2.155.0] - 2020-04-08
+- added `PageUtil`
+
+## [2.154.0] - 2020-04-06
+- added attributes and linkText option to DcaUtil::getPopupWizardLink()
+
+## [2.153.0] - 2020-04-06
+- partly rewrote DcaUtil::getPopupWizardLink()
+- deprecated DcaUtil::getPopupWizardLink() string as first parameter
+- updated documentation
+- updated tests
+
+## [2.152.1] - 2020-04-06
+- fixed `StringUtil::replaceInsertTags()`
+
+## [2.152.0] - 2020-04-03
+- added `StringUtil::replaceInsertTags()`
+
+## [2.151.1] - 2020-03-26
+- fixed `UrlUtil::getBaseUrl()`
+
+## [2.151.0] - 2020-03-26
+- added `ContainerUtil::isMaintenanceModeActive()`
+
+## [2.150.0] - 2020-03-19
+- added `UserUtil::isAdmin()`
+
+## [2.149.0] - 2020-03-17
+- added `FileUtil::getParentFoldersByUuid()`
+
 ## [2.148.1] - 2020-03-12
 - updated documentation
 

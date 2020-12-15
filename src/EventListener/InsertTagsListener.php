@@ -11,28 +11,45 @@ namespace HeimrichHannot\UtilsBundle\EventListener;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\StringUtil;
-use Contao\System;
+use HeimrichHannot\UtilsBundle\Event\RenderTwigTemplateEvent;
+use HeimrichHannot\UtilsBundle\Template\TemplateUtil;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Twig\Environment;
 
 class InsertTagsListener
 {
-    /**
-     * @var ContaoFrameworkInterface
-     */
-    private $framework;
-
     /**
      * @var array
      */
     private $supportedTags = [
         'twig',
     ];
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+    /**
+     * @var Environment
+     */
+    private $twig;
+    /**
+     * @var TemplateUtil
+     */
+    private $templateUtil;
+    /**
+     * @var ContaoFrameworkInterface
+     */
+    private $contaoFramework;
 
     /**
      * Constructor.
      */
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(EventDispatcherInterface $eventDispatcher, Environment $twig, TemplateUtil $templateUtil, ContaoFrameworkInterface $contaoFramework)
     {
-        $this->framework = $framework;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->twig = $twig;
+        $this->templateUtil = $templateUtil;
+        $this->contaoFramework = $contaoFramework;
     }
 
     /**
@@ -91,8 +108,15 @@ class InsertTagsListener
             $data = StringUtil::deserialize($attributes[1], true);
         }
 
-        $template = System::getContainer()->get('huh.utils.template')->getTemplate(preg_replace('#.html.twig$#i', '', $attributes[0]));
+        $template = $this->templateUtil->getTemplate(preg_replace('#.html.twig$#i', '', $attributes[0]));
 
-        return Controller::replaceInsertTags(System::getContainer()->get('twig')->render($template, $data));
+        $event = $this->eventDispatcher->dispatch(
+            RenderTwigTemplateEvent::NAME,
+            new RenderTwigTemplateEvent(
+                $template, $data
+            )
+        );
+
+        return $this->contaoFramework->getAdapter(Controller::class)->replaceInsertTags($this->twig->render($event->getTemplate(), $event->getContext()));
     }
 }

@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class FormUtilTest extends ContaoTestCase
 {
-    /** @var $dc DataContainer */
+    /** @var DataContainer */
     protected $dc;
 
     public function setUp()
