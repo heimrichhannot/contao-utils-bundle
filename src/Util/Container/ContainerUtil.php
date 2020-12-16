@@ -1,20 +1,19 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Container;
+namespace HeimrichHannot\UtilsBundle\Util\Container;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\System;
-use HeimrichHannot\UtilsBundle\Util\Utils;
 use Psr\Log\LogLevel;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
@@ -23,13 +22,17 @@ class ContainerUtil
     /** @var ContaoFramework */
     protected $framework;
     /**
-     * @var ContainerInterface
+     * @var array
      */
-    protected $container;
+    protected $kernelBundles;
     /**
-     * @var Utils
+     * @var ContaoFramework
      */
-    protected $utils;
+    protected $contaoFramework;
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
     /**
      * @var FileLocator
      */
@@ -39,68 +42,47 @@ class ContainerUtil
      */
     private $scopeMatcher;
 
-    public function __construct(ContainerInterface $container, FileLocator $fileLocator, ScopeMatcher $scopeMatcher, Utils $utils)
+    public function __construct(array $kernelBundles, ContaoFramework $framework, FileLocator $fileLocator, ScopeMatcher $scopeMatcher, RequestStack $requestStack)
     {
-        $this->framework = $container->get('contao.framework');
         $this->fileLocator = $fileLocator;
         $this->scopeMatcher = $scopeMatcher;
-        $this->container = $container;
-        $this->utils = $utils;
-    }
-
-    /**
-     * Returns the active bundles.
-     *
-     * @deprecated Use kernel.bundles parameter or KernelInterface::getBundles()
-     */
-    public function getActiveBundles(): array
-    {
-        return $this->container->getParameter('kernel.bundles');
+        $this->kernelBundles = $kernelBundles;
+        $this->framework = $framework;
+        $this->requestStack = $requestStack;
     }
 
     /**
      * Checks if some bundle is active. Pass in the class name (e.g. 'HeimrichHannot\FilterBundle\HeimrichHannotContaoFilterBundle' or the legacy Contao 3 name like 'news').
-     *
-     * @return bool
-     *
-     * @deprecated Use utils service instead
      */
-    public function isBundleActive(string $bundleName)
+    public function isBundleActive(string $bundleName): bool
     {
-        return $this->utils->container()->isBundleActive($bundleName);
+        return \in_array($bundleName, array_merge(array_values($this->kernelBundles), array_keys($this->kernelBundles)));
     }
 
-    /**
-     * @return bool
-     *
-     * @deprecated Use utils service instead
-     */
-    public function isBackend()
+    public function isBackend(): bool
     {
-        return $this->utils->container()->isBackend();
+        if ($request = $this->requestStack->getCurrentRequest()) {
+            return $this->scopeMatcher->isBackendRequest($request);
+        }
+
+        return false;
     }
 
-    /**
-     * @return bool
-     *
-     * @deprecated Use utils service instead
-     */
-    public function isFrontend()
+    public function isFrontend(): bool
     {
-        return $this->utils->container()->isFrontend();
+        if ($request = $this->requestStack->getCurrentRequest()) {
+            return $this->scopeMatcher->isFrontendRequest($request);
+        }
+
+        return false;
     }
 
-    /**
-     * @return bool
-     *
-     * @deprecated Use utils service instead
-     */
-    public function isFrontendCron()
+    public function isFrontendCron(): bool
     {
-        return $this->utils->container()->isFrontendCron();
+        return $this->requestStack->getCurrentRequest() && 'contao_frontend_cron' === $this->requestStack->getCurrentRequest()->get('_route');
     }
 
-    public function isInstall()
+    public function isInstall(): bool
     {
         if ($request = $this->getCurrentRequest()) {
             return 'contao_install' === $request->get('_route');
