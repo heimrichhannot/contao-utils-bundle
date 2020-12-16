@@ -136,8 +136,19 @@ utilsBundle.ajax.post(url, data, config);
 Following configuration parameter can be overridden:
 
 ```yaml
+# Default configuration for extension with alias: "huh_utils"
 huh_utils:
-    tmp_folder: 'files/tmp/huh_utils_bundle'
+  tmp_folder:           files/tmp/huh_utils_bundle
+
+  # Default folder where to store pdf preview images.
+  pdfPreviewFolder:     null
+  cache:
+
+    # Enable database tree cache is generated on cache warmup.
+    enable_generate_database_tree_cache: false
+
+  # Load utils bundle assets. Default value will be changed to false in next major version.
+  enable_load_assets:   true
 ```
 
 ## Twig Extensions
