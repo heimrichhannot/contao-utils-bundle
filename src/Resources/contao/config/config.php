@@ -6,6 +6,9 @@
  * @license LGPL-3.0-or-later
  */
 
+/*
+ * Models
+ */
 $GLOBALS['TL_MODELS']['tl_cfg_tag'] = 'HeimrichHannot\UtilsBundle\Model\CfgTagModel';
 
 /*
