@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>HeimrichHannot\UtilsBundle\DependencyInjection\UtilsBundleExtension | Contao Utils Bundle</title>
+    <title>HeimrichHannot\UtilsBundle\EventListener\InitializeSystemListener | Contao Utils Bundle</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_DependencyInjection_UtilsBundleExtension" data-root-path="../../../">
+    <body id="class" data-name="class:HeimrichHannot_UtilsBundle_EventListener_InitializeSystemListener" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,21 +66,20 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/DependencyInjection.html">DependencyInjection</a></li><li class="backslash">\</li><li>UtilsBundleExtension</li>
+                        <li><a href="../../../HeimrichHannot.html">HeimrichHannot</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle.html">UtilsBundle</a></li><li class="backslash">\</li><li><a href="../../../HeimrichHannot/UtilsBundle/EventListener.html">EventListener</a></li><li class="backslash">\</li><li>InitializeSystemListener</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            UtilsBundleExtension
+            InitializeSystemListener
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>UtilsBundleExtension</strong>        extends <abbr title="Symfony\Component\DependencyInjection\Extension\Extension">Extension</abbr>        implements
-        <abbr title="Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface">PrependExtensionInterface</abbr>
+    <strong>InitializeSystemListener</strong>
 </p>
 
         
@@ -89,6 +88,27 @@
     
     
     
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_containerUtil">
+                                        protected                                        <a href="../../../HeimrichHannot/UtilsBundle/Container/ContainerUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Container\ContainerUtil">ContainerUtil</abbr></a>
+                </td>
+                <td>$containerUtil</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_bundleConfig">
+                                        protected                                        array
+                </td>
+                <td>$bundleConfig</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+            </table>
+
     
             <h2>Methods</h2>
 
@@ -98,17 +118,17 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_load">load</a>(array $configs, <abbr title="Symfony\Component\DependencyInjection\ContainerBuilder">ContainerBuilder</abbr> $container)
+                    <a href="#method___construct">__construct</a>(<a href="../../../HeimrichHannot/UtilsBundle/Container/ContainerUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Container\ContainerUtil">ContainerUtil</abbr></a> $containerUtil, array $bundleConfig)
         
-                                            <p>Loads a specific configuration.</p>                </div>
+                                            <p>InitializeSystemListener constructor.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_prepend">prepend</a>(<abbr title="Symfony\Component\DependencyInjection\ContainerBuilder">ContainerBuilder</abbr> $container)
+                    <a href="#method___invoke">__invoke</a>()
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -121,10 +141,10 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_load">
-        <div class="location">at         line 22</div>
+                    <h3 id="method___construct">
+        <div class="location">at         line 30</div>
         <code>                    
-    <strong>load</strong>(array $configs, <abbr title="Symfony\Component\DependencyInjection\ContainerBuilder">ContainerBuilder</abbr> $container)
+    <strong>__construct</strong>(<a href="../../../HeimrichHannot/UtilsBundle/Container/ContainerUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Container\ContainerUtil">ContainerUtil</abbr></a> $containerUtil, array $bundleConfig)
         </code>
     </h3>
     <div class="details">
@@ -132,44 +152,35 @@
     
 
                     <div class="method-description">
-                                    <p>Loads a specific configuration.</p>                                                </div>
+                                    <p>InitializeSystemListener constructor.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
                     <tr>
+                <td><a href="../../../HeimrichHannot/UtilsBundle/Container/ContainerUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Container\ContainerUtil">ContainerUtil</abbr></a></td>
+                <td>$containerUtil</td>
+                <td></td>
+            </tr>
+                    <tr>
                 <td>array</td>
-                <td>$configs</td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td><abbr title="Symfony\Component\DependencyInjection\ContainerBuilder">ContainerBuilder</abbr></td>
-                <td>$container</td>
+                <td>$bundleConfig</td>
                 <td></td>
             </tr>
             </table>
 
             
             
-                            <h4>Exceptions</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
-                <td>When provided tag is not defined in this extension</td>
-            </tr>
-            </table>
-
             
                     </div>
     </div>
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_prepend">
-        <div class="location">at         line 26</div>
-        <code>                    
-    <strong>prepend</strong>(<abbr title="Symfony\Component\DependencyInjection\ContainerBuilder">ContainerBuilder</abbr> $container)
+                    <h3 id="method___invoke">
+        <div class="location">at         line 36</div>
+        <code>                    void
+    <strong>__invoke</strong>()
         </code>
     </h3>
     <div class="details">
@@ -177,17 +188,16 @@
     
 
                 <div class="tags">
-                            <h4>Parameters</h4>
+            
+                            <h4>Return Value</h4>
 
                     <table class="table table-condensed">
-                    <tr>
-                <td><abbr title="Symfony\Component\DependencyInjection\ContainerBuilder">ContainerBuilder</abbr></td>
-                <td>$container</td>
-                <td></td>
-            </tr>
-            </table>
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
 
-            
             
             
                     </div>
