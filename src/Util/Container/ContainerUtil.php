@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util\Container;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\Input;
@@ -46,7 +47,7 @@ class ContainerUtil implements ServiceSubscriberInterface
      */
     private $scopeMatcher;
 
-    public function __construct(ContainerInterface $locator, array $kernelBundles, KernelInterface $kernel, ContaoFramework $framework, ScopeMatcher $scopeMatcher, RequestStack $requestStack)
+    public function __construct(ContainerInterface $locator, array $kernelBundles, KernelInterface $kernel, ContaoFrameworkInterface $framework, ScopeMatcher $scopeMatcher, RequestStack $requestStack)
     {
         $this->scopeMatcher = $scopeMatcher;
         $this->kernelBundles = $kernelBundles;

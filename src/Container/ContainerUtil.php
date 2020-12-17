@@ -16,6 +16,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Class ContainerUtil.
+ *
+ * @deprecated use utils service instead
+ */
 class ContainerUtil
 {
     /** @var ContaoFramework */

@@ -17,8 +17,6 @@ services:
     autowire: true
     bind:
       $kernelBundles: '%kernel.bundles%'
-      $contaoLogger: '@monolog.logger.contao'
-      $webDir: '%contao.web_dir%'
 
   # util services
   huh.utils.cache.database:
