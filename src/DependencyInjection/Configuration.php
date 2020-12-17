@@ -26,6 +26,12 @@ class Configuration implements ConfigurationInterface
         $rootNode->children()
             ->scalarNode('tmp_folder')->defaultValue('files/tmp/huh_utils_bundle')->end()
             ->scalarNode('pdfPreviewFolder')->defaultNull()->info('Default folder where to store pdf preview images.')->end()
+            ->arrayNode('cache')
+                ->children()
+                    ->booleanNode('enable_generate_database_tree_cache')->defaultFalse()->info('Enable database tree cache is generated on cache warmup.')->end()
+                ->end()
+            ->end()
+            ->booleanNode('enable_load_assets')->defaultTrue()->info('Load utils bundle assets. Default value will be changed to false in next major version.')->end()
         ->end();
 
         return $treeBuilder;

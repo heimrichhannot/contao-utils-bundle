@@ -14,6 +14,7 @@ use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
+use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
 class Plugin implements BundlePluginInterface, ConfigPluginInterface
@@ -26,6 +27,10 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
         return [
             BundleConfig::create(HeimrichHannotContaoUtilsBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
+            BundleConfig::create(HeimrichHannotUtilsBundle::class)->setLoadAfter([
+                ContaoCoreBundle::class,
+                HeimrichHannotContaoUtilsBundle::class,
+            ]),
         ];
     }
 
