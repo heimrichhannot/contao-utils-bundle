@@ -13,7 +13,6 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\Input;
-use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
@@ -155,7 +154,7 @@ class ContainerUtil implements ServiceSubscriberInterface
 
     public function isMaintenanceModeActive(): bool
     {
-        return $this->locator->get(DriverFactory::class)->getDriver()->isExists();
+        return $this->locator->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
     }
 
     public function isPreviewMode(): bool
@@ -166,7 +165,7 @@ class ContainerUtil implements ServiceSubscriberInterface
     public static function getSubscribedServices()
     {
         return [
-            DriverFactory::class,
+            'lexik_maintenance.driver.factory',
             'monolog.logger.contao',
             FileLocator::class,
         ];
