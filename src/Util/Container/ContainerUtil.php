@@ -11,13 +11,17 @@ namespace HeimrichHannot\UtilsBundle\Util\Container;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\System;
+use Contao\Input;
+use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-class ContainerUtil
+class ContainerUtil implements ServiceSubscriberInterface
 {
     /** @var ContaoFramework */
     protected $framework;
@@ -26,29 +30,30 @@ class ContainerUtil
      */
     protected $kernelBundles;
     /**
-     * @var ContaoFramework
-     */
-    protected $contaoFramework;
-    /**
      * @var RequestStack
      */
     protected $requestStack;
     /**
-     * @var FileLocator
+     * @var KernelInterface
      */
-    private $fileLocator;
+    protected $kernel;
+    /**
+     * @var ContainerInterface
+     */
+    protected $locator;
     /**
      * @var ScopeMatcher
      */
     private $scopeMatcher;
 
-    public function __construct(array $kernelBundles, ContaoFramework $framework, FileLocator $fileLocator, ScopeMatcher $scopeMatcher, RequestStack $requestStack)
+    public function __construct(ContainerInterface $locator, array $kernelBundles, KernelInterface $kernel, ContaoFramework $framework, ScopeMatcher $scopeMatcher, RequestStack $requestStack)
     {
-        $this->fileLocator = $fileLocator;
         $this->scopeMatcher = $scopeMatcher;
         $this->kernelBundles = $kernelBundles;
         $this->framework = $framework;
         $this->requestStack = $requestStack;
+        $this->kernel = $kernel;
+        $this->locator = $locator;
     }
 
     /**
@@ -84,52 +89,26 @@ class ContainerUtil
 
     public function isInstall(): bool
     {
-        if ($request = $this->getCurrentRequest()) {
+        if ($request = $this->requestStack->getCurrentRequest()) {
             return 'contao_install' === $request->get('_route');
         }
 
         return false;
     }
 
-    public function isDev()
+    public function isDev(): bool
     {
-        return 'dev' === System::getContainer()->getParameter('kernel.environment');
-    }
-
-    public function getCurrentRequest()
-    {
-        return $this->container->get('request_stack')->getCurrentRequest();
+        return 'dev' === $this->kernel->getEnvironment();
     }
 
     /**
      * @param string $category Use constants in ContaoContext
      */
-    public function log(string $text, string $function, string $category)
+    public function log(string $text, string $function, string $category): void
     {
         $level = (ContaoContext::ERROR === $category ? LogLevel::ERROR : LogLevel::INFO);
-        $logger = $this->container->get('monolog.logger.contao');
 
-        $logger->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
-    }
-
-    /**
-     * Returns the project root path.
-     *
-     * @return mixed
-     */
-    public function getProjectDir()
-    {
-        return $this->container->getParameter('kernel.project_dir');
-    }
-
-    /**
-     * Returns the web folder path.
-     *
-     * @return mixed
-     */
-    public function getWebDir()
-    {
-        return $this->container->getParameter('contao.web_dir');
+        $this->locator->get('monolog.logger.contao')->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
     }
 
     /**
@@ -138,9 +117,9 @@ class ContainerUtil
      *
      * @param string $bundleClass The bundle class class constant (VendorMyBundle::class)
      *
-     * @return bool|string False on error
+     * @return string|null False on error
      */
-    public function getBundlePath(string $bundleClass)
+    public function getBundlePath(string $bundleClass): ?string
     {
         return $this->getBundleResourcePath($bundleClass, '', true);
     }
@@ -153,54 +132,42 @@ class ContainerUtil
      * @param string $ressourcePath a ressource or path to ressource
      * @param bool   $first         Returns only first occurrence if multiple paths found
      *
-     * @return bool|string|array False on error
+     * @return string|array|null False on error
      */
     public function getBundleResourcePath(string $bundleClass, string $ressourcePath = '', $first = false)
     {
         try {
             $className = (new \ReflectionClass($bundleClass))->getShortName();
         } catch (\ReflectionException $e) {
-            return false;
+            return null;
         }
         $path = '@'.$className;
         $ressourcePath = ltrim($ressourcePath, '/');
         $path .= (empty($ressourcePath) ? '' : '/'.$ressourcePath);
 
         try {
-            return $this->fileLocator->locate($path, null, $first);
-        } catch (\Exception $e) {
-            return false;
+            return $this->locator->get(FileLocator::class)->locate($path, null, $first);
+        } catch (FileLocatorFileNotFoundException $e) {
+            return null;
         }
     }
 
-    /**
-     * Recursively merges a config.yml with a $extensionConfigs array in the context of ExtensionPluginInterface::getExtensionConfig().
-     * Must be static, because on Plugin::getExtensionConfig() no contao.framework nor service huh.utils.container is available.
-     *
-     * @return array
-     */
-    public static function mergeConfigFile(
-        string $activeExtensionName,
-        string $extensionName,
-        array $extensionConfigs,
-        string $configFile
-    ) {
-        if ($activeExtensionName === $extensionName && file_exists($configFile)) {
-            $config = Yaml::parseFile($configFile);
-
-            $extensionConfigs = array_merge_recursive(\is_array($extensionConfigs) ? $extensionConfigs : [], \is_array($config) ? $config : []);
-        }
-
-        return $extensionConfigs;
+    public function isMaintenanceModeActive(): bool
+    {
+        return $this->locator->get(DriverFactory::class)->getDriver()->isExists();
     }
 
-    public function isMaintenanceModeActive()
+    public function isPreviewMode(): bool
     {
-        return $this->container->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
+        return \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && $this->framework->getAdapter(Input::class)->cookie('FE_PREVIEW');
     }
 
-    public function isPreviewMode()
+    public static function getSubscribedServices()
     {
-        return \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && \Input::cookie('FE_PREVIEW');
+        return [
+            DriverFactory::class,
+            'monolog.logger.contao',
+            FileLocator::class,
+        ];
     }
 }

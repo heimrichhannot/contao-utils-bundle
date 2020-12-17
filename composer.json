@@ -9,10 +9,14 @@
     "contao/core-bundle": "^4.4",
     "hackzilla/password-generator": "^1.4",
     "heimrichhannot/contao-request-bundle": "^1.0",
+    "psr/log": "^1.0",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
     "soundasleep/html2text": "^1.1",
     "ausi/slug-generator": "^1.1",
-    "symfony/config": "^3.4|^4.4"
+    "symfony/config": "^3.4|^4.4",
+    "symfony/http-foundation": "^3.4|^4.4",
+    "symfony/http-kernel": "^3.4|^4.4",
+    "symfony/monolog-bridge": "^3.4|^4.4",
   },
   "require-dev": {
     "contao/core-bundle": "4.4.*",
