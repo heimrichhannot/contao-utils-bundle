@@ -6,7 +6,6 @@ jobs:
   tests:
     name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
-    if: github.event_name != 'push'
     strategy:
       fail-fast: false
       matrix:
@@ -50,7 +49,8 @@ jobs:
         run: php vendor/bin/phpunit -c phpunit-utils-folder.xml.dist --coverage-clover build/logs/clover.xml
 
       - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: build/logs/clover.xml
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
