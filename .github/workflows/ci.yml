@@ -1,6 +1,6 @@
 name: CI
 
-on: [ push, pull_request ]
+on: [ push ]
 
 jobs:
   tests:
@@ -17,7 +17,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo, zlib
-          tools: php-cs-fixer, phpunit
+          tools: phpunit
           coverage: none
 
       - name: Checkout
