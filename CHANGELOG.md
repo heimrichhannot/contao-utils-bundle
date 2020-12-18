@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.0] - 2020-12-18
+- added support for page specific date/time formats in DateUtil
+
 ## [2.187.0] - 2020-12-15
 - started preparation for next major version with a new bundle and extension class (old ones are still available, but should not be referenced anymore, see [Upgrade guide](UPGRADE.md)) (#23)
 - [BEHAVIOR CHANGE] added configuration option for databaseTreeCache warmer, cache warmer for databasetree cache is not executed by default anymore, but can be activated by configuration, see [Readme](README.md) (#23)

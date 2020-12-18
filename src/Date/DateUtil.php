@@ -8,9 +8,9 @@
 
 namespace HeimrichHannot\UtilsBundle\Date;
 
-use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\Date;
 use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
@@ -393,9 +393,9 @@ class DateUtil
 
     public function getFormattedDateTime($startDate, $endDate = 0, $addTime = false, $startTime = 0, $endTime = 0, array $options = []): ?string
     {
-        $dateFormat = $options['dateFormat'] ?? Config::get('dateFormat');
-        $datimFormat = $options['datimFormat'] ?? Config::get('datimFormat');
-        $timeFormat = $options['timeFormat'] ?? Config::get('timeFormat');
+        $dateFormat = $options['dateFormat'] ?? Date::getNumericDateFormat();
+        $datimFormat = $options['datimFormat'] ?? Date::getNumericDatimFormat();
+        $timeFormat = $options['timeFormat'] ?? Date::getNumericTimeFormat();
         $separator = $options['separator'] ?? ' – ';
         $translateMonths = $options['translateMonths'] ?? false;
 
