@@ -3,6 +3,32 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+  tests:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    if: github.event_name != 'push'
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ 7.1, 7.2., 7.3, 7.4 ]
+    steps:
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: 7.4
+            extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo, zlib
+            coverage: xdebug
+            tools: php-cs-fixer, phpunit
+
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: Install the dependencies
+          run: composer install --no-interaction
+
+        - name: Run the unit tests
+          run: vendor/bin/phpunit --colors=always
+
   coverage:
     runs-on: ubuntu-latest
     steps:
