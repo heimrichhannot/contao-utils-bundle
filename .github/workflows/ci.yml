@@ -1,0 +1,30 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+            php-version: 7.4
+            extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo, zlib
+            coverage: xdebug    
+            tools: php-cs-fixer, phpunit
+            
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Install the dependencies
+        run: composer install --no-interaction
+        
+      - name: Generate the coverage report
+        run: php vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: build/logs/clover.xml
