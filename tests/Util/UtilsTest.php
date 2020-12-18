@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util;
+namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;

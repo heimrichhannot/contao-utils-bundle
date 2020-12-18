@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util;
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 
@@ -31,11 +32,17 @@ class Utils implements ServiceSubscriberInterface
     {
         return [
             ContainerUtil::class,
+            StringUtil::class,
         ];
     }
 
     public function container(): ContainerUtil
     {
         return $this->locator->get(ContainerUtil::class);
+    }
+
+    public function string(): StringUtil
+    {
+        return $this->locator->get(StringUtil::class);
     }
 }

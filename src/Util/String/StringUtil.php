@@ -1,22 +1,18 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\String;
+namespace HeimrichHannot\UtilsBundle\Util\String;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use HeimrichHannot\UtilsBundle\Util\Utils;
 use Soundasleep\Html2Text;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-/**
- * Class StringUtil.
- */
 class StringUtil
 {
     const CAPITAL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -30,15 +26,10 @@ class StringUtil
      * @var ContaoFrameworkInterface
      */
     protected $framework;
-    /**
-     * @var Utils
-     */
-    protected $utils;
 
-    public function __construct(ContaoFrameworkInterface $framework, Utils $utils)
+    public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
-        $this->utils = $utils;
     }
 
     /**
@@ -46,15 +37,10 @@ class StringUtil
      *
      * @param $haystack string The string to search in
      * @param $needle   string The needle
-     *
-     * @return bool
-     *
-     * @deprecated Use utils service instead
-     * @codeCoverageIgnore
      */
-    public function startsWith($haystack, $needle)
+    public function startsWith(string $haystack, string $needle): bool
     {
-        return $this->utils->string()->startsWith($haystack, $needle);
+        return '' === $needle || false !== strrpos($haystack, $needle, -\strlen($haystack));
     }
 
     /**
@@ -62,15 +48,11 @@ class StringUtil
      *
      * @param string $haystack The string to search in
      * @param string $needle   The needle
-     *
-     * @return bool
-     *
-     * @deprecated Use utils service instead
-     * @codeCoverageIgnore
      */
-    public function endsWith($haystack, $needle)
+    public function endsWith(string $haystack, string $needle): bool
     {
-        return $this->utils->string()->endsWith($haystack, $needle);
+        // search forward starting from end minus needle length characters
+        return '' === $needle || (($temp = \strlen($haystack) - \strlen($needle)) >= 0 && false !== strpos($haystack, $needle, $temp));
     }
 
     /**
@@ -78,79 +60,71 @@ class StringUtil
      *
      * Example: MyPrettyClass to my-pretty-class
      *
-     * @param string $value
-     *
-     * @return string
-     *
-     * @deprecated Use utils service instead
-     * @codeCoverageIgnore
+     * @param $value
      */
-    public function camelCaseToDashed($value)
+    public function camelCaseToDashed(string $value): string
     {
-        return $this->utils->string()->camelCaseToSnake($value);
+        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
     }
 
     /**
      * Convert a camel case string to a snake cased string.
      *
      * Example: MyPrettyClass to my_pretty_class
-     *
-     * @return string
-     *
-     * @deprecated Use utils service instead
-     * @codeCoverageIgnore
      */
-    public function camelCaseToSnake(string $value)
+    public function camelCaseToSnake(string $value): string
     {
-        return $this->utils->string()->camelCaseToSnake($value);
+        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1_', $value));
     }
 
     /**
-     * @codeCoverageIgnore
-     *
-     * @deprecated Use utils service instead
-     *
-     * @return mixed
+     * Return a random char. Can be a letter or a number.
      */
-    public function randomChar(bool $includeAmbiguousChars = false)
+    public function randomChar(bool $includeAmbiguousChars = false): string
     {
-        return $this->utils->string()->randomChar($includeAmbiguousChars);
+        if ($includeAmbiguousChars) {
+            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS.static::NUMBERS;
+        } else {
+            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS.static::NUMBERS_NONAMBIGUOUS;
+        }
+
+        return $this->random($chars);
     }
 
     /**
-     * @codeCoverageIgnore
-     *
-     * @deprecated Use utils service instead
-     *
-     * @return mixed
+     * Return a random letter char.
      */
-    public function randomLetter(bool $includeAmbiguousChars = false)
+    public function randomLetter(bool $includeAmbiguousChars = false): string
     {
-        return $this->utils->string()->randomLetter($includeAmbiguousChars);
+        if ($includeAmbiguousChars) {
+            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS;
+        } else {
+            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS;
+        }
+
+        return $this->random($chars);
     }
 
     /**
-     * @codeCoverageIgnore
-     *
-     * @deprecated Use utils service instead
-     *
-     * @return mixed
+     * Return a random number char.
      */
-    public function randomNumber(bool $includeAmbiguousChars = false)
+    public function randomNumber(bool $includeAmbiguousChars = false): string
     {
-        return $this->utils->string()->randomNumber($includeAmbiguousChars);
+        if ($includeAmbiguousChars) {
+            $chars = static::NUMBERS;
+        } else {
+            $chars = static::NUMBERS_NONAMBIGUOUS;
+        }
+
+        return $this->random($chars);
     }
 
     /**
-     * @codeCoverageIgnore
-     *
-     * @deprecated Use utils service instead
-     *
-     * @return mixed
+     * Return a random char of a given string.
      */
-    public function random(string $charList)
+    public function random(string $charList): string
     {
-        return $this->utils->string()->random($charList);
+        return $charList[rand(0, \strlen($charList) - 1)];
     }
 
     /**
