@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 class UtilsTest extends ContaoTestCase
