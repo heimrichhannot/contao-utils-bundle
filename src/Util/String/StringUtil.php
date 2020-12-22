@@ -79,8 +79,10 @@ class StringUtil
 
     /**
      * Return a random char. Can be a letter or a number.
+     *
+     * @param array $options Pass additional options. See self::random()
      */
-    public function randomChar(bool $includeAmbiguousChars = false): string
+    public function randomChar(bool $includeAmbiguousChars = false, array $options = []): string
     {
         if ($includeAmbiguousChars) {
             $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS.static::NUMBERS;
@@ -88,13 +90,15 @@ class StringUtil
             $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS.static::NUMBERS_NONAMBIGUOUS;
         }
 
-        return $this->random($chars);
+        return $this->random($chars, $options);
     }
 
     /**
      * Return a random letter char.
+     *
+     * @param array $options Pass additional options. See self::random()
      */
-    public function randomLetter(bool $includeAmbiguousChars = false): string
+    public function randomLetter(bool $includeAmbiguousChars = false, array $options = []): string
     {
         if ($includeAmbiguousChars) {
             $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS;
@@ -102,13 +106,15 @@ class StringUtil
             $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS;
         }
 
-        return $this->random($chars);
+        return $this->random($chars, $options);
     }
 
     /**
      * Return a random number char.
+     *
+     * @param array $options Pass additional options. See self::random()
      */
-    public function randomNumber(bool $includeAmbiguousChars = false): string
+    public function randomNumber(bool $includeAmbiguousChars = false, array $options = []): string
     {
         if ($includeAmbiguousChars) {
             $chars = static::NUMBERS;
@@ -116,15 +122,34 @@ class StringUtil
             $chars = static::NUMBERS_NONAMBIGUOUS;
         }
 
-        return $this->random($chars);
+        return $this->random($chars, $options);
     }
 
     /**
      * Return a random char of a given string.
+     *
+     * Options:
+     * - randomNumberGenerator: (callable) A custom callback function to generate a random number. Get min and max as parameter.
+     *
+     * @throws \UnexpectedValueException if the return value of the random number generator is higher that string length (\strlen($charList) - 1)
      */
-    public function random(string $charList): string
+    public function random(string $charList, array $options = []): string
     {
-        return $charList[rand(0, \strlen($charList) - 1)];
+        if ('' === $charList) {
+            return $charList;
+        }
+
+        if (isset($options['randomNumberGenerator']) && \is_callable($options['randomNumberGenerator'])) {
+            $number = $options['randomNumberGenerator'](0, \strlen($charList) - 1);
+        } else {
+            $number = rand(0, \strlen($charList) - 1);
+        }
+
+        if ($number > (\strlen($charList) - 1)) {
+            throw new \UnexpectedValueException('The random number is out of range!');
+        }
+
+        return $charList[$number];
     }
 
     /**

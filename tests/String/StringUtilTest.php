@@ -14,7 +14,7 @@ use HeimrichHannot\UtilsBundle\String\StringUtil;
 
 class StringUtilTest extends ContaoTestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $container = $this->mockContainer();
         $container->set('contao.framework', $this->mockContaoFramework());
@@ -45,19 +45,19 @@ class StringUtilTest extends ContaoTestCase
         <title>Ignored Title</title>
         <body>
           <h1>Hello, World!</h1>
-        
+
           <p>This is some e-mail content.
           Even though it has whitespace and newlines, the e-mail converter
           will handle it correctly.
-        
+
           <p>Even mismatched tags.</p>
-        
+
           <div>A div</div>
           <div>Another div</div>
           <div>A div<div>within a div</div></div>
-        
+
           <a href="http://foo.com">A link</a>
-        
+
         </body>
         </html>';
 
@@ -77,37 +77,6 @@ within a div
         $stringUtil = $this->createStringUtil();
 
         $this->assertSame($expected, $stringUtil->html2Text($html));
-    }
-
-    public function testStartsWith()
-    {
-        $stringUtil = $this->createStringUtil();
-
-        $resultTrue = $stringUtil->startsWith('This is a test string', 'This ');
-        $resultFalse = $stringUtil->startsWith('This is a test string', 'ABC');
-
-        $this->assertTrue($resultTrue);
-        $this->assertFalse($resultFalse);
-    }
-
-    public function testEndsWith()
-    {
-        $stringUtil = $this->createStringUtil();
-
-        $resultTrue = $stringUtil->endsWith('This is a test string', ' string');
-        $resultFalse = $stringUtil->endsWith('This is a test string', 'ABC');
-
-        $this->assertTrue($resultTrue);
-        $this->assertFalse($resultFalse);
-    }
-
-    public function testCamelCaseToDashed()
-    {
-        $stringUtil = $this->createStringUtil();
-
-        $result = $stringUtil->camelCaseToDashed('someCamelCase');
-
-        $this->assertSame('some-camel-case', $result);
     }
 
     public function testPregReplaceLast()
@@ -190,13 +159,5 @@ within a div
                 false,
             ],
         ];
-    }
-
-    public function testCamelCaseToSnake()
-    {
-        $stringUtil = $this->createStringUtil();
-        $this->assertSame('some_camel_case', $stringUtil->camelCaseToSnake('someCamelCase'));
-        $this->assertSame('my_pretty_class', $stringUtil->camelCaseToSnake('MyPrettyClass'));
-        $this->assertSame('my_pretty_class', $stringUtil->camelCaseToSnake('my_pretty_class'));
     }
 }
