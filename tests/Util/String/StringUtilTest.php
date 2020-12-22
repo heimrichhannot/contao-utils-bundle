@@ -118,4 +118,38 @@ class StringUtilTest extends ContaoTestCase
         $this->expectException(\UnexpectedValueException::class);
         $instance->random(true, ['randomNumberGenerator' => function ($min, $max) { return 10; }]);
     }
+
+    public function testTruncate()
+    {
+        $instance = $this->getTestInstance();
+        $this->assertSame('abc', $instance->truncate('abc'));
+        $this->assertSame(
+            'Praesent sapien&nbsp;&hellip;',
+            $instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 30)
+        );
+        $this->assertSame(
+            'Praesent sapien&nbsp;&hellip;',
+            $instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35)
+        );
+        $this->assertSame(
+            35,
+            \strlen($instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35, ['exact' => true]))
+        );
+        $this->assertSame(
+            35,
+            \strlen($instance->truncate(
+                'Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35, ['exact' => true])
+            )
+        );
+        $this->assertSame(
+            35,
+            \strlen($instance->truncate(
+                'Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35, ['exact' => true, 'ending' => ' ENDE.'])
+            )
+        );
+        $this->assertSame(
+            'Praesent sapien ENDE.',
+            $instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 25, ['ending' => ' ENDE.'])
+        );
+    }
 }

@@ -157,9 +157,22 @@ class StringUtil
      * Truncates a given string respecting html element.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function truncateHtml(string $text, int $length = 100, string $ending = '&nbsp;&hellip;', bool $exact = false, bool $considerHtml = true)
     {
+        $options = [
+            'exact' => $exact,
+            'ending' => $ending,
+        ];
+
+        if (!$considerHtml) {
+            return $this->utils->string()->truncate($text, $length, $options);
+        }
+
         $open_tags = [];
 
         if ($considerHtml) {
