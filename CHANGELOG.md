@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.188.1-DEV] - 2020-12-22
+## [2.188.1] - 2020-12-22
 - fixed random fields added in loadDataContainer hooks not added to the database (#25)
 
 ## [2.188.0] - 2020-12-18
