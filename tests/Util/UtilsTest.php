@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
@@ -23,6 +24,9 @@ class UtilsTest extends ContaoTestCase
                 switch ($id) {
                     case ContainerUtil::class:
                         return $this->createMock(ContainerUtil::class);
+
+                    case StringUtil::class:
+                        return $this->createMock(StringUtil::class);
                 }
             });
         }
@@ -33,6 +37,11 @@ class UtilsTest extends ContaoTestCase
     public function testContainer()
     {
         $this->assertInstanceOf(ContainerUtil::class, $this->getTestInstance()->container());
+    }
+
+    public function testString()
+    {
+        $this->assertInstanceOf(StringUtil::class, $this->getTestInstance()->string());
     }
 
     public function testGetSubscribedServices()
