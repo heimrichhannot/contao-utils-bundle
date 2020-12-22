@@ -11,8 +11,10 @@ namespace HeimrichHannot\UtilsBundle\Cache;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\System;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class DatabaseTreeCache
 {
@@ -49,14 +51,24 @@ class DatabaseTreeCache
      * @var string
      */
     protected $cacheDir;
+    /**
+     * @var ContainerUtil
+     */
+    protected $containerUtil;
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
 
-    public function __construct(ContaoFrameworkInterface $framework, Filesystem $filesystem, ModelUtil $modelUtil)
+    public function __construct(ContaoFrameworkInterface $framework, Filesystem $filesystem, ModelUtil $modelUtil, ContainerUtil $containerUtil, RequestStack $requestStack)
     {
         $this->framework = $framework;
         $this->filesystem = $filesystem;
         $this->modelUtil = $modelUtil;
         $this->database = $this->framework->createInstance(Database::class);
         $this->cacheDir = \Contao\System::getContainer()->getParameter('kernel.cache_dir').'/tree_cache';
+        $this->containerUtil = $containerUtil;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -69,6 +81,10 @@ class DatabaseTreeCache
         }
 
         if (!isset($GLOBALS['TL_DCA'][$table]) || !isset($GLOBALS['TL_DCA'][$table]['config']['treeCache']) || !\is_array($GLOBALS['TL_DCA'][$table]['config']['treeCache'])) {
+            return;
+        }
+
+        if ($this->containerUtil->isInstall() || !$this->requestStack->getCurrentRequest()) {
             return;
         }
 

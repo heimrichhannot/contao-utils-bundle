@@ -16,10 +16,7 @@ services:
   huh.utils.cache.database_tree:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache
     public: true
-    arguments:
-      - "@contao.framework"
-      - "@filesystem"
-      - "@huh.utils.model"
+    autowire: true
   huh.utils.code:
     class: HeimrichHannot\UtilsBundle\Security\CodeUtil
     public: true
