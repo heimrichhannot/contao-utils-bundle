@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2020 Heimrich & Hannot GmbH
+ * Copyright (c) 2021 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -12,8 +12,10 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\MemberModel;
+use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
 class MemberUtil
 {
@@ -21,10 +23,15 @@ class MemberUtil
      * @var ContaoFrameworkInterface
      */
     protected $framework;
+    /**
+     * @var ModelUtil
+     */
+    protected $modelUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, ModelUtil $modelUtil)
     {
         $this->framework = $framework;
+        $this->modelUtil = $modelUtil;
     }
 
     /**
@@ -145,7 +152,7 @@ class MemberUtil
         }
 
         if (!empty(array_filter($groups))) {
-            list($tmpColumns, $tmpValues) = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
+            [$tmpColumns, $tmpValues] = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
 
             $columns[] = str_replace('?', $tmpValues[0], $tmpColumns);
         }
@@ -171,5 +178,44 @@ class MemberUtil
         }
 
         return $member;
+    }
+
+    /**
+     * @return \Contao\Model[]|null
+     */
+    public function getActiveGroups(int $memberId, array $options = [])
+    {
+        if (!$memberId) {
+            return null;
+        }
+
+        if (null === ($memberModel = $this->modelUtil->findModelInstanceByIdOrAlias('tl_member', $memberId, $options))) {
+            return null;
+        }
+
+        if (null === ($groups = StringUtil::deserialize($memberModel->groups, true))) {
+            return null;
+        }
+
+        $columns = ['tl_member_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
+
+        $this->modelUtil->addPublishedCheckToModelArrays('tl_member_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
+
+        if (null === ($groupModelCollection = $this->modelUtil->findModelInstancesBy('tl_member_group', $columns, []))) {
+            return null;
+        }
+
+        return $groupModelCollection->getModels();
+    }
+
+    public function hasActiveGroups(int $memberId): bool
+    {
+        $activeGroups = $this->getActiveGroups($memberId);
+
+        if (!empty($activeGroups)) {
+            return true;
+        }
+
+        return false;
     }
 }
