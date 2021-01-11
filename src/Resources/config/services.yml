@@ -89,24 +89,31 @@ services:
       - "@contao.framework"
   huh.twig.extension.date:
     class: HeimrichHannot\UtilsBundle\Twig\DateExtension
+    public: true
     tags: [twig.extension]
   huh.twig.extension.download:
     class: HeimrichHannot\UtilsBundle\Twig\DownloadExtension
+    public: true
     tags: [twig.extension]
   huh.twig.extension.file:
     class: HeimrichHannot\UtilsBundle\Twig\FileExtension
+    public: true
     tags: [twig.extension]
   huh.twig.extension.image:
     class: HeimrichHannot\UtilsBundle\Twig\ImageExtension
+    public: true
     tags: [twig.extension]
   huh.twig.extension.test:
     class: HeimrichHannot\UtilsBundle\Twig\TestExtension
+    public: true
     tags: [twig.extension]
   huh.twig.extension.array:
     class: HeimrichHannot\UtilsBundle\Twig\ArrayExtension
+    public: true
     tags: [twig.extension]
   huh.twig.extension.dca:
     class: HeimrichHannot\UtilsBundle\Twig\DcaExtension
+    public: true
     tags: [twig.extension]
   huh.cache.warm_internal:
     class: HeimrichHannot\UtilsBundle\Cache\UtilCacheWarmer

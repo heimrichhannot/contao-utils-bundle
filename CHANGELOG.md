@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.2] - 2021-01-11
+- fixed missing public service attributes for twig extensions (contao 4.9+)
+
 ## [2.188.1] - 2020-12-22
 - fixed random fields added in loadDataContainer hooks not added to the database (#25)
 
