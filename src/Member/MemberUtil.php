@@ -175,19 +175,16 @@ class MemberUtil
         return $member;
     }
 
-    /**
-     * @return \Contao\Model[]|null
-     */
-    public function getActiveGroups(int $memberId, array $options = [])
+    public function getActiveGroups(int $memberId, array $options = []): array
     {
         if (!$memberId) {
-            return null;
+            return [];
         }
 
         $modelUtil = System::getContainer()->get(ModelUtil::class);
 
         if (null === ($memberModel = $modelUtil->findModelInstanceByIdOrAlias('tl_member', $memberId, $options))) {
-            return null;
+            return [];
         }
 
         $groups = StringUtil::deserialize($memberModel->groups, true);
@@ -197,7 +194,7 @@ class MemberUtil
         $modelUtil->addPublishedCheckToModelArrays('tl_member_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
 
         if (null === ($groupModelCollection = $modelUtil->findModelInstancesBy('tl_member_group', $columns, []))) {
-            return null;
+            return [];
         }
 
         return $groupModelCollection->getModels();
@@ -206,10 +203,6 @@ class MemberUtil
     public function hasActiveGroup(int $memberId, int $group): bool
     {
         $activeGroups = $this->getActiveGroups($memberId);
-
-        if (empty($activeGroups)) {
-            return false;
-        }
 
         foreach ($activeGroups as $activeGroup) {
             if ($group === (int) ($activeGroup->id)) {

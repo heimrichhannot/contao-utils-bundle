@@ -82,19 +82,16 @@ class UserUtil
         return $user->isAdmin;
     }
 
-    /**
-     * @return \Contao\Model[]|null
-     */
-    public function getActiveGroups(int $userId, array $options = [])
+    public function getActiveGroups(int $userId, array $options = []): array
     {
         if (!$userId) {
-            return null;
+            return [];
         }
 
         $modelUtil = System::getContainer()->get(ModelUtil::class);
 
         if (null === ($userModel = $modelUtil->findModelInstanceByIdOrAlias('tl_user', $userId, $options))) {
-            return null;
+            return [];
         }
 
         $groups = StringUtil::deserialize($userModel->groups, true);
@@ -104,7 +101,7 @@ class UserUtil
         $modelUtil->addPublishedCheckToModelArrays('tl_user_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
 
         if (null === ($groupModelCollection = $modelUtil->findModelInstancesBy('tl_user_group', $columns, []))) {
-            return null;
+            return [];
         }
 
         return $groupModelCollection->getModels();
@@ -113,10 +110,6 @@ class UserUtil
     public function hasActiveGroup(int $userId, int $group): bool
     {
         $activeGroups = $this->getActiveGroups($userId);
-
-        if (empty($activeGroups)) {
-            return false;
-        }
 
         foreach ($activeGroups as $activeGroup) {
             if ($group === (int) ($activeGroup->id)) {
