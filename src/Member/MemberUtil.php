@@ -23,15 +23,10 @@ class MemberUtil
      * @var ContaoFrameworkInterface
      */
     protected $framework;
-    /**
-     * @var ModelUtil
-     */
-    protected $modelUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework, ModelUtil $modelUtil)
+    public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
-        $this->modelUtil = $modelUtil;
     }
 
     /**
@@ -189,31 +184,37 @@ class MemberUtil
             return null;
         }
 
-        if (null === ($memberModel = $this->modelUtil->findModelInstanceByIdOrAlias('tl_member', $memberId, $options))) {
+        $modelUtil = System::getContainer()->get(ModelUtil::class);
+
+        if (null === ($memberModel = $modelUtil->findModelInstanceByIdOrAlias('tl_member', $memberId, $options))) {
             return null;
         }
 
-        if (null === ($groups = StringUtil::deserialize($memberModel->groups, true))) {
-            return null;
-        }
+        $groups = StringUtil::deserialize($memberModel->groups, true);
 
         $columns = ['tl_member_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
 
-        $this->modelUtil->addPublishedCheckToModelArrays('tl_member_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
+        $modelUtil->addPublishedCheckToModelArrays('tl_member_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
 
-        if (null === ($groupModelCollection = $this->modelUtil->findModelInstancesBy('tl_member_group', $columns, []))) {
+        if (null === ($groupModelCollection = $modelUtil->findModelInstancesBy('tl_member_group', $columns, []))) {
             return null;
         }
 
         return $groupModelCollection->getModels();
     }
 
-    public function hasActiveGroups(int $memberId): bool
+    public function hasActiveGroup(int $memberId, int $group): bool
     {
         $activeGroups = $this->getActiveGroups($memberId);
 
-        if (!empty($activeGroups)) {
-            return true;
+        if (empty($activeGroups)) {
+            return false;
+        }
+
+        foreach ($activeGroups as $activeGroup) {
+            if ($group === (int) ($activeGroup->id)) {
+                return true;
+            }
         }
 
         return false;
