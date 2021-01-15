@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.3] - 2021-01-15
+- fixed sorting in `ModelInstanceChoice` to be a natural sorting (switched asort to natcasesort)
+
 ## [2.188.2] - 2021-01-11
 - fixed missing public service attributes for twig extensions (contao 4.9+)
 

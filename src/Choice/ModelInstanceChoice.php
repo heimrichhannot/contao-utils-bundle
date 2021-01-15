@@ -94,7 +94,7 @@ class ModelInstanceChoice extends AbstractChoice
         }
 
         if (!isset($context['skipSorting']) || !$context['skipSorting']) {
-            asort($choices);
+            natcasesort($choices);
         }
 
         return $choices;
