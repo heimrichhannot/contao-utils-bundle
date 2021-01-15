@@ -7,6 +7,8 @@ services:
       $webDir: '%contao.web_dir%'
       $utilsConfig: '%huh_utils%'
       Contao\CoreBundle\Command\SymlinksCommand: '@contao.command.symlinks'
+      $frontendUserProvider: "@contao.security.frontend_user_provider"
+      $backendUserProvider: "@contao.security.backend_user_provider"
 
 
   HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: ~

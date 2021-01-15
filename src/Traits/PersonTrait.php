@@ -8,43 +8,40 @@
 
 namespace HeimrichHannot\UtilsBundle\Traits;
 
-use Contao\StringUtil;
-
 trait PersonTrait
 {
-    public function getActiveGroups(int $personId, string $personTable, string $personGroupTable, array $personOptions = []): array
+    public function getActiveGroups(string $personName): array
     {
-        if (!$personId) {
+        if (!$personName) {
             return [];
         }
 
-        if (null === ($userModel = $this->modelUtil->findModelInstanceByIdOrAlias($personTable, $personId, $personOptions))) {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+
+        if ($this->scopeMatcher->isFrontendRequest($request)) {
+            $person = $this->frontendUserProvider->loadUserByUsername($personName);
+        } elseif ($this->scopeMatcher->isBackendRequest($request)) {
+            $person = $this->backendUserProvider->loadUserByUsername($personName);
+        } else {
             return [];
         }
 
-        $groups = StringUtil::deserialize($userModel->groups, true);
-
-        if (empty($groups)) {
+        if (empty($person->groups)) {
             return [];
         }
 
-        $columns = [$personGroupTable.'.id IN('.implode(',', array_map('\intval', $groups)).')'];
-        $this->modelUtil->addPublishedCheckToModelArrays($personGroupTable, 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
-
-        if (null === ($groupModelCollection = $this->modelUtil->findModelInstancesBy($personGroupTable, $columns, []))) {
-            return [];
-        }
-
-        return $groupModelCollection->getModels();
+        return $person->groups;
     }
 
-    public function hasActiveGroup(int $personId, string $personTable, int $personGroupId, string $personGroupTable): bool
+    public function hasActiveGroup(string $personName, int $personGroupId): bool
     {
-        $activeGroups = $this->getActiveGroups($personId, $personTable, $personGroupTable);
+        $activeGroups = $this->getActiveGroups($personName);
 
-        foreach ($activeGroups as $activeGroup) {
-            if ($personGroupId === (int) ($activeGroup->id)) {
-                return true;
+        if (\in_array($personGroupId, $activeGroups)) {
+            foreach ($activeGroups as $activeGroup) {
+                if ($personGroupId === (int) ($activeGroup)) {
+                    return true;
+                }
             }
         }
 
