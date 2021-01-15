@@ -9,15 +9,13 @@
 namespace HeimrichHannot\UtilsBundle\Member;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\CoreBundle\Security\User\ContaoUserProvider;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\MemberModel;
 use Contao\System;
 use Contao\Validator;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Traits\PersonTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MemberUtil
 {
@@ -28,34 +26,16 @@ class MemberUtil
      */
     protected $framework;
     /**
-     * @var ContainerInterface
+     * @var ModelUtil
      */
-    protected $container;
-    /**
-     * @var ScopeMatcher
-     */
-    protected $scopeMatcher;
-    /**
-     * @var ContaoUserProvider
-     */
-    protected $backendUserProvider;
-    /**
-     * @var ContaoUserProvider
-     */
-    protected $frontendUserProvider;
+    protected $modelUtil;
 
     public function __construct(
         ContaoFrameworkInterface $framework,
-        ContainerInterface $container,
-        ScopeMatcher $scopeMatcher,
-        ContaoUserProvider $backendUserProvider,
-        ContaoUserProvider $frontendUserProvider
+        ModelUtil $modelUtil
     ) {
         $this->framework = $framework;
-        $this->container = $container;
-        $this->scopeMatcher = $scopeMatcher;
-        $this->backendUserProvider = $backendUserProvider;
-        $this->frontendUserProvider = $frontendUserProvider;
+        $this->modelUtil = $modelUtil;
     }
 
     /**

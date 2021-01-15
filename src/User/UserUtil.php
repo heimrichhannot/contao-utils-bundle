@@ -10,12 +10,10 @@ namespace HeimrichHannot\UtilsBundle\User;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\CoreBundle\Security\User\ContaoUserProvider;
 use Contao\System;
 use Contao\UserModel;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Traits\PersonTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class UserUtil
 {
@@ -26,34 +24,16 @@ class UserUtil
      */
     protected $framework;
     /**
-     * @var ContaoUserProvider
+     * @var ModelUtil
      */
-    protected $backendUserProvider;
-    /**
-     * @var ContaoUserProvider
-     */
-    protected $frontendUserProvider;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-    /**
-     * @var ScopeMatcher
-     */
-    protected $scopeMatcher;
+    protected $modelUtil;
 
     public function __construct(
         ContaoFrameworkInterface $framework,
-        ContainerInterface $container,
-        ScopeMatcher $scopeMatcher,
-        ContaoUserProvider $backendUserProvider,
-        ContaoUserProvider $frontendUserProvider
+        ModelUtil $modelUtil
     ) {
         $this->framework = $framework;
-        $this->backendUserProvider = $backendUserProvider;
-        $this->frontendUserProvider = $frontendUserProvider;
-        $this->container = $container;
-        $this->scopeMatcher = $scopeMatcher;
+        $this->modelUtil = $modelUtil;
     }
 
     /**
