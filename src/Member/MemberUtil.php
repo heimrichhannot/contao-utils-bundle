@@ -12,21 +12,28 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\FilesModel;
 use Contao\Folder;
 use Contao\MemberModel;
-use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Traits\PersonTrait;
 
 class MemberUtil
 {
+    use PersonTrait;
+
     /**
      * @var ContaoFrameworkInterface
      */
     protected $framework;
+    /**
+     * @var ModelUtil
+     */
+    protected $modelUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, ModelUtil $modelUtil)
     {
         $this->framework = $framework;
+        $this->modelUtil = $modelUtil;
     }
 
     /**
@@ -173,43 +180,5 @@ class MemberUtil
         }
 
         return $member;
-    }
-
-    public function getActiveGroups(int $memberId, array $options = []): array
-    {
-        if (!$memberId) {
-            return [];
-        }
-
-        $modelUtil = System::getContainer()->get(ModelUtil::class);
-
-        if (null === ($memberModel = $modelUtil->findModelInstanceByIdOrAlias('tl_member', $memberId, $options))) {
-            return [];
-        }
-
-        $groups = StringUtil::deserialize($memberModel->groups, true);
-
-        $columns = ['tl_member_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
-
-        $modelUtil->addPublishedCheckToModelArrays('tl_member_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
-
-        if (null === ($groupModelCollection = $modelUtil->findModelInstancesBy('tl_member_group', $columns, []))) {
-            return [];
-        }
-
-        return $groupModelCollection->getModels();
-    }
-
-    public function hasActiveGroup(int $memberId, int $group): bool
-    {
-        $activeGroups = $this->getActiveGroups($memberId);
-
-        foreach ($activeGroups as $activeGroup) {
-            if ($group === (int) ($activeGroup->id)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

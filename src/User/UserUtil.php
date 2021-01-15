@@ -10,13 +10,15 @@ namespace HeimrichHannot\UtilsBundle\User;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use Contao\StringUtil;
 use Contao\System;
 use Contao\UserModel;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Traits\PersonTrait;
 
 class UserUtil
 {
+    use PersonTrait;
+
     /**
      * @var ContaoFrameworkInterface
      */
@@ -26,9 +28,10 @@ class UserUtil
      */
     protected $modelUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, ModelUtil $modelUtil)
     {
         $this->framework = $framework;
+        $this->modelUtil = $modelUtil;
     }
 
     /**
@@ -80,43 +83,5 @@ class UserUtil
         }
 
         return $user->isAdmin;
-    }
-
-    public function getActiveGroups(int $userId, array $options = []): array
-    {
-        if (!$userId) {
-            return [];
-        }
-
-        $modelUtil = System::getContainer()->get(ModelUtil::class);
-
-        if (null === ($userModel = $modelUtil->findModelInstanceByIdOrAlias('tl_user', $userId, $options))) {
-            return [];
-        }
-
-        $groups = StringUtil::deserialize($userModel->groups, true);
-
-        $columns = ['tl_user_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
-
-        $modelUtil->addPublishedCheckToModelArrays('tl_user_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
-
-        if (null === ($groupModelCollection = $modelUtil->findModelInstancesBy('tl_user_group', $columns, []))) {
-            return [];
-        }
-
-        return $groupModelCollection->getModels();
-    }
-
-    public function hasActiveGroup(int $userId, int $group): bool
-    {
-        $activeGroups = $this->getActiveGroups($userId);
-
-        foreach ($activeGroups as $activeGroup) {
-            if ($group === (int) ($activeGroup->id)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
