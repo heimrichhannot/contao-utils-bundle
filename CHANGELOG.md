@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.4] - 2021-01-15
+- **BC BREAK**: fixed error in `DatabaseUtil::composeWhereForQueryBuilder()` -> `IN` and `NOT IN` statement with empty values leads to an unfullfillable condition, not to skipping the filter anymore (since it was a bug, the bc break was necessary)
+
 ## [2.188.3] - 2021-01-15
 - fixed sorting in `ModelInstanceChoice` to be a natural sorting (switched asort to natcasesort)
 

@@ -618,42 +618,42 @@ class DatabaseUtil
             case self::OPERATOR_IN:
                 $value = array_filter(!\is_array($value) ? explode(',', $value) : $value);
 
-                // skip if empty to avoid sql error
+                // if empty add an unfulfillable condition in order to avoid an sql error
                 if (empty($value)) {
-                    break;
+                    $where = $queryBuilder->expr()->eq(1, 2);
+                } else {
+                    $where = $queryBuilder->expr()->in(
+                        $field,
+                        array_map(
+                            function ($val) {
+                                return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
+                            },
+                            $value
+                        )
+                    );
                 }
-
-                $where = $queryBuilder->expr()->in(
-                    $field,
-                    array_map(
-                        function ($val) {
-                            return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
-                        },
-                        $value
-                    )
-                );
 
                 break;
 
             case self::OPERATOR_NOT_IN:
                 $value = array_filter(!\is_array($value) ? explode(',', $value) : $value);
 
-                // skip if empty to avoid sql error
+                // if empty add an unfulfillable condition in order to avoid an sql error
                 if (empty($value)) {
-                    break;
+                    $where = $queryBuilder->expr()->eq(1, 2);
+                } else {
+                    $where = $queryBuilder->expr()->notIn(
+                        $field,
+                        array_map(
+                            function ($val) {
+                                $val = Controller::replaceInsertTags(trim($val), false);
+
+                                return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
+                            },
+                            $value
+                        )
+                    );
                 }
-
-                $where = $queryBuilder->expr()->notIn(
-                    $field,
-                    array_map(
-                        function ($val) {
-                            $val = Controller::replaceInsertTags(trim($val), false);
-
-                            return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
-                        },
-                        $value
-                    )
-                );
 
                 break;
 
