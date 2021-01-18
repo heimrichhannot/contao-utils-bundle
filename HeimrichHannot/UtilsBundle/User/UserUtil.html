@@ -86,7 +86,33 @@
     
 
     
+            <h2>Traits</h2>
+
+        
+    <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="../../../HeimrichHannot/UtilsBundle/Traits/PersonTrait.html"><abbr title="HeimrichHannot\UtilsBundle\Traits\PersonTrait">PersonTrait</abbr></a>
+                                            
+                </div>
+                <div class="col-md-6">
+                    Trait PersonTrait.
+                </div>
+            </div>
+            </div>
     
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>TABLE</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
@@ -99,6 +125,14 @@
                 <td class="last"></td>
                 <td></td>
             </tr>
+                    <tr>
+                <td class="type" id="property_modelUtil">
+                                        protected                                        <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a>
+                </td>
+                <td>$modelUtil</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
             </table>
 
     
@@ -107,10 +141,32 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
+                    <abbr title="HeimrichHannot\UtilsBundle\Traits\Contao\Model\Collection">Collection</abbr>|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getActiveGroups">getActiveGroups</a>(int $userId)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../HeimrichHannot/UtilsBundle/Traits/PersonTrait.html#method_getActiveGroups"><abbr title="HeimrichHannot\UtilsBundle\Traits\PersonTrait">PersonTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_hasActiveGroup">hasActiveGroup</a>(int $userId, int $groupId)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../HeimrichHannot/UtilsBundle/Traits/PersonTrait.html#method_hasActiveGroup"><abbr title="HeimrichHannot\UtilsBundle\Traits\PersonTrait">PersonTrait</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+                    <a href="#method___construct">__construct</a>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -156,10 +212,91 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method_getActiveGroups">
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Traits/PersonTrait.html#method_getActiveGroups"><abbr title="HeimrichHannot\UtilsBundle\Traits\PersonTrait">PersonTrait</abbr></a> at         line 27</div>
+        <code>                    <abbr title="HeimrichHannot\UtilsBundle\Traits\Contao\Model\Collection">Collection</abbr>|null
+    <strong>getActiveGroups</strong>(int $userId)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$userId</td>
+                <td>Returns all active users userGroups as a Collection of Models or null if user do not belong to any active userGroups</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="HeimrichHannot\UtilsBundle\Traits\Contao\Model\Collection">Collection</abbr>|null</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_hasActiveGroup">
+        <div class="location">in <a href="../../../HeimrichHannot/UtilsBundle/Traits/PersonTrait.html#method_hasActiveGroup"><abbr title="HeimrichHannot\UtilsBundle\Traits\PersonTrait">PersonTrait</abbr></a> at         line 49</div>
+        <code>                    bool
+    <strong>hasActiveGroup</strong>(int $userId, int $groupId)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$userId</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$groupId</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 23</div>
+        <div class="location">at         line 33</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework)
+    <strong>__construct</strong>(<abbr title="Contao\CoreBundle\Framework\ContaoFrameworkInterface">ContaoFrameworkInterface</abbr> $framework, <a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a> $modelUtil)
         </code>
     </h3>
     <div class="details">
@@ -175,6 +312,11 @@
                 <td>$framework</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td><a href="../../../HeimrichHannot/UtilsBundle/Model/ModelUtil.html"><abbr title="HeimrichHannot\UtilsBundle\Model\ModelUtil">ModelUtil</abbr></a></td>
+                <td>$modelUtil</td>
+                <td></td>
+            </tr>
             </table>
 
             
@@ -186,7 +328,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_findActiveByGroups">
-        <div class="location">at         line 31</div>
+        <div class="location">at         line 44</div>
         <code>                    <abbr title="Contao\UserModel">UserModel</abbr>|<abbr title="Contao\UserModel">UserModel</abbr>[]|<abbr title="Contao\Model\Collection">Collection</abbr>|null
     <strong>findActiveByGroups</strong>(array $groups, array $options = [])
         </code>
@@ -229,7 +371,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_hasAccessToField">
-        <div class="location">at         line 57</div>
+        <div class="location">at         line 70</div>
         <code>                    
     <strong>hasAccessToField</strong>($table, $field)
         </code>
@@ -263,7 +405,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isAdmin">
-        <div class="location">at         line 68</div>
+        <div class="location">at         line 81</div>
         <code>                    bool
     <strong>isAdmin</strong>()
         </code>
