@@ -12,17 +12,30 @@ use Contao\BackendUser;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\System;
 use Contao\UserModel;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Traits\PersonTrait;
 
 class UserUtil
 {
+    use PersonTrait;
+
+    const TABLE = 'tl_user';
+
     /**
      * @var ContaoFrameworkInterface
      */
     protected $framework;
+    /**
+     * @var ModelUtil
+     */
+    protected $modelUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework)
-    {
+    public function __construct(
+        ContaoFrameworkInterface $framework,
+        ModelUtil $modelUtil
+    ) {
         $this->framework = $framework;
+        $this->modelUtil = $modelUtil;
     }
 
     /**
@@ -46,7 +59,7 @@ class UserUtil
         $columns = ["($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'".($time + 60)."') AND $t.disable=''"];
 
         if (!empty(array_filter($groups))) {
-            list($tmpColumns, $tmpValues) = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
+            [$tmpColumns, $tmpValues] = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
 
             $columns[] = str_replace('?', $tmpValues[0], $tmpColumns);
         }

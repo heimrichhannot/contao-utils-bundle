@@ -14,17 +14,30 @@ use Contao\Folder;
 use Contao\MemberModel;
 use Contao\System;
 use Contao\Validator;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Traits\PersonTrait;
 
 class MemberUtil
 {
+    use PersonTrait;
+
+    const TABLE = 'tl_member';
+
     /**
      * @var ContaoFrameworkInterface
      */
     protected $framework;
+    /**
+     * @var ModelUtil
+     */
+    protected $modelUtil;
 
-    public function __construct(ContaoFrameworkInterface $framework)
-    {
+    public function __construct(
+        ContaoFrameworkInterface $framework,
+        ModelUtil $modelUtil
+    ) {
         $this->framework = $framework;
+        $this->modelUtil = $modelUtil;
     }
 
     /**
@@ -145,7 +158,7 @@ class MemberUtil
         }
 
         if (!empty(array_filter($groups))) {
-            list($tmpColumns, $tmpValues) = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
+            [$tmpColumns, $tmpValues] = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
 
             $columns[] = str_replace('?', $tmpValues[0], $tmpColumns);
         }
