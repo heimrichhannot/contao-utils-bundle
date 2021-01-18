@@ -19,6 +19,8 @@ class UserUtil
 {
     use PersonTrait;
 
+    const TABLE = 'tl_user';
+
     /**
      * @var ContaoFrameworkInterface
      */

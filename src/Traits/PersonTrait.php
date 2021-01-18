@@ -8,42 +8,45 @@
 
 namespace HeimrichHannot\UtilsBundle\Traits;
 
+use Contao\Model\Collection;
 use Contao\StringUtil;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
+/**
+ * Trait PersonTrait.
+ *
+ * @param ModelUtil $modelUtil
+ */
 trait PersonTrait
 {
     /**
      * @return array
      *               returns empty array or array of group Models
      */
-    public function getActiveGroups(int $userId, string $source): array
+    public function getActiveGroups(int $userId): ?Collection
     {
-        if (!$userId) {
-            return [];
-        }
-
-        if (null === ($userModel = $this->modelUtil->findModelInstanceByIdOrAlias($source, $userId))) {
-            return [];
+        if (!$userModel = $this->modelUtil->findModelInstanceByPk($this::TABLE, $userId)) {
+            return null;
         }
 
         if (empty($groups = StringUtil::deserialize($userModel->groups, true))) {
-            return [];
+            return null;
         }
 
-        $columns = [$source.'_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
+        $columns = [$this::TABLE.'_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
 
-        $this->modelUtil->addPublishedCheckToModelArrays($source.'_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
+        $this->modelUtil->addPublishedCheckToModelArrays($this::TABLE.'_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
 
-        if (null === ($groupModelCollection = $this->modelUtil->findModelInstancesBy($source.'_group', $columns, []))) {
-            return [];
-        }
-
-        return $groupModelCollection->getModels();
+        return $this->modelUtil->findModelInstancesBy($this::TABLE.'_group', $columns, []);
     }
 
-    public function hasActiveGroup(int $userId, int $groupId, string $source): bool
+    public function hasActiveGroup(int $userId, int $groupId): bool
     {
-        $activeGroups = $this->getActiveGroups($userId, $source);
+        $activeGroups = $this->getActiveGroups($userId);
+
+        if (!$activeGroups) {
+            return false;
+        }
 
         foreach ($activeGroups as $group) {
             if ((int) ($group->id) === $groupId) {

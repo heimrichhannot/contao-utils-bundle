@@ -21,6 +21,8 @@ class MemberUtil
 {
     use PersonTrait;
 
+    const TABLE = 'tl_member';
+
     /**
      * @var ContaoFrameworkInterface
      */
