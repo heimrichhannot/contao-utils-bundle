@@ -1,7 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.188.4] - 2021-01-15
+## [2.188.5] - 2021-01-18
+- added PersonTrait to UserUtil and MemberUtil, added tests for PersonTrait (#26)
+
+## [2.188.4] - 2021-01-18
 - **BC BREAK**: fixed error in `DatabaseUtil::composeWhereForQueryBuilder()` -> `IN` and `NOT IN` statement with empty values leads to an unfullfillable condition, not to skipping the filter anymore (since it was a bug, the bc break was necessary)
 
 ## [2.188.3] - 2021-01-15
