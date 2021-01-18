@@ -20,12 +20,13 @@ use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 trait PersonTrait
 {
     /**
-     * @return array
-     *               returns empty array or array of group Models
+     * @param int $userId
+     *
+     * Returns all active users userGroups as a Collection of Models or null if user do not belong to any active userGroups
      */
     public function getActiveGroups(int $userId): ?Collection
     {
-        if (!$userModel = $this->modelUtil->findModelInstanceByPk($this::TABLE, $userId)) {
+        if (null === ($userModel = $this->modelUtil->findModelInstanceByPk(static::TABLE, $userId))) {
             return null;
         }
 
@@ -33,13 +34,18 @@ trait PersonTrait
             return null;
         }
 
-        $columns = [$this::TABLE.'_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
+        $columns = [static::TABLE.'_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
 
-        $this->modelUtil->addPublishedCheckToModelArrays($this::TABLE.'_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
+        $this->modelUtil->addPublishedCheckToModelArrays(static::TABLE.'_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
 
-        return $this->modelUtil->findModelInstancesBy($this::TABLE.'_group', $columns, []);
+        return $this->modelUtil->findModelInstancesBy(static::TABLE.'_group', $columns, []);
     }
 
+    /**
+     * @param int $groupId
+     *
+     * Checks given user group is active and given user belongs to this group
+     */
     public function hasActiveGroup(int $userId, int $groupId): bool
     {
         $activeGroups = $this->getActiveGroups($userId);
