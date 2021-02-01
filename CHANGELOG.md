@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.6] - 2021-02-01
+- fixed twig picture template if width or height are null
+
 ## [2.188.5] - 2021-01-18
 - added PersonTrait to UserUtil and MemberUtil, added tests for PersonTrait (#26)
 

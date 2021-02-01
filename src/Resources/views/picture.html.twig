@@ -4,9 +4,9 @@
 {% set wrapperID = ('image-wrapper-' ~ random()) %}
 <div id="{{ wrapperID }}" class="image-wrapper{% if class|default() or img.class|default() %} {{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}{% endif %}">
     {% if(lazyload.aspectRatio|default()) %}
-        <div class="image-aspect-ratio">
-    {% endif %}
-        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){max-width:' ~ (img.width|default ? img.width ~ 'px' : 'none') ~ ';max-height:' ~ (img.height == 0 ? 'none' : (img.height ~ 'px')) ~ '}')]) %}
+    <div class="image-aspect-ratio">
+        {% endif %}
+        {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded){max-width:' ~ (img.width|default ? img.width ~ 'px' : 'none') ~ ';max-height:' ~ (img.height|default == 0 ? 'none' : (img.height ~ 'px')) ~ '}')]) %}
         {% set wrapperStyles = wrapperStyles|default([])|merge([('#' ~ wrapperID ~ ':not(.loaded) .image-aspect-ratio{padding-bottom:' ~ (img.width|default ? (img.height/img.width)*100 : 0)|number_format(2, '.') ~ '%}')]) %}
         {% endif %}
         {% if sources|default() %}
@@ -27,7 +27,7 @@
             {% endif %}
 
             {% if lazyload|default() %}
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=" data-wrapper="#{{ wrapperID }}" class="image {{ lazyload.class|default('lazy-img') }}" {{lazyload.src|default('data-src')}}="{{ '{{env::url}}' }}/{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ '{{env::url}}' }}/{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width and img.height %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %} {{ attributes|default('') }} itemprop="image"{% if wrapperStyles|default() and lazyload.aspectRatio|default() %} data-wrapper-style="{{ wrapperStyles|join('') }}"{% endif %}>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=" data-wrapper="#{{ wrapperID }}" class="image {{ lazyload.class|default('lazy-img') }}" {{lazyload.src|default('data-src')}}="{{ '{{env::url}}' }}/{{ img.src }}"{% if img.srcset != img.src %} data-srcset="{{ '{{env::url}}' }}/{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.height|default and img.width|default %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %} {{ attributes|default('') }} itemprop="image"{% if wrapperStyles|default() and lazyload.aspectRatio|default() %} data-wrapper-style="{{ wrapperStyles|join('') }}"{% endif %}>
             {% else %}
                 <img src="{{ img.src }}"{% if img.srcset != img.src %} srcset="{{ img.srcset }}"{% endif %}{% if img.sizes|default() %} sizes="{{ img.sizes }}"{% elseif not sources and img.width|default and img.height|default %} width="{{ img.width|trim }}" height="{{ img.height|trim }}"{% endif %} alt="{{ alt }}"{% if title|default() %} title="{{ title }}"{% endif %}{% if class|default() or img.class|default() %} class="{{ class|default() ? class|trim : '' }} {{ img.class|default() ? img.class|trim : '' }}"{% endif %} {{ attributes|default('') }} loading="{{ loading|default('auto') }}" itemprop="image">
             {% endif %}
@@ -47,8 +47,8 @@
                 {% endif %}
             </noscript>
         {% endspaceless %}
-    {% if(lazyload.aspectRatio|default()) %}
-        </div>
+        {% if(lazyload.aspectRatio|default()) %}
+    </div>
     {% endif %}
 </div>
 {% endif %}
