@@ -47,11 +47,13 @@ services:
   huh.utils.file_archive: '@HeimrichHannot\UtilsBundle\File\FileArchiveUtil'
   huh.utils.folder: '@HeimrichHannot\UtilsBundle\File\FolderUtil'
   huh.utils.form: '@HeimrichHannot\UtilsBundle\Form\FormUtil'
+  huh.utils.member: '@HeimrichHannot\UtilsBundle\Member\MemberUtil'
   huh.utils.page: '@HeimrichHannot\UtilsBundle\Page\PageUtil'
   huh.utils.pdf.preview: '@HeimrichHannot\UtilsBundle\Pdf\PdfPreview'
   huh.utils.request: '@HeimrichHannot\UtilsBundle\Request\RequestUtil'
   huh.utils.string: '@HeimrichHannot\UtilsBundle\String\StringUtil'
   huh.utils.string.anonymizer: '@HeimrichHannot\UtilsBundle\String\AnonymizerUtil'
+  huh.utils.user: '@HeimrichHannot\UtilsBundle\User\UserUtil'
 
   huh.utils.class:
     class: HeimrichHannot\UtilsBundle\Classes\ClassUtil

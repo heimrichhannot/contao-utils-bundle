@@ -59,16 +59,6 @@ services:
     public: true
     arguments:
       - "@contao.framework"
-  huh.utils.member:
-    class: HeimrichHannot\UtilsBundle\Member\MemberUtil
-    public: true
-    arguments:
-      - "@contao.framework"
-  huh.utils.user:
-    class: HeimrichHannot\UtilsBundle\User\UserUtil
-    public: true
-    arguments:
-      - "@contao.framework"
   huh.utils.pdf.writer:
     class: HeimrichHannot\UtilsBundle\Pdf\PdfWriter
     public: true
