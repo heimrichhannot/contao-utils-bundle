@@ -26,7 +26,7 @@ abstract class AbstractChoice
      *
      * @var FilesystemAdapter
      */
-    protected $cache;
+    protected $cache = null;
 
     /**
      * Current cache key name.
@@ -50,7 +50,6 @@ abstract class AbstractChoice
     public function __construct(ContaoFrameworkInterface $framework)
     {
         $this->framework = $framework;
-        $this->cache = new FilesystemAdapter('', 0, System::getContainer()->get('kernel')->getCacheDir());
     }
 
     /**
@@ -98,6 +97,10 @@ abstract class AbstractChoice
         // add unique identifier based on context
         if (null !== $this->getContext() && false !== ($json = json_encode($this->getContext(), JSON_FORCE_OBJECT))) {
             $this->cacheKey .= '.'.sha1($json);
+        }
+
+        if (!$this->cache) {
+            $this->cache = new FilesystemAdapter('', 0, System::getContainer()->get('kernel')->getCacheDir());
         }
 
         $cache = $this->cache->getItem($this->cacheKey);

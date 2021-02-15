@@ -1,8 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.8] - 2021-02-15
+- fixed choice cache (not run in the constructor anymore)
+
 ## [2.188.7] - 2021-02-09
-- fixed autowireing for UserUtil and MemberUtil
+- fixed autowiring for UserUtil and MemberUtil
 
 ## [2.188.6] - 2021-02-01
 - fixed twig picture template if width or height are null
