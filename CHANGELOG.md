@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.9] - 2021-02-15
+- avoid replaceInsertTags getting invalid path
+
 ## [2.188.8] - 2021-02-15
 - fixed choice cache (not run in the constructor anymore)
 

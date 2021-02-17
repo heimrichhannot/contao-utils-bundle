@@ -49,11 +49,11 @@ class DownloadExtension extends AbstractExtension
      */
     public function getDownloadData($path, array $data = []): ?array
     {
-        $path = Controller::replaceInsertTags($path);
-
         if (Validator::isUuid($path)) {
             $file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($path);
         } else {
+            $path = Controller::replaceInsertTags($path);
+
             try {
                 $file = new File(urldecode($path));
             } catch (\Exception $e) {
