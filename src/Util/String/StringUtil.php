@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2020 Heimrich & Hannot GmbH
+ * Copyright (c) 2021 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Util\String;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Soundasleep\Html2Text;
+use Soundasleep\Html2TextException;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class StringUtil
@@ -156,14 +157,12 @@ class StringUtil
      * Truncates a given string respecting html element.
      *
      * Options:
-     * - considerHtml: (bool)
      *
      * @return string
      */
     public function truncateHtml(string $text, int $length = 100, string $ending = '&nbsp;&hellip;', bool $exact = false, array $options = [])
     {
         $defaults = [
-            'considerHtml' => true,
         ];
         $options = array_merge($defaults, $options);
 
@@ -259,42 +258,19 @@ class StringUtil
     }
 
     /**
-     * Truncate a string.
+     * Converts html to text.
      *
-     * Options:
-     * - ending: (string) What should be appended after cutting the string. Default: '&nbsp;&hellip;'
-     * - exact: (bool) Cut string exact after given length instead cutting after last complete word.
+     * @throws Html2TextException
      *
      * @return string
      */
-    public function truncate(string $text, int $length = 100, array $options = [])
+    public function html2Text(string $html, array $options = [])
     {
-        $defaults = [
-            'exact' => false,
-            'ending' => '&nbsp;&hellip;',
-        ];
-        $options = array_merge($defaults, $options);
+        $html = str_replace("\n", '', $html); // remove white spaces from html
+        $html = str_replace('</p>', '<br /></p>', $html); // interpret paragrah as block element
+        $html = str_replace('</div>', '<br /></div>', $html); // interpret div as block element
 
-        if (\strlen($text) <= $length) {
-            return $text;
-        }
-
-        // if the words shouldn't be cut in the middle...
-        $truncate = substr($text, 0, $length - \strlen($options['ending']));
-
-        if (!$options['exact']) {
-            // ...search the last occurance of a space...
-            $spacepos = strrpos($truncate, ' ');
-
-            if (isset($spacepos)) {
-                // ...and cut the text in this position
-                $truncate = substr($truncate, 0, $spacepos);
-            }
-        }
-        // add the defined ending to the text
-        $truncate .= $options['ending'];
-
-        return $truncate;
+        return Html2Text::convert($html, $options);
     }
 
     /**
@@ -352,22 +328,6 @@ class StringUtil
         $objCssInliner = new CssToInlineStyles();
 
         return $objCssInliner->convert($text, $cssText);
-    }
-
-    /**
-     * Converts html to text.
-     *
-     * @throws \Soundasleep\Html2TextException
-     *
-     * @return string
-     */
-    public function html2Text(string $html, array $options = [])
-    {
-        $html = str_replace("\n", '', $html); // remove white spaces from html
-        $html = str_replace('</p>', '<br /></p>', $html); // interpret paragrah as block element
-        $html = str_replace('</div>', '<br /></div>', $html); // interpret div as block element
-
-        return Html2Text::convert($html, $options);
     }
 
     /**

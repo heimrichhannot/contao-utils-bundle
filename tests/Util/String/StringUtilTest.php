@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2020 Heimrich & Hannot GmbH
+ * Copyright (c) 2021 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -119,37 +119,50 @@ class StringUtilTest extends ContaoTestCase
         $instance->random(true, ['randomNumberGenerator' => function ($min, $max) { return 10; }]);
     }
 
-    public function testTruncate()
+    public function testTruncateHtml()
     {
         $instance = $this->getTestInstance();
-        $this->assertSame('abc', $instance->truncate('abc'));
-        $this->assertSame(
-            'Praesent sapien&nbsp;&hellip;',
-            $instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 30)
-        );
-        $this->assertSame(
-            'Praesent sapien&nbsp;&hellip;',
-            $instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35)
-        );
-        $this->assertSame(
-            35,
-            \strlen($instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35, ['exact' => true]))
-        );
-        $this->assertSame(
-            35,
-            \strlen($instance->truncate(
-                'Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35, ['exact' => true])
-            )
-        );
-        $this->assertSame(
-            35,
-            \strlen($instance->truncate(
-                'Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 35, ['exact' => true, 'ending' => ' ENDE.'])
-            )
-        );
-        $this->assertSame(
-            'Praesent sapien ENDE.',
-            $instance->truncate('Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.', 25, ['ending' => ' ENDE.'])
-        );
+        $this->assertSame('<p>Hallo Welt!</p>', $instance->truncateHtml('<p>Hallo Welt! Lorem ipsum!</p>', 11));
+    }
+
+    public function testHtml2Text()
+    {
+        $html = '
+        <html>
+        <title>Ignored Title</title>
+        <body>
+          <h1>Hello, World!</h1>
+
+          <p>This is some e-mail content.
+          Even though it has whitespace and newlines, the e-mail converter
+          will handle it correctly.
+
+          <p>Even mismatched tags.</p>
+
+          <div>A div</div>
+          <div>Another div</div>
+          <div>A div<div>within a div</div></div>
+
+          <a href="http://foo.com">A link</a>
+
+        </body>
+        </html>';
+
+        $expected =
+            'Hello, World!
+
+This is some e-mail content. Even though it has whitespace and newlines, the e-mail converter will handle it correctly.
+
+Even mismatched tags.
+
+A div
+Another div
+A div
+within a div
+[A link](http://foo.com)';
+
+        $stringUtil = $this->getTestInstance();
+
+        $this->assertSame($expected, $stringUtil->html2Text($html));
     }
 }
