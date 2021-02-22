@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.188.10] - 2021-02-22
+- fixed missing symfony/config component
+
 ## [2.188.9] - 2021-02-15
 - avoid replaceInsertTags getting invalid path
 
