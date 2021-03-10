@@ -1,0 +1,22 @@
+name: Documentation
+
+on:
+  workflow_dispatch: ~
+  release:
+    types: [published, created, edited]
+
+jobs:
+  PhpDocumentor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+      - name: PhpDocumentor
+        uses: koertho/actions-phpDocumentor@master
+        with:
+          dir: './'
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages
+          folder: build/api

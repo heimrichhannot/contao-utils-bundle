@@ -5,7 +5,7 @@
   "license": "LGPL-3.0-or-later",
   "require": {
     "ext-simplexml": "*",
-    "php": "^7.1",
+    "php": "^7.1|^8.0",
     "contao/core-bundle": "^4.4",
     "hackzilla/password-generator": "^1.4",
     "heimrichhannot/contao-request-bundle": "^1.0",

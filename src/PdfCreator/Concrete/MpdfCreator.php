@@ -16,6 +16,11 @@ use Mpdf\Config\FontVariables;
 use Mpdf\Mpdf;
 use Mpdf\Output\Destination;
 
+/**
+ * Class MpdfCreator.
+ *
+ * @deprecated PdfCreator was moved into it's own bundle (heimrichhannot/pdf-creator)
+ */
 class MpdfCreator extends AbstractPdfCreator
 {
     /**
@@ -138,7 +143,7 @@ class MpdfCreator extends AbstractPdfCreator
      */
     public function addFontDirectories(array $paths): self
     {
-        $defaultConfig = (new  ConfigVariables())->getDefaults();
+        $defaultConfig = (new ConfigVariables())->getDefaults();
         $fontDirs = $defaultConfig['fontDir'];
 
         foreach ($paths as $fontDir) {

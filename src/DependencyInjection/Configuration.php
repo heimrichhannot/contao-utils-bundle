@@ -20,8 +20,14 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('huh_utils');
+        $treeBuilder = new TreeBuilder('huh_utils');
+
+        // Keep compatibility with symfony/config < 4.2
+        if (!method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->root('huh_utils');
+        } else {
+            $rootNode = $treeBuilder->getRootNode();
+        }
 
         $rootNode->children()
             ->scalarNode('tmp_folder')->defaultValue('files/tmp/huh_utils_bundle')->end()

@@ -1,5 +1,7 @@
 # PdfCreator 
 
+> PDFCreator was moved into it's [own library](https://github.com/heimrichhannot/pdf-creator). Please use that one instead of the version in utils bundle as it's marked deprecated now.
+
 PdfCreator is a high level API for PDF writing with PHP. 
 
 ## Example

@@ -8,6 +8,11 @@
 
 namespace HeimrichHannot\UtilsBundle\PdfCreator;
 
+/**
+ * Class AbstractPdfCreator.
+ *
+ * @deprecated PdfCreator was moved into it's own bundle (heimrichhannot/pdf-creator)
+ */
 abstract class AbstractPdfCreator
 {
     const OUTPUT_MODE_DOWNLOAD = 'download';

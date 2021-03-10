@@ -1,6 +1,6 @@
 # PDF Writer `huh.utils.pdf.writer`
 
-> PDF writer is deprecate and will be removed in a future version. Please use PDFCreator instead
+> PDF writer is deprecated and will be removed in a future version. Please use PDFCreator instead
 
 Example to create a custom pdf.
 ```

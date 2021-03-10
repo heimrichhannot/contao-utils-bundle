@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.189.0] - 2021-03-10
+- experimental allowed php 8
+- deprecated PDFCreator in favor of PDFCreator library
+- moved from samidoc to phpDocumentator
+- fixed deprecation in Configuration class
+
 ## [2.188.10] - 2021-02-22
 - fixed missing symfony/config component
 

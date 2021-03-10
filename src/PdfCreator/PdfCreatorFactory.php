@@ -10,6 +10,11 @@ namespace HeimrichHannot\UtilsBundle\PdfCreator;
 
 use HeimrichHannot\UtilsBundle\PdfCreator\Concrete\MpdfCreator;
 
+/**
+ * Class PdfCreatorFactory.
+ *
+ * @deprecated PdfCreator was moved into it's own bundle (heimrichhannot/pdf-creator)
+ */
 class PdfCreatorFactory
 {
     /**

@@ -8,6 +8,11 @@
 
 namespace HeimrichHannot\UtilsBundle\PdfCreator;
 
+/**
+ * Class BeforeCreateLibraryInstanceCallback.
+ *
+ * @deprecated PdfCreator was moved into it's own bundle (heimrichhannot/pdf-creator)
+ */
 class BeforeCreateLibraryInstanceCallback
 {
     /**
