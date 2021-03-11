@@ -15,6 +15,7 @@ use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
+use Contao\FrontendTemplate;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
@@ -358,5 +359,52 @@ class ImageUtil
         }
 
         return 0;
+    }
+
+    /**
+     * Prepares one image for a typical Contao template.
+     *
+     * Possible option keys:
+     * - imageField: (string) The name of the field containers the image uuid. Default: singleSRC
+     * - imageSelectorField: (?string) The name of the field that indicated if an images is added. Set to null to skip check. Default: addImage
+     * - maxWidth: (int) An optional maximum width of the image. Passed directly to Controller::addImageToTemplate()
+     * - lightboxId: (string) An optional lightbox ID. Passed directly to Controller::addImageToTemplate()
+     *
+     * @param array $data    the model/module/element data
+     * @param array $options Additional options
+     *
+     * @return array
+     */
+    public function prepareImage(array $data, array $options = []): ?array
+    {
+        $defaultOptions = [
+            'imageField' => 'singleSRC',
+            'imageSelectorField' => 'addImage',
+        ];
+        $options = array_merge($defaultOptions, $options);
+
+        if (null !== $options['imageSelectorField'] && (!isset($data[$options['imageSelectorField']]) || !$data[$options['imageSelectorField']])) {
+            return null;
+        }
+
+        $fileModel = FilesModel::findByUuid($data[$options['imageField']]);
+
+        if (!$fileModel || !is_file($this->container->getParameter('kernel.project_dir').'/'.$fileModel->path)) {
+            return null;
+        }
+
+        $image = $data;
+        $image['singleSRC'] = $fileModel->path;
+
+        $template = new FrontendTemplate();
+
+        Controller::addImageToTemplate(
+            $template,
+            $image,
+            isset($options['maxWidth']) ? $options['maxWidth'] : null,
+            isset($options['lightboxId']) ? $options['lightboxId'] : null
+        );
+
+        return $template->getData();
     }
 }

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.190.0] - 2021-03-11
+- added ImageUtil::prepareImage()
+
 ## [2.189.0] - 2021-03-10
 - experimental allowed php 8
 - deprecated PDFCreator in favor of PDFCreator library
