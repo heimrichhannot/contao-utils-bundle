@@ -563,7 +563,7 @@ class DatabaseUtil
      *
      * @return string
      */
-    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null, $options = [])
+    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null, array $options = [])
     {
         $wildcardSuffix = $options['wildcardSuffix'] ?? '';
         $wildcard = ':'.str_replace('.', '_', $field).$wildcardSuffix;
