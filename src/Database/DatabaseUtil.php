@@ -574,10 +574,6 @@ class DatabaseUtil
             $wildcard = str_replace('.', '_', $wildcard);
         }
 
-        if (null !== $id) {
-            $wildcard .= '_'.$id;
-        }
-
         switch ($operator) {
             case self::OPERATOR_LIKE:
                 $where = $queryBuilder->expr()->like($field, $wildcard);
