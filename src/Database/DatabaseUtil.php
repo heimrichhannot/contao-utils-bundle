@@ -557,9 +557,16 @@ class DatabaseUtil
         return [(!$skipTablePrefix && $table ? $table.'.' : '')."$field $operator $pattern", $values];
     }
 
-    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null, $id = null)
+    /**
+     * @param null  $value
+     * @param array $options {wildcardSuffix: string}
+     *
+     * @return string
+     */
+    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null, $options = [])
     {
-        $wildcard = ':'.str_replace('.', '_', $field);
+        $wildcardSuffix = $options['wildcardSuffix'] ?? '';
+        $wildcard = ':'.str_replace('.', '_', $field).$wildcardSuffix;
         $where = '';
 
         // remove dot for table prefixes
