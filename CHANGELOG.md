@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.191.0] - 2021-03-23
+- added params for operators IN and NOT IN in DatabaseUtil::composeWhereForQueryBuilder (#29)
+
 ## [2.190.0] - 2021-03-11
 - added ImageUtil::prepareImage()
 
