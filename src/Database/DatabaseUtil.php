@@ -14,6 +14,7 @@ use Contao\Database;
 use Contao\Model;
 use Contao\System;
 use Database\Result;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 class DatabaseUtil
@@ -556,7 +557,7 @@ class DatabaseUtil
         return [(!$skipTablePrefix && $table ? $table.'.' : '')."$field $operator $pattern", $values];
     }
 
-    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null)
+    public function composeWhereForQueryBuilder(QueryBuilder $queryBuilder, string $field, string $operator, array $dca = null, $value = null, $id = null)
     {
         $wildcard = ':'.str_replace('.', '_', $field);
         $where = '';
@@ -564,6 +565,10 @@ class DatabaseUtil
         // remove dot for table prefixes
         if (false !== strpos($wildcard, '.')) {
             $wildcard = str_replace('.', '_', $wildcard);
+        }
+
+        if (null !== $id) {
+            $wildcard .= '_'.$id;
         }
 
         switch ($operator) {
@@ -622,15 +627,14 @@ class DatabaseUtil
                 if (empty($value)) {
                     $where = $queryBuilder->expr()->eq(1, 2);
                 } else {
-                    $where = $queryBuilder->expr()->in(
-                        $field,
-                        array_map(
-                            function ($val) {
-                                return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
-                            },
-                            $value
-                        )
+                    $where = $queryBuilder->expr()->in($field, $wildcard);
+                    $preparedValue = array_map(
+                        function ($val) {
+                            return addslashes(Controller::replaceInsertTags(trim($val), false));
+                        },
+                        $value
                     );
+                    $queryBuilder->setParameter($wildcard, $preparedValue, Connection::PARAM_STR_ARRAY);
                 }
 
                 break;
@@ -642,17 +646,14 @@ class DatabaseUtil
                 if (empty($value)) {
                     $where = $queryBuilder->expr()->eq(1, 2);
                 } else {
-                    $where = $queryBuilder->expr()->notIn(
-                        $field,
-                        array_map(
-                            function ($val) {
-                                $val = Controller::replaceInsertTags(trim($val), false);
-
-                                return '"'.addslashes(Controller::replaceInsertTags(trim($val), false)).'"';
-                            },
-                            $value
-                        )
+                    $where = $queryBuilder->expr()->notIn($field, $wildcard);
+                    $preparedValue = array_map(
+                        function ($val) {
+                            return addslashes(Controller::replaceInsertTags(trim($val), false));
+                        },
+                        $value
                     );
+                    $queryBuilder->setParameter($wildcard, $preparedValue, Connection::PARAM_STR_ARRAY);
                 }
 
                 break;
