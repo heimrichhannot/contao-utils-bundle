@@ -1126,9 +1126,14 @@ class DcaUtil
     public function setFieldsToReadOnly(&$dca, array $config = [])
     {
         $skipFields = $config['skipFields'] ?? [];
+        $fields = $config['fields'] ?? [];
 
         foreach ($dca['fields'] as $field => &$data) {
-            if (\in_array($field, $skipFields)) {
+            if (!empty($fields)) {
+                if (!\in_array($field, $fields)) {
+                    continue;
+                }
+            } elseif (\in_array($field, $skipFields)) {
                 continue;
             }
 
