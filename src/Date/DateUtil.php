@@ -208,7 +208,7 @@ class DateUtil
             'g' => '', // 12-hour format of an hour without leading zeros (1 through 12)
             'G' => '', // 24-hour format of an hour without leading zeros (0 through 23)
             'h' => '', // 12-hour format of an hour with leading zeros (01 through 12)
-            'H' => 'HH', // 24-hour format of an hour with leading zeros (00 through 23)
+            'H' => 'hh', // 24-hour format of an hour with leading zeros (00 through 23)
             'i' => 'mm', // Minutes with leading zeros (00 to 59)
             's' => 'ss', // Seconds, with leading zeros (00 to 59)
             'u' => '', // Not supported yet: Microseconds (added in PHP 5.2.2). Note that date() will always generate 000000 since it takes an integer parameter, whereas DateTime::format() does support microseconds if DateTime was created with microseconds. (Example: 654321)
