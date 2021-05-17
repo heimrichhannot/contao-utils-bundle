@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.192.1] - 2021-05-17
+
+- fixed hours tranformation for ISO8601 (#31)
+
 ## [2.192.0] - 2021-04-16
 
 - added `fields` option for `DcaUtil::setFieldsToReadOnly()`
