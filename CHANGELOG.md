@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.192.2] - 2021-05-28
+
+- fixed js method `DomUtil::getTextWithoutChildren()`
+
 ## [2.192.1] - 2021-05-17
 
 - fixed hours tranformation for ISO8601 (#31)
