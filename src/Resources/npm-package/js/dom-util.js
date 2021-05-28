@@ -2,13 +2,16 @@ import ArrayUtil from './array-util';
 
 class DomUtil {
     static getTextWithoutChildren(element, notrim) {
-        let result = element.clone();
-        result.children().remove();
+        let result = element.cloneNode(true);
+
+        Array.prototype.forEach.call(result.children, child => {
+            child.remove();
+        });
 
         if (typeof notrim !== 'undefined' && notrim === true) {
-            return result.text();
+            return result.innerText;
         } else {
-            return result.text().trim();
+            return result.innerText.trim();
         }
     }
 

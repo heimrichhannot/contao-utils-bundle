@@ -1,6 +1,6 @@
 {
   "name": "@hundh/contao-utils-bundle",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "This package contains the frontend assets of the composer bundle heimrichhannot/contao-utils-bundle.",
   "main": "js/contao-utils-bundle.js",
   "repository": "git@github.com:heimrichhannot-contao-components/contao-utils-bundle.git",
