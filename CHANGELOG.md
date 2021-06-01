@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.193.0] - 2021-06-01
+
+- added `jsonPost()` in javascript ajax util
+- fixed issues in js ajax util
+
 ## [2.192.2] - 2021-05-28
 
 - fixed js method `DomUtil::getTextWithoutChildren()`
