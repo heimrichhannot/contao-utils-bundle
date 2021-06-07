@@ -17,7 +17,8 @@
     "symfony/http-kernel": "^3.4|^4.4",
     "symfony/monolog-bridge": "^3.4|^4.4",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
-    "symfony/string": "^5.2"
+    "symfony/string": "^5.2",
+    "ext-dom": "*"
   },
   "require-dev": {
     "contao/core-bundle": "4.4.*",

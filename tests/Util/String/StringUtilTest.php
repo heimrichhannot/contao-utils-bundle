@@ -122,7 +122,10 @@ class StringUtilTest extends ContaoTestCase
     public function testTruncateHtml()
     {
         $instance = $this->getTestInstance();
-        $this->assertSame('<p>Hallo Welt!</p>', $instance->truncateHtml('<p>Hallo Welt! Lorem ipsum!</p>', 11));
+        $this->assertSame('<p>Hallo Welt!…</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 11));
+        $this->assertSame('<p>Hallo Welt!</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 11, ''));
+        $this->assertSame('<p>Hallo Welt!</p><p>Lorem</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 14, ''));
+        $this->assertSame('<p>Hallo Welt!</p><p>Lor</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 14, '', ['exact' => true]));
     }
 
     public function testHtml2Text()

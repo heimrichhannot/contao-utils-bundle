@@ -10,6 +10,10 @@ namespace HeimrichHannot\UtilsBundle\Util\String;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use DOMDocument;
+use DOMNode;
+use DOMText;
+use HeimrichHannot\UtilsBundle\Dom\DOMLettersIterator;
 use Soundasleep\Html2Text;
 use Soundasleep\Html2TextException;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
@@ -154,13 +158,63 @@ class StringUtil
     }
 
     /**
+     * Truncates the text of a html string.
+     *
+     * Credits: https://www.pjgalbraith.com/truncating-text-html-with-php/
+     */
+    public function truncateChars(string $html, int $limit, string $ellipsis = '…', array $options = []): string
+    {
+        $defaults = [
+            'exact' => false,
+        ];
+        $options = array_merge($defaults, $options);
+
+        if ($limit <= 0 || $limit >= \strlen(strip_tags($html))) {
+            return $html;
+        }
+
+        $dom = new DOMDocument();
+
+        $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+
+        $body = $dom->getElementsByTagName('body')->item(0);
+
+        $lettersIterator = new DOMLettersIterator($body);
+
+        foreach ($lettersIterator as $letter) {
+            if ($lettersIterator->key() >= $limit) {
+                $currentText = $lettersIterator->currentTextPosition();
+
+                if (true === $options['exact']) {
+                    $currentText[0]->nodeValue = substr($currentText[0]->nodeValue, 0, $currentText[1] + 1);
+                } else {
+                    $wordStopPosition = strpos($currentText[0]->nodeValue, ' ', $currentText[1]);
+
+                    if (false !== $wordStopPosition) {
+                        $currentText[0]->nodeValue = substr(
+                            $currentText[0]->nodeValue, 0,
+                            $wordStopPosition
+                        );
+                    }
+                }
+                $this->removeProceedingNodes($currentText[0], $body);
+                $this->insertEllipsis($currentText[0], $ellipsis);
+
+                break;
+            }
+        }
+
+        return preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', html_entity_decode($dom->saveHTML()));
+    }
+
+    /**
      * Truncates a given string respecting html element.
      *
      * Options:
      *
      * @return string
      */
-    public function truncateHtml(string $text, int $length = 100, string $ending = '&nbsp;&hellip;', bool $exact = false, array $options = [])
+    public function truncateHtml(string $text, int $length = 100, string $ending = '…', bool $exact = false, array $options = [])
     {
         $defaults = [
         ];
@@ -415,5 +469,48 @@ class StringUtil
         $controller = $this->framework->getAdapter(Controller::class);
 
         return $controller->replaceInsertTags($buffer, $cache);
+    }
+
+    protected function removeProceedingNodes(DOMNode $domNode, DOMNode $topNode)
+    {
+        $nextNode = $domNode->nextSibling;
+
+        if (null !== $nextNode) {
+            $this->removeProceedingNodes($nextNode, $topNode);
+            $domNode->parentNode->removeChild($nextNode);
+        } else {
+            //scan upwards till we find a sibling
+            $curNode = $domNode->parentNode;
+
+            while ($curNode !== $topNode) {
+                if (null !== $curNode->nextSibling) {
+                    $curNode = $curNode->nextSibling;
+                    $this->removeProceedingNodes($curNode, $topNode);
+                    $curNode->parentNode->removeChild($curNode);
+
+                    break;
+                }
+                $curNode = $curNode->parentNode;
+            }
+        }
+    }
+
+    protected function insertEllipsis(DOMNode $domNode, $ellipsis)
+    {
+        $avoid = ['a', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5']; //html tags to avoid appending the ellipsis to
+
+        if (\in_array($domNode->parentNode->nodeName, $avoid) && null !== $domNode->parentNode->parentNode) {
+            // Append as text node to parent instead
+            $textNode = new DOMText($ellipsis);
+
+            if ($domNode->parentNode->parentNode->nextSibling) {
+                $domNode->parentNode->parentNode->insertBefore($textNode, $domNode->parentNode->parentNode->nextSibling);
+            } else {
+                $domNode->parentNode->parentNode->appendChild($textNode);
+            }
+        } else {
+            // Append to current node
+            $domNode->nodeValue = rtrim($domNode->nodeValue).$ellipsis;
+        }
     }
 }
