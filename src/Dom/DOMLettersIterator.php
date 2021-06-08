@@ -37,6 +37,10 @@ final class DOMLettersIterator implements Iterator
     private $offset;
     private $key;
     private $letters;
+    /**
+     * @var \SplQueue
+     */
+    private $queue;
 
     /**
      * expects DOMElement or DOMDocument (see DOMDocument::load and DOMDocument::loadHTML).
@@ -54,6 +58,7 @@ final class DOMLettersIterator implements Iterator
                 throw new InvalidArgumentException('Invalid arguments, expected DOMElement or DOMDocument');
             }
         }
+        $this->queue = new \SplQueue();
     }
 
     /**
@@ -61,11 +66,11 @@ final class DOMLettersIterator implements Iterator
      * (it's NOT a byte offset, you must use mb_substr() or similar to use this offset properly).
      * node may be NULL if iterator has finished.
      *
-     * @return array
+     * @return DOMElement[]|int[]
      */
     public function currentTextPosition()
     {
-        return [$this->current, $this->offset];
+        return [$this->current, $this->offset, $this->queue->bottom()];
     }
 
     /**
@@ -90,7 +95,7 @@ final class DOMLettersIterator implements Iterator
             return;
         }
 
-        if (XML_TEXT_NODE == $this->current->nodeType || XML_CDATA_SECTION_NODE == $this->current->nodeType) {
+        if ($this->isTextNode($this->current)) {
             if (-1 == $this->offset) {
                 // fastest way to get individual Unicode chars and does not require mb_* functions
                 preg_match_all('/./us', $this->current->textContent, $m);
@@ -106,10 +111,13 @@ final class DOMLettersIterator implements Iterator
             --$this->key;
         }
 
+        $previousTextElement = $this->current;
+
         while (XML_ELEMENT_NODE == $this->current->nodeType && $this->current->firstChild) {
             $this->current = $this->current->firstChild;
 
-            if (XML_TEXT_NODE == $this->current->nodeType || XML_CDATA_SECTION_NODE == $this->current->nodeType) {
+            if ($this->isTextNode($this->current)) {
+                $this->addToQueue($this->current);
                 $this->next();
 
                 return;
@@ -127,6 +135,10 @@ final class DOMLettersIterator implements Iterator
         }
 
         $this->current = $this->current->nextSibling;
+
+        if ($this->isTextNode($this->current)) {
+            $this->addToQueue($this->current);
+        }
 
         $this->next();
     }
@@ -151,5 +163,19 @@ final class DOMLettersIterator implements Iterator
         $this->letters = [];
         $this->current = $this->start;
         $this->next();
+    }
+
+    private function isTextNode(DOMNode $element): bool
+    {
+        return XML_TEXT_NODE == $element->nodeType || XML_CDATA_SECTION_NODE == $element->nodeType;
+    }
+
+    private function addToQueue(DOMNode $node): void
+    {
+        $this->queue->enqueue($node);
+
+        while ($this->queue->count() > 2) {
+            $this->queue->dequeue();
+        }
     }
 }

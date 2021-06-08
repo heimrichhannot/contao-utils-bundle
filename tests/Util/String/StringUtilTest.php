@@ -141,9 +141,14 @@ class StringUtilTest extends ContaoTestCase
             ],
             [
                 '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
-                '<p>Hallo Welt!</p><p>Lorem</p>',
+                '<p>Hallo Welt!</p>',
                 14,
                 '',
+            ],
+            [
+                '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
+                '<p>Hallo Welt!…</p>',
+                14,
             ],
             [
                 '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
@@ -153,8 +158,13 @@ class StringUtilTest extends ContaoTestCase
                 true,
             ],
             [
+                '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
+                '<p>…</p>',
+                1,
+            ],
+            [
                 '<p><strong>Pellentesque</strong> habitant morbi&nbsp;tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. <a href="http://test.com"><span>Mauris</span></a> placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>',
-                "<p><strong>Pellentesque</strong> habitant morbi\u{a0}tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. <a href=\"http://test.com\"><span>Mauris</span></a> placerat…</p>",
+                "<p><strong>Pellentesque</strong> habitant morbi\u{a0}tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. <a href=\"http://test.com\"><span>Mauris</span></a>…</p>",
                 260,
             ],
             [
@@ -184,7 +194,7 @@ class StringUtilTest extends ContaoTestCase
             $options['exact'] = true;
         }
 
-        $this->assertSame($expected, $instance->truncateChars($html, $limit, $ellipsis, $options));
+        $this->assertSame($expected, $instance->truncateHtml($html, $limit, $ellipsis, $options));
     }
 
     public function testHtml2Text()
