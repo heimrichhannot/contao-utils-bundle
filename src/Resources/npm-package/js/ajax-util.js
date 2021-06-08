@@ -28,6 +28,33 @@ class AjaxUtil {
         AjaxUtil.doAjaxSubmit(request, submitData);
     }
 
+    static jsonPost(url, data, config) {
+        config = AjaxUtil.setDefaults(config);
+
+        // set correct header
+        if (typeof config.headers === 'object') {
+            if (!config.hasOwnProperty('Content-Type')) {
+                config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+            }
+        } else {
+            config.headers['Content-Type'] = 'application/json;charset=UTF-8';
+        }
+
+        // prepare data
+        if (typeof data === 'object') {
+            data = JSON.stringify(data);
+        }
+
+        let request = AjaxUtil.initializeRequest('POST', url, config),
+            submitData = {
+                config: config,
+                action: url,
+                data: data
+            };
+
+        AjaxUtil.doAjaxSubmit(request, submitData);
+    }
+
     static doAjaxSubmit(request, submitData) {
         let config = submitData.config;
 
@@ -53,7 +80,7 @@ class AjaxUtil {
     }
 
     static prepareDataForSend(data) {
-        if (!(data instanceof FormData))
+        if (!(data instanceof FormData) && typeof data === 'object')
         {
             let formData = new FormData();
 

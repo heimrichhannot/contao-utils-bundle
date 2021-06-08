@@ -208,7 +208,7 @@ class DateUtil
             'g' => '', // 12-hour format of an hour without leading zeros (1 through 12)
             'G' => '', // 24-hour format of an hour without leading zeros (0 through 23)
             'h' => '', // 12-hour format of an hour with leading zeros (01 through 12)
-            'H' => 'HH', // 24-hour format of an hour with leading zeros (00 through 23)
+            'H' => 'hh', // 24-hour format of an hour with leading zeros (00 through 23)
             'i' => 'mm', // Minutes with leading zeros (00 to 59)
             's' => 'ss', // Seconds, with leading zeros (00 to 59)
             'u' => '', // Not supported yet: Microseconds (added in PHP 5.2.2). Note that date() will always generate 000000 since it takes an integer parameter, whereas DateTime::format() does support microseconds if DateTime was created with microseconds. (Example: 654321)
@@ -219,7 +219,7 @@ class DateUtil
             'P' => 'z', // Difference to Greenwich time (GMT) with colon between hours and minutes (added in PHP 5.1.3) (Example: +02:00)
             'T' => '',  // Not supported yet: Timezone abbreviation	(Examples: EST, MDT)
             'Z' => '', // Not supported yet: Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive. (-43200 through 50400)
-            'c' => "YYYY-MM-DD'T'HH:mm:ssz", // ISO 8601 date (added in PHP 5) (2004-02-12T15:19:21+00:00)
+            'c' => "YYYY-MM-DD'T'hh:mm:ssz", // ISO 8601 date (added in PHP 5) (2004-02-12T15:19:21+00:00)
             'r' => '', // Not supported yet: » RFC 2822 formatted date (Example: Thu, 21 Dec 2000 16:01:07 +0200)
             'U' => '', // Not supported yet: Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
         ];
