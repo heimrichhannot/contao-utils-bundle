@@ -119,13 +119,72 @@ class StringUtilTest extends ContaoTestCase
         $instance->random(true, ['randomNumberGenerator' => function ($min, $max) { return 10; }]);
     }
 
-    public function testTruncateHtml()
+    public function truncateHtmlProvider()
+    {
+        return [
+            [
+                '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
+                '<p>Hallo Welt!…</p>',
+                11,
+            ],
+            [
+                '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
+                '<p>Hallo Welt!</p>',
+                11,
+                '',
+            ],
+            [
+                '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
+                '<p>Hallo Welt!&nbsp;&hellip;</p>',
+                11,
+                '&nbsp;&hellip;',
+            ],
+            [
+                '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
+                '<p>Hallo Welt!</p><p>Lorem</p>',
+                14,
+                '',
+            ],
+            [
+                '<p>Hallo Welt!</p><p>Lorem ipsum!</p>',
+                '<p>Hallo Welt!</p><p>Lor</p>',
+                14,
+                '',
+                true,
+            ],
+            [
+                '<p><strong>Pellentesque</strong> habitant morbi&nbsp;tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. <a href="http://test.com"><span>Mauris</span></a> placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>',
+                "<p><strong>Pellentesque</strong> habitant morbi\u{a0}tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. <a href=\"http://test.com\"><span>Mauris</span></a> placerat…</p>",
+                260,
+            ],
+            [
+                '<p><strong>Pellentesque</strong> habitant morbi&nbsp;tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. <a href="http://test.com"><span>Mauris</span></a> placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>',
+                "<p><strong>Pellentesque</strong> habitant morbi\u{a0}tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. <a href=\"http://test.com\"><span>Mauris</span></a> plac</p>",
+                260,
+                '',
+                true,
+            ],
+            [
+                '<p><strong>Pellentesque</strong> habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. </p>',
+                '<p><strong>Pellentesque</strong> habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. </p>',
+                270,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider truncateHtmlProvider
+     */
+    public function testTruncateHtml(string $html, string $expected, int $limit, string $ellipsis = '…', bool $exact = false)
     {
         $instance = $this->getTestInstance();
-        $this->assertSame('<p>Hallo Welt!…</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 11));
-        $this->assertSame('<p>Hallo Welt!</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 11, ''));
-        $this->assertSame('<p>Hallo Welt!</p><p>Lorem</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 14, ''));
-        $this->assertSame('<p>Hallo Welt!</p><p>Lor</p>', $instance->truncateChars('<p>Hallo Welt!</p><p>Lorem ipsum!</p>', 14, '', ['exact' => true]));
+        $options = [];
+
+        if ($exact) {
+            $options['exact'] = true;
+        }
+
+        $this->assertSame($expected, $instance->truncateChars($html, $limit, $ellipsis, $options));
     }
 
     public function testHtml2Text()

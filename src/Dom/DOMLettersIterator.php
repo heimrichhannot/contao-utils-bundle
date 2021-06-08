@@ -40,6 +40,8 @@ final class DOMLettersIterator implements Iterator
 
     /**
      * expects DOMElement or DOMDocument (see DOMDocument::load and DOMDocument::loadHTML).
+     *
+     * @param DOMDocument|DOMElement $el
      */
     public function __construct(DOMNode $el)
     {
@@ -101,6 +103,7 @@ final class DOMLettersIterator implements Iterator
                 return;
             }
             $this->offset = -1;
+            --$this->key;
         }
 
         while (XML_ELEMENT_NODE == $this->current->nodeType && $this->current->firstChild) {
