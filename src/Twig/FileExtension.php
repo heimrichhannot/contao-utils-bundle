@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Twig;
 
 use Contao\File;
 use Contao\System;
+use Contao\Validator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Twig\Extension\AbstractExtension;
@@ -123,9 +124,19 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
 
     public function getFileContent($file)
     {
-        /** @var File $fileObj */
-        if (null === ($fileObj = $this->container->get('huh.utils.file')->getFileFromUuid($file))) {
-            return '';
+        if (Validator::isBinaryUuid($file)) {
+            /** @var File $fileObj */
+            if (null === ($fileObj = $this->container->get('huh.utils.file')->getFileFromUuid($file))) {
+                return '';
+            }
+        } elseif (\is_string($file)) {
+            $file = str_replace($this->container->getParameter('kernel.project_dir').'/', '', $file);
+
+            if (null === ($fileObj = new File($file)) || !$fileObj->exists()) {
+                return '';
+            }
+        } else {
+            return null;
         }
 
         return $fileObj->getContent();

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.193.1] - 2021-06-09
+
+- fixed twig filter `|file_content`
+
 ## [2.193.0] - 2021-06-01
 
 - added `jsonPost()` in javascript ajax util
