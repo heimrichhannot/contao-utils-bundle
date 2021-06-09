@@ -8,7 +8,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\String;
 
-use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use DOMDocument;
 use DOMNode;
@@ -250,18 +249,63 @@ class StringUtil
         return preg_replace("$delimiter$regExp(?!.*$regExp)$delimiter", $replacement, $subject);
     }
 
-    public function convertXmlToArray(string $xmlData)
+    /**
+     * Convert an xml string to array.
+     *
+     * @return mixed
+     */
+    public function convertXmlToArray(string $xmlData): ?array
     {
-        // CDATA fix (see https://stackoverflow.com/a/6534234/1463757)
-        $xmlData = preg_replace_callback('/<!\[CDATA\[(.*)\]\]>/', function ($matches) {
-            return trim(htmlspecialchars($matches[1]));
-        }, $xmlData);
+        $xmlObject = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-        $kmlData = simplexml_load_string($xmlData);
-
-        return json_decode(json_encode($kmlData), true);
+        return json_decode(json_encode($xmlObject), true);
     }
 
+    /**
+     * Remove a string from the beginning of $subject.
+     *
+     * Options:
+     * - trim: (bool) Trim whitespace from the beginning after a leading string is removed. Default true.
+     */
+    public function removeLeadingString(string $string, string $subject, array $options = []): ?string
+    {
+        $options = array_merge([
+            'trim' => true,
+        ], $options);
+        $result = preg_replace('@^'.$string.'@i', '', $subject);
+
+        if (true === $options['trim']) {
+            $result = ltrim($result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Remove a string from the end of $subject.
+     *
+     * Options:
+     * - trim: (bool) Trim whitespace from the end after a trailing string is removed. Default true.
+     */
+    public function removeTrailingString(string $string, string $subject, array $options = []): ?string
+    {
+        $options = array_merge([
+            'trim' => true,
+        ], $options);
+        $result = preg_replace('@'.$string.'$@i', '', $subject);
+
+        if (true === $options['trim']) {
+            $result = rtrim($result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array|string|string[]|null
+     *
+     * @codeCoverageIgnore
+     */
     public function replaceUnicodeEmojisByHtml(?string $text)
     {
 //        How to get the latest list:
@@ -294,21 +338,14 @@ class StringUtil
     }
 
     /**
-     * Replace insert tags with their values.
+     * Add an ellipsis to the end of html text.
      *
-     * @param string $buffer The text with the tags to be replaced
-     * @param bool   $cache  If false, non-cacheable tags will be replaced
+     * Used in self::truncateHtml()
      *
-     * @return string The text with the replaced tags
+     * @param $ellipsis
+     *
+     * @internal
      */
-    public function replaceInsertTags(?string $buffer, bool $cache = true)
-    {
-        /** @var Controller $controller */
-        $controller = $this->framework->getAdapter(Controller::class);
-
-        return $controller->replaceInsertTags($buffer, $cache);
-    }
-
     protected function insertEllipsis(DOMNode $domNode, $ellipsis)
     {
         $avoid = ['a', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5']; //html tags to avoid appending the ellipsis to
@@ -328,6 +365,13 @@ class StringUtil
         }
     }
 
+    /**
+     * Remove proceeding nodes from dom.
+     *
+     * Used in self::truncateHtml()
+     *
+     * @internal
+     */
     protected function removeProceedingNodes(DOMNode $currentNode, DOMNode $rootNode)
     {
         $nextNode = $currentNode->nextSibling;

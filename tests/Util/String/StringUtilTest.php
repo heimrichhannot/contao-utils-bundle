@@ -119,7 +119,7 @@ class StringUtilTest extends ContaoTestCase
         $instance->random(true, ['randomNumberGenerator' => function ($min, $max) { return 10; }]);
     }
 
-    public function truncateHtmlProvider()
+    public function providerTruncateHtml()
     {
         return [
             [
@@ -183,7 +183,7 @@ class StringUtilTest extends ContaoTestCase
     }
 
     /**
-     * @dataProvider truncateHtmlProvider
+     * @dataProvider providerTruncateHtml
      */
     public function testTruncateHtml(string $html, string $expected, int $limit, string $ellipsis = '…', bool $exact = false)
     {
@@ -253,5 +253,51 @@ within a div
 
         $result = $stringUtil->pregReplaceLast('~text~', 'text abcd text text efgh', 'bar');
         $this->assertSame('text abcd text bar efgh', $result);
+    }
+
+    public function testConvertXmlToArray()
+    {
+        $instance = $this->getTestInstance();
+
+        $this->assertArrayHasKey('hello',
+            $instance->convertXmlToArray('<root><hello>world</hello></root>')
+        );
+        $this->assertArrayHasKey('hello',
+            $instance->convertXmlToArray('<root><hello>world</hello><foo><bar>classic</bar></foo><cdata><![CDATA[<html>Can be problematic to parse!</html>]]></cdata></root>')
+        );
+    }
+
+    public function testRemoveLeadingString()
+    {
+        $instance = $this->getTestInstance();
+        $this->assertSame(
+            'Lorem ipsum dolor sit amet.',
+            $instance->removeLeadingString('ipsum', 'Lorem ipsum dolor sit amet.')
+        );
+        $this->assertSame(
+            'ipsum dolor sit amet.',
+            $instance->removeLeadingString('Lorem', 'Lorem ipsum dolor sit amet.')
+        );
+        $this->assertSame(
+            ' ipsum dolor sit amet.',
+            $instance->removeLeadingString('Lorem', 'Lorem ipsum dolor sit amet.', ['trim' => false])
+        );
+    }
+
+    public function testRemoveTrailingString()
+    {
+        $instance = $this->getTestInstance();
+        $this->assertSame(
+            'Lorem ipsum dolor sit amet',
+            $instance->removeTrailingString('ipsum', 'Lorem ipsum dolor sit amet')
+        );
+        $this->assertSame(
+            'Lorem ipsum dolor sit',
+            $instance->removeTrailingString('amet', 'Lorem ipsum dolor sit amet')
+        );
+        $this->assertSame(
+            'Lorem ipsum dolor sit ',
+            $instance->removeTrailingString('amet', 'Lorem ipsum dolor sit amet', ['trim' => false])
+        );
     }
 }

@@ -284,19 +284,32 @@ class StringUtil
         return $this->utils->string()->pregReplaceLast($regExp, $subject);
     }
 
+    /**
+     * @deprecated Use trim($string, "/") instead
+     */
     public function removeLeadingAndTrailingSlash(string $string): string
     {
         return rtrim(ltrim($string, '/'), '/');
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function removeLeadingString(string $string, string $subject)
     {
-        return preg_replace('@^'.$string.'@i', '', $subject);
+        return $this->utils->string()->removeLeadingString($string, $subject, ['trim' => false]);
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function removeTrailingString(string $string, string $subject)
     {
-        return preg_replace('@'.$string.'$@i', '', $subject);
+        return $this->utils->string()->removeTrailingString($string, $subject, ['trim' => false]);
     }
 
     /**
@@ -317,6 +330,8 @@ class StringUtil
      * @param array $cssText the css as text (no paths allowed atm)
      *
      * @return string
+     *
+     * @deprecated Use CssInliner-Library directly in your code. We recommend tijsverkoyen/css-to-inline-styles (https://github.com/tijsverkoyen/CssToInlineStyles)
      */
     public function convertToInlineCss(string $text, string $cssText = null)
     {
@@ -332,6 +347,8 @@ class StringUtil
      * @throws \Soundasleep\Html2TextException
      *
      * @return string
+     *
+     * @deprecated Use html2text-library direct in your code, we recommend html2text/html2text (https://github.com/mtibben/html2text)
      */
     public function html2Text(string $html, array $options = [])
     {
@@ -348,6 +365,8 @@ class StringUtil
      * @param $value
      *
      * @return string
+     *
+     * @deprecated Deprecated in favor of custom callback that could be used with contao service callbacks
      */
     public function lowerCase($value, \DataContainer $objDc)
     {
@@ -372,6 +391,11 @@ class StringUtil
         return $buffer;
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function convertXmlToArray(string $xmlData)
     {
         // CDATA fix (see https://stackoverflow.com/a/6534234/1463757)
@@ -422,6 +446,8 @@ class StringUtil
      * @param bool   $cache  If false, non-cacheable tags will be replaced
      *
      * @return string The text with the replaced tags
+     *
+     * @deprecated Use Controller::replaceInsertTags as adapter
      */
     public function replaceInsertTags(?string $buffer, bool $cache = true)
     {
