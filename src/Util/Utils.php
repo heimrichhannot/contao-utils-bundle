@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2020 Heimrich & Hannot GmbH
+ * Copyright (c) 2021 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util;
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
@@ -32,6 +33,7 @@ class Utils implements ServiceSubscriberInterface
     {
         return [
             ContainerUtil::class,
+            LocaleUtil::class,
             StringUtil::class,
         ];
     }
@@ -39,6 +41,11 @@ class Utils implements ServiceSubscriberInterface
     public function container(): ContainerUtil
     {
         return $this->locator->get(ContainerUtil::class);
+    }
+
+    public function locale(): LocaleUtil
+    {
+        return $this->locator->get(LocaleUtil::class);
     }
 
     public function string(): StringUtil

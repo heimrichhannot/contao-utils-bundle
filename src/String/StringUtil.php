@@ -274,17 +274,14 @@ class StringUtil
 
     /**
      * @return mixed|string
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function pregReplaceLast(string $regExp, string $subject)
     {
-        if (!$regExp) {
-            return $subject;
-        }
-
-        $strDelimiter = $regExp[0];
-        $regExp = rtrim(ltrim($regExp, $strDelimiter), $strDelimiter);
-
-        return preg_replace("$strDelimiter$regExp(?!.*$regExp)$strDelimiter", '', $subject);
+        return $this->utils->string()->pregReplaceLast($regExp, $subject);
     }
 
     public function removeLeadingAndTrailingSlash(string $string): string
@@ -359,6 +356,8 @@ class StringUtil
 
     /**
      * Ensure line breaks for several languages.
+     *
+     * @deprecated use locale util of utils service instead
      */
     public function ensureLineBreaks(string $buffer, string $language = 'en'): string
     {

@@ -16,7 +16,6 @@ use DOMText;
 use HeimrichHannot\UtilsBundle\Dom\DOMLettersIterator;
 use Soundasleep\Html2Text;
 use Soundasleep\Html2TextException;
-use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class StringUtil
 {
@@ -249,76 +248,6 @@ class StringUtil
         $regExp = rtrim(ltrim($regExp, $delimiter), $delimiter);
 
         return preg_replace("$delimiter$regExp(?!.*$regExp)$delimiter", $replacement, $subject);
-    }
-
-    public function removeLeadingAndTrailingSlash(string $string): string
-    {
-        return rtrim(ltrim($string, '/'), '/');
-    }
-
-    public function removeLeadingString(string $string, string $subject)
-    {
-        return preg_replace('@^'.$string.'@i', '', $subject);
-    }
-
-    public function removeTrailingString(string $string, string $subject)
-    {
-        return preg_replace('@'.$string.'$@i', '', $subject);
-    }
-
-    /**
-     * Restore basic entities.
-     *
-     * @param string $string The string with the tags to be replaced
-     *
-     * @return string The string with the original entities
-     */
-    public function restoreBasicEntities($string)
-    {
-        return str_replace(['[&]', '[&amp;]', '[lt]', '[gt]', '[nbsp]', '[-]'], ['&amp;', '&amp;', '&lt;', '&gt;', '&nbsp;', '&shy;'], $string);
-    }
-
-    /**
-     * Convert css into inline styles.
-     *
-     * @param array $cssText the css as text (no paths allowed atm)
-     *
-     * @return string
-     */
-    public function convertToInlineCss(string $text, string $cssText = null)
-    {
-        // apply the css inliner
-        $objCssInliner = new CssToInlineStyles();
-
-        return $objCssInliner->convert($text, $cssText);
-    }
-
-    /**
-     * Convenience method for lower casing in a save callback.
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function lowerCase($value, \DataContainer $objDc)
-    {
-        return trim(strtolower($value));
-    }
-
-    /**
-     * Ensure line breaks for several languages.
-     */
-    public function ensureLineBreaks(string $buffer, string $language = 'en'): string
-    {
-        switch ($language) {
-            case 'cs':
-                // in czech language, one-syllable words should not stand alone at the end  (use &nbsp; instead of whitespace)
-                $buffer = preg_replace('/(\s\w{1})(\s)/', '$1&nbsp;', $buffer);
-
-                break;
-        }
-
-        return $buffer;
     }
 
     public function convertXmlToArray(string $xmlData)
