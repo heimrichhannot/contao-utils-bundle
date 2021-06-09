@@ -237,4 +237,21 @@ within a div
 
         $this->assertSame($expected, $stringUtil->html2Text($html));
     }
+
+    public function testPregReplaceLast()
+    {
+        $stringUtil = $this->getTestInstance();
+
+        $result = $stringUtil->pregReplaceLast('@_[a-f0-9]{13}@', 'dastusteeubfstz238572');
+        $this->assertSame('dastusteeubfstz238572', $result);
+
+        $result = $stringUtil->pregReplaceLast('', 'dasusteufb343ubf23');
+        $this->assertSame('dasusteufb343ubf23', $result);
+
+        $result = $stringUtil->pregReplaceLast('~text~', 'text abcd text text efgh');
+        $this->assertSame('text abcd text  efgh', $result);
+
+        $result = $stringUtil->pregReplaceLast('~text~', 'text abcd text text efgh', 'bar');
+        $this->assertSame('text abcd text bar efgh', $result);
+    }
 }

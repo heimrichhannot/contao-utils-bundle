@@ -226,10 +226,8 @@ class StringUtil
      * Converts html to text.
      *
      * @throws Html2TextException
-     *
-     * @return string
      */
-    public function html2Text(string $html, array $options = [])
+    public function html2Text(string $html, array $options = []): string
     {
         $html = str_replace("\n", '', $html); // remove white spaces from html
         $html = str_replace('</p>', '<br /></p>', $html); // interpret paragrah as block element
@@ -239,18 +237,18 @@ class StringUtil
     }
 
     /**
-     * @return mixed|string
+     * Replace the last match of string with preg_replace.
      */
-    public function pregReplaceLast(string $regExp, string $subject)
+    public function pregReplaceLast(string $regExp, string $subject, string $replacement = ''): ?string
     {
         if (!$regExp) {
             return $subject;
         }
 
-        $strDelimiter = $regExp[0];
-        $regExp = rtrim(ltrim($regExp, $strDelimiter), $strDelimiter);
+        $delimiter = $regExp[0];
+        $regExp = rtrim(ltrim($regExp, $delimiter), $delimiter);
 
-        return preg_replace("$strDelimiter$regExp(?!.*$regExp)$strDelimiter", '', $subject);
+        return preg_replace("$delimiter$regExp(?!.*$regExp)$delimiter", $replacement, $subject);
     }
 
     public function removeLeadingAndTrailingSlash(string $string): string
