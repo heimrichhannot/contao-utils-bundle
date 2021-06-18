@@ -1403,12 +1403,10 @@ class DcaUtil
      * // insert a new record after another one with the ID 82
      *
      * $news = new \Contao\NewsModel();
-
      * $news->pid = 3;
      * $news->tstamp = time();
      * $news->title = 'Something';
      * $news->save();
-
      * $set = System::getContainer()->get('huh.utils.dca')->getNewSortingPosition(
      *   'tl_news', $news->id, 3, 82
      * );
@@ -1571,5 +1569,103 @@ class DcaUtil
         }
 
         return $set;
+    }
+
+    /**
+     * Taken from \Contao\DataContainer.
+     */
+    public function getCurrentPaletteName(string $table, int $id): ?string
+    {
+        // Check whether there are selector fields
+        if (!empty($GLOBALS['TL_DCA'][$table]['palettes']['__selector__'])) {
+            $sValues = [];
+            $subpalettes = [];
+
+            $objFields = Database::getInstance()->prepare('SELECT * FROM '.$table.' WHERE id=?')
+                ->limit(1)
+                ->execute($id);
+
+            // Get selector values from DB
+            if ($objFields->numRows > 0) {
+                foreach ($GLOBALS['TL_DCA'][$table]['palettes']['__selector__'] as $name) {
+                    $trigger = $objFields->$name;
+
+                    // Overwrite the trigger
+                    if (Input::post('FORM_SUBMIT') == $table) {
+                        $key = ('editAll' == Input::get('act')) ? $name.'_'.$id : $name;
+
+                        if (isset($_POST[$key])) {
+                            $trigger = Input::post($key);
+                        }
+                    }
+
+                    if ($trigger) {
+                        if ('checkbox' == ($GLOBALS['TL_DCA'][$table]['fields'][$name]['inputType'] ?? null) && !($GLOBALS['TL_DCA'][$table]['fields'][$name]['eval']['multiple'] ?? null)) {
+                            $sValues[] = $name;
+
+                            // Look for a subpalette
+                            if (isset($GLOBALS['TL_DCA'][$table]['subpalettes'][$name])) {
+                                $subpalettes[$name] = $GLOBALS['TL_DCA'][$table]['subpalettes'][$name];
+                            }
+                        } else {
+                            $sValues[] = $trigger;
+                            $key = $name.'_'.$trigger;
+
+                            // Look for a subpalette
+                            if (isset($GLOBALS['TL_DCA'][$table]['subpalettes'][$key])) {
+                                $subpalettes[$name] = $GLOBALS['TL_DCA'][$table]['subpalettes'][$key];
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Build possible palette names from the selector values
+            if (empty($sValues)) {
+                $names = ['default'];
+            } elseif (\count($sValues) > 1) {
+                foreach ($sValues as $k => $v) {
+                    // Unset selectors that just trigger subpalettes (see #3738)
+                    if (isset($GLOBALS['TL_DCA'][$table]['subpalettes'][$v])) {
+                        unset($sValues[$k]);
+                    }
+                }
+
+                $names = $this->combiner($sValues);
+            } else {
+                $names = [$sValues[0]];
+            }
+
+            // Get an existing palette
+            foreach ($names as $paletteName) {
+                if (isset($GLOBALS['TL_DCA'][$table]['palettes'][$paletteName])) {
+                    return $paletteName;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Taken from \Contao\DataContainer.
+     */
+    private function combiner($names)
+    {
+        $return = [''];
+        $names = array_values($names);
+
+        for ($i = 0, $c = \count($names); $i < $c; ++$i) {
+            $buffer = [];
+
+            foreach ($return as $k => $v) {
+                $buffer[] = (0 == $k % 2) ? $v : $v.$names[$i];
+                $buffer[] = (0 == $k % 2) ? $v.$names[$i] : $v;
+            }
+
+            $return = $buffer;
+        }
+
+        return array_filter($return);
     }
 }

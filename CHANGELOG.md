@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.194.0] - 2021-06-18
+
+- added `DcaUtil::getCurrentPaletteName()`
+
 ## [2.193.1] - 2021-06-09
 
 - fixed twig filter `|file_content`
