@@ -654,9 +654,11 @@ class DcaUtil
      *
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function aliasExist(string $alias, int $id, string $table): bool
+    public function aliasExist(string $alias, int $id, string $table, $options = []): bool
     {
-        $stmt = $this->connection->prepare("SELECT id FROM {$table} WHERE alias=? AND id!=?");
+        $aliasField = $options['aliasField'] ?? 'alias';
+
+        $stmt = $this->connection->prepare("SELECT id FROM {$table} WHERE ' . $aliasField . '=? AND id!=?");
         $stmt->execute([$alias, $id]);
 
         return $stmt->rowCount() > 0;
@@ -675,9 +677,10 @@ class DcaUtil
      *
      * @return string
      */
-    public function generateAlias(?string $alias, int $id, ?string $table, string $title, bool $keepUmlauts = true)
+    public function generateAlias(?string $alias, int $id, ?string $table, string $title, bool $keepUmlauts = true, $options = [])
     {
         $autoAlias = false;
+        $aliasField = $options['aliasField'] ?? 'alias';
 
         // Generate alias if there is none
         if (empty($alias)) {
@@ -702,7 +705,7 @@ class DcaUtil
             foreach ($tables as $i => $partTable) {
                 // the table in which the entity is
                 if (0 === $i) {
-                    if ($this->aliasExist($alias, $id, $table)) {
+                    if ($this->aliasExist($alias, $id, $table, $options)) {
                         if (!$autoAlias) {
                             throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
                         }
@@ -711,7 +714,7 @@ class DcaUtil
                     }
                 } else {
                     // another table
-                    $stmt = $this->connection->prepare("SELECT id FROM {$partTable} WHERE alias=?");
+                    $stmt = $this->connection->prepare("SELECT id FROM {$partTable} WHERE ' . $aliasField . '=?");
                     $stmt->execute([$alias]);
 
                     // Check whether the alias exists
@@ -721,7 +724,7 @@ class DcaUtil
                 }
             }
         } else {
-            if (!$this->aliasExist($alias, $id, $table)) {
+            if (!$this->aliasExist($alias, $id, $table, $options)) {
                 return $alias;
             }
 

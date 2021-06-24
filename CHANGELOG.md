@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.194.1] - 2021-06-24
+
+- enhanced `DcaUtil::generateAlias()` (now supports customizable alias field name)
+
 ## [2.194.0] - 2021-06-18
 
 - added `DcaUtil::getCurrentPaletteName()`
