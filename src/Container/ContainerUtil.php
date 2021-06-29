@@ -8,12 +8,9 @@
 
 namespace HeimrichHannot\UtilsBundle\Container;
 
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
-use Contao\CoreBundle\Routing\ScopeMatcher;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -23,8 +20,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class ContainerUtil
 {
-    /** @var ContaoFramework */
-    protected $framework;
     /**
      * @var ContainerInterface
      */
@@ -33,26 +28,17 @@ class ContainerUtil
      * @var Utils
      */
     protected $utils;
-    /**
-     * @var FileLocator
-     */
-    private $fileLocator;
-    /**
-     * @var ScopeMatcher
-     */
-    private $scopeMatcher;
 
-    public function __construct(ContainerInterface $container, FileLocator $fileLocator, ScopeMatcher $scopeMatcher, Utils $utils)
+    public function __construct(ContainerInterface $container, Utils $utils)
     {
-        $this->framework = $container->get('contao.framework');
-        $this->fileLocator = $fileLocator;
-        $this->scopeMatcher = $scopeMatcher;
         $this->container = $container;
         $this->utils = $utils;
     }
 
     /**
      * Returns the active bundles.
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use kernel.bundles parameter or KernelInterface::getBundles()
      */
@@ -66,6 +52,8 @@ class ContainerUtil
      *
      * @return bool
      *
+     * @codeCoverageIgnore
+     *
      * @deprecated Use utils service instead
      */
     public function isBundleActive(string $bundleName)
@@ -75,6 +63,8 @@ class ContainerUtil
 
     /**
      * @return bool
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use utils service instead
      */
@@ -86,6 +76,8 @@ class ContainerUtil
     /**
      * @return bool
      *
+     * @codeCoverageIgnore
+     *
      * @deprecated Use utils service instead
      */
     public function isFrontend()
@@ -95,6 +87,8 @@ class ContainerUtil
 
     /**
      * @return bool
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use utils service instead
      */
@@ -106,6 +100,8 @@ class ContainerUtil
     /**
      * @return bool
      *
+     * @codeCoverageIgnore
+     *
      * @deprecated Use utils service instead
      */
     public function isInstall()
@@ -115,6 +111,8 @@ class ContainerUtil
 
     /**
      * @return bool
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use utils service instead
      */
@@ -126,6 +124,8 @@ class ContainerUtil
     /**
      * @return mixed
      *
+     * @codeCoverageIgnore
+     *
      * @deprecated Use RequestStack::getCurrentRequest() instead
      */
     public function getCurrentRequest()
@@ -135,6 +135,8 @@ class ContainerUtil
 
     /**
      * @param string $category Use constants in ContaoContext
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use utils service instead
      */
@@ -148,6 +150,8 @@ class ContainerUtil
      *
      * @return mixed
      *
+     * @codeCoverageIgnore
+     *
      * @deprecated Use KernelInterface::getProjectDir or kernel.project_dir parameter
      */
     public function getProjectDir()
@@ -159,6 +163,8 @@ class ContainerUtil
      * Returns the web folder path.
      *
      * @return mixed
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use contao.web_dir parameter
      */
@@ -174,6 +180,8 @@ class ContainerUtil
      * @param string $bundleClass The bundle class class constant (VendorMyBundle::class)
      *
      * @return bool|string False on error
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use utils service instead
      */
@@ -197,6 +205,10 @@ class ContainerUtil
      * @param bool   $first         Returns only first occurrence if multiple paths found
      *
      * @return bool|string|array False on error
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function getBundleResourcePath(string $bundleClass, string $ressourcePath = '', $first = false)
     {
@@ -214,6 +226,8 @@ class ContainerUtil
      * Must be static, because on Plugin::getExtensionConfig() no contao.framework nor service huh.utils.container is available.
      *
      * @return array
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use ConfigPluginInterface with class_exist instead
      */
@@ -235,7 +249,9 @@ class ContainerUtil
     /**
      * @return bool
      *
-     * @deprecated Us utils service instead
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function isMaintenanceModeActive()
     {
@@ -244,6 +260,8 @@ class ContainerUtil
 
     /**
      * @return bool
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use utils service instead
      */
