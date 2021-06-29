@@ -1,131 +1,149 @@
 <?php
 
-/**
- * Fields
+/*
+ * Copyright (c) 2021 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
  */
-$GLOBALS['TL_LANG']['MSC']['alias']                                                                                                                                   =
+
+$GLOBALS['TL_LANG']['MSC']['alias'] =
     ['Alias', 'Der Alias ist eine eindeutige Referenz, die anstelle der numerischen ID aufgerufen werden kann.'];
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE]                                                              =
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE] =
     ['Autorentyp', 'Wählen Sie hier den Typ des Autoren aus.'];
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_NONE]   = 'Kein Autor';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_MEMBER] = 'Mitglied (Frontend)';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_USER]   = 'Benutzer (Backend)';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR]                                                                   =
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_NONE] = 'Brak autora';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_MEMBER] = 'Członek (frontend)';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_USER] = 'Użytkownik (backend)';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR] =
     ['Autor', 'Dieses Feld beinhaltet den Autoren des Datensatzes.'];
-$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_SESSION_ID]                                                               =
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_SESSION_ID] =
     ['Session-ID', 'Dieses Feld beinhaltet die Session-ID des berechtigten Bearbeiters.'];
 
-
-/**
+/*
  * Salutations
  */
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationFemale']  = 'Szanowna Pani';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationMale']    = 'Szanowny Panie';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGeneric'] = 'Sehr geehrte Damen und Herren';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationFemale'] = 'Szanowna Pani';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationMale'] = 'Szanowny Panie';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'] = 'Dzień dobry';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGeneric'] = 'Szanowni Państwo';
 
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'] = 'Hallo';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'] = 'Dzień dobry';
 
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderMale']   = 'Herr';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFemale'] = 'Frau';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderMale'] = 'Pan';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFemale'] = 'Pani';
 
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['male']   = 'Herr';
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['female'] = 'Frau';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['male'] = 'Pan';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['female'] = 'Pani';
 
-/**
+/*
  * Date/time
  */
-$GLOBALS['TL_LANG']['MSC']['datediff']['just_now']    = 'Gerade eben';
-$GLOBALS['TL_LANG']['MSC']['datediff']['min_ago']     = 'Vor 1 Minute';
-$GLOBALS['TL_LANG']['MSC']['datediff']['nmins_ago']   = 'Vor %d Minuten';
-$GLOBALS['TL_LANG']['MSC']['datediff']['hour_ago']    = 'Vor 1 Stunde';
-$GLOBALS['TL_LANG']['MSC']['datediff']['nhours_ago']  = 'Vor %d Stunden';
-$GLOBALS['TL_LANG']['MSC']['datediff']['yesterday']   = 'Gestern';
-$GLOBALS['TL_LANG']['MSC']['datediff']['ndays_ago']   = 'Vor %d Tagen';
-$GLOBALS['TL_LANG']['MSC']['datediff']['week_ago']    = 'Vor 1 Woche';
-$GLOBALS['TL_LANG']['MSC']['datediff']['nweeks_ago']  = 'Vor %d Wochen';
-$GLOBALS['TL_LANG']['MSC']['datediff']['nmonths_ago'] = 'Vor %d Monaten';
-$GLOBALS['TL_LANG']['MSC']['datediff']['year_ago']    = 'Vor %d Jahr';
-$GLOBALS['TL_LANG']['MSC']['datediff']['years_ago']   = 'Vor %d Jahren';
-$GLOBALS['TL_LANG']['MSC']['second']                  = 'Sekunde';
-$GLOBALS['TL_LANG']['MSC']['seconds']                 = 'Sekunden';
-$GLOBALS['TL_LANG']['MSC']['minute']                  = 'Minute';
-$GLOBALS['TL_LANG']['MSC']['minutes']                 = 'Minuten';
-$GLOBALS['TL_LANG']['MSC']['hour']                    = 'Stunde';
-$GLOBALS['TL_LANG']['MSC']['hours']                   = 'Stunden';
-$GLOBALS['TL_LANG']['MSC']['day']                     = 'Tag';
-$GLOBALS['TL_LANG']['MSC']['days']                    = 'Tage';
-$GLOBALS['TL_LANG']['MSC']['week']                    = 'Woche';
-$GLOBALS['TL_LANG']['MSC']['weeks']                   = 'Wochen';
-$GLOBALS['TL_LANG']['MSC']['month']                   = 'Monat';
-$GLOBALS['TL_LANG']['MSC']['months']                  = 'Monate';
-$GLOBALS['TL_LANG']['MSC']['year']                    = 'Jahr';
-$GLOBALS['TL_LANG']['MSC']['years']                   = 'Jahre';
-$GLOBALS['TL_LANG']['MSC']['timePeriod']['s']         = 'Sekunde(n)';
-$GLOBALS['TL_LANG']['MSC']['timePeriod']['m']         = 'Minute(n)';
-$GLOBALS['TL_LANG']['MSC']['timePeriod']['h']         = 'Stunde(n)';
-$GLOBALS['TL_LANG']['MSC']['timePeriod']['d']         = 'Tage(n)';
+$GLOBALS['TL_LANG']['MSC']['datediff']['just_now'] = 'Właśnie';
+$GLOBALS['TL_LANG']['MSC']['datediff']['min_ago'] = 'Przed 1 minutą';
+$GLOBALS['TL_LANG']['MSC']['datediff']['nmins_ago'] = 'Przed %d minutami';
+$GLOBALS['TL_LANG']['MSC']['datediff']['hour_ago'] = 'Przed 1 godziną';
+$GLOBALS['TL_LANG']['MSC']['datediff']['nhours_ago'] = 'Przed %d godzinami';
+$GLOBALS['TL_LANG']['MSC']['datediff']['yesterday'] = 'Wczoraj';
+$GLOBALS['TL_LANG']['MSC']['datediff']['ndays_ago'] = 'Przed %d dniami';
+$GLOBALS['TL_LANG']['MSC']['datediff']['week_ago'] = 'Przed 1 tygodniem';
+$GLOBALS['TL_LANG']['MSC']['datediff']['nweeks_ago'] = 'Przed %d tygodniami';
+$GLOBALS['TL_LANG']['MSC']['datediff']['nmonths_ago'] = 'Przed %d miesiącami';
+$GLOBALS['TL_LANG']['MSC']['datediff']['year_ago'] = 'Przed %d rokiem';
+$GLOBALS['TL_LANG']['MSC']['datediff']['years_ago'] = 'Przed %d latami';
+$GLOBALS['TL_LANG']['MSC']['second'] = 'Sekunda';
+$GLOBALS['TL_LANG']['MSC']['seconds'] = 'Sekund(y)';
+$GLOBALS['TL_LANG']['MSC']['minute'] = 'Minuta';
+$GLOBALS['TL_LANG']['MSC']['minutes'] = 'Minut(y)';
+$GLOBALS['TL_LANG']['MSC']['hour'] = 'Godzina';
+$GLOBALS['TL_LANG']['MSC']['hours'] = 'Godzin(y)';
+$GLOBALS['TL_LANG']['MSC']['day'] = 'Dzień';
+$GLOBALS['TL_LANG']['MSC']['days'] = 'Dni';
+$GLOBALS['TL_LANG']['MSC']['week'] = 'Tydzień';
+$GLOBALS['TL_LANG']['MSC']['weeks'] = 'Tygodni(e)';
+$GLOBALS['TL_LANG']['MSC']['month'] = 'Miesiąc';
+$GLOBALS['TL_LANG']['MSC']['months'] = 'Miesiące(-cy)';
+$GLOBALS['TL_LANG']['MSC']['year'] = 'Rok';
+$GLOBALS['TL_LANG']['MSC']['years'] = 'Lat(a)';
+$GLOBALS['TL_LANG']['MSC']['timePeriod']['s'] = 'Sekund(a)';
+$GLOBALS['TL_LANG']['MSC']['timePeriod']['m'] = 'Minut(a)';
+$GLOBALS['TL_LANG']['MSC']['timePeriod']['h'] = 'Godzin(a)';
+$GLOBALS['TL_LANG']['MSC']['timePeriod']['d'] = 'Dzień/dni';
 
-/**
+/*
  * Counties
  */
-$GLOBALS['TL_LANG']['COUNTIES']['de']['bw'] = 'Baden-Württemberg';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['by'] = 'Bayern';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['bw'] = 'Badenia-Wirtembergia';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['by'] = 'Bawaria';
 $GLOBALS['TL_LANG']['COUNTIES']['de']['be'] = 'Berlin';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['bb'] = 'Brandenburg';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['hb'] = 'Bremen';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['bb'] = 'Brandenburgia';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['hb'] = 'Brema';
 $GLOBALS['TL_LANG']['COUNTIES']['de']['hh'] = 'Hamburg';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['he'] = 'Hessen';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['mv'] = 'Mecklenburg-Vorpommern';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['ni'] = 'Niedersachsen';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['nw'] = 'Nordrhein-Westfalen';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['rp'] = 'Rheinland-Pfalz';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['sl'] = 'Saarland';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['sn'] = 'Sachsen';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['st'] = 'Sachsen-Anhalt';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['sh'] = 'Schleswig-Holstein';
-$GLOBALS['TL_LANG']['COUNTIES']['de']['th'] = 'Thüringen';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['he'] = 'Hesja';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['mv'] = 'Meklemburgia-Pomorze Przednie';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['ni'] = 'Dolna Saksonia';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['nw'] = 'Nadrenia Północna-Westfalia';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['rp'] = 'Nadrenia-Palatynat';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['sl'] = 'Kraj Saary';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['sn'] = 'Saksonia';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['st'] = 'Saksonia-Anhalt';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['sh'] = 'Szlezwik-Holsztyn';
+$GLOBALS['TL_LANG']['COUNTIES']['de']['th'] = 'Turyngia';
 
-/**
+/*
  * Logic
  */
 $GLOBALS['TL_LANG']['MSC']['databaseOperators'] = [
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LIKE          => 'enthält',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNLIKE        => 'enthält nicht',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_EQUAL         => '=',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNEQUAL       => '!=',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER         => '&lt;',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER       => '&gt;',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER_EQUAL   => '&lt;=',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LIKE => 'zawiera',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNLIKE => 'nie zawiera',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_EQUAL => '=',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNEQUAL => '!=',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER => '&lt;',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER => '&gt;',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER_EQUAL => '&lt;=',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER_EQUAL => '&gt;=',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IN            => 'in',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_NOT_IN        => 'nicht in',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NULL       => 'ist Null',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_NULL   => 'ist nicht Null',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_EMPTY      => 'ist leer (=\'\')',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_EMPTY  => 'ist nicht leer (!=\'\')',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IN => 'w',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_NOT_IN => 'nie w',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NULL => 'wynosi zero',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_NULL => 'nie wynosi zero',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_EMPTY => 'jest pusty (=\'\')',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_EMPTY => 'nie jest pusty (!=\'\')',
+];
+
+$GLOBALS['TL_LANG']['MSC']['phpOperators'] = [
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_EQUAL => '=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_UNEQUAL => '!=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_LIKE => 'zawiera (string)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_UNLIKE => 'nie zawiera (string)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_IN_ARRAY => 'zawiera (array)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_NOT_IN_ARRAY => 'nie zawiera (array)',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_LOWER => '&lt;',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_LOWER_EQUAL => '&lt;=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_GREATER => '&gt;',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_GREATER_EQUAL => '&gt;=',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_IS_NULL => 'wynosi zero',
+    \HeimrichHannot\UtilsBundle\Comparison\CompareUtil::PHP_OPERATOR_IS_NOT_NULL => 'nie wynosi zero',
 ];
 
 $GLOBALS['TL_LANG']['MSC']['connectives'] = [
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_AND => 'und',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_OR  => 'oder',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_AND => 'i',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_OR => 'lub',
 ];
 
-/**
+/*
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['posFloat']['commaFound'] = 'Ungültiges Zeichen gefunden: Komma. Bitte verwenden Sie stattdessen einen Punkt als Trennzeichen.';
-$GLOBALS['TL_LANG']['ERR']['posFloat']['noFloat']    = 'Bitte geben Sie eine positive Gleitkommazahl (mit Punkt statt Komma) ein.';
-$GLOBALS['TL_LANG']['ERR']['iban']                   = 'Bitte geben Sie eine gültige IBAN ein.';
-$GLOBALS['TL_LANG']['ERR']['bic']                    = 'Bitte geben Sie eine gültige BIC ein.';
-$GLOBALS['TL_LANG']['ERR']['price']                  = 'Bitte geben Sie einen gültigen Preis ein.';
-/**
+$GLOBALS['TL_LANG']['ERR']['posFloat']['commaFound'] = 'Znaleziono nieprawidłowy znak: przecinek. Proszę użyć zamiast niego kropki jako separatora.';
+$GLOBALS['TL_LANG']['ERR']['posFloat']['noFloat'] = 'Proszę wprowadzić dodatnią liczbę zmiennoprzecinkową (z kropką zamiast przecinka).';
+$GLOBALS['TL_LANG']['ERR']['iban'] = 'Proszę wprowadzić prawidłowy numer IBAN.';
+$GLOBALS['TL_LANG']['ERR']['bic'] = 'Proszę wprowadzić prawidłowy numer BIC.';
+$GLOBALS['TL_LANG']['ERR']['price'] = 'Proszę wprowadzić prawidłową cenę.';
+/*
  * Misc
  */
-$GLOBALS['TL_LANG']['MSC']['yes']   = 'Ja';
-$GLOBALS['TL_LANG']['MSC']['no']    = 'Nein';
-$GLOBALS['TL_LANG']['MSC']['page']  = 'Seite';
+$GLOBALS['TL_LANG']['MSC']['yes'] = 'Tak';
+$GLOBALS['TL_LANG']['MSC']['no'] = 'Nie';
+$GLOBALS['TL_LANG']['MSC']['page'] = 'Strona';
 
-/**
+/*
  * Pagination
  */
-$GLOBALS['TL_LANG']['MSC']['readOnSinglePage'] = 'Auf einer Seite lesen';
+$GLOBALS['TL_LANG']['MSC']['readOnSinglePage'] = 'Czytaj na jednej stronie';

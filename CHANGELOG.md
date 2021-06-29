@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.195.0] - 2021-06-29
+
+- added Polish translations
+
 ## [2.194.1] - 2021-06-24
 
 - enhanced `DcaUtil::generateAlias()` (now supports customizable alias field name)
