@@ -179,6 +179,16 @@ class StringUtilTest extends ContaoTestCase
                 '<p><strong>Pellentesque</strong> habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. </p>',
                 270,
             ],
+            [
+                '<a>Lorem ipsum dolor sit amet.</a>',
+                '<a>Lorem ipsum</a>…',
+                12,
+            ],
+            [
+                '<span><a>Lorem ipsum dolor sit <span>amet</span>.</a> consetetur sadipscing elitr</span>',
+                '<span><a>Lorem ipsum</a>…</span>',
+                12,
+            ],
         ];
     }
 

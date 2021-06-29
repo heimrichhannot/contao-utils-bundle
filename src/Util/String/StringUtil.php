@@ -303,7 +303,10 @@ class StringUtil
             $textNode = new DOMText($ellipsis);
 
             if ($domNode->parentNode->parentNode->nextSibling) {
+                // currently not testable, as there should be never a sibling to parent parent node in truncateHtml result here
+                // @codeCoverageIgnoreStart
                 $domNode->parentNode->parentNode->insertBefore($textNode, $domNode->parentNode->parentNode->nextSibling);
+            // @codeCoverageIgnoreEnd
             } else {
                 $domNode->parentNode->parentNode->appendChild($textNode);
             }

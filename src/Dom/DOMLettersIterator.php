@@ -111,8 +111,6 @@ final class DOMLettersIterator implements Iterator
             --$this->key;
         }
 
-        $previousTextElement = $this->current;
-
         while (XML_ELEMENT_NODE == $this->current->nodeType && $this->current->firstChild) {
             $this->current = $this->current->firstChild;
 
