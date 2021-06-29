@@ -285,6 +285,8 @@ class StringUtil
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @deprecated Use trim($string, "/") instead
      */
     public function removeLeadingAndTrailingSlash(string $string): string
@@ -318,6 +320,10 @@ class StringUtil
      * @param string $string The string with the tags to be replaced
      *
      * @return string The string with the original entities
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated use \Contao\StringUtil::restoreBasicEntities() instead
      */
     public function restoreBasicEntities($string)
     {
@@ -330,6 +336,8 @@ class StringUtil
      * @param array $cssText the css as text (no paths allowed atm)
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use CssInliner-Library directly in your code. We recommend tijsverkoyen/css-to-inline-styles (https://github.com/tijsverkoyen/CssToInlineStyles)
      */
@@ -348,6 +356,8 @@ class StringUtil
      *
      * @return string
      *
+     * @codeCoverageIgnore
+     *
      * @deprecated Use html2text-library direct in your code, we recommend html2text/html2text (https://github.com/mtibben/html2text)
      */
     public function html2Text(string $html, array $options = [])
@@ -365,6 +375,8 @@ class StringUtil
      * @param $value
      *
      * @return string
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Deprecated in favor of custom callback that could be used with contao service callbacks
      */
@@ -408,6 +420,13 @@ class StringUtil
         return json_decode(json_encode($kmlData), true);
     }
 
+    /**
+     * @return array|string|string[]|null
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Will be removed in version 3.0. Use elvanto/litemoji (https://github.com/elvanto/litemoji) instead.
+     */
     public function replaceUnicodeEmojisByHtml(?string $text)
     {
 //        How to get the latest list:
@@ -446,6 +465,8 @@ class StringUtil
      * @param bool   $cache  If false, non-cacheable tags will be replaced
      *
      * @return string The text with the replaced tags
+     *
+     * @codeCoverageIgnore
      *
      * @deprecated Use Controller::replaceInsertTags as adapter
      */

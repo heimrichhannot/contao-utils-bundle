@@ -10,9 +10,11 @@ This bundle offers various utility functionality for the Contao CMS.
 
 ## Install 
 
-```
-composer require heimrichhannot/contao-utils-bundle
-```
+1. Install via composer:
+    ```
+    composer require heimrichhannot/contao-utils-bundle
+    ```
+1. Update database
 
 ### Additional Requirements: 
 
@@ -28,8 +30,33 @@ huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostsc
 
 ## Usage
 
-This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all functions. 
-We recommend to call the utils as service. You can either inject them (the Symfony recommend way) or call them from the service container (all util services are public).
+> We're currently in a process moving all services into the Utils namespace and make them all accessible from a new Utils service. 
+
+This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all util-classes and -methods. 
+
+The default way to access the util methods is the `Utils`-service (currently not all services are available there yet). The utils service is best used with dependency injection, but is also available from the service container as public service for usage in legacy code.
+
+   ```php
+   use HeimrichHannot\UtilsBundle\Util\Utils;
+   
+   class MyClass{
+       /** @var Utils */
+       protected $utils;
+        
+       public function __construct(Utils $utils) {
+           $this->utils = $utils;
+       }
+       
+       public function someActions(): bool {
+           return $this->utils->string()->startsWith('Lorem ipsum dolor sit amet', 'Lorem');
+       }
+   }
+   ```
+
+To access services that are not available through the `Utils`-service, inject or call them directly.
+
+> Keep in mind that all services are about to be moved to the Utils namespace and will be deprecated (and removed in version 3.0) in the future.
+
 
 Available [Service](src/Resources/config/services.yml) (as of version 2.131):
 

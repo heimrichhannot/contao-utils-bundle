@@ -14,4 +14,5 @@ Following steps could be done to prepare your bundle for utils bundle version 3 
 * Loading assets disabled by default
     - default value for huh_utils.enable_load_assets changed from true to false
     - set to true in your configuration to ensure assets are still added in v3
-    
+* Util-Classes namespaces moved to Utils namespace
+* Utils-Service that should be used instead of calling single Utils-Services
