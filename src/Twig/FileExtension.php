@@ -124,7 +124,7 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
 
     public function getFileContent($file)
     {
-        if (Validator::isBinaryUuid($file)) {
+        if (Validator::isUuid($file)) {
             /** @var File $fileObj */
             if (null === ($fileObj = $this->container->get('huh.utils.file')->getFileFromUuid($file))) {
                 return '';
