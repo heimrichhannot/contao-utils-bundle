@@ -21,6 +21,8 @@ use Symfony\Component\Filesystem\Filesystem;
  * Within the cache folder you can specify a namespace serving as subfolder.
  *
  * @deprecated Will be removed in version 3.0. Use FileStorageUtil instead.
+ *
+ * @codeCoverageIgnore
  */
 class FileCache
 {

@@ -17,36 +17,61 @@ use Contao\Model;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Contao\PageModel;
+use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
+use HeimrichHannot\UtilsBundle\Form\FormUtil;
 use Symfony\Component\Cache\Simple\FilesystemCache;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ModelUtil
 {
-    /** @var ContaoFrameworkInterface */
-    protected $framework;
-
     /**
-     * @var ContainerInterface
+     * @var DcaUtil
      */
-    private $container;
+    protected $dcaUtil;
+    /**
+     * @var ContaoFrameworkInterface
+     */
+    protected $framework;
+    /**
+     * @var SessionInterface
+     */
+    protected $session;
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+    /**
+     * @var FormUtil
+     */
+    protected $formUtil;
+    /**
+     * @var array
+     */
+    protected $kernelBundles;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(DcaUtil $dcaUtil, ContaoFrameworkInterface $contaoFramework, SessionInterface $session, RequestStack $requestStack, FormUtil $formUtil, array $kernelBundles)
     {
-        $this->framework = $container->get('contao.framework');
-        $this->container = $container;
+        $this->dcaUtil = $dcaUtil;
+        $this->framework = $contaoFramework;
+        $this->session = $session;
+        $this->requestStack = $requestStack;
+        $this->formUtil = $formUtil;
+        $this->kernelBundles = $kernelBundles;
     }
 
     /**
      * Set the entity defaults from dca config (for new model entry).
      *
      * @return Model The modified model, containing the default values from all dca fields
+     *
+     * @codeCoverageIgnore
      */
     public function setDefaultsFromDca(Model $objModel)
     {
-        return $this->container->get('huh.utils.dca')->setDefaultsFromDca($objModel->getTable(), $objModel);
+        return $this->dcaUtil->setDefaultsFromDca($objModel->getTable(), $objModel);
     }
 
     /**
@@ -148,7 +173,7 @@ class ModelUtil
             return null;
         }
 
-        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table) && $this->container->get('huh.utils.dca')->isDcMultilingual3()) {
+        if ($this->dcaUtil->isDcMultilingual($table) && $this->dcaUtil->isDcMultilingual3()) {
             $table = 't1';
         }
 
@@ -173,7 +198,7 @@ class ModelUtil
             return null;
         }
 
-        if ($this->container->get('huh.utils.dca')->isDcMultilingual($table) && $this->container->get('huh.utils.dca')->isDcMultilingual3()) {
+        if ($this->dcaUtil->isDcMultilingual($table) && $this->dcaUtil->isDcMultilingual3()) {
             $table = 't1';
         }
 
@@ -212,7 +237,7 @@ class ModelUtil
      */
     public function fixTablePrefixForDcMultilingual(string $table, &$columns, array &$options = [])
     {
-        if (!$this->container->get('huh.utils.dca')->isDcMultilingual($table) || !$this->container->get('huh.utils.dca')->isDcMultilingual3()) {
+        if (!$this->dcaUtil->isDcMultilingual($table) || !$this->dcaUtil->isDcMultilingual3()) {
             return $columns;
         }
 
@@ -264,11 +289,11 @@ class ModelUtil
         $translatableLangs = $this->getDcMultilingualTranslatableLanguages($table);
 
         /** @var SessionInterface $objSessionBag */
-        $objSessionBag = $this->container->get('session')->getBag('contao_backend');
+        $objSessionBag = $this->session->getBag('contao_backend');
         $sessionKey = 'dc_multilingual:'.$table.':'.$id;
 
         /** @var Request $request */
-        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
         if ('tl_language' === $request->request->get('FORM_SUBMIT')) {
             $language = $request->request->get('language');
@@ -381,8 +406,8 @@ class ModelUtil
 
         return preg_replace_callback(
             '@%([^%]+)%@i',
-            function ($matches) use ($instance, $dca, $dc, $specialValueConfig) {
-                return $this->container->get('huh.utils.form')->prepareSpecialValueForOutput($matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig);
+            function ($matches) use ($instance, $dc, $specialValueConfig) {
+                return $this->formUtil->prepareSpecialValueForOutput($matches[1], $instance->{$matches[1]}, $dc, $specialValueConfig);
             },
             $pattern
         );
@@ -472,7 +497,7 @@ class ModelUtil
                 $pageIds = $result->fetchEach('id');
             }
 
-            if (\array_key_exists('blocks', $this->container->getParameter('kernel.bundles'))) {
+            if (\array_key_exists('blocks', $this->kernelBundles)) {
                 $result = $db->prepare(
                     "SELECT `tl_page`.`id` FROM `tl_page`
                 JOIN `tl_article` ON `tl_article`.`pid` = `tl_page`.`id`

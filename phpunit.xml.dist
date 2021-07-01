@@ -24,7 +24,16 @@
 
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory>./tests</directory>
+            <directory>./tests/</directory>
+            <exclude>tests/Arrays</exclude>
+            <exclude>tests/Choice</exclude>
+            <exclude>tests/Dca</exclude>
+            <exclude>tests/Driver</exclude>
+            <exclude>tests/File</exclude>
+            <exclude>tests/Form</exclude>
+            <exclude>tests/Image</exclude>
+            <exclude>tests/Model/CfgTagModelTest.php</exclude>
+            <exclude>tests/Security</exclude>
         </testsuite>
     </testsuites>
 

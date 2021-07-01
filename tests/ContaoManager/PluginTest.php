@@ -56,7 +56,7 @@ class PluginTest extends ContaoTestCase
         /** @var BundleConfig[] $bundles */
         $bundles = $plugin->getBundles(new DelegatingParser());
 
-        $this->assertCount(1, $bundles);
+        $this->assertCount(2, $bundles);
         $this->assertInstanceOf(BundleConfig::class, $bundles[0]);
         $this->assertSame(HeimrichHannotContaoUtilsBundle::class, $bundles[0]->getName());
         $this->assertSame([ContaoCoreBundle::class], $bundles[0]->getLoadAfter());
@@ -165,15 +165,5 @@ class PluginTest extends ContaoTestCase
             $this->assertEmpty($definition->getArguments());
             $this->assertTrue($definition->isAutowired());
         }
-    }
-
-    public function testGetExtensionConfig()
-    {
-        $plugin = new Plugin();
-        $container = $this->createMock(\Contao\ManagerPlugin\Config\ContainerBuilder::class);
-        $config = $plugin->getExtensionConfig('huh_encore', [], $container);
-        $this->assertNotEmpty($config);
-        $this->assertArrayHasKey('huh', $config);
-        $this->assertArrayHasKey('encore', $config['huh']);
     }
 }

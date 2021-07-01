@@ -240,7 +240,7 @@ class AccordionUtilTest extends ContaoTestCase
         }
         $container->set('contao.framework', $framework);
 
-        $modelUtil = new ModelUtil($container);
+        $modelUtil = $this->createMock(ModelUtil::class);
         $container->set('huh.utils.model', $modelUtil);
 
         return $container;

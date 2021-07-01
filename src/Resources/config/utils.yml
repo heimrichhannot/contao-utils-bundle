@@ -3,6 +3,7 @@ services:
     public: true
     autowire: true
     bind:
+      $kernelBundles: '%kernel.bundles%'
       $projectDir: '%kernel.project_dir%'
       $webDir: '%contao.web_dir%'
       $utilsConfig: '%huh_utils%'

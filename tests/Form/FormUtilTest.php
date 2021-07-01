@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Tests\String;
+namespace HeimrichHannot\UtilsBundle\Tests\Form;
 
 use Contao\Config;
 use Contao\Controller;
@@ -32,7 +32,7 @@ class FormUtilTest extends ContaoTestCase
     /** @var DataContainer */
     protected $dc;
 
-    public function setUp()
+    protected function setUp()
     {
         if (!interface_exists('listable')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/interface.php';

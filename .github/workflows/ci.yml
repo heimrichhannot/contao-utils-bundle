@@ -34,7 +34,7 @@ jobs:
 
       - name: Run the unit tests
         if: steps.composer-install.conclusion == 'success' && steps.composer-install.outcome == 'success'
-        run: php vendor/bin/phpunit -c phpunit-utils-folder.xml.dist --colors=always
+        run: php vendor/bin/phpunit -c phpunit.xml.dist --colors=always
 
   coverage:
     runs-on: ubuntu-latest

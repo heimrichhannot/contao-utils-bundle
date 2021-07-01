@@ -8,21 +8,27 @@
 
 namespace HeimrichHannot\UtilsBundle\Classes;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
+use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 
 class ClassUtil
 {
     /**
-     * @var ContainerInterface
+     * @var ArrayUtil
      */
-    protected $container;
+    protected $arrayUtil;
+    /**
+     * @var StringUtil
+     */
+    protected $stringUtil;
 
     /**
      * ClassUtil constructor.
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ArrayUtil $arrayUtil, StringUtil $stringUtil)
     {
-        $this->container = $container;
+        $this->arrayUtil = $arrayUtil;
+        $this->stringUtil = $stringUtil;
     }
 
     /**
@@ -67,7 +73,7 @@ class ClassUtil
             return $arrExtract;
         }
 
-        $arrExtract = $this->container->get('huh.utils.array')->filterByPrefixes($arrConstants, $prefixes);
+        $arrExtract = $this->arrayUtil->filterByPrefixes($arrConstants, $prefixes);
 
         return $returnValueAsKey ? array_combine($arrExtract, $arrExtract) : $arrExtract;
     }
@@ -82,7 +88,7 @@ class ClassUtil
         $arrOptions = [];
 
         foreach (get_declared_classes() as $strName) {
-            if ($this->container->get('huh.utils.string')->startsWith($strName, $namespace)) {
+            if ($this->stringUtil->startsWith($strName, $namespace)) {
                 $arrOptions[$strName] = $strName;
             }
         }
