@@ -7,6 +7,17 @@ services:
       calls:
         - ["setContainer", ["@service_container"]]
 
+  HeimrichHannot\UtilsBundle\Util\Utils:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  HeimrichHannot\UtilsBundle\Util\:
+    resource: '../../Util/*/*'
+    autowire: true
+    bind:
+      $kernelBundles: '%kernel.bundles%'
+
   # util services
   huh.utils.cache.database:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil

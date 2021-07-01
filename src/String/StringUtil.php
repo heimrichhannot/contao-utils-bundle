@@ -10,9 +10,13 @@ namespace HeimrichHannot\UtilsBundle\String;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Soundasleep\Html2Text;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
+/**
+ * Class StringUtil.
+ */
 class StringUtil
 {
     const CAPITAL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -26,10 +30,15 @@ class StringUtil
      * @var ContaoFrameworkInterface
      */
     protected $framework;
+    /**
+     * @var Utils
+     */
+    protected $utils;
 
-    public function __construct(ContaoFrameworkInterface $framework)
+    public function __construct(ContaoFrameworkInterface $framework, Utils $utils)
     {
         $this->framework = $framework;
+        $this->utils = $utils;
     }
 
     /**
@@ -39,10 +48,13 @@ class StringUtil
      * @param $needle   string The needle
      *
      * @return bool
+     *
+     * @deprecated Use utils service instead
+     * @codeCoverageIgnore
      */
     public function startsWith($haystack, $needle)
     {
-        return '' === $needle || false !== strrpos($haystack, $needle, -\strlen($haystack));
+        return $this->utils->string()->startsWith($haystack, $needle);
     }
 
     /**
@@ -52,11 +64,13 @@ class StringUtil
      * @param string $needle   The needle
      *
      * @return bool
+     *
+     * @deprecated Use utils service instead
+     * @codeCoverageIgnore
      */
     public function endsWith($haystack, $needle)
     {
-        // search forward starting from end minus needle length characters
-        return '' === $needle || (($temp = \strlen($haystack) - \strlen($needle)) >= 0 && false !== strpos($haystack, $needle, $temp));
+        return $this->utils->string()->endsWith($haystack, $needle);
     }
 
     /**
@@ -64,13 +78,16 @@ class StringUtil
      *
      * Example: MyPrettyClass to my-pretty-class
      *
-     * @param $value
+     * @param string $value
      *
      * @return string
+     *
+     * @deprecated Use utils service instead
+     * @codeCoverageIgnore
      */
     public function camelCaseToDashed($value)
     {
-        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
+        return $this->utils->string()->camelCaseToSnake($value);
     }
 
     /**
@@ -79,77 +96,83 @@ class StringUtil
      * Example: MyPrettyClass to my_pretty_class
      *
      * @return string
+     *
+     * @deprecated Use utils service instead
+     * @codeCoverageIgnore
      */
     public function camelCaseToSnake(string $value)
     {
-        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1_', $value));
+        return $this->utils->string()->camelCaseToSnake($value);
     }
 
     /**
      * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      *
      * @return mixed
      */
     public function randomChar(bool $includeAmbiguousChars = false)
     {
-        if ($includeAmbiguousChars) {
-            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS.static::NUMBERS;
-        } else {
-            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS.static::NUMBERS_NONAMBIGUOUS;
-        }
-
-        return $chars[rand(0, $includeAmbiguousChars ? 61 : 50)];
+        return $this->utils->string()->randomChar($includeAmbiguousChars);
     }
 
     /**
      * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      *
      * @return mixed
      */
     public function randomLetter(bool $includeAmbiguousChars = false)
     {
-        if ($includeAmbiguousChars) {
-            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS;
-        } else {
-            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS;
-        }
-
-        return $chars[rand(0, $includeAmbiguousChars ? 51 : 42)];
+        return $this->utils->string()->randomLetter($includeAmbiguousChars);
     }
 
     /**
      * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      *
      * @return mixed
      */
     public function randomNumber(bool $includeAmbiguousChars = false)
     {
-        if ($includeAmbiguousChars) {
-            $chars = static::NUMBERS;
-        } else {
-            $chars = static::NUMBERS_NONAMBIGUOUS;
-        }
-
-        return $chars[rand(0, $includeAmbiguousChars ? 9 : 7)];
+        return $this->utils->string()->randomNumber($includeAmbiguousChars);
     }
 
     /**
      * @codeCoverageIgnore
      *
+     * @deprecated Use utils service instead
+     *
      * @return mixed
      */
     public function random(string $charList)
     {
-        return $charList[rand(0, \strlen($charList) - 1)];
+        return $this->utils->string()->random($charList);
     }
 
     /**
      * Truncates a given string respecting html element.
      *
      * @return string
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function truncateHtml(string $text, int $length = 100, string $ending = '&nbsp;&hellip;', bool $exact = false, bool $considerHtml = true)
     {
+        $options = [
+            'exact' => $exact,
+            'ending' => $ending,
+        ];
+
+        if (!$considerHtml) {
+            return $this->utils->string()->truncate($text, $length, $options);
+        }
+
         $open_tags = [];
 
         if ($considerHtml) {
@@ -251,32 +274,44 @@ class StringUtil
 
     /**
      * @return mixed|string
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function pregReplaceLast(string $regExp, string $subject)
     {
-        if (!$regExp) {
-            return $subject;
-        }
-
-        $strDelimiter = $regExp[0];
-        $regExp = rtrim(ltrim($regExp, $strDelimiter), $strDelimiter);
-
-        return preg_replace("$strDelimiter$regExp(?!.*$regExp)$strDelimiter", '', $subject);
+        return $this->utils->string()->pregReplaceLast($regExp, $subject);
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use trim($string, "/") instead
+     */
     public function removeLeadingAndTrailingSlash(string $string): string
     {
         return rtrim(ltrim($string, '/'), '/');
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function removeLeadingString(string $string, string $subject)
     {
-        return preg_replace('@^'.$string.'@i', '', $subject);
+        return $this->utils->string()->removeLeadingString($string, $subject, ['trim' => false]);
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function removeTrailingString(string $string, string $subject)
     {
-        return preg_replace('@'.$string.'$@i', '', $subject);
+        return $this->utils->string()->removeTrailingString($string, $subject, ['trim' => false]);
     }
 
     /**
@@ -285,6 +320,10 @@ class StringUtil
      * @param string $string The string with the tags to be replaced
      *
      * @return string The string with the original entities
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated use \Contao\StringUtil::restoreBasicEntities() instead
      */
     public function restoreBasicEntities($string)
     {
@@ -297,6 +336,10 @@ class StringUtil
      * @param array $cssText the css as text (no paths allowed atm)
      *
      * @return string
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use CssInliner-Library directly in your code. We recommend tijsverkoyen/css-to-inline-styles (https://github.com/tijsverkoyen/CssToInlineStyles)
      */
     public function convertToInlineCss(string $text, string $cssText = null)
     {
@@ -312,6 +355,10 @@ class StringUtil
      * @throws \Soundasleep\Html2TextException
      *
      * @return string
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use html2text-library direct in your code, we recommend html2text/html2text (https://github.com/mtibben/html2text)
      */
     public function html2Text(string $html, array $options = [])
     {
@@ -328,6 +375,10 @@ class StringUtil
      * @param $value
      *
      * @return string
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Deprecated in favor of custom callback that could be used with contao service callbacks
      */
     public function lowerCase($value, \DataContainer $objDc)
     {
@@ -336,6 +387,8 @@ class StringUtil
 
     /**
      * Ensure line breaks for several languages.
+     *
+     * @deprecated use locale util of utils service instead
      */
     public function ensureLineBreaks(string $buffer, string $language = 'en'): string
     {
@@ -350,6 +403,11 @@ class StringUtil
         return $buffer;
     }
 
+    /**
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function convertXmlToArray(string $xmlData)
     {
         // CDATA fix (see https://stackoverflow.com/a/6534234/1463757)
@@ -362,6 +420,13 @@ class StringUtil
         return json_decode(json_encode($kmlData), true);
     }
 
+    /**
+     * @return array|string|string[]|null
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Will be removed in version 3.0. Use elvanto/litemoji (https://github.com/elvanto/litemoji) instead.
+     */
     public function replaceUnicodeEmojisByHtml(?string $text)
     {
 //        How to get the latest list:
@@ -400,6 +465,10 @@ class StringUtil
      * @param bool   $cache  If false, non-cacheable tags will be replaced
      *
      * @return string The text with the replaced tags
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use Controller::replaceInsertTags as adapter
      */
     public function replaceInsertTags(?string $buffer, bool $cache = true)
     {

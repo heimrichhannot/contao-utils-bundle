@@ -8,42 +8,39 @@
 
 namespace HeimrichHannot\UtilsBundle\Container;
 
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
-use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\System;
-use Psr\Log\LogLevel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Class ContainerUtil.
+ *
+ * @deprecated use utils service instead
+ */
 class ContainerUtil
 {
-    /** @var ContaoFramework */
-    protected $framework;
     /**
      * @var ContainerInterface
      */
     protected $container;
     /**
-     * @var FileLocator
+     * @var Utils
      */
-    private $fileLocator;
-    /**
-     * @var ScopeMatcher
-     */
-    private $scopeMatcher;
+    protected $utils;
 
-    public function __construct(ContainerInterface $container, FileLocator $fileLocator, ScopeMatcher $scopeMatcher)
+    public function __construct(ContainerInterface $container, Utils $utils)
     {
-        $this->framework = $container->get('contao.framework');
-        $this->fileLocator = $fileLocator;
-        $this->scopeMatcher = $scopeMatcher;
         $this->container = $container;
+        $this->utils = $utils;
     }
 
     /**
      * Returns the active bundles.
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use kernel.bundles parameter or KernelInterface::getBundles()
      */
     public function getActiveBundles(): array
     {
@@ -54,49 +51,83 @@ class ContainerUtil
      * Checks if some bundle is active. Pass in the class name (e.g. 'HeimrichHannot\FilterBundle\HeimrichHannotContaoFilterBundle' or the legacy Contao 3 name like 'news').
      *
      * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function isBundleActive(string $bundleName)
     {
-        return \in_array($bundleName, array_merge(array_values($this->getActiveBundles()), array_keys($this->getActiveBundles())));
+        return $this->utils->container()->isBundleActive($bundleName);
     }
 
+    /**
+     * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function isBackend()
     {
-        if ($request = $this->getCurrentRequest()) {
-            return $this->scopeMatcher->isBackendRequest($request);
-        }
-
-        return false;
+        return $this->utils->container()->isBackend();
     }
 
+    /**
+     * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function isFrontend()
     {
-        if ($request = $this->getCurrentRequest()) {
-            return $this->scopeMatcher->isFrontendRequest($request);
-        }
-
-        return false;
+        return $this->utils->container()->isFrontend();
     }
 
+    /**
+     * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function isFrontendCron()
     {
-        return $this->getCurrentRequest() && 'contao_frontend_cron' === $this->getCurrentRequest()->get('_route');
+        return $this->utils->container()->isFrontendCron();
     }
 
+    /**
+     * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function isInstall()
     {
-        if ($request = $this->getCurrentRequest()) {
-            return 'contao_install' === $request->get('_route');
-        }
-
-        return false;
+        return $this->utils->container()->isInstall();
     }
 
+    /**
+     * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function isDev()
     {
-        return 'dev' === System::getContainer()->getParameter('kernel.environment');
+        return $this->utils->container()->isDev();
     }
 
+    /**
+     * @return mixed
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use RequestStack::getCurrentRequest() instead
+     */
     public function getCurrentRequest()
     {
         return $this->container->get('request_stack')->getCurrentRequest();
@@ -104,19 +135,24 @@ class ContainerUtil
 
     /**
      * @param string $category Use constants in ContaoContext
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function log(string $text, string $function, string $category)
     {
-        $level = (ContaoContext::ERROR === $category ? LogLevel::ERROR : LogLevel::INFO);
-        $logger = $this->container->get('monolog.logger.contao');
-
-        $logger->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
+        $this->utils->container()->log($text, $function, $category);
     }
 
     /**
      * Returns the project root path.
      *
      * @return mixed
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use KernelInterface::getProjectDir or kernel.project_dir parameter
      */
     public function getProjectDir()
     {
@@ -127,6 +163,10 @@ class ContainerUtil
      * Returns the web folder path.
      *
      * @return mixed
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use contao.web_dir parameter
      */
     public function getWebDir()
     {
@@ -140,10 +180,20 @@ class ContainerUtil
      * @param string $bundleClass The bundle class class constant (VendorMyBundle::class)
      *
      * @return bool|string False on error
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function getBundlePath(string $bundleClass)
     {
-        return $this->getBundleResourcePath($bundleClass, '', true);
+        $result = $this->utils->container()->getBundlePath($bundleClass);
+
+        if (null === $result) {
+            return false;
+        }
+
+        return $result;
     }
 
     /**
@@ -155,23 +205,20 @@ class ContainerUtil
      * @param bool   $first         Returns only first occurrence if multiple paths found
      *
      * @return bool|string|array False on error
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
      */
     public function getBundleResourcePath(string $bundleClass, string $ressourcePath = '', $first = false)
     {
-        try {
-            $className = (new \ReflectionClass($bundleClass))->getShortName();
-        } catch (\ReflectionException $e) {
-            return false;
-        }
-        $path = '@'.$className;
-        $ressourcePath = ltrim($ressourcePath, '/');
-        $path .= (empty($ressourcePath) ? '' : '/'.$ressourcePath);
+        $result = $this->utils->container()->getBundleResourcePath($bundleClass, $ressourcePath, $first);
 
-        try {
-            return $this->fileLocator->locate($path, null, $first);
-        } catch (\Exception $e) {
+        if (null === $result) {
             return false;
         }
+
+        return $result;
     }
 
     /**
@@ -179,6 +226,10 @@ class ContainerUtil
      * Must be static, because on Plugin::getExtensionConfig() no contao.framework nor service huh.utils.container is available.
      *
      * @return array
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use ConfigPluginInterface with class_exist instead
      */
     public static function mergeConfigFile(
         string $activeExtensionName,
@@ -195,13 +246,27 @@ class ContainerUtil
         return $extensionConfigs;
     }
 
+    /**
+     * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function isMaintenanceModeActive()
     {
-        return $this->container->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
+        return $this->utils->container()->isMaintenanceModeActive();
     }
 
+    /**
+     * @return bool
+     *
+     * @codeCoverageIgnore
+     *
+     * @deprecated Use utils service instead
+     */
     public function isPreviewMode()
     {
-        return \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && \Input::cookie('FE_PREVIEW');
+        return $this->utils->container()->isPreviewMode();
     }
 }

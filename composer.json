@@ -5,14 +5,20 @@
   "license": "LGPL-3.0-or-later",
   "require": {
     "ext-simplexml": "*",
-    "php": "^7.1|^8.0",
+    "php": "^7.2|^8.0",
+    "ausi/slug-generator": "^1.1",
     "contao/core-bundle": "^4.4",
     "hackzilla/password-generator": "^1.4",
     "heimrichhannot/contao-request-bundle": "^1.0",
-    "tijsverkoyen/css-to-inline-styles": "^2.2",
+    "psr/log": "^1.0",
     "soundasleep/html2text": "^1.1",
-    "ausi/slug-generator": "^1.1",
-    "symfony/config": "^3.4|^4.4"
+    "symfony/config": "^3.4|^4.4",
+    "symfony/http-foundation": "^3.4|^4.4",
+    "symfony/http-kernel": "^3.4|^4.4",
+    "symfony/monolog-bridge": "^3.4|^4.4",
+    "tijsverkoyen/css-to-inline-styles": "^2.2",
+    "symfony/string": "^5.2",
+    "ext-dom": "*"
   },
   "require-dev": {
     "contao/core-bundle": "4.4.*",
@@ -22,7 +28,6 @@
     "phpunit/phpunit": "^6.0",
     "php-http/guzzle6-adapter": "^1.1",
     "php-http/message-factory": "^1.0.2",
-    "php-coveralls/php-coveralls": "^2.0",
     "symfony/phpunit-bridge": "^3.2"
   },
   "conflict": {
