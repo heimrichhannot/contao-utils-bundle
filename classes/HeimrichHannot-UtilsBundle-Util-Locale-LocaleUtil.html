@@ -75,32 +75,117 @@
                     <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot.html">HeimrichHannot</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle.html">UtilsBundle</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle-util.html">Util</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle-util-locale.html">Locale</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -namespace">
-        <h2 class="phpdocumentor-content__title">String</h2>
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    LocaleUtil
+
+    
+    
+    
+    </h2>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Locale/LocaleUtil.php"><a href="files/src-util-locale-localeutil.html"><abbr title="src/Util/Locale/LocaleUtil.php">LocaleUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">11</span>
+</aside>
 
         
 
-<h3 id="interfaces_class_traits">
-    Interfaces, Classes and Traits
-    <a href="#interfaces_class_traits" class="headerlink"><i class="fas fa-link"></i></a>
+
+
+
+
+
+
+
+<h3 id="toc">
+    Table of Contents
+    <a href="#toc" class="headerlink"><i class="fas fa-link"></i></a>
 </h3>
 
 <dl class="phpdocumentor-table-of-contents">
-    
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/HeimrichHannot-UtilsBundle-String-AnonymizerUtil.html"><abbr title="\HeimrichHannot\UtilsBundle\String\AnonymizerUtil">AnonymizerUtil</abbr></a></dt>
-        <dd>Class AnonymizerUtil.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/HeimrichHannot-UtilsBundle-String-StringUtil.html"><abbr title="\HeimrichHannot\UtilsBundle\String\StringUtil">StringUtil</abbr></a></dt>
-        <dd>Class StringUtil.</dd>
-    
-    </dl>
+                    <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-Locale-LocaleUtil.html#method_ensureLineBreaks">ensureLineBreaks()</a>
+    <span>
+                        &nbsp;: string    </span>
+</dt>
+<dd>Ensure language specific line breaks.</dd>
+
+        </dl>
 
 
 
         
 
         
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/HeimrichHannot-UtilsBundle-Util-Locale-LocaleUtil.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_ensureLineBreaks">
+        ensureLineBreaks()
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-Locale-LocaleUtil.html#method_ensureLineBreaks" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Locale/LocaleUtil.php"><a href="files/src-util-locale-localeutil.html"><abbr title="src/Util/Locale/LocaleUtil.php">LocaleUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">19</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Ensure language specific line breaks.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">ensureLineBreaks</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$buffer</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;en&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Supported languages:</p>
+<ul>
+<li>czech: Replace line break after a one-character word with non-breaking space (html code ( ))</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$buffer</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$language</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;en&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+            </section>
+
     </article>
                 <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
     <section class="phpdocumentor-search-results__dialog">
@@ -115,7 +200,7 @@
 </section>
             </div>
         </div>
-        <a href="namespaces/heimrichhannot-utilsbundle-string.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-Locale-LocaleUtil.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

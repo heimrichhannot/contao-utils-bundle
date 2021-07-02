@@ -90,7 +90,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Image/ImageUtil.php"><a href="files/src-image-imageutil.html"><abbr title="src/Image/ImageUtil.php">ImageUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 </aside>
 
         
@@ -143,6 +143,13 @@
 </dt>
 <dd>Convert sizes like 2em, 10cm or 12pt to pixels.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/HeimrichHannot-UtilsBundle-Image-ImageUtil.html#method_prepareImage">prepareImage()</a>
+    <span>
+                        &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Prepares one image for a typical Contao template.</dd>
+
         </dl>
 
 
@@ -171,7 +178,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Image/ImageUtil.php"><a href="files/src-image-imageutil.html"><abbr title="src/Image/ImageUtil.php">ImageUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 </aside>
 
     
@@ -202,7 +209,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Image/ImageUtil.php"><a href="files/src-image-imageutil.html"><abbr title="src/Image/ImageUtil.php">ImageUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 </aside>
 
     
@@ -237,7 +244,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Image/ImageUtil.php"><a href="files/src-image-imageutil.html"><abbr title="src/Image/ImageUtil.php">ImageUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 </aside>
 
     
@@ -279,7 +286,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Image/ImageUtil.php"><a href="files/src-image-imageutil.html"><abbr title="src/Image/ImageUtil.php">ImageUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">56</span>
+    <span class="phpdocumentor-element-found-in__line">57</span>
 </aside>
 
         <p class="phpdocumentor-summary">Add an image to a template.</p>
@@ -390,7 +397,7 @@ with custom imageField and imageSelectorField and array instead of FrontendTempl
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Image/ImageUtil.php"><a href="files/src-image-imageutil.html"><abbr title="src/Image/ImageUtil.php">ImageUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">306</span>
+    <span class="phpdocumentor-element-found-in__line">307</span>
 </aside>
 
         <p class="phpdocumentor-summary">Convert sizes like 2em, 10cm or 12pt to pixels.</p>
@@ -421,6 +428,68 @@ with custom imageField and imageSelectorField and array instead of FrontendTempl
             &mdash;
             <section class="phpdocumentor-description"><p>The pixel value</p>
 </section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_prepareImage">
+        prepareImage()
+        <a href="classes/HeimrichHannot-UtilsBundle-Image-ImageUtil.html#method_prepareImage" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Image/ImageUtil.php"><a href="files/src-image-imageutil.html"><abbr title="src/Image/ImageUtil.php">ImageUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">378</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Prepares one image for a typical Contao template.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">prepareImage</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+        <section class="phpdocumentor-description"><p>Possible option keys:</p>
+<ul>
+<li>imageField: (string) The name of the field containers the image uuid. Default: singleSRC</li>
+<li>imageSelectorField: (?string) The name of the field that indicated if an images is added. Set to null to skip check. Default: addImage</li>
+<li>maxWidth: (int) An optional maximum width of the image. Passed directly to Controller::addImageToTemplate()</li>
+<li>lightboxId: (string) An optional lightbox ID. Passed directly to Controller::addImageToTemplate()</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>the model/module/element data</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Additional options</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
 
     
 </article>

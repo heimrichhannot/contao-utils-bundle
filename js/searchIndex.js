@@ -591,10 +591,15 @@ Search.appendIndex(
             "summary": "Calls\u0020an\u0020object\u0027s\u0020method\u0020which\u0020is\u0020inaccessible.",
             "url": "classes/HeimrichHannot-UtilsBundle-Classes-ClassUtil.html#method_callInaccessibleMethod"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Classes\\ClassUtil\u003A\u003A\u0024container",
-            "name": "container",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Classes\\ClassUtil\u003A\u003A\u0024arrayUtil",
+            "name": "arrayUtil",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Classes-ClassUtil.html#property_container"
+            "url": "classes/HeimrichHannot-UtilsBundle-Classes-ClassUtil.html#property_arrayUtil"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Classes\\ClassUtil\u003A\u003A\u0024stringUtil",
+            "name": "stringUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Classes-ClassUtil.html#property_stringUtil"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand",
             "name": "CreateImageSizeCommand",
@@ -738,7 +743,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Container\\ContainerUtil",
             "name": "ContainerUtil",
-            "summary": "",
+            "summary": "Class\u0020ContainerUtil.",
             "url": "classes/HeimrichHannot-UtilsBundle-Container-ContainerUtil.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Container\\ContainerUtil\u003A\u003A__construct\u0028\u0029",
@@ -826,25 +831,15 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Container-ContainerUtil.html#method_isPreviewMode"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Container\\ContainerUtil\u003A\u003A\u0024framework",
-            "name": "framework",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Container-ContainerUtil.html#property_framework"
-        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Container\\ContainerUtil\u003A\u003A\u0024container",
             "name": "container",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Container-ContainerUtil.html#property_container"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Container\\ContainerUtil\u003A\u003A\u0024fileLocator",
-            "name": "fileLocator",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Container\\ContainerUtil\u003A\u003A\u0024utils",
+            "name": "utils",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Container-ContainerUtil.html#property_fileLocator"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Container\\ContainerUtil\u003A\u003A\u0024scopeMatcher",
-            "name": "scopeMatcher",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Container-ContainerUtil.html#property_scopeMatcher"
+            "url": "classes/HeimrichHannot-UtilsBundle-Container-ContainerUtil.html#property_utils"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin",
             "name": "Plugin",
@@ -1391,6 +1386,16 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020set\u0020of\u0020pid\u0020and\u0020sorting\u0020to\u0020be\u0020used\u0020in\u0020an\u0020sql\u0020update\u0020statement.\u0020Also\u0020updates\u0020the\u0020existing\u0020records\u0020according\u0020to\u0020the\u0020usage.",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getNewSortingPosition"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003AgetCurrentPaletteName\u0028\u0029",
+            "name": "getCurrentPaletteName",
+            "summary": "Taken\u0020from\u0020\\Contao\\DataContainer.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getCurrentPaletteName"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003Acombiner\u0028\u0029",
+            "name": "combiner",
+            "summary": "Taken\u0020from\u0020\\Contao\\DataContainer.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_combiner"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003APROPERTY_SESSION_ID",
             "name": "PROPERTY_SESSION_ID",
             "summary": "",
@@ -1480,6 +1485,81 @@ Search.appendIndex(
             "name": "prepend",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-DependencyInjection-UtilsBundleExtension.html#method_prepend"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator",
+            "name": "DOMLettersIterator",
+            "summary": "Iterates\u0020individual\u0020characters\u0020\u0028Unicode\u0020codepoints\u0029\u0020of\u0020DOM\u0020text\u0020and\u0020CDATA\u0020nodes\nwhile\u0020keeping\u0020track\u0020of\u0020their\u0020position\u0020in\u0020the\u0020document.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "expects\u0020DOMElement\u0020or\u0020DOMDocument\u0020\u0028see\u0020DOMDocument\u003A\u003Aload\u0020and\u0020DOMDocument\u003A\u003AloadHTML\u0029.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003AcurrentTextPosition\u0028\u0029",
+            "name": "currentTextPosition",
+            "summary": "Returns\u0020position\u0020in\u0020text\u0020as\u0020DOMText\u0020node\u0020and\u0020character\u0020offset.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method_currentTextPosition"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003AcurrentElement\u0028\u0029",
+            "name": "currentElement",
+            "summary": "Returns\u0020DOMElement\u0020that\u0020is\u0020currently\u0020being\u0020iterated\u0020or\u0020NULL\u0020if\u0020iterator\u0020has\u0020finished.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method_currentElement"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003A\u0024key",
+            "name": "key",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#property_key"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003Anext\u0028\u0029",
+            "name": "next",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method_next"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003A\u0024current",
+            "name": "current",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#property_current"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003Avalid\u0028\u0029",
+            "name": "valid",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method_valid"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003Arewind\u0028\u0029",
+            "name": "rewind",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method_rewind"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003AisTextNode\u0028\u0029",
+            "name": "isTextNode",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method_isTextNode"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003AaddToQueue\u0028\u0029",
+            "name": "addToQueue",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#method_addToQueue"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003A\u0024start",
+            "name": "start",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#property_start"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003A\u0024offset",
+            "name": "offset",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#property_offset"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003A\u0024letters",
+            "name": "letters",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#property_letters"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom\\DOMLettersIterator\u003A\u003A\u0024queue",
+            "name": "queue",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dom-DOMLettersIterator.html#property_queue"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Driver\\DC_Table_Utils",
             "name": "DC_Table_Utils",
@@ -2106,6 +2186,11 @@ Search.appendIndex(
             "summary": "Convert\u0020sizes\u0020like\u00202em,\u002010cm\u0020or\u002012pt\u0020to\u0020pixels.",
             "url": "classes/HeimrichHannot-UtilsBundle-Image-ImageUtil.html#method_getPixelValue"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Image\\ImageUtil\u003A\u003AprepareImage\u0028\u0029",
+            "name": "prepareImage",
+            "summary": "Prepares\u0020one\u0020image\u0020for\u0020a\u0020typical\u0020Contao\u0020template.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Image-ImageUtil.html#method_prepareImage"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Image\\ImageUtil\u003A\u003A\u0024framework",
             "name": "framework",
             "summary": "",
@@ -2346,15 +2431,35 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#method_addPublishedCheckToModelArrays"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Model\\ModelUtil\u003A\u003A\u0024dcaUtil",
+            "name": "dcaUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#property_dcaUtil"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Model\\ModelUtil\u003A\u003A\u0024framework",
             "name": "framework",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#property_framework"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Model\\ModelUtil\u003A\u003A\u0024container",
-            "name": "container",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Model\\ModelUtil\u003A\u003A\u0024session",
+            "name": "session",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#property_container"
+            "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#property_session"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Model\\ModelUtil\u003A\u003A\u0024requestStack",
+            "name": "requestStack",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#property_requestStack"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Model\\ModelUtil\u003A\u003A\u0024formUtil",
+            "name": "formUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#property_formUtil"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Model\\ModelUtil\u003A\u003A\u0024kernelBundles",
+            "name": "kernelBundles",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Model-ModelUtil.html#property_kernelBundles"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Module\\ModuleUtil",
             "name": "ModuleUtil",
@@ -3483,7 +3588,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\String\\StringUtil",
             "name": "StringUtil",
-            "summary": "",
+            "summary": "Class\u0020StringUtil.",
             "url": "classes/HeimrichHannot-UtilsBundle-String-StringUtil.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\String\\StringUtil\u003A\u003A__construct\u0028\u0029",
@@ -3630,6 +3735,11 @@ Search.appendIndex(
             "name": "framework",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-String-StringUtil.html#property_framework"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\String\\StringUtil\u003A\u003A\u0024utils",
+            "name": "utils",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-String-StringUtil.html#property_utils"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Template\\TemplateUtil",
             "name": "TemplateUtil",
@@ -4116,6 +4226,261 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-User-UserUtil.html#property_modelUtil"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil",
+            "name": "ContainerUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisBundleActive\u0028\u0029",
+            "name": "isBundleActive",
+            "summary": "Checks\u0020if\u0020some\u0020bundle\u0020is\u0020active.\u0020Pass\u0020in\u0020the\u0020class\u0020name\u0020\u0028e.g.\u0020\u0027HeimrichHannot\\FilterBundle\\HeimrichHannotContaoFilterBundle\u0027\u0020or\u0020the\u0020legacy\u0020Contao\u00203\u0020name\u0020like\u0020\u0027news\u0027\u0029.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isBundleActive"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisBackend\u0028\u0029",
+            "name": "isBackend",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isBackend"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisFrontend\u0028\u0029",
+            "name": "isFrontend",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isFrontend"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisFrontendCron\u0028\u0029",
+            "name": "isFrontendCron",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isFrontendCron"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisInstall\u0028\u0029",
+            "name": "isInstall",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isInstall"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisDev\u0028\u0029",
+            "name": "isDev",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isDev"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003Alog\u0028\u0029",
+            "name": "log",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_log"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AgetBundlePath\u0028\u0029",
+            "name": "getBundlePath",
+            "summary": "Returns\u0020the\u0020path\u0020to\u0020the\u0020bundle\u0020in\u0020vendor\u0020folder\nAttention\u003A\u0020resolves\u0020symlinks\u0021",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_getBundlePath"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AgetBundleResourcePath\u0028\u0029",
+            "name": "getBundleResourcePath",
+            "summary": "Returns\u0020the\u0020path\u0020or\u0020paths\u0020to\u0020a\u0020ressource\u0020within\u0020a\u0020bundle\nAttention\u003A\u0020resolves\u0020symlinks\u0021",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_getBundleResourcePath"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisMaintenanceModeActive\u0028\u0029",
+            "name": "isMaintenanceModeActive",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isMaintenanceModeActive"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisPreviewMode\u0028\u0029",
+            "name": "isPreviewMode",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isPreviewMode"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AgetSubscribedServices\u0028\u0029",
+            "name": "getSubscribedServices",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_getSubscribedServices"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024framework",
+            "name": "framework",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_framework"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024kernelBundles",
+            "name": "kernelBundles",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_kernelBundles"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024requestStack",
+            "name": "requestStack",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_requestStack"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024kernel",
+            "name": "kernel",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_kernel"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024locator",
+            "name": "locator",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_locator"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024scopeMatcher",
+            "name": "scopeMatcher",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_scopeMatcher"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil",
+            "name": "LocaleUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Locale-LocaleUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil\u003A\u003AensureLineBreaks\u0028\u0029",
+            "name": "ensureLineBreaks",
+            "summary": "Ensure\u0020language\u0020specific\u0020line\u0020breaks.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Locale-LocaleUtil.html#method_ensureLineBreaks"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil",
+            "name": "StringUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AstartsWith\u0028\u0029",
+            "name": "startsWith",
+            "summary": "Check\u0020for\u0020the\u0020occurrence\u0020at\u0020the\u0020start\u0020of\u0020the\u0020string.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_startsWith"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AendsWith\u0028\u0029",
+            "name": "endsWith",
+            "summary": "Check\u0020for\u0020the\u0020occurrence\u0020at\u0020the\u0020end\u0020of\u0020the\u0020string.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_endsWith"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AcamelCaseToDashed\u0028\u0029",
+            "name": "camelCaseToDashed",
+            "summary": "Convert\u0020a\u0020camel\u0020case\u0020string\u0020to\u0020a\u0020dashed\u0020string.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_camelCaseToDashed"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AcamelCaseToSnake\u0028\u0029",
+            "name": "camelCaseToSnake",
+            "summary": "Convert\u0020a\u0020camel\u0020case\u0020string\u0020to\u0020a\u0020snake\u0020cased\u0020string.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_camelCaseToSnake"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ArandomChar\u0028\u0029",
+            "name": "randomChar",
+            "summary": "Return\u0020a\u0020random\u0020char.\u0020Can\u0020be\u0020a\u0020letter\u0020or\u0020a\u0020number.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_randomChar"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ArandomLetter\u0028\u0029",
+            "name": "randomLetter",
+            "summary": "Return\u0020a\u0020random\u0020letter\u0020char.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_randomLetter"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ArandomNumber\u0028\u0029",
+            "name": "randomNumber",
+            "summary": "Return\u0020a\u0020random\u0020number\u0020char.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_randomNumber"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003Arandom\u0028\u0029",
+            "name": "random",
+            "summary": "Return\u0020a\u0020random\u0020char\u0020of\u0020a\u0020given\u0020string.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_random"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AtruncateHtml\u0028\u0029",
+            "name": "truncateHtml",
+            "summary": "Truncates\u0020the\u0020text\u0020of\u0020a\u0020html\u0020string.\u0020By\u0020default,\u0020the\u0020last\u0020word\u0020is\u0020kept\u0020complete.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_truncateHtml"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ApregReplaceLast\u0028\u0029",
+            "name": "pregReplaceLast",
+            "summary": "Replace\u0020the\u0020last\u0020match\u0020of\u0020string\u0020with\u0020preg_replace.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_pregReplaceLast"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AconvertXmlToArray\u0028\u0029",
+            "name": "convertXmlToArray",
+            "summary": "Convert\u0020an\u0020xml\u0020string\u0020to\u0020array.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_convertXmlToArray"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AremoveLeadingString\u0028\u0029",
+            "name": "removeLeadingString",
+            "summary": "Remove\u0020a\u0020string\u0020from\u0020the\u0020beginning\u0020of\u0020\u0024subject.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_removeLeadingString"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AremoveTrailingString\u0028\u0029",
+            "name": "removeTrailingString",
+            "summary": "Remove\u0020a\u0020string\u0020from\u0020the\u0020end\u0020of\u0020\u0024subject.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_removeTrailingString"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ACAPITAL_LETTERS",
+            "name": "CAPITAL_LETTERS",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_CAPITAL_LETTERS"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ACAPITAL_LETTERS_NONAMBIGUOUS",
+            "name": "CAPITAL_LETTERS_NONAMBIGUOUS",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_CAPITAL_LETTERS_NONAMBIGUOUS"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ASMALL_LETTERS",
+            "name": "SMALL_LETTERS",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_SMALL_LETTERS"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ASMALL_LETTERS_NONAMBIGUOUS",
+            "name": "SMALL_LETTERS_NONAMBIGUOUS",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_SMALL_LETTERS_NONAMBIGUOUS"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ANUMBERS",
+            "name": "NUMBERS",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_NUMBERS"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ANUMBERS_NONAMBIGUOUS",
+            "name": "NUMBERS_NONAMBIGUOUS",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_NUMBERS_NONAMBIGUOUS"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003A\u0024framework",
+            "name": "framework",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#property_framework"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils",
+            "name": "Utils",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Utils\u0020constructor.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003AgetSubscribedServices\u0028\u0029",
+            "name": "getSubscribedServices",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_getSubscribedServices"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Acontainer\u0028\u0029",
+            "name": "container",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_container"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Alocale\u0028\u0029",
+            "name": "locale",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_locale"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Astring\u0028\u0029",
+            "name": "string",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_string"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003A\u0024locator",
+            "name": "locator",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#property_locator"
+        },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",
@@ -4190,6 +4555,11 @@ Search.appendIndex(
             "name": "DependencyInjection",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-dependencyinjection.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dom",
+            "name": "Dom",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-dom.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Driver",
             "name": "Driver",
@@ -4340,5 +4710,25 @@ Search.appendIndex(
             "name": "User",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-user.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container",
+            "name": "Container",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-container.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale",
+            "name": "Locale",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-locale.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String",
+            "name": "String",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-string.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util",
+            "name": "Util",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util.html"
         }            ]
 );

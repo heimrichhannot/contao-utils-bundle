@@ -285,6 +285,13 @@ palette where every field can be overridden.</dd>
 <dd>Retrieves an array from a dca config (in most cases eval) in the following priorities:.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getCurrentPaletteName">getCurrentPaletteName()</a>
+    <span>
+                        &nbsp;: string|null    </span>
+</dt>
+<dd>Taken from \Contao\DataContainer.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getDataContainers">getDataContainers()</a>
     <span>
                         &nbsp;: array&lt;string|int, mixed&gt;    </span>
@@ -452,6 +459,13 @@ will have the highest priority.</dd>
                         &nbsp;: mixed    </span>
 </dt>
 <dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_combiner">combiner()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Taken from \Contao\DataContainer.</dd>
 
         </dl>
 
@@ -828,7 +842,7 @@ will have the highest priority.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">911</span>
+    <span class="phpdocumentor-element-found-in__line">914</span>
 </aside>
 
     
@@ -884,7 +898,7 @@ will have the highest priority.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">931</span>
+    <span class="phpdocumentor-element-found-in__line">934</span>
 </aside>
 
         <p class="phpdocumentor-summary">Adds an alias field to the dca and to the desired palettes.</p>
@@ -956,7 +970,7 @@ will have the highest priority.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">740</span>
+    <span class="phpdocumentor-element-found-in__line">743</span>
 </aside>
 
     
@@ -1077,7 +1091,7 @@ will have the highest priority.</dd>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">aliasExist</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+                <span class="phpdocumentor-signature__name">aliasExist</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1101,6 +1115,13 @@ will have the highest priority.</dd>
                 <span class="phpdocumentor-signature__argument__name">$table</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -1143,7 +1164,7 @@ will have the highest priority.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1026</span>
+    <span class="phpdocumentor-element-found-in__line">1029</span>
 </aside>
 
     
@@ -1276,14 +1297,14 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">678</span>
+    <span class="phpdocumentor-element-found-in__line">680</span>
 </aside>
 
         <p class="phpdocumentor-summary">Generate an alias with unique check.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">generateAlias</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$title</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$keepUmlauts</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                <span class="phpdocumentor-signature__name">generateAlias</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$title</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$keepUmlauts</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1334,6 +1355,13 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
 </section>
 
             </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
             </dl>
 
     
@@ -1373,7 +1401,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1009</span>
+    <span class="phpdocumentor-element-found-in__line">1012</span>
 </aside>
 
     
@@ -1436,7 +1464,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1088</span>
+    <span class="phpdocumentor-element-found-in__line">1091</span>
 </aside>
 
     
@@ -1566,7 +1594,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1108</span>
+    <span class="phpdocumentor-element-found-in__line">1111</span>
 </aside>
 
     
@@ -1608,7 +1636,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1117</span>
+    <span class="phpdocumentor-element-found-in__line">1120</span>
 </aside>
 
     
@@ -1708,6 +1736,57 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getCurrentPaletteName">
+        getCurrentPaletteName()
+        <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getCurrentPaletteName" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1580</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Taken from \Contao\DataContainer.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getCurrentPaletteName</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|null</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$table</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$id</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string|null</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getDataContainers">
         getDataContainers()
         <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getDataContainers" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1715,7 +1794,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">851</span>
+    <span class="phpdocumentor-element-found-in__line">854</span>
 </aside>
 
         <p class="phpdocumentor-summary">Returns (nearly) all registered datacontainers as array.</p>
@@ -1763,7 +1842,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1099</span>
+    <span class="phpdocumentor-element-found-in__line">1102</span>
 </aside>
 
         <p class="phpdocumentor-summary">Mostly used for Form::prepareSpecialValueForOutput().</p>
@@ -1880,7 +1959,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1376</span>
+    <span class="phpdocumentor-element-found-in__line">1384</span>
 </aside>
 
     
@@ -1987,7 +2066,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">960</span>
+    <span class="phpdocumentor-element-found-in__line">963</span>
 </aside>
 
     
@@ -2137,7 +2216,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">879</span>
+    <span class="phpdocumentor-element-found-in__line">882</span>
 </aside>
 
     
@@ -2181,7 +2260,7 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1415</span>
+    <span class="phpdocumentor-element-found-in__line">1421</span>
 </aside>
 
         <p class="phpdocumentor-summary">Returns the set of pid and sorting to be used in an sql update statement. Also updates the existing records according to the usage.</p>
@@ -2241,12 +2320,12 @@ Use $this-&gt;getOverridableProperty() for computing the correct value respectin
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
                                                  <section class="phpdocumentor-description"><p>insert a new record after another one with the ID 82</p>
-<p>$news = new \Contao\NewsModel();</p>
-<p>$news-&gt;pid = 3;
+<p>$news = new \Contao\NewsModel();
+$news-&gt;pid = 3;
 $news-&gt;tstamp = time();
 $news-&gt;title = 'Something';
-$news-&gt;save();</p>
-<p>$set = System::getContainer()-&gt;get('huh.utils.dca')-&gt;getNewSortingPosition(
+$news-&gt;save();
+$set = System::getContainer()-&gt;get('huh.utils.dca')-&gt;getNewSortingPosition(
 'tl_news', $news-&gt;id, 3, 82
 );</p>
 <p>// store the returned set to the news record created above as usual</p>
@@ -2399,7 +2478,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1195</span>
+    <span class="phpdocumentor-element-found-in__line">1203</span>
 </aside>
 
     
@@ -2462,7 +2541,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1174</span>
+    <span class="phpdocumentor-element-found-in__line">1182</span>
 </aside>
 
     
@@ -2504,7 +2583,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">992</span>
+    <span class="phpdocumentor-element-found-in__line">995</span>
 </aside>
 
     
@@ -2546,7 +2625,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1003</span>
+    <span class="phpdocumentor-element-found-in__line">1006</span>
 </aside>
 
     
@@ -2578,7 +2657,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">971</span>
+    <span class="phpdocumentor-element-found-in__line">974</span>
 </aside>
 
         <p class="phpdocumentor-summary">Load a data container in a testable way.</p>
@@ -2622,7 +2701,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">984</span>
+    <span class="phpdocumentor-element-found-in__line">987</span>
 </aside>
 
         <p class="phpdocumentor-summary">Load a language file in a testable way.</p>
@@ -2666,7 +2745,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">812</span>
+    <span class="phpdocumentor-element-found-in__line">815</span>
 </aside>
 
     
@@ -2708,7 +2787,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1313</span>
+    <span class="phpdocumentor-element-found-in__line">1321</span>
 </aside>
 
     
@@ -2764,7 +2843,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">787</span>
+    <span class="phpdocumentor-element-found-in__line">790</span>
 </aside>
 
     
@@ -2986,7 +3065,7 @@ in the instance.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">1126</span>
+    <span class="phpdocumentor-element-found-in__line">1129</span>
 </aside>
 
     
@@ -3008,6 +3087,50 @@ in the instance.</p>
                 <span class="phpdocumentor-signature__argument__name">$config</span>
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                  = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+            <section class="phpdocumentor-description"></section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_combiner">
+        combiner()
+        <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_combiner" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/DcaUtil.php"><a href="files/src-dca-dcautil.html"><abbr title="src/Dca/DcaUtil.php">DcaUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">1656</span>
+</aside>
+
+        <p class="phpdocumentor-summary">Taken from \Contao\DataContainer.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                <span class="phpdocumentor-signature__name">combiner</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$names</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$names</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
