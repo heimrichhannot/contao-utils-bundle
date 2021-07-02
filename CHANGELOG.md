@@ -7,7 +7,6 @@ All notable changes to this project will be documented in this file.
 - Add utils service and migrate services to Util namespace ([#24])
 - refactored ClassUtil and ModelUtil to use dependency injection
 - updates some test and skipped some tests to make github action working
-- allow symfony 5
 
 ## [2.195.1] - 2021-06-29
 
