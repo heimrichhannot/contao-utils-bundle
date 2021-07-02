@@ -54,7 +54,7 @@ jobs:
         run: composer install --no-interaction
 
       - name: Generate the coverage report
-        run: php vendor/bin/phpunit -c phpunit-utils-folder.xml.dist --coverage-clover build/logs/clover.xml
+        run: php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml
 
       - name: Coveralls
         env:
