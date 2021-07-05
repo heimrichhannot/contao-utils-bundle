@@ -474,8 +474,16 @@ class ModelUtil
      */
     public function findModulePages(ModuleModel $module, $collection = false, $useCache = true)
     {
-        $cache = new FilesystemCache();
-        $modulePagesCache = $cache->get('huh.utils.model.modulepages');
+        // temporary fix for symfony 5
+        if (!class_exists('Symfony\Component\Cache\Simple\FilesystemCache')) {
+            $useCache = false;
+        }
+
+        if ($useCache) {
+            $cache = new FilesystemCache();
+            $modulePagesCache = $cache->get('huh.utils.model.modulepages');
+        }
+
         $pageIds = [];
         $cacheHit = false;
 
@@ -511,8 +519,11 @@ class ModelUtil
                     $pageIds = array_unique(array_merge($pageIds, $result->fetchEach('id')));
                 }
             }
-            $modulePagesCache[$module->id] = $pageIds;
-            $cache->set('huh.utils.model.modulepages', $modulePagesCache);
+
+            if ($useCache) {
+                $modulePagesCache[$module->id] = $pageIds;
+                $cache->set('huh.utils.model.modulepages', $modulePagesCache);
+            }
         }
 
         if ($collection) {
