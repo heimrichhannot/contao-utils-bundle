@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.196.1] - 2021-07-05
+- fixed install issue with symfony 5
+
 ## [2.196.0] - 2021-07-01
 
 - Add utils service and migrate services to Util namespace ([#24])
