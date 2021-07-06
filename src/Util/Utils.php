@@ -10,6 +10,10 @@ namespace HeimrichHannot\UtilsBundle\Util;
 
 use HeimrichHannot\UtilsBundle\Traits\UtilsTrait;
 
+/*
+ * @codeCoverageIgnore
+ */
+
 if (interface_exists('Symfony\Contracts\Service\ServiceSubscriberInterface')) {
     class Utils implements \Symfony\Contracts\Service\ServiceSubscriberInterface
     {

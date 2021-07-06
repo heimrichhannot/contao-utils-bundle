@@ -8,10 +8,24 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\Model;
 
+use Contao\Controller;
+use Contao\CoreBundle\ContaoFrameworkInterface;
 use Contao\Date;
+use Contao\Model;
+use Contao\Model\Collection;
 
 class ModelUtil
 {
+    /**
+     * @var ContaoFrameworkInterface
+     */
+    protected $framework;
+
+    public function __construct(ContaoFrameworkInterface $contaoFramework)
+    {
+        $this->framework = $contaoFramework;
+    }
+
     /**
      * Adds an published check to your model query.
      *
@@ -46,5 +60,46 @@ class ModelUtil
 
             $columns[] = "($t.".$options['startField'].($options['invertStartStopFields'] ? '!=' : '=')."'' OR $t.".$options['startField'].($options['invertStartStopFields'] ? '>' : '<=')."'$time') AND ($t.".$options['stopField'].($options['invertStartStopFields'] ? '!=' : '=')."'' OR $t.".$options['stopField'].($options['invertStartStopFields'] ? '<=' : '>')."'".($time + 60)."') AND $t.".$options['publishedField'].($options['invertPublishedField'] ? '!=' : '=')."'1'";
         }
+    }
+
+    /**
+     * Returns model instances by given table and search criteria.
+     *
+     * Options:
+     * - skipReplaceInsertTags: (bool) Skip the replacement of inserttags. Default: false
+     *
+     * @param mixed $columns
+     * @param mixed $values
+     *
+     * @return Model[]|Collection|null
+     */
+    public function findModelInstancesBy(string $table, $columns, $values, array $options = [])
+    {
+        $defaults = [
+            'skipReplaceInsertTags' => false,
+        ];
+        $options = array_merge($defaults, $options);
+
+        /** @var string|null $modelClass */
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        /* @var Model $adapter */
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+//        $this->fixTablePrefixForDcMultilingual($table, $columns, $options);
+
+        if (\is_array($values) && true !== $options['skipReplaceInsertTags']) {
+            $values = array_map([$this->framework->getAdapter(Controller::class), 'replaceInsertTags'], $values);
+        }
+
+        if (empty($columns)) {
+            $columns = null;
+        }
+
+        return $adapter->findBy($columns, $values, $options);
     }
 }

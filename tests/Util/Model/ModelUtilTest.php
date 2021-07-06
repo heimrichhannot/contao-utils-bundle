@@ -8,6 +8,9 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Model;
 
+use Contao\ContentModel;
+use Contao\Controller;
+use Contao\Model;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
@@ -16,7 +19,9 @@ class ModelUtilTest extends AbstractUtilsTestCase
 {
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
-        return new ModelUtil();
+        $contaoFramework = $parameters['framework'] ?? $this->mockContaoFramework();
+
+        return new ModelUtil($contaoFramework);
     }
 
     /**
@@ -65,5 +70,22 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $columns = [];
         $instance->addPublishedCheckToModelArrays('tl_test', $columns);
         $this->assertEmpty($columns);
+    }
+
+    public function testFindModelInstancesBy()
+    {
+        $framework = $this->mockContaoFramework([
+            Model::class => $this->adapterModelClass(),
+            ContentModel::class => $this->adapterContentModelClass(),
+            Controller::class => $this->adapterControllerClass(),
+        ]);
+
+        $util = $this->getTestInstance(['framework' => $framework]);
+
+        $this->assertNull($util->findModelInstancesBy('tl_null', ['id'], [5]));
+        $this->assertNull($util->findModelInstancesBy('tl_non_existing', ['id'], [5]));
+        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id'], [5])->id);
+        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['pid'], [3])->current()->id);
+        $this->assertCount(2, $util->findModelInstancesBy('tl_content', null, null));
     }
 }

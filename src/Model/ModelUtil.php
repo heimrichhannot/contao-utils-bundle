@@ -533,6 +533,10 @@ class ModelUtil
         return $pageIds;
     }
 
+    /**
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
+     */
     public function addPublishedCheckToModelArrays(string $table, string $publishedField, string $startField, string $stopField, array &$columns, array $options = [])
     {
         $t = $table;
