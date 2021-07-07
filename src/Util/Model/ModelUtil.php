@@ -9,7 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util\Model;
 
 use Contao\Controller;
-use Contao\CoreBundle\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Date;
 use Contao\Model;
 use Contao\Model\Collection;
