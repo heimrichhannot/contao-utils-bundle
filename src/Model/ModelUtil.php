@@ -81,6 +81,9 @@ class ModelUtil
      * @param mixed $pk
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstanceByPk(string $table, $pk, array $options = [])
     {

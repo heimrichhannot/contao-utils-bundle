@@ -100,4 +100,27 @@ class ModelUtil
 
         return $adapter->findBy($columns, $values, $options);
     }
+
+    /**
+     * Find a single model instance for given table by its primary key (id).
+     *
+     * @param string $table   The table
+     * @param mixed  $pk      The property value
+     * @param array  $options An optional options array
+     *
+     * @return Model|null The model or null if the result is empty
+     */
+    public function findModelInstanceByPk(string $table, $pk, array $options = []): ?Model
+    {
+        /* @var Model $adapter */
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        return $adapter->findByPk($pk, $options);
+    }
 }
