@@ -87,7 +87,7 @@ class StringUtil
      */
     public function camelCaseToDashed($value)
     {
-        return $this->utils->string()->camelCaseToSnake($value);
+        return $this->utils->string()->camelCaseToDashed($value);
     }
 
     /**

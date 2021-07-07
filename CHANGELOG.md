@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.196.2] - 2021-07-07
+- fixed bug in deprecated StringUtil::camelCaseToDashed()
+
 ## [2.196.1] - 2021-07-05
 - fixed install issue with symfony 5
 
