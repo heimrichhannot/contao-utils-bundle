@@ -67,6 +67,7 @@ trait UtilsTrait
             LocaleUtil::class,
             ModelUtil::class,
             StringUtil::class,
+            UserUtil::class,
         ];
     }
 }
