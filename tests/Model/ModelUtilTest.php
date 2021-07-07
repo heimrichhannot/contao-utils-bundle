@@ -62,17 +62,6 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $this->assertSame('alias', $util->findModelInstanceByPk('tl_content', 'alias')->alias);
     }
 
-    public function testFindModelInstancesBy()
-    {
-        $this->markTestSkipped();
-        $util = $this->getTestInstance();
-
-        $this->assertNull($util->findModelInstancesBy('tl_null', ['id'], [5]));
-        $this->assertNull($util->findModelInstancesBy('tl_null_class', ['id'], [5]));
-        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id'], [5])->id);
-        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['pid'], [3])->current()->id);
-    }
-
     public function testFindOneModelInstanceBy()
     {
         $util = $this->getTestInstance();

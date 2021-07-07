@@ -103,6 +103,9 @@ class ModelUtil
      * @param mixed $values
      *
      * @return Model[]|Collection|null
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstancesBy(string $table, $columns, $values, array $options = [])
     {

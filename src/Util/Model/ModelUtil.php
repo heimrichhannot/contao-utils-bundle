@@ -90,8 +90,6 @@ class ModelUtil
             return null;
         }
 
-//        $this->fixTablePrefixForDcMultilingual($table, $columns, $options);
-
         if (\is_array($values) && true !== $options['skipReplaceInsertTags']) {
             $values = array_map([$this->framework->getAdapter(Controller::class), 'replaceInsertTags'], $values);
         }
