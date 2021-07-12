@@ -36,7 +36,15 @@ trait PersonTrait
 
         $columns = [static::TABLE.'_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
 
-        $this->modelUtil->addPublishedCheckToModelArrays(static::TABLE.'_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
+        if ($this->modelUtil instanceof \HeimrichHannot\UtilsBundle\Util\Model\ModelUtil) {
+            /* @var \HeimrichHannot\UtilsBundle\Util\Model\ModelUtil $this->modelUtil */
+            $this->modelUtil->addPublishedCheckToModelArrays(static::TABLE.'_group', $columns, [
+                'publishedField' => 'disable',
+                'invertPublishedField' => true,
+            ]);
+        } else {
+            $this->modelUtil->addPublishedCheckToModelArrays(static::TABLE.'_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
+        }
 
         return $this->modelUtil->findModelInstancesBy(static::TABLE.'_group', $columns, []);
     }

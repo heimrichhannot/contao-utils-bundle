@@ -64,6 +64,9 @@ class ContainerUtil implements ServiceSubscriberInterface
         return \in_array($bundleName, array_merge(array_values($this->kernelBundles), array_keys($this->kernelBundles)));
     }
 
+    /**
+     * Return if currently in backend scope.
+     */
     public function isBackend(): bool
     {
         if ($request = $this->requestStack->getCurrentRequest()) {
@@ -73,6 +76,9 @@ class ContainerUtil implements ServiceSubscriberInterface
         return false;
     }
 
+    /**
+     * Return if currently in frontend scope.
+     */
     public function isFrontend(): bool
     {
         if ($request = $this->requestStack->getCurrentRequest()) {
@@ -82,11 +88,17 @@ class ContainerUtil implements ServiceSubscriberInterface
         return false;
     }
 
+    /**
+     * Return if in cron route (Attention: not cron command!).
+     */
     public function isFrontendCron(): bool
     {
         return $this->requestStack->getCurrentRequest() && 'contao_frontend_cron' === $this->requestStack->getCurrentRequest()->get('_route');
     }
 
+    /**
+     * Return if in install route (Attention: not migration!).
+     */
     public function isInstall(): bool
     {
         if ($request = $this->requestStack->getCurrentRequest()) {
@@ -96,19 +108,28 @@ class ContainerUtil implements ServiceSubscriberInterface
         return false;
     }
 
+    /**
+     * Return if in dev environment.
+     */
     public function isDev(): bool
     {
         return 'dev' === $this->kernel->getEnvironment();
     }
 
     /**
-     * @param string $category Use constants in ContaoContext
+     * Add a log entry to contao system log.
+     *
+     * @param string $text     The log message
+     * @param string $function The function name. Typically __METHOD__
+     * @param string $category The category name. Use constants in ContaoContext
      */
     public function log(string $text, string $function, string $category): void
     {
         $level = (ContaoContext::ERROR === $category ? LogLevel::ERROR : LogLevel::INFO);
 
-        $this->locator->get('monolog.logger.contao')->log($level, $text, ['contao' => new ContaoContext($function, $category)]);
+        $this->locator->get('monolog.logger.contao')->log($level, $text, [
+            'contao' => new ContaoContext($function, $category),
+        ]);
     }
 
     /**
@@ -152,11 +173,17 @@ class ContainerUtil implements ServiceSubscriberInterface
         }
     }
 
+    /**
+     * Return if currently in maintenance mode.
+     */
     public function isMaintenanceModeActive(): bool
     {
         return $this->locator->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
     }
 
+    /**
+     * Return if currently in preview mode.
+     */
     public function isPreviewMode(): bool
     {
         return \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && $this->framework->getAdapter(Input::class)->cookie('FE_PREVIEW');

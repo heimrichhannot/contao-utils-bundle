@@ -50,43 +50,6 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $this->assertInstanceOf(ModelUtil::class, $util);
     }
 
-    public function testFindModelInstanceByPk()
-    {
-        $util = $this->getTestInstance();
-
-        $this->assertNull($util->findModelInstanceByPk('tl_null', 5));
-        $this->assertNull($util->findModelInstanceByPk('tl_null_class', 5));
-        $this->assertNull($util->findModelInstanceByPk('tl_content', 4));
-        $this->assertNull($util->findModelInstanceByPk('tl_content', 'content_null'));
-        $this->assertSame(5, $util->findModelInstanceByPk('tl_content', 5)->id);
-        $this->assertSame('alias', $util->findModelInstanceByPk('tl_content', 'alias')->alias);
-    }
-
-    public function testFindModelInstancesBy()
-    {
-        $this->markTestSkipped();
-        $util = $this->getTestInstance();
-
-        $this->assertNull($util->findModelInstancesBy('tl_null', ['id'], [5]));
-        $this->assertNull($util->findModelInstancesBy('tl_null_class', ['id'], [5]));
-        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id'], [5])->id);
-        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['pid'], [3])->current()->id);
-    }
-
-    public function testFindOneModelInstanceBy()
-    {
-        $util = $this->getTestInstance();
-
-        $result = $util->findOneModelInstanceBy('tl_content', [], []);
-        $this->assertInstanceOf(ContentModel::class, $result);
-
-        $result = $util->findOneModelInstanceBy('null', [], []);
-        $this->assertNull($result);
-
-        $result = $util->findOneModelInstanceBy('tl_cfg_tag', [], []);
-        $this->assertNull($result);
-    }
-
     public function testFindRootParentRecursively()
     {
         $modelAdapter = $this->mockAdapter(

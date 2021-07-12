@@ -81,6 +81,9 @@ class ModelUtil
      * @param mixed $pk
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstanceByPk(string $table, $pk, array $options = [])
     {
@@ -103,6 +106,9 @@ class ModelUtil
      * @param mixed $values
      *
      * @return Model[]|Collection|null
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstancesBy(string $table, $columns, $values, array $options = [])
     {
@@ -132,6 +138,9 @@ class ModelUtil
      * Return a single model instance by table and search criteria.
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
@@ -533,6 +542,10 @@ class ModelUtil
         return $pageIds;
     }
 
+    /**
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
+     */
     public function addPublishedCheckToModelArrays(string $table, string $publishedField, string $startField, string $stopField, array &$columns, array $options = [])
     {
         $t = $table;

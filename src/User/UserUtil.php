@@ -15,6 +15,9 @@ use Contao\UserModel;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Traits\PersonTrait;
 
+/**
+ * Class UserUtil.
+ */
 class UserUtil
 {
     use PersonTrait;

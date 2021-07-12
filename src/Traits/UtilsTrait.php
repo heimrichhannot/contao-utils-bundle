@@ -10,7 +10,9 @@ namespace HeimrichHannot\UtilsBundle\Traits;
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
+use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -43,9 +45,19 @@ trait UtilsTrait
         return $this->locator->get(LocaleUtil::class);
     }
 
+    public function model(): ModelUtil
+    {
+        return $this->locator->get(ModelUtil::class);
+    }
+
     public function string(): StringUtil
     {
         return $this->locator->get(StringUtil::class);
+    }
+
+    public function user(): UserUtil
+    {
+        return $this->locator->get(UserUtil::class);
     }
 
     public static function getSubscribedServices()
@@ -53,7 +65,9 @@ trait UtilsTrait
         return [
             ContainerUtil::class,
             LocaleUtil::class,
+            ModelUtil::class,
             StringUtil::class,
+            UserUtil::class,
         ];
     }
 }
