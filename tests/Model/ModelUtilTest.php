@@ -50,20 +50,6 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $this->assertInstanceOf(ModelUtil::class, $util);
     }
 
-    public function testFindOneModelInstanceBy()
-    {
-        $util = $this->getTestInstance();
-
-        $result = $util->findOneModelInstanceBy('tl_content', [], []);
-        $this->assertInstanceOf(ContentModel::class, $result);
-
-        $result = $util->findOneModelInstanceBy('null', [], []);
-        $this->assertNull($result);
-
-        $result = $util->findOneModelInstanceBy('tl_cfg_tag', [], []);
-        $this->assertNull($result);
-    }
-
     public function testFindRootParentRecursively()
     {
         $modelAdapter = $this->mockAdapter(

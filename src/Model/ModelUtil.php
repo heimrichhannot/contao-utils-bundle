@@ -138,6 +138,9 @@ class ModelUtil
      * Return a single model instance by table and search criteria.
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {

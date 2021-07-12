@@ -103,4 +103,24 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $this->assertNull($instance->findModelInstanceByPk('tl_content', 'content_null'));
         $this->assertSame(5, $instance->findModelInstanceByPk('tl_content', 5)->id);
     }
+
+    public function testFindOneModelInstanceBy()
+    {
+        $framework = $this->mockContaoFramework([
+            Model::class => $this->adapterModelClass(),
+            ContentModel::class => $this->adapterContentModelClass(),
+            Controller::class => $this->adapterControllerClass(),
+        ]);
+
+        $util = $this->getTestInstance(['framework' => $framework]);
+
+        $result = $util->findOneModelInstanceBy('tl_content', [], []);
+        $this->assertInstanceOf(ContentModel::class, $result);
+
+        $result = $util->findOneModelInstanceBy('null', [], []);
+        $this->assertNull($result);
+
+        $result = $util->findOneModelInstanceBy('tl_cfg_tag', [], []);
+        $this->assertNull($result);
+    }
 }

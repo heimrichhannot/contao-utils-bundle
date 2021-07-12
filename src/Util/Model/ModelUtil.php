@@ -123,4 +123,34 @@ class ModelUtil
 
         return $adapter->findByPk($pk, $options);
     }
+
+    /**
+     * Return a single model instance by table and search criteria.
+     *
+     * Options:
+     * - skipReplaceInsertTags: (bool) Skip the replacement of inserttags. Default: false
+     *
+     * @return mixed
+     */
+    public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
+    {
+        /* @var Model $adapter */
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        if (\is_array($values) && (!isset($options['skipReplaceInsertTags']) || !$options['skipReplaceInsertTags'])) {
+            $values = array_map([$this->framework->getAdapter(Controller::class), 'replaceInsertTags'], $values);
+        }
+
+        if (empty($columns)) {
+            $columns = null;
+        }
+
+        return $adapter->findOneBy($columns, $values, $options);
+    }
 }
