@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
- *
+
+/*
  * Copyright (c) 2021 Heimrich & Hannot GmbH
  *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\UtilsBundle\Traits;
-
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
@@ -18,10 +14,9 @@ use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 use Psr\Container\ContainerInterface;
 
 /**
- * Trait UtilsTrait
- * @package HeimrichHannot\UtilsBundle\Traits
+ * Trait UtilsTrait.
  *
- * @internal This trait is only for usage in Utils class. It will be removed when symofony 3 support is dropped.
+ * @internal This trait is only for usage in Utils class. It will be removed when symfony 3 support is dropped.
  */
 trait UtilsTrait
 {
