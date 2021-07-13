@@ -2,13 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.197.0] - 2021-07-13
+
+- added possibility to add a custom database object to `DatabaseUtil::insert()`, `DatabaseUtil::update()`
+  and `DatabaseUtil::delete()`
+
 ## [2.196.3] - 2021-07-09
+
 - fixed bug in DcaUtil::aliasExist()
 
 ## [2.196.2] - 2021-07-07
+
 - fixed bug in deprecated StringUtil::camelCaseToDashed()
 
 ## [2.196.1] - 2021-07-05
+
 - fixed install issue with symfony 5
 
 ## [2.196.0] - 2021-07-01
