@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.198.0] - 2021-07-14
+
+- added `DcaUtil::isSubPaletteField()`
+- added `DcaUtil::getSubPaletteFieldSelector()`
+
 ## [2.197.0] - 2021-07-13
 
 - added possibility to add a custom database object to `DatabaseUtil::insert()`, `DatabaseUtil::update()`

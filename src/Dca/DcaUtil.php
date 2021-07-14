@@ -1651,6 +1651,46 @@ class DcaUtil
     }
 
     /**
+     * Returns true if the field is in at least one sub palette.
+     */
+    public function isSubPaletteField(string $field, string $table): bool
+    {
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
+
+        if (!isset($GLOBALS['TL_DCA'][$table]['subpalettes']) || !\is_array($GLOBALS['TL_DCA'][$table]['subpalettes'])) {
+            return false;
+        }
+
+        foreach ($GLOBALS['TL_DCA'][$table]['subpalettes'] as $fields) {
+            if (\in_array($field, explode(',', $fields))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the selector of the sub palette a field is placed in. Currently doesn't support fields in multiple sub palettes.
+     */
+    public function getSubPaletteFieldSelector(string $field, string $table): string
+    {
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
+
+        if (!isset($GLOBALS['TL_DCA'][$table]['subpalettes']) || !\is_array($GLOBALS['TL_DCA'][$table]['subpalettes'])) {
+            return false;
+        }
+
+        foreach ($GLOBALS['TL_DCA'][$table]['subpalettes'] as $name => $fields) {
+            if (\in_array($field, explode(',', $fields))) {
+                return $name;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Taken from \Contao\DataContainer.
      */
     private function combiner($names)
