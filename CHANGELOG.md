@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.199.0] - 2021-07-15
+
+- added new author type for `DcaUtil::addAuthorFieldAndCallback()`: php session id (not changeable in backend; only
+  visible in backend if it had been set before in frontend -> then readonly)
+
 ## [2.198.0] - 2021-07-14
 
 - added `DcaUtil::isSubPaletteField()`
