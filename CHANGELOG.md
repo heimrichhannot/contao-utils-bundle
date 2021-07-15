@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.200.0] - 2021-07-15
+
+- enhanced `ModelInstanceChoice` to respect more title fields and contain the ID
+
 ## [2.199.1] - 2021-07-15
 
 - fixed new author type for `DcaUtil::addAuthorFieldAndCallback()`: php session id (disabled to readonly)

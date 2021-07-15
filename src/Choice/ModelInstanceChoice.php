@@ -16,6 +16,7 @@ class ModelInstanceChoice extends AbstractChoice
     const TITLE_FIELDS = [
         'name',
         'title',
+        'headline',
     ];
 
     /**
@@ -47,7 +48,7 @@ class ModelInstanceChoice extends AbstractChoice
                     default:
                         foreach (static::TITLE_FIELDS as $titleField) {
                             if (isset($GLOBALS['TL_DCA'][$context['dataContainer']]['fields'][$titleField])) {
-                                $labelPattern = '%'.$titleField.'%';
+                                $labelPattern = '%'.$titleField.'% (ID %id%)';
 
                                 break;
                             }
