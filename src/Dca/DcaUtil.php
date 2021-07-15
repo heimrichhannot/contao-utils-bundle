@@ -854,12 +854,12 @@ class DcaUtil
         if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_SESSION) {
             $dca['fields'][static::PROPERTY_AUTHOR_TYPE]['options'] = array_merge($dca['fields'][static::PROPERTY_AUTHOR_TYPE]['options'], [static::AUTHOR_TYPE_SESSION]);
             // do not allow to edit in backend
-            $dca['fields'][static::PROPERTY_AUTHOR_TYPE]['eval']['disabled'] = true;
+            $dca['fields'][static::PROPERTY_AUTHOR_TYPE]['eval']['readonly'] = true;
 
             unset($dca['fields'][static::PROPERTY_AUTHOR]['options_callback']);
             $dca['fields'][static::PROPERTY_AUTHOR]['inputType'] = 'text';
             // do not allow to edit in backend
-            $dca['fields'][static::PROPERTY_AUTHOR]['eval']['disabled'] = true;
+            $dca['fields'][static::PROPERTY_AUTHOR]['eval']['readonly'] = true;
             $dca['fields'][static::PROPERTY_AUTHOR]['label'][0] = $GLOBALS['TL_LANG']['MSC']['utilsBundle'][static::PROPERTY_AUTHOR_TYPE][self::AUTHOR_TYPE_SESSION];
         }
     }
