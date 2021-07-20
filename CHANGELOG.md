@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.201.0] - 2021-07-15
+
+- added documentation for command `huh:utils:create-image-size-items`
+
 ## [2.200.0] - 2021-07-15
 
 - enhanced `ModelInstanceChoice` to respect more title fields and contain the ID

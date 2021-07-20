@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CreateImageSizeCommand extends AbstractLockedCommand implements FrameworkAwareInterface
+class CreateImageSizeItemsCommand extends AbstractLockedCommand implements FrameworkAwareInterface
 {
     use FrameworkAwareTrait;
 
@@ -43,9 +43,9 @@ class CreateImageSizeCommand extends AbstractLockedCommand implements FrameworkA
      */
     protected function configure()
     {
-        $this->setName('huh:utils:create-image-size')->setDescription('Creates image size items for a given image size entity.');
+        $this->setName('huh:utils:create-image-size-items')->setDescription('Creates image size items for a given image size entity.');
         $this->addArgument('image-size-ids', InputArgument::OPTIONAL, 'The comma separated ids of the image size. Set to "all" in order to create image size items for all image size entities. Image size entities with existing image size items will be skipped.');
-        $this->addArgument('breakpoints', InputArgument::OPTIONAL, 'The comma separated breakpoints as pixel amounts (defaults to "576,768,992,1200").', '576,768,992,1200');
+        $this->addArgument('breakpoints', InputArgument::OPTIONAL, 'The comma separated breakpoints as pixel amounts (defaults to "576,768,992,1200,1400").', '576,768,992,1200,1400');
     }
 
     /**
