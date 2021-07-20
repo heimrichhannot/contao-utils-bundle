@@ -601,50 +601,50 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Classes-ClassUtil.html#property_stringUtil"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand",
-            "name": "CreateImageSizeCommand",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand",
+            "name": "CreateImageSizeItemsCommand",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003Aconfigure\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003Aconfigure\u0028\u0029",
             "name": "configure",
             "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#method_configure"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_configure"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003AexecuteLocked\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003AexecuteLocked\u0028\u0029",
             "name": "executeLocked",
             "summary": "\u007B\u0040inheritdoc\u007D",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#method_executeLocked"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_executeLocked"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003AcreateItem\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003AcreateItem\u0028\u0029",
             "name": "createItem",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#method_createItem"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_createItem"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003AMODE_FIRST",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003AMODE_FIRST",
             "name": "MODE_FIRST",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#constant_MODE_FIRST"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#constant_MODE_FIRST"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003AMODE_INTERMEDIATE",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003AMODE_INTERMEDIATE",
             "name": "MODE_INTERMEDIATE",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#constant_MODE_INTERMEDIATE"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#constant_MODE_INTERMEDIATE"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003AMODE_LAST",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003AMODE_LAST",
             "name": "MODE_LAST",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#constant_MODE_LAST"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#constant_MODE_LAST"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003A\u0024io",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003A\u0024io",
             "name": "io",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#property_io"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_io"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeCommand\u003A\u003A\u0024rootDir",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003A\u0024rootDir",
             "name": "rootDir",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeCommand.html#property_rootDir"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_rootDir"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Comparison\\CompareUtil",
             "name": "CompareUtil",
@@ -1391,6 +1391,16 @@ Search.appendIndex(
             "summary": "Taken\u0020from\u0020\\Contao\\DataContainer.",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getCurrentPaletteName"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003AisSubPaletteField\u0028\u0029",
+            "name": "isSubPaletteField",
+            "summary": "Returns\u0020true\u0020if\u0020the\u0020field\u0020is\u0020in\u0020at\u0020least\u0020one\u0020sub\u0020palette.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_isSubPaletteField"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003AgetSubPaletteFieldSelector\u0028\u0029",
+            "name": "getSubPaletteFieldSelector",
+            "summary": "Returns\u0020the\u0020selector\u0020of\u0020the\u0020sub\u0020palette\u0020a\u0020field\u0020is\u0020placed\u0020in.\u0020Currently\u0020doesn\u0027t\u0020support\u0020fields\u0020in\u0020multiple\u0020sub\u0020palettes.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#method_getSubPaletteFieldSelector"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003Acombiner\u0028\u0029",
             "name": "combiner",
             "summary": "Taken\u0020from\u0020\\Contao\\DataContainer.",
@@ -1425,6 +1435,11 @@ Search.appendIndex(
             "name": "AUTHOR_TYPE_USER",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#constant_AUTHOR_TYPE_USER"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003AAUTHOR_TYPE_SESSION",
+            "name": "AUTHOR_TYPE_SESSION",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaUtil.html#constant_AUTHOR_TYPE_SESSION"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil\u003A\u003A\u0024framework",
             "name": "framework",
@@ -4450,36 +4465,6 @@ Search.appendIndex(
             "name": "Utils",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "Utils\u0020constructor.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method___construct"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003AgetSubscribedServices\u0028\u0029",
-            "name": "getSubscribedServices",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_getSubscribedServices"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Acontainer\u0028\u0029",
-            "name": "container",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_container"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Alocale\u0028\u0029",
-            "name": "locale",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_locale"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Astring\u0028\u0029",
-            "name": "string",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_string"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003A\u0024locator",
-            "name": "locator",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#property_locator"
         },                {
             "fqsen": "\\",
             "name": "\\",
