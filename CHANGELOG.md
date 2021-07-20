@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.201.0] - 2021-07-15
+## [2.202.0] - 2021-07-20
+
+- added twig filter `|bin2uuid` in order to convert a binary uuid to a textual one
+
+## [2.201.0] - 2021-07-20
 
 - added documentation for command `huh:utils:create-image-size-items`
 
