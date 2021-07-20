@@ -3941,6 +3941,11 @@ Search.appendIndex(
             "summary": "Get\u0020list\u0020of\u0020twig\u0020filters.",
             "url": "classes/HeimrichHannot-UtilsBundle-Twig-FileExtension.html#method_getFilters"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\FileExtension\u003A\u003AconvertBinaryToUuid\u0028\u0029",
+            "name": "convertBinaryToUuid",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Twig-FileExtension.html#method_convertBinaryToUuid"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\FileExtension\u003A\u003AgetFileData\u0028\u0029",
             "name": "getFileData",
             "summary": "Get\u0020file\u0020data\u0020based\u0020on\u0020given\u0020uuid.",
