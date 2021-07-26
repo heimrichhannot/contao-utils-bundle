@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.202.3] - 2021-07-26
+
+- fixed palette manipulator handling in `DcaUtil::flattenPaletteForSubEntities()`
+
 ## [2.202.2] - 2021-07-26
 
 - fixed palette manipulator handling in `DcaUtil::flattenPaletteForSubEntities()`

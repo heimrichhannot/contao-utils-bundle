@@ -654,7 +654,7 @@ class DcaUtil
             $pm->addField('override'.ucfirst($field), $field)->removeField($field);
         }
 
-        $pm->applyToPalette('default', 'tl_list_config');
+        $pm->applyToPalette('default', $table);
     }
 
     /**
