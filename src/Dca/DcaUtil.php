@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 use Contao\BackendUser;
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\DataContainer;
@@ -607,6 +608,8 @@ class DcaUtil
     {
         $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
 
+        $pm = PaletteManipulator::create();
+
         $dca = &$GLOBALS['TL_DCA'][$table];
         $arrayUtil = $this->container->get('huh.utils.array');
 
@@ -623,7 +626,7 @@ class DcaUtil
                                 $subPaletteFields = explode(',', $dca['subpalettes'][$selector]);
 
                                 foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                                    $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
+                                    $pm->addField($subPaletteField, $field)->applyToPalette('default', 'tl_list_config');
                                 }
                             }
 
@@ -638,7 +641,7 @@ class DcaUtil
                         $subPaletteFields = explode(',', $dca['subpalettes'][$field]);
 
                         foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                            $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
+                            $pm->addField($subPaletteField, $field)->applyToPalette('default', 'tl_list_config');
                         }
 
                         // remove nested field in order to avoid its normal "selector" behavior
@@ -648,7 +651,7 @@ class DcaUtil
                 }
             }
 
-            $dca['palettes']['default'] = str_replace($field, 'override'.ucfirst($field), $dca['palettes']['default']);
+            $pm->addField('override'.ucfirst($field), $field)->removeField($field)->applyToPalette('default', 'tl_list_config');
         }
     }
 

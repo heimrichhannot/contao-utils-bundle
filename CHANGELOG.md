@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.202.1] - 2021-07-26
+
+- fixed palette handling issues in `DcaUtil::flattenPaletteForSubEntities()` by using `PaletteManipulator`
+- fixed return object in `DatabaseUtil::update()` and `DatabaseUtil::delete()`
+
 ## [2.202.0] - 2021-07-20
 
 - added twig filter `|bin2uuid` in order to convert a binary uuid to a textual one

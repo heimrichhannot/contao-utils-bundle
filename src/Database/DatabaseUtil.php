@@ -912,7 +912,7 @@ class DatabaseUtil
 
         $query = "UPDATE $table SET $assignments".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$db->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
+        return \call_user_func_array([$db->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
     }
 
     public function delete(string $table, string $where = null, array $whereValues = [], array $options = [])
@@ -930,7 +930,7 @@ class DatabaseUtil
 
         $query = "DELETE FROM $table".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$db->prepare($query), 'execute'], $whereValues);
+        return \call_user_func_array([$db->prepare($query), 'execute'], $whereValues);
     }
 
     public function beginTransaction()
