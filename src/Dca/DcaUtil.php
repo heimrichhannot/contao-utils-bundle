@@ -626,7 +626,7 @@ class DcaUtil
                                 $subPaletteFields = explode(',', $dca['subpalettes'][$selector]);
 
                                 foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                                    $pm->addField($subPaletteField, $field)->applyToPalette('default', 'tl_list_config');
+                                    $pm->addField($subPaletteField, $field);
                                 }
                             }
 
@@ -641,7 +641,7 @@ class DcaUtil
                         $subPaletteFields = explode(',', $dca['subpalettes'][$field]);
 
                         foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                            $pm->addField($subPaletteField, $field)->applyToPalette('default', 'tl_list_config');
+                            $pm->addField($subPaletteField, $field);
                         }
 
                         // remove nested field in order to avoid its normal "selector" behavior
@@ -651,8 +651,10 @@ class DcaUtil
                 }
             }
 
-            $pm->addField('override'.ucfirst($field), $field)->removeField($field)->applyToPalette('default', 'tl_list_config');
+            $pm->addField('override'.ucfirst($field), $field)->removeField($field);
         }
+
+        $pm->applyToPalette('default', 'tl_list_config');
     }
 
     /**
