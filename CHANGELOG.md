@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.202.4] - 2021-08-10
+
+- Fixed: `DcaUtil::addAuthorFieldAndCallback()` -> default value for author is not 0 again (BC)
+
 ## [2.202.3] - 2021-07-26
 
 - fixed palette manipulator handling in `DcaUtil::flattenPaletteForSubEntities()`
