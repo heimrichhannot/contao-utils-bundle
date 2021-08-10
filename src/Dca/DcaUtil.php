@@ -786,6 +786,13 @@ class DcaUtil
                     'labelPattern' => '%firstname% %lastname% (ID %id%)',
                 ]);
             },
+            'save_callback' => [function ($value, $dc) {
+                if (!$value) {
+                    return 0;
+                }
+
+                return $value;
+            }],
             'eval' => [
                 'doNotCopy' => true,
                 'chosen' => true,
