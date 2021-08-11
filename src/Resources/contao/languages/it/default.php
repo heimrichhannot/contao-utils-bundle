@@ -30,9 +30,11 @@ $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'] = 'Ciao';
 
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderMale'] = 'Uomo';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFemale'] = 'Donna';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderOther'] = 'Altro';
 
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['male'] = 'Maschio';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['female'] = 'Femmina';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['other'] = 'Altro';
 
 /*
  * Date/time
