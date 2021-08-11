@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.203.1] - 2021-08-11
+
+- Fixed: SalutationUtil methods for "other" gender
+
 ## [2.203.0] - 2021-08-11
 
-- added translations for "other" gender
+- Added: translations for "other" gender
 
 ## [2.202.4] - 2021-08-10
 
