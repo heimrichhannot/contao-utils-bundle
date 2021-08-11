@@ -18,7 +18,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Trait UtilsTrait.
  *
- * @internal This trait is only for usage in Utils class. It will be removed when symofony 3 support is dropped.
+ * @internal This trait is only for usage in Utils class. It will be removed when symfony 3 support is dropped.
  */
 trait UtilsTrait
 {

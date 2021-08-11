@@ -658,7 +658,7 @@ class DcaUtil
     {
         $aliasField = $options['aliasField'] ?? 'alias';
 
-        $stmt = $this->connection->prepare("SELECT id FROM {$table} WHERE ' . $aliasField . '=? AND id!=?");
+        $stmt = $this->connection->prepare('SELECT id FROM '.$table.' WHERE '.$aliasField.'=? AND id!=?');
         $stmt->execute([$alias, $id]);
 
         return $stmt->rowCount() > 0;
