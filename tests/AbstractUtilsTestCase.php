@@ -67,6 +67,8 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
         $contentAdapter = $this->mockAdapter(['findBy', 'findByPk', 'findOneBy']);
         $contentAdapter->method('findBy')->willReturnCallback(
             function ($columns, $values, $options) use ($contentModelId5, $contentModelId7) {
+                $values = [];
+
                 if (null === $columns) {
                     return new Collection([$contentModelId5, $contentModelId7], 'tl_content');
                 }
@@ -77,6 +79,27 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
 
                 if ('pid' === $columns[0] && 3 === (int) $values[0]) {
                     return new Collection([$contentModelId5, $contentModelId7], 'tl_content');
+                }
+
+                if ('tl_content.id IN(' === substr($columns[0], 0, \strlen('tl_content.id IN('))) {
+                    $values = substr($columns[0], \strlen('tl_content.id IN('), -1);
+                    $values = explode(',', $values);
+                }
+
+                $collection = [];
+
+                if (!empty($values)) {
+                    if (\in_array(5, $values)) {
+                        $collection[] = $contentModelId5;
+                    }
+
+                    if (\in_array(7, $values)) {
+                        $collection[] = $contentModelId7;
+                    }
+                }
+
+                if (!empty($collection)) {
+                    return new Collection($collection, 'tl_content');
                 }
 
                 return null;

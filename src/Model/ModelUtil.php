@@ -67,6 +67,7 @@ class ModelUtil
      *
      * @return Model The modified model, containing the default values from all dca fields
      *
+     * @deprecated Use DcaUtil::setDefaultsFromDca instead
      * @codeCoverageIgnore
      */
     public function setDefaultsFromDca(Model $objModel)
@@ -170,6 +171,9 @@ class ModelUtil
      * Returns multiple model instances by given table and ids.
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = [])
     {

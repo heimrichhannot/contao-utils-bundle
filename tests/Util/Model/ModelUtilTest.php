@@ -123,4 +123,20 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $result = $util->findOneModelInstanceBy('tl_cfg_tag', [], []);
         $this->assertNull($result);
     }
+
+    public function testFindMultipleModelInstancesByIds()
+    {
+        $framework = $this->mockContaoFramework([
+            Model::class => $this->adapterModelClass(),
+            ContentModel::class => $this->adapterContentModelClass(),
+        ]);
+        $instance = $this->getTestInstance(['framework' => $framework]);
+
+        $this->assertNull($instance->findMultipleModelInstancesByIds('tl_null', [1, 3, 4]));
+        $this->assertNull($instance->findMultipleModelInstancesByIds('tl_non_existing', [1, 3, 4]));
+
+        $this->assertCount(1, $instance->findMultipleModelInstancesByIds('tl_content', [5]));
+        $this->assertCount(2, $instance->findMultipleModelInstancesByIds('tl_content', [5, 7]));
+        $this->assertCount(2, $instance->findMultipleModelInstancesByIds('tl_content', [0, 5, 7]));
+    }
 }

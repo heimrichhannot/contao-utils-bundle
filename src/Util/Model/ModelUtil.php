@@ -153,4 +153,23 @@ class ModelUtil
 
         return $adapter->findOneBy($columns, $values, $options);
     }
+
+    /**
+     * Returns multiple model instances by given table and ids.
+     *
+     * @return Collection|Model[]|Model|null
+     */
+    public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = [])
+    {
+        /* @var Model $adapter */
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        return $adapter->findBy(["$table.id IN(".implode(',', array_map('\intval', $ids)).')'], null, $options);
+    }
 }
