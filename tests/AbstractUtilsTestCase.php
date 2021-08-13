@@ -67,33 +67,33 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
         $contentAdapter = $this->mockAdapter(['findBy', 'findByPk', 'findOneBy']);
         $contentAdapter->method('findBy')->willReturnCallback(
             function ($columns, $values, $options) use ($contentModelId5, $contentModelId7) {
-                $values = [];
+                $ids = [];
 
                 if (null === $columns) {
                     return new Collection([$contentModelId5, $contentModelId7], 'tl_content');
                 }
 
-                if ('id' === $columns[0] && 5 === (int) $values[0]) {
+                if ('id=?' === $columns[0] && 5 === (int) $values[0]) {
                     return $contentModelId5;
                 }
 
-                if ('pid' === $columns[0] && 3 === (int) $values[0]) {
+                if ('pid=?' === $columns[0] && 3 === (int) $values[0]) {
                     return new Collection([$contentModelId5, $contentModelId7], 'tl_content');
                 }
 
                 if ('tl_content.id IN(' === substr($columns[0], 0, \strlen('tl_content.id IN('))) {
-                    $values = substr($columns[0], \strlen('tl_content.id IN('), -1);
-                    $values = explode(',', $values);
+                    $ids = substr($columns[0], \strlen('tl_content.id IN('), -1);
+                    $ids = explode(',', $values);
                 }
 
                 $collection = [];
 
-                if (!empty($values)) {
-                    if (\in_array(5, $values)) {
+                if (!empty($ids)) {
+                    if (\in_array(5, $ids)) {
                         $collection[] = $contentModelId5;
                     }
 
-                    if (\in_array(7, $values)) {
+                    if (\in_array(7, $ids)) {
                         $collection[] = $contentModelId7;
                     }
                 }

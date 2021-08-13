@@ -82,10 +82,10 @@ class ModelUtilTest extends AbstractUtilsTestCase
 
         $util = $this->getTestInstance(['framework' => $framework]);
 
-        $this->assertNull($util->findModelInstancesBy('tl_null', ['id'], [5]));
-        $this->assertNull($util->findModelInstancesBy('tl_non_existing', ['id'], [5]));
-        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id'], [5])->id);
-        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['pid'], [3])->current()->id);
+        $this->assertNull($util->findModelInstancesBy('tl_null', ['id=?'], [5]));
+        $this->assertNull($util->findModelInstancesBy('tl_non_existing', ['id=?'], [5]));
+        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id=?'], [5])->id);
+        $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['pid=?'], [3])->current()->id);
         $this->assertCount(2, $util->findModelInstancesBy('tl_content', null, null));
     }
 
