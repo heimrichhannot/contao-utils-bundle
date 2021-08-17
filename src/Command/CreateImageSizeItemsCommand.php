@@ -28,51 +28,35 @@ class CreateImageSizeItemsCommand extends AbstractLockedCommand implements Frame
     const MODE_INTERMEDIATE = 2;
     const MODE_LAST = 3;
 
+    const DEFAULT_BREAKPOINTS = [
+        576,
+        768,
+        992,
+        1200,
+        1400,
+    ];
+
     /**
      * @var SymfonyStyle
      */
     private $io;
 
-    /**
-     * @var string
-     */
-    private $rootDir;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
+    public function createImageSizes(SymfonyStyle $io, array $breakpoints, array $imageSizeIds = [])
     {
-        $this->setName('huh:utils:create-image-size-items')->setDescription('Creates image size items for a given image size entity.');
-        $this->addArgument('image-size-ids', InputArgument::OPTIONAL, 'The comma separated ids of the image size. Set to "all" in order to create image size items for all image size entities. Image size entities with existing image size items will be skipped.');
-        $this->addArgument('breakpoints', InputArgument::OPTIONAL, 'The comma separated breakpoints as pixel amounts (defaults to "576,768,992,1200,1400").', '576,768,992,1200,1400');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function executeLocked(InputInterface $input, OutputInterface $output)
-    {
-        $this->io = new SymfonyStyle($input, $output);
-        $this->rootDir = $this->getContainer()->getParameter('kernel.project_dir');
-        $this->framework->initialize();
-
-        $imageSizeIds = $input->getArgument('image-size-ids');
-        $breakpoints = explode(',', $input->getArgument('breakpoints'));
         sort($breakpoints);
 
         // prevent sql injection
-        if ('all' !== $imageSizeIds) {
+        if (!empty($imageSizeIds)) {
             $imageSizeIds = preg_replace('@[^0-9,]@i', '', $imageSizeIds);
         }
 
         $creationCount = 0;
-        $columns = ('all' === $imageSizeIds ? [] : ['tl_image_size.id IN ('.$imageSizeIds.')']);
+        $columns = (empty($imageSizeIds) ? [] : ['tl_image_size.id IN ('.$imageSizeIds.')']);
 
         if (null === ($imageSizes = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_image_size', $columns, []))) {
-            $this->io->error('No image sizes found for the given ids.');
+            $io->error('No image sizes found for the given ids.');
 
-            return 0;
+            return false;
         }
 
         /** @var ImageSizeModel $imageSize */
@@ -80,7 +64,7 @@ class CreateImageSizeItemsCommand extends AbstractLockedCommand implements Frame
             $existingItems = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_image_size_item', ['tl_image_size_item.pid=?'], [$imageSize->id]);
 
             if (null !== $existingItems) {
-                $this->io->warning('Skipping image size ID '.$imageSize->id.' because it already has existing image size items.');
+                $io->warning('Skipping image size ID '.$imageSize->id.' because it already has existing image size items.');
 
                 continue;
             }
@@ -107,7 +91,34 @@ class CreateImageSizeItemsCommand extends AbstractLockedCommand implements Frame
             ++$creationCount;
         }
 
-        $this->io->success($creationCount.' image size items have been created.');
+        $io->success($creationCount.' image size items have been created.');
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this->setName('huh:utils:create-image-size-items')->setDescription('Creates image size items for a given image size entity. Image size entities with existing image size items will be skipped.');
+        $this->addArgument('image-size-ids', InputArgument::OPTIONAL, 'The comma separated ids of the image size. Skip the parameter in order to create image size items for all image size entities.');
+        $this->addArgument('breakpoints', InputArgument::OPTIONAL, 'The comma separated breakpoints as pixel amounts (defaults to "576,768,992,1200,1400").', implode(',', static::DEFAULT_BREAKPOINTS));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function executeLocked(InputInterface $input, OutputInterface $output)
+    {
+        $this->framework->initialize();
+
+        $io = new SymfonyStyle($input, $output);
+
+        $imageSizeIds = explode(',', $input->getArgument('image-size-ids'));
+        $breakpoints = explode(',', $input->getArgument('breakpoints'));
+
+        $this->createImageSizes($io, $breakpoints, $imageSizeIds);
 
         return 0;
     }

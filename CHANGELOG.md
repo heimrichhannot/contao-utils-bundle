@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.203.2] - 2021-08-11
+
+- Changed: Refactored `CreateImageSizeItemsCommand` -> external method now available
+
 ## [2.203.1] - 2021-08-11
 
 - Fixed: SalutationUtil methods for "other" gender
