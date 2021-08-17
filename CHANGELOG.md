@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.203.2] - 2021-08-11
+## [2.203.3] - 2021-08-17
+
+- Fixed: `CreateImageSizeItemsCommand`
+
+## [2.203.2] - 2021-08-17
 
 - Changed: Refactored `CreateImageSizeItemsCommand` -> external method now available
 

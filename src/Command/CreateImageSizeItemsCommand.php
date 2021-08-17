@@ -45,13 +45,8 @@ class CreateImageSizeItemsCommand extends AbstractLockedCommand implements Frame
     {
         sort($breakpoints);
 
-        // prevent sql injection
-        if (!empty($imageSizeIds)) {
-            $imageSizeIds = preg_replace('@[^0-9,]@i', '', $imageSizeIds);
-        }
-
         $creationCount = 0;
-        $columns = (empty($imageSizeIds) ? [] : ['tl_image_size.id IN ('.$imageSizeIds.')']);
+        $columns = (empty($imageSizeIds) ? [] : ['tl_image_size.id IN ('.implode(',', $imageSizeIds).')']);
 
         if (null === ($imageSizes = System::getContainer()->get('huh.utils.model')->findModelInstancesBy('tl_image_size', $columns, []))) {
             $io->error('No image sizes found for the given ids.');
@@ -115,7 +110,10 @@ class CreateImageSizeItemsCommand extends AbstractLockedCommand implements Frame
 
         $io = new SymfonyStyle($input, $output);
 
-        $imageSizeIds = explode(',', $input->getArgument('image-size-ids'));
+        // prevent sql injection
+        $imageSizeIds = preg_replace('@[^0-9,]@i', '', $input->getArgument('image-size-ids'));
+
+        $imageSizeIds = explode(',', $imageSizeIds);
         $breakpoints = explode(',', $input->getArgument('breakpoints'));
 
         $this->createImageSizes($io, $breakpoints, $imageSizeIds);
