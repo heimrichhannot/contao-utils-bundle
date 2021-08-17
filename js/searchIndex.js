@@ -606,6 +606,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003AcreateImageSizes\u0028\u0029",
+            "name": "createImageSizes",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_createImageSizes"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003Aconfigure\u0028\u0029",
             "name": "configure",
             "summary": "\u007B\u0040inheritdoc\u007D",
@@ -636,15 +641,15 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#constant_MODE_LAST"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003ADEFAULT_BREAKPOINTS",
+            "name": "DEFAULT_BREAKPOINTS",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#constant_DEFAULT_BREAKPOINTS"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003A\u0024io",
             "name": "io",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_io"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\CreateImageSizeItemsCommand\u003A\u003A\u0024rootDir",
-            "name": "rootDir",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_rootDir"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Comparison\\CompareUtil",
             "name": "CompareUtil",
