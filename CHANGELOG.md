@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Changed: enhanced ContainerUtil documentation
+- Deprecated: deprecated the old StringUtil class as whole
+- Fixed: issues with CI
+
 ## [2.203.3] - 2021-08-17
 
 - Fixed: `CreateImageSizeItemsCommand`
