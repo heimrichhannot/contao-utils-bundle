@@ -58,13 +58,16 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
         $contentModelId5 = $this->mockModelObject(ContentModel::class, [
             'id' => 5,
             'pid' => 3,
+            'alias' => 'number-5',
         ]);
         $contentModelId7 = $this->mockModelObject(ContentModel::class, [
             'id' => 7,
             'pid' => 3,
+            'alias' => 'seven',
         ]);
 
-        $contentAdapter = $this->mockAdapter(['findBy', 'findByPk', 'findOneBy']);
+        $contentAdapter = $this->mockAdapter(['findBy', 'findByPk', 'findOneBy', 'findByIdOrAlias']);
+
         $contentAdapter->method('findBy')->willReturnCallback(
             function ($columns, $values, $options) use ($contentModelId5, $contentModelId7) {
                 $ids = [];
@@ -127,6 +130,22 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
                         return $contentModelId5;
 
                     case 7:
+                        return $contentModelId7;
+                }
+
+                return $contentModelId5;
+            }
+        );
+
+        $contentAdapter->method('findByIdOrAlias')->willReturnCallback(
+            function ($varValue, array $arrOptions = []) use ($contentModelId5, $contentModelId7) {
+                switch ($varValue) {
+                    case 5:
+                    case $contentModelId5->alias:
+                        return $contentModelId5;
+
+                    case 7:
+                    case $contentModelId7->alias:
                         return $contentModelId7;
                 }
 

@@ -172,4 +172,35 @@ class ModelUtil
 
         return $adapter->findBy(["$table.id IN(".implode(',', array_map('\intval', $ids)).')'], null, $options);
     }
+
+    /**
+     * Returns multiple model instances by given table and id or alias.
+     *
+     * @param mixed $idOrAlias
+     *
+     * @return Model|null
+     */
+    public function findModelInstanceByIdOrAlias(string $table, $idOrAlias, array $options = [])
+    {
+        if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
+            return null;
+        }
+
+        /* @var Model $adapter */
+        if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
+            return null;
+        }
+
+        $options = array_merge(
+            [
+                'limit' => 1,
+                'column' => !is_numeric($idOrAlias) ? ["$table.alias=?"] : ["$table.id=?"],
+                'value' => $idOrAlias,
+                'return' => 'Model',
+            ],
+            $options
+        );
+
+        return $adapter->findByIdOrAlias($idOrAlias, $options);
+    }
 }
