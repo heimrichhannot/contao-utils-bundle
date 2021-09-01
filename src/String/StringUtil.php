@@ -16,6 +16,8 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 /**
  * Class StringUtil.
+ *
+ * @deprecated Use Utils service instead
  */
 class StringUtil
 {
