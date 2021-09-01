@@ -83,7 +83,7 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
 
                 if ('tl_content.id IN(' === substr($columns[0], 0, \strlen('tl_content.id IN('))) {
                     $ids = substr($columns[0], \strlen('tl_content.id IN('), -1);
-                    $ids = explode(',', $values);
+                    $ids = explode(',', $ids);
                 }
 
                 $collection = [];
