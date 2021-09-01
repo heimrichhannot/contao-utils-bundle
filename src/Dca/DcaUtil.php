@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 use Contao\BackendUser;
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\DataContainer;
@@ -25,7 +26,9 @@ use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use Doctrine\DBAL\Connection;
+use HeimrichHannot\UtilsBundle\Choice\ModelInstanceChoice;
 use HeimrichHannot\UtilsBundle\Driver\DC_Table_Utils;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Routing\RoutingUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,6 +41,7 @@ class DcaUtil
     const AUTHOR_TYPE_NONE = 'none';
     const AUTHOR_TYPE_MEMBER = 'member';
     const AUTHOR_TYPE_USER = 'user';
+    const AUTHOR_TYPE_SESSION = 'session';
 
     /** @var ContaoFrameworkInterface */
     protected $framework;
@@ -604,6 +608,8 @@ class DcaUtil
     {
         $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
 
+        $pm = PaletteManipulator::create();
+
         $dca = &$GLOBALS['TL_DCA'][$table];
         $arrayUtil = $this->container->get('huh.utils.array');
 
@@ -620,7 +626,7 @@ class DcaUtil
                                 $subPaletteFields = explode(',', $dca['subpalettes'][$selector]);
 
                                 foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                                    $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
+                                    $pm->addField($subPaletteField, $field);
                                 }
                             }
 
@@ -635,7 +641,7 @@ class DcaUtil
                         $subPaletteFields = explode(',', $dca['subpalettes'][$field]);
 
                         foreach (array_reverse($subPaletteFields) as $subPaletteField) {
-                            $dca['palettes']['default'] = str_replace($field, $field.','.$subPaletteField, $dca['palettes']['default']);
+                            $pm->addField($subPaletteField, $field);
                         }
 
                         // remove nested field in order to avoid its normal "selector" behavior
@@ -645,8 +651,10 @@ class DcaUtil
                 }
             }
 
-            $dca['palettes']['default'] = str_replace($field, 'override'.ucfirst($field), $dca['palettes']['default']);
+            $pm->addField('override'.ucfirst($field), $field)->removeField($field);
         }
+
+        $pm->applyToPalette('default', $table);
     }
 
     /**
@@ -745,8 +753,8 @@ class DcaUtil
         $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
 
         // callbacks
-        $GLOBALS['TL_DCA'][$table]['config']['oncreate_callback']['setAuthorIDOnCreate'] = ['huh.utils.dca', 'setAuthorIDOnCreate'];
-        $GLOBALS['TL_DCA'][$table]['config']['onload_callback']['modifyAuthorPaletteOnLoad'] = ['huh.utils.dca', 'modifyAuthorPaletteOnLoad', true];
+        $GLOBALS['TL_DCA'][$table]['config']['oncreate_callback']['setAuthorIDOnCreate'] = [self::class, 'setAuthorIDOnCreate'];
+        $GLOBALS['TL_DCA'][$table]['config']['onload_callback']['modifyAuthorPaletteOnLoad'] = [self::class, 'modifyAuthorPaletteOnLoad', true];
 
         // fields
         $GLOBALS['TL_DCA'][$table]['fields'][$fieldPrefix ? $fieldPrefix.ucfirst(static::PROPERTY_AUTHOR_TYPE) : static::PROPERTY_AUTHOR_TYPE] = [
@@ -759,6 +767,7 @@ class DcaUtil
                 static::AUTHOR_TYPE_NONE,
                 static::AUTHOR_TYPE_MEMBER,
                 static::AUTHOR_TYPE_USER,
+                // session is only added if it's already set in the dca
             ],
             'reference' => $GLOBALS['TL_LANG']['MSC']['utilsBundle']['authorType'],
             'eval' => ['doNotCopy' => true, 'submitOnChange' => true, 'mandatory' => true, 'tl_class' => 'w50 clr'],
@@ -777,19 +786,26 @@ class DcaUtil
                     'labelPattern' => '%firstname% %lastname% (ID %id%)',
                 ]);
             },
+            'save_callback' => [function ($value, $dc) {
+                if (!$value) {
+                    return 0;
+                }
+
+                return $value;
+            }],
             'eval' => [
                 'doNotCopy' => true,
                 'chosen' => true,
                 'includeBlankOption' => true,
                 'tl_class' => 'w50',
             ],
-            'sql' => "int(10) unsigned NOT NULL default '0'",
+            'sql' => "varchar(64) NOT NULL default '0'",
         ];
     }
 
     public function setAuthorIDOnCreate(string $table, int $id, array $row, DataContainer $dc)
     {
-        $model = $this->container->get('huh.utils.model')->findModelInstanceByPk($table, $id);
+        $model = $this->container->get(ModelUtil::class)->findModelInstanceByPk($table, $id);
         /** @var Database $db */
         $db = $this->framework->createInstance(Database::class);
 
@@ -803,6 +819,11 @@ class DcaUtil
             if (FE_USER_LOGGED_IN) {
                 $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_MEMBER;
                 $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(FrontendUser::class)->getInstance()->id;
+                $model->save();
+            } else {
+                // php session
+                $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_SESSION;
+                $model->{static::PROPERTY_AUTHOR} = session_id();
                 $model->save();
             }
         } else {
@@ -830,16 +851,28 @@ class DcaUtil
 
         // author handling
         if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_NONE) {
-            unset($dca['fields']['author']);
+            unset($dca['fields'][static::PROPERTY_AUTHOR]);
         }
 
         if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_USER) {
-            $dca['fields']['author']['options_callback'] = function () {
-                return $this->container->get('huh.utils.choice.model_instance')->getCachedChoices([
+            $dca['fields'][static::PROPERTY_AUTHOR]['options_callback'] = function () {
+                return $this->container->get(ModelInstanceChoice::class)->getCachedChoices([
                     'dataContainer' => 'tl_user',
                     'labelPattern' => '%name% (ID %id%)',
                 ]);
             };
+        }
+
+        if ($model->{static::PROPERTY_AUTHOR_TYPE} == static::AUTHOR_TYPE_SESSION) {
+            $dca['fields'][static::PROPERTY_AUTHOR_TYPE]['options'] = array_merge($dca['fields'][static::PROPERTY_AUTHOR_TYPE]['options'], [static::AUTHOR_TYPE_SESSION]);
+            // do not allow to edit in backend
+            $dca['fields'][static::PROPERTY_AUTHOR_TYPE]['eval']['readonly'] = true;
+
+            unset($dca['fields'][static::PROPERTY_AUTHOR]['options_callback']);
+            $dca['fields'][static::PROPERTY_AUTHOR]['inputType'] = 'text';
+            // do not allow to edit in backend
+            $dca['fields'][static::PROPERTY_AUTHOR]['eval']['readonly'] = true;
+            $dca['fields'][static::PROPERTY_AUTHOR]['label'][0] = $GLOBALS['TL_LANG']['MSC']['utilsBundle'][static::PROPERTY_AUTHOR_TYPE][self::AUTHOR_TYPE_SESSION];
         }
     }
 
@@ -1648,6 +1681,46 @@ class DcaUtil
         }
 
         return null;
+    }
+
+    /**
+     * Returns true if the field is in at least one sub palette.
+     */
+    public function isSubPaletteField(string $field, string $table): bool
+    {
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
+
+        if (!isset($GLOBALS['TL_DCA'][$table]['subpalettes']) || !\is_array($GLOBALS['TL_DCA'][$table]['subpalettes'])) {
+            return false;
+        }
+
+        foreach ($GLOBALS['TL_DCA'][$table]['subpalettes'] as $fields) {
+            if (\in_array($field, explode(',', $fields))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the selector of the sub palette a field is placed in. Currently doesn't support fields in multiple sub palettes.
+     */
+    public function getSubPaletteFieldSelector(string $field, string $table): string
+    {
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
+
+        if (!isset($GLOBALS['TL_DCA'][$table]['subpalettes']) || !\is_array($GLOBALS['TL_DCA'][$table]['subpalettes'])) {
+            return false;
+        }
+
+        foreach ($GLOBALS['TL_DCA'][$table]['subpalettes'] as $name => $fields) {
+            if (\in_array($field, explode(',', $fields))) {
+                return $name;
+            }
+        }
+
+        return false;
     }
 
     /**

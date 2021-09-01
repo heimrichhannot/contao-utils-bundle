@@ -2,13 +2,85 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Changed: enhanced ContainerUtil documentation
+- Deprecated: deprecated the old StringUtil class as whole
+- Fixed: issues with CI
+
+## [2.203.3] - 2021-08-17
+
+- Fixed: `CreateImageSizeItemsCommand`
+
+## [2.203.2] - 2021-08-17
+
+- Changed: Refactored `CreateImageSizeItemsCommand` -> external method now available
+
+## [2.203.1] - 2021-08-11
+
+- Fixed: SalutationUtil methods for "other" gender
+
+## [2.203.0] - 2021-08-11
+
+- Added: translations for "other" gender
+
+## [2.202.4] - 2021-08-10
+
+- Fixed: `DcaUtil::addAuthorFieldAndCallback()` -> default value for author is not 0 again (BC)
+
+## [2.202.3] - 2021-07-26
+
+- fixed palette manipulator handling in `DcaUtil::flattenPaletteForSubEntities()`
+
+## [2.202.2] - 2021-07-26
+
+- fixed palette manipulator handling in `DcaUtil::flattenPaletteForSubEntities()`
+
+## [2.202.1] - 2021-07-26
+
+- fixed palette handling issues in `DcaUtil::flattenPaletteForSubEntities()` by using `PaletteManipulator`
+- fixed return object in `DatabaseUtil::update()` and `DatabaseUtil::delete()`
+
+## [2.202.0] - 2021-07-20
+
+- added twig filter `|bin2uuid` in order to convert a binary uuid to a textual one
+
+## [2.201.0] - 2021-07-20
+
+- added documentation for command `huh:utils:create-image-size-items`
+
+## [2.200.0] - 2021-07-15
+
+- enhanced `ModelInstanceChoice` to respect more title fields and contain the ID
+
+## [2.199.1] - 2021-07-15
+
+- fixed new author type for `DcaUtil::addAuthorFieldAndCallback()`: php session id (disabled to readonly)
+
+## [2.199.0] - 2021-07-15
+
+- added new author type for `DcaUtil::addAuthorFieldAndCallback()`: php session id (not changeable in backend; only
+  visible in backend if it had been set before in frontend -> then readonly)
+
+## [2.198.0] - 2021-07-14
+
+- added `DcaUtil::isSubPaletteField()`
+- added `DcaUtil::getSubPaletteFieldSelector()`
+
+## [2.197.0] - 2021-07-13
+
+- added possibility to add a custom database object to `DatabaseUtil::insert()`, `DatabaseUtil::update()`
+  and `DatabaseUtil::delete()`
+
 ## [2.196.3] - 2021-07-09
+
 - fixed bug in DcaUtil::aliasExist()
 
 ## [2.196.2] - 2021-07-07
+
 - fixed bug in deprecated StringUtil::camelCaseToDashed()
 
 ## [2.196.1] - 2021-07-05
+
 - fixed install issue with symfony 5
 
 ## [2.196.0] - 2021-07-01

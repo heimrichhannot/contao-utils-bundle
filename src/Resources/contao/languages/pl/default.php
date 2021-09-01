@@ -13,6 +13,7 @@ $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUti
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_NONE] = 'Brak autora';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_MEMBER] = 'Członek (frontend)';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_USER] = 'Użytkownik (backend)';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_SESSION] = 'Sesja PHP';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR] =
     ['Autor', 'Dieses Feld beinhaltet den Autoren des Datensatzes.'];
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_SESSION_ID] =

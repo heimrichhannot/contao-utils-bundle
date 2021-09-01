@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Twig;
 
 use Contao\File;
+use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -64,7 +65,17 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
             new TwigFilter('file_data', [$this, 'getFileData']),
             new TwigFilter('file_path', [$this, 'getFilePath']),
             new TwigFilter('file_content', [$this, 'getFileContent']),
+            new TwigFilter('bin2uuid', [$this, 'convertBinaryToUuid']),
         ];
+    }
+
+    public function convertBinaryToUuid($binary)
+    {
+        if (Validator::isBinaryUuid($binary)) {
+            return StringUtil::binToUuid($binary);
+        }
+
+        return $binary;
     }
 
     /**

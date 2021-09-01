@@ -1,17 +1,21 @@
 <?php
 
-/**
- * Fields
+/*
+ * Copyright (c) 2021 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
  */
+
 $GLOBALS['TL_LANG']['MSC']['alias'] = ['Alias', 'The alias is a unique reference that can be used instead of the numeric id.'];
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE] = ['Author type', 'Choose the type of author here.'];
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_NONE] = 'No author';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_MEMBER] = 'Member (Frontend)';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_USER] = 'User (Backend)';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR_TYPE][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::AUTHOR_TYPE_SESSION] = 'PHP session';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_AUTHOR] = ['Author', 'This field contains the author of the record.'];
 $GLOBALS['TL_LANG']['MSC']['utilsBundle'][\HeimrichHannot\UtilsBundle\Dca\DcaUtil::PROPERTY_SESSION_ID] = ['Session-ID', 'This field contains the session ID of the allowed editor.'];
 
-/**
+/*
  * Salutations
  */
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutation'] = 'Dear';
@@ -22,11 +26,13 @@ $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGeneric'] = 'Dear Sir or Ma
 
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderMale'] = 'Mr.';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFemale'] = 'Mrs.';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderOther'] = 'Other';
 
-$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['male']   = 'Mr.';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['male'] = 'Mr.';
 $GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['female'] = 'Mrs.';
+$GLOBALS['TL_LANG']['MSC']['utilsBundle']['genderFe']['other'] = 'Other';
 
-/**
+/*
  * Date/time
  */
 $GLOBALS['TL_LANG']['MSC']['datediff']['just_now'] = 'Just now';
@@ -60,7 +66,7 @@ $GLOBALS['TL_LANG']['MSC']['timePeriod']['m'] = 'Minute(s)';
 $GLOBALS['TL_LANG']['MSC']['timePeriod']['h'] = 'Hour(s)';
 $GLOBALS['TL_LANG']['MSC']['timePeriod']['d'] = 'Day(s)';
 
-/**
+/*
  * Counties
  */
 $GLOBALS['TL_LANG']['COUNTIES']['de']['bw'] = 'Baden-Württemberg';
@@ -80,46 +86,45 @@ $GLOBALS['TL_LANG']['COUNTIES']['de']['st'] = 'Saxony-Anhalt';
 $GLOBALS['TL_LANG']['COUNTIES']['de']['sh'] = 'Schleswig-Holstein';
 $GLOBALS['TL_LANG']['COUNTIES']['de']['th'] = 'Thuringia';
 
-/**
+/*
  * Logic
  */
 $GLOBALS['TL_LANG']['MSC']['databaseOperators'] = [
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LIKE          => 'like',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNLIKE        => 'not like',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_EQUAL         => '=',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNEQUAL       => '!=',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER         => '&lt;',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER       => '&gt;',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER_EQUAL   => '&lt;=',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LIKE => 'like',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNLIKE => 'not like',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_EQUAL => '=',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_UNEQUAL => '!=',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER => '&lt;',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER => '&gt;',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_LOWER_EQUAL => '&lt;=',
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_GREATER_EQUAL => '&gt;=',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IN            => 'in',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_NOT_IN        => 'not in',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NULL       => 'is null',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_NULL   => 'is not null',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_EMPTY      => 'is empty (=\'\')',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_EMPTY  => 'is not empty (!=\'\')',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IN => 'in',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_NOT_IN => 'not in',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NULL => 'is null',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_NULL => 'is not null',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_EMPTY => 'is empty (=\'\')',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::OPERATOR_IS_NOT_EMPTY => 'is not empty (!=\'\')',
 ];
 
 $GLOBALS['TL_LANG']['MSC']['connectives'] = [
     \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_AND => 'and',
-    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_OR  => 'or',
+    \HeimrichHannot\UtilsBundle\Database\DatabaseUtil::SQL_CONDITION_OR => 'or',
 ];
 
-/**
+/*
  * Errors
  */
 $GLOBALS['TL_LANG']['ERR']['posFloat']['commaFound'] = 'Invalid character found: comma. Please use a dot instead.';
 $GLOBALS['TL_LANG']['ERR']['posFloat']['noFloat'] = 'Please enter a positive floating point number (with dot instead of comma).';
 
-/**
+/*
  * Misc
  */
 $GLOBALS['TL_LANG']['MSC']['yes'] = 'Yes';
 $GLOBALS['TL_LANG']['MSC']['no'] = 'No';
 $GLOBALS['TL_LANG']['MSC']['page'] = 'Page';
 
-
-/**
+/*
  * Pagination
  */
 $GLOBALS['TL_LANG']['MSC']['readOnSinglePage'] = 'Read on one page';

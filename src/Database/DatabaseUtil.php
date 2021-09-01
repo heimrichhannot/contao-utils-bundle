@@ -869,11 +869,17 @@ class DatabaseUtil
         return isset($options['value']) ? $statement->execute($options['value']) : $statement->execute();
     }
 
-    public function insert(string $table, array $set)
+    public function insert(string $table, array $set, array $options = [])
     {
-        /* @var Database $db */
-        if (!($db = $this->framework->getAdapter(Database::class))) {
-            return null;
+        $db = $options['databaseObject'] ?? null;
+
+        if (!$db) {
+            /* @var Database $db */
+            if (!($db = $this->framework->getAdapter(Database::class))) {
+                return null;
+            }
+
+            $db = $db->getInstance();
         }
 
         $columnNames = implode(',', array_keys($set));
@@ -884,14 +890,20 @@ class DatabaseUtil
 
         $query = "INSERT INTO $table ($columnNames) VALUES ($wildcards)";
 
-        return \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_values($set));
+        return \call_user_func_array([$db->prepare($query), 'execute'], array_values($set));
     }
 
-    public function update(string $table, array $set, string $where = null, array $whereValues = [])
+    public function update(string $table, array $set, string $where = null, array $whereValues = [], array $options = [])
     {
-        /* @var Database $db */
-        if (!($db = $this->framework->getAdapter(Database::class))) {
-            return null;
+        $db = $options['databaseObject'] ?? null;
+
+        if (!$db) {
+            /* @var Database $db */
+            if (!($db = $this->framework->getAdapter(Database::class))) {
+                return null;
+            }
+
+            $db = $db->getInstance();
         }
 
         $assignments = implode(',', array_map(function ($column) use ($table) {
@@ -900,19 +912,25 @@ class DatabaseUtil
 
         $query = "UPDATE $table SET $assignments".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
+        return \call_user_func_array([$db->prepare($query), 'execute'], array_merge(array_values($set), $whereValues));
     }
 
-    public function delete(string $table, string $where = null, array $whereValues = [])
+    public function delete(string $table, string $where = null, array $whereValues = [], array $options = [])
     {
-        /* @var Database $db */
-        if (!($db = $this->framework->getAdapter(Database::class))) {
-            return null;
+        $db = $options['databaseObject'] ?? null;
+
+        if (!$db) {
+            /* @var Database $db */
+            if (!($db = $this->framework->getAdapter(Database::class))) {
+                return null;
+            }
+
+            $db = $db->getInstance();
         }
 
         $query = "DELETE FROM $table".($where ? " WHERE $where" : '');
 
-        \call_user_func_array([$db->getInstance()->prepare($query), 'execute'], $whereValues);
+        return \call_user_func_array([$db->prepare($query), 'execute'], $whereValues);
     }
 
     public function beginTransaction()

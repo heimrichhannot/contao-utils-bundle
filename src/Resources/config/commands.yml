@@ -1,10 +1,11 @@
 services:
   _defaults:
     autoconfigure: true
+    autowire: true
 
   _instanceof:
     Contao\CoreBundle\Framework\FrameworkAwareInterface:
       calls:
         - ["setFramework", ["@contao.framework"]]
 
-  HeimrichHannot\UtilsBundle\Command\CreateImageSizeCommand: ~
+  HeimrichHannot\UtilsBundle\Command\CreateImageSizeItemsCommand: ~

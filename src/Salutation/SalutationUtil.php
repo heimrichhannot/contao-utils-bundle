@@ -55,8 +55,8 @@ class SalutationUtil
             $name = $data['additionalTitle'].' '.$name;
         }
 
-        if ($data['lastname'] && $data['gender'] && ('en' != $language || !$data['academicTitle'])) {
-            $gender = $GLOBALS['TL_LANG']['MSC']['haste_plus']['gender'.('female' == $data['gender'] ? 'Female' : 'Male')];
+        if ($data['lastname'] && $data['gender'] && !\in_array($data['gender'], ['other', 'divers']) && ('en' != $language || !$data['academicTitle'])) {
+            $gender = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['gender'.('female' == $data['gender'] ? 'Female' : 'Male')];
 
             $name = $gender.' '.$name;
         }
@@ -100,7 +100,7 @@ class SalutationUtil
 
         switch ($language) {
             case 'en':
-                if ('divers' === $entity->gender) {
+                if (\in_array($entity->gender, ['other', 'divers'])) {
                     if ($informal) {
                         if ($hasFirstname && $firstnameOnly) {
                             $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationDivers'].' '.$entity->firstname;
@@ -142,7 +142,7 @@ class SalutationUtil
 
             default:
                 // de
-                if ('divers' === $entity->gender) {
+                if (\in_array($entity->gender, ['other', 'divers'])) {
                     if ($informal) {
                         if ($hasFirstname && $firstnameOnly) {
                             $salutation = $GLOBALS['TL_LANG']['MSC']['utilsBundle']['salutationGenericInformal'].' '.$entity->firstname;

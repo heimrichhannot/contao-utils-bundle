@@ -18,8 +18,6 @@ This bundle offers various utility functionality for the Contao CMS.
 
 ### Additional Requirements: 
 
-
-
 Add following dependencies to your project composer file, if you want to use one of the following utils:
 
 Util                  | Dependency
@@ -236,3 +234,9 @@ Use the download extension to render download elements, get download links, down
 | Insert tag  | Description  |
 |---|---|
 | {{twig::*}}  | This tag will be replaced with the rendered output of a given twig template, that can be sourced in `bundle/src/Resources/views` or contao root `/templates` directory (replace 1st * with template name e.g. `svg_logo_company` and 2nd * with serialized parameters that should be passed to the template) |
+
+## Commands
+
+Command | Parameters | Description | Example
+--------|------------|-------------|--------
+`huh:utils:create-image-size-items` | `<comma-separated id list of tl_image_size entities> <optional: breakpoints; defaults to 576,768,992,1200,1400>` | Creates image size items for a given image size entity. | `huh:utils:create-image-size-items 1,2`
