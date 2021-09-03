@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.204.0] - 2021-09-03
+
+- Added: new option `selectFields` for `DatabaseUtil::findResultByPk()`, `DatabaseUtil::findOneResultBy()`, `DatabaseUtil::findResultsBy()`
 - Changed: enhanced ContainerUtil documentation
 - Deprecated: deprecated the old StringUtil class as whole
 - Fixed: issues with CI
