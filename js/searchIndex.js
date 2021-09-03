@@ -971,6 +971,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Database-DatabaseUtil.html#method_commitTransaction"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Database\\DatabaseUtil\u003A\u003AcreateQueryWithoutRelations\u0028\u0029",
+            "name": "createQueryWithoutRelations",
+            "summary": "Adapted\u0020from\u0020\\Contao\\Model\\QueryBuilder\u003A\u003Afind\u0028\u0029.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Database-DatabaseUtil.html#method_createQueryWithoutRelations"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Database\\DatabaseUtil\u003A\u003ASQL_CONDITION_OR",
             "name": "SQL_CONDITION_OR",
             "summary": "",
@@ -4268,32 +4273,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisBackend\u0028\u0029",
             "name": "isBackend",
-            "summary": "",
+            "summary": "Return\u0020if\u0020currently\u0020in\u0020backend\u0020scope.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isBackend"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisFrontend\u0028\u0029",
             "name": "isFrontend",
-            "summary": "",
+            "summary": "Return\u0020if\u0020currently\u0020in\u0020frontend\u0020scope.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isFrontend"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisFrontendCron\u0028\u0029",
             "name": "isFrontendCron",
-            "summary": "",
+            "summary": "Return\u0020if\u0020in\u0020cron\u0020route\u0020\u0028Attention\u003A\u0020not\u0020cron\u0020command\u0021\u0029.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isFrontendCron"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisInstall\u0028\u0029",
             "name": "isInstall",
-            "summary": "",
+            "summary": "Return\u0020if\u0020in\u0020install\u0020route\u0020\u0028Attention\u003A\u0020not\u0020migration\u0021\u0029.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isInstall"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisDev\u0028\u0029",
             "name": "isDev",
-            "summary": "",
+            "summary": "Return\u0020if\u0020in\u0020dev\u0020environment.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isDev"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003Alog\u0028\u0029",
             "name": "log",
-            "summary": "",
+            "summary": "Add\u0020a\u0020log\u0020entry\u0020to\u0020contao\u0020system\u0020log.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_log"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AgetBundlePath\u0028\u0029",
@@ -4308,12 +4313,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisMaintenanceModeActive\u0028\u0029",
             "name": "isMaintenanceModeActive",
-            "summary": "",
+            "summary": "Return\u0020if\u0020currently\u0020in\u0020maintenance\u0020mode.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isMaintenanceModeActive"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AisPreviewMode\u0028\u0029",
             "name": "isPreviewMode",
-            "summary": "",
+            "summary": "Return\u0020if\u0020currently\u0020in\u0020preview\u0020mode.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#method_isPreviewMode"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003AgetSubscribedServices\u0028\u0029",
