@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.204.1] - 2021-09-15
+
+- Fixed: preview mode for contao 4.9
+
 ## [2.204.0] - 2021-09-03
 
 - Added: new option `selectFields` for `DatabaseUtil::findResultByPk()`, `DatabaseUtil::findOneResultBy()`, `DatabaseUtil::findResultsBy()`
