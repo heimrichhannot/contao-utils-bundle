@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.204.2] - 2021-09-17
+
+- Fixed: visibility of `FileUtil::getParentFoldersByUuid()`
+
 ## [2.204.1] - 2021-09-15
 
 - Fixed: preview mode for contao 4.9

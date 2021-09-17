@@ -504,7 +504,7 @@ class FileUtil
         return $return;
     }
 
-    public static function getParentFoldersByUuid($uuid, array $config = [])
+    public function getParentFoldersByUuid($uuid, array $config = [])
     {
         $returnRows = $config['returnRows'] ?? true;
 
