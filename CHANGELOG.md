@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.205.0] - 2021-09-22
+
+- Added: config parameter `skipReplaceInsertTags` in `FormUtil::prepareSpecialValueForOutput()`
+
 ## [2.204.2] - 2021-09-17
 
 - Fixed: visibility of `FileUtil::getParentFoldersByUuid()`
