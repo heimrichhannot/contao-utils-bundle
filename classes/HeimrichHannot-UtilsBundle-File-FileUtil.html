@@ -259,7 +259,7 @@ delete the other png files.</dd>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/HeimrichHannot-UtilsBundle-File-FileUtil.html#method_getUniqueFileNameWithinTarget">getUniqueFileNameWithinTarget()</a>
     <span>
-                        &nbsp;: string    </span>
+                        &nbsp;: string|false    </span>
 </dt>
 <dd>Get a unique filename within given target folder, remove uniqid() suffix from file (optional, add $prefix) and append file count by name to
 file if file with same name already exists in target folder.</dd>
@@ -1366,7 +1366,7 @@ file if file with same name already exists in target folder.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">getUniqueFileNameWithinTarget</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prefix</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr title=""></abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$i</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                <span class="phpdocumentor-signature__name">getUniqueFileNameWithinTarget</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$target</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prefix</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href=""><abbr title=""></abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$i</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string|false</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -1419,9 +1419,9 @@ file if file with same name already exists in target folder.</p>
                         </dl>
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string</span>
+    <span class="phpdocumentor-signature__response_type">string|false</span>
             &mdash;
-            <section class="phpdocumentor-description"><p>| false The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)</p>
+            <section class="phpdocumentor-description"><p>The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)</p>
 </section>
 
     
