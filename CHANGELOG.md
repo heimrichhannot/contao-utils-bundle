@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.205.1] - 2021-09-24
+
+- Changed: separator character from `_` to `-` (file sanitize)
+
 ## [2.205.0] - 2021-09-22
 
 - Added: config parameter `skipReplaceInsertTags` in `FormUtil::prepareSpecialValueForOutput()`
