@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.205.2] - 2021-09-27
+
+- Added: missing default value for author field
+
 ## [2.205.1] - 2021-09-24
 
 - Changed: separator character from `_` to `-` (file sanitize)

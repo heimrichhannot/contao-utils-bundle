@@ -195,9 +195,9 @@ class DcaUtil
     public function getPopupWizardLink($parameter, array $options = [])
     {
         if (\is_string($parameter)) {
-            @trigger_error('Using string as parameter is deprecated and will be removed in a future version.', E_USER_DEPRECATED);
+            @trigger_error('Using string as parameter is deprecated and will be removed in a future version.', \E_USER_DEPRECATED);
             $result = [];
-            $query = parse_url($parameter, PHP_URL_QUERY);
+            $query = parse_url($parameter, \PHP_URL_QUERY);
 
             if (\is_string($query)) {
                 $parameter = $query;
@@ -780,6 +780,7 @@ class DcaUtil
             'search' => true,
             'filter' => true,
             'inputType' => 'select',
+            'default' => '0',
             'options_callback' => function () {
                 return $this->container->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_member',
