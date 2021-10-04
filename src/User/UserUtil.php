@@ -61,7 +61,10 @@ class UserUtil
         if (!empty(array_filter($groups))) {
             [$tmpColumns, $tmpValues] = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
 
-            $columns[] = str_replace('?', $tmpValues[0], $tmpColumns);
+            // replace allooccurencies of question mark and replace it by values from valueArray
+            $columns[] = preg_replace_callback('/\?/', function () use (&$tmpValues) {
+                return array_shift($tmpValues);
+            }, $tmpColumns);
         }
 
         return $adapter->findBy($columns, $values, $options);
