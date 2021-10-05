@@ -59,12 +59,8 @@ class UserUtil
         $columns = ["($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'".($time + 60)."') AND $t.disable=''"];
 
         if (!empty(array_filter($groups))) {
-            [$tmpColumns, $tmpValues] = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
-
-            // replace allooccurencies of question mark and replace it by values from valueArray
-            $columns[] = preg_replace_callback('/\?/', function () use (&$tmpValues) {
-                return array_shift($tmpValues);
-            }, $tmpColumns);
+            [$columns[], $tmpValues] = System::getContainer()->get('huh.utils.database')->createWhereForSerializedBlob('groups', array_filter($groups));
+            $values = array_merge(array_values($values), array_values($tmpValues));
         }
 
         return $adapter->findBy($columns, $values, $options);

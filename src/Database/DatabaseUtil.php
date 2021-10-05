@@ -339,7 +339,7 @@ class DatabaseUtil
                 $where .= " $connective ";
             }
 
-            $value = "':\"$val\"'";
+            $value = ":\"$val\"";
 
             $where .= self::SQL_CONDITION_AND == $connective ? '(' : '';
 
