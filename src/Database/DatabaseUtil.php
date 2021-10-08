@@ -328,7 +328,7 @@ class DatabaseUtil
     {
         $where = null;
         $returnValues = [];
-        $inlineValues = (isset($options['inline_values']) && true === $options['inline_values']);
+        $inlineValues = $options['inline_values'] ?? false;
 
         if (!\in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND])) {
             throw new \Exception('Unknown sql junctor');
@@ -339,7 +339,7 @@ class DatabaseUtil
                 $where .= " $connective ";
             }
 
-            $value = "':\"$val\"'";
+            $value = ":\"$val\"";
 
             $where .= self::SQL_CONDITION_AND == $connective ? '(' : '';
 
