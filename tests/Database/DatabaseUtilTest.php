@@ -384,7 +384,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
 
         $result = $instance->createWhereForSerializedBlob('test', ['A', 'B'], $instance::SQL_CONDITION_OR, ['inline_values' => true]);
         $this->assertCount(2, $result);
-        $this->assertSame("(test REGEXP (':\"A\"') OR test REGEXP (':\"B\"'))", $result[0]);
+        $this->assertSame('(test REGEXP (:"A") OR test REGEXP (:"B"))', $result[0]);
         $this->assertCount(2, $result[1]);
         $this->assertSame(':"A"', $result[1][0]);
     }
