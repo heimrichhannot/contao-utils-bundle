@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.205.3] - 2021-10-08
+
+- Fixed: UserUtil::findActiveByGroups(#35)
+
 ## [2.205.2] - 2021-09-27
 
 - Added: missing default value for author field
