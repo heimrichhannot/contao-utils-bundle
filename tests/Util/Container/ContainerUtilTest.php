@@ -129,6 +129,9 @@ class ContainerUtilTest extends ContaoTestCase
         ]);
         $this->assertTrue($instance->isPreviewMode());
 
+        if (!class_exists('Contao\CoreBundle\Security\Authentication\Token\TokenChecker')) {
+            return;
+        }
         $tokenChecker = $this->createMock(TokenChecker::class);
         $tokenChecker->method('isPreviewMode')->willReturnOnConsecutiveCalls(false, true);
         $locator = $this->createMock(ServiceLocator::class);
