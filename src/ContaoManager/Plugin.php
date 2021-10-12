@@ -41,7 +41,6 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
     {
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/commands.yml');
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/choices.yml');
-        $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/listener.yml');
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/parameters.yml');
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/services.yml');
         $loader->load('@HeimrichHannotContaoUtilsBundle/Resources/config/twig.yml');
