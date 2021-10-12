@@ -12,6 +12,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
+use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -186,13 +187,13 @@ class ContainerUtil implements ServiceSubscriberInterface
      */
     public function isPreviewMode(): bool
     {
-        if (version_compare(VERSION, '4.9', '<')) {
-            $isPreview = \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && Input::cookie('FE_PREVIEW');
-        } else {
-            $isPreview = \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true;
+        if ($this->locator->has(TokenChecker::class)) {
+            return $this->locator->get(TokenChecker::class)->isPreviewMode();
         }
 
-        return $isPreview;
+        return \defined('BE_USER_LOGGED_IN')
+                && BE_USER_LOGGED_IN === true
+                && $this->framework->getAdapter(Input::class)->cookie('FE_PREVIEW');
     }
 
     public static function getSubscribedServices()
@@ -201,6 +202,7 @@ class ContainerUtil implements ServiceSubscriberInterface
             'lexik_maintenance.driver.factory',
             'monolog.logger.contao',
             FileLocator::class,
+            '?'.TokenChecker::class,
         ];
     }
 }
