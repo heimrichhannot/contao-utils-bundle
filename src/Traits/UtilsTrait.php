@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Traits;
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
+use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 use Psr\Container\ContainerInterface;
 
@@ -43,6 +44,11 @@ trait UtilsTrait
         return $this->locator->get(LocaleUtil::class);
     }
 
+    public function request(): RequestUtil
+    {
+        return $this->locator->get(RequestUtil::class);
+    }
+
     public function string(): StringUtil
     {
         return $this->locator->get(StringUtil::class);
@@ -53,6 +59,7 @@ trait UtilsTrait
         return [
             ContainerUtil::class,
             LocaleUtil::class,
+            RequestUtil::class,
             StringUtil::class,
         ];
     }
