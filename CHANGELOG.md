@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2021-10-13
+
+- Fixed: greedy line break listener (Removed modifyFrontendPage hook listener) ([#38])
+
 ## [2.205.3] - 2021-10-08
 
 - Fixed: UserUtil::findActiveByGroups(#35)
@@ -2639,4 +2643,5 @@ instead
 
 - replaced `heimrichhannot/contao-request` with `heimrichhannot/contao-requets-bundle`
 
+[#38]: https://github.com/heimrichhannot/contao-utils-bundle/pull/38
 [#24]: https://github.com/heimrichhannot/contao-utils-bundle/pull/24
