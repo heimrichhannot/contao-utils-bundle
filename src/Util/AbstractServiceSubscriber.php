@@ -8,12 +8,12 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
-if (interface_exists('Symfony\Contracts\Service\ServiceSubscriberInterface')) {
-    abstract class AbstractServiceSubscriber implements \Symfony\Contracts\Service\ServiceSubscriberInterface
+if (interface_exists('Symfony\Component\DependencyInjection\ServiceSubscriberInterface')) {
+    abstract class AbstractServiceSubscriber implements \Symfony\Component\DependencyInjection\ServiceSubscriberInterface
     {
     }
-} elseif (interface_exists('Symfony\Component\DependencyInjection\ServiceSubscriberInterface')) {
-    abstract class AbstractServiceSubscriber implements \Symfony\Component\DependencyInjection\ServiceSubscriberInterface
+} elseif (interface_exists('Symfony\Contracts\Service\ServiceSubscriberInterface')) {
+    abstract class AbstractServiceSubscriber implements \Symfony\Contracts\Service\ServiceSubscriberInterface
     {
     }
 }

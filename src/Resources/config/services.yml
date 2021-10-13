@@ -13,7 +13,8 @@ services:
     autoconfigure: true
 
   HeimrichHannot\UtilsBundle\Util\:
-    resource: '../../Util/*/*'
+    resource: '../../Util/*'
+    exclude: '../../Util/Utils.php'
     autowire: true
     bind:
       $kernelBundles: '%kernel.bundles%'
