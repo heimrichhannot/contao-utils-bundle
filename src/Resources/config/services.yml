@@ -16,9 +16,20 @@ services:
     resource: '../../Util/*'
     exclude: '../../Util/Utils.php'
     autowire: true
+    autoconfigure: true
+    bind:
+      $kernelPackages: '%kernel.packages%'
+
+  HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil:
+    autowire: true
+    autoconfigure: true
     bind:
       $kernelBundles: '%kernel.bundles%'
-      $kernelPackages: '%kernel.packages%'
+    tags:
+      - { name: 'container.service_subscriber', key: 'lexik_maintenance.driver.factory', id: 'lexik_maintenance.driver.factory' }
+      - { name: 'container.service_subscriber', key: 'monolog.logger.contao', id: 'monolog.logger.contao' }
+
+
 
   HeimrichHannot\UtilsBundle\EventListener\:
     resource: '../../EventListener/*'

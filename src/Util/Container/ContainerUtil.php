@@ -15,7 +15,9 @@ use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
 use HeimrichHannot\UtilsBundle\Util\AbstractServiceSubscriber;
+use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -199,8 +201,8 @@ class ContainerUtil extends AbstractServiceSubscriber
     public static function getSubscribedServices()
     {
         return [
-            'lexik_maintenance.driver.factory',
-            'monolog.logger.contao',
+            'lexik_maintenance.driver.factory' => DriverFactory::class,
+            'monolog.logger.contao' => LoggerInterface::class,
             FileLocator::class,
             '?'.TokenChecker::class,
         ];
