@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2020 Heimrich & Hannot GmbH
+ * Copyright (c) 2021 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -12,6 +12,7 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\HttpKernel\Bundle\ContaoModuleBundle;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
+use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\RequestBundle\HeimrichHannotContaoRequestBundle;
@@ -104,47 +105,45 @@ class ContainerUtilTest extends ContaoTestCase
      */
     public function testIsPreviewMode()
     {
-        $inputMock = $this->mockAdapter(['cookie']);
+        $input = $this->mockAdapter(['cookie']);
+        $input->method('cookie')->willReturn(false);
         $framework = $this->mockContaoFramework([
-            Input::class => $inputMock,
+            Input::class => $input,
         ]);
-        $instance = $this->getTestInstance(['framework' => $framework]);
 
+        $instance = $this->getTestInstance([
+            'framework' => $framework,
+        ]);
         $this->assertFalse($instance->isPreviewMode());
 
-        \define('BE_USER_LOGGED_IN', false);
-        $this->assertFalse($instance->isPreviewMode());
-    }
-
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
-    public function testIsPreviewModeLoggedIn()
-    {
         \define('BE_USER_LOGGED_IN', true);
-
-        $inputMock = $this->mockAdapter(['cookie']);
-        $framework = $this->mockContaoFramework([
-            Input::class => $inputMock,
-        ]);
-        $instance = $this->getTestInstance(['framework' => $framework]);
         $this->assertFalse($instance->isPreviewMode());
 
-        $inputMock = $this->mockAdapter(['cookie']);
-        $inputMock->method('cookie')->willReturn(null);
+        $input = $this->mockAdapter(['cookie']);
+        $input->method('cookie')->willReturn(true);
         $framework = $this->mockContaoFramework([
-            Input::class => $inputMock,
+            Input::class => $input,
         ]);
-        $instance = $this->getTestInstance(['framework' => $framework]);
-        $this->assertFalse($instance->isPreviewMode());
+        $instance = $this->getTestInstance([
+            'framework' => $framework,
+        ]);
+        $this->assertTrue($instance->isPreviewMode());
 
-        $inputMock = $this->mockAdapter(['cookie']);
-        $inputMock->method('cookie')->willReturn('1');
-        $framework = $this->mockContaoFramework([
-            Input::class => $inputMock,
-        ]);
-        $instance = $this->getTestInstance(['framework' => $framework]);
+        if (!class_exists('Contao\CoreBundle\Security\Authentication\Token\TokenChecker')) {
+            return;
+        }
+        $tokenChecker = $this->createMock(TokenChecker::class);
+        $tokenChecker->method('isPreviewMode')->willReturnOnConsecutiveCalls(false, true);
+        $locator = $this->createMock(ServiceLocator::class);
+        $locator->method('has')->willReturn(true);
+        $locator->method('get')->willReturnCallback(function ($id) use ($tokenChecker) {
+            switch ($id) {
+                case TokenChecker::class:
+                    return $tokenChecker;
+            }
+        });
+        $instance = $this->getTestInstance(['locator' => $locator]);
+        $this->assertFalse($instance->isPreviewMode());
         $this->assertTrue($instance->isPreviewMode());
     }
 

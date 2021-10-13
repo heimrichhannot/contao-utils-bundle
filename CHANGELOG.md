@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2021-10-13
+
+- Added: RequestUtil::getCurrentPageModel() ([#37])
+- Changed: ContainerUtil::isPreviewMode() now uses TokenChecker::isPreviewMode() where available (Contao 4.5+) ([#37])
+- Fixed: failing tests ([#37])
+- Fixed: remove FrontendPageListener as it add linebreak to czech language pages with many side effects, that must be an optional feature. If you need such a functionality, please add a listener by yourself! ([#38])
+
 ## [2.205.3] - 2021-10-08
 
 - Fixed: UserUtil::findActiveByGroups(#35)
@@ -2639,4 +2646,6 @@ instead
 
 - replaced `heimrichhannot/contao-request` with `heimrichhannot/contao-requets-bundle`
 
+[#38]: https://github.com/heimrichhannot/contao-utils-bundle/pull/38
+[#37]: https://github.com/heimrichhannot/contao-utils-bundle/pull/37
 [#24]: https://github.com/heimrichhannot/contao-utils-bundle/pull/24
