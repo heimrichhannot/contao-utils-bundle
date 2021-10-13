@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
+use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -29,6 +30,9 @@ class UtilsTest extends ContaoTestCase
                     case LocaleUtil::class:
                         return $this->createMock(LocaleUtil::class);
 
+                    case RequestUtil::class:
+                        return $this->createMock(RequestUtil::class);
+
                     case StringUtil::class:
                         return $this->createMock(StringUtil::class);
                 }
@@ -46,6 +50,11 @@ class UtilsTest extends ContaoTestCase
     public function testLocale()
     {
         $this->assertInstanceOf(LocaleUtil::class, $this->getTestInstance()->locale());
+    }
+
+    public function testRequest()
+    {
+        $this->assertInstanceOf(RequestUtil::class, $this->getTestInstance()->request());
     }
 
     public function testString()

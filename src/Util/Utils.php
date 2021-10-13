@@ -8,16 +8,54 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
-use HeimrichHannot\UtilsBundle\Traits\UtilsTrait;
+use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
+use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
+use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
+use Psr\Container\ContainerInterface;
 
-if (interface_exists('Symfony\Contracts\Service\ServiceSubscriberInterface')) {
-    class Utils implements \Symfony\Contracts\Service\ServiceSubscriberInterface
+class Utils extends AbstractServiceSubscriber
+{
+    /**
+     * @var ContainerInterface
+     */
+    protected $locator;
+
+    /**
+     * Utils constructor.
+     */
+    public function __construct(ContainerInterface $locator)
     {
-        use UtilsTrait;
+        $this->locator = $locator;
     }
-} elseif (interface_exists('Symfony\Component\DependencyInjection\ServiceSubscriberInterface')) {
-    class Utils implements \Symfony\Component\DependencyInjection\ServiceSubscriberInterface
+
+    public function container(): ContainerUtil
     {
-        use UtilsTrait;
+        return $this->locator->get(ContainerUtil::class);
+    }
+
+    public function locale(): LocaleUtil
+    {
+        return $this->locator->get(LocaleUtil::class);
+    }
+
+    public function request(): RequestUtil
+    {
+        return $this->locator->get(RequestUtil::class);
+    }
+
+    public function string(): StringUtil
+    {
+        return $this->locator->get(StringUtil::class);
+    }
+
+    public static function getSubscribedServices()
+    {
+        return [
+            ContainerUtil::class,
+            LocaleUtil::class,
+            RequestUtil::class,
+            StringUtil::class,
+        ];
     }
 }
