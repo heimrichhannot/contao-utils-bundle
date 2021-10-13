@@ -18,6 +18,13 @@ services:
     bind:
       $kernelBundles: '%kernel.bundles%'
 
+  HeimrichHannot\UtilsBundle\EventListener\:
+    resource: '../../EventListener/*'
+    autowire: true
+    public: true
+    bind:
+      $bundleConfig: '%huh_utils%'
+
   # util services
   huh.utils.cache.database:
     class: HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil
