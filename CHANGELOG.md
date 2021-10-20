@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2021-10-13
+- Fixed: contao 4.4 incompatible code in DcaUtil 
+
 ## [2.206.0] - 2021-10-13
 
 - Added: RequestUtil::getCurrentPageModel() ([#37])

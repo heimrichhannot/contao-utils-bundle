@@ -613,6 +613,9 @@ class DcaUtil
         $dca = &$GLOBALS['TL_DCA'][$table];
         $arrayUtil = $this->container->get('huh.utils.array');
 
+        // Contao 4.4 fix
+        $replaceFields = [];
+
         // palette
         foreach ($overridableFields as $field) {
             if (true === $dca['fields'][$field]['eval']['submitOnChange']) {
@@ -651,10 +654,16 @@ class DcaUtil
                 }
             }
 
-            $pm->addField('override'.ucfirst($field), $field)->removeField($field);
+            $replaceFields[] = $field;
+
+//            $pm->addField('override'.ucfirst($field), $field)->removeField($field);
         }
 
         $pm->applyToPalette('default', $table);
+
+        foreach ($replaceFields as $replaceField) {
+            $dca['palettes']['default'] = str_replace($replaceField, 'override'.ucfirst($replaceField), $dca['palettes']['default']);
+        }
     }
 
     /**
