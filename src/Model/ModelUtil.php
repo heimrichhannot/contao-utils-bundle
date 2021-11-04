@@ -199,6 +199,9 @@ class ModelUtil
      * @param mixed $idOrAlias
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstanceByIdOrAlias(string $table, $idOrAlias, array $options = [])
     {
