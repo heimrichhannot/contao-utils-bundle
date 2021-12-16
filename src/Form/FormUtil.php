@@ -119,6 +119,7 @@ class FormUtil
         }
 
         $arraySeparator = $config['arraySeparator'] ?? ', ';
+        $skipReplaceInsertTags = $config['skipReplaceInsertTags'] ?? false;
 
         // dca can be overridden from outside
         if (isset($config['_dcaOverride']) && \is_array($config['_dcaOverride'])) {
@@ -292,7 +293,9 @@ class FormUtil
             $this->optionsCache = null;
         }
 
-        $value = Controller::replaceInsertTags($value);
+        if (!$skipReplaceInsertTags) {
+            $value = Controller::replaceInsertTags($value);
+        }
 
         // Convert special characters (see #1890)
         return StringUtil::specialchars($value);

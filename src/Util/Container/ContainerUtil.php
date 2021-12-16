@@ -12,16 +12,19 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
+use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
+use HeimrichHannot\UtilsBundle\Util\AbstractServiceSubscriber;
+use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-class ContainerUtil implements ServiceSubscriberInterface
+class ContainerUtil extends AbstractServiceSubscriber
 {
     /** @var ContaoFramework */
     protected $framework;
@@ -186,15 +189,22 @@ class ContainerUtil implements ServiceSubscriberInterface
      */
     public function isPreviewMode(): bool
     {
-        return \defined('BE_USER_LOGGED_IN') && BE_USER_LOGGED_IN === true && $this->framework->getAdapter(Input::class)->cookie('FE_PREVIEW');
+        if ($this->locator->has(TokenChecker::class)) {
+            return $this->locator->get(TokenChecker::class)->isPreviewMode();
+        }
+
+        return \defined('BE_USER_LOGGED_IN')
+                && BE_USER_LOGGED_IN === true
+                && $this->framework->getAdapter(Input::class)->cookie('FE_PREVIEW');
     }
 
     public static function getSubscribedServices()
     {
         return [
-            'lexik_maintenance.driver.factory',
-            'monolog.logger.contao',
+            'lexik_maintenance.driver.factory' => DriverFactory::class,
+            'monolog.logger.contao' => LoggerInterface::class,
             FileLocator::class,
+            '?'.TokenChecker::class,
         ];
     }
 }

@@ -51,7 +51,7 @@ class FileUtil
      *
      * @throws \Exception
      *
-     * @return string | false The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)
+     * @return string|false The filename with the target folder and unique id or false if something went wrong (e.g. target does not exist)
      */
     public function getUniqueFileNameWithinTarget($target, $prefix = null, $i = 0)
     {
@@ -81,8 +81,8 @@ class FileUtil
 
         if (file_exists($this->container->getParameter('kernel.project_dir').'/'.$target)) {
             // remove suffix
-            if ($i > 0 && $this->container->get('huh.utils.string')->endsWith($path, '_'.$i)) {
-                $path = rtrim($path, '_'.$i);
+            if ($i > 0 && $this->container->get('huh.utils.string')->endsWith($path, '-'.$i)) {
+                $path = rtrim($path, '-'.$i);
             }
 
             // increment counter & add extension again
@@ -93,7 +93,7 @@ class FileUtil
                 return $this->getUniqueFileNameWithinTarget($this->addUniqueIdToFilename($path.'.'.$file->extension, null, false));
             }
 
-            return $this->getUniqueFileNameWithinTarget($path.'_'.$i.'.'.$file->extension, $prefix, $i);
+            return $this->getUniqueFileNameWithinTarget($path.'-'.$i.'.'.$file->extension, $prefix, $i);
         }
 
         return $target;
@@ -181,7 +181,7 @@ class FileUtil
             return '';
         }
 
-        return pathinfo($path, PATHINFO_EXTENSION);
+        return pathinfo($path, \PATHINFO_EXTENSION);
     }
 
     /**
@@ -308,7 +308,7 @@ class FileUtil
         header('Connection: close');
         echo $content;
 
-        die();
+        exit();
     }
 
     /**
@@ -460,7 +460,7 @@ class FileUtil
 
         $values = [];
 
-        $parentIds = array_map(function ($pid) use (&$values, $returnRows) {
+        $parentIds = array_map(function ($pid) use (&$values) {
             $pid = \is_array($pid) ? $pid['id'] : $pid;
 
             $values[] = bin2hex(Validator::isStringUuid($pid) ? StringUtil::uuidToBin($pid) : $pid);
@@ -504,7 +504,7 @@ class FileUtil
         return $return;
     }
 
-    public static function getParentFoldersByUuid($uuid, array $config = [])
+    public function getParentFoldersByUuid($uuid, array $config = [])
     {
         $returnRows = $config['returnRows'] ?? true;
 
@@ -584,7 +584,7 @@ class FileUtil
             return false;
         }
 
-        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(\FILEINFO_MIME_TYPE);
 
         return $this->getExtensionByMimeType($finfo->buffer($content));
     }

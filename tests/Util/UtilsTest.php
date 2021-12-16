@@ -12,6 +12,7 @@ use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
@@ -33,6 +34,9 @@ class UtilsTest extends ContaoTestCase
 
                     case ModelUtil::class:
                         return $this->createMock(ModelUtil::class);
+
+		            case RequestUtil::class:
+                        return $this->createMock(RequestUtil::class);
 
                     case StringUtil::class:
                         return $this->createMock(StringUtil::class);
@@ -61,6 +65,11 @@ class UtilsTest extends ContaoTestCase
     public function testModel()
     {
         $this->assertInstanceOf(ModelUtil::class, $this->getTestInstance()->model());
+    }
+
+    public function testRequest()
+    {
+        $this->assertInstanceOf(RequestUtil::class, $this->getTestInstance()->request());
     }
 
     public function testString()

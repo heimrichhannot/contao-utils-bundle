@@ -13,10 +13,30 @@ services:
     autoconfigure: true
 
   HeimrichHannot\UtilsBundle\Util\:
-    resource: '../../Util/*/*'
+    resource: '../../Util/*'
+    exclude: '../../Util/Utils.php'
     autowire: true
+    autoconfigure: true
+    bind:
+      $kernelPackages: '%kernel.packages%'
+
+  HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil:
+    autowire: true
+    autoconfigure: true
     bind:
       $kernelBundles: '%kernel.bundles%'
+    tags:
+      - { name: 'container.service_subscriber', key: 'lexik_maintenance.driver.factory', id: 'lexik_maintenance.driver.factory' }
+      - { name: 'container.service_subscriber', key: 'monolog.logger.contao', id: 'monolog.logger.contao' }
+
+
+
+  HeimrichHannot\UtilsBundle\EventListener\:
+    resource: '../../EventListener/*'
+    autowire: true
+    public: true
+    bind:
+      $bundleConfig: '%huh_utils%'
 
   # util services
   huh.utils.cache.database:

@@ -13,7 +13,6 @@ use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Model;
 use Contao\System;
-use Database\Result;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -329,7 +328,7 @@ class DatabaseUtil
     {
         $where = null;
         $returnValues = [];
-        $inlineValues = (isset($options['inline_values']) && true === $options['inline_values']);
+        $inlineValues = $options['inline_values'] ?? false;
 
         if (!\in_array($connective, [self::SQL_CONDITION_OR, self::SQL_CONDITION_AND])) {
             throw new \Exception('Unknown sql junctor');
@@ -340,7 +339,7 @@ class DatabaseUtil
                 $where .= " $connective ";
             }
 
-            $value = "':\"$val\"'";
+            $value = ":\"$val\"";
 
             $where .= self::SQL_CONDITION_AND == $connective ? '(' : '';
 
@@ -763,7 +762,12 @@ class DatabaseUtil
         );
 
         $options['table'] = $table;
-        $query = \Contao\Model\QueryBuilder::find($options);
+
+        if (isset($options['selectFields'])) {
+            $query = $this->createQueryWithoutRelations($options['selectFields']);
+        } else {
+            $query = \Contao\Model\QueryBuilder::find($options);
+        }
 
         $statement = $db->getInstance()->prepare($query);
 
@@ -806,7 +810,12 @@ class DatabaseUtil
         );
 
         $options['table'] = $table;
-        $query = \Contao\Model\QueryBuilder::find($options);
+
+        if (isset($options['selectFields'])) {
+            $query = $this->createQueryWithoutRelations($options['selectFields']);
+        } else {
+            $query = \Contao\Model\QueryBuilder::find($options);
+        }
 
         $statement = $db->getInstance()->prepare($query);
 
@@ -848,7 +857,12 @@ class DatabaseUtil
         }
 
         $options['table'] = $table;
-        $query = \Contao\Model\QueryBuilder::find($options);
+
+        if (isset($options['selectFields'])) {
+            $query = $this->createQueryWithoutRelations($options);
+        } else {
+            $query = \Contao\Model\QueryBuilder::find($options);
+        }
 
         $statement = $db->getInstance()->prepare($query);
 
@@ -951,5 +965,40 @@ class DatabaseUtil
         }
 
         $db->commitTransaction();
+    }
+
+    /**
+     * Adapted from \Contao\Model\QueryBuilder::find().
+     *
+     * @return string
+     */
+    private function createQueryWithoutRelations(array $options)
+    {
+        $fields = $options['selectFields'] ?? [];
+
+        $query = 'SELECT '.(empty($fields) ? '*' : implode(', ', $fields)).' FROM '.$options['table'];
+
+        // Where condition
+        if (isset($options['column'])) {
+            $query .= ' WHERE '.(\is_array($options['column']) ? implode(' AND ', $options['column']) : $options['table'].'.'.Database::quoteIdentifier($options['column']).'=?');
+        }
+
+        // Group by
+        if (isset($options['group'])) {
+            @trigger_error('Using the "group" option has been deprecated and will no longer work in Contao 5.0. See https://github.com/contao/contao/issues/1680', E_USER_DEPRECATED);
+            $query .= ' GROUP BY '.$options['group'];
+        }
+
+        // Having (see #6446)
+        if (isset($options['having'])) {
+            $query .= ' HAVING '.$options['having'];
+        }
+
+        // Order by
+        if (isset($options['order'])) {
+            $query .= ' ORDER BY '.$options['order'];
+        }
+
+        return $query;
     }
 }

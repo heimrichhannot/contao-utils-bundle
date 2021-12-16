@@ -195,9 +195,9 @@ class DcaUtil
     public function getPopupWizardLink($parameter, array $options = [])
     {
         if (\is_string($parameter)) {
-            @trigger_error('Using string as parameter is deprecated and will be removed in a future version.', E_USER_DEPRECATED);
+            @trigger_error('Using string as parameter is deprecated and will be removed in a future version.', \E_USER_DEPRECATED);
             $result = [];
-            $query = parse_url($parameter, PHP_URL_QUERY);
+            $query = parse_url($parameter, \PHP_URL_QUERY);
 
             if (\is_string($query)) {
                 $parameter = $query;
@@ -613,6 +613,9 @@ class DcaUtil
         $dca = &$GLOBALS['TL_DCA'][$table];
         $arrayUtil = $this->container->get('huh.utils.array');
 
+        // Contao 4.4 fix
+        $replaceFields = [];
+
         // palette
         foreach ($overridableFields as $field) {
             if (true === $dca['fields'][$field]['eval']['submitOnChange']) {
@@ -651,10 +654,16 @@ class DcaUtil
                 }
             }
 
-            $pm->addField('override'.ucfirst($field), $field)->removeField($field);
+            $replaceFields[] = $field;
+
+//            $pm->addField('override'.ucfirst($field), $field)->removeField($field);
         }
 
         $pm->applyToPalette('default', $table);
+
+        foreach ($replaceFields as $replaceField) {
+            $dca['palettes']['default'] = str_replace($replaceField, 'override'.ucfirst($replaceField), $dca['palettes']['default']);
+        }
     }
 
     /**
@@ -780,6 +789,7 @@ class DcaUtil
             'search' => true,
             'filter' => true,
             'inputType' => 'select',
+            'default' => '0',
             'options_callback' => function () {
                 return $this->container->get('huh.utils.choice.model_instance')->getCachedChoices([
                     'dataContainer' => 'tl_member',

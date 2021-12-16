@@ -2,7 +2,46 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.206.1] - 2021-10-13
+- Fixed: contao 4.4 incompatible code in DcaUtil 
+
+## [2.206.0] - 2021-10-13
+
+- Added: RequestUtil::getCurrentPageModel() ([#37])
+- Added: AbstractServiceSubscriber to make service subscriber compatible to symfony 3, 4 and 5 ([#39])
+- Changed: ContainerUtil::isPreviewMode() now uses TokenChecker::isPreviewMode() where available (Contao 4.5+) ([#37])
+- Changed: Refactored ContainerUtil and Utils class inheriting from AbstractServiceSubscriber
+- Fixed: failing tests ([#37])
+- Fixed: remove FrontendPageListener as it add linebreak to czech language pages with many side effects, that must be an optional feature. If you need such a functionality, please add a listener by yourself! ([#38])
+- Fixed: service subscriber not registered correctly ([#39])
+
+## [2.205.3] - 2021-10-08
+
+- Fixed: UserUtil::findActiveByGroups(#35)
+
+## [2.205.2] - 2021-09-27
+
+- Added: missing default value for author field
+
+## [2.205.1] - 2021-09-24
+
+- Changed: separator character from `_` to `-` (file sanitize)
+
+## [2.205.0] - 2021-09-22
+
+- Added: config parameter `skipReplaceInsertTags` in `FormUtil::prepareSpecialValueForOutput()`
+
+## [2.204.2] - 2021-09-17
+
+- Fixed: visibility of `FileUtil::getParentFoldersByUuid()`
+
+## [2.204.1] - 2021-09-15
+
+- Fixed: preview mode for contao 4.9
+
+## [2.204.0] - 2021-09-03
+
+- Added: new option `selectFields` for `DatabaseUtil::findResultByPk()`, `DatabaseUtil::findOneResultBy()`, `DatabaseUtil::findResultsBy()`
 - Changed: enhanced ContainerUtil documentation
 - Deprecated: deprecated the old StringUtil class as whole
 - Fixed: issues with CI
@@ -2613,4 +2652,6 @@ instead
 
 - replaced `heimrichhannot/contao-request` with `heimrichhannot/contao-requets-bundle`
 
+[#38]: https://github.com/heimrichhannot/contao-utils-bundle/pull/38
+[#37]: https://github.com/heimrichhannot/contao-utils-bundle/pull/37
 [#24]: https://github.com/heimrichhannot/contao-utils-bundle/pull/24
