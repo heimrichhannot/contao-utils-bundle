@@ -67,6 +67,7 @@ class ModelUtil
      *
      * @return Model The modified model, containing the default values from all dca fields
      *
+     * @deprecated Use DcaUtil::setDefaultsFromDca instead
      * @codeCoverageIgnore
      */
     public function setDefaultsFromDca(Model $objModel)
@@ -81,6 +82,9 @@ class ModelUtil
      * @param mixed $pk
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstanceByPk(string $table, $pk, array $options = [])
     {
@@ -103,6 +107,9 @@ class ModelUtil
      * @param mixed $values
      *
      * @return Model[]|Collection|null
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstancesBy(string $table, $columns, $values, array $options = [])
     {
@@ -132,6 +139,9 @@ class ModelUtil
      * Return a single model instance by table and search criteria.
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
     {
@@ -161,6 +171,9 @@ class ModelUtil
      * Returns multiple model instances by given table and ids.
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = [])
     {
@@ -186,6 +199,9 @@ class ModelUtil
      * @param mixed $idOrAlias
      *
      * @return mixed
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function findModelInstanceByIdOrAlias(string $table, $idOrAlias, array $options = [])
     {
@@ -533,6 +549,10 @@ class ModelUtil
         return $pageIds;
     }
 
+    /**
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
+     */
     public function addPublishedCheckToModelArrays(string $table, string $publishedField, string $startField, string $stopField, array &$columns, array $options = [])
     {
         $t = $table;

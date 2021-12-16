@@ -23,12 +23,12 @@
     "ext-dom": "*"
   },
   "require-dev": {
-    "contao/core-bundle": "4.9.*",
+    "contao/core-bundle": "4.4.*",
     "contao/test-case": "1.1.*",
     "contao/manager-plugin": "^2.0",
     "friendsofphp/php-cs-fixer": "^2.2",
+    "phpunit/phpunit": "^6.5",
     "heimrichhannot/contao-test-utilities-bundle": "^0.1",
-    "phpunit/phpunit": "^6.0",
     "php-http/guzzle6-adapter": "^1.1",
     "php-http/message-factory": "^1.0.2",
     "symfony/phpunit-bridge": "^3.2"
