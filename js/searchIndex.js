@@ -4198,7 +4198,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\User\\UserUtil",
             "name": "UserUtil",
-            "summary": "",
+            "summary": "Class\u0020UserUtil.",
             "url": "classes/HeimrichHannot-UtilsBundle-User-UserUtil.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\User\\UserUtil\u003A\u003A__construct\u0028\u0029",
@@ -4240,6 +4240,16 @@ Search.appendIndex(
             "name": "AbstractServiceSubscriber",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-AbstractServiceSubscriber.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ArrayUtil",
+            "name": "ArrayUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-ArrayUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ArrayUtil\u003A\u003AinsertBeforeKey\u0028\u0029",
+            "name": "insertBeforeKey",
+            "summary": "Insert\u0020a\u0020new\u0020entry\u0020before\u0020a\u0020specific\u0020or\u0020multiple\u0020keys\u0020in\u0020array.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-ArrayUtil.html#method_insertBeforeKey"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil",
             "name": "ContainerUtil",
@@ -4350,6 +4360,51 @@ Search.appendIndex(
             "name": "ensureLineBreaks",
             "summary": "Ensure\u0020language\u0020specific\u0020line\u0020breaks.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Locale-LocaleUtil.html#method_ensureLineBreaks"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil",
+            "name": "ModelUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003AaddPublishedCheckToModelArrays\u0028\u0029",
+            "name": "addPublishedCheckToModelArrays",
+            "summary": "Adds\u0020an\u0020published\u0020check\u0020to\u0020your\u0020model\u0020query.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_addPublishedCheckToModelArrays"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003AfindModelInstancesBy\u0028\u0029",
+            "name": "findModelInstancesBy",
+            "summary": "Returns\u0020model\u0020instances\u0020by\u0020given\u0020table\u0020and\u0020search\u0020criteria.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_findModelInstancesBy"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003AfindModelInstanceByPk\u0028\u0029",
+            "name": "findModelInstanceByPk",
+            "summary": "Find\u0020a\u0020single\u0020model\u0020instance\u0020for\u0020given\u0020table\u0020by\u0020its\u0020primary\u0020key\u0020\u0028id\u0029.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_findModelInstanceByPk"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003AfindOneModelInstanceBy\u0028\u0029",
+            "name": "findOneModelInstanceBy",
+            "summary": "Return\u0020a\u0020single\u0020model\u0020instance\u0020by\u0020table\u0020and\u0020search\u0020criteria.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_findOneModelInstanceBy"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003AfindMultipleModelInstancesByIds\u0028\u0029",
+            "name": "findMultipleModelInstancesByIds",
+            "summary": "Returns\u0020multiple\u0020model\u0020instances\u0020by\u0020given\u0020table\u0020and\u0020ids.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_findMultipleModelInstancesByIds"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003AfindModelInstanceByIdOrAlias\u0028\u0029",
+            "name": "findModelInstanceByIdOrAlias",
+            "summary": "Returns\u0020multiple\u0020model\u0020instances\u0020by\u0020given\u0020table\u0020and\u0020id\u0020or\u0020alias.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_findModelInstanceByIdOrAlias"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003A\u0024framework",
+            "name": "framework",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#property_framework"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\RequestUtil",
             "name": "RequestUtil",
@@ -4491,6 +4546,26 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#property_framework"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil",
+            "name": "UserUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "UserUtil\u0020constructor.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil\u003A\u003ATABLE",
+            "name": "TABLE",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#constant_TABLE"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil\u003A\u003A\u0024modelUtil",
+            "name": "modelUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#property_modelUtil"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils",
             "name": "Utils",
             "summary": "",
@@ -4500,6 +4575,11 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "Utils\u0020constructor.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Aarray\u0028\u0029",
+            "name": "array",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_array"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Acontainer\u0028\u0029",
             "name": "container",
@@ -4511,6 +4591,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_locale"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Amodel\u0028\u0029",
+            "name": "model",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_model"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Arequest\u0028\u0029",
             "name": "request",
             "summary": "",
@@ -4520,6 +4605,11 @@ Search.appendIndex(
             "name": "string",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_string"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Auser\u0028\u0029",
+            "name": "user",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_user"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003AgetSubscribedServices\u0028\u0029",
             "name": "getSubscribedServices",
@@ -4776,6 +4866,11 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-locale.html"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model",
+            "name": "Model",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-model.html"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request",
             "name": "Request",
             "summary": "",
@@ -4785,5 +4880,10 @@ Search.appendIndex(
             "name": "String",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-string.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User",
+            "name": "User",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-user.html"
         }            ]
 );
