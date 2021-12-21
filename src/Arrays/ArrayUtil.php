@@ -203,6 +203,8 @@ class ArrayUtil
      * @param string $key      The key where the new entry should be added before
      * @param string $newKey   The key of the entry that should be added
      * @param mixed  $newValue The value of the entry that should be added
+     *
+     * @deprecated Use Utils::insertBeforeKey() instead
      */
     public static function insertBeforeKey(array &$array, string $key, string $newKey, $newValue)
     {

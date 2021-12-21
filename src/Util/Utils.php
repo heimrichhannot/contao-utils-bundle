@@ -31,6 +31,10 @@ class Utils extends AbstractServiceSubscriber
         $this->locator = $locator;
     }
 
+    public function array(): ArrayUtil
+    {
+        return $this->locator->get(ArrayUtil::class);
+    }
     public function container(): ContainerUtil
     {
         return $this->locator->get(ContainerUtil::class);
@@ -64,6 +68,7 @@ class Utils extends AbstractServiceSubscriber
     public static function getSubscribedServices()
     {
         return [
+            ArrayUtil::class,
             ContainerUtil::class,
             LocaleUtil::class,
             ModelUtil::class,

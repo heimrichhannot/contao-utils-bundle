@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
@@ -26,6 +27,9 @@ class UtilsTest extends ContaoTestCase
             $parameter['locator'] = $this->createMock(ServiceLocator::class);
             $parameter['locator']->method('get')->willReturnCallback(function ($id) {
                 switch ($id) {
+                    case ArrayUtil::class:
+                        return $this->createMock(ArrayUtil::class);
+
                     case ContainerUtil::class:
                         return $this->createMock(ContainerUtil::class);
 
@@ -50,6 +54,11 @@ class UtilsTest extends ContaoTestCase
         }
 
         return new Utils($parameter['locator']);
+    }
+
+    public function testArray()
+    {
+        $this->assertInstanceOf(ArrayUtil::class, $this->getTestInstance()->array());
     }
 
     public function testContainer()
