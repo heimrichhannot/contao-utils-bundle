@@ -2,9 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2021-12-21
+## [2.207.0] - 2021-12-21
 - Added: ModelUtil to Utils service (most services are migrated, but not all now)
 - Added: UserUtil to Utils service (not all services migrated)
+- Added: ArrayUtil to Utils service (with one method)
 - Deprecated: most ModelUtil methods
 - Fixed: coverage report used contao 4.4
 - Fixed: some test setup issues
