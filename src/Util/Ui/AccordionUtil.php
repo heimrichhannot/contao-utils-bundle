@@ -7,7 +7,7 @@ use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 class AccordionUtil
 {
     /**
-     * @var ModelUtil 
+     * @var ModelUtil
      */
     private $modelUtil;
 
