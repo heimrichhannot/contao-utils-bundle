@@ -6,7 +6,10 @@ use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 
 class AccordionUtil
 {
-    private ModelUtil $modelUtil;
+    /**
+     * @var ModelUtil 
+     */
+    private $modelUtil;
 
     public function __construct(ModelUtil $modelUtil)
     {
