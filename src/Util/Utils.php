@@ -13,6 +13,7 @@ use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
 use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
 use Psr\Container\ContainerInterface;
 
@@ -31,10 +32,16 @@ class Utils extends AbstractServiceSubscriber
         $this->locator = $locator;
     }
 
+    public function accordion(): AccordionUtil
+    {
+        return $this->locator->get(AccordionUtil::class);
+    }
+
     public function array(): ArrayUtil
     {
         return $this->locator->get(ArrayUtil::class);
     }
+
     public function container(): ContainerUtil
     {
         return $this->locator->get(ContainerUtil::class);
@@ -68,6 +75,7 @@ class Utils extends AbstractServiceSubscriber
     public static function getSubscribedServices()
     {
         return [
+            AccordionUtil::class,
             ArrayUtil::class,
             ContainerUtil::class,
             LocaleUtil::class,

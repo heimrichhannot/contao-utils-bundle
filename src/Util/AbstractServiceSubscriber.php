@@ -8,9 +8,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
-/**
- * @codeCoverageIgnore
- */
 if (interface_exists('Symfony\Component\DependencyInjection\ServiceSubscriberInterface')) {
     abstract class AbstractServiceSubscriber implements \Symfony\Component\DependencyInjection\ServiceSubscriberInterface
     {

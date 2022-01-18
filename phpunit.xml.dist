@@ -43,7 +43,7 @@
             <directory>./src</directory>
             <exclude>
                 <directory>./src/Resources</directory>
-                <file>src/Util/Utils.php</file>
+                <file>src/Util/AbstractServiceSubscriber.php</file>
             </exclude>
         </whitelist>
     </filter>

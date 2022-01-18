@@ -134,6 +134,9 @@ class AccordionUtil
      *
      * @param array  $data   Data describing the accordion. Usually this is taken from \Contao\Template::getData().
      * @param string $prefix The prefix for the flags
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function structureAccordionStartStop(array &$data, string $prefix = 'accordion_')
     {

@@ -15,6 +15,7 @@ use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
 use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -27,6 +28,9 @@ class UtilsTest extends ContaoTestCase
             $parameter['locator'] = $this->createMock(ServiceLocator::class);
             $parameter['locator']->method('get')->willReturnCallback(function ($id) {
                 switch ($id) {
+                    case AccordionUtil::class:
+                        return $this->createMock(AccordionUtil::class);
+
                     case ArrayUtil::class:
                         return $this->createMock(ArrayUtil::class);
 
@@ -54,6 +58,11 @@ class UtilsTest extends ContaoTestCase
         }
 
         return new Utils($parameter['locator']);
+    }
+
+    public function testAccordion()
+    {
+        $this->assertInstanceOf(AccordionUtil::class, $this->getTestInstance()->accordion());
     }
 
     public function testArray()
