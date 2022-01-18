@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.208.0] - 2022-01-18
+- Added: AccordionUtil in Utils namespace
+- Changed: rewrote AccordionUtil::structureAccordionStartStop() to support nested accordions ([#40])
+- Fixed: test configuration for Utils and AbstractServiceSubscriber classes
+
 ## [2.207.0] - 2021-12-21
 - Added: ModelUtil to Utils service (most services are migrated, but not all now)
 - Added: UserUtil to Utils service (not all services migrated)
@@ -2660,6 +2665,7 @@ instead
 
 - replaced `heimrichhannot/contao-request` with `heimrichhannot/contao-requets-bundle`
 
+[#40]: https://github.com/heimrichhannot/contao-utils-bundle/pull/40
 [#38]: https://github.com/heimrichhannot/contao-utils-bundle/pull/38
 [#37]: https://github.com/heimrichhannot/contao-utils-bundle/pull/37
 [#24]: https://github.com/heimrichhannot/contao-utils-bundle/pull/24
