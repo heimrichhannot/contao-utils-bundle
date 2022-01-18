@@ -53,9 +53,6 @@
     "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin",
     "foxy": true
   },
-  "replace": {
-    "heimrichhannot/contao-utils-bundle": "self.version"
-  },
   "suggest": {
     "mpdf/mpdf": "Required by huh.utils.pdf.writer service in version ^7.0",
     "setasign/fpdi-tcpdf": "Required by huh.utils.pdf.fpdi-writer service in version ^2.2",

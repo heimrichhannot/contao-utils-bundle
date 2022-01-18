@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.208.1] - 2022-01-18
+- Fixed: invalid composer.json
+
 ## [2.208.0] - 2022-01-18
 - Added: AccordionUtil in Utils namespace
 - Changed: rewrote AccordionUtil::structureAccordionStartStop() to support nested accordions ([#40])
