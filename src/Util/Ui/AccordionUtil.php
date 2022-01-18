@@ -87,7 +87,7 @@ class AccordionUtil
                     'type' => $element->type,
                     'level' => $level,
                 ];
-                if ($index === (count($elements) - 1) || !in_array($elements[($index + 1)]->type, ['accordionStart', 'accordionStop'])) {
+                if ($index === (count($elements) - 1) || ($level < 1 && !in_array($elements[($index + 1)]->type, ['accordionStart', 'accordionStop']))) {
                     $flatAccordionList[$element->id]['last'] = true;
                     $startElement = null;
                 }
