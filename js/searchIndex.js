@@ -4546,6 +4546,31 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#property_framework"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil",
+            "name": "AccordionUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003AstructureAccordionStartStop\u0028\u0029",
+            "name": "structureAccordionStartStop",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_structureAccordionStartStop"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003AgenerateAccordionLevel\u0028\u0029",
+            "name": "generateAccordionLevel",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_generateAccordionLevel"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003A\u0024modelUtil",
+            "name": "modelUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#property_modelUtil"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil",
             "name": "UserUtil",
             "summary": "",
@@ -4575,6 +4600,11 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "Utils\u0020constructor.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Aaccordion\u0028\u0029",
+            "name": "accordion",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_accordion"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Aarray\u0028\u0029",
             "name": "array",
@@ -4880,6 +4910,11 @@ Search.appendIndex(
             "name": "String",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-string.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui",
+            "name": "Ui",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-ui.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User",
             "name": "User",
