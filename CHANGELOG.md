@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.209.0] - 2022-02-09
+- Fixed: `ContainerUtil::isMaintenanceModeActive()` for contao 4.13+
+
 ## [2.208.1] - 2022-01-18
 - Fixed: invalid composer.json
 

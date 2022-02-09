@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -14,12 +14,13 @@ use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
+use Contao\System;
 use HeimrichHannot\UtilsBundle\Util\AbstractServiceSubscriber;
-use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -44,12 +45,18 @@ class ContainerUtil extends AbstractServiceSubscriber
      * @var ContainerInterface
      */
     protected $locator;
+
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
     /**
      * @var ScopeMatcher
      */
     private $scopeMatcher;
 
-    public function __construct(ContainerInterface $locator, array $kernelBundles, KernelInterface $kernel, ContaoFrameworkInterface $framework, ScopeMatcher $scopeMatcher, RequestStack $requestStack)
+    public function __construct(ContainerInterface $locator, array $kernelBundles, KernelInterface $kernel, ContaoFrameworkInterface $framework, ScopeMatcher $scopeMatcher, RequestStack $requestStack, Filesystem $filesystem)
     {
         $this->scopeMatcher = $scopeMatcher;
         $this->kernelBundles = $kernelBundles;
@@ -57,6 +64,7 @@ class ContainerUtil extends AbstractServiceSubscriber
         $this->requestStack = $requestStack;
         $this->kernel = $kernel;
         $this->locator = $locator;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -179,9 +187,17 @@ class ContainerUtil extends AbstractServiceSubscriber
     /**
      * Return if currently in maintenance mode.
      */
-    public function isMaintenanceModeActive(): bool
+    public function isMaintenanceModeActive($page = null): bool
     {
-        return $this->locator->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
+        if (version_compare(VERSION, '4.13', '<')) {
+            return System::getContainer()->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
+        }
+
+        if ($page && $page->maintenanceMode) {
+            return true;
+        }
+
+        return $this->filesystem->exists(System::getContainer()->getParameter('kernel.project_dir').'/var/maintenance.html');
     }
 
     /**
@@ -201,7 +217,6 @@ class ContainerUtil extends AbstractServiceSubscriber
     public static function getSubscribedServices()
     {
         return [
-            'lexik_maintenance.driver.factory' => DriverFactory::class,
             'monolog.logger.contao' => LoggerInterface::class,
             FileLocator::class,
             '?'.TokenChecker::class,

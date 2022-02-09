@@ -26,10 +26,7 @@ services:
     bind:
       $kernelBundles: '%kernel.bundles%'
     tags:
-      - { name: 'container.service_subscriber', key: 'lexik_maintenance.driver.factory', id: 'lexik_maintenance.driver.factory' }
       - { name: 'container.service_subscriber', key: 'monolog.logger.contao', id: 'monolog.logger.contao' }
-
-
 
   HeimrichHannot\UtilsBundle\EventListener\:
     resource: '../../EventListener/*'
