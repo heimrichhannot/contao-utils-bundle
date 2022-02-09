@@ -4346,6 +4346,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_locator"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024filesystem",
+            "name": "filesystem",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_filesystem"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil\u003A\u003A\u0024scopeMatcher",
             "name": "scopeMatcher",
             "summary": "",
