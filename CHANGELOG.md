@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.209.1] - 2022-02-10
+
+- Fixed: `DatabaseUtil::composeWhereForQueryBuilder()` for contao 4.13+
+
 ## [2.209.0] - 2022-02-09
 - Fixed: `ContainerUtil::isMaintenanceModeActive()` for contao 4.13+
 

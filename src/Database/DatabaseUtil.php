@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -566,6 +566,7 @@ class DatabaseUtil
     {
         $wildcardSuffix = $options['wildcardSuffix'] ?? '';
         $wildcard = ':'.str_replace('.', '_', $field).$wildcardSuffix;
+        $wildcardParameterName = substr($wildcard, 1);
         $where = '';
 
         // remove dot for table prefixes
@@ -576,49 +577,49 @@ class DatabaseUtil
         switch ($operator) {
             case self::OPERATOR_LIKE:
                 $where = $queryBuilder->expr()->like($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false).'%');
+                $queryBuilder->setParameter($wildcardParameterName, '%'.Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false).'%');
 
                 break;
 
             case self::OPERATOR_UNLIKE:
                 $where = $queryBuilder->expr()->notLike($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, '%'.Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false).'%');
+                $queryBuilder->setParameter($wildcardParameterName, '%'.Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false).'%');
 
                 break;
 
             case self::OPERATOR_EQUAL:
                 $where = $queryBuilder->expr()->eq($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcardParameterName, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
 
                 break;
 
             case self::OPERATOR_UNEQUAL:
                 $where = $queryBuilder->expr()->neq($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcardParameterName, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
 
                 break;
 
             case self::OPERATOR_LOWER:
                 $where = $queryBuilder->expr()->lt($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcardParameterName, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
 
                 break;
 
             case self::OPERATOR_LOWER_EQUAL:
                 $where = $queryBuilder->expr()->lte($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcardParameterName, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
 
                 break;
 
             case self::OPERATOR_GREATER:
                 $where = $queryBuilder->expr()->gt($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcardParameterName, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
 
                 break;
 
             case self::OPERATOR_GREATER_EQUAL:
                 $where = $queryBuilder->expr()->gte($field, $wildcard);
-                $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
+                $queryBuilder->setParameter($wildcardParameterName, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
 
                 break;
 
@@ -636,7 +637,7 @@ class DatabaseUtil
                         },
                         $value
                     );
-                    $queryBuilder->setParameter($wildcard, $preparedValue, Connection::PARAM_STR_ARRAY);
+                    $queryBuilder->setParameter($wildcardParameterName, $preparedValue, Connection::PARAM_STR_ARRAY);
                 }
 
                 break;
@@ -655,7 +656,7 @@ class DatabaseUtil
                         },
                         $value
                     );
-                    $queryBuilder->setParameter($wildcard, $preparedValue, Connection::PARAM_STR_ARRAY);
+                    $queryBuilder->setParameter($wildcardParameterName, $preparedValue, Connection::PARAM_STR_ARRAY);
                 }
 
                 break;
@@ -689,7 +690,7 @@ class DatabaseUtil
                     if (\is_array($value)) {
                         // build a regexp alternative, e.g. (:"1";|:"2";)
                         $queryBuilder->setParameter(
-                            $wildcard,
+                            $wildcardParameterName,
                             '('.implode(
                                 '|',
                                 array_map(
@@ -701,11 +702,11 @@ class DatabaseUtil
                             ).')'
                         );
                     } else {
-                        $queryBuilder->setParameter($wildcard, ':"'.Controller::replaceInsertTags($value, false).'";');
+                        $queryBuilder->setParameter($wildcardParameterName, ':"'.Controller::replaceInsertTags($value, false).'";');
                     }
                 } else {
                     // TODO: this makes no sense, yet
-                    $queryBuilder->setParameter($wildcard, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
+                    $queryBuilder->setParameter($wildcardParameterName, Controller::replaceInsertTags(\is_array($value) ? implode(' ', $value) : $value, false));
                 }
 
                 break;
@@ -920,7 +921,7 @@ class DatabaseUtil
             $db = $db->getInstance();
         }
 
-        $assignments = implode(',', array_map(function ($column) use ($table) {
+        $assignments = implode(',', array_map(function ($column) {
             return "$column=?";
         }, array_keys($set)));
 
@@ -985,7 +986,7 @@ class DatabaseUtil
 
         // Group by
         if (isset($options['group'])) {
-            @trigger_error('Using the "group" option has been deprecated and will no longer work in Contao 5.0. See https://github.com/contao/contao/issues/1680', E_USER_DEPRECATED);
+            @trigger_error('Using the "group" option has been deprecated and will no longer work in Contao 5.0. See https://github.com/contao/contao/issues/1680', \E_USER_DEPRECATED);
             $query .= ' GROUP BY '.$options['group'];
         }
 
