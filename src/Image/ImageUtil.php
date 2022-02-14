@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -249,7 +249,7 @@ class ImageUtil
         }
 
         // Do not override the "href" key (see #6468)
-        $hrefKey = ('' != $templateData['href']) ? 'imageHref' : 'href';
+        $hrefKey = (isset($templateData['href']) && '' != $templateData['href']) ? 'imageHref' : 'href';
 
         // Image link
         if ($item['imageUrl'] && $containerUtil->isFrontend()) {
@@ -283,7 +283,7 @@ class ImageUtil
         // Do not urlEncode() here because getImage() already does (see #3817)
         $templateData['src'] = TL_FILES_URL.$src;
         $templateData[$imageField] = $file->path;
-        $templateData['linkTitle'] = $item['linkTitle'] ?: $item['title'];
+        $templateData['linkTitle'] = $item['linkTitle'] ?? ($item['title'] ?? null);
         $templateData['fullsize'] = $item['fullsize'] ? true : false;
         $templateData['addBefore'] = ('below' != $item['floating']);
         $templateData['margin'] = Controller::generateMargin($marginArray);

@@ -36,7 +36,7 @@
         </picture>
         {% endif %}
         {% if lazyload|default() %}
-        {% spaceless %}
+        {% apply spaceless %}
             <noscript>
                 {% if sources|default() %}
                 <picture>
@@ -46,7 +46,7 @@
                 </picture>
                 {% endif %}
             </noscript>
-        {% endspaceless %}
+        {% endapply %}
         {% if(lazyload.aspectRatio|default()) %}
     </div>
     {% endif %}

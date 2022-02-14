@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -130,6 +130,8 @@ class FormUtil
             $data = $GLOBALS['TL_DCA'][$table]['fields'][$field];
         }
 
+        $inputType = $data['inputType'] ?? null;
+
         // multicolumneditor
         $mceFieldSeparator = $config['mceFieldSeparator'] ?? "\t";
         $mceRowSeparator = $config['mceRowSeparator'] ?? "\t\n";
@@ -138,7 +140,7 @@ class FormUtil
         $skipMceFields = isset($config['skipMceFields']) && \is_array($config['skipMceFields']) ? $config['skipMceFields'] : [];
         $mceFields = isset($config['mceFields']) && \is_array($config['mceFields']) ? $config['mceFields'] : [];
 
-        if ('multiColumnEditor' == $data['inputType']
+        if ('multiColumnEditor' == $inputType
             && $this->container->get('huh.utils.container')->isBundleActive('HeimrichHannot\MultiColumnEditorBundle\HeimrichHannotContaoMultiColumnEditorBundle')) {
             if (\is_array($value)) {
                 $formatted = '';
@@ -179,7 +181,7 @@ class FormUtil
         }
 
         // inputUnit
-        if ('inputUnit' == $data['inputType']) {
+        if ('inputUnit' == $inputType) {
             $data = StringUtil::deserialize($value, true);
 
             if (!isset($data['value'])) {
@@ -248,11 +250,11 @@ class FormUtil
             }
         }
 
-        if ('explanation' == $data['inputType']) {
+        if ('explanation' == $inputType) {
             if (isset($data['eval']['text'])) {
                 return $data['eval']['text'];
             }
-        } elseif ('cfgTags' == $data['inputType']) {
+        } elseif ('cfgTags' == $inputType) {
             $collection = $cfgTagModel->findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
             $value = null;
 
@@ -271,7 +273,7 @@ class FormUtil
             $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
-            if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $data['inputType'] && !$data['eval']['multiple'])) {
+            if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $inputType && !$data['eval']['multiple'])) {
                 $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
             } elseif (\is_array($options) && array_is_assoc($options)) {
                 $value = isset($options[$value]) ? $options[$value] : $value;
