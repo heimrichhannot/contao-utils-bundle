@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -545,10 +545,10 @@ class DcaUtil
             if (!isset($options['skipLocalization']) || !$options['skipLocalization']) {
                 $GLOBALS['TL_LANG'][$destinationTable][$overrideFieldname] = [
                     $this->container->get('translator')->trans('huh.utils.misc.override.label', [
-                        '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
+                        '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?? $field,
                     ]),
                     $this->container->get('translator')->trans('huh.utils.misc.override.desc', [
-                        '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?: $field,
+                        '%fieldname%' => $GLOBALS['TL_DCA'][$sourceTable]['fields'][$field]['label'][0] ?? $field,
                     ]),
                 ];
             }

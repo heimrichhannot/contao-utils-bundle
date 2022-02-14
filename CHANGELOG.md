@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.209.2] - 2022-02-14
+
+- Fixed: array index issues in php 8+
+
 ## [2.209.1] - 2022-02-10
 
 - Fixed: `DatabaseUtil::composeWhereForQueryBuilder()` for contao 4.13+
