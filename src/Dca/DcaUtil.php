@@ -339,7 +339,7 @@ class DcaUtil
             }
 
             // Encrypt the default value (see #3740)
-            if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt']) {
+            if ($GLOBALS['TL_DCA'][$strTable]['fields'][$k]['eval']['encrypt'] ?? false) {
                 $defaultValue = $this->container->get('huh.utils.encryption')->encrypt($defaultValue);
             }
 
