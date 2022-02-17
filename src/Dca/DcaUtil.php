@@ -676,9 +676,8 @@ class DcaUtil
         $aliasField = $options['aliasField'] ?? 'alias';
 
         $stmt = $this->connection->prepare('SELECT id FROM '.$table.' WHERE '.$aliasField.'=? AND id!=?');
-        $stmt->execute([$alias, $id]);
 
-        return $stmt->rowCount() > 0;
+        return $stmt->execute([$alias, $id])->rowCount() > 0;
     }
 
     /**
@@ -732,10 +731,9 @@ class DcaUtil
                 } else {
                     // another table
                     $stmt = $this->connection->prepare("SELECT id FROM {$partTable} WHERE ' . $aliasField . '=?");
-                    $stmt->execute([$alias]);
 
                     // Check whether the alias exists
-                    if ($stmt->rowCount() > 0) {
+                    if ($stmt->execute([$alias])->rowCount() > 0) {
                         throw new \InvalidArgumentException(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $alias));
                     }
                 }
