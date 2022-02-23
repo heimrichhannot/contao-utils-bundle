@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.210.0] - 2022-02-23
+- Added: DcaUtils::explodePalette() in Utils namespace
+
 ## [2.209.6] - 2022-02-16
 
 - Fixed: array index issues in php 8+
