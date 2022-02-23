@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util;
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
@@ -47,6 +48,11 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(ContainerUtil::class);
     }
 
+    public function dca(): DcaUtil
+    {
+        return $this->locator->get(DcaUtil::class);
+    }
+
     public function locale(): LocaleUtil
     {
         return $this->locator->get(LocaleUtil::class);
@@ -78,6 +84,7 @@ class Utils extends AbstractServiceSubscriber
             AccordionUtil::class,
             ArrayUtil::class,
             ContainerUtil::class,
+            DcaUtil::class,
             LocaleUtil::class,
             ModelUtil::class,
             RequestUtil::class,
