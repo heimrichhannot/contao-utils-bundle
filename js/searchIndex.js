@@ -4356,6 +4356,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Container-ContainerUtil.html#property_scopeMatcher"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil",
+            "name": "DcaUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003AexplodePalette\u0028\u0029",
+            "name": "explodePalette",
+            "summary": "Explode\u0020a\u0020palette\u0020string.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method_explodePalette"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil",
             "name": "LocaleUtil",
             "summary": "",
@@ -4620,6 +4630,11 @@ Search.appendIndex(
             "name": "container",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_container"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Adca\u0028\u0029",
+            "name": "dca",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_dca"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Alocale\u0028\u0029",
             "name": "locale",
@@ -4895,6 +4910,11 @@ Search.appendIndex(
             "name": "Container",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-container.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca",
+            "name": "Dca",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-dca.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale",
             "name": "Locale",
