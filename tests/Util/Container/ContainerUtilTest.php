@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -23,6 +23,7 @@ use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -59,13 +60,16 @@ class ContainerUtilTest extends ContaoTestCase
             $parameters['requestStack'] = $this->createMock(RequestStack::class);
         }
 
+        $filesystem = $parameters['filesystem'] ?? $this->createMock(Filesystem::class);
+
         return new ContainerUtil(
             $parameters['locator'],
             $parameters['kernelBundles'],
             $parameters['kernel'],
             $parameters['framework'],
             $parameters['scopeMather'],
-            $parameters['requestStack']
+            $parameters['requestStack'],
+            $filesystem,
         );
     }
 

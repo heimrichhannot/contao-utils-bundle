@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -159,7 +159,7 @@ class StringUtil
      * Credits: https://www.pjgalbraith.com/truncating-text-html-with-php/
      *
      * Additional options:
-     * - exact: (bool) Cut text exact an character limit instead after the word
+     * - exact: (bool) Cut text exact on character limit instead after the word
      *
      * @param string $html     The html string that should be truncated
      * @param int    $limit    Max number of text characters (html tags are not counted)
@@ -240,7 +240,7 @@ class StringUtil
      */
     public function convertXmlToArray(string $xmlData): ?array
     {
-        $xmlObject = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $xmlObject = simplexml_load_string($xmlData, 'SimpleXMLElement', \LIBXML_NOCDATA);
 
         return json_decode(json_encode($xmlObject), true);
     }

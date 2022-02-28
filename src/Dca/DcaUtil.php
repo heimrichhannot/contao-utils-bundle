@@ -677,7 +677,7 @@ class DcaUtil
 
         $stmt = $this->connection->prepare('SELECT id FROM '.$table.' WHERE '.$aliasField.'=? AND id!=?');
 
-        return $stmt->execute([$alias, $id])->rowCount() > 0;
+        return $stmt->executeQuery([$alias, $id])->rowCount() > 0;
     }
 
     /**

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.210.1] - 2022-02-28
+- Fixed: exception in DcaUtil
+- Fixed: deprecation
+- Fixed: missing parameter in DcaUtil test
+
 ## [2.210.0] - 2022-02-23
 - Added: DcaUtils::explodePalette() in Utils namespace
 

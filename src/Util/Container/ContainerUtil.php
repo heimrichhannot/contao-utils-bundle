@@ -197,7 +197,7 @@ class ContainerUtil extends AbstractServiceSubscriber
             return true;
         }
 
-        return $this->filesystem->exists(System::getContainer()->getParameter('kernel.project_dir').'/var/maintenance.html');
+        return $this->filesystem->exists($this->kernel->getProjectDir().'/var/maintenance.html');
     }
 
     /**
