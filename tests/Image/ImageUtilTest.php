@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -28,7 +28,7 @@ class ImageUtilTest extends ContaoTestCase
 {
     use FixturesTrait;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -302,7 +302,7 @@ class ImageUtilTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
     {
         if (!$container) {
-            $container = $this->mockContainer($this->getTempDir());
+            $container = $this->getContainerWithContaoConfiguration($this->getTempDir());
         }
 
         if (!$framework) {

@@ -23,15 +23,17 @@
     "ext-dom": "*"
   },
   "require-dev": {
-    "contao/core-bundle": "4.4.*",
-    "contao/test-case": "1.1.*",
+    "contao/core-bundle": "4.9.*",
+    "contao/test-case": "^4.0",
     "contao/manager-plugin": "^2.0",
     "friendsofphp/php-cs-fixer": "^2.2",
-    "phpunit/phpunit": "^6.5",
     "heimrichhannot/contao-test-utilities-bundle": "^0.1",
     "php-http/guzzle6-adapter": "^1.1",
     "php-http/message-factory": "^1.0.2",
-    "symfony/phpunit-bridge": "^3.2"
+    "phpunit/phpunit": "^8.0",
+    "phpunit/php-token-stream": "^1.4|^2.0|^3.0",
+    "php-coveralls/php-coveralls": "^2.0",
+    "symfony/phpunit-bridge": "^3.2|^4.0"
   },
   "conflict": {
     "heimrichhannot/contao-encore-bundle": "<1.5"
@@ -47,7 +49,11 @@
     }
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "contao-components/installer": true,
+      "contao/manager-plugin": true
+    }
   },
   "extra": {
     "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin",

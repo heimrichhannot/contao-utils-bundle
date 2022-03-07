@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ArrayUtilTest extends ContaoTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -210,7 +210,7 @@ class ArrayUtilTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
     {
         if (!$container) {
-            $container = $this->mockContainer();
+            $container = $this->getContainerWithContaoConfiguration();
         }
 
         if (!$framework) {

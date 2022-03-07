@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -32,7 +32,7 @@ class FormUtilTest extends ContaoTestCase
     /** @var DataContainer */
     protected $dc;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!interface_exists('listable')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/interface.php';
@@ -260,7 +260,7 @@ class FormUtilTest extends ContaoTestCase
             'skipOptionCaching' => true,
         ]);
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->set('huh.utils.dca', $dcaUtil);
         $formUtil = $this->getFormUtilMock($container);
 
@@ -324,7 +324,7 @@ class FormUtilTest extends ContaoTestCase
         $adapter = $this->mockAdapter(['getConfigByArrayOrCallbackOrFunction']);
         $adapter->method('getConfigByArrayOrCallbackOrFunction')->willThrowException(new \ErrorException('This is an error exception'));
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->set('huh.utils.dca', $adapter);
         $formUtil = $this->getFormUtilMock($container);
 
@@ -379,7 +379,7 @@ class FormUtilTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null)
     {
         if (!$container) {
-            $container = $this->mockContainer();
+            $container = $this->getContainerWithContaoConfiguration();
         }
         $container->set('contao.framework', $this->mockContaoFramework());
 

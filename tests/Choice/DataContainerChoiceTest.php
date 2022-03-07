@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -20,14 +20,14 @@ class DataContainerChoiceTest extends ContaoTestCase
         parent::tearDownAfterClass();
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir());
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
 
         $file1 = $this->createMock(\SplFileInfo::class);
         $file1->method('getBasename')->willReturn('basename');

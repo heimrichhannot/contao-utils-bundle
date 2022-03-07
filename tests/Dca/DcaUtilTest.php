@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -34,7 +34,7 @@ class DcaUtilTest extends TestCaseEnvironment
 {
     protected $dataContainerTable = ['tl_module', 'tl_content'];
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -162,7 +162,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $GLOBALS['TL_DCA']['tl_test'] = [];
         $GLOBALS['TL_DCA']['tl_test']['fields']['test'] = ['default' => 'test'];
 
-        error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
+        error_reporting(\E_ALL & ~\E_NOTICE); //Report all errors except E_NOTICE
 
         $dcaUtil = $this->getTestInstance();
         $data = $dcaUtil->setDefaultsFromDca('tl_test', new \stdClass());
@@ -176,7 +176,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $GLOBALS['TL_DCA']['tl_test'] = [];
         $GLOBALS['TL_DCA']['tl_test']['fields']['test'] = ['default' => 'test'];
 
-        error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
+        error_reporting(\E_ALL & ~\E_NOTICE); //Report all errors except E_NOTICE
 
         $dcaUtil = $this->getTestInstance();
         $data = $dcaUtil->setDefaultsFromDca('tl_test', []);
@@ -190,7 +190,7 @@ class DcaUtilTest extends TestCaseEnvironment
         $GLOBALS['TL_DCA']['tl_test'] = [];
         $GLOBALS['TL_DCA']['tl_test']['fields']['test'] = ['default' => 'test'];
 
-        error_reporting(E_ALL & ~E_NOTICE); //Report all errors except E_NOTICE
+        error_reporting(\E_ALL & ~\E_NOTICE); //Report all errors except E_NOTICE
 
         $dcaUtil = $this->getTestInstance();
         $data = $dcaUtil->setDefaultsFromDca('tl_test');
@@ -827,7 +827,7 @@ class DcaUtilTest extends TestCaseEnvironment
     protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
     {
         if (!$container) {
-            $container = $this->mockContainer();
+            $container = $this->getContainerWithContaoConfiguration();
         }
 
         if (!$framework) {

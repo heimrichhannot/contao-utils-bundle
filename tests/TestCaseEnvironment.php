@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -34,7 +34,7 @@ abstract class TestCaseEnvironment extends ContaoTestCase
         }
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -44,7 +44,7 @@ abstract class TestCaseEnvironment extends ContaoTestCase
 
         $GLOBALS['TL_CONFIG']['uploadPath'] = sys_get_temp_dir();
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->set('request_stack', $this->createRequestStackMock());
         $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
         $container->setParameter('contao.image.target_dir', __DIR__.'/../vendor/contao/core-bundle/src/Resources/contao');

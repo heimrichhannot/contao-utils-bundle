@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -27,7 +27,7 @@ class DC_Table_UtilsTest extends ContaoTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +35,7 @@ class DC_Table_UtilsTest extends ContaoTestCase
             \define('TL_MODE', 'BE');
         }
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
 
         $requestStack = new RequestStack();
         $requestStack->push(new \Symfony\Component\HttpFoundation\Request());
@@ -126,7 +126,7 @@ class DC_Table_UtilsTest extends ContaoTestCase
     }
 
     /**
-     * @return Model | \PHPUnit_Framework_MockObject_MockObject
+     * @return Model|\PHPUnit_Framework_MockObject_MockObject
      */
     public function getModel()
     {

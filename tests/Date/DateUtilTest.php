@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -28,7 +28,7 @@ class DateUtilTest extends ContaoTestCase
 
     public function getDateUtilMock()
     {
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
 
         $framework = $this->mockContaoFramework();
         $container->set('contao.framework', $framework);
@@ -46,7 +46,7 @@ class DateUtilTest extends ContaoTestCase
 
         // Prevent "undefined index" errors
         $errorReporting = error_reporting();
-        error_reporting($errorReporting & ~E_NOTICE);
+        error_reporting($errorReporting & ~\E_NOTICE);
 
         $instance = $this->getDateUtilMock();
 

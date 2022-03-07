@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -29,7 +29,7 @@ class RemoteImageCacheTest extends ContaoTestCase
      */
     protected $projectRoot;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -113,7 +113,7 @@ class RemoteImageCacheTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null)
     {
         if (!$container) {
-            $container = $this->mockContainer($this->projectRoot);
+            $container = $this->getContainerWithContaoConfiguration($this->projectRoot);
         }
 
         $requestStack = new RequestStack();

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -25,7 +25,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UrlUtilTest extends ContaoTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -34,7 +34,7 @@ class UrlUtilTest extends ContaoTestCase
 
         Environment::set('requestUri', '?answer=12');
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->set('contao.framework', $this->mockContaoFramework());
         $container->set('request_stack', $this->createRequestStackMock());
 

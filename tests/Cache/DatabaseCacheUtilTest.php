@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -20,7 +20,7 @@ class DatabaseCacheUtilTest extends ContaoTestCase
     public function getDatabaseCacheUtilMock(ContainerBuilder $container = null)
     {
         if (!$container) {
-            $container = $this->mockContainer();
+            $container = $this->getContainerWithContaoConfiguration();
         }
         $framework = $this->mockContaoFramework();
         $framework->method('createInstance')->willReturnCallback(function ($class) {

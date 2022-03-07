@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -25,7 +25,7 @@ class RoutingUtilTest extends ContaoTestCase
      */
     protected $container;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $router = $this->createMock(RouterInterface::class);
         $router
@@ -57,7 +57,7 @@ class RoutingUtilTest extends ContaoTestCase
         $tokenGenerator = $this->createMock(CsrfTokenManager::class);
         $tokenGenerator->method('getToken')->with('dummy_token')->willReturn(new CsrfToken('dummy_token', 'abcd'));
 
-        $this->container = $this->mockContainer();
+        $this->container = $this->getContainerWithContaoConfiguration();
         $this->container->set('router', $router);
         $this->container->set('request_stack', $requestStack);
         $this->container->setParameter('contao.csrf_token_name', 'dummy_token');
