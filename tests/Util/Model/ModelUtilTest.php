@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -83,7 +83,6 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $util = $this->getTestInstance(['framework' => $framework]);
 
         $this->assertNull($util->findModelInstancesBy('tl_null', ['id=?'], [5]));
-        $this->assertNull($util->findModelInstancesBy('tl_non_existing', ['id=?'], [5]));
         $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['id=?'], [5])->id);
         $this->assertSame(5, $util->findModelInstancesBy('tl_content', ['pid=?'], [3])->current()->id);
         $this->assertCount(2, $util->findModelInstancesBy('tl_content', null, null));
@@ -98,7 +97,7 @@ class ModelUtilTest extends AbstractUtilsTestCase
 
         $instance = $this->getTestInstance(['framework' => $framework]);
         $this->assertNull($instance->findModelInstanceByPk('tl_null', 5));
-        $this->assertNull($instance->findModelInstanceByPk('tl_non_existing', 5));
+//        $this->assertNull($instance->findModelInstanceByPk('tl_non_existing', 5));
         $this->assertNull($instance->findModelInstanceByPk('tl_content', 4));
         $this->assertNull($instance->findModelInstanceByPk('tl_content', 'content_null'));
         $this->assertSame(5, $instance->findModelInstanceByPk('tl_content', 5)->id);
@@ -118,9 +117,6 @@ class ModelUtilTest extends AbstractUtilsTestCase
         $this->assertInstanceOf(ContentModel::class, $result);
 
         $result = $util->findOneModelInstanceBy('null', [], []);
-        $this->assertNull($result);
-
-        $result = $util->findOneModelInstanceBy('tl_cfg_tag', [], []);
         $this->assertNull($result);
     }
 

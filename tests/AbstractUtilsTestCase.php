@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -35,11 +35,11 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
                case 'tl_content':
                    return ContentModel::class;
 
-               case 'tl_cfg_tag':
-                   return CfgTagModel::class;
-
-               case 'tl_non_existing':
-                   return 'HeimrichHannot\UtilsBundle\Model\NonExistingModel';
+//               case 'tl_cfg_tag':
+//                   return CfgTagModel::class;
+//
+//               case 'tl_non_existing':
+//                   return 'HeimrichHannot\UtilsBundle\Model\NonExistingModel';
 
                case 'null':
                default:
