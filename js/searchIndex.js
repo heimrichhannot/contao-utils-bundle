@@ -4361,10 +4361,25 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003AgetPaletteFields\u0028\u0029",
+            "name": "getPaletteFields",
+            "summary": "Return\u0020all\u0020fields\u0020of\u0020a\u0020palette\u0020including\u0020its\u0020subpalettes\u0020as\u0020array.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method_getPaletteFields"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003AexplodePalette\u0028\u0029",
             "name": "explodePalette",
             "summary": "Explode\u0020a\u0020palette\u0020string.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method_explodePalette"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003A\u0024contaoFramework",
+            "name": "contaoFramework",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#property_contaoFramework"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil",
             "name": "LocaleUtil",
