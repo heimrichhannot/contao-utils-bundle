@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
@@ -37,13 +38,16 @@ class UtilsTest extends ContaoTestCase
                     case ContainerUtil::class:
                         return $this->createMock(ContainerUtil::class);
 
+                    case DcaUtil::class:
+                        return $this->createMock(DcaUtil::class);
+
                     case LocaleUtil::class:
                         return $this->createMock(LocaleUtil::class);
 
                     case ModelUtil::class:
                         return $this->createMock(ModelUtil::class);
 
-		            case RequestUtil::class:
+                    case RequestUtil::class:
                         return $this->createMock(RequestUtil::class);
 
                     case StringUtil::class:
@@ -75,6 +79,11 @@ class UtilsTest extends ContaoTestCase
         $this->assertInstanceOf(ContainerUtil::class, $this->getTestInstance()->container());
     }
 
+    public function testDca()
+    {
+        $this->assertInstanceOf(DcaUtil::class, $this->getTestInstance()->dca());
+    }
+
     public function testLocale()
     {
         $this->assertInstanceOf(LocaleUtil::class, $this->getTestInstance()->locale());
@@ -102,6 +111,6 @@ class UtilsTest extends ContaoTestCase
 
     public function testGetSubscribedServices()
     {
-        $this->assertInternalType('array', $this->getTestInstance()::getSubscribedServices());
+        $this->assertTrue(\is_array($this->getTestInstance()::getSubscribedServices()));
     }
 }
