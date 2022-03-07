@@ -44,7 +44,7 @@ abstract class TestCaseEnvironment extends ContaoTestCase
 
         $GLOBALS['TL_CONFIG']['uploadPath'] = sys_get_temp_dir();
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->set('request_stack', $this->createRequestStackMock());
         $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
         $container->setParameter('contao.image.target_dir', __DIR__.'/../vendor/contao/core-bundle/src/Resources/contao');

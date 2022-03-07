@@ -29,7 +29,7 @@ class ModelInstanceChoiceTest extends ContaoTestCase
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir());
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
 
         $kernel = $this->mockAdapter(['getCacheDir', 'isDebug']);
         $kernel->method('getCacheDir')->willReturn($this->getTempDir());

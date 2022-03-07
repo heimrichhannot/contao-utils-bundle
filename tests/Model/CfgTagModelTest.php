@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -18,7 +18,7 @@ class CfgTagModelTest extends ContaoTestCase
 {
     public function testGetSourcesAsOptions()
     {
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->set('contao.framework', $this->mockContaoFramework([Database::class => $this->getDatabaseMock()]));
         System::setContainer($container);
         $options = CfgTagModel::getSourcesAsOptions($this->getDataContainerMock());

@@ -28,7 +28,7 @@ class AbstractChoiceTest extends ContaoTestCase
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir());
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $dcaAdapter = $this->mockAdapter(['getFields']);
         $dcaAdapter->method('getFields')->willReturn(['success']);
         $container->set('huh.utils.dca', $dcaAdapter);

@@ -34,7 +34,7 @@ class UrlUtilTest extends ContaoTestCase
 
         Environment::set('requestUri', '?answer=12');
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->set('contao.framework', $this->mockContaoFramework());
         $container->set('request_stack', $this->createRequestStackMock());
 

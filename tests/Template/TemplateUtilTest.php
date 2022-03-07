@@ -133,7 +133,7 @@ class TemplateUtilTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null)
     {
         if (!$container) {
-            $container = $this->mockContainer();
+            $container = $this->getContainerWithContaoConfiguration();
         }
 
         if (!$container->has('kernel')) {

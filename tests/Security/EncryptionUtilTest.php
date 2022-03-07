@@ -19,7 +19,7 @@ class EncryptionUtilTest extends ContaoTestCase
     {
         parent::setUp();
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
         $container->setParameter('secret', Config::class);
         System::setContainer($container);
     }

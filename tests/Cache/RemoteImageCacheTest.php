@@ -113,7 +113,7 @@ class RemoteImageCacheTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null)
     {
         if (!$container) {
-            $container = $this->mockContainer($this->projectRoot);
+            $container = $this->getContainerWithContaoConfiguration($this->projectRoot);
         }
 
         $requestStack = new RequestStack();

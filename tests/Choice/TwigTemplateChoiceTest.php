@@ -36,7 +36,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir());
 
-        $this->container = $this->mockContainer();
+        $this->container = $this->getContainerWithContaoConfiguration();
         $this->container->set('contao.framework', $this->mockContaoFramework());
 
         $this->container->set('huh.utils.array', new ArrayUtil($this->container));

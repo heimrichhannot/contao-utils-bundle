@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -34,7 +34,7 @@ class FolderUtilTest extends ContaoTestCase
             \define('TL_ROOT', $tmpFolder);
         }
         $filesystem = new Filesystem();
-        $container = $this->mockContainer($tmpFolder);
+        $container = $this->getContainerWithContaoConfiguration($tmpFolder);
         $container->setParameter('kernel.project_dir', $tmpFolder);
         $container->set('filesystem', $filesystem);
         $this->resetFilesInstance($container);

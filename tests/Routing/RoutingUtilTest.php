@@ -57,7 +57,7 @@ class RoutingUtilTest extends ContaoTestCase
         $tokenGenerator = $this->createMock(CsrfTokenManager::class);
         $tokenGenerator->method('getToken')->with('dummy_token')->willReturn(new CsrfToken('dummy_token', 'abcd'));
 
-        $this->container = $this->mockContainer();
+        $this->container = $this->getContainerWithContaoConfiguration();
         $this->container->set('router', $router);
         $this->container->set('request_stack', $requestStack);
         $this->container->setParameter('contao.csrf_token_name', 'dummy_token');

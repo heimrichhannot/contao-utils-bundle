@@ -43,7 +43,7 @@ class TextualPaginationTest extends ContaoTestCase
         $finder = new ResourceFinder(([
             $this->getFixturesDir().'/vendor/contao/core-bundle/Resources/contao',
         ]));
-        $this->container = $this->mockContainer();
+        $this->container = $this->getContainerWithContaoConfiguration();
         $this->container->set('contao.resource_finder', $finder);
         $this->container->setParameter('kernel.debug', true);
         $this->container->setParameter('kernel.default_locale', 'de');

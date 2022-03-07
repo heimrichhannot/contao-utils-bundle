@@ -210,7 +210,7 @@ class ArrayUtilTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
     {
         if (!$container) {
-            $container = $this->mockContainer();
+            $container = $this->getContainerWithContaoConfiguration();
         }
 
         if (!$framework) {

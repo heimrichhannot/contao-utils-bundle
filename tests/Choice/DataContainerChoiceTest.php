@@ -27,7 +27,7 @@ class DataContainerChoiceTest extends ContaoTestCase
         $fs = new Filesystem();
         $fs->mkdir($this->getTempDir());
 
-        $container = $this->mockContainer();
+        $container = $this->getContainerWithContaoConfiguration();
 
         $file1 = $this->createMock(\SplFileInfo::class);
         $file1->method('getBasename')->willReturn('basename');

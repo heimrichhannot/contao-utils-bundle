@@ -302,7 +302,7 @@ class ImageUtilTest extends ContaoTestCase
     protected function getContainerMock(ContainerBuilder $container = null, $framework = null)
     {
         if (!$container) {
-            $container = $this->mockContainer($this->getTempDir());
+            $container = $this->getContainerWithContaoConfiguration($this->getTempDir());
         }
 
         if (!$framework) {
