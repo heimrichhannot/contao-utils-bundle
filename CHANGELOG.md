@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.211.0] - 2022-04-07
+- Added: Utils/DcaUtils::getPaletteFields()
+
 ## [2.210.1] - 2022-02-28
 - Fixed: exception in DcaUtil
 - Fixed: deprecation

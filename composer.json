@@ -47,7 +47,11 @@
     }
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "contao-components/installer": true,
+      "contao/manager-plugin": true
+    }
   },
   "extra": {
     "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin",
