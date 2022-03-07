@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -32,7 +32,7 @@ class FormUtilTest extends ContaoTestCase
     /** @var DataContainer */
     protected $dc;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!interface_exists('listable')) {
             include_once __DIR__.'/../../vendor/contao/core-bundle/src/Resources/contao/helper/interface.php';
