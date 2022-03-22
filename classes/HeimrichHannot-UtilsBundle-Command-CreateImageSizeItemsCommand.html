@@ -94,7 +94,7 @@
     CreateImageSizeItemsCommand
 
         <span class="phpdocumentor-element__extends">
-        extends <abbr title="\Contao\CoreBundle\Command\AbstractLockedCommand">AbstractLockedCommand</abbr>
+        extends <abbr title="\Symfony\Component\Console\Command\Command">Command</abbr>
     </span>
     
             <div class="phpdocumentor-element__package">
@@ -104,19 +104,13 @@
                             </ul>
         </div>
     
-            <span class="phpdocumentor-element__implements">
-            implements
-                            <abbr title="\Contao\CoreBundle\Framework\FrameworkAwareInterface">FrameworkAwareInterface</abbr>                    </span>
     
-            <span class="phpdocumentor-element__extends">
-            Uses
-                            <abbr title="\Contao\CoreBundle\Framework\FrameworkAwareTrait">FrameworkAwareTrait</abbr>                    </span>
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 
     </aside>
 
@@ -128,17 +122,6 @@
 
 
 
-<h3 id="interfaces_class_traits">
-    Interfaces, Classes and Traits
-    <a href="#interfaces_class_traits" class="headerlink"><i class="fas fa-link"></i></a>
-</h3>
-
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\Contao\CoreBundle\Framework\FrameworkAwareInterface">FrameworkAwareInterface</abbr></dt>
-        <dd></dd>
-    
-    
-    </dl>
 
 
 <h3 id="toc">
@@ -175,15 +158,29 @@
 </dt>
 <dd></dd>
 
-                <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_io">$io</a>
+                <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_defaultName">$defaultName</a>
     <span>
-                &nbsp;: <abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr>            </span>
+                &nbsp;: mixed            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_contaoFramework">$contaoFramework</a>
+    <span>
+                &nbsp;: <abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_utils">$utils</a>
+    <span>
+                &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a>            </span>
 </dt>
 <dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_createImageSizes">createImageSizes()</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
@@ -204,11 +201,18 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
-    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_executeLocked">executeLocked()</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_execute">execute()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
 <dd>{@inheritdoc}</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_createImageSizes">createImageSizes()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd></dd>
 
         </dl>
 
@@ -229,7 +233,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
@@ -258,7 +262,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
@@ -287,7 +291,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 
     </aside>
 
@@ -316,7 +320,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">26</span>
 
     </aside>
 
@@ -348,27 +352,93 @@
         class="
             phpdocumentor-element
             -property
-            -private
-                                                        "
+            -protected
+            -static                                            "
 >
-    <h4 class="phpdocumentor-element__name" id="property_io">
-        $io
-        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_io" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_defaultName">
+        $defaultName
+        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_defaultName" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+    <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">$defaultName</span>
+     = <span class="phpdocumentor-signature__default-value">&#039;huh:utils:create-image-size-items&#039;</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_contaoFramework">
+        $contaoFramework
+        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_contaoFramework" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr></span>
-    <span class="phpdocumentor-signature__name">$io</span>
+        <span class="phpdocumentor-signature__type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr></span>
+    <span class="phpdocumentor-signature__name">$contaoFramework</span>
+    </code>
+
+    
+    
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_utils">
+        $utils
+        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#property_utils" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">44</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$utils</span>
     </code>
 
     
@@ -389,46 +459,38 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_createImageSizes">
-        createImageSizes()
-        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_createImageSizes" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">createImageSizes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$io</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$breakpoints</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$imageSizeIds</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$contaoFramework</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$utils</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
         <section class="phpdocumentor-description"></section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$io</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr></span>
+                <span class="phpdocumentor-signature__argument__name">$contaoFramework</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$breakpoints</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                <span class="phpdocumentor-signature__argument__name">$utils</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a></span>
                             </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$imageSizeIds</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
 
@@ -456,7 +518,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
@@ -489,7 +551,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">127</span>
+    <span class="phpdocumentor-element-found-in__line">95</span>
 
     </aside>
 
@@ -556,14 +618,14 @@
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_executeLocked">
-        executeLocked()
-        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_executeLocked" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_execute">
+        execute()
+        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_execute" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">107</span>
+    <span class="phpdocumentor-element-found-in__line">75</span>
 
     </aside>
 
@@ -571,7 +633,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                <span class="phpdocumentor-signature__name">executeLocked</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -588,6 +650,66 @@
                 <span class="phpdocumentor-signature__argument__name">$output</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr></span>
                             </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_createImageSizes">
+        createImageSizes()
+        <a href="classes/HeimrichHannot-UtilsBundle-Command-CreateImageSizeItemsCommand.html#method_createImageSizes" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/CreateImageSizeItemsCommand.php"><a href="files/src-command-createimagesizeitemscommand.html"><abbr title="src/Command/CreateImageSizeItemsCommand.php">CreateImageSizeItemsCommand.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">130</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                <span class="phpdocumentor-signature__name">createImageSizes</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$io</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$breakpoints</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$imageSizeIds</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$io</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Style\SymfonyStyle">SymfonyStyle</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$breakpoints</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$imageSizeIds</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
 
