@@ -78,25 +78,25 @@ class AccordionUtilTest extends ContaoTestCase
         $accordionUtil->structureAccordionSingle($data);
         $this->assertSame(['id' => 1, 'pid' => 1], $data);
 
-        $data = ['id' => 1, 'pid' => 2];
+        $data = ['id' => 1, 'pid' => 2, 'ptable' => 'tl_article'];
         $accordionUtil->structureAccordionSingle($data);
         $this->assertArraySubset(['accordion_parentId' => 1, 'accordion_first' => true, 'accordion_last' => true], $data);
 
-        $data = ['id' => 1, 'pid' => 3];
+        $data = ['id' => 1, 'pid' => 3, 'ptable' => 'tl_article'];
         $accordionUtil->structureAccordionSingle($data);
         $this->assertArraySubset(['accordion_parentId' => 1, 'accordion_first' => true, 'accordion_last' => true], $data);
 
-        $data = ['id' => 1, 'pid' => 4];
+        $data = ['id' => 1, 'pid' => 4, 'ptable' => 'tl_article'];
         $accordionUtil->structureAccordionSingle($data);
         $this->assertArraySubset(['accordion_parentId' => 1, 'accordion_first' => true], $data);
         $this->assertArrayNotHasKey('accordion_last', $data);
 
-        $data = ['id' => 2, 'pid' => 4];
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
         $accordionUtil->structureAccordionSingle($data);
         $this->assertArraySubset(['accordion_parentId' => 1, 'accordion_last' => true], $data);
         $this->assertArrayNotHasKey('accordion_first', $data);
 
-        $data = ['id' => 2, 'pid' => 4];
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
         $accordionUtil->structureAccordionSingle($data, 'card_');
         $this->assertArraySubset(['card_parentId' => 1, 'card_last' => true], $data);
         $this->assertArrayNotHasKey('card_first', $data);
