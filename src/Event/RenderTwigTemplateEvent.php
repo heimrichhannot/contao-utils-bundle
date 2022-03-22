@@ -1,16 +1,14 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\UtilsBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
-
-class RenderTwigTemplateEvent extends Event
+class RenderTwigTemplateEvent extends AbstractEvent
 {
     const NAME = 'huh.utils.template.render';
 
