@@ -1,8 +1,5 @@
 services:
   _instanceof:
-    Contao\CoreBundle\Framework\FrameworkAwareInterface:
-      calls:
-        - ["setFramework", ["@contao.framework"]]
     Symfony\Component\DependencyInjection\ContainerAwareInterface:
       calls:
         - ["setContainer", ["@service_container"]]
@@ -12,8 +9,8 @@ services:
     autowire: true
     autoconfigure: true
 
-  HeimrichHannot\UtilsBundle\Util\:
-    resource: '../../Util/*'
+  HeimrichHannot\UtilsBundle\:
+    resource: '../../{Command,Util}/*'
     exclude: '../../Util/Utils.php'
     autowire: true
     autoconfigure: true
@@ -31,6 +28,7 @@ services:
   HeimrichHannot\UtilsBundle\EventListener\:
     resource: '../../EventListener/*'
     autowire: true
+    autoconfigure: true
     public: true
     bind:
       $bundleConfig: '%huh_utils%'

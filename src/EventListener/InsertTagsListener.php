@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -110,12 +110,12 @@ class InsertTagsListener
 
         $template = $this->templateUtil->getTemplate(preg_replace('#.html.twig$#i', '', $attributes[0]));
 
-        $event = $this->eventDispatcher->dispatch(
-            RenderTwigTemplateEvent::NAME,
-            new RenderTwigTemplateEvent(
-                $template, $data
-            )
-        );
+        if (is_subclass_of($this->eventDispatcher, 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
+            $event = $this->eventDispatcher->dispatch(new RenderTwigTemplateEvent($template, $data), RenderTwigTemplateEvent::NAME);
+        } else {
+            /** @noinspection PhpParamsInspection */
+            $event = $this->eventDispatcher->dispatch(RenderTwigTemplateEvent::NAME, new RenderTwigTemplateEvent($template, $data));
+        }
 
         return $this->contaoFramework->getAdapter(Controller::class)->replaceInsertTags($this->twig->render($event->getTemplate(), $event->getContext()));
     }

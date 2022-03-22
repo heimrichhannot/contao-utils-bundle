@@ -237,6 +237,21 @@ Use the download extension to render download elements, get download links, down
 
 ## Commands
 
-Command | Parameters | Description | Example
---------|------------|-------------|--------
-`huh:utils:create-image-size-items` | `<comma-separated id list of tl_image_size entities> <optional: breakpoints; defaults to 576,768,992,1200,1400>` | Creates image size items for a given image size entity. | `huh:utils:create-image-size-items 1,2`
+**[Entity finder](docs/commands/entity_finder.md)** - A command to search for any contao entities in your database.
+
+**Image size creator** - Creates image size items for a given image size entity.
+
+```
+Description:
+ Creates image size items for a given image size entity. Image size entities with existing image size items will be skipped.
+
+Usage:
+ huh:utils:create-image-size-items [<image-size-ids> [<breakpoints>]]
+
+Arguments:
+   image-size-ids        The comma separated ids of the image size. Skip the parameter in order to create image size items for all image size entities.
+   breakpoints           The comma separated breakpoints as pixel amounts (defaults to "576,768,992,1200,1400"). [default: "576,768,992,1200,1400"]
+   
+Example:
+   huh:utils:create-image-size-items 1,2
+```

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -11,7 +11,7 @@ namespace HeimrichHannot\UtilsBundle\EventListener;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 
 /**
- * @Hook("initializeSystem")
+ * Hook("initializeSystem").
  */
 class InitializeSystemListener
 {
