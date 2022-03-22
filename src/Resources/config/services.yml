@@ -28,6 +28,7 @@ services:
   HeimrichHannot\UtilsBundle\EventListener\:
     resource: '../../EventListener/*'
     autowire: true
+    autoconfigure: true
     public: true
     bind:
       $bundleConfig: '%huh_utils%'

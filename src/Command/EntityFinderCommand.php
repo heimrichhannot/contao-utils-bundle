@@ -70,6 +70,9 @@ class EntityFinderCommand extends Command
 
         $result = $this->loop($table, $id);
         $this->output($io, [$result]);
+        $io->newLine();
+
+        return 0;
     }
 
     private function loop(string $table, $id): array
@@ -229,7 +232,7 @@ class EntityFinderCommand extends Command
     {
         /* @var ExtendEntityFinderEvent $event */
         if (is_subclass_of($this->eventDispatcher, 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
-            $event = $this->eventDispatcher->dispatch(new ExtendEntityFinderEvent($table, $id, $parents));
+            $event = $this->eventDispatcher->dispatch(new ExtendEntityFinderEvent($table, $id, $parents), ExtendEntityFinderEvent::class);
         } else {
             /** @noinspection PhpParamsInspection */
             $event = $this->eventDispatcher->dispatch(ExtendEntityFinderEvent::class, new ExtendEntityFinderEvent($table, $id, $parents));

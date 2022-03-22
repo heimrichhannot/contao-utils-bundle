@@ -13,10 +13,18 @@ use Contao\ModuleModel;
 use HeimrichHannot\Blocks\BlockModel;
 use HeimrichHannot\Blocks\BlockModuleModel;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ExtendEntityFinderListener
+class ExtendEntityFinderSubscriber implements EventSubscriberInterface
 {
-    public function __invoke(ExtendEntityFinderEvent $event)
+    public static function getSubscribedEvents()
+    {
+        return [
+            ExtendEntityFinderEvent::class => 'onExtendEntityFinderEvent'
+        ];
+    }
+
+    public function onExtendEntityFinderEvent(ExtendEntityFinderEvent $event)
     {
         if (class_exists(BlockModel::class)) {
             switch ($event->getTable()) {
