@@ -121,12 +121,12 @@ class AccordionUtilTest extends ContaoTestCase
 
         $accordionUtil = new AccordionUtil($container);
 
-        $data = ['id' => 2, 'pid' => 4];
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
         $accordionUtil->structureAccordionSingle($data);
         $this->assertArraySubset(['accordion_parentId' => 1, 'accordion_last' => true], $data);
         $this->assertArrayNotHasKey('accordion_first', $data);
 
-        $data = ['id' => 2, 'pid' => 4];
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
         $accordionUtil->structureAccordionSingle($data);
         $this->assertArraySubset(['accordion_parentId' => 1, 'accordion_last' => true], $data);
         $this->assertArrayNotHasKey('accordion_first', $data);
