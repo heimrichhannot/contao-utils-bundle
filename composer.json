@@ -27,7 +27,6 @@
     "contao/test-case": "^4.0",
     "contao/manager-plugin": "^2.0",
     "heimrichhannot/contao-test-utilities-bundle": "^0.1",
-    "php-http/guzzle6-adapter": "^1.1",
     "php-http/message-factory": "^1.0.2",
     "phpunit/phpunit": "^8.0",
     "phpunit/php-token-stream": "^1.4|^2.0|^3.0",
