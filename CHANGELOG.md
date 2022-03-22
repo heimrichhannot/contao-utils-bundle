@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.211.0] - 2022-04-07
+## [2.212.0] - 2022-03-22
+- Added: entity finder ([#42])
+- Fixed: some incompatibilities with different symfony versions ([#42])
+
+## [2.211.0] - 2022-03-07
 - Added: Utils/DcaUtils::getPaletteFields()
 - Changed: updated test setup
 
@@ -2707,6 +2711,7 @@ instead
 
 - replaced `heimrichhannot/contao-request` with `heimrichhannot/contao-requets-bundle`
 
+[#42]: https://github.com/heimrichhannot/contao-utils-bundle/pull/42
 [#40]: https://github.com/heimrichhannot/contao-utils-bundle/pull/40
 [#38]: https://github.com/heimrichhannot/contao-utils-bundle/pull/38
 [#37]: https://github.com/heimrichhannot/contao-utils-bundle/pull/37
