@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -55,7 +55,7 @@ class AccordionUtil
      */
     public function structureAccordionSingle(array &$data, string $prefix = 'accordion_'): void
     {
-        if (!isset($data['id']) || !isset($data['pid'])) {
+        if (!isset($data['id']) || !isset($data['pid']) || !isset($data['ptable'])) {
             return;
         }
 

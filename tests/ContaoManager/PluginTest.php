@@ -65,7 +65,7 @@ class PluginTest extends ContaoTestCase
     public function testRegisterContainerConfiguration()
     {
         $kernelMock = $this->createMock(Kernel::class);
-        $kernelMock->method('locateResource')->willReturnCallback(function ($file, $currentDir, $first, $triggerDeprecation) {
+        $kernelMock->method('locateResource')->willReturnCallback(function ($file, $currentDir = null, $first = true, $triggerDeprecation = true) {
             return $currentDir.'/../src/Resources/config/'.pathinfo($file, \PATHINFO_BASENAME);
         });
 
