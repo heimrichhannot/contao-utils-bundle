@@ -26,7 +26,6 @@
     "contao/core-bundle": "4.9.*",
     "contao/test-case": "^4.0",
     "contao/manager-plugin": "^2.0",
-    "friendsofphp/php-cs-fixer": "^2.2",
     "heimrichhannot/contao-test-utilities-bundle": "^0.1",
     "php-http/guzzle6-adapter": "^1.1",
     "php-http/message-factory": "^1.0.2",

@@ -8,11 +8,19 @@ composer.lock
 composer.json~
 composer.phar
 /lib
+
+# Node/Yarn/Encore
 node_modules
 package-lock.json
 yarn.lock
 /build
-docs/cache
-docs/build
 src/Resources/public/js/entrypoints.json
 src/Resources/public/js/manifest.json
+
+# PHPDocumentator
+docs/cache
+docs/build
+
+# PHPUnit
+.phpunit.result.cache
+/var
