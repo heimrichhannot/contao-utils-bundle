@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -28,7 +28,15 @@ class InsertTagsListenerTest extends ContaoTestCase
         $contao = $this->mockContaoFramework([Controller::class => $controllerMock]);
 
         $controllerMock->method('replaceInsertTags')->willReturnArgument(0);
-        $eventDispatcher->method('dispatch')->willReturnArgument(1);
+
+        $eventDispatcher->method('dispatch')->willReturnCallback(function ($name, $event) {
+            if (\is_object($name)) {
+                return $name;
+            }
+
+            return $event;
+        });
+
         $templateUtil->method('getTemplate')->willReturnArgument(0);
         $twig->method('render')->willReturnCallback(
             function ($templateName, $templateData) {
