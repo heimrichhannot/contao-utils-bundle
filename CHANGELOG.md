@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.212.1] - 2022-03-28
+- Fixed: a potential error upon cache warmup and a missing system/tmp folder ([#43], [@qzminski])
+
 ## [2.212.0] - 2022-03-22
 - Added: entity finder ([#42])
 - Fixed: some incompatibilities with different symfony versions ([#42])
@@ -2711,6 +2714,10 @@ instead
 
 - replaced `heimrichhannot/contao-request` with `heimrichhannot/contao-requets-bundle`
 
+
+
+[@qzminski]: https://github.com/qzminski
+[#43]: https://github.com/heimrichhannot/contao-utils-bundle/pull/43
 [#42]: https://github.com/heimrichhannot/contao-utils-bundle/pull/42
 [#40]: https://github.com/heimrichhannot/contao-utils-bundle/pull/40
 [#38]: https://github.com/heimrichhannot/contao-utils-bundle/pull/38
