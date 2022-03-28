@@ -17,6 +17,7 @@ use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -35,13 +36,18 @@ class EntityFinderCommand extends Command
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
+    /**
+     * @var Connection
+     */
+    private $connection;
 
-    public function __construct(ContaoFramework $contaoFramework, EventDispatcherInterface $eventDispatcher)
+    public function __construct(ContaoFramework $contaoFramework, EventDispatcherInterface $eventDispatcher, Connection $connection)
     {
         parent::__construct();
 
         $this->contaoFramework = $contaoFramework;
         $this->eventDispatcher = $eventDispatcher;
+        $this->connection = $connection;
     }
 
     protected function configure()
@@ -88,13 +94,15 @@ class EntityFinderCommand extends Command
         $this->findEntity($table, $id, $parents);
         $event = $this->runExtendEntityFinderEvent($table, $id, $parents);
 
+        $this->findInserttags($event);
+
         $cache = [];
 
         foreach ($event->getParents() as $parent) {
             if (!isset($parent['table']) || !isset($parent['id'])) {
                 continue;
             }
-            $cacheKey = $table.'_'.$id;
+            $cacheKey = $parent['table'].'_'.$parent['id'];
 
             if (\in_array($cacheKey, $cache)) {
                 continue;
@@ -232,10 +240,10 @@ class EntityFinderCommand extends Command
     {
         /* @var ExtendEntityFinderEvent $event */
         if (is_subclass_of($this->eventDispatcher, 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
-            $event = $this->eventDispatcher->dispatch(new ExtendEntityFinderEvent($table, $id, $parents), ExtendEntityFinderEvent::class);
+            $event = $this->eventDispatcher->dispatch(new ExtendEntityFinderEvent($table, $id, $parents, []), ExtendEntityFinderEvent::class);
         } else {
             /** @noinspection PhpParamsInspection */
-            $event = $this->eventDispatcher->dispatch(ExtendEntityFinderEvent::class, new ExtendEntityFinderEvent($table, $id, $parents));
+            $event = $this->eventDispatcher->dispatch(ExtendEntityFinderEvent::class, new ExtendEntityFinderEvent($table, $id, $parents, []));
         }
 
         return $event;
@@ -269,6 +277,20 @@ class EntityFinderCommand extends Command
 
         foreach ($result->fetchEach('id') as $moduleId) {
             $parents[] = ['table' => ModuleModel::getTable(), 'id' => $moduleId];
+        }
+    }
+
+    private function findInserttags(ExtendEntityFinderEvent $event): void
+    {
+        $stmt = $this->connection->prepare(
+            "SELECT id FROM tl_module WHERE type='html' AND html LIKE ?");
+
+        foreach ($event->getInserttags() as $inserttag) {
+            $result = $stmt->executeQuery(['%'.$inserttag.'%']);
+
+            foreach ($result->fetchAllAssociative() as $row) {
+                $event->addParent(ModuleModel::getTable(), $row['id']);
+            }
         }
     }
 }

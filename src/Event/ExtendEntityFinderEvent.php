@@ -26,13 +26,18 @@ class ExtendEntityFinderEvent extends AbstractEvent
      * @var bool
      */
     private $onlyText;
+    /**
+     * @var array
+     */
+    private $inserttags;
 
-    public function __construct(string $table, $id, array $parents, bool $onlyText = false)
+    public function __construct(string $table, $id, array $parents, array $inserttags, bool $onlyText = false)
     {
         $this->table = $table;
         $this->id = $id;
         $this->parents = $parents;
         $this->onlyText = $onlyText;
+        $this->inserttags = $inserttags;
     }
 
     public function getTable(): string
@@ -76,5 +81,20 @@ class ExtendEntityFinderEvent extends AbstractEvent
     public function isOnlyText(): bool
     {
         return $this->onlyText;
+    }
+
+    public function addInserttag(string $inserttag): void
+    {
+        $this->inserttags[] = $inserttag;
+    }
+
+    public function getInserttags(): array
+    {
+        return $this->inserttags;
+    }
+
+    public function setInserttags(array $inserttags): void
+    {
+        $this->inserttags = $inserttags;
     }
 }
