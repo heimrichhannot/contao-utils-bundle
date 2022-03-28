@@ -40,7 +40,7 @@ $fields = [
     ],
 ];
 
-if (!\Contao\Config::get('dbCacheMaxTime')) {
+if (!\Contao\Config::get('dbCacheMaxTime') && is_dir(TL_ROOT . '/system/tmp/')) {
     \Contao\Config::set('dbCacheMaxTime', serialize(\HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil::DEFAULT_MAX_CACHE_TIME));
     \Contao\Config::persist('dbCacheMaxTime', serialize(\HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil::DEFAULT_MAX_CACHE_TIME));
 }
