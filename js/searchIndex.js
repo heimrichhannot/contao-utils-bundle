@@ -716,6 +716,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findFrontendModuleParents"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003AfindInserttags\u0028\u0029",
+            "name": "findInserttags",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findInserttags"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003A\u0024defaultName",
             "name": "defaultName",
             "summary": "",
@@ -730,6 +735,11 @@ Search.appendIndex(
             "name": "eventDispatcher",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_eventDispatcher"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003A\u0024connection",
+            "name": "connection",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_connection"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Comparison\\CompareUtil",
             "name": "CompareUtil",
@@ -1741,6 +1751,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html#method_isOnlyText"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\ExtendEntityFinderEvent\u003A\u003AaddInserttag\u0028\u0029",
+            "name": "addInserttag",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html#method_addInserttag"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\ExtendEntityFinderEvent\u003A\u003AgetInserttags\u0028\u0029",
+            "name": "getInserttags",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html#method_getInserttags"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\ExtendEntityFinderEvent\u003A\u003AsetInserttags\u0028\u0029",
+            "name": "setInserttags",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html#method_setInserttags"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\ExtendEntityFinderEvent\u003A\u003A\u0024table",
             "name": "table",
             "summary": "",
@@ -1765,6 +1790,11 @@ Search.appendIndex(
             "name": "onlyText",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html#property_onlyText"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\ExtendEntityFinderEvent\u003A\u003A\u0024inserttags",
+            "name": "inserttags",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html#property_inserttags"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\RenderTwigTemplateEvent",
             "name": "RenderTwigTemplateEvent",
