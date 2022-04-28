@@ -74,10 +74,18 @@ class RequestUtil
     }
 
     /**
-     * Get the base url.
+     * Get the website base url (scheme and host) considering additional context.
+     * If no base url could be determined, an empty string is returned.
      *
-     * @param array $context Pass additional context. Available content: (PageModel) pageModel
-     * @param array $options Pass addition options: Available options: (bool) throwException
+     * Context:
+     * - (PageModel) pageModel: The current page model
+     * - (string) fallback: will be returned if no other base url could be determined
+     *
+     * Options:
+     * - (bool) throwException: Throw exception if no base url could be determined instead of returning empty string
+     *
+     * @param array $context Pass additional context. Available content: pageModel, fallback
+     * @param array $options Pass addition options: Available options: throwException
      */
     public function getBaseUrl(array $context = [], array $options = []): string
     {
@@ -99,6 +107,10 @@ class RequestUtil
             $url = parse_url(($page->useSSL ? 'https://' : 'http://').$page->getAbsoluteUrl());
 
             return $url['scheme'].'://'.$url['host'];
+        }
+
+        if (isset($context['fallback']) && \is_string($context['fallback'])) {
+            return $context['fallback'];
         }
 
         if (true === $options['throwException']) {

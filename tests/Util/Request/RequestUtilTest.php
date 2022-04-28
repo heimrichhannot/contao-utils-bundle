@@ -129,6 +129,17 @@ class RequestUtilTest extends AbstractUtilsTestCase
         $requestStack->push($request);
         $instance = $this->getTestInstance(['requestStack' => $requestStack]);
         $this->assertSame('http://example.org', $instance->getBaseUrl());
+
+        $requestStack = new RequestStack();
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
+        $pageModel = $this->mockModelObject(PageModel::class);
+        $pageModel->method('getAbsoluteUrl')->willReturn('example.org/de/news');
+        $this->assertSame('http://example.org', $instance->getBaseUrl(['pageModel' => $pageModel]));
+
+        $this->assertSame('https://heimrich-hannot.com', $instance->getBaseUrl(['fallback' => 'https://heimrich-hannot.com']));
+
+        $this->expectException(\Exception::class);
+        $instance->getBaseUrl([], ['throwException' => true]);
     }
 
     public function testIsNewVisitor()

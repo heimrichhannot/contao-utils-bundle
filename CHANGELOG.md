@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.214.0] - 2022-04-28
+- Added: Utils/RequestUtil::getBaseUrl()
+
 ## [2.213.0] - 2022-04-08
 - Added: [Entity finder] allow search for inserttags from event (added `ExtendEntityFinderEvent::addInserttag()`)
 - Fixed: [Entity finder] only one parent found for each entity
