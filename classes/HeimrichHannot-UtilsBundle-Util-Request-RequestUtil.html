@@ -157,11 +157,25 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getBaseUrl">getBaseUrl()</a>
+    <span>
+                        &nbsp;: string    </span>
+</dt>
+<dd>Get the website base url (scheme and host) considering additional context.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getCurrentPageModel">getCurrentPageModel()</a>
     <span>
                         &nbsp;: <abbr title="\Contao\PageModel">PageModel</abbr>|null    </span>
 </dt>
 <dd>Return the current page model.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_isNewVisitor">isNewVisitor()</a>
+    <span>
+                        &nbsp;: bool    </span>
+</dt>
+<dd>Detect if user already visited our domain before.</dd>
 
         </dl>
 
@@ -344,6 +358,71 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getBaseUrl">
+        getBaseUrl()
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getBaseUrl" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Request/RequestUtil.php"><a href="files/src-util-request-requestutil.html"><abbr title="src/Util/Request/RequestUtil.php">RequestUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">90</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the website base url (scheme and host) considering additional context.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">getBaseUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$context</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>If no base url could be determined, an empty string is returned.</p>
+<p>Context:</p>
+<ul>
+<li>(PageModel) pageModel: The current page model</li>
+<li>(string) fallback: will be returned if no other base url could be determined</li>
+</ul>
+<p>Options:</p>
+<ul>
+<li>(bool) throwException: Throw exception if no base url could be determined instead of returning empty string</li>
+</ul>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$context</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Pass additional context. Available content: pageModel, fallback</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Pass addition options: Available options: throwException</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">string</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getCurrentPageModel">
         getCurrentPageModel()
         <a href="classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getCurrentPageModel" class="headerlink"><i class="fas fa-link"></i></a>
@@ -382,6 +461,39 @@
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type"><abbr title="\Contao\PageModel">PageModel</abbr>|null</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_isNewVisitor">
+        isNewVisitor()
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_isNewVisitor" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Request/RequestUtil.php"><a href="files/src-util-request-requestutil.html"><abbr title="src/Util/Request/RequestUtil.php">RequestUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">126</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Detect if user already visited our domain before.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">isNewVisitor</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">bool</span>
             &mdash;
         
     

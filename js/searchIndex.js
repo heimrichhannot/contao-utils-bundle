@@ -4656,6 +4656,16 @@ Search.appendIndex(
             "summary": "Return\u0020the\u0020current\u0020page\u0020model.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getCurrentPageModel"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\RequestUtil\u003A\u003AgetBaseUrl\u0028\u0029",
+            "name": "getBaseUrl",
+            "summary": "Get\u0020the\u0020website\u0020base\u0020url\u0020\u0028scheme\u0020and\u0020host\u0029\u0020considering\u0020additional\u0020context.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getBaseUrl"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\RequestUtil\u003A\u003AisNewVisitor\u0028\u0029",
+            "name": "isNewVisitor",
+            "summary": "Detect\u0020if\u0020user\u0020already\u0020visited\u0020our\u0020domain\u0020before.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_isNewVisitor"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\RequestUtil\u003A\u003A\u0024modelUtil",
             "name": "modelUtil",
             "summary": "",
