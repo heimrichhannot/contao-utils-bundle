@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests;
 
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Command\EntityFinderCommand;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -18,8 +19,9 @@ class EntityFinderCommandTest extends AbstractUtilsTestCase
     {
         $contaoFramework = $parameters['contaoFramework'] ?? $this->mockContaoFramework();
         $eventDispatcher = $parameters['eventDispatcher'] ?? $this->createMock(EventDispatcherInterface::class);
+        $connection = $parameters['connection'] ?? $this->createMock(Connection::class);
 
-        return new EntityFinderCommand($contaoFramework, $eventDispatcher);
+        return new EntityFinderCommand($contaoFramework, $eventDispatcher, $connection);
     }
 
     public function testInstantiation()

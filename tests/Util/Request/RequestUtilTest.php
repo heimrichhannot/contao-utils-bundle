@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -111,5 +111,39 @@ class RequestUtilTest extends AbstractUtilsTestCase
             'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
         ]);
         $this->assertSame(5, $instance->getCurrentPageModel()->id);
+    }
+
+    public function testGetBaseUrl()
+    {
+        $instance = $this->getTestInstance();
+        $this->assertEmpty($instance->getBaseUrl());
+
+        $requestStack = new RequestStack();
+        $request = Request::create('http://example.org');
+        $requestStack->push($request);
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
+        $this->assertSame('http://example.org', $instance->getBaseUrl());
+
+        $requestStack = new RequestStack();
+        $request = Request::create('http://example.org/de/privacy');
+        $requestStack->push($request);
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
+        $this->assertSame('http://example.org', $instance->getBaseUrl());
+    }
+
+    public function testIsNewVisitor()
+    {
+        $requestStack = new RequestStack();
+        $request = Request::create('http://example.org');
+        $request->headers->set('referer', 'http://example.org');
+        $requestStack->push($request);
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
+        $this->assertFalse($instance->isNewVisitor());
+
+        $request->headers->set('referer', 'http://heimrich-hannot.de');
+        $this->assertTrue($instance->isNewVisitor());
+
+        $request->headers->remove('referer');
+        $this->assertTrue($instance->isNewVisitor());
     }
 }

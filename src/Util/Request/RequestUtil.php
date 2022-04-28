@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -71,5 +71,56 @@ class RequestUtil
         }
 
         return $this->modelUtil->findModelInstanceByPk('tl_page', (int) $pageModel);
+    }
+
+    /**
+     * Get the base url.
+     *
+     * @param array $context Pass additional context. Available content: (PageModel) pageModel
+     * @param array $options Pass addition options: Available options: (bool) throwException
+     */
+    public function getBaseUrl(array $context = [], array $options = []): string
+    {
+        $options = array_merge([
+            'throwException' => false,
+        ], $options);
+
+        if ($this->requestStack->getCurrentRequest()) {
+            return $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost();
+        }
+
+        $page = null;
+
+        if (isset($context['pageModel']) && $context['pageModel'] instanceof PageModel) {
+            $page = $context['pageModel'];
+        }
+
+        if ($page) {
+            $url = parse_url(($page->useSSL ? 'https://' : 'http://').$page->getAbsoluteUrl());
+
+            return $url['scheme'].'://'.$url['host'];
+        }
+
+        if (true === $options['throwException']) {
+            throw new \Exception('Base url could not be determined.');
+        }
+
+        return '';
+    }
+
+    /**
+     * Detect if user already visited our domain before.
+     */
+    public function isNewVisitor(): bool
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (!$request->headers->has('referer')) {
+            return true;
+        }
+        $referer = $request->headers->get('referer');
+        $schemeAndHttpHost = $request->getSchemeAndHttpHost();
+
+        return 1 !== preg_match('$^'.$schemeAndHttpHost.'$i', $referer);
     }
 }

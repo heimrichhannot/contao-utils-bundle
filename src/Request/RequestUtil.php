@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -10,6 +10,11 @@ namespace HeimrichHannot\UtilsBundle\Request;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * @deprecated Use Utils service instead
+ *
+ * @codeCoverageIgnore
+ */
 class RequestUtil
 {
     /**
@@ -27,6 +32,8 @@ class RequestUtil
 
     /**
      * Detect if user already visited our domain before.
+     *
+     * @deprecated Use Utils service instead
      */
     public function isNewVisitor(): bool
     {
