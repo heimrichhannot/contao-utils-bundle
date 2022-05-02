@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace HeimrichHannot\UtilsBundle\Util\Type;
 
 class ArrayUtil
@@ -11,18 +17,18 @@ class ArrayUtil
      *
      * Usage example: contao config.php to make your hook entry run before another.
      *
-     * @param array $array Array the new entry should inserted to
-     * @param string|array $keys The key or keys where the new entry should be added before
-     * @param string $newKey The key of the entry that should be added
-     * @param mixed $newValue The value of the entry that should be added
+     * @param array        $array    Array the new entry should inserted to
+     * @param string|array $keys     The key or keys where the new entry should be added before
+     * @param string       $newKey   The key of the entry that should be added
+     * @param mixed        $newValue The value of the entry that should be added
      */
     public static function insertBeforeKey(array &$array, $keys, string $newKey, $newValue)
     {
-        if (!is_array($keys) && !is_string($keys)) {
+        if (!\is_array($keys) && !\is_string($keys)) {
             throw new \InvalidArgumentException('Parameter $key must be of type array or string.');
         }
 
-        if (!is_array($keys)) {
+        if (!\is_array($keys)) {
             $keys = [$keys];
         }
 
@@ -30,7 +36,7 @@ class ArrayUtil
             $new = [];
 
             foreach ($array as $k => $value) {
-                if (in_array($k, $keys)) {
+                if (\in_array($k, $keys)) {
                     $new[$newKey] = $newValue;
                 }
                 $new[$k] = $value;
@@ -39,5 +45,23 @@ class ArrayUtil
         } else {
             $array[$newKey] = $newValue;
         }
+    }
+
+    /**
+     * Removes a value in an array.
+     *
+     * @param $value
+     *
+     * @return bool Returns true if the value has been found and removed, false in other cases
+     */
+    public function removeValue($value, array &$array): bool
+    {
+        if (false !== ($intPosition = array_search($value, $array))) {
+            unset($array[$intPosition]);
+
+            return true;
+        }
+
+        return false;
     }
 }
