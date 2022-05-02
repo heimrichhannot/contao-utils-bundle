@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util\Model;
 
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Date;
 use Contao\Model;
@@ -21,7 +22,7 @@ class ModelUtil
      */
     protected $framework;
 
-    public function __construct(ContaoFrameworkInterface $contaoFramework)
+    public function __construct(ContaoFramework $contaoFramework)
     {
         $this->framework = $contaoFramework;
     }
