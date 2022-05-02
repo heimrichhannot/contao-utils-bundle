@@ -12,7 +12,7 @@ use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Classes\ClassUtil;
 use HeimrichHannot\UtilsBundle\Classes\JsonSerializeTestClass;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class ClassUtilTest extends AbstractUtilsTestCase

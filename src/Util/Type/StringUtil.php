@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\String;
+namespace HeimrichHannot\UtilsBundle\Util\Type;
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use DOMDocument;

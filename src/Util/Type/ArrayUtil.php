@@ -1,6 +1,6 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\Util;
+namespace HeimrichHannot\UtilsBundle\Util\Type;
 
 class ArrayUtil
 {

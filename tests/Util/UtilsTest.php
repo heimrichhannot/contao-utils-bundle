@@ -9,13 +9,13 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
-use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
+use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
 use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;

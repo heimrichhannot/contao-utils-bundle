@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -9,7 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\String;
 
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Util\String\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
 
 class StringUtilTest extends ContaoTestCase
 {
