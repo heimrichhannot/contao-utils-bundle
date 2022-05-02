@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Tests\Util;
+namespace HeimrichHannot\UtilsBundle\Tests\Util\Type;
 
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
