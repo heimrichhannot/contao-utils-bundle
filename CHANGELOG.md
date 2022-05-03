@@ -2,8 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2022-05-02
+## [2.215.0] - 2022-05-03
 - Changed: Update utils class structure ([#44])
+- Changed: Migrate ArrayUtil::removeValue ([#45])
 
 ## [2.214.0] - 2022-04-28
 - Added: Utils/RequestUtil::getBaseUrl()
@@ -2508,60 +2509,9 @@ instead
 
 - MemberUtil
 
-## [2.3.3] - 2018-04-05
-
-### Fixed
-
-- `DC_Table_Utils` did not trigger `Controller::loadDataContainer($strTable)`
-  before `isset($GLOBALS['TL_DCA'][$strTable])` check
-
-## [2.3.2] - 2018-04-05
-
-### Added
-
-- optional yarn package for frontend assets
-
-### Fixed
-
-- field choice and dcaUtil->getFields
-
-## [2.3.1] - 2018-04-04
-
-### Added
-
-- js deps to encore yml
-- LocationUtil::computeCoordinatesByArray()
-- LocationUtil::computeCoordinatesByString()
-
-## [2.3.0] - 2018-03-28
-
-### Added
-
-- ArrayUtil::removePrefix()
-- DatabsseCacheUtil
-- StringUtil::removeLeadingString()
-- LocationUtil
-
-## [2.2.2] - 2018-03-27
-
-### Added
-
-- `lazyload` to `picture.html.twig` template
-
-## [2.2.1] - 2018-03-27
-
-### Added
-
-- `addImageToTemplateData` HOOK to add custom template data within `huh.utils.image` method `addToTemplateData()`
-
-## [2.2.0] - 2018-03-23
-
-### Added
-
-- javascript array, util
-
 
 [@qzminski]: https://github.com/qzminski
+[#45]: https://github.com/heimrichhannot/contao-utils-bundle/pull/45
 [#44]: https://github.com/heimrichhannot/contao-utils-bundle/pull/44
 [#43]: https://github.com/heimrichhannot/contao-utils-bundle/pull/43
 [#42]: https://github.com/heimrichhannot/contao-utils-bundle/pull/42
