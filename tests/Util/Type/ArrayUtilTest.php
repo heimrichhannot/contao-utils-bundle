@@ -39,4 +39,19 @@ class ArrayUtilTest extends AbstractUtilsTestCase
         $this->expectException(\InvalidArgumentException::class);
         $instance::insertBeforeKey($array, 3, 'x', 'Y');
     }
+
+    public function testRemoveValue()
+    {
+        $arrayUtil = $this->getTestInstance();
+
+        $array = [0 => 0, 1 => 1, 2 => 2];
+        $result = $arrayUtil->removeValue(1, $array);
+        $this->assertTrue($result);
+        $this->assertCount(2, $array);
+        $this->assertArrayHasKey(0, $array);
+        $this->assertArrayHasKey(2, $array);
+
+        $result = $arrayUtil->removeValue(1, $array);
+        $this->assertFalse($result);
+    }
 }

@@ -45,21 +45,6 @@ class ArrayUtilTest extends ContaoTestCase
         $this->assertSame([1 => ['filename' => 'testfile1'], 2 => ['filename' => 'testfile2'], 0 => ['filename' => 'testfile3']], $array);
     }
 
-    public function testRemoveValue()
-    {
-        $arrayUtil = new ArrayUtil($this->getContainerMock());
-
-        $array = [0 => 0, 1 => 1, 2 => 2];
-        $result = $arrayUtil->removeValue(1, $array);
-        $this->assertTrue($result);
-        $this->assertCount(2, $array);
-        $this->assertArrayHasKey(0, $array);
-        $this->assertArrayHasKey(2, $array);
-
-        $result = $arrayUtil->removeValue(1, $array);
-        $this->assertFalse($result);
-    }
-
     public function testFilterByPrefixes()
     {
         $arrayUtil = new ArrayUtil($this->getContainerMock());
