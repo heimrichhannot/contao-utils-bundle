@@ -4446,16 +4446,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-AbstractServiceSubscriber.html"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ArrayUtil",
-            "name": "ArrayUtil",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-ArrayUtil.html"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ArrayUtil\u003A\u003AinsertBeforeKey\u0028\u0029",
-            "name": "insertBeforeKey",
-            "summary": "Insert\u0020a\u0020new\u0020entry\u0020before\u0020a\u0020specific\u0020or\u0020multiple\u0020keys\u0020in\u0020array.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-ArrayUtil.html#method_insertBeforeKey"
-        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil",
             "name": "ContainerUtil",
             "summary": "",
@@ -4681,115 +4671,130 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#property_kernelPackages"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\ArrayUtil",
+            "name": "ArrayUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-ArrayUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\ArrayUtil\u003A\u003AinsertBeforeKey\u0028\u0029",
+            "name": "insertBeforeKey",
+            "summary": "Insert\u0020a\u0020new\u0020entry\u0020before\u0020a\u0020specific\u0020or\u0020multiple\u0020keys\u0020in\u0020array.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-ArrayUtil.html#method_insertBeforeKey"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\ArrayUtil\u003A\u003AremoveValue\u0028\u0029",
+            "name": "removeValue",
+            "summary": "Removes\u0020a\u0020value\u0020in\u0020an\u0020array.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-ArrayUtil.html#method_removeValue"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil",
             "name": "StringUtil",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method___construct"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method___construct"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AstartsWith\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AstartsWith\u0028\u0029",
             "name": "startsWith",
             "summary": "Check\u0020for\u0020the\u0020occurrence\u0020at\u0020the\u0020start\u0020of\u0020the\u0020string.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_startsWith"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_startsWith"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AendsWith\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AendsWith\u0028\u0029",
             "name": "endsWith",
             "summary": "Check\u0020for\u0020the\u0020occurrence\u0020at\u0020the\u0020end\u0020of\u0020the\u0020string.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_endsWith"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_endsWith"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AcamelCaseToDashed\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AcamelCaseToDashed\u0028\u0029",
             "name": "camelCaseToDashed",
             "summary": "Convert\u0020a\u0020camel\u0020case\u0020string\u0020to\u0020a\u0020dashed\u0020string.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_camelCaseToDashed"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_camelCaseToDashed"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AcamelCaseToSnake\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AcamelCaseToSnake\u0028\u0029",
             "name": "camelCaseToSnake",
             "summary": "Convert\u0020a\u0020camel\u0020case\u0020string\u0020to\u0020a\u0020snake\u0020cased\u0020string.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_camelCaseToSnake"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_camelCaseToSnake"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ArandomChar\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ArandomChar\u0028\u0029",
             "name": "randomChar",
             "summary": "Return\u0020a\u0020random\u0020char.\u0020Can\u0020be\u0020a\u0020letter\u0020or\u0020a\u0020number.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_randomChar"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_randomChar"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ArandomLetter\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ArandomLetter\u0028\u0029",
             "name": "randomLetter",
             "summary": "Return\u0020a\u0020random\u0020letter\u0020char.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_randomLetter"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_randomLetter"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ArandomNumber\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ArandomNumber\u0028\u0029",
             "name": "randomNumber",
             "summary": "Return\u0020a\u0020random\u0020number\u0020char.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_randomNumber"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_randomNumber"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003Arandom\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003Arandom\u0028\u0029",
             "name": "random",
             "summary": "Return\u0020a\u0020random\u0020char\u0020of\u0020a\u0020given\u0020string.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_random"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_random"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AtruncateHtml\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AtruncateHtml\u0028\u0029",
             "name": "truncateHtml",
             "summary": "Truncates\u0020the\u0020text\u0020of\u0020a\u0020html\u0020string.\u0020By\u0020default,\u0020the\u0020last\u0020word\u0020is\u0020kept\u0020complete.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_truncateHtml"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_truncateHtml"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ApregReplaceLast\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ApregReplaceLast\u0028\u0029",
             "name": "pregReplaceLast",
             "summary": "Replace\u0020the\u0020last\u0020match\u0020of\u0020string\u0020with\u0020preg_replace.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_pregReplaceLast"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_pregReplaceLast"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AconvertXmlToArray\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AconvertXmlToArray\u0028\u0029",
             "name": "convertXmlToArray",
             "summary": "Convert\u0020an\u0020xml\u0020string\u0020to\u0020array.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_convertXmlToArray"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_convertXmlToArray"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AremoveLeadingString\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AremoveLeadingString\u0028\u0029",
             "name": "removeLeadingString",
             "summary": "Remove\u0020a\u0020string\u0020from\u0020the\u0020beginning\u0020of\u0020\u0024subject.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_removeLeadingString"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_removeLeadingString"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003AremoveTrailingString\u0028\u0029",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003AremoveTrailingString\u0028\u0029",
             "name": "removeTrailingString",
             "summary": "Remove\u0020a\u0020string\u0020from\u0020the\u0020end\u0020of\u0020\u0024subject.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#method_removeTrailingString"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#method_removeTrailingString"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ACAPITAL_LETTERS",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ACAPITAL_LETTERS",
             "name": "CAPITAL_LETTERS",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_CAPITAL_LETTERS"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#constant_CAPITAL_LETTERS"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ACAPITAL_LETTERS_NONAMBIGUOUS",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ACAPITAL_LETTERS_NONAMBIGUOUS",
             "name": "CAPITAL_LETTERS_NONAMBIGUOUS",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_CAPITAL_LETTERS_NONAMBIGUOUS"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#constant_CAPITAL_LETTERS_NONAMBIGUOUS"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ASMALL_LETTERS",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ASMALL_LETTERS",
             "name": "SMALL_LETTERS",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_SMALL_LETTERS"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#constant_SMALL_LETTERS"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ASMALL_LETTERS_NONAMBIGUOUS",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ASMALL_LETTERS_NONAMBIGUOUS",
             "name": "SMALL_LETTERS_NONAMBIGUOUS",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_SMALL_LETTERS_NONAMBIGUOUS"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#constant_SMALL_LETTERS_NONAMBIGUOUS"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ANUMBERS",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ANUMBERS",
             "name": "NUMBERS",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_NUMBERS"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#constant_NUMBERS"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003ANUMBERS_NONAMBIGUOUS",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003ANUMBERS_NONAMBIGUOUS",
             "name": "NUMBERS_NONAMBIGUOUS",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#constant_NUMBERS_NONAMBIGUOUS"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#constant_NUMBERS_NONAMBIGUOUS"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String\\StringUtil\u003A\u003A\u0024framework",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\StringUtil\u003A\u003A\u0024framework",
             "name": "framework",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-String-StringUtil.html#property_framework"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-StringUtil.html#property_framework"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil",
             "name": "AccordionUtil",
@@ -5161,10 +5166,10 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-request.html"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\String",
-            "name": "String",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type",
+            "name": "Type",
             "summary": "",
-            "url": "namespaces/heimrichhannot-utilsbundle-util-string.html"
+            "url": "namespaces/heimrichhannot-utilsbundle-util-type.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui",
             "name": "Ui",
