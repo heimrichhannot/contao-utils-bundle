@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.215.1] - 2022-05-05
+- Fixed: incompatiblity with symfony 5
+
 ## [2.215.0] - 2022-05-03
 - Changed: Update utils class structure ([#44])
 - Changed: Migrate ArrayUtil::removeValue ([#45])

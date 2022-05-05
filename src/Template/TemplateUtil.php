@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -303,7 +303,7 @@ class TemplateUtil
     {
         // Use glob() if possible
         if (false === strpos($path, '/**/') && (\defined('GLOB_BRACE') || false === strpos($path, '{'))) {
-            $templates = glob(rtrim($path, '/').'/*.{'.$format.'}', \defined('GLOB_BRACE') ? GLOB_BRACE : 0);
+            $templates = glob(rtrim($path, '/').'/*.{'.$format.'}', \defined('GLOB_BRACE') ? \GLOB_BRACE : 0);
 
             return null === $pattern ? $templates : preg_grep('$'.$pattern.'$', $templates);
         }
@@ -390,12 +390,22 @@ class TemplateUtil
      */
     public function renderTwigTemplate(string $name, array $context = [])
     {
-        $event = $this->container->get('event_dispatcher')->dispatch(
-            RenderTwigTemplateEvent::NAME,
-            new RenderTwigTemplateEvent(
-                $name, $context
-            )
-        );
+        if (is_subclass_of($this->container->get('event_dispatcher'), 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
+            $event = $this->container->get('event_dispatcher')->dispatch(
+                new RenderTwigTemplateEvent(
+                    $name, $context
+                ),
+                RenderTwigTemplateEvent::NAME
+            );
+        } else {
+            /** @noinspection PhpParamsInspection */
+            $event = $this->container->get('event_dispatcher')->dispatch(
+                RenderTwigTemplateEvent::NAME,
+                new RenderTwigTemplateEvent(
+                    $name, $context
+                )
+            );
+        }
 
         $templatePath = $this->getTemplate($event->getTemplate());
         $buffer = $this->container->get('twig')->render(
