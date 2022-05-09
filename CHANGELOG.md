@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.215.2] - 2022-05-09
+- Fixed: display special chars in alt attribute
+
 ## [2.215.1] - 2022-05-05
 - Fixed: incompatiblity with symfony 5
 
