@@ -813,6 +813,7 @@ class DcaUtil
 
     public function setAuthorIDOnCreate(string $table, int $id, array $row, DataContainer $dc)
     {
+        /** @var Model $model */
         $model = $this->container->get(ModelUtil::class)->findModelInstanceByPk($table, $id);
         /** @var Database $db */
         $db = $this->framework->createInstance(Database::class);
@@ -823,21 +824,21 @@ class DcaUtil
             return false;
         }
 
+        $stmt = $db->prepare(
+            'UPDATE '.$model::getTable()
+                        .' SET '.static::PROPERTY_AUTHOR_TYPE.'=?, '.static::PROPERTY_AUTHOR.'=?'
+                        .' WHERE id=?'
+                );
+
         if ($this->container->get('huh.utils.container')->isFrontend()) {
             if (FE_USER_LOGGED_IN) {
-                $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_MEMBER;
-                $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(FrontendUser::class)->getInstance()->id;
-                $model->save();
+                $stmt->execute(static::AUTHOR_TYPE_MEMBER, $this->framework->getAdapter(FrontendUser::class)->getInstance()->id, $model->id);
             } else {
                 // php session
-                $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_SESSION;
-                $model->{static::PROPERTY_AUTHOR} = session_id();
-                $model->save();
+                $stmt->execute(static::AUTHOR_TYPE_SESSION, session_id(), $model->id);
             }
         } else {
-            $model->{static::PROPERTY_AUTHOR_TYPE} = static::AUTHOR_TYPE_USER;
-            $model->{static::PROPERTY_AUTHOR} = $this->framework->getAdapter(BackendUser::class)->getInstance()->id;
-            $model->save();
+            $stmt->execute(static::AUTHOR_TYPE_USER, $this->framework->getAdapter(BackendUser::class)->getInstance()->id, $model->id);
         }
     }
 
@@ -1090,9 +1091,15 @@ class DcaUtil
             $v = \is_array($v) ? $v : [$v];
             $id = StringUtil::specialchars(rawurldecode($arrRow['id']));
 
-            $label = $v['label'][0] ?: $k;
-            $title = sprintf($v['label'][1] ?: $k, $id);
+            $label = isset($v['label']) ? (\is_array($v['label']) ? $v['label'][0] : $v['label']) : $k;
+            $title = sprintf(isset($v['label']) ? (\is_array($v['label']) ? $v['label'][1] : $v['label']) : $k, $id);
             $attributes = ('' != $v['attributes']) ? ' '.ltrim(sprintf($v['attributes'], $id, $id)) : '';
+
+            if (version_compare(VERSION, '4.13', '>=')) {
+                if (\in_array($k, ['toggle', 'feature']) && false === strpos($attributes, 'onclick')) {
+                    $attributes = sprintf('onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,'.('visible.svg' == $v['icon'] ? 'true' : 'false').')"', $id, $id);
+                }
+            }
 
             // Add the key as CSS class
             if (false !== strpos($attributes, 'class="')) {
@@ -1119,7 +1126,13 @@ class DcaUtil
                     $return .= '<a href="'.Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1&amp;rt='.\RequestToken::get()).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'",
                             sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Image::getHtml($v['icon'], $label).'</a> ';
                 } else {
-                    $return .= '<a href="'.Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].(\Input::get('nb') ? '&amp;nc=1' : '')).'&amp;rt='.RequestToken::get().'" title="'.\StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($v['icon'], $label).'</a> ';
+                    if (version_compare(VERSION, '4.13', '>=')) {
+                        $href = Controller::addToUrl($v['href']);
+                    } else {
+                        $href = Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].(Input::get('nb') ? '&amp;nc=1' : '')).'&amp;rt='.RequestToken::get();
+                    }
+
+                    $return .= '<a href="'.$href.'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($v['icon'], $label).'</a> ';
                 }
 
                 continue;
