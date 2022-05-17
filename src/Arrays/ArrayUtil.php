@@ -119,7 +119,8 @@ class ArrayUtil
      * @param int    $offset  offset for inserting the new value
      * @param bool   $strict  use strict behavior for array search
      *
-     * @deprecated Use Utils::array()::insertAfterKey() instead
+     * @deprecated Use utils service instead
+     * @codeCoverageIgnore
      */
     public function insertInArrayByName(array &$current, string $key, $value, int $offset = 0, bool $strict = false)
     {

@@ -69,31 +69,6 @@ class ArrayUtilTest extends ContaoTestCase
         $this->assertSame(['prefix_1' => 1], $result);
     }
 
-    public function testInsertInArrayByName()
-    {
-        $arrayUtil = new ArrayUtil($this->getContainerMock());
-
-        $target = ['hello' => 'world'];
-        $arrayUtil->insertInArrayByName($target, 'foo', 'bar');
-        $this->assertSame(['hello' => 'world'], $target);
-
-        $target = ['hello' => 'world'];
-        $arrayUtil->insertInArrayByName($target, 'hello', 'foobar');
-        $this->assertSame(['foobar', 'hello' => 'world'], $target);
-
-        $target = ['hello' => 'world'];
-        $arrayUtil->insertInArrayByName($target, 'hello', 'foobar', 1);
-        $this->assertSame(['hello' => 'world', 'foobar'], $target);
-
-        $target = [0 => 'world'];
-        $arrayUtil->insertInArrayByName($target, '0', 'foobar', 1);
-        $this->assertSame(['world', 'foobar'], $target);
-
-        $target = [0 => 'world'];
-        $arrayUtil->insertInArrayByName($target, '0', 'foobar', 1, true);
-        $this->assertSame(['world'], $target);
-    }
-
     public function testArrayToObject()
     {
         $arrayUtil = new ArrayUtil($this->getContainerMock());
