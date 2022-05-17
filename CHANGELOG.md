@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2022-05-17
+- Added: ArrayUtil::insertAfterKey() ([#47])
+
 ## [2.215.2] - 2022-05-09
 - Fixed: display special chars in alt attribute
 
@@ -2440,83 +2443,9 @@ instead
 - `TemplateUtil::getTemplate` to provide `twig.html` support within contao
 - `ModelUtil::setDefaultsFromDca()` and `DcaUtil::setDefaultsFromDca()`
 
-## [2.5.9] - 2018-04-20
-
-### Changed
-
-- `DatabaseUtil::composeWhereForQueryBuilder` now converts values using  `Controller::replaceInsertTags()`
-
-## [2.5.8] - 2018-04-20
-
-### Changed
-
-- visibility of CurlRequest::getCurlHandle() to public
-
-## [2.5.7] - 2018-04-20
-
-### Fixed
-
-- `setContext` and `getContext` handling in `AbstractChoice`
-
-### Changed
-
-- `TwigTemplateChoice` now also collects twig templates inside root `templates/` directory and returns the path to the
-  template e.g. `templates/news_full.html.twig`
-
-## [2.5.6] - 2018-04-18
-
-### Added
-
-- added member service and MemberUtil::findActiveByGroups
-
-## [2.5.5] - 2018-04-17
-
-### Added
-
-- new option for DateUtil::getFields()
-
-## [2.5.4] - 2018-04-12
-
-### Fixed
-
-- DatabaseUtil computeCondition in and notin operator
-
-## [2.5.3] - 2018-04-12
-
-### Fixed
-
-- DatabaseUtil composeWhereForQueryBuilder in and notin operator
-
-## [2.5.2] - 2018-04-10
-
-### Added
-
-- DateUtil::transformPhpDateFormatToISO8601()
-
-## [2.5.1] - 2018-04-10
-
-### Added
-
-- StringUtil::removeTrailingString()
-
-### Fixed
-
-- bugs
-
-## [2.5.0] - 2018-04-06
-
-### Added
-
-- ModelUtil::computeStringPattern()
-
-## [2.4.0] - 2018-04-05
-
-### Added
-
-- MemberUtil
-
 
 [@qzminski]: https://github.com/qzminski
+[#47]: https://github.com/heimrichhannot/contao-utils-bundle/pull/47
 [#45]: https://github.com/heimrichhannot/contao-utils-bundle/pull/45
 [#44]: https://github.com/heimrichhannot/contao-utils-bundle/pull/44
 [#43]: https://github.com/heimrichhannot/contao-utils-bundle/pull/43
