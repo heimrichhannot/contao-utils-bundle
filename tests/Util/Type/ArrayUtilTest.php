@@ -40,6 +40,35 @@ class ArrayUtilTest extends AbstractUtilsTestCase
         $instance::insertBeforeKey($array, 3, 'x', 'Y');
     }
 
+    public function testInsertAfterKey()
+    {
+        $arrayUtil = $this->getTestInstance();
+
+        $target = ['hello' => 'world'];
+        $arrayUtil->insertAfterKey($target, 'foo', 'bar');
+        $this->assertSame(['hello' => 'world', 0 => 'bar'], $target);
+
+        $target = ['hello' => 'world'];
+        $arrayUtil->insertAfterKey($target, 'foo', 'bar', 'foobar');
+        $this->assertSame(['hello' => 'world', 'foobar' => 'bar'], $target);
+
+        $target = ['hello' => 'world'];
+        $arrayUtil->insertAfterKey($target, 'foo', 'bar', null, ['attachIfKeyNotExist' => false]);
+        $this->assertSame(['hello' => 'world'], $target);
+
+        $target = ['hello' => 'world', 'foo' => 'bar', 'heimrich' => 'hannot'];
+        $arrayUtil->insertAfterKey($target, 'hello', 'camp', 'contao', ['offset' => 1]);
+        $this->assertSame(['hello' => 'world', 'foo' => 'bar', 'contao' => 'camp', 'heimrich' => 'hannot'], $target);
+
+        $target = ['1' => 'world', 'foo' => 'bar', 'heimrich' => 'hannot'];
+        $arrayUtil->insertAfterKey($target, 1, 'camp', 'contao', ['strict' => false]);
+        $this->assertSame(['1' => 'world', 'contao' => 'camp', 'foo' => 'bar', 'heimrich' => 'hannot'], $target);
+
+        $target = ['1' => 'world', 'foo' => 'bar', 'heimrich' => 'hannot'];
+        $arrayUtil->insertAfterKey($target, 1, 'camp', 'contao', ['strict' => true]);
+        $this->assertSame(['1' => 'world', 'foo' => 'bar', 'heimrich' => 'hannot', 'contao' => 'camp'], $target);
+    }
+
     public function testRemoveValue()
     {
         $arrayUtil = $this->getTestInstance();
