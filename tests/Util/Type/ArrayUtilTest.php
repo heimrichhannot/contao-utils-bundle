@@ -67,22 +67,6 @@ class ArrayUtilTest extends AbstractUtilsTestCase
         $target = ['1' => 'world', 'foo' => 'bar', 'heimrich' => 'hannot'];
         $arrayUtil->insertAfterKey($target, 1, 'camp', 'contao', ['strict' => true]);
         $this->assertSame(['1' => 'world', 'foo' => 'bar', 'heimrich' => 'hannot', 'contao' => 'camp'], $target);
-
-//        $target = ['hello' => 'world'];
-//        $arrayUtil->insertAfterKey($target, 'hello', 'foobar');
-//        $this->assertSame(['foobar', 'hello' => 'world'], $target);
-//
-//        $target = ['hello' => 'world'];
-//        $arrayUtil->insertAfterKey($target, 'hello', 'foobar', 1);
-//        $this->assertSame(['hello' => 'world', 'foobar'], $target);
-//
-//        $target = [0 => 'world'];
-//        $arrayUtil->insertAfterKey($target, '0', 'foobar', 1);
-//        $this->assertSame(['world', 'foobar'], $target);
-//
-//        $target = [0 => 'world'];
-//        $arrayUtil->insertAfterKey($target, '0', 'foobar', 1, true);
-//        $this->assertSame(['world'], $target);
     }
 
     public function testRemoveValue()
