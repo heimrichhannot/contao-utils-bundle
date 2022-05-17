@@ -15,8 +15,6 @@ class ArrayUtil
      * If the keys not exist, the new entry is added to the end of the array.
      * Array is passed as reference.
      *
-     * Usage example: contao config.php to make your hook entry run before another.
-     *
      * @param array        $array    Array the new entry should inserted to
      * @param string|array $keys     The key or keys where the new entry should be added before
      * @param string       $newKey   The key of the entry that should be added
@@ -45,6 +43,48 @@ class ArrayUtil
         } else {
             $array[$newKey] = $newValue;
         }
+    }
+
+    /**
+     * Insert a value into an existing array by key name.
+     *
+     * Additional options:
+     * - (bool) strict: Strict behavior for array search. Default false
+     * - (bool) attachIfKeyNotExist: Attach value at the end of the array if key not exist. Default: true
+     * - (int) offset: Add an additional offset
+     *
+     * @param array  $array   The target array
+     * @param string $key     the existing target key in the array
+     * @param mixed  $value   the new value to be inserted
+     * @param array  $options Additional options
+     */
+    public function insertAfterKey(array &$array, string $key, $value, string $newKey = null, array $options = []): void
+    {
+        $options = array_merge([
+            'strict' => false,
+            'attachIfKeyNotExist' => true,
+            'offset' => 0,
+        ], $options);
+
+        $keys = array_keys($array);
+        $index = array_search($key, $keys, $options['strict']);
+
+        if (false === $index && false === $options['attachIfKeyNotExist']) {
+            return;
+        }
+        $pos = false === $index ? \count($array) : $index + 1;
+        $pos = $pos + $options['offset'];
+
+        if ($newKey) {
+            $value = [$newKey => $value];
+        } else {
+            $value = [$value];
+        }
+
+        $array = array_combine(
+            array_merge(\array_slice($keys, 0, $pos), array_keys($value), \array_slice($keys, $pos)),
+            array_merge(\array_slice($array, 0, $pos), $value, \array_slice($array, $pos))
+        );
     }
 
     /**
