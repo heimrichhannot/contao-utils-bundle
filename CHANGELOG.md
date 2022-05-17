@@ -2,8 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2022-05-17
+## [2.216.0] - 2022-05-17
 - Added: ArrayUtil::insertAfterKey() ([#47])
+- Fixed: DcaUtil::doGenerateDcOperationsButtons() for 4.13 ([#46])
 
 ## [2.215.2] - 2022-05-09
 - Fixed: display special chars in alt attribute
@@ -2446,6 +2447,7 @@ instead
 
 [@qzminski]: https://github.com/qzminski
 [#47]: https://github.com/heimrichhannot/contao-utils-bundle/pull/47
+[#46]: https://github.com/heimrichhannot/contao-utils-bundle/pull/46
 [#45]: https://github.com/heimrichhannot/contao-utils-bundle/pull/45
 [#44]: https://github.com/heimrichhannot/contao-utils-bundle/pull/44
 [#43]: https://github.com/heimrichhannot/contao-utils-bundle/pull/43
