@@ -1095,9 +1095,31 @@ class DcaUtil
             $title = sprintf(isset($v['label']) ? (\is_array($v['label']) ? $v['label'][1] : $v['label']) : $k, $id);
             $attributes = ('' != $v['attributes']) ? ' '.ltrim(sprintf($v['attributes'], $id, $id)) : '';
 
-            if (version_compare(VERSION, '4.13', '>=')) {
-                if (\in_array($k, ['toggle', 'feature']) && false === strpos($attributes, 'onclick')) {
-                    $attributes = sprintf('onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,'.('visible.svg' == $v['icon'] ? 'true' : 'false').')"', $id, $id);
+            parse_str(StringUtil::decodeEntities($v['href'] ?? ''), $params);
+
+            if (version_compare(VERSION, '4.13', '>=') && \in_array($k, ['toggle', 'feature'])) {
+                $state = $arrRow[$params['field']] ? 1 : 0;
+
+                if ($v['reverse'] ?? false) {
+                    $state = $arrRow[$params['field']] ? 0 : 1;
+                }
+
+                $icon = $v['icon'];
+                $_icon = pathinfo($v['icon'], \PATHINFO_FILENAME).'_.'.pathinfo($v['icon'], \PATHINFO_EXTENSION);
+
+                if (false !== strpos($v['icon'], '/')) {
+                    $_icon = \dirname($v['icon']).'/'.$_icon;
+                }
+
+                if ('visible.svg' == $icon) {
+                    $_icon = 'invisible.svg';
+                }
+
+                if (false === strpos($attributes, 'onclick')) {
+                    $attributes = sprintf(
+                        'onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,'.($state ? 'true' : 'false').')"',
+                        $id, $id
+                    );
                 }
             }
 
@@ -1126,13 +1148,15 @@ class DcaUtil
                     $return .= '<a href="'.Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].'&amp;popup=1&amp;rt='.\RequestToken::get()).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'",
                             sprintf($GLOBALS['TL_LANG'][$strTable]['show'][1], $arrRow['id']))).'\',\'url\':this.href});return false"'.$attributes.'>'.Image::getHtml($v['icon'], $label).'</a> ';
                 } else {
-                    if (version_compare(VERSION, '4.13', '>=')) {
-                        $href = Controller::addToUrl($v['href']);
+                    $href = Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].(Input::get('nb') ? '&amp;nc=1' : '')).'&amp;rt='.RequestToken::get();
+
+                    if (version_compare(VERSION, '4.13', '>=') && \in_array($k, ['toggle', 'feature'])) {
+                        $icon = Image::getHtml($state ? $icon : $_icon, $label, 'data-icon="'.Image::getPath($icon).'" data-icon-disabled="'.Image::getPath($_icon).'" data-state="'.$state.'"');
                     } else {
-                        $href = Controller::addToUrl($v['href'].'&amp;id='.$arrRow['id'].(Input::get('nb') ? '&amp;nc=1' : '')).'&amp;rt='.RequestToken::get();
+                        $icon = Image::getHtml($v['icon'], $label);
                     }
 
-                    $return .= '<a href="'.$href.'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($v['icon'], $label).'</a> ';
+                    $return .= '<a href="'.$href.'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.$icon.'</a> ';
                 }
 
                 continue;
