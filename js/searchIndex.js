@@ -4681,6 +4681,11 @@ Search.appendIndex(
             "summary": "Insert\u0020a\u0020new\u0020entry\u0020before\u0020a\u0020specific\u0020or\u0020multiple\u0020keys\u0020in\u0020array.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-ArrayUtil.html#method_insertBeforeKey"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\ArrayUtil\u003A\u003AinsertAfterKey\u0028\u0029",
+            "name": "insertAfterKey",
+            "summary": "Insert\u0020a\u0020value\u0020into\u0020an\u0020existing\u0020array\u0020by\u0020key\u0020name.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Type-ArrayUtil.html#method_insertAfterKey"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\ArrayUtil\u003A\u003AremoveValue\u0028\u0029",
             "name": "removeValue",
             "summary": "Removes\u0020a\u0020value\u0020in\u0020an\u0020array.",
