@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2022-05-20
+- Fixed: invalid field name added to dca in DatabaseUtil
+
 ## [2.216.0] - 2022-05-17
 - Added: ArrayUtil::insertAfterKey() ([#47])
 - Fixed: DcaUtil::doGenerateDcOperationsButtons() for 4.13 ([#46])

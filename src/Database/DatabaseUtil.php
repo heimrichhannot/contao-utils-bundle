@@ -425,6 +425,13 @@ class DatabaseUtil
         $pattern = '?';
         $addQuotes = false;
 
+        $explodedField = explode('.', $field);
+
+        // remove table if already added to field name
+        if (\count($explodedField) > 1) {
+            $field = end($explodedField);
+        }
+
         if ($table) {
             Controller::loadDataContainer($table);
 
@@ -545,13 +552,6 @@ class DatabaseUtil
         }
 
         $operator = $this->transformVerboseOperator($operator);
-
-        $explodedField = explode('.', $field);
-
-        // remove table if already added to field name
-        if (\count($explodedField) > 1) {
-            $field = end($explodedField);
-        }
 
         return [(!$skipTablePrefix && $table ? $table.'.' : '')."$field $operator $pattern", $values];
     }
