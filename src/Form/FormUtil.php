@@ -273,7 +273,7 @@ class FormUtil
             $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
-            if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $inputType && !$data['eval']['multiple'])) {
+            if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $inputType && !($data['eval']['multiple'] ?? false))) {
                 $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
             } elseif (\is_array($options) && array_is_assoc($options)) {
                 $value = isset($options[$value]) ? $options[$value] : $value;
@@ -315,10 +315,17 @@ class FormUtil
 
         $preservedTags = isset($data['eval']['allowedTags']) ? $data['eval']['allowedTags'] : Config::get('allowedTags');
 
-        if ($data['eval']['allowHtml'] || \strlen($data['eval']['rte']) || $data['eval']['preserveTags']) {
+        if (
+            isset($data['eval'])
+            && (
+                ($data['eval']['allowHtml'] ?? false)
+                || \strlen($data['eval']['rte'] ?? '')
+                || ($data['eval']['preserveTags'] ?? false)
+            )
+        ) {
             // always decode entities if HTML is allowed
             $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
-        } elseif (\is_array($data['options']) || isset($data['options_callback']) || isset($data['foreignKey'])) {
+        } elseif (\is_array($data['options'] ?? false) || isset($data['options_callback']) || isset($data['foreignKey'])) {
             // options should not be strict cleaned, as they might contain html tags like <strong>
             $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
         } else {
