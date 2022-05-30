@@ -9,8 +9,9 @@
 namespace HeimrichHannot\UtilsBundle\Util\Request;
 
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
+use Contao\Model;
 use Contao\PageModel;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestUtil
@@ -35,6 +36,8 @@ class RequestUtil
 
     /**
      * Return the current page model.
+     *
+     * @return PageModel|Model|null the current page model or null if no page context
      *
      * @See AbstractContentElementController::getPageModel()
      */
@@ -70,7 +73,23 @@ class RequestUtil
             return $GLOBALS['objPage'];
         }
 
-        return $this->modelUtil->findModelInstanceByPk('tl_page', (int) $pageModel);
+        return $this->modelUtil->findModelInstanceByPk(PageModel::getTable(), (int) $pageModel);
+    }
+
+    /**
+     * Return the root page of the current page.
+     *
+     * @return PageModel|Model|null the root page model or null if not exist
+     */
+    public function getCurrentRootPageModel(): ?PageModel
+    {
+        if (!$currentPageModel = $this->getCurrentPageModel()) {
+            return $currentPageModel;
+        }
+
+        $currentPageModel->loadDetails();
+
+        return $this->modelUtil->findModelInstanceByPk(PageModel::getTable(), $currentPageModel->rootId);
     }
 
     /**

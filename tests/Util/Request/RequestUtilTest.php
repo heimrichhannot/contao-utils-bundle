@@ -10,8 +10,8 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util\Request;
 
 use Contao\PageModel;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
+use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,6 +111,43 @@ class RequestUtilTest extends AbstractUtilsTestCase
             'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
         ]);
         $this->assertSame(5, $instance->getCurrentPageModel()->id);
+    }
+
+    public function testGetCurrentRootPageModel()
+    {
+        $modelUtil = $this->createMock(ModelUtil::class);
+        $modelUtil->method('findModelInstanceByPk')->willReturn(null);
+        $requestUtil = $this->getTestInstance([
+            'modelUtil' => $modelUtil,
+        ]);
+        $this->assertNull($requestUtil->getCurrentPageModel());
+
+        $pageModel = $this->mockModelObject(PageModel::class, ['id' => 5, 'rootId' => 3]);
+        $rootPageModel = $this->mockModelObject(PageModel::class, ['id' => 3, 'rootId' => 3]);
+        $modelUtil = $this->createMock(ModelUtil::class);
+        $modelUtil->method('findModelInstanceByPk')->willReturnCallback(function ($table, $id) use ($rootPageModel) {
+            switch ($id) {
+                case 3:
+                    return $rootPageModel;
+            }
+
+            return null;
+        });
+        $requestStack = new RequestStack();
+        $request = new Request([], [], ['pageModel' => $pageModel]);
+        $requestStack->push($request);
+        $requestUtil = $this->getTestInstance([
+            'requestStack' => $requestStack,
+            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
+            'modelUtil' => $modelUtil,
+        ]);
+
+        $this->assertSame(3, $requestUtil->getCurrentRootPageModel()->id);
+
+        $modelUtil = $this->createMock(ModelUtil::class);
+        $modelUtil->method('getCurrentPageModel')->willReturn(null);
+        $requestUtil = $this->getTestInstance();
+        $this->assertNull($requestUtil->getCurrentPageModel());
     }
 
     public function testGetBaseUrl()
