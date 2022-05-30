@@ -144,9 +144,10 @@ class RequestUtilTest extends AbstractUtilsTestCase
 
         $this->assertSame(3, $requestUtil->getCurrentRootPageModel()->id);
 
-        $modelUtil = $this->createMock(ModelUtil::class);
-        $modelUtil->method('getCurrentPageModel')->willReturn(null);
-        $requestUtil = $this->getTestInstance();
+        unset($GLOBALS['objPage']);
+        $requestUtil = $this->getTestInstance([
+            'kernelPackages' => ['contao/core-bundle' => '4.4.5'],
+        ]);
         $this->assertNull($requestUtil->getCurrentPageModel());
     }
 
