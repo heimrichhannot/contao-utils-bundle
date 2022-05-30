@@ -3,8 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2022-05-20
-- Fixed: [DatabaseUtil] invalid field name added to dca
-- Fixed: [FormUtil] Warnings in php 8
+- [DatabaseUtil] Fixed: invalid field name added to dca
+- [FormUtil] Fixed: Warnings in php 8
+- [ImageUtil] Fixed: Warnings in php 8
 
 ## [2.216.0] - 2022-05-17
 - Added: ArrayUtil::insertAfterKey() ([#47])

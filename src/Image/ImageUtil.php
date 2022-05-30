@@ -86,7 +86,7 @@ class ImageUtil
             $model = $file->getModel();
         }
 
-        $size = StringUtil::deserialize($item['size']);
+        $size = StringUtil::deserialize($item['size'] ?? '');
 
         if (is_numeric($size)) {
             $size = [0, 0, (int) $size];
@@ -100,7 +100,7 @@ class ImageUtil
             $maxWidth = ($containerUtil->isBackend()) ? 320 : Config::get('maxImageWidth');
         }
 
-        $marginArray = ($containerUtil->isBackend()) ? '' : StringUtil::deserialize($item['imagemargin']);
+        $marginArray = ($containerUtil->isBackend()) ? '' : StringUtil::deserialize($item['imagemargin'] ?? '');
 
         // Store the original dimensions
         $templateData['width'] = $imgSize[0];
@@ -203,7 +203,7 @@ class ImageUtil
             unset($meta['title'], $meta['link']);
 
             // Add the meta data to the item
-            if (!$item['overwriteMeta']) {
+            if (!($item['overwriteMeta'] ?? false)) {
                 foreach ($meta as $k => $v) {
                     switch ($k) {
                         case 'alt':
@@ -223,8 +223,10 @@ class ImageUtil
 
         $picture['alt'] = StringUtil::specialchars($item['alt']);
 
+        $fullsize = (bool) ($item['fullsize'] ?? false);
+
         // Move the title to the link tag so it is shown in the lightbox
-        if ($item['fullsize'] && $item['imageTitle'] && !$item['linkTitle']) {
+        if ($fullsize && ($item['imageTitle'] ?? false) && !($item['linkTitle'] ?? false)) {
             $item['linkTitle'] = $item['imageTitle'];
             unset($item['imageTitle']);
         }
@@ -239,12 +241,12 @@ class ImageUtil
         $templateData['picture'] = $picture;
 
         // Provide an ID for single lightbox images in HTML5 (see #3742)
-        if (null === $lightboxId && $item['fullsize']) {
+        if (null === $lightboxId && $fullsize) {
             $lightboxId = substr(md5($lightboxName.'_'.$item['id']), 0, 6);
         }
 
         // Float image
-        if ($item['floating']) {
+        if ($item['floating'] ?? false) {
             $templateData['floatClass'] = ' float_'.$item['floating'];
         }
 
@@ -256,7 +258,7 @@ class ImageUtil
             $templateData[$hrefKey] = $item['imageUrl'];
             $templateData['attributes'] = '';
 
-            if ($item['fullsize']) {
+            if ($fullsize) {
                 // Open images in the lightbox
                 if (preg_match('/\.(jpe?g|gif|png)$/', $item['imageUrl'])) {
                     // Do not add the TL_FILES_URL to external URLs (see #4923)
@@ -270,7 +272,7 @@ class ImageUtil
                 }
             }
         } // Fullsize view
-        elseif ($item['fullsize'] && $containerUtil->isFrontend()) {
+        elseif ($fullsize && $containerUtil->isFrontend()) {
             $templateData[$hrefKey] = TL_FILES_URL.System::urlEncode($file->path);
             $templateData['attributes'] = ' data-lightbox="'.$lightboxId.'"';
         }
@@ -284,8 +286,8 @@ class ImageUtil
         $templateData['src'] = TL_FILES_URL.$src;
         $templateData[$imageField] = $file->path;
         $templateData['linkTitle'] = $item['linkTitle'] ?? ($item['title'] ?? null);
-        $templateData['fullsize'] = $item['fullsize'] ? true : false;
-        $templateData['addBefore'] = ('below' != $item['floating']);
+        $templateData['fullsize'] = $fullsize;
+        $templateData['addBefore'] = ('below' != ($item['floating'] ?? ''));
         $templateData['margin'] = Controller::generateMargin($marginArray);
         $templateData[$imageSelectorField] = true;
 
