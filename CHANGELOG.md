@@ -2,10 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2022-05-20
+## [2.217.0] - 2022-05-31
+- Added: Utils::file::getPathFromUuid()
 - Added: Utils::request::getCurrentRootPageModel()
 - Fixed: [DatabaseUtil] invalid field name added to dca
 - Fixed: Warnings in php 8
+- Deprecated: FileUtils::getPathFromUuid();
 
 ## [2.216.0] - 2022-05-17
 - Added: ArrayUtil::insertAfterKey() ([#47])

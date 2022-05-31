@@ -191,6 +191,7 @@ class FileUtil
      * @return string|null Return the path of the file, or null if not exists
      *
      * @deprecated Use Utils::file instead
+     * @codeCoverageIgnore
      */
     public function getPathFromUuid($uuid, $checkIfExists = true)
     {
