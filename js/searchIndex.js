@@ -4576,6 +4576,31 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#property_contaoFramework"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\File\\FileUtil",
+            "name": "FileUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-File-FileUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\File\\FileUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-File-FileUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\File\\FileUtil\u003A\u003AgetPathFromUuid\u0028\u0029",
+            "name": "getPathFromUuid",
+            "summary": "Get\u0020the\u0020path\u0020from\u0020a\u0020uuid.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-File-FileUtil.html#method_getPathFromUuid"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\File\\FileUtil\u003A\u003A\u0024contaoFramework",
+            "name": "contaoFramework",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-File-FileUtil.html#property_contaoFramework"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\File\\FileUtil\u003A\u003A\u0024projectDir",
+            "name": "projectDir",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-File-FileUtil.html#property_projectDir"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil",
             "name": "LocaleUtil",
             "summary": "",
@@ -4645,6 +4670,11 @@ Search.appendIndex(
             "name": "getCurrentPageModel",
             "summary": "Return\u0020the\u0020current\u0020page\u0020model.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getCurrentPageModel"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\RequestUtil\u003A\u003AgetCurrentRootPageModel\u0028\u0029",
+            "name": "getCurrentRootPageModel",
+            "summary": "Return\u0020the\u0020root\u0020page\u0020of\u0020the\u0020current\u0020page.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#method_getCurrentRootPageModel"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\RequestUtil\u003A\u003AgetBaseUrl\u0028\u0029",
             "name": "getBaseUrl",
@@ -4875,6 +4905,11 @@ Search.appendIndex(
             "name": "dca",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_dca"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Afile\u0028\u0029",
+            "name": "file",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_file"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Alocale\u0028\u0029",
             "name": "locale",
@@ -5155,6 +5190,11 @@ Search.appendIndex(
             "name": "Dca",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-dca.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\File",
+            "name": "File",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-file.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale",
             "name": "Locale",
