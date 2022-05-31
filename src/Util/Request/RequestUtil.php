@@ -81,15 +81,15 @@ class RequestUtil
      *
      * @return PageModel|Model|null the root page model or null if not exist
      */
-    public function getCurrentRootPageModel(): ?PageModel
+    public function getCurrentRootPageModel(PageModel $currentPage = null): ?PageModel
     {
-        if (!$currentPageModel = $this->getCurrentPageModel()) {
-            return $currentPageModel;
+        if (!$currentPage && !$currentPage = $this->getCurrentPageModel()) {
+            return $currentPage;
         }
 
-        $currentPageModel->loadDetails();
+        $currentPage->loadDetails();
 
-        return $this->modelUtil->findModelInstanceByPk(PageModel::getTable(), $currentPageModel->rootId);
+        return $this->modelUtil->findModelInstanceByPk(PageModel::getTable(), $currentPage->rootId);
     }
 
     /**
