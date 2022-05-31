@@ -23,6 +23,7 @@ use Ghostscript\Transcoder;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\String\UnicodeString;
 
 class FileUtil
 {
@@ -289,7 +290,7 @@ class FileUtil
 
         $name = $file->filename;
 
-        $name = \Patchwork\Utf8::toAscii(StringUtil::standardize($name, $preserveUppercase), '');
+        $name = (new UnicodeString(StringUtil::standardize($name, $preserveUppercase)))->ascii()->toString();
 
         if ('id-' != $name && !$this->container->get('huh.utils.string')->startsWith($fileName, 'id-')) {
             $name = preg_replace('/^(id-)/', '', $name);
