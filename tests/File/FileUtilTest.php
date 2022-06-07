@@ -9,7 +9,6 @@
 namespace HeimrichHannot\UtilsBundle\Tests\File;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\DataContainer;
 use Contao\File;
 use Contao\FilesModel;
@@ -21,10 +20,10 @@ use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 use HeimrichHannot\UtilsBundle\Tests\ResetContaoSingletonTrait;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class FileUtilTest extends ContaoTestCase
 {
@@ -171,6 +170,8 @@ class FileUtilTest extends ContaoTestCase
 
     public function testSanitizeFileName()
     {
+        $container = $this->getContainerMock();
+
         $fileUtil = new FileUtil($this->getContainerMock());
 
         $fileName = $fileUtil->sanitizeFileName('fileName');
@@ -348,11 +349,13 @@ class FileUtilTest extends ContaoTestCase
         $container->set('contao.framework', $framework);
         $container->setParameter('contao.resources_paths', [__DIR__.'/../vendor/contao/core-bundle/src/Resources/contao']);
 
-        $utilsString = new StringUtil($this->mockContaoFramework());
+        $utils = $this->createMock(Utils::class);
+
+        $utilsString = new StringUtil($this->mockContaoFramework(), $utils);
         $container->set('huh.utils.string', $utilsString);
 
         /** @noinspection PhpParamsInspection */
-        $containerUtils = new ContainerUtil($container, $this->createMock(FileLocator::class), $this->createMock(ScopeMatcher::class));
+        $containerUtils = new ContainerUtil($container, $utils);
         $container->set('huh.utils.container', $containerUtils);
 
         $arrayUtils = new ArrayUtil($container);

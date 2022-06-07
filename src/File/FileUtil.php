@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\File;
 
+use Ausi\SlugGenerator\SlugGenerator;
+use Ausi\SlugGenerator\SlugOptions;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\DataContainer;
@@ -23,7 +25,6 @@ use Ghostscript\Transcoder;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\String\UnicodeString;
 
 class FileUtil
 {
@@ -290,7 +291,13 @@ class FileUtil
 
         $name = $file->filename;
 
-        $name = (new UnicodeString(StringUtil::standardize($name, $preserveUppercase)))->ascii()->toString();
+        $validChars = 'a-z0-9_';
+
+        if ($preserveUppercase) {
+            $validChars .= 'A-Z';
+        }
+
+        $name = (new SlugGenerator((new SlugOptions())->setValidChars($validChars)->setTransforms(['Upper', 'Lower', 'ASCII', 'Upper', 'Lower'])->setDelimiter('')))->generate($name, []);
 
         if ('id-' != $name && !$this->container->get('huh.utils.string')->startsWith($fileName, 'id-')) {
             $name = preg_replace('/^(id-)/', '', $name);
