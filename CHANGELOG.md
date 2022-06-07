@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.217.1] - 2022-06-07
+- Fixed: typed properties in FileUtil
+
 ## [2.217.0] - 2022-05-31
 - Added: Utils::file::getPathFromUuid()
 - Added: Utils::request::getCurrentRootPageModel()

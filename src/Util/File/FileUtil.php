@@ -13,8 +13,11 @@ use Contao\FilesModel;
 
 class FileUtil
 {
-    private ContaoFramework $contaoFramework;
-    private string          $projectDir;
+    /** @var ContaoFramework */
+    private $contaoFramework;
+
+    /** @var string */
+    private $projectDir;
 
     public function __construct(ContaoFramework $contaoFramework, string $projectDir)
     {
