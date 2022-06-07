@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.217.2] - 2022-06-07
+- Fixed: patchwork utf8 class used ([#50])
+
 ## [2.217.1] - 2022-06-07
 - Fixed: typed properties in FileUtil
 
@@ -2327,135 +2330,10 @@ instead
 
 - `huh.utils.form` method `getWidgetFromAttributes`
 
-## [2.9.1] - 2018-05-04
-
-### Fixed
-
-- fixed slow template loading by adding Template caching
-
-## [2.9.0] - 2018-05-04
-
-### Added
-
-- `huh.utils.pdf_writer` service
-
-## [2.8.8] - 2018-04-26
-
-### Fixed
-
-- convert array values to string values in `DatabaseUtil::computeCondition`
-  and `DataBaseUtil::composeWhereForQueryBuilder` to prevent `Controller::replaceInsertTags()` exception
-
-## [2.8.7] - 2018-04-26
-
-### Fixed
-
-- `TemplateUtil::getTemplate` now catch template not found exception and try to find the twig templates inside bundle
-  views directory
-
-## [2.8.6] - 2018-04-26
-
-### Fixed
-
-- `TemplateUtil::getTemplate` now also returns the path for twig templates inside bundle views directory
-
-## [2.8.5] - 2018-04-26
-
-### Fixed
-
-- `ClassUtil::jsonSerialize` now priorities `getMethod` before `hasMethod` and `isMethod`
-
-## [2.8.4] - 2018-04-26
-
-### Fixed
-
-- `picture.html.twig` lazyload padding, number format (use dot as decimal point instead of comma)
-
-## [2.8.3] - 2018-04-25
-
-### Fixed
-
-- `TemplateUtil::getTemplateGroup` fixed for bundles/modules `/templates` files
-
-## [2.8.2] - 2018-04-25
-
-### Fixed
-
-- composer dependencies
-
-## [2.8.1] - 2018-04-25
-
-### Fixed
-
-- `TwigTemplateChoice` bundles is array check added
-
-## [2.8.0] - 2018-04-25
-
-### Added
-
-- User::getActiveByGroups
-- ArrayUtil::insertInArrayByName
-- ArrayUtil::arrayToObject
-- DcaUtil::addAliasToDca
-- DcaUtil::getLocalizedFieldName
-- ModelUtil::getModelInstanceIfId
-- StringUtil::html2Text
-- StringUtil::lowerCase
-- StringUtil::convertToInlineCss
-- UserUtil::findActiveByGroups
-- UserUtil::hasAccessToField
-- added composer dependencies
-
-## [2.7.5] - 2018-04-25
-
-### Fixed
-
-- modelUtil::findInstancesBy
-
-## [2.7.4] - 2018-04-25
-
-### Fixed
-
-- `TemplateUtil:getTemplateGroup` for `templates` directory in bundle/modules
-
-## [2.7.3] - 2018-04-25
-
-### Fixed
-
-- `TemplateUtil:findTemplates` now supports regex lookaheads in pattern
-
-## [2.7.2] - 2018-04-25
-
-### Fixed
-
-- `TwigTemplateChoice` twig template pattern
-
-## [2.7.1] - 2018-04-25
-
-### Changed
-
-- `TwigTemplateChoice` now set template basename as choice key
-
-## [2.7.0] - 2018-04-25
-
-### Added
-
-- `TemplateUtil::getTemplateGroup` to provide `twig.html` support within contao
-
-### Changed
-
-- `TwigTemplateChoice` now returns all `.html.twig` template inside any contao `templates` directory, like default
-  contao `.html5` handling
-
-## [2.6.0] - 2018-04-24
-
-### Added
-
-- `TemplateUtil::getTemplate` to provide `twig.html` support within contao
-- `ModelUtil::setDefaultsFromDca()` and `DcaUtil::setDefaultsFromDca()`
 
 
 [@qzminski]: https://github.com/qzminski
+[#50]: https://github.com/heimrichhannot/contao-utils-bundle/pull/50
 [#47]: https://github.com/heimrichhannot/contao-utils-bundle/pull/47
 [#46]: https://github.com/heimrichhannot/contao-utils-bundle/pull/46
 [#45]: https://github.com/heimrichhannot/contao-utils-bundle/pull/45
