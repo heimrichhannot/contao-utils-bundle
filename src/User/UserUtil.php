@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -43,6 +43,8 @@ class UserUtil
 
     /**
      * @return UserModel|UserModel[]|\Contao\Model\Collection|null
+     *
+     * @deprecated use Utils service instead
      */
     public function findActiveByGroups(array $groups, array $options = [])
     {
