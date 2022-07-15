@@ -4031,21 +4031,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Template-TemplateUtil.html#property_kernel"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Traits\\PersonTrait",
-            "name": "PersonTrait",
-            "summary": "Trait\u0020PersonTrait.",
-            "url": "classes/HeimrichHannot-UtilsBundle-Traits-PersonTrait.html"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Traits\\PersonTrait\u003A\u003AgetActiveGroups\u0028\u0029",
-            "name": "getActiveGroups",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Traits-PersonTrait.html#method_getActiveGroups"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Traits\\PersonTrait\u003A\u003AhasActiveGroup\u0028\u0029",
-            "name": "hasActiveGroup",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Traits-PersonTrait.html#method_hasActiveGroup"
-        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\ArrayExtension",
             "name": "ArrayExtension",
             "summary": "",
@@ -4866,6 +4851,11 @@ Search.appendIndex(
             "summary": "UserUtil\u0020constructor.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#method___construct"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil\u003A\u003AfindActiveUsersByGroup\u0028\u0029",
+            "name": "findActiveUsersByGroup",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#method_findActiveUsersByGroup"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil\u003A\u003ATABLE",
             "name": "TABLE",
             "summary": "",
@@ -4875,6 +4865,16 @@ Search.appendIndex(
             "name": "modelUtil",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#property_modelUtil"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil\u003A\u003A\u0024databaseUtil",
+            "name": "databaseUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#property_databaseUtil"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil\u003A\u003A\u0024contaoFramework",
+            "name": "contaoFramework",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-User-UserUtil.html#property_contaoFramework"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils",
             "name": "Utils",
