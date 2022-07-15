@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.218.0] - 2022-07-15
+- Added: Utils::user::findActiveUsersByGroup() (migrated from user util) ([#51])
+
 ## [2.217.2] - 2022-06-07
 - Fixed: patchwork utf8 class used ([#50])
 
@@ -2304,35 +2307,10 @@ instead
 
 - `huh.utils.model` method `findAllModelInstances` to get all models from a table
 
-## [2.11.0] - 2018-05-09
-
-### Added
-
-- `huh.utils.dca` method `getEditLink()` to create an contao backend edit link (e.g. module)
-- `huh.utils.dca` method `getModalEditLink()` to create an contao backend modal edit link (e.g. module)
-- `huh.utils.dca` method `getArchiveModalEditLink()` to create an contao backend archive modal edit link (e.g. module)
-
-## [2.10.2] - 2018-05-08
-
-### Fixed
-
-- removed whitespace from composeWhereForQueryBuilder in operator
-
-## [2.10.1] - 2018-05-08
-
-### Fixed
-
-- `huh.utils.form` call `Widget::getAttributesFromDca()` in `getWidgetFromAttributes` non-static
-
-## [2.10.0] - 2018-05-04
-
-### Added
-
-- `huh.utils.form` method `getWidgetFromAttributes`
-
 
 
 [@qzminski]: https://github.com/qzminski
+[#51]: https://github.com/heimrichhannot/contao-utils-bundle/pull/51
 [#50]: https://github.com/heimrichhannot/contao-utils-bundle/pull/50
 [#47]: https://github.com/heimrichhannot/contao-utils-bundle/pull/47
 [#46]: https://github.com/heimrichhannot/contao-utils-bundle/pull/46
