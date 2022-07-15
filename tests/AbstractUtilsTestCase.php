@@ -14,7 +14,7 @@ use Contao\CoreBundle\Framework\Adapter;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
+use Contao\UserModel;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -27,7 +27,7 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
     /**
      * @return Adapter|MockObject|Model
      */
-    protected function adapterModelClass()
+    protected function mockModelAdapter()
     {
         $adapter = $this->mockAdapter(['getClassFromTable']);
         $adapter->method('getClassFromTable')->willReturnCallback(function ($strTable) {
@@ -35,11 +35,8 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
                case 'tl_content':
                    return ContentModel::class;
 
-//               case 'tl_cfg_tag':
-//                   return CfgTagModel::class;
-//
-//               case 'tl_non_existing':
-//                   return 'HeimrichHannot\UtilsBundle\Model\NonExistingModel';
+               case 'tl_user':
+                   return UserModel::class;
 
                case 'null':
                default:
@@ -53,7 +50,7 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
     /**
      * @return Adapter|MockObject|ContentModel
      */
-    protected function adapterContentModelClass()
+    protected function mockContentModelAdapter()
     {
         $contentModelId5 = $this->mockModelObject(ContentModel::class, [
             'id' => 5,
@@ -159,7 +156,7 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
     /**
      * @return Adapter|MockObject|Controller
      */
-    protected function adapterControllerClass()
+    protected function mockControllerAdapter()
     {
         $adapter = $this->mockAdapter(['replaceInsertTags']);
         $adapter->method('replaceInsertTags')->willReturnCallback(function ($strBuffer, $blnCache = true) {

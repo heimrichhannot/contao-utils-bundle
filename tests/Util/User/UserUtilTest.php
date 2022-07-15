@@ -1,16 +1,19 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\UtilsBundle\Tests\Util\User;
 
+use Contao\Model;
 use Contao\Model\Collection;
 use Contao\UserGroupModel;
 use Contao\UserModel;
+use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
+use HeimrichHannot\UtilsBundle\Database\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
@@ -18,14 +21,18 @@ use PHPUnit\Framework\MockObject\MockBuilder;
 
 class UserUtilTest extends AbstractUtilsTestCase
 {
+    use ModelMockTrait;
+
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
         $modelUtil = $parameters['modelUtil'] ?? $this->createMock(ModelUtil::class);
+        $databaseUtil = $parameters['databaseUtil'] ?? $this->createMock(DatabaseUtil::class);
+        $contaoFramework = $parameters['contaoFramework'] ?? $this->mockContaoFramework();
 
         if (!$mockBuilder) {
-            return new UserUtil($modelUtil);
+            return new UserUtil($modelUtil, $databaseUtil, $contaoFramework);
         }
-        $mockBuilder->setConstructorArgs([$modelUtil]);
+        $mockBuilder->setConstructorArgs([$modelUtil, $databaseUtil, $contaoFramework]);
 
         return $mockBuilder->getMock();
     }
@@ -96,5 +103,39 @@ class UserUtilTest extends AbstractUtilsTestCase
         $this->assertFalse($instance->hasActiveGroup(1, 3));
         $this->assertFalse($instance->hasActiveGroup(2, 1));
         $this->assertFalse($instance->hasActiveGroup(3, 1));
+    }
+
+    public function testFindActiveUsersByGroup()
+    {
+        $userModelAdapterMock = $this->mockAdapter(['findBy']);
+        $userModelAdapterMock = $this->mockAdapter(['findBy']);
+        $userModelAdapterMock->method('findBy')->willReturnCallback(function ($columns, $values, $options) {
+            $users = [];
+            $i = 1;
+
+            foreach ($values as $value) {
+                $users[] = $this->mockModelObject(UserModel::class, ['id' => $i, 'groups' => serialize($value)]);
+                ++$i;
+            }
+
+            return new Collection($users, UserModel::getTable());
+        });
+
+        $parameters['contaoFramework'] = $this->mockContaoFramework([
+            Model::class => $this->mockModelAdapter(),
+            UserModel::class => $userModelAdapterMock,
+        ]);
+        $parameters['databaseUtil'] = $this->createMock(DatabaseUtil::class);
+        $parameters['databaseUtil']->method('createWhereForSerializedBlob')->willReturnCallback(function (string $field, array $values) {
+            return [$field, $values];
+        });
+
+        $instance = $this->getTestInstance($parameters);
+        $this->assertNull($instance->findActiveUsersByGroup([]));
+
+        $this->assertInstanceOf(Collection::class, $instance->findActiveUsersByGroup([1]));
+        $this->assertCount(2, $instance->findActiveUsersByGroup([1, 5]));
+
+        $this->assertCount(3, $instance->findActiveUsersByGroup([1, 2, '1 or true', '5']));
     }
 }
