@@ -1,19 +1,25 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\UtilsBundle\Traits;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\Date;
+use Contao\Model;
 use Contao\Model\Collection;
 use Contao\StringUtil;
+use HeimrichHannot\UtilsBundle\Database\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
 /**
  * Trait PersonTrait.
+ *
+ * @internal This trait is not covered by BC promise and only for internal usage
  *
  * @param ModelUtil $modelUtil
  */
@@ -69,5 +75,33 @@ trait PersonTrait
         }
 
         return false;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function findActiveByGroups(ContaoFramework $contaoFramework, DatabaseUtil $databaseUtil, string $table, array $groups, array $options = []): ?Collection
+    {
+        /** @var class-string<Model> $modelClass */
+        $modelClass = $contaoFramework->getAdapter(Model::class)->getClassFromTable($table);
+
+        if (!\is_array($groups) || empty($groups = array_filter($groups, function ($k) {
+            return !empty($k) && is_numeric($k);
+        }))) {
+            return null;
+        }
+
+        /** @var Model $adapter */
+        $adapter = $contaoFramework->getAdapter($modelClass);
+
+        $time = Date::floorToMinute();
+        $values = [];
+
+        $columns = ["($table.start='' OR $table.start<='$time') AND ($table.stop='' OR $table.stop>'".($time + 60)."') AND $table.disable=''"];
+
+        [$columns[], $tmpValues] = $databaseUtil->createWhereForSerializedBlob('groups', $groups);
+        $values = array_merge(array_values($values), array_values($tmpValues));
+
+        return $adapter->findBy($columns, $values, $options);
     }
 }

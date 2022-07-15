@@ -75,9 +75,9 @@ class ModelUtilTest extends AbstractUtilsTestCase
     public function testFindModelInstancesBy()
     {
         $framework = $this->mockContaoFramework([
-            Model::class => $this->adapterModelClass(),
-            ContentModel::class => $this->adapterContentModelClass(),
-            Controller::class => $this->adapterControllerClass(),
+            Model::class => $this->mockModelAdapter(),
+            ContentModel::class => $this->mockContentModelAdapter(),
+            Controller::class => $this->mockControllerAdapter(),
         ]);
 
         $util = $this->getTestInstance(['framework' => $framework]);
@@ -91,8 +91,8 @@ class ModelUtilTest extends AbstractUtilsTestCase
     public function testFindModelInstanceByPk()
     {
         $framework = $this->mockContaoFramework([
-            Model::class => $this->adapterModelClass(),
-            ContentModel::class => $this->adapterContentModelClass(),
+            Model::class => $this->mockModelAdapter(),
+            ContentModel::class => $this->mockContentModelAdapter(),
         ]);
 
         $instance = $this->getTestInstance(['framework' => $framework]);
@@ -106,9 +106,9 @@ class ModelUtilTest extends AbstractUtilsTestCase
     public function testFindOneModelInstanceBy()
     {
         $framework = $this->mockContaoFramework([
-            Model::class => $this->adapterModelClass(),
-            ContentModel::class => $this->adapterContentModelClass(),
-            Controller::class => $this->adapterControllerClass(),
+            Model::class => $this->mockModelAdapter(),
+            ContentModel::class => $this->mockContentModelAdapter(),
+            Controller::class => $this->mockControllerAdapter(),
         ]);
 
         $util = $this->getTestInstance(['framework' => $framework]);
@@ -123,8 +123,8 @@ class ModelUtilTest extends AbstractUtilsTestCase
     public function testFindMultipleModelInstancesByIds()
     {
         $framework = $this->mockContaoFramework([
-            Model::class => $this->adapterModelClass(),
-            ContentModel::class => $this->adapterContentModelClass(),
+            Model::class => $this->mockModelAdapter(),
+            ContentModel::class => $this->mockContentModelAdapter(),
         ]);
         $instance = $this->getTestInstance(['framework' => $framework]);
 
@@ -139,8 +139,8 @@ class ModelUtilTest extends AbstractUtilsTestCase
     public function testFindModelInstanceByIdOrAlias()
     {
         $framework = $this->mockContaoFramework([
-            Model::class => $this->adapterModelClass(),
-            ContentModel::class => $this->adapterContentModelClass(),
+            Model::class => $this->mockModelAdapter(),
+            ContentModel::class => $this->mockContentModelAdapter(),
         ]);
         $instance = $this->getTestInstance(['framework' => $framework]);
 
