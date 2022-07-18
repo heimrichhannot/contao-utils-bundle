@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.218.1] - 2022-07-18
+- Fixed: PHP 8 warning
+
 ## [2.218.0] - 2022-07-15
 - Added: Utils::user::findActiveUsersByGroup() (migrated from user util) ([#51])
 

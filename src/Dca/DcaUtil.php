@@ -471,7 +471,7 @@ class DcaUtil
 
         foreach ($GLOBALS['TL_DCA'][$table]['fields'] as $name => $data) {
             // restrict to certain input types
-            if (isset($options['inputTypes']) && \is_array($options['inputTypes']) && !empty($options['inputTypes']) && !\in_array($data['inputType'], $options['inputTypes'])) {
+            if (isset($options['inputTypes']) && \is_array($options['inputTypes']) && !empty($options['inputTypes']) && (isset($data['inputType']) && !\in_array($data['inputType'], $options['inputTypes']))) {
                 continue;
             }
 
