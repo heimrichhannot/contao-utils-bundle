@@ -10,7 +10,7 @@ services:
     autoconfigure: true
 
   HeimrichHannot\UtilsBundle\:
-    resource: '../../{Command,Util}/*'
+    resource: '../../{Command,EntityFinder,Util}/*'
     exclude: '../../Util/Utils.php'
     autowire: true
     autoconfigure: true
