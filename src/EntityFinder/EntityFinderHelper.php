@@ -25,13 +25,15 @@ class EntityFinderHelper
     }
 
     /**
+     * Search within serialized array fields of the model entity.
+     *
      * @param string $type   Module type
      * @param string $field  Field with serialized data
      * @param array  $values Values to search for in serialized data field
      *
      * @throws \Exception
      */
-    public function findModelByTypeAndSerializedValue(string $type, string $field, array $values): ?Collection
+    public function findModulesByTypeAndSerializedValue(string $type, string $field, array $values): ?Collection
     {
         [$columns[], $values] = $this->databaseUtil->createWhereForSerializedBlob(ModuleModel::getTable().'.'.$field, $values);
         $columns[] = ModuleModel::getTable().'.type=?';

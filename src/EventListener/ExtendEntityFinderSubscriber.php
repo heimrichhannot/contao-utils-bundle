@@ -60,7 +60,7 @@ class ExtendEntityFinderSubscriber implements EventSubscriberInterface
                 }
 
                 if (!$event->isOnlyText()) {
-                    if ($modules = $event->getEntityFinderHelper()->findModelByTypeAndSerializedValue('newslist', 'news_archives', [$element->id])) {
+                    if ($modules = $event->getEntityFinderHelper()->findModulesByTypeAndSerializedValue('newslist', 'news_archives', [$element->id])) {
                         while ($modules->next()) {
                             $event->addParent(ModuleModel::getTable(), $modules->id);
                         }
