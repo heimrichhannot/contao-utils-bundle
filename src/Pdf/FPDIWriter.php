@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -183,13 +183,18 @@ class FPDIWriter extends AbstractPdfWriter
         $fontname = preg_replace('/[^a-z0-9_]/', '', $fontname);
 
         $definitionFile = $tcpdfDir.'/fonts/'.$fontname.'.php';
+        $definitionFileFallback = $tcpdfDir.'/fonts/'.str_replace('regular', '', $fontname).'.php';
 
         if (!file_exists($definitionFile)) {
             \TCPDF_FONTS::addTTFfont($filename);
         }
 
         if (!file_exists($definitionFile)) {
-            throw new \Exception('The font "'.$filename.'" couldn\'t be added to TCPDF\'s font dir.');
+            if (file_exists($definitionFileFallback)) {
+                $definitionFile = $definitionFileFallback;
+            } else {
+                throw new \Exception('The font "'.$filename.'" couldn\'t be added to TCPDF\'s font dir.');
+            }
         }
 
         // add font to pdf document
