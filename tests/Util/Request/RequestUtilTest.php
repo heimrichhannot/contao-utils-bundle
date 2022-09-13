@@ -26,8 +26,9 @@ class RequestUtilTest extends AbstractUtilsTestCase
         $modelUtil = $parameters['modelUtil'] ?? $this->createMock(ModelUtil::class);
         $requestStack = $parameters['requestStack'] ?? $this->createMock(RequestStack::class);
         $kernelPackages = $parameters['kernelPackages'] ?? [];
+        $contaoFramework = $parameters['contaoFramework'] ?? $this->mockContaoFramework();
 
-        return new RequestUtil($modelUtil, $requestStack, $kernelPackages);
+        return new RequestUtil($modelUtil, $requestStack, $kernelPackages, $contaoFramework);
     }
 
     public function testGetCurrentPageModel()
@@ -194,5 +195,43 @@ class RequestUtilTest extends AbstractUtilsTestCase
 
         $request->headers->remove('referer');
         $this->assertTrue($instance->isNewVisitor());
+    }
+
+    public function testIsIndexPage()
+    {
+        $pageModelAdapter = $this->mockAdapter(['findFirstPublishedByPid']);
+        $pageModelAdapter->method('findFirstPublishedByPid')->willReturn($this->mockModelObject(PageModel::class, ['id' => 2]));
+        $framework = $this->mockContaoFramework([
+            PageModel::class => $pageModelAdapter,
+        ]);
+
+        $instance = $this->getTestInstance(['contaoFramework' => $framework]);
+
+        $this->assertFalse($instance->isIndexPage());
+        $this->assertFalse($instance->isIndexPage($this->mockModelObject(PageModel::class, ['id' => 3, 'pid' => 1])));
+        $this->assertFalse($instance->isIndexPage($this->mockModelObject(PageModel::class, ['id' => 2, 'pid' => 1])));
+
+        $request = Request::create('https://example.org');
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        $instance = $this->getTestInstance([
+            'contaoFramework' => $framework,
+            'requestStack' => $requestStack,
+        ]);
+
+        $this->assertFalse($instance->isIndexPage($this->mockModelObject(PageModel::class, ['id' => 3, 'pid' => 1])));
+        $this->assertTrue($instance->isIndexPage($this->mockModelObject(PageModel::class, ['id' => 2, 'pid' => 1])));
+
+        $request = Request::create('https://example.org', 'GET', ['auto_item' => 'example-page']);
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        $instance = $this->getTestInstance([
+            'contaoFramework' => $framework,
+            'requestStack' => $requestStack,
+        ]);
+
+        $this->assertFalse($instance->isIndexPage($this->mockModelObject(PageModel::class, ['id' => 2, 'pid' => 1])));
     }
 }

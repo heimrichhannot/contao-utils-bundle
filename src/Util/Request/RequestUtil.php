@@ -154,7 +154,7 @@ class RequestUtil
 
         $indexPage = $this->contaoFramework->getAdapter(PageModel::class)->findFirstPublishedByPid($pageModel->rootId);
 
-        if (!$indexPage || (int) $indexPage->id !== (int) $pageModel->id || $this->requestStack->getCurrentRequest()->query->has('auto_item')) {
+        if (!$indexPage || (int) $indexPage->id !== (int) $pageModel->id || !$this->requestStack->getCurrentRequest() || $this->requestStack->getCurrentRequest()->query->has('auto_item')) {
             return false;
         }
 
