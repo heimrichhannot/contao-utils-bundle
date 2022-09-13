@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util\Request;
 
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Model;
 use Contao\PageModel;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
@@ -27,11 +28,15 @@ class RequestUtil
      */
     protected $kernelPackages;
 
-    public function __construct(ModelUtil $modelUtil, RequestStack $requestStack, array $kernelPackages)
+    /** @var ContaoFramework */
+    private $contaoFramework;
+
+    public function __construct(ModelUtil $modelUtil, RequestStack $requestStack, array $kernelPackages, ContaoFramework $contaoFramework)
     {
         $this->modelUtil = $modelUtil;
         $this->requestStack = $requestStack;
         $this->kernelPackages = $kernelPackages;
+        $this->contaoFramework = $contaoFramework;
     }
 
     /**
@@ -137,6 +142,29 @@ class RequestUtil
         }
 
         return '';
+    }
+
+    /**
+     * Return true if the current page (or the passed page) is the index/ start page
+     * of the current page tree.
+     */
+    public function isIndexPage(PageModel $pageModel = null): bool
+    {
+        if (!$pageModel) {
+            $pageModel = $this->getCurrentPageModel();
+        }
+
+        if (!$pageModel) {
+            return false;
+        }
+
+        $indexPage = $this->contaoFramework->getAdapter(PageModel::class)->findFirstPublishedByPid($pageModel->rootId);
+
+        if (!$indexPage || (int) $indexPage->id !== (int) $pageModel->id || !$this->requestStack->getCurrentRequest() || $this->requestStack->getCurrentRequest()->query->has('auto_item')) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
