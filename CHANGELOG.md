@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2022-08-22
+## [2.219.0] - 2022-09-13
+- Added: RequestUtil::isIndexPage() ([#55])
 - Fixed: font name evaluation in FPDFIWriter
 
 ## [2.218.1] - 2022-07-18
@@ -2316,6 +2317,7 @@ instead
 
 
 [@qzminski]: https://github.com/qzminski
+[#55]: https://github.com/heimrichhannot/contao-utils-bundle/pull/55
 [#51]: https://github.com/heimrichhannot/contao-utils-bundle/pull/51
 [#50]: https://github.com/heimrichhannot/contao-utils-bundle/pull/50
 [#47]: https://github.com/heimrichhannot/contao-utils-bundle/pull/47
