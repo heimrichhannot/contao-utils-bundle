@@ -27,7 +27,9 @@ class RequestUtil
      * @var array
      */
     protected $kernelPackages;
-    private ContaoFramework $contaoFramework;
+
+    /** @var ContaoFramework */
+    private $contaoFramework;
 
     public function __construct(ModelUtil $modelUtil, RequestStack $requestStack, array $kernelPackages, ContaoFramework $contaoFramework)
     {
