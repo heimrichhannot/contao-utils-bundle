@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2022-08-22
+- Fixed: font name evaluation in FPDFIWriter
+
 ## [2.218.1] - 2022-07-18
 - Fixed: PHP 8 warning
 
