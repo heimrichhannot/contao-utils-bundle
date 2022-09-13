@@ -144,6 +144,10 @@ class RequestUtil
         return '';
     }
 
+    /**
+     * Return true if the current page (or the passed page) is the index/ start page
+     * of the current page tree.
+     */
     public function isIndexPage(PageModel $pageModel = null): bool
     {
         if (!$pageModel) {
