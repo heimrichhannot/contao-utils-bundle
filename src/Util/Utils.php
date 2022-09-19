@@ -14,6 +14,7 @@ use HeimrichHannot\UtilsBundle\Util\File\FileUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
+use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
@@ -75,6 +76,11 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(RequestUtil::class);
     }
 
+    public function routing(): RoutingUtil
+    {
+        return $this->locator->get(RoutingUtil::class);
+    }
+
     public function string(): StringUtil
     {
         return $this->locator->get(StringUtil::class);
@@ -96,6 +102,7 @@ class Utils extends AbstractServiceSubscriber
             LocaleUtil::class,
             ModelUtil::class,
             RequestUtil::class,
+            RoutingUtil::class,
             StringUtil::class,
             UserUtil::class,
         ];

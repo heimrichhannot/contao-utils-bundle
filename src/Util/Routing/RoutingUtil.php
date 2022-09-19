@@ -8,9 +8,11 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\Routing;
 
+use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 class RoutingUtil implements ServiceSubscriberInterface
@@ -71,8 +73,8 @@ class RoutingUtil implements ServiceSubscriberInterface
     public static function getSubscribedServices()
     {
         return [
-            '?contao.csrf.token_manager',
-            '?security.csrf.token_manager',
+            '?contao.csrf.token_manager' => ContaoCsrfTokenManager::class,
+            '?security.csrf.token_manager' => CsrfTokenManagerInterface::class,
         ];
     }
 }
