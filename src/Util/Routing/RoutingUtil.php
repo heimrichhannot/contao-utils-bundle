@@ -47,7 +47,7 @@ class RoutingUtil implements ServiceSubscriberInterface
      *
      * @return string The backend route url
      */
-    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = 'contao_backend')
+    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = 'contao_backend'): string
     {
         if ($addToken) {
             // >= contao 4.6.8 uses contao.csrf.token_manager service to validate token
@@ -65,6 +65,9 @@ class RoutingUtil implements ServiceSubscriberInterface
         return $this->router->generate($route, $params);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getSubscribedServices()
     {
         return [
