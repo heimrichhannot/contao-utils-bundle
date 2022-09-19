@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2022-09-19
+- Fixed: array index issue
+
 ## [2.219.0] - 2022-09-13
 - Added: RequestUtil::isIndexPage() ([#55])
 - Fixed: font name evaluation in FPDFIWriter
