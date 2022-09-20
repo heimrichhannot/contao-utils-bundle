@@ -3636,25 +3636,10 @@ Search.appendIndex(
             "summary": "Generate\u0020a\u0020backend\u0020route\u0020with\u0020token\u0020and\u0020referer.",
             "url": "classes/HeimrichHannot-UtilsBundle-Routing-RoutingUtil.html#method_generateBackendRoute"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Routing\\RoutingUtil\u003A\u003A\u0024container",
-            "name": "container",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Routing\\RoutingUtil\u003A\u003A\u0024utils",
+            "name": "utils",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Routing-RoutingUtil.html#property_container"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Routing\\RoutingUtil\u003A\u003A\u0024router",
-            "name": "router",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Routing-RoutingUtil.html#property_router"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Routing\\RoutingUtil\u003A\u003A\u0024token",
-            "name": "token",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Routing-RoutingUtil.html#property_token"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Routing\\RoutingUtil\u003A\u003A\u0024request",
-            "name": "request",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Routing-RoutingUtil.html#property_request"
+            "url": "classes/HeimrichHannot-UtilsBundle-Routing-RoutingUtil.html#property_utils"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Rsce\\RsceUtil",
             "name": "RsceUtil",
@@ -4696,6 +4681,46 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#property_contaoFramework"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil",
+            "name": "RoutingUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil\u003A\u003AgenerateBackendRoute\u0028\u0029",
+            "name": "generateBackendRoute",
+            "summary": "Generate\u0020a\u0020backend\u0020route\u0020with\u0020token\u0020and\u0020referer.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html#method_generateBackendRoute"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil\u003A\u003AgetSubscribedServices\u0028\u0029",
+            "name": "getSubscribedServices",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html#method_getSubscribedServices"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil\u003A\u003A\u0024router",
+            "name": "router",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html#property_router"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil\u003A\u003A\u0024container",
+            "name": "container",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html#property_container"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil\u003A\u003A\u0024csrfTokenName",
+            "name": "csrfTokenName",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html#property_csrfTokenName"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil\u003A\u003A\u0024requestStack",
+            "name": "requestStack",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Routing-RoutingUtil.html#property_requestStack"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type\\ArrayUtil",
             "name": "ArrayUtil",
             "summary": "",
@@ -4935,6 +4960,11 @@ Search.appendIndex(
             "name": "request",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_request"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Arouting\u0028\u0029",
+            "name": "routing",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_routing"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Astring\u0028\u0029",
             "name": "string",
@@ -5220,6 +5250,11 @@ Search.appendIndex(
             "name": "Request",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-request.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing",
+            "name": "Routing",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-routing.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Type",
             "name": "Type",
