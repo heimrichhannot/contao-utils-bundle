@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2022-09-19
+## [2.220.0] - 2022-09-20
+- Changed: Migrate routing util to utils ([#56])
 - Fixed: array index issue
 
 ## [2.219.0] - 2022-09-13
@@ -2320,6 +2321,7 @@ instead
 
 
 [@qzminski]: https://github.com/qzminski
+[#56]: https://github.com/heimrichhannot/contao-utils-bundle/pull/56
 [#55]: https://github.com/heimrichhannot/contao-utils-bundle/pull/55
 [#51]: https://github.com/heimrichhannot/contao-utils-bundle/pull/51
 [#50]: https://github.com/heimrichhannot/contao-utils-bundle/pull/50
