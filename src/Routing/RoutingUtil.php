@@ -1,44 +1,29 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\UtilsBundle\Routing;
 
-use Contao\System;
-use Psr\Container\ContainerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\RouterInterface;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
+/**
+ * @deprecated Use Utils service instead
+ * @codeCoverageIgnore
+ */
 class RoutingUtil
 {
     /**
-     * @var ContainerInterface
+     * @var Utils
      */
-    protected $container;
+    private $utils;
 
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var string
-     */
-    private $token;
-    /**
-     * @var RequestStack
-     */
-    private $request;
-
-    public function __construct(RouterInterface $router, RequestStack $request, $token)
+    public function __construct(Utils $utils)
     {
-        $this->router = $router;
-        $this->token = $token;
-        $this->request = $request;
+        $this->utils = $utils;
     }
 
     /**
@@ -47,22 +32,12 @@ class RoutingUtil
      * @param array $params Url-Parameters
      *
      * @return string The backend route url
+     *
+     * @deprecated Use utils service instead
+     * @codeCoverageIgnore
      */
     public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = 'contao_backend')
     {
-        if ($addToken) {
-            // >= contao 4.6.8 uses contao.csrf.token_manager service to validate token
-            if (System::getContainer()->has('contao.csrf.token_manager')) {
-                $params['rt'] = System::getContainer()->get('contao.csrf.token_manager')->getToken($this->token)->getValue();
-            } else {
-                $params['rt'] = System::getContainer()->get('security.csrf.token_manager')->getToken($this->token)->getValue();
-            }
-        }
-
-        if ($addReferer) {
-            $params['ref'] = $this->request->getCurrentRequest()->get('_contao_referer_id');
-        }
-
-        return $this->router->generate($route, $params);
+        return $this->utils->routing()->generateBackendRoute($params, $addToken, $addReferer, $route);
     }
 }

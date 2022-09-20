@@ -14,6 +14,7 @@ use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
+use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
@@ -49,6 +50,9 @@ class UtilsTest extends ContaoTestCase
 
                     case RequestUtil::class:
                         return $this->createMock(RequestUtil::class);
+
+                    case RoutingUtil::class:
+                        return $this->createMock(RoutingUtil::class);
 
                     case StringUtil::class:
                         return $this->createMock(StringUtil::class);
@@ -97,6 +101,11 @@ class UtilsTest extends ContaoTestCase
     public function testRequest()
     {
         $this->assertInstanceOf(RequestUtil::class, $this->getTestInstance()->request());
+    }
+
+    public function testRouting()
+    {
+        $this->assertInstanceOf(RoutingUtil::class, $this->getTestInstance()->routing());
     }
 
     public function testString()

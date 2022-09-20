@@ -26,6 +26,15 @@ services:
     tags:
       - { name: 'container.service_subscriber', key: 'monolog.logger.contao', id: 'monolog.logger.contao' }
 
+  HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil:
+    autowire: true
+    autoconfigure: true
+    bind:
+      $csrfTokenName: '%contao.csrf_token_name%'
+    tags:
+      - { name: 'container.service_subscriber', key: 'Contao\CoreBundle\Csrf\ContaoCsrfTokenManager', id: 'contao.csrf.token_manager' }
+      - { name: 'container.service_subscriber', key: 'Symfony\Component\Security\Csrf\CsrfTokenManagerInterface', id: 'security.csrf.token_manager' }
+
   HeimrichHannot\UtilsBundle\EventListener\:
     resource: '../../EventListener/*'
     autowire: true
@@ -74,13 +83,11 @@ services:
     class: HeimrichHannot\UtilsBundle\Url\UrlUtil
     public: true
     autowire: true
+
   huh.utils.routing:
     class: HeimrichHannot\UtilsBundle\Routing\RoutingUtil
     public: true
-    arguments:
-      - "@router"
-      - "@request_stack"
-      - "%contao.csrf_token_name%"
+    autowire: true
   huh.utils.salutation:
     class: HeimrichHannot\UtilsBundle\Salutation\SalutationUtil
     public: true
