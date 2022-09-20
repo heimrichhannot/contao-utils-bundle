@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.220.1] - 2022-09-20
+- Fixed: 2.220.0 breaks contao 4.4 support
+
 ## [2.220.0] - 2022-09-20
 - Changed: Migrate routing util to utils ([#56])
 - Fixed: array index issue
