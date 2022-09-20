@@ -12,6 +12,7 @@ use HeimrichHannot\UtilsBundle\Util\Utils;
 
 /**
  * @deprecated Use Utils service instead
+ * @codeCoverageIgnore
  */
 class RoutingUtil
 {
