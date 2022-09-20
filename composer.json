@@ -31,7 +31,9 @@
     "phpunit/phpunit": "^8.0",
     "phpunit/php-token-stream": "^1.4|^2.0|^3.0",
     "php-coveralls/php-coveralls": "^2.0",
-    "symfony/phpunit-bridge": "^3.2|^4.0"
+    "symfony/phpunit-bridge": "^3.2|^4.0",
+    "phpstan/phpstan": "^1.8",
+    "vimeo/psalm": "^4.26"
   },
   "conflict": {
     "heimrichhannot/contao-encore-bundle": "<1.5"
