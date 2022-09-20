@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class RoutingUtilTest extends AbstractUtilsTestCase
 {
@@ -52,8 +53,8 @@ class RoutingUtilTest extends AbstractUtilsTestCase
         $token->method('getValue')->willReturn('foo-bar');
         $tokenManager->method('getToken')->willReturn($token);
         $container = $this->getContainerWithContaoConfiguration();
-        $container->set('contao.csrf.token_manager', $tokenManager);
-        $container->set('security.csrf.token_manager', $tokenManager);
+        $container->set(ContaoCsrfTokenManager::class, $tokenManager);
+        $container->set(CsrfTokenManagerInterface::class, $tokenManager);
 
         $requestStack = new RequestStack();
         $request = new Request();
@@ -72,7 +73,7 @@ class RoutingUtilTest extends AbstractUtilsTestCase
         $this->assertSame('/contao?a=b&rt=foo-bar&ref=win-amp', $instance->generateBackendRoute(['a' => 'b'], true, true));
 
         $container = new ContainerBuilder();
-        $container->set('security.csrf.token_manager', $tokenManager);
+        $container->set(CsrfTokenManagerInterface::class, $tokenManager);
 
         $instance = $this->getTestInstance([
             'router' => $router,

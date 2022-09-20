@@ -53,10 +53,10 @@ class RoutingUtil implements ServiceSubscriberInterface
     {
         if ($addToken) {
             // >= contao 4.6.8 uses contao.csrf.token_manager service to validate token
-            if ($this->container->has('contao.csrf.token_manager')) {
-                $params['rt'] = $this->container->get('contao.csrf.token_manager')->getToken($this->csrfTokenName)->getValue();
-            } else {
-                $params['rt'] = $this->container->get('security.csrf.token_manager')->getToken($this->csrfTokenName)->getValue();
+            if ($this->container->has(ContaoCsrfTokenManager::class)) {
+                $params['rt'] = $this->container->get(ContaoCsrfTokenManager::class)->getToken($this->csrfTokenName)->getValue();
+            } elseif ($this->container->has(CsrfTokenManagerInterface::class)) {
+                $params['rt'] = $this->container->get(CsrfTokenManagerInterface::class)->getToken($this->csrfTokenName)->getValue();
             }
         }
 
@@ -73,8 +73,8 @@ class RoutingUtil implements ServiceSubscriberInterface
     public static function getSubscribedServices()
     {
         return [
-            '?contao.csrf.token_manager' => ContaoCsrfTokenManager::class,
-            '?security.csrf.token_manager' => CsrfTokenManagerInterface::class,
+            '?'.ContaoCsrfTokenManager::class,
+            '?'.CsrfTokenManagerInterface::class,
         ];
     }
 }

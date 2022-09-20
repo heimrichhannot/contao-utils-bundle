@@ -17,7 +17,6 @@ services:
     bind:
       $kernelPackages: '%kernel.packages%'
       $projectDir: '%kernel.project_dir%'
-      $csrfTokenName: '%contao.csrf_token_name%'
 
   HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil:
     autowire: true
@@ -26,6 +25,15 @@ services:
       $kernelBundles: '%kernel.bundles%'
     tags:
       - { name: 'container.service_subscriber', key: 'monolog.logger.contao', id: 'monolog.logger.contao' }
+
+  HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil:
+    autowire: true
+    autoconfigure: true
+    bind:
+      $csrfTokenName: '%contao.csrf_token_name%'
+    tags:
+      - { name: 'container.service_subscriber', key: 'Contao\CoreBundle\Csrf\ContaoCsrfTokenManager', id: 'contao.csrf.token_manager' }
+      - { name: 'container.service_subscriber', key: 'Symfony\Component\Security\Csrf\CsrfTokenManagerInterface', id: 'security.csrf.token_manager' }
 
   HeimrichHannot\UtilsBundle\EventListener\:
     resource: '../../EventListener/*'
