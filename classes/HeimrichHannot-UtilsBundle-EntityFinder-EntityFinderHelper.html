@@ -86,12 +86,12 @@
                     <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot.html">HeimrichHannot</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle.html">UtilsBundle</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle-eventlistener.html">EventListener</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle-entityfinder.html">EntityFinder</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    ExtendEntityFinderSubscriber
+    EntityFinderHelper
 
     
             <div class="phpdocumentor-element__package">
@@ -101,16 +101,13 @@
                             </ul>
         </div>
     
-            <span class="phpdocumentor-element__implements">
-            implements
-                            <abbr title="\Symfony\Component\EventDispatcher\EventSubscriberInterface">EventSubscriberInterface</abbr>                    </span>
     
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/ExtendEntityFinderSubscriber.php"><a href="files/src-eventlistener-extendentityfindersubscriber.html"><abbr title="src/EventListener/ExtendEntityFinderSubscriber.php">ExtendEntityFinderSubscriber.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">21</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 
     </aside>
 
@@ -122,17 +119,6 @@
 
 
 
-<h3 id="interfaces_class_traits">
-    Interfaces, Classes and Traits
-    <a href="#interfaces_class_traits" class="headerlink"><i class="fas fa-link"></i></a>
-</h3>
-
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><abbr title="\Symfony\Component\EventDispatcher\EventSubscriberInterface">EventSubscriberInterface</abbr></dt>
-        <dd></dd>
-    
-    
-    </dl>
 
 
 <h3 id="toc">
@@ -141,33 +127,26 @@
 </h3>
 
 <dl class="phpdocumentor-table-of-contents">
-                    <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_getSubscribedEvents">getSubscribedEvents()</a>
+                <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_databaseUtil">$databaseUtil</a>
+    <span>
+                &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Database-DatabaseUtil.html"><abbr title="\HeimrichHannot\UtilsBundle\Database\DatabaseUtil">DatabaseUtil</abbr></a>            </span>
+</dt>
+<dd></dd>
+
+                <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_onExtendEntityFinderEvent">onExtendEntityFinderEvent()</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findModulesByTypeAndSerializedValue">findModulesByTypeAndSerializedValue()</a>
     <span>
-                        &nbsp;: mixed    </span>
+                        &nbsp;: <abbr title="\Contao\Model\Collection">Collection</abbr>|null    </span>
 </dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_findBlockElements">findBlockElements()</a>
-    <span>
-                        &nbsp;: void    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_findNewsEntity">findNewsEntity()</a>
-    <span>
-                        &nbsp;: void    </span>
-</dt>
-<dd></dd>
+<dd>Search within serialized array fields of the model entity.</dd>
 
         </dl>
 
@@ -176,37 +155,86 @@
         
 
         
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_databaseUtil">
+        $databaseUtil
+        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_databaseUtil" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">20</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type"><a href="classes/HeimrichHannot-UtilsBundle-Database-DatabaseUtil.html"><abbr title="\HeimrichHannot\UtilsBundle\Database\DatabaseUtil">DatabaseUtil</abbr></a></span>
+    <span class="phpdocumentor-signature__name">$databaseUtil</span>
+    </code>
+
+    
+    
+    
+
+</article>
+            </section>
 
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
             -method
             -public
-                                    -static                    "
+                                                        "
 >
-    <h4 class="phpdocumentor-element__name" id="method_getSubscribedEvents">
-        getSubscribedEvents()
-        <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_getSubscribedEvents" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/ExtendEntityFinderSubscriber.php"><a href="files/src-eventlistener-extendentityfindersubscriber.html"><abbr title="src/EventListener/ExtendEntityFinderSubscriber.php">ExtendEntityFinderSubscriber.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__name">getSubscribedEvents</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Database-DatabaseUtil.html"><abbr title="\HeimrichHannot\UtilsBundle\Database\DatabaseUtil">DatabaseUtil</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$databaseUtil</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
         <section class="phpdocumentor-description"></section>
 
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$databaseUtil</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Database-DatabaseUtil.html"><abbr title="\HeimrichHannot\UtilsBundle\Database\DatabaseUtil">DatabaseUtil</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
@@ -221,128 +249,73 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_onExtendEntityFinderEvent">
-        onExtendEntityFinderEvent()
-        <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_onExtendEntityFinderEvent" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_findModulesByTypeAndSerializedValue">
+        findModulesByTypeAndSerializedValue()
+        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findModulesByTypeAndSerializedValue" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/ExtendEntityFinderSubscriber.php"><a href="files/src-eventlistener-extendentityfindersubscriber.html"><abbr title="src/EventListener/ExtendEntityFinderSubscriber.php">ExtendEntityFinderSubscriber.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">30</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">onExtendEntityFinderEvent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$event</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-        
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_findBlockElements">
-        findBlockElements()
-        <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_findBlockElements" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/ExtendEntityFinderSubscriber.php"><a href="files/src-eventlistener-extendentityfindersubscriber.html"><abbr title="src/EventListener/ExtendEntityFinderSubscriber.php">ExtendEntityFinderSubscriber.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">76</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">findBlockElements</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$event</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
-            &mdash;
-        
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_findNewsEntity">
-        findNewsEntity()
-        <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_findNewsEntity" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/ExtendEntityFinderSubscriber.php"><a href="files/src-eventlistener-extendentityfindersubscriber.html"><abbr title="src/EventListener/ExtendEntityFinderSubscriber.php">ExtendEntityFinderSubscriber.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Search within serialized array fields of the model entity.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                <span class="phpdocumentor-signature__name">findNewsEntity</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$event</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">findModulesByTypeAndSerializedValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$values</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Contao\Model\Collection">Collection</abbr>|null</span></code>
 
-        <section class="phpdocumentor-description"></section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$event</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a></span>
+                <span class="phpdocumentor-signature__argument__name">$type</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
+                    <section class="phpdocumentor-description"><p>Module type</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$field</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Field with serialized data</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$values</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Values to search for in serialized data field</p>
+</section>
 
             </dd>
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                        </dl>
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
+    <span class="phpdocumentor-signature__response_type"><abbr title="\Contao\Model\Collection">Collection</abbr>|null</span>
             &mdash;
         
     
@@ -425,7 +398,7 @@
 </section>
             </div>
         </div>
-        <a href="classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
