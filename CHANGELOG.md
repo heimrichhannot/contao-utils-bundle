@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.221.0] - 2022-09-27
+- Added: entity finder helper ([#53])
+- Added: news support to entity finder ([#53])
+
 ## [2.220.1] - 2022-09-20
 - Fixed: 2.220.0 breaks contao 4.4 support
 
@@ -2326,6 +2330,7 @@ instead
 [@qzminski]: https://github.com/qzminski
 [#56]: https://github.com/heimrichhannot/contao-utils-bundle/pull/56
 [#55]: https://github.com/heimrichhannot/contao-utils-bundle/pull/55
+[#53]: https://github.com/heimrichhannot/contao-utils-bundle/pull/53
 [#51]: https://github.com/heimrichhannot/contao-utils-bundle/pull/51
 [#50]: https://github.com/heimrichhannot/contao-utils-bundle/pull/50
 [#47]: https://github.com/heimrichhannot/contao-utils-bundle/pull/47
