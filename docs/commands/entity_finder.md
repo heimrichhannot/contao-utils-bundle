@@ -47,6 +47,12 @@ A list about where is searched for parent entities (recursive).
 **`tl_layout` (Layout):**
 - Themes
 
+**`tl_news` (News)**
+- news archive (`pid`)
+
+**`tl_news_archive` (News archive)**
+- newslist frontend module
+
 **`tl_theme` (Themes)**
 
 **`tl_page` (Pages)**
