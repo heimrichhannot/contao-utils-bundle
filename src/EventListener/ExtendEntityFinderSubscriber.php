@@ -10,6 +10,9 @@ namespace HeimrichHannot\UtilsBundle\EventListener;
 
 use Contao\Model\Collection;
 use Contao\ModuleModel;
+use Contao\NewsArchiveModel;
+use Contao\NewsBundle\ContaoNewsBundle;
+use Contao\NewsModel;
 use HeimrichHannot\Blocks\BlockModel;
 use HeimrichHannot\Blocks\BlockModuleModel;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
@@ -20,53 +23,101 @@ class ExtendEntityFinderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ExtendEntityFinderEvent::class => 'onExtendEntityFinderEvent'
+            ExtendEntityFinderEvent::class => 'onExtendEntityFinderEvent',
         ];
     }
 
     public function onExtendEntityFinderEvent(ExtendEntityFinderEvent $event)
     {
-        if (class_exists(BlockModel::class)) {
-            switch ($event->getTable()) {
-                case BlockModuleModel::getTable():
-                    $element = BlockModuleModel::findByPk($event->getId());
+        $this->findNewsEntity($event);
+        $this->findBlockElements($event);
+    }
 
-                    if (!$element) {
-                        return;
-                    }
-                    $event->addParent(BlockModel::getTable(), $element->id);
-                    $event->setOutput('Block module: '.$element->id);
+    private function findNewsEntity(ExtendEntityFinderEvent $event): void
+    {
+        if (!class_exists(ContaoNewsBundle::class)) {
+            return;
+        }
 
-                    break;
+        switch ($event->getTable()) {
+            case NewsModel::getTable():
+                $element = NewsModel::findByPk($event->getId());
 
-                case BlockModel::getTable():
-                    $block = BlockModel::findByPk($event->getId());
+                if (!$element) {
+                    return;
+                }
 
-                    if ($block) {
-                        $event->addParent(ModuleModel::getTable(), $block->module);
-                        $event->setOutput('Block: '.$block->title.' (ID: '.$block->id.')');
-                    }
+                $event->addParent(NewsArchiveModel::getTable(), $element->pid);
+                $event->setOutput('News: '.$element->headline.' (ID: '.$element->id.')');
 
-                    break;
+                break;
 
-                case ModuleModel::getTable():
-                    if ($event->isOnlyText()) {
-                        break;
-                    }
+            case NewsArchiveModel::getTable():
+                $element = NewsArchiveModel::findByPk($event->getId());
 
-                    if (is_numeric($event->getId())) {
-                        /** @var BlockModuleModel[]|Collection|null $blockModules */
-                        $blockModules = BlockModuleModel::findByModule($event->getId());
+                if (!$element) {
+                    return;
+                }
 
-                        if ($blockModules) {
-                            foreach ($blockModules as $blockModule) {
-                                $event->addParent(BlockModuleModel::getTable(), $blockModule->id);
-                            }
+                if (!$event->isOnlyText()) {
+                    if ($modules = $event->getEntityFinderHelper()->findModulesByTypeAndSerializedValue('newslist', 'news_archives', [$element->id])) {
+                        while ($modules->next()) {
+                            $event->addParent(ModuleModel::getTable(), $modules->id);
                         }
                     }
+                }
 
+                $event->setOutput('News Archive: '.$element->title.' (ID: '.$element->id.')');
+
+                break;
+        }
+    }
+
+    private function findBlockElements(ExtendEntityFinderEvent $event): void
+    {
+        if (!class_exists(BlockModel::class)) {
+            return;
+        }
+
+        switch ($event->getTable()) {
+            case BlockModuleModel::getTable():
+                $element = BlockModuleModel::findByPk($event->getId());
+
+                if (!$element) {
+                    return;
+                }
+                $event->addParent(BlockModel::getTable(), $element->id);
+                $event->setOutput('Block module: '.$element->id);
+
+                break;
+
+            case BlockModel::getTable():
+                $block = BlockModel::findByPk($event->getId());
+
+                if ($block) {
+                    $event->addParent(ModuleModel::getTable(), $block->module);
+                    $event->setOutput('Block: '.$block->title.' (ID: '.$block->id.')');
+                }
+
+                break;
+
+            case ModuleModel::getTable():
+                if ($event->isOnlyText()) {
                     break;
-            }
+                }
+
+                if (is_numeric($event->getId())) {
+                    /** @var BlockModuleModel[]|Collection|null $blockModules */
+                    $blockModules = BlockModuleModel::findByModule($event->getId());
+
+                    if ($blockModules) {
+                        foreach ($blockModules as $blockModule) {
+                            $event->addParent(BlockModuleModel::getTable(), $blockModule->id);
+                        }
+                    }
+                }
+
+                break;
         }
     }
 }

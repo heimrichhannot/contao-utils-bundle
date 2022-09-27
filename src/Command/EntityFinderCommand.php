@@ -18,6 +18,7 @@ use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
 use Doctrine\DBAL\Connection;
+use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -40,14 +41,19 @@ class EntityFinderCommand extends Command
      * @var Connection
      */
     private $connection;
+    /**
+     * @var EntityFinderHelper
+     */
+    private $entityFinderHelper;
 
-    public function __construct(ContaoFramework $contaoFramework, EventDispatcherInterface $eventDispatcher, Connection $connection)
+    public function __construct(ContaoFramework $contaoFramework, EventDispatcherInterface $eventDispatcher, Connection $connection, EntityFinderHelper $entityFinderHelper)
     {
         parent::__construct();
 
         $this->contaoFramework = $contaoFramework;
         $this->eventDispatcher = $eventDispatcher;
         $this->connection = $connection;
+        $this->entityFinderHelper = $entityFinderHelper;
     }
 
     protected function configure()
@@ -227,7 +233,7 @@ class EntityFinderCommand extends Command
         }
 
         /** @var ExtendEntityFinderEvent $event */
-        $event = $this->runExtendEntityFinderEvent($table, $id, []);
+        $event = $this->runExtendEntityFinderEvent($table, $id, [], true);
 
         if ($event->getOutput()) {
             return $event->getOutput();
@@ -236,14 +242,20 @@ class EntityFinderCommand extends Command
         return 'Unsupported entity: '.$table.' (ID: '.$id.')';
     }
 
-    private function runExtendEntityFinderEvent(string $table, $id, array $parents): ExtendEntityFinderEvent
+    private function runExtendEntityFinderEvent(string $table, $id, array $parents, bool $onlyText = false): ExtendEntityFinderEvent
     {
         /* @var ExtendEntityFinderEvent $event */
         if (is_subclass_of($this->eventDispatcher, 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
-            $event = $this->eventDispatcher->dispatch(new ExtendEntityFinderEvent($table, $id, $parents, []), ExtendEntityFinderEvent::class);
+            $event = $this->eventDispatcher->dispatch(
+                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText),
+                ExtendEntityFinderEvent::class
+            );
         } else {
             /** @noinspection PhpParamsInspection */
-            $event = $this->eventDispatcher->dispatch(ExtendEntityFinderEvent::class, new ExtendEntityFinderEvent($table, $id, $parents, []));
+            $event = $this->eventDispatcher->dispatch(
+                ExtendEntityFinderEvent::class,
+                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText)
+            );
         }
 
         return $event;

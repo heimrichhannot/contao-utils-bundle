@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Event;
 
+use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
+
 class ExtendEntityFinderEvent extends AbstractEvent
 {
     /** @var string */
@@ -30,14 +32,19 @@ class ExtendEntityFinderEvent extends AbstractEvent
      * @var array
      */
     private $inserttags;
+    /**
+     * @var EntityFinderHelper
+     */
+    private $entityFinderHelper;
 
-    public function __construct(string $table, $id, array $parents, array $inserttags, bool $onlyText = false)
+    public function __construct(string $table, $id, array $parents, array $inserttags, EntityFinderHelper $entityFinderHelper, bool $onlyText = false)
     {
         $this->table = $table;
         $this->id = $id;
         $this->parents = $parents;
         $this->onlyText = $onlyText;
         $this->inserttags = $inserttags;
+        $this->entityFinderHelper = $entityFinderHelper;
     }
 
     public function getTable(): string
@@ -96,5 +103,10 @@ class ExtendEntityFinderEvent extends AbstractEvent
     public function setInserttags(array $inserttags): void
     {
         $this->inserttags = $inserttags;
+    }
+
+    public function getEntityFinderHelper(): EntityFinderHelper
+    {
+        return $this->entityFinderHelper;
     }
 }
