@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -43,6 +43,10 @@ class IcsUtil
 
         $addTime = $data['addTime'] ?? false;
         $end = null;
+
+        if (empty($data['endDate'] ?? null)) {
+            $data['endDate'] = $data['startDate'];
+        }
 
         if ($adjustTime && $addTime) {
             $data['startTime'] = strtotime(date('Y-m-d', $data['startDate']).' '.date('H:i:s', $data['startTime']));

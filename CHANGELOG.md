@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.221.1] - 2022-10-05
+- Fixed: [IcsUtil] set endDate to startDate if not set
+
 ## [2.221.0] - 2022-09-27
 - Added: entity finder helper ([#53])
 - Added: news support to entity finder ([#53])
