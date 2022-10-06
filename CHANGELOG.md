@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2022-10-06
+- Changed: updated dependencies
+
 ## [2.221.1] - 2022-10-05
 - Fixed: [IcsUtil] set endDate to startDate if not set
 
