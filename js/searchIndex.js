@@ -4911,6 +4911,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_structureAccordionStartStop"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003AstructureAccordionSingle\u0028\u0029",
+            "name": "structureAccordionSingle",
+            "summary": "Adds\u0020the\u0020following\u0020flags\u0020to\u0020the\u0020template\u0020data\u003A\n\u002D\u0020first\n\u002D\u0020last\n\u002D\u0020parentId.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_structureAccordionSingle"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003AgenerateAccordionLevel\u0028\u0029",
             "name": "generateAccordionLevel",
             "summary": "",

@@ -143,6 +143,16 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_structureAccordionSingle">structureAccordionSingle()</a>
+    <span>
+                        &nbsp;: void    </span>
+</dt>
+<dd>Adds the following flags to the template data:
+- first
+- last
+- parentId.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_structureAccordionStartStop">structureAccordionStartStop()</a>
     <span>
                         &nbsp;: void    </span>
@@ -257,6 +267,65 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_structureAccordionSingle">
+        structureAccordionSingle()
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_structureAccordionSingle" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Ui/AccordionUtil.php"><a href="files/src-util-ui-accordionutil.html"><abbr title="src/Util/Ui/AccordionUtil.php">AccordionUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">62</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Adds the following flags to the template data:
+- first
+- last
+- parentId.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">structureAccordionSingle</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$data</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prefix</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;accordion_&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>This is needed if your want to group multiple single accordion elements into an accordion wrapper like in bootstrap 4.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$data</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Data describing the accordion. Usually this is taken from \Contao\Template::getData().</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$prefix</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;accordion_&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The prefix for the flags</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_structureAccordionStartStop">
         structureAccordionStartStop()
         <a href="classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_structureAccordionStartStop" class="headerlink"><i class="fas fa-link"></i></a>
@@ -316,7 +385,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/Ui/AccordionUtil.php"><a href="files/src-util-ui-accordionutil.html"><abbr title="src/Util/Ui/AccordionUtil.php">AccordionUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">125</span>
 
     </aside>
 
