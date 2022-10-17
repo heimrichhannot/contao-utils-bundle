@@ -1,7 +1,15 @@
 <?php
 
+/*
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace HeimrichHannot\UtilsBundle\Util\Ui;
 
+use Contao\ContentModel;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 
 class AccordionUtil
@@ -10,10 +18,15 @@ class AccordionUtil
      * @var ModelUtil
      */
     private $modelUtil;
+    /**
+     * @var ContaoFramework
+     */
+    private $contaoFramework;
 
-    public function __construct(ModelUtil $modelUtil)
+    public function __construct(ModelUtil $modelUtil, ContaoFramework $contaoFramework)
     {
         $this->modelUtil = $modelUtil;
+        $this->contaoFramework = $contaoFramework;
     }
 
     public function structureAccordionStartStop(array &$data, string $prefix = 'accordion_'): void
@@ -25,12 +38,11 @@ class AccordionUtil
         $cacheKey = $data['ptable'].'_'.$data['pid'];
 
         if (!isset($this->accordionStartStopCache[$cacheKey])) {
-            if (null !== ($elements = $this->modelUtil->findModelInstancesBy (
-                    'tl_content',
-                    ['tl_content.ptable=?', 'tl_content.pid=?', 'tl_content.invisible!=1',],
-                    [$data['ptable'], $data['pid'],],
-                    ['order' => 'sorting ASC',]
-                ))) {
+            if ($elements = $this->contaoFramework->getAdapter(ContentModel::class)->findPublishedByPidAndTable(
+                    $data['pid'],
+                    $data['ptable'],
+                    ['order' => 'sorting ASC']
+                )) {
                 $this->accordionStartStopCache[$cacheKey] = $this->generateAccordionLevel($elements->getModels());
             }
         }
@@ -39,8 +51,6 @@ class AccordionUtil
             $data[$prefix.'parentId'] = $this->accordionStartStopCache[$cacheKey][$data['id']]['parent'];
             $data[$prefix.'first'] = $this->accordionStartStopCache[$cacheKey][$data['id']]['first'] ?? false;
             $data[$prefix.'last'] = $this->accordionStartStopCache[$cacheKey][$data['id']]['last'] ?? false;
-        } else {
-            return;
         }
     }
 
@@ -50,8 +60,10 @@ class AccordionUtil
         $open = false;
         $startElement = null;
         $lastStopElement = null;
-        for ($index; $index < count($elements); $index++) {
+
+        for ($index; $index < \count($elements); ++$index) {
             $element = $elements[$index];
+
             if ('accordionStart' === $element->type) {
                 if ($open) {
                     $flatAccordionList = $flatAccordionList + $this->generateAccordionLevel($elements, $index, ($level + 1));
@@ -60,24 +72,27 @@ class AccordionUtil
                         'type' => $element->type,
                         'level' => $level,
                     ];
+
                     if (!$startElement) {
                         $flatAccordionList[$element->id]['parent'] = $element->id;
-                        $startElement                              = $element;
-                        $flatAccordionList[$element->id]['first']  = true;
+                        $startElement = $element;
+                        $flatAccordionList[$element->id]['first'] = true;
                     } else {
                         $flatAccordionList[$element->id]['parent'] = $startElement->id;
                     }
                     $open = true;
                 }
             } elseif ('accordionStop' === $element->type) {
-                if (!$open && $level !== 0) {
+                if (!$open && 0 !== $level) {
                     if ($lastStopElement) {
                         $flatAccordionList[$lastStopElement->id]['last'] = true;
                     }
-                    $index--;
+                    --$index;
+
                     return $flatAccordionList;
                 }
-                if ($open && $level !== 0) {
+
+                if ($open && 0 !== $level) {
                     $lastStopElement = $element;
                 }
 
@@ -87,12 +102,14 @@ class AccordionUtil
                     'type' => $element->type,
                     'level' => $level,
                 ];
-                if ($index === (count($elements) - 1) || ($level < 1 && !in_array($elements[($index + 1)]->type, ['accordionStart', 'accordionStop']))) {
+
+                if ($index === (\count($elements) - 1) || ($level < 1 && !\in_array($elements[($index + 1)]->type, ['accordionStart', 'accordionStop']))) {
                     $flatAccordionList[$element->id]['last'] = true;
                     $startElement = null;
                 }
             }
         }
+
         return $flatAccordionList;
     }
 }
