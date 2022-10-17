@@ -209,4 +209,133 @@ class AccordionUtilTest extends AbstractUtilsTestCase
             $this->assertArrayNotHasKey('accordion_last', $data);
         }
     }
+
+    public function testStructureAccordionSingle()
+    {
+        $contentModelAdapter = $this->mockAdapter(['findPublishedByPidAndTable']);
+        $contentModelAdapter->method('findPublishedByPidAndTable')->willReturnCallback(
+            function ($pid, $strParentTable, array $arrOptions = []) {
+                switch ($pid) {
+                case 1: return null;
+
+                case 2:
+                    return [
+                        $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
+                    ];
+
+                case 3:
+                    return [
+                        $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
+                        $this->mockModelObject(ContentModel::class, ['id' => 2, 'type' => 'text']),
+                        $this->mockModelObject(ContentModel::class, ['id' => 3, 'type' => 'accordionSingle']),
+                    ];
+
+                case 4:
+                    return [
+                        $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
+                        $this->mockModelObject(ContentModel::class, ['id' => 2, 'type' => 'accordionSingle']),
+                        $this->mockModelObject(ContentModel::class, ['id' => 3, 'type' => 'text']),
+                    ];
+            }
+
+                return null;
+            });
+
+        $framework = $this->mockContaoFramework([ContentModel::class => $contentModelAdapter]);
+
+        $accordionUtil = $this->getTestInstance(['framework' => $framework]);
+
+        $data = [];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertEmpty($data);
+
+        $data = ['pid' => 1];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertSame(['pid' => 1], $data);
+
+        $data = ['id' => 1];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertSame(['id' => 1], $data);
+
+        $data = ['id' => 1, 'pid' => 1];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertSame(['id' => 1, 'pid' => 1], $data);
+
+        $data = ['id' => 1, 'pid' => 2, 'ptable' => 'tl_article'];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertArrayHasKey('accordion_parentId', $data);
+        $this->assertArrayHasKey('accordion_first', $data);
+        $this->assertArrayHasKey('accordion_last', $data);
+        $this->assertSame(1, $data['accordion_parentId']);
+        $this->assertTrue($data['accordion_first']);
+        $this->assertTrue($data['accordion_last']);
+
+        $data = ['id' => 1, 'pid' => 3, 'ptable' => 'tl_article'];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertArrayHasKey('accordion_parentId', $data);
+        $this->assertArrayHasKey('accordion_first', $data);
+        $this->assertArrayHasKey('accordion_last', $data);
+        $this->assertSame(1, $data['accordion_parentId']);
+        $this->assertTrue($data['accordion_first']);
+        $this->assertTrue($data['accordion_last']);
+
+        $data = ['id' => 1, 'pid' => 4, 'ptable' => 'tl_article'];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertArrayHasKey('accordion_parentId', $data);
+        $this->assertArrayHasKey('accordion_first', $data);
+        $this->assertSame(1, $data['accordion_parentId']);
+        $this->assertTrue($data['accordion_first']);
+        $this->assertArrayNotHasKey('accordion_last', $data);
+
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertArrayHasKey('accordion_parentId', $data);
+        $this->assertArrayHasKey('accordion_last', $data);
+        $this->assertSame(1, $data['accordion_parentId']);
+        $this->assertTrue($data['accordion_last']);
+        $this->assertArrayNotHasKey('accordion_first', $data);
+
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
+        $accordionUtil->structureAccordionSingle($data, 'card_');
+        $this->assertArrayHasKey('card_parentId', $data);
+        $this->assertArrayHasKey('card_last', $data);
+        $this->assertSame(1, $data['card_parentId']);
+        $this->assertTrue($data['card_last']);
+        $this->assertArrayNotHasKey('card_first', $data);
+
+        $contentModelAdapter = $this->mockAdapter(['findPublishedByPidAndTable']);
+        $contentModelAdapter->expects($this->once())->method('findPublishedByPidAndTable')->willReturnCallback(
+            function ($pid, $strParentTable, array $arrOptions = []) {
+                switch ($pid) {
+                case 4:
+                    return [
+                        $this->mockModelObject(ContentModel::class, ['id' => 1, 'type' => 'accordionSingle']),
+                        $this->mockModelObject(ContentModel::class, ['id' => 2, 'type' => 'accordionSingle']),
+                        $this->mockModelObject(ContentModel::class, ['id' => 3, 'type' => 'text']),
+                    ];
+            }
+
+                return null;
+            });
+
+        $framework = $this->mockContaoFramework([ContentModel::class => $contentModelAdapter]);
+
+        $accordionUtil = $this->getTestInstance(['framework' => $framework]);
+
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertArrayHasKey('accordion_parentId', $data);
+        $this->assertArrayHasKey('accordion_last', $data);
+        $this->assertSame(1, $data['accordion_parentId']);
+        $this->assertTrue($data['accordion_last']);
+        $this->assertArrayNotHasKey('accordion_first', $data);
+
+        $data = ['id' => 2, 'pid' => 4, 'ptable' => 'tl_article'];
+        $accordionUtil->structureAccordionSingle($data);
+        $this->assertArrayHasKey('accordion_parentId', $data);
+        $this->assertArrayHasKey('accordion_last', $data);
+        $this->assertSame(1, $data['accordion_parentId']);
+        $this->assertTrue($data['accordion_last']);
+        $this->assertArrayNotHasKey('accordion_first', $data);
+    }
 }

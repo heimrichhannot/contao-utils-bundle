@@ -48,6 +48,80 @@ class AccordionUtil
         }
     }
 
+    /**
+     * Adds the following flags to the template data:
+     * - first
+     * - last
+     * - parentId.
+     *
+     * This is needed if your want to group multiple single accordion elements into an accordion wrapper like in bootstrap 4.
+     *
+     * @param array  $data   Data describing the accordion. Usually this is taken from \Contao\Template::getData().
+     * @param string $prefix The prefix for the flags
+     */
+    public function structureAccordionSingle(array &$data, string $prefix = 'accordion_'): void
+    {
+        if (!isset($data['id']) || !isset($data['pid']) || !isset($data['ptable'])) {
+            return;
+        }
+
+        $cacheKey = $data['ptable'].'_'.$data['pid'];
+
+        if (!isset($this->accordionSingleCache[$cacheKey])) {
+            if ($elements = $this->contaoFramework->getAdapter(ContentModel::class)->findPublishedByPidAndTable(
+                $data['pid'],
+                $data['ptable'],
+                ['order' => 'sorting ASC']
+            )) {
+                $lastOneIsAccordionSingle = false;
+                $elementGroup = [];
+                $this->accordionSingleCache[$cacheKey] = [];
+
+                foreach ($elements as $i => $element) {
+                    if ('accordionSingle' === $element->type) {
+                        $elementGroup[] = $element->row();
+                    } else {
+                        if ($lastOneIsAccordionSingle) {
+                            $this->accordionSingleCache[$cacheKey][] = $elementGroup;
+                            $elementGroup = [];
+                        }
+
+                        $lastOneIsAccordionSingle = false;
+
+                        continue;
+                    }
+
+                    $lastOneIsAccordionSingle = true;
+
+                    if ($i === \count($elements) - 1) {
+                        $this->accordionSingleCache[$cacheKey][] = $elementGroup;
+                        $elementGroup = [];
+                    }
+                }
+            }
+        }
+
+        if (isset($this->accordionSingleCache[$cacheKey]) && \is_array($this->accordionSingleCache[$cacheKey])) {
+            foreach ($this->accordionSingleCache[$cacheKey] as $elementGroup) {
+                foreach ($elementGroup as $i => $element) {
+                    if ($data['id'] == $element['id']) {
+                        if (0 === $i) {
+                            $data[$prefix.'first'] = true;
+                        }
+
+                        if ($i === \count($elementGroup) - 1) {
+                            $data[$prefix.'last'] = true;
+                        }
+
+                        $data[$prefix.'parentId'] = $elementGroup[0]['id'];
+
+                        break 2;
+                    }
+                }
+            }
+        }
+    }
+
     private function generateAccordionLevel(array $elements, int &$index = 0, int $level = 0): array
     {
         $flatAccordionList = [];

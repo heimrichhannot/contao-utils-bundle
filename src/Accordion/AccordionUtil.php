@@ -11,6 +11,10 @@ namespace HeimrichHannot\UtilsBundle\Accordion;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * @deprecated
+ * @codeCoverageIgnore
+ */
 class AccordionUtil
 {
     /**
