@@ -21,6 +21,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Twig\Error\LoaderError;
 
 class TemplateUtil
 {
@@ -286,7 +287,7 @@ class TemplateUtil
         }
 
         if (!isset(self::$twigFiles[$name])) {
-            throw new \Twig_Error_Loader(sprintf('Unable to find template "%s".', $name));
+            throw new LoaderError(sprintf('Unable to find template "%s".', $name));
         }
 
         return self::$twigFiles[$name];
