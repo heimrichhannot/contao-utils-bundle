@@ -4916,10 +4916,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#method_generateAccordionLevel"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003A\u0024modelUtil",
-            "name": "modelUtil",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003A\u0024contaoFramework",
+            "name": "contaoFramework",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#property_modelUtil"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#property_contaoFramework"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil",
             "name": "UserUtil",
