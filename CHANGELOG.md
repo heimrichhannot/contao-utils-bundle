@@ -2,8 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2022-10-06
+## [2.221.2] - 2022-10-17
 - Changed: updated dependencies
+- Fixed: accordion util not respect element start and end date ([#58])
+- Fixed: ci pipeline used outdated actions
+
 
 ## [2.221.1] - 2022-10-05
 - Fixed: [IcsUtil] set endDate to startDate if not set
