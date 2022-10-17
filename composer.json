@@ -21,7 +21,8 @@
     "symfony/http-kernel": "^3.4|^4.4|^5.0",
     "symfony/monolog-bridge": "^3.4|^4.4|^5.0",
     "symfony/string": "^5.2",
-    "tijsverkoyen/css-to-inline-styles": "^2.2"
+    "tijsverkoyen/css-to-inline-styles": "^2.2",
+    "twig/twig": "^1.26 || ^2.7 || ^3.0"
   },
   "require-dev": {
     "contao/core-bundle": "4.9.*",

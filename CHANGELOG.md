@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.222.0] - 2022-10-17
+- Changed: migrated AccordionUtil::structureAccordionSingle()
+- Fixed: used non namespaced twig error class
+
 ## [2.221.2] - 2022-10-17
 - Changed: updated dependencies
 - Fixed: accordion util not respect element start and end date ([#58])
