@@ -79,7 +79,7 @@ class StringUtilTest extends ContaoTestCase
         $this->assertSame('Z', $instance->randomChar(true, ['randomNumberGenerator' => function ($min, $max) { return 25; }]));
         $this->assertSame('y', $instance->randomChar(true, ['randomNumberGenerator' => function ($min, $max) { return 50; }]));
         $this->assertSame('0', $instance->randomChar(true, ['randomNumberGenerator' => function ($min, $max) { return 52; }]));
-        $this->assertInternalType('string', $instance->randomChar());
+        $this->assertTrue(\is_string($instance->randomChar()));
         $this->expectException(\UnexpectedValueException::class);
         $instance->randomLetter(true, ['randomNumberGenerator' => function ($min, $max) { return 62; }]);
     }
@@ -91,7 +91,7 @@ class StringUtilTest extends ContaoTestCase
         $this->assertSame('d', $instance->randomLetter(false, ['randomNumberGenerator' => function ($min, $max) { return 25; }]));
         $this->assertSame('Z', $instance->randomLetter(true, ['randomNumberGenerator' => function ($min, $max) { return 25; }]));
         $this->assertSame('y', $instance->randomLetter(true, ['randomNumberGenerator' => function ($min, $max) { return 50; }]));
-        $this->assertInternalType('string', $instance->randomLetter());
+        $this->assertTrue(\is_string($instance->randomLetter()));
         $this->expectException(\UnexpectedValueException::class);
         $instance->randomLetter(true, ['randomNumberGenerator' => function ($min, $max) { return 52; }]);
     }
@@ -103,7 +103,7 @@ class StringUtilTest extends ContaoTestCase
         $this->assertSame('7', $instance->randomNumber(false, ['randomNumberGenerator' => function ($min, $max) { return 5; }]));
         $this->assertSame('0', $instance->randomNumber(true, ['randomNumberGenerator' => function ($min, $max) { return 0; }]));
         $this->assertSame('5', $instance->randomNumber(true, ['randomNumberGenerator' => function ($min, $max) { return 5; }]));
-        $this->assertInternalType('string', $instance->randomNumber());
+        $this->assertTrue(\is_string($instance->randomNumber()));
         $this->expectException(\UnexpectedValueException::class);
         $instance->randomNumber(true, ['randomNumberGenerator' => function ($min, $max) { return 10; }]);
     }
@@ -114,7 +114,7 @@ class StringUtilTest extends ContaoTestCase
         $this->assertSame('', $instance->random(''));
         $this->assertSame('a', $instance->random('a'));
         $this->assertSame('c', $instance->random('abc', ['randomNumberGenerator' => function ($min, $max) { return 2; }]));
-        $this->assertInternalType('string', $instance->random('abc'));
+        $this->assertTrue(\is_string($instance->random('abc')));
         $this->expectException(\UnexpectedValueException::class);
         $instance->random(true, ['randomNumberGenerator' => function ($min, $max) { return 10; }]);
     }

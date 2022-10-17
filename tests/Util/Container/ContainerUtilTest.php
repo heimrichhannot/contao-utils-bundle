@@ -312,7 +312,7 @@ class ContainerUtilTest extends ContaoTestCase
     public function testGetSubscribedServices()
     {
         $instance = $this->getTestInstance();
-        $this->assertInternalType('array', $instance::getSubscribedServices());
+        $this->assertTrue(\is_array($instance::getSubscribedServices()));
     }
 
     public function testIsDev()

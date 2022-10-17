@@ -10,22 +10,16 @@ namespace HeimrichHannot\UtilsBundle\Util\Ui;
 
 use Contao\ContentModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 
 class AccordionUtil
 {
-    /**
-     * @var ModelUtil
-     */
-    private $modelUtil;
     /**
      * @var ContaoFramework
      */
     private $contaoFramework;
 
-    public function __construct(ModelUtil $modelUtil, ContaoFramework $contaoFramework)
+    public function __construct(ContaoFramework $contaoFramework)
     {
-        $this->modelUtil = $modelUtil;
         $this->contaoFramework = $contaoFramework;
     }
 
