@@ -27,7 +27,7 @@ jobs:
           coverage: none
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install the dependencies
         id: composer-install
@@ -49,10 +49,10 @@ jobs:
           tools: php-cs-fixer, phpunit
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install the dependencies
-        run: composer require contao/core-bundle:4.9.* --no-interaction
+        run: composer require contao/core-bundle:4.13.* --no-interaction
 
       - name: Generate the coverage report
         run: php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml
