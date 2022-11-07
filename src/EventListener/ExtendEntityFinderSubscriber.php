@@ -86,7 +86,7 @@ class ExtendEntityFinderSubscriber implements EventSubscriberInterface
                 if (!$element) {
                     return;
                 }
-                $event->addParent(BlockModel::getTable(), $element->id);
+                $event->addParent(BlockModel::getTable(), $element->pid);
                 $event->setOutput('Block module: '.$element->id);
 
                 break;

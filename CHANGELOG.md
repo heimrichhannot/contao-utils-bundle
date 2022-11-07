@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.222.1] - 2022-11-07
+- Fixed: used wrong argument in entity finder for blocks
+
 ## [2.222.0] - 2022-10-17
 - Changed: migrated AccordionUtil::structureAccordionSingle()
 - Fixed: used non namespaced twig error class
