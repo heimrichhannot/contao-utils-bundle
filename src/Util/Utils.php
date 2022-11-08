@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Util;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\File\FileUtil;
+use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
@@ -61,6 +62,11 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(FileUtil::class);
     }
 
+    public function html(): HtmlUtil
+    {
+        return $this->locator->get(HtmlUtil::class);
+    }
+
     public function locale(): LocaleUtil
     {
         return $this->locator->get(LocaleUtil::class);
@@ -99,6 +105,7 @@ class Utils extends AbstractServiceSubscriber
             ContainerUtil::class,
             DcaUtil::class,
             FileUtil::class,
+            HtmlUtil::class,
             LocaleUtil::class,
             ModelUtil::class,
             RequestUtil::class,
