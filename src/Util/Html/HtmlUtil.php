@@ -10,6 +10,12 @@ namespace HeimrichHannot\UtilsBundle\Util\Html;
 
 class HtmlUtil
 {
+    /**
+     * Generate a attribute string for html elements out of an array.
+     *
+     * Options:
+     * - xhtml: (bool) XHTML format instead of HTML5 format. Default false
+     */
     public function generateAttributeString(array $attributes, array $options = []): string
     {
         $options = array_merge([

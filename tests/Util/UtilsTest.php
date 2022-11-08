@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
+use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
@@ -41,6 +42,9 @@ class UtilsTest extends ContaoTestCase
 
                     case DcaUtil::class:
                         return $this->createMock(DcaUtil::class);
+
+                    case HtmlUtil::class:
+                        return $this->createMock(HtmlUtil::class);
 
                     case LocaleUtil::class:
                         return $this->createMock(LocaleUtil::class);
@@ -86,6 +90,11 @@ class UtilsTest extends ContaoTestCase
     public function testDca()
     {
         $this->assertInstanceOf(DcaUtil::class, $this->getTestInstance()->dca());
+    }
+
+    public function testHtml()
+    {
+        $this->assertInstanceOf(HtmlUtil::class, $this->getTestInstance()->html());
     }
 
     public function testLocale()
