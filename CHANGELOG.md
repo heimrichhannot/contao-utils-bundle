@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.223.0] - 2022-11-09
+- Added: HtmlUtil ([#59])
+
 ## [2.222.1] - 2022-11-07
 - Fixed: used wrong argument in entity finder for blocks
 
@@ -2344,6 +2347,7 @@ instead
 
 
 [@qzminski]: https://github.com/qzminski
+[#59]: https://github.com/heimrichhannot/contao-utils-bundle/pull/59
 [#56]: https://github.com/heimrichhannot/contao-utils-bundle/pull/56
 [#55]: https://github.com/heimrichhannot/contao-utils-bundle/pull/55
 [#53]: https://github.com/heimrichhannot/contao-utils-bundle/pull/53
