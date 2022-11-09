@@ -4616,6 +4616,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-File-FileUtil.html#property_projectDir"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Html\\HtmlUtil",
+            "name": "HtmlUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Html-HtmlUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Html\\HtmlUtil\u003A\u003AgenerateAttributeString\u0028\u0029",
+            "name": "generateAttributeString",
+            "summary": "Generate\u0020a\u0020attribute\u0020string\u0020for\u0020html\u0020elements\u0020out\u0020of\u0020an\u0020array.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Html-HtmlUtil.html#method_generateAttributeString"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil",
             "name": "LocaleUtil",
             "summary": "",
@@ -4996,6 +5006,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_file"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Ahtml\u0028\u0029",
+            "name": "html",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_html"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Alocale\u0028\u0029",
             "name": "locale",
             "summary": "",
@@ -5290,6 +5305,11 @@ Search.appendIndex(
             "name": "File",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-file.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Html",
+            "name": "Html",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-html.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale",
             "name": "Locale",
