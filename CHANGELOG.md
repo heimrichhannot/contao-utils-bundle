@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.223.1] - 2022-12-20
+- Fixed: Choices cache not taking locale into account
+- Fixed: used deprecated ServiceSubscriber if available in AbstractServiceSubscriber
+
 ## [2.223.0] - 2022-11-09
 - Added: HtmlUtil ([#59])
 

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -70,22 +70,30 @@ abstract class AbstractChoice
         return $this;
     }
 
-    public function getChoices($context = null)
+    public function getChoices(?array $context = [])
     {
-        if (null !== $context) {
-            $this->setContext($context);
+        if (!$context) {
+            $context = [];
         }
+
+        $this->setContext($context);
 
         $choices = $this->collect();
 
         return $choices;
     }
 
-    public function getCachedChoices($context = null)
+    public function getCachedChoices(?array $context = [])
     {
-        if (null !== $context) {
-            $this->setContext($context);
+        if (null === $context) {
+            $context = [];
         }
+
+        if (!isset($context['locale']) && ($request = System::getContainer()->get('request_stack')->getCurrentRequest())) {
+            $context['locale'] = $request->getLocale();
+        }
+
+        $this->setContext($context);
 
         // disable cache while in debug mode or backend
         if (true === System::getContainer()->getParameter('kernel.debug') || System::getContainer()->get('huh.utils.container')->isBackend()) {
@@ -95,7 +103,7 @@ abstract class AbstractChoice
         $this->cacheKey = 'choice.'.preg_replace('#Choice$#', '', (new \ReflectionClass($this))->getShortName());
 
         // add unique identifier based on context
-        if (null !== $this->getContext() && false !== ($json = json_encode($this->getContext(), JSON_FORCE_OBJECT))) {
+        if (null !== $this->getContext() && false !== ($json = json_encode($this->getContext(), \JSON_FORCE_OBJECT))) {
             $this->cacheKey .= '.'.sha1($json);
         }
 
