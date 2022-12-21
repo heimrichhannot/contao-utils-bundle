@@ -70,7 +70,7 @@ abstract class AbstractChoice
         return $this;
     }
 
-    public function getChoices(?array $context = [])
+    public function getChoices($context = [])
     {
         if (!$context) {
             $context = [];
@@ -83,13 +83,13 @@ abstract class AbstractChoice
         return $choices;
     }
 
-    public function getCachedChoices(?array $context = [])
+    public function getCachedChoices($context = [])
     {
         if (null === $context) {
             $context = [];
         }
 
-        if (!isset($context['locale']) && ($request = System::getContainer()->get('request_stack')->getCurrentRequest())) {
+        if (\is_array($context) && !isset($context['locale']) && ($request = System::getContainer()->get('request_stack')->getCurrentRequest())) {
             $context['locale'] = $request->getLocale();
         }
 

@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.223.2] - 2022-12-21
+- Fixed: Exception if Choice is used as options callback
+
 ## [2.223.1] - 2022-12-20
 - Fixed: Choices cache not taking locale into account
 - Fixed: used deprecated ServiceSubscriber if available in AbstractServiceSubscriber
