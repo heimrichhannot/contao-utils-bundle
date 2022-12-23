@@ -103,8 +103,8 @@ class ImageUtil
         $marginArray = ($containerUtil->isBackend()) ? '' : StringUtil::deserialize($item['imagemargin'] ?? '');
 
         // Store the original dimensions
-        $templateData['width'] = $imgSize[0];
-        $templateData['height'] = $imgSize[1];
+        $templateData['width'] = $imgSize[0] ?? 0;
+        $templateData['height'] = $imgSize[1] ?? 0;
 
         // Adjust the image size
         if ($maxWidth > 0) {

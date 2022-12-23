@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.223.3] - 2022-12-23
+- Fixed: php8-related bug
+
 ## [2.223.2] - 2022-12-21
 - Fixed: Exception if Choice is used as options callback
 
