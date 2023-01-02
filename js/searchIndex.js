@@ -4626,6 +4626,11 @@ Search.appendIndex(
             "summary": "Generate\u0020a\u0020attribute\u0020string\u0020for\u0020html\u0020elements\u0020out\u0020of\u0020an\u0020array.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Html-HtmlUtil.html#method_generateAttributeString"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Html\\HtmlUtil\u003A\u003AgenerateDataAttributesString\u0028\u0029",
+            "name": "generateDataAttributesString",
+            "summary": "Generates\u0020a\u0020data\u002Dattributes\u0020string\u0020out\u0020of\u0020an\u0020array.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Html-HtmlUtil.html#method_generateDataAttributesString"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil",
             "name": "LocaleUtil",
             "summary": "",
