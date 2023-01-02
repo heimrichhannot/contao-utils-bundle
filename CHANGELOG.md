@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.224.0] - 2023-01-02
+- Added: HtmlUtil::generateDataAttributesString() ([#60])
+
 ## [2.223.3] - 2022-12-23
 - Fixed: php8-related bug
 
@@ -2357,6 +2360,7 @@ instead
 
 
 [@qzminski]: https://github.com/qzminski
+[#60]: https://github.com/heimrichhannot/contao-utils-bundle/pull/60
 [#59]: https://github.com/heimrichhannot/contao-utils-bundle/pull/59
 [#56]: https://github.com/heimrichhannot/contao-utils-bundle/pull/56
 [#55]: https://github.com/heimrichhannot/contao-utils-bundle/pull/55
