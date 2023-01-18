@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -618,7 +618,7 @@ class DcaUtil
 
         // palette
         foreach ($overridableFields as $field) {
-            if (true === $dca['fields'][$field]['eval']['submitOnChange']) {
+            if (true === ($dca['fields'][$field]['eval']['submitOnChange'] ?? false)) {
                 unset($dca['fields'][$field]['eval']['submitOnChange']);
 
                 if (\in_array($field, $dca['palettes']['__selector__'])) {

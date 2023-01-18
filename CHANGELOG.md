@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.224.1] - 2023-01-18
+- Fixed: array index issue
+
 ## [2.224.0] - 2023-01-02
 - Added: HtmlUtil::generateDataAttributesString() ([#60])
 
