@@ -88,7 +88,13 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
             return [];
         }
 
-        return array_merge($imageData, $data);
+        $result = array_merge($imageData, $data);
+
+        if(isset($imageData['picture']) && isset($data['picture'])) {
+            $result['picture'] = array_merge($imageData['picture'],$data['picture']);
+        }
+
+        return $result;
     }
 
     /**
