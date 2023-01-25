@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -15,6 +15,7 @@ use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
+use HeimrichHannot\UtilsBundle\Util\Request\UrlUtil;
 use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
@@ -92,6 +93,11 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(StringUtil::class);
     }
 
+    public function url(): UrlUtil
+    {
+        return $this->locator->get(UrlUtil::class);
+    }
+
     public function user(): UserUtil
     {
         return $this->locator->get(UserUtil::class);
@@ -111,6 +117,7 @@ class Utils extends AbstractServiceSubscriber
             RequestUtil::class,
             RoutingUtil::class,
             StringUtil::class,
+            UrlUtil::class,
             UserUtil::class,
         ];
     }

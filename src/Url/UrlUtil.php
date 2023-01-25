@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -42,7 +42,7 @@ class UrlUtil
      */
     public function isNewVisitor(): bool
     {
-        @trigger_error(__METHOD__.' is deprecated and will be removed in a future version. Please use RequestUtil::isNewVisitor() instead.', E_USER_DEPRECATED);
+        @trigger_error(__METHOD__.' is deprecated and will be removed in a future version. Please use RequestUtil::isNewVisitor() instead.', \E_USER_DEPRECATED);
 
         return $this->requestUtil->isNewVisitor();
     }
@@ -61,7 +61,7 @@ class UrlUtil
         $url = Environment::get('url');
 
         if (isset($options['skipParams']) && $options['skipParams']) {
-            $url .= parse_url(Environment::get('uri'), PHP_URL_PATH);
+            $url .= parse_url(Environment::get('uri'), \PHP_URL_PATH);
         } else {
             $url .= Environment::get('requestUri');
         }
@@ -358,6 +358,9 @@ class UrlUtil
         return $path;
     }
 
+    /**
+     * @deprecated Use Utils::request() instead
+     */
     public function getBaseUrl(bool $absolute = false)
     {
         $url = $absolute ? Environment::get('url') : '';
