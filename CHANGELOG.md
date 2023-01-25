@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.224.2] - 2023-01-20
+- Fixed: overwritten picture property of ImageExtension
+
 ## [2.224.1] - 2023-01-18
 - Fixed: array index issue
 
