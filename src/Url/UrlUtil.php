@@ -78,6 +78,9 @@ class UrlUtil
      * @throws \InvalidArgumentException
      *
      * @return string
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function addQueryString($query, $url = null)
     {
@@ -120,6 +123,9 @@ class UrlUtil
      * @param string|int|null $url    Full Uri, Page id or null (for current environment uri)
      *
      * @return string
+     *
+     * @deprecated Use utils service instead
+     * @codeCoverageIgnore
      */
     public function removeQueryString(array $params, $url = null, array $options = [])
     {
@@ -285,6 +291,9 @@ class UrlUtil
      * @param array $options pass additional options
      *
      * @return string
+     *
+     * @deprecated
+     * @codeCoverageIgnore
      */
     public function prepareUrl($url = null, array $options = [])
     {

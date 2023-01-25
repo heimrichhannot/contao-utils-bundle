@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -15,6 +15,7 @@ use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
+use HeimrichHannot\UtilsBundle\Util\Request\UrlUtil;
 use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
@@ -60,6 +61,9 @@ class UtilsTest extends ContaoTestCase
 
                     case StringUtil::class:
                         return $this->createMock(StringUtil::class);
+
+                    case UrlUtil::class:
+                        return $this->createMock(UrlUtil::class);
 
                     case UserUtil::class:
                         return $this->createMock(UserUtil::class);
@@ -120,6 +124,11 @@ class UtilsTest extends ContaoTestCase
     public function testString()
     {
         $this->assertInstanceOf(StringUtil::class, $this->getTestInstance()->string());
+    }
+
+    public function testUrl()
+    {
+        $this->assertInstanceOf(UrlUtil::class, $this->getTestInstance()->url());
     }
 
     public function testUser()

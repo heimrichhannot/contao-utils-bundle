@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -75,48 +75,6 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertSame('http://localhost?answer=12', $url2);
     }
 
-    public function testAddQueryString()
-    {
-        $urlUtil = $this->createTestInstance();
-
-        $url = $urlUtil->addQueryString('question=1');
-        $this->assertSame('?answer=12&question=1', $url);
-
-        $urlUtil = $this->createTestInstance();
-
-        $url = $urlUtil->addQueryString('question=1', 'http://localhost');
-        $this->assertSame('http://localhost?question=1', $url);
-    }
-
-    public function testRemoveQueryString()
-    {
-        $urlUtil = $this->createTestInstance();
-
-        $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&bla=fuuu');
-        $this->assertSame('http://localhost', $url);
-
-        $url = $urlUtil->removeQueryString(['answer'], 'http://localhost');
-        $this->assertSame('http://localhost', $url);
-
-        $url = $urlUtil->removeQueryString([], 'http://localhost');
-        $this->assertSame('http://localhost', $url);
-
-        $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&blaaa=fuuu');
-        $this->assertSame('http://localhost?blaaa=fuuu', $url);
-
-        Environment::set('uri', 'https://example.org/page/1?foo=bar&test=1');
-        Environment::set('requestUri', '/page/1?foo=bar&test=1');
-
-        $url = $urlUtil->removeQueryString([], null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1?foo=bar&test=1', $url);
-        $url = $urlUtil->removeQueryString(['foo'], null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1?test=1', $url);
-        $url = $urlUtil->removeQueryString(['foo', 'test'], null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1', $url);
-        $url = $urlUtil->removeQueryString(['test'], null);
-        $this->assertSame('/page/1?foo=bar', $url);
-    }
-
     public function testGetJumpToPageObject()
     {
         $objPage = $this->mockClassWithProperties(Model::class, ['id' => 2]);
@@ -141,48 +99,6 @@ class UrlUtilTest extends ContaoTestCase
 
         $jumpToPage = $urlUtil->getJumpToPageObject(12, false);
         $this->assertNull($jumpToPage);
-    }
-
-    public function testPrepareUrl()
-    {
-        $pageModel = $this->createMock(PageModel::class);
-        $pageModel->method('row')->willReturn(['id' => 1, 'rootId' => 12, 'alias' => 'alias']);
-        $pageModel->method('getAbsoluteUrl')->willReturn('www.localhost.de/page');
-        $pageModel->method('getFrontendUrl')->willReturn('/page');
-
-        $pageModelAdapter = $this->mockAdapter(['findByPk', 'getAbsoluteUrl', 'getFrontendUrl']);
-        $pageModelAdapter->method('findByPk')->willReturn(null);
-
-        $urlUtil = $this->createTestInstance([
-            'framework' => $this->mockContaoFramework([PageModel::class => $pageModelAdapter]),
-        ]);
-
-        try {
-            $url = $urlUtil->prepareUrl(1);
-        } catch (\Exception $exception) {
-            $this->assertSame('Given page id does not exist.', $exception->getMessage());
-        }
-
-        $pageModelAdapter = $this->mockAdapter(['findByPk']);
-        $pageModelAdapter->method('findByPk')->willReturn($pageModel);
-        $urlUtil = $this->createTestInstance([
-            'framework' => $this->mockContaoFramework([
-                PageModel::class => $pageModelAdapter,
-            ]),
-        ]);
-
-        $url = $urlUtil->prepareUrl(1, ['absoluteUrl' => true]);
-        $this->assertSame('www.localhost.de/page?answer=12', $url);
-        $url = $urlUtil->prepareUrl(1);
-        $this->assertSame('/page?answer=12', $url);
-
-        Environment::set('uri', 'https://example.org/page/1');
-        Environment::set('requestUri', '/page/1');
-
-        $url = $urlUtil->prepareUrl(null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1', $url);
-        $url = $urlUtil->prepareUrl(null);
-        $this->assertSame('/page/1', $url);
     }
 
     /**
