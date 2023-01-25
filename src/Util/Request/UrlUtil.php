@@ -75,6 +75,7 @@ class UrlUtil
             parse_str($parsedUrl['query'], $pairs);
         }
 
+        $newPairs = [];
         parse_str(str_replace('&amp;', '&', $parameter), $newPairs);
         $pairs = array_merge($pairs, $newPairs);
 
@@ -89,8 +90,8 @@ class UrlUtil
      * Options:
      * - removeLeadingSlash: (boolean) Remove leading slash from path
      *
-     * @param string $url     The url that should be made relative
-     * @param array  $options Pass additional options
+     * @param string                          $url     The url that should be made relative
+     * @param array{removeLeadingSlash: bool} $options Pass additional options
      *
      * @throws InvalidUrlException
      */
@@ -106,35 +107,23 @@ class UrlUtil
             throw new InvalidUrlException('Your given url is invalid and could not be parsed.');
         }
 
-        $path = '';
+        unset($urlParts['schema'], $urlParts['host'], $urlParts['port'], $urlParts['user'], $urlParts['pass']);
 
-        if (isset($urlParts['path'])) {
-            $path .= $urlParts['path'];
-
-            if ($options['removeLeadingSlash']) {
-                $path = ltrim($path, '/');
-            }
+        if (isset($urlParts['path']) && $options['removeLeadingSlash']) {
+            $urlParts['path'] = ltrim($urlParts['path'], '/');
         }
 
-        if (isset($urlParts['query'])) {
-            $path .= '?'.$urlParts['query'];
-        }
-
-        if (isset($urlParts['fragment'])) {
-            $path .= '#'.$urlParts['fragment'];
-        }
-
-        return $path;
+        return $this->buildUrlString($urlParts);
     }
 
     private function buildUrlString(array $parsedUrl): string
     {
         return
-            ((isset($parsedUrl['scheme']) && isset($parsedUrl['host'])) ? $parsedUrl['scheme'].'://' : '').
+            ((!empty($parsedUrl['scheme']) && !empty($parsedUrl['host'])) ? $parsedUrl['scheme'].'://' : '').
             ($parsedUrl['host'] ?? '').
-            ($parsedUrl['path'] ?? '').
-            (isset($parsedUrl['query']) ? '?'.$parsedUrl['query'] : '').
-            (isset($parsedUrl['fragment']) ? '#'.$parsedUrl['fragment'] : '')
+            (!empty($parsedUrl['path']) ? (!empty($parsedUrl['host']) ? '/'.ltrim($parsedUrl['path'], '/') : $parsedUrl['path']) : '').
+            (!empty($parsedUrl['query']) ? '?'.$parsedUrl['query'] : '').
+            (!empty($parsedUrl['fragment']) ? '#'.$parsedUrl['fragment'] : '')
         ;
     }
 }
