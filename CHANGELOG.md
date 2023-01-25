@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.225.0] - 2023-01-25
+- Added: UrlUtil to Utils service ([#61])
+
 ## [2.224.2] - 2023-01-20
 - Fixed: overwritten picture property of ImageExtension
 
@@ -2237,135 +2240,10 @@ instead
 
 - ModelUtil::findModulePages()
 
-## [2.19.0] - 2018-06-15
-
-### Added
-
-- ContainerUtil::getBundlePath()
-- ContainerUtil::getBundleResourcePath()
-
-## [2.18.4] - 2018-06-15
-
-### Fixed
-
-- `huh.utils.template`  method `getTemplate` does also return a template within bundles views directory for core
-  templates that does not end with `html5` like `event_full.html.twig`
-
-## [2.18.3] - 2018-06-14
-
-### Fixed
-
-- ModelUtil::findModelInstanceByIdOrAlias()
-
-## [2.18.2] - 2018-06-14
-
-### Fixed
-
-- ModelUtil database error at compile time
-
-## [2.18.1] - 2018-06-14
-
-### Added
-
-- DateUtil::getGMTMidnightTstamp()
-
-## [2.18.0] - 2018-06-14
-
-### Added
-
-- dc_multilingual features to ModelUtil
-
-## [2.17.0] - 2018-06-12
-
-### Added
-
-- ModelUtil::findMultipleModelInstancesByIds(), ModelUtil::findModelInstanceByIdOrAlias()
-- support in ModelUtil for models inheriting from DC_Multilingual
-
-## [2.16.2] - 2018-06-08
-
-### Fixed
-
-- CodeUtil::generate() -> missing "use" of PWGen
-
-## [2.16.1] - 2018-06-07
-
-### Fixed
-
-- `huh.utils.dca` method `addOverridableFields()`, added missing array check for  `__selector__`  palette
-
-## [2.16.0] - 2018-06-07
-
-### Added
-
-- `huh.utils.model` method `hasValueChanged()`
-- `huh.utils.model` method `getModelInstanceFieldValue()`
-
-## [2.15.2] - 2018-06-04
-
-### Added
-
-- DatabaseUtil::getChildRecords() (including recursive retrieval)
-
-## [2.15.1] - 2018-06-04
-
-### Fixed
-
-- TemplateUtil::removeTemplateComment
-
-## [2.15.0] - 2018-05-29
-
-### Added
-
-- option to choose pdf transcoder for PdfPreview
-- added alchemy/ghostscript as option for PdfPreview
-
-### Fixed
-
-- filename for save callback in FileCache had no file extension
-
-## [2.14.1] - 2018-05-24
-
-### Added
-
-- utils js to backend
-
-## [2.14.0] - 2018-05-24
-
-### Added
-
-- FileCache util
-- PdfPreview util
-- renamed pdf writer util (keeped old service name as alias and marked deprecated)
-
-## [2.13.0] - 2018-05-16
-
-### Added
-
-- TemplateUtil::removeTemplateComment()
-
-## [2.12.2] - 2018-05-16
-
-### Fixed
-
-- picture template twig error if title not defined
-- enhanced code documentation
-
-## [2.12.1] - 2018-05-11
-
-### Added
-
-- fixed computeCondition
-
-## [2.12.0] - 2018-05-09
-
-### Added
-
-- `huh.utils.model` method `findAllModelInstances` to get all models from a table
-
 
 
 [@qzminski]: https://github.com/qzminski
+[#61]: https://github.com/heimrichhannot/contao-utils-bundle/pull/61
 [#60]: https://github.com/heimrichhannot/contao-utils-bundle/pull/60
 [#59]: https://github.com/heimrichhannot/contao-utils-bundle/pull/59
 [#56]: https://github.com/heimrichhannot/contao-utils-bundle/pull/56
