@@ -101,48 +101,6 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertNull($jumpToPage);
     }
 
-    public function testPrepareUrl()
-    {
-        $pageModel = $this->createMock(PageModel::class);
-        $pageModel->method('row')->willReturn(['id' => 1, 'rootId' => 12, 'alias' => 'alias']);
-        $pageModel->method('getAbsoluteUrl')->willReturn('www.localhost.de/page');
-        $pageModel->method('getFrontendUrl')->willReturn('/page');
-
-        $pageModelAdapter = $this->mockAdapter(['findByPk', 'getAbsoluteUrl', 'getFrontendUrl']);
-        $pageModelAdapter->method('findByPk')->willReturn(null);
-
-        $urlUtil = $this->createTestInstance([
-            'framework' => $this->mockContaoFramework([PageModel::class => $pageModelAdapter]),
-        ]);
-
-        try {
-            $url = $urlUtil->prepareUrl(1);
-        } catch (\Exception $exception) {
-            $this->assertSame('Given page id does not exist.', $exception->getMessage());
-        }
-
-        $pageModelAdapter = $this->mockAdapter(['findByPk']);
-        $pageModelAdapter->method('findByPk')->willReturn($pageModel);
-        $urlUtil = $this->createTestInstance([
-            'framework' => $this->mockContaoFramework([
-                PageModel::class => $pageModelAdapter,
-            ]),
-        ]);
-
-        $url = $urlUtil->prepareUrl(1, ['absoluteUrl' => true]);
-        $this->assertSame('www.localhost.de/page?answer=12', $url);
-        $url = $urlUtil->prepareUrl(1);
-        $this->assertSame('/page?answer=12', $url);
-
-        Environment::set('uri', 'https://example.org/page/1');
-        Environment::set('requestUri', '/page/1');
-
-        $url = $urlUtil->prepareUrl(null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1', $url);
-        $url = $urlUtil->prepareUrl(null);
-        $this->assertSame('/page/1', $url);
-    }
-
     /**
      * Test redirect() when headers_sent() is true.
      */

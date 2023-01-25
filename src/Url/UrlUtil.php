@@ -291,6 +291,9 @@ class UrlUtil
      * @param array $options pass additional options
      *
      * @return string
+     *
+     * @deprecated
+     * @codeCoverageIgnore
      */
     public function prepareUrl($url = null, array $options = [])
     {
