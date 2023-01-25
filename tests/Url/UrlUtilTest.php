@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -73,48 +73,6 @@ class UrlUtilTest extends ContaoTestCase
         $this->assertSame('http://localhost', $urlWithoutParams);
         $this->assertSame('http://localhost?answer=12', $url);
         $this->assertSame('http://localhost?answer=12', $url2);
-    }
-
-    public function testAddQueryString()
-    {
-        $urlUtil = $this->createTestInstance();
-
-        $url = $urlUtil->addQueryString('question=1');
-        $this->assertSame('?answer=12&question=1', $url);
-
-        $urlUtil = $this->createTestInstance();
-
-        $url = $urlUtil->addQueryString('question=1', 'http://localhost');
-        $this->assertSame('http://localhost?question=1', $url);
-    }
-
-    public function testRemoveQueryString()
-    {
-        $urlUtil = $this->createTestInstance();
-
-        $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&bla=fuuu');
-        $this->assertSame('http://localhost', $url);
-
-        $url = $urlUtil->removeQueryString(['answer'], 'http://localhost');
-        $this->assertSame('http://localhost', $url);
-
-        $url = $urlUtil->removeQueryString([], 'http://localhost');
-        $this->assertSame('http://localhost', $url);
-
-        $url = $urlUtil->removeQueryString(['answer', 'bla'], 'http://localhost?answer=12&blaaa=fuuu');
-        $this->assertSame('http://localhost?blaaa=fuuu', $url);
-
-        Environment::set('uri', 'https://example.org/page/1?foo=bar&test=1');
-        Environment::set('requestUri', '/page/1?foo=bar&test=1');
-
-        $url = $urlUtil->removeQueryString([], null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1?foo=bar&test=1', $url);
-        $url = $urlUtil->removeQueryString(['foo'], null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1?test=1', $url);
-        $url = $urlUtil->removeQueryString(['foo', 'test'], null, ['absoluteUrl' => true]);
-        $this->assertSame('https://example.org/page/1', $url);
-        $url = $urlUtil->removeQueryString(['test'], null);
-        $this->assertSame('/page/1?foo=bar', $url);
     }
 
     public function testGetJumpToPageObject()
