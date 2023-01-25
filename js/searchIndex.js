@@ -4741,6 +4741,41 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-RequestUtil.html#property_contaoFramework"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil",
+            "name": "UrlUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003AremoveQueryStringParameterToUrl\u0028\u0029",
+            "name": "removeQueryStringParameterToUrl",
+            "summary": "Remove\u0020a\u0020query\u0020parameter\u0020\u0028GET\u0020parameter\u0029\u0020from\u0020an\u0020url.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method_removeQueryStringParameterToUrl"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003AaddQueryStringParameterToUrl\u0028\u0029",
+            "name": "addQueryStringParameterToUrl",
+            "summary": "Add\u0020a\u0020query\u0020string\u0020parameter\u0020to\u0020an\u0020url.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method_addQueryStringParameterToUrl"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003AmakeUrlRelative\u0028\u0029",
+            "name": "makeUrlRelative",
+            "summary": "Convert\u0020an\u0020absolute\u0020url\u0020to\u0020a\u0020relative\u0020url.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method_makeUrlRelative"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003AbuildUrlString\u0028\u0029",
+            "name": "buildUrlString",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method_buildUrlString"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003A\u0024requestStack",
+            "name": "requestStack",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#property_requestStack"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Routing\\RoutingUtil",
             "name": "RoutingUtil",
             "summary": "",
@@ -5040,6 +5075,11 @@ Search.appendIndex(
             "name": "string",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_string"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Aurl\u0028\u0029",
+            "name": "url",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_url"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Auser\u0028\u0029",
             "name": "user",
