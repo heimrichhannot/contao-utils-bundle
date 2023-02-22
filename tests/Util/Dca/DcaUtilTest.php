@@ -115,9 +115,20 @@ class DcaUtilTest extends AbstractUtilsTestCase
             'title',
         ], $fields);
 
+        $fields = $instance->getDcaFields('table', ['evalConditions' => ['mandatory' => true]]);
+        $this->assertSame([
+            'title',
+        ], $fields);
+
         $this->expectWarning();
-        $fields = $instance->getDcaFields('table', ['allowedInputTypes' => 'checkbox']);
+        $instance->getDcaFields('table', ['allowedInputTypes' => 'checkbox']);
+    }
+
+    public function testGetDcaFieldsWithWarning()
+    {
+        $instance = $this->getTestInstance();
+
         $this->expectWarning();
-        $fields = $instance->getDcaFields('table', ['evalConditions' => 'mandatory']);
+        $instance->getDcaFields('table', ['evalConditions' => 'mandatory']);
     }
 }
