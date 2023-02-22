@@ -73,7 +73,6 @@ class DcaUtilTest extends AbstractUtilsTestCase
                         'filter' => true,
                         'inputType' => 'checkbox',
                         'eval' => ['doNotCopy' => true, 'submitOnChange' => true],
-                        'sql' => "char(1) NOT NULL default ''",
                     ],
                 ];
             }
@@ -110,5 +109,15 @@ class DcaUtilTest extends AbstractUtilsTestCase
             'title',
             'addSubmission',
         ], $fields);
+
+        $fields = $instance->getDcaFields('table', ['onlyDatabaseFields' => true]);
+        $this->assertSame([
+            'title',
+        ], $fields);
+
+        $this->expectWarning();
+        $fields = $instance->getDcaFields('table', ['allowedInputTypes' => 'checkbox']);
+        $this->expectWarning();
+        $fields = $instance->getDcaFields('table', ['evalConditions' => 'mandatory']);
     }
 }
