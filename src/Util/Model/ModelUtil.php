@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -81,7 +81,7 @@ class ModelUtil
         ];
         $options = array_merge($defaults, $options);
 
-        /** @var string|null $modelClass */
+        /* @var string|null $modelClass */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }

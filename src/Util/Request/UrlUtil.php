@@ -90,8 +90,8 @@ class UrlUtil
      * Options:
      * - removeLeadingSlash: (boolean) Remove leading slash from path
      *
-     * @param string                          $url     The url that should be made relative
-     * @param array{removeLeadingSlash: bool} $options Pass additional options
+     * @param string $url     The url that should be made relative
+     * @param array  $options Pass additional options
      *
      * @throws InvalidUrlException
      */
