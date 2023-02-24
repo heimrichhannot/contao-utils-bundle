@@ -4586,6 +4586,11 @@ Search.appendIndex(
             "summary": "Explode\u0020a\u0020palette\u0020string.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method_explodePalette"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003AgetDcaFields\u0028\u0029",
+            "name": "getDcaFields",
+            "summary": "Return\u0020a\u0020list\u0020of\u0020dca\u0020fields\u0020for\u0020given\u0020table.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method_getDcaFields"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003A\u0024contaoFramework",
             "name": "contaoFramework",
             "summary": "",
@@ -4975,6 +4980,16 @@ Search.appendIndex(
             "name": "contaoFramework",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#property_contaoFramework"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003A\u0024accordionStartStopCache",
+            "name": "accordionStartStopCache",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#property_accordionStartStopCache"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Ui\\AccordionUtil\u003A\u003A\u0024accordionSingleCache",
+            "name": "accordionSingleCache",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Ui-AccordionUtil.html#property_accordionSingleCache"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\User\\UserUtil",
             "name": "UserUtil",
