@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2023-02-24
+## [2.226.0] - 2023-02-24
 - Added: Check Util folder with phpstan ([#63])
 - Added: Util/DcaUtil::getDcaFields() ([#62])
 - Deprecated: DcaUtil::getFields()
@@ -2115,6 +2115,8 @@ instead
 
 
 [@qzminski]: https://github.com/qzminski
+[#63]: https://github.com/heimrichhannot/contao-utils-bundle/pull/63
+[#62]: https://github.com/heimrichhannot/contao-utils-bundle/pull/62
 [#61]: https://github.com/heimrichhannot/contao-utils-bundle/pull/61
 [#60]: https://github.com/heimrichhannot/contao-utils-bundle/pull/60
 [#59]: https://github.com/heimrichhannot/contao-utils-bundle/pull/59
