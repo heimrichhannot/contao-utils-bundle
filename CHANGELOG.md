@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2023-02-24
+- Added: Check Util folder with phpstan ([#63])
+- Added: Util/DcaUtil::getDcaFields() ([#62])
+- Deprecated: DcaUtil::getFields()
+
 ## [2.225.0] - 2023-01-25
 - Added: UrlUtil to Utils service ([#61])
 
@@ -2106,139 +2111,6 @@ instead
 
 - update some documentation comments
 - small code enhancements
-
-## [2.27.0] - 2018-08-06
-
-### Fixed
-
-- tag issue
-
-## [2.25.5] - 2018-08-06
-
-### Fixed
-
-- mode issue in FormUtil::getWidgetFromAttributes()
-
-## [2.25.4] - 2018-08-06
-
-### Fixed
-
-- login=1 error in UserUtil
-
-## [2.25.3] - 2018-07-31
-
-### Fixed
-
-- DcaUtil::getConfigByArrayOrCallbackOrFunction() not processing service callbacks
-- DcaUtil::getModalEditLink() returns contao 3 backend route
-- DcaUtil::getEditLink() returns contao 3 backend route
-- DcaUtil::getArchiveModalEditLink() returns contao 3 backend route
-- deprecation warning with using non-public contao.routing.scope_matcher service in ContainerUtil
-- updated some contao namespaces
-
-## [2.25.2] - 2018-07-27
-
-### Changed
-
-- readme
-- tests
-
-## [2.25.1] - 2018-07-27
-
-### Changed
-
-- updated readme
-
-## [2.25.0] - 2018-07-17
-
-### Added
-
-- `ArrayUtil::flattenArray`
-
-### Changed
-
-- enhanced documentation
-
-### Fixed
-
-- `ArrayUtil::getArrayRowByFieldValue` was static
-
-## [2.24.1] - 2018-07-20
-
-### Fixed
-
-- prepend `{{env::url}}/` to  `data-srcset`, `data-src`, `data-lazy` attribute in `picture_default.html.twig` template
-  in order to load images via absolute url, otherwise images might get loaded from `page-alias/assets/images` (iOS) and
-  trigger 404 error which will result in too many http requests (may slow down server in huge way)
-
-## [2.24.0] - 2018-07-17
-
-### Added
-
-- `ArrayUtil::getArrayRowByFieldValue`
-
-## [2.23.1] - 2018-07-11
-
-### Fixed
-
-- lazyloading not respected source elements in picture tags in `picture.html.twig`
-
-> Caution: May lead to broken css styles due moving image-wrapper element out of picture element.
-
-## [2.23.0] - 2018-07-11
-
-### Added
-
-- `huh.utils.url` method `addURIScheme` to add an protocol to a given url (default: `http`)
-
-## [2.22.4] - 2018-07-11
-
-### Fixed
-
-- `AbstractChoice` cacheKey should only replace last `Choice` occurence in name to maintain unique cache key
-
-## [2.22.3] - 2018-06-25
-
-### Fixed
-
-- `huh.utils.class` method `jsonSerialize` should made usage of `getNumberOfRequiredParameters` instead
-  of `count($rm->getParameters())`
-
-## [2.22.2] - 2018-06-26
-
-### Fixed
-
-- DatabaseUtil::composeWhereForQueryBuilder, DatabaseUtil::composeWhereForQueryBuilder if value for IN is empty break
-
-## [2.22.1] - 2018-06-25
-
-### Fixed
-
-- ContainerUtil::isBundleActive() -> now also contao 3 module names possible
-
-## [2.22.0] - 2018-06-22
-
-### Added
-
-- SalutationUtil
-
-## [2.21.0] - 2018-06-21
-
-### Added
-
-- `DatabaseUtil::OPERATOR_IS_EMPTY` and `DatabaseUtil::OPERATOR_IS_NOT_EMPTY` to `huh.utils.database`
-
-## [2.20.1] - 2018-06-20
-
-### Added
-
-- api key support for locationUtil service
-
-## [2.20.0] - 2018-06-19
-
-### Added
-
-- ModelUtil::findModulePages()
 
 
 
