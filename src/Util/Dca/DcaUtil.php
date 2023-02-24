@@ -180,7 +180,7 @@ class DcaUtil
             }
 
             // restrict to certain input types
-            if (!empty($options['allowedInputTypes']) && isset($data['inputType']) && !\in_array($data['inputType'], $options['allowedInputTypes'])) {
+            if (!empty($options['allowedInputTypes']) && (!isset($data['inputType']) || !\in_array($data['inputType'], $options['allowedInputTypes']))) {
                 continue;
             }
 

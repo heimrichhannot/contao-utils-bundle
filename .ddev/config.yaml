@@ -15,6 +15,7 @@ mutagen_enabled: false
 use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
+omit_containers: [db]
 
 # Key features of ddev's config.yaml:
 
