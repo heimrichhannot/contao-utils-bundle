@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -42,7 +42,7 @@ class RequestUtil
     /**
      * Return the current page model.
      *
-     * @return PageModel|Model|null the current page model or null if no page context
+     * @return PageModel|null the current page model or null if no page context
      *
      * @See AbstractContentElementController::getPageModel()
      */
@@ -84,7 +84,7 @@ class RequestUtil
     /**
      * Return the root page of the current page.
      *
-     * @return PageModel|Model|null the root page model or null if not exist
+     * @return PageModel|null the root page model or null if not exist
      */
     public function getCurrentRootPageModel(PageModel $currentPage = null): ?PageModel
     {
