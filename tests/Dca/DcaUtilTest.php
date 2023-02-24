@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -321,60 +321,6 @@ class DcaUtilTest extends TestCaseEnvironment
         $dcaUtil = $this->getTestInstance(['container' => $container]);
         $result = $dcaUtil->setDateAddedOnCopy(1, $this->getDataContainerMock());
         $this->assertNull($result);
-    }
-
-    public function testGetFields()
-    {
-        $GLOBALS['TL_LANGUAGE'] = 'de';
-        $dcaUtil = $this->getTestInstance();
-
-        $fields = $dcaUtil->getFields('bllaa');
-        $this->assertSame([], $fields);
-
-        $GLOBALS['TL_DCA']['table']['fields'] = [
-            'title' => [
-                'label' => ['this is a title'],
-                'exclude' => true,
-                'search' => true,
-                'inputType' => 'text',
-                'eval' => ['maxlength' => 255, 'tl_class' => 'w50', 'mandatory' => true],
-                'sql' => "varchar(255) NOT NULL default ''",
-            ],
-            'addSubmission' => [
-                'label' => ['this is a title'],
-                'exclude' => true,
-                'filter' => true,
-                'inputType' => 'checkbox',
-                'eval' => ['doNotCopy' => true, 'submitOnChange' => true],
-                'sql' => "char(1) NOT NULL default ''",
-            ],
-        ];
-
-        $fields = $dcaUtil->getFields(false);
-        $this->assertSame([], $fields);
-
-        $fields = $dcaUtil->getFields('table');
-        $this->assertSame([
-            'addSubmission' => 'addSubmission <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-            'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>', ], $fields);
-
-        $fields = $dcaUtil->getFields('table', ['inputTypes' => ['select']]);
-        $this->assertSame([], $fields);
-
-        $fields = $dcaUtil->getFields('table', ['localizeLabels' => false]);
-        $this->assertSame(['addSubmission' => 'addSubmission', 'title' => 'title'], $fields);
-
-        $fields = $dcaUtil->getFields('table', ['skipSorting' => false]);
-        $this->assertSame([
-            'addSubmission' => 'addSubmission <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-            'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-        ], $fields);
-
-        $fields = $dcaUtil->getFields('table', ['skipSorting' => true]);
-        $this->assertSame([
-            'title' => 'title <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-            'addSubmission' => 'addSubmission <span style="display: inline; color:#999; padding-left:3px">[this is a title]</span>',
-        ], $fields);
     }
 
     public function testAddOverridableFields()

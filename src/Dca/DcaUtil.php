@@ -453,6 +453,9 @@ class DcaUtil
      * - array evalConditions restrict to certain dca eval
      * - bool localizeLabels
      * - bool skipSorting
+     *
+     * @deprecated Use Utils service instead
+     * @codeCoverageIgnore
      */
     public function getFields(string $table, array $options = []): array
     {
