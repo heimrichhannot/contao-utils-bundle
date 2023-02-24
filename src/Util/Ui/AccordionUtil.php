@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -17,6 +17,12 @@ class AccordionUtil
      * @var ContaoFramework
      */
     private $contaoFramework;
+
+    /** @var array */
+    private $accordionStartStopCache = [];
+
+    /** @var array */
+    private $accordionSingleCache;
 
     public function __construct(ContaoFramework $contaoFramework)
     {

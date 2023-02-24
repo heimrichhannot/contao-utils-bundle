@@ -101,6 +101,7 @@ class UrlUtil
             'removeLeadingSlash' => false,
         ], $options);
 
+        /** @var array|false $urlParts */
         $urlParts = parse_url($url);
 
         if (false === $urlParts) {
