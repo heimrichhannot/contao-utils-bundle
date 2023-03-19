@@ -18,11 +18,23 @@ use Contao\Image;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class DownloadExtension extends AbstractExtension
 {
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
+
     /**
      * Get list of twig filters.
      *
@@ -79,7 +91,12 @@ class DownloadExtension extends AbstractExtension
             }
         }
 
-        $requestedFile = System::getContainer()->get('huh.request')->getGet('file', true);
+        $request = $this->requestStack->getCurrentRequest();
+        if (!$request) {
+            return null;
+        }
+
+        $requestedFile = $request->query->get('file');
 
         // Send the file to the browser and do not send a 404 header (see #4632)
         if ('' != $requestedFile && $requestedFile == $file->path) {
