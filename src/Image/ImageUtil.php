@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -279,7 +279,7 @@ class ImageUtil
 
         // Add the meta data to the template
         foreach (array_keys($meta) as $k) {
-            $templateData[$k] = $item[$k];
+            $templateData[$k] = $item[$k] ?? null;
         }
 
         // Do not urlEncode() here because getImage() already does (see #3817)

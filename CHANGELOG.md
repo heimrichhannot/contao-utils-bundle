@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.226.1] - 2023-03-20
+- Fixed: warning in ImageUtil
+
 ## [2.226.0] - 2023-02-24
 - Added: Check Util folder with phpstan ([#63])
 - Added: Util/DcaUtil::getDcaFields() ([#62])
