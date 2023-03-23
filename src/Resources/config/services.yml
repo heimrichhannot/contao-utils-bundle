@@ -118,6 +118,7 @@ services:
   huh.twig.extension.download:
     class: HeimrichHannot\UtilsBundle\Twig\DownloadExtension
     public: true
+    autowire: true
     tags: [twig.extension]
   huh.twig.extension.file:
     class: HeimrichHannot\UtilsBundle\Twig\FileExtension
