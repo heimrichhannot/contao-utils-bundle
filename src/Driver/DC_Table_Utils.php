@@ -11,7 +11,9 @@ namespace HeimrichHannot\UtilsBundle\Driver;
 use Contao\Controller;
 use Contao\DataContainer;
 use Contao\DC_Table;
+use Contao\Environment;
 use Contao\Model;
+use Contao\RequestToken;
 use Contao\System;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -29,22 +31,22 @@ class DC_Table_Utils extends DC_Table
 
         /** @var SessionInterface $objSession */
         $objSession = System::getContainer()->get('session');
-        $request = System::getContainer()->get('huh.request');
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
         // Check the request token (see #4007)
-        if ($request->hasGet('act')) {
-            if (!$request->hasGet('rt') || !\RequestToken::validate($request->getGet('rt'))) {
-                $objSession->set('INVALID_TOKEN_URL', \Environment::get('request'));
+        if ($request->query->has('act')) {
+            if (!$request->query->get('rt') || !RequestToken::validate($request->query->get('rt'))) {
+                $objSession->set('INVALID_TOKEN_URL', Environment::get('request'));
                 $this->redirect('contao/confirm.php');
             }
         }
 
         Controller::loadDataContainer($strTable);
 
-        $this->intId = $request->getGet('id');
+        $this->intId = $request->query->get('id');
 
         // Clear the clipboard
-        if ($request->hasGet('clipboard')) {
+        if ($request->query->has('clipboard')) {
             $objSession->set('CLIPBOARD', []);
             $this->redirect($this->getReferer());
         }
@@ -56,8 +58,8 @@ class DC_Table_Utils extends DC_Table
         }
 
         // Set IDs and redirect
-        if ('tl_select' == $request->getPost('FORM_SUBMIT')) {
-            $ids = $request->getPost('IDS');
+        if ('tl_select' == $request->request->get('FORM_SUBMIT')) {
+            $ids = $request->request->get('IDS');
 
             if (empty($ids) || !\is_array($ids)) {
                 $this->reload();
@@ -67,24 +69,24 @@ class DC_Table_Utils extends DC_Table
             $session['CURRENT']['IDS'] = $ids;
             $objSession->replace($session);
 
-            if ($request->hasPost('edit')) {
+            if ($request->request->has('edit')) {
                 $this->redirect(str_replace('act=select', 'act=editAll', \Environment::get('request')));
-            } elseif ($request->hasPost('delete')) {
+            } elseif ($request->request->has('delete')) {
                 $this->redirect(str_replace('act=select', 'act=deleteAll', \Environment::get('request')));
-            } elseif ($request->hasPost('override')) {
+            } elseif ($request->request->has('override')) {
                 $this->redirect(str_replace('act=select', 'act=overrideAll', \Environment::get('request')));
-            } elseif ($request->hasPost('cut') || $request->hasPost('copy')) {
+            } elseif ($request->request->has('cut') || $request->request->has('copy')) {
                 $arrClipboard = $objSession->get('CLIPBOARD');
 
                 $arrClipboard[$strTable] = [
                     'id' => $ids,
-                    'mode' => ($request->hasPost('cut') ? 'cutAll' : 'copyAll'),
+                    'mode' => ($request->request->has('cut') ? 'cutAll' : 'copyAll'),
                 ];
 
                 $objSession->set('CLIPBOARD', $arrClipboard);
 
                 // Support copyAll in the list view (see #7499)
-                if ($request->hasPost('copy') && $GLOBALS['TL_DCA'][$strTable]['list']['sorting']['mode'] < 4) {
+                if ($request->request->has('copy') && $GLOBALS['TL_DCA'][$strTable]['list']['sorting']['mode'] < 4) {
                     $this->redirect(str_replace('act=select', 'act=copyAll', \Environment::get('request')));
                 }
 
@@ -124,9 +126,9 @@ class DC_Table_Utils extends DC_Table
         $route = $request->attributes->get('_route');
 
         // Store the current referer
-        if (!empty($this->ctable) && !$request->getGet('act') && !$request->getGet('key') && !$request->getGet('token') && 'contao_backend' == $route
-            && !\Environment::get('isAjaxRequest')) {
-            $strKey = $request->getGet('popup') ? 'popupReferer' : 'referer';
+        if (!empty($this->ctable) && !$request->query->get('act') && !$request->query->get('key') && !$request->query->get('token') && 'contao_backend' == $route
+            && !Environment::get('isAjaxRequest')) {
+            $strKey = $request->query->get('popup') ? 'popupReferer' : 'referer';
             $strRefererId = $request->attributes->get('_contao_referer_id');
 
             $session = $objSession->get($strKey);

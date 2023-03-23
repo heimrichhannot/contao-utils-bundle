@@ -15,6 +15,7 @@ use Contao\PageModel;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Exception\InvalidUrlException;
 use HeimrichHannot\UtilsBundle\Request\RequestUtil;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class UrlUtil
 {
@@ -27,11 +28,16 @@ class UrlUtil
      * @var RequestUtil
      */
     private $requestUtil;
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
 
-    public function __construct(ContaoFrameworkInterface $framework, RequestUtil $requestUtil)
+    public function __construct(ContaoFrameworkInterface $framework, RequestUtil $requestUtil, RequestStack $requestStack)
     {
         $this->framework = $framework;
         $this->requestUtil = $requestUtil;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -224,7 +230,7 @@ class UrlUtil
         }
 
         // Ajax request
-        if (System::getContainer()->get('huh.request')->isXmlHttpRequest()) {
+        if (($request = $this->requestStack->getCurrentRequest()) && $request->isXmlHttpRequest()) {
             $headers[] = 'HTTP/1.1 204 No Content';
             $headers[] = 'X-Ajax-Location: '.$strLocation;
         } else {
