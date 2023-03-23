@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2023-03-23
+- Changed: reduced usage of request bundle ([#64])
+
 ## [2.226.1] - 2023-03-20
 - Fixed: warning in ImageUtil
 
@@ -2118,6 +2121,7 @@ instead
 
 
 [@qzminski]: https://github.com/qzminski
+[#64]: https://github.com/heimrichhannot/contao-utils-bundle/pull/64
 [#63]: https://github.com/heimrichhannot/contao-utils-bundle/pull/63
 [#62]: https://github.com/heimrichhannot/contao-utils-bundle/pull/62
 [#61]: https://github.com/heimrichhannot/contao-utils-bundle/pull/61
