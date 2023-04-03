@@ -22,7 +22,7 @@ use HeimrichHannot\UtilsBundle\ContaoManager\Plugin;
 use HeimrichHannot\UtilsBundle\Date\DateUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\File\FileUtil;
-use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
+use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
 use HeimrichHannot\UtilsBundle\Image\ImageUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Module\ModuleUtil;
@@ -58,7 +58,7 @@ class PluginTest extends ContaoTestCase
 
         $this->assertCount(2, $bundles);
         $this->assertInstanceOf(BundleConfig::class, $bundles[0]);
-        $this->assertSame(HeimrichHannotContaoUtilsBundle::class, $bundles[0]->getName());
+        $this->assertSame(HeimrichHannotUtilsBundle::class, $bundles[0]->getName());
         $this->assertSame([ContaoCoreBundle::class], $bundles[0]->getLoadAfter());
     }
 

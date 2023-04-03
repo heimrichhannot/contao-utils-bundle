@@ -14,7 +14,7 @@ $iterator = Finder::create()
     ->name('*.php')
     ->exclude('Resources')
     ->exclude('ContaoManager')
-    ->exclude('HeimrichHannotContaoUtilsBundle')
+    ->exclude('HeimrichHannotUtilsBundle')
     ->in('./src');
 
 return new Sami($iterator, [

@@ -8,17 +8,17 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests;
 
-use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
+use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
 use PHPUnit\Framework\TestCase;
 
-class HeimrichHannotContaoUtilsBundleTest extends TestCase
+class HeimrichHannotUtilsBundleTest extends TestCase
 {
     /**
      * Tests the object instantiation.
      */
     public function testCanBeInstantiated()
     {
-        $bundle = new HeimrichHannotContaoUtilsBundle();
-        $this->assertInstanceOf(HeimrichHannotContaoUtilsBundle::class, $bundle);
+        $bundle = new HeimrichHannotUtilsBundle();
+        $this->assertInstanceOf(HeimrichHannotUtilsBundle::class, $bundle);
     }
 }

@@ -12,7 +12,7 @@ use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Choice\TwigTemplateChoice;
-use HeimrichHannot\UtilsBundle\HeimrichHannotContaoUtilsBundle;
+use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
 use HeimrichHannot\UtilsBundle\String\StringUtil;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
@@ -58,7 +58,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $kernel
             ->expects($this->once())
             ->method('getBundles')
-            ->willReturn(['HeimrichHannotContaoUtilsBundle' => new HeimrichHannotContaoUtilsBundle()]);
+            ->willReturn(['HeimrichHannotUtilsBundle' => new HeimrichHannotUtilsBundle()]);
 
         $kernel->method('locateResource')
             ->willReturn(__DIR__.'/../../src');
@@ -83,7 +83,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $kernel
             ->expects($this->once())
             ->method('getBundles')
-            ->willReturn(['HeimrichHannotContaoUtilsBundle' => new HeimrichHannotContaoUtilsBundle()]);
+            ->willReturn(['HeimrichHannotUtilsBundle' => new HeimrichHannotUtilsBundle()]);
 
         $kernel->method('locateResource')
             ->willReturn(__DIR__.'/../../src');
@@ -108,7 +108,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $kernel
             ->expects($this->once())
             ->method('getBundles')
-            ->willReturn(['HeimrichHannotContaoUtilsBundle' => new HeimrichHannotContaoUtilsBundle()]);
+            ->willReturn(['HeimrichHannotUtilsBundle' => new HeimrichHannotUtilsBundle()]);
 
         $kernel->method('locateResource')
             ->willReturn(__DIR__.'/../../src');
@@ -134,7 +134,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $kernel
             ->expects($this->once())
             ->method('getBundles')
-            ->willReturn(['HeimrichHannotContaoUtilsBundle' => new HeimrichHannotContaoUtilsBundle()]);
+            ->willReturn(['HeimrichHannotUtilsBundle' => new HeimrichHannotUtilsBundle()]);
 
         $kernel->method('locateResource')
             ->willReturn(__DIR__.'/../../src');
@@ -157,7 +157,7 @@ class TwigTemplateChoiceTest extends ContaoTestCase
         $kernel
             ->expects($this->once())
             ->method('getBundles')
-            ->willReturn(['HeimrichHannotContaoUtilsBundle' => new HeimrichHannotContaoUtilsBundle()]);
+            ->willReturn(['HeimrichHannotUtilsBundle' => new HeimrichHannotUtilsBundle()]);
 
         $kernel->method('locateResource')
             ->willReturn(__DIR__.'/../../src');
