@@ -28,7 +28,7 @@ class UrlUtil
      * @param string $parameter The query parameter name to remove
      * @param string $url       the url where the query parameter should be removed
      */
-    public function removeQueryStringParameterToUrl(string $parameter, string $url = ''): string
+    public function removeQueryStringParameterFromUrl(string $parameter, string $url = ''): string
     {
         if (empty($url)) {
             $request = $this->requestStack->getCurrentRequest();
@@ -50,6 +50,15 @@ class UrlUtil
         $parsedUrl['query'] = !empty($query) ? http_build_query($query) : '';
 
         return $this->buildUrlString($parsedUrl);
+    }
+
+    /**
+     * @deprecated Use removeQueryStringParameterFromUrl() instead
+     * @codeCoverageIgnore
+     */
+    public function removeQueryStringParameterToUrl(string $parameter, string $url = ''): string
+    {
+        return $this->removeQueryStringParameterFromUrl($parameter, $url);
     }
 
     /**

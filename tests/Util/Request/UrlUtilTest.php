@@ -44,7 +44,7 @@ class UrlUtilTest extends AbstractUtilsTestCase
     public function testRemoveQueryStringParameterToUrl($url, $parameter, $result)
     {
         $instance = $this->getTestInstance();
-        $this->assertSame($result, $instance->removeQueryStringParameterToUrl($parameter, $url));
+        $this->assertSame($result, $instance->removeQueryStringParameterFromUrl($parameter, $url));
 
         $request = $this->createMock(Request::class);
         $request->method('getUri')->willReturn($url);
@@ -53,7 +53,7 @@ class UrlUtilTest extends AbstractUtilsTestCase
         $requestStack->method('getCurrentRequest')->willReturn($request);
 
         $instance = $this->getTestInstance(['requestStack' => $requestStack]);
-        $this->assertSame($result, $instance->removeQueryStringParameterToUrl($parameter));
+        $this->assertSame($result, $instance->removeQueryStringParameterFromUrl($parameter));
     }
 
     public function addQueryStringParameterProvider()
@@ -114,6 +114,6 @@ class UrlUtilTest extends AbstractUtilsTestCase
     {
         $instance = $this->getTestInstance();
         $this->assertSame('', $instance->addQueryStringParameterToUrl(''));
-        $this->assertSame('', $instance->removeQueryStringParameterToUrl(''));
+        $this->assertSame('', $instance->removeQueryStringParameterFromUrl(''));
     }
 }
