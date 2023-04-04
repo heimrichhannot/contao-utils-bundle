@@ -9,7 +9,6 @@ services:
       $utilsConfig: '%huh_utils%'
       Contao\CoreBundle\Command\SymlinksCommand: '@contao.command.symlinks'
 
-  HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: ~
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: ~
@@ -39,7 +38,6 @@ services:
   HeimrichHannot\UtilsBundle\User\UserUtil: ~
   HeimrichHannot\UtilsBundle\Ics\IcsUtil: ~
 
-  huh.utils.accordion: '@HeimrichHannot\UtilsBundle\Accordion\AccordionUtil'
   huh.utils.array: '@HeimrichHannot\UtilsBundle\Arrays\ArrayUtil'
   huh.utils.cache.file:
     alias: HeimrichHannot\UtilsBundle\Cache\FileCache
