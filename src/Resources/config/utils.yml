@@ -9,7 +9,6 @@ services:
       $utilsConfig: '%huh_utils%'
       Contao\CoreBundle\Command\SymlinksCommand: '@contao.command.symlinks'
 
-  HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: ~
   HeimrichHannot\UtilsBundle\Cache\FileCache:
