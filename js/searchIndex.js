@@ -4111,6 +4111,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Twig-DownloadExtension.html"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\DownloadExtension\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Twig-DownloadExtension.html#method___construct"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\DownloadExtension\u003A\u003AgetFilters\u0028\u0029",
             "name": "getFilters",
             "summary": "Get\u0020list\u0020of\u0020twig\u0020filters.",
@@ -4140,6 +4145,21 @@ Search.appendIndex(
             "name": "getDownloadTitle",
             "summary": "Get\u0020download\u0020title\u0020based\u0020on\u0020given\u0020path\/uuid.",
             "url": "classes/HeimrichHannot-UtilsBundle-Twig-DownloadExtension.html#method_getDownloadTitle"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\DownloadExtension\u003A\u003A\u0024requestStack",
+            "name": "requestStack",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Twig-DownloadExtension.html#property_requestStack"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\DownloadExtension\u003A\u003A\u0024utils",
+            "name": "utils",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Twig-DownloadExtension.html#property_utils"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\DownloadExtension\u003A\u003A\u0024twig",
+            "name": "twig",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Twig-DownloadExtension.html#property_twig"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Twig\\FileExtension",
             "name": "FileExtension",
@@ -4415,6 +4435,11 @@ Search.appendIndex(
             "name": "requestUtil",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Url-UrlUtil.html#property_requestUtil"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Url\\UrlUtil\u003A\u003A\u0024requestStack",
+            "name": "requestStack",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Url-UrlUtil.html#property_requestStack"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\User\\UserUtil",
             "name": "UserUtil",
@@ -4756,9 +4781,14 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method___construct"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003AremoveQueryStringParameterFromUrl\u0028\u0029",
+            "name": "removeQueryStringParameterFromUrl",
+            "summary": "Remove\u0020a\u0020query\u0020parameter\u0020\u0028GET\u0020parameter\u0029\u0020from\u0020an\u0020url.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method_removeQueryStringParameterFromUrl"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003AremoveQueryStringParameterToUrl\u0028\u0029",
             "name": "removeQueryStringParameterToUrl",
-            "summary": "Remove\u0020a\u0020query\u0020parameter\u0020\u0028GET\u0020parameter\u0029\u0020from\u0020an\u0020url.",
+            "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Request-UrlUtil.html#method_removeQueryStringParameterToUrl"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Request\\UrlUtil\u003A\u003AaddQueryStringParameterToUrl\u0028\u0029",
