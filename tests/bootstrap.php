@@ -25,10 +25,6 @@ if (false === ($loader = $include(__DIR__.'/../vendor/autoload.php'))
     exit(1);
 }
 
-require 'TestCaseEnvironment.php';
-
-require 'Request/StubCurlRequest.php';
-
 // Handle classes in the global namespace
 $legacyLoader = function ($class) {
     if (class_exists($class, false) || interface_exists($class, false) || trait_exists($class, false)) {
