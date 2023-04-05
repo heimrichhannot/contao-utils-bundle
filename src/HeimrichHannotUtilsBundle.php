@@ -13,8 +13,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class HeimrichHannotUtilsBundle extends Bundle
 {
-    public function getContainerExtension()
-    {
-        return new HeimrichHannotUtilsExtension();
-    }
 }

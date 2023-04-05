@@ -13,8 +13,6 @@
 use HeimrichHannot\UtilsBundle\EventListener\InitializeSystemListener;
 use HeimrichHannot\UtilsBundle\EventListener\InsertTagsListener;
 
-$GLOBALS['TL_MODELS']['tl_cfg_tag'] = 'HeimrichHannot\UtilsBundle\Model\CfgTagModel';
-
 /*
  * Hooks
  */

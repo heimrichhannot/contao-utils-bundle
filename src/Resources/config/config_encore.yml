@@ -1,4 +1,0 @@
-huh_encore:
-  unset_global_keys:
-    js:
-      - contao-utils-bundle
