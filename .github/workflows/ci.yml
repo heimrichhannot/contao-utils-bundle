@@ -9,13 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
-        contao: [ 4.9.*, 4.13.* ]
-        exclude:
-          - php: 7.2
-            contao: 4.13.*
-          - php: 7.3
-            contao: 4.13.*
+        php: [ 8.0, 8.1, 8.2 ]
+        contao: [ 4.13.*, 5.1.* ]
 
     steps:
       - name: Setup PHP
@@ -43,7 +38,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
           extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo, zlib
           coverage: xdebug
           tools: php-cs-fixer, phpunit
@@ -70,7 +65,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.1
 
       - name: Checkout
         uses: actions/checkout@v2
