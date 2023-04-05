@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -18,9 +18,12 @@ use Contao\Image;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Error\Error;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig_Error;
 
 class DownloadExtension extends AbstractExtension
 {
@@ -28,12 +31,21 @@ class DownloadExtension extends AbstractExtension
      * @var RequestStack
      */
     private $requestStack;
+    /**
+     * @var Utils
+     */
+    private $utils;
+    /**
+     * @var \Twig\Environment
+     */
+    private $twig;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, Utils $utils, \Twig\Environment $twig)
     {
         $this->requestStack = $requestStack;
+        $this->utils = $utils;
+        $this->twig = $twig;
     }
-
 
     /**
      * Get list of twig filters.
@@ -62,18 +74,18 @@ class DownloadExtension extends AbstractExtension
     public function getDownloadData($path, array $data = []): ?array
     {
         if (Validator::isUuid($path)) {
-            $file = System::getContainer()->get('huh.utils.file')->getFileFromUuid($path);
+            $path = $this->utils->file()->getPathFromUuid($path);
         } else {
             $path = Controller::replaceInsertTags($path);
-
-            try {
-                $file = new File(urldecode($path));
-            } catch (\Exception $e) {
-                return null;
-            }
         }
 
-        if (null === $file) {
+        if (!$path) {
+            return null;
+        }
+
+        try {
+            $file = new File(urldecode($path));
+        } catch (\Exception $e) {
             return null;
         }
 
@@ -92,6 +104,7 @@ class DownloadExtension extends AbstractExtension
         }
 
         $request = $this->requestStack->getCurrentRequest();
+
         if (!$request) {
             return null;
         }
@@ -123,13 +136,17 @@ class DownloadExtension extends AbstractExtension
             $fileData['linkTitle'] = StringUtil::specialchars($file->basename);
         }
 
+        if (!isset($data['titleText'])) {
+            $data['titleText'] = sprintf($GLOBALS['TL_LANG']['MSC']['download'], $file->basename);
+        }
+
         $strHref = Environment::get('request');
 
         // Remove an existing file parameter (see #5683)
-        $strHref = System::getContainer()->get('huh.utils.url')->addQueryString('file='.System::urlEncode($file->value), $strHref);
+        $strHref = $this->utils->url()->addQueryStringParameterToUrl('file='.System::urlEncode($file->value), $strHref);
 
         $fileData['link'] = $fileData['linkTitle'];
-        $fileData['title'] = StringUtil::specialchars($data['titleText'] ?: sprintf($GLOBALS['TL_LANG']['MSC']['download'], $file->basename));
+        $fileData['title'] = StringUtil::specialchars($data['titleText']);
         $fileData['href'] = $strHref;
         $fileData['filesize'] = System::getReadableSize($file->filesize, 1);
         $fileData['icon'] = Image::getPath($file->icon);
@@ -166,8 +183,9 @@ class DownloadExtension extends AbstractExtension
         }
 
         try {
-            return System::getContainer()->get('twig')->render($template, $data);
-        } catch (\Twig_Error $e) {
+            return $this->twig->render($template, $data);
+        } catch (Twig_Error $e) {
+        } catch (Error $error) {
         }
 
         return '';

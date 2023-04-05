@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -108,7 +108,11 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
         $fileData = $this->container->get('huh.utils.class')->jsonSerialize($fileObj, $data, array_merge_recursive($jsonSerializeOptions, ['ignoreMethods' => true]));
 
         foreach (static::FILE_OBJECT_PROPERTIES as $property) {
-            $fileData[$property] = $fileObj->{$property};
+            try {
+                $fileData[$property] = $fileObj->{$property} ?? null;
+            } catch (\Exception $e) {
+                $fileData[$property] = null;
+            }
             $fileData['readableFilesize'] = System::getReadableSize($fileObj->filesize, 1);
         }
 

@@ -1,14 +1,18 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\UtilsBundle\Twig;
 
+use Contao\Controller;
+use Contao\FilesModel;
+use Contao\FrontendTemplate;
 use Contao\StringUtil;
+use Contao\Validator;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Twig\Extension\AbstractExtension;
@@ -74,7 +78,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
     {
         $imageData = [];
 
-        $data['image'] = $image;
+        $data['singleSRC'] = $image;
         $size = $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size);
 
         // remove empty imageSize passed in
@@ -82,7 +86,21 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
             unset($data['size']);
         }
 
-        $this->container->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
+//        $this->container->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
+
+        if (Validator::isUuid($image)) {
+            $fileModel = FilesModel::findByUuid($image);
+
+            if (!$fileModel) {
+                return [];
+            }
+            $data['singleSRC'] = $fileModel->path;
+        }
+
+        $template = new FrontendTemplate();
+        Controller::addImageToTemplate($template, $data);
+
+        return $template->getData();
 
         if (empty($imageData)) {
             return [];
@@ -90,8 +108,8 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
 
         $result = array_merge($imageData, $data);
 
-        if(isset($imageData['picture']) && isset($data['picture'])) {
-            $result['picture'] = array_merge($imageData['picture'],$data['picture']);
+        if (isset($imageData['picture']) && isset($data['picture'])) {
+            $result['picture'] = array_merge($imageData['picture'], $data['picture']);
         }
 
         return $result;

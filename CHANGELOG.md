@@ -2,10 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2023-03-23
+## [2.227.0] - 2023-04-05
 - Changed: reduced usage of request bundle ([#64])
 - Deprecated: UrlUtil::removeQueryStringParameterToUrl() (renamed to removeQueryStringParameterFromUrl())
 - Fixed: typo in UrlUtil::removeQueryStringParameterToUrl()
+- Fixed: various warnings
+- Fixed: various deprecations
 
 ## [2.226.1] - 2023-03-20
 - Fixed: warning in ImageUtil
