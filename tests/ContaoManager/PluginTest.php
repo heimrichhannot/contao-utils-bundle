@@ -36,19 +36,6 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class PluginTest extends ContaoTestCase
 {
-    /**
-     * @var Plugin
-     */
-    protected $plugin;
-    /**
-     * @var ContainerBuilder
-     */
-    protected $container;
-    /**
-     * @var string
-     */
-    protected $projectDir;
-
     public function testGetBundles()
     {
         $plugin = new Plugin();
@@ -56,114 +43,9 @@ class PluginTest extends ContaoTestCase
         /** @var BundleConfig[] $bundles */
         $bundles = $plugin->getBundles(new DelegatingParser());
 
-        $this->assertCount(2, $bundles);
+        $this->assertCount(1, $bundles);
         $this->assertInstanceOf(BundleConfig::class, $bundles[0]);
         $this->assertSame(HeimrichHannotUtilsBundle::class, $bundles[0]->getName());
         $this->assertSame([ContaoCoreBundle::class], $bundles[0]->getLoadAfter());
-    }
-
-    public function skiptestRegisterContainerConfiguration()
-    {
-        $kernelMock = $this->createMock(Kernel::class);
-        $kernelMock->method('locateResource')->willReturnCallback(function ($file, $currentDir = null, $first = true, $triggerDeprecation = true) {
-            return $currentDir.'/../src/Resources/config/'.pathinfo($file, \PATHINFO_BASENAME);
-        });
-
-        $locator = new FileLocator($kernelMock, __DIR__.'/..');
-
-        $container = new ContainerBuilder();
-
-        $resolver = new LoaderResolver([
-            new YamlFileLoader($container, $locator),
-        ]);
-
-        $loader = new DelegatingLoader($resolver);
-
-        $plugin = new Plugin();
-        $plugin->registerContainerConfiguration($loader, []);
-
-        $utils = [
-            [
-                'alias' => AccordionUtil::class,
-                'class' => AccordionUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.accordion',
-                'class' => AccordionUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.array',
-                'class' => ArrayUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.cache.file',
-                'class' => FileCache::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.cache.remote_image_cache',
-                'class' => RemoteImageCache::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.class',
-                'class' => ClassUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.container',
-                'class' => ContainerUtil::class,
-                'parameters' => 3,
-            ],
-            [
-                'alias' => 'huh.utils.date',
-                'class' => DateUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.dca',
-                'class' => DcaUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.file',
-                'class' => FileUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.image',
-                'class' => ImageUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.model',
-                'class' => ModelUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.module',
-                'class' => ModuleUtil::class,
-                'parameters' => 1,
-            ],
-            [
-                'alias' => 'huh.utils.template',
-                'class' => TemplateUtil::class,
-                'parameters' => 1,
-            ],
-        ];
-
-        foreach ($utils as $util) {
-            $this->assertTrue($container->has($util['alias']));
-            $definition = $container->findDefinition($util['alias']);
-
-            if (null != $definition->getClass()) {
-                $this->assertSame($util['class'], $definition->getClass());
-            }
-            $this->assertEmpty($definition->getArguments());
-            $this->assertTrue($definition->isAutowired());
-        }
     }
 }
