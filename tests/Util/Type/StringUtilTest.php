@@ -15,36 +15,7 @@ class StringUtilTest extends ContaoTestCase
 {
     public function getTestInstance(array $parameters = [])
     {
-        $framework = $this->mockContaoFramework();
-
-        return new StringUtil($framework);
-    }
-
-    public function testStartsWith()
-    {
-        $instance = $this->getTestInstance();
-        $this->assertTrue($instance->startsWith('', ''));
-        $this->assertTrue($instance->startsWith('bla', ''));
-        $this->assertTrue($instance->startsWith('heimrichhannot', 'h'));
-        $this->assertTrue($instance->startsWith('heimrichhannot', 'heimrich'));
-        $this->assertFalse($instance->startsWith('heimrichhannot', 'hannot'));
-        $this->assertFalse($instance->startsWith('heimrichhannot', 'foo'));
-        $this->assertFalse($instance->startsWith('heimrichhannot', 'heimrichhannotutils'));
-    }
-
-    public function testEndsWith()
-    {
-        $instance = $this->getTestInstance();
-        $this->assertTrue($instance->endsWith('', ''));
-        $this->assertTrue($instance->endsWith('bla', ''));
-        $this->assertTrue($instance->endsWith('heimrichhannot', 't'));
-        $this->assertTrue($instance->endsWith('heimrichhannot', 'hannot'));
-        $this->assertFalse($instance->endsWith('heimrichhannot', 'heimrich'));
-        $this->assertFalse($instance->endsWith('heimrichhannot', 'foo'));
-        $this->assertFalse($instance->endsWith('heimrichhannot', 'hannotutils'));
-        $this->assertFalse($instance->endsWith('heimrichhannot', 'heimrichhannotutils'));
-        $this->assertTrue($instance->endsWith('This is a test string', 'string'));
-        $this->assertFalse($instance->endsWith('This is a test string', 'ABC'));
+        return new StringUtil();
     }
 
     public function testCamelCaseToDashed()

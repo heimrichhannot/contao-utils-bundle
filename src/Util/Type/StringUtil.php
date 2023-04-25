@@ -24,43 +24,6 @@ class StringUtil
     const NUMBERS_NONAMBIGUOUS = '23456789';
 
     /**
-     * @var ContaoFrameworkInterface
-     */
-    protected $framework;
-
-    public function __construct(ContaoFrameworkInterface $framework)
-    {
-        $this->framework = $framework;
-    }
-
-    /**
-     * Check for the occurrence at the start of the string.
-     *
-     * @param $haystack string The string to search in
-     * @param $needle   string The needle
-     * 
-     * @deprecated Use str_starts_with instead
-     */
-    public function startsWith(string $haystack, string $needle): bool
-    {
-        return '' === $needle || false !== strrpos($haystack, $needle, -\strlen($haystack));
-    }
-
-    /**
-     * Check for the occurrence at the end of the string.
-     *
-     * @param string $haystack The string to search in
-     * @param string $needle   The needle
-     * 
-     * @deprecated Use str_ends_with instead
-     */
-    public function endsWith(string $haystack, string $needle): bool
-    {
-        // search forward starting from end minus needle length characters
-        return '' === $needle || (($temp = \strlen($haystack) - \strlen($needle)) >= 0 && false !== strpos($haystack, $needle, $temp));
-    }
-
-    /**
      * Convert a camel case string to a dashed string.
      *
      * Example: MyPrettyClass to my-pretty-class
