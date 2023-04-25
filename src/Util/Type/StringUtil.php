@@ -38,6 +38,8 @@ class StringUtil
      *
      * @param $haystack string The string to search in
      * @param $needle   string The needle
+     * 
+     * @deprecated Use str_starts_with instead
      */
     public function startsWith(string $haystack, string $needle): bool
     {
@@ -49,6 +51,8 @@ class StringUtil
      *
      * @param string $haystack The string to search in
      * @param string $needle   The needle
+     * 
+     * @deprecated Use str_ends_with instead
      */
     public function endsWith(string $haystack, string $needle): bool
     {

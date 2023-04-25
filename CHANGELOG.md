@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2023-04-25
+- Deprecated: StringUtil::startWith and StringUtil::endsWith
+
+
 ## [2.227.0] - 2023-04-05
 - Changed: reduced usage of request bundle ([#64])
 - Deprecated: UrlUtil::removeQueryStringParameterToUrl() (renamed to removeQueryStringParameterFromUrl())
