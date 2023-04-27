@@ -907,7 +907,7 @@ class DcaUtil
         foreach ($GLOBALS['BE_MOD'] as $arrSection) {
             foreach ($arrSection as $strModule => $arrModule) {
                 foreach ($arrModule as $strKey => $varValue) {
-                    if (\is_array($arrModule['tables'])) {
+                    if (\is_array($arrModule['tables'] ?? null)) {
                         $dcaTables = array_merge($dcaTables, $arrModule['tables']);
                     }
                 }
