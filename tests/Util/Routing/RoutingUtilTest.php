@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -15,6 +15,7 @@ use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -34,7 +35,7 @@ class RoutingUtilTest extends AbstractUtilsTestCase
     public function testGenerateBackendRoute()
     {
         $router = $this->createMock(RouterInterface::class);
-        $router->method('generate')->willReturnCallback(function (string $route, array $parameters = []) {
+        $router->method('generate')->willReturnCallback(function (string $route, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH) {
             if ('contao_backend' === $route) {
                 $url = '/contao';
             } else {
@@ -43,6 +44,10 @@ class RoutingUtilTest extends AbstractUtilsTestCase
 
             if (!empty($parameters)) {
                 $url .= '?'.http_build_query($parameters);
+            }
+
+            if (UrlGeneratorInterface::ABSOLUTE_URL === $referenceType) {
+                $url = 'https://example.org'.$url;
             }
 
             return $url;
@@ -82,5 +87,7 @@ class RoutingUtilTest extends AbstractUtilsTestCase
         ]);
 
         $this->assertSame('/contao?rt=foo-bar', $instance->generateBackendRoute([], true, false));
+
+        $this->assertSame('https://example.org/contao', $instance->generateBackendRoute([], false, false, UrlGeneratorInterface::ABSOLUTE_URL));
     }
 }
