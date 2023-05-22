@@ -86,8 +86,14 @@ class RoutingUtilTest extends AbstractUtilsTestCase
             'requestStack' => $requestStack,
         ]);
 
-        $this->assertSame('/contao?rt=foo-bar', $instance->generateBackendRoute([], true, false));
+        $this->assertSame(
+            '/contao?rt=foo-bar',
+            $instance->generateBackendRoute([], true, false)
+        );
 
-        $this->assertSame('https://example.org/contao', $instance->generateBackendRoute([], false, false, UrlGeneratorInterface::ABSOLUTE_URL));
+        $this->assertSame(
+            'https://example.org/contao',
+            $instance->generateBackendRoute([], false, false, 'contao_backend', ['absoluteUrl' => true])
+        );
     }
 }
