@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.228.0] - 2023-05-22
+- Added: absolute url option to RequestUtil::generateBackendRoute() ([#65])
+
 ## [2.227.1] - 2023-04-27
 - Fixed: warnings
 - Deprecated: StringUtil::startWith and StringUtil::endsWith
@@ -2028,107 +2031,9 @@ instead
 - Inserttag `twig` (Example:`{{twig::logo.html.twig::a:1:{s:3:"foo";s:3:"bar";}}}`) to render twig templates from
   inserttags with custom serialized data
 
-## [2.29.2] - 2018-09-18
-
-### Changed
-
-- code style
-
-## [2.29.1] - 2018-09-18
-
-### Changed
-
-- code style
-
-## [2.29.0] - 2018-09-10
-
-### Changed
-
-- removed `"symfony/framework-bundle": "^3.4"` composer dependency to restore symfony 4 and contao 4.6 compability
-- removed reprecated tag from deprecated `huh.utils.pdf_writer` service to restore symfony 4 compability
-- updated model namespace in `CfgTagModel`
-
-## [2.28.10] - 2018-09-07
-
-### Fixed
-
-- Server error 500 while trying to warmup cache due
-  to `Uncaught Error: Call to undefined method Contao\\ManagerBundle\\HttpKernel\\ContaoCache::getProjectDir() ` while
-  invoking `config_encore.yml`
-
-## [2.28.9] - 2018-08-28
-
-### Fixed
-
-- DcaUtil::addAliasToDca()
-
-## [2.28.8] - 2018-08-23
-
-### Added
-
-- dom.js
-
-## [2.28.7] - 2018-08-21
-
-### Added
-
-- CurlRequestUtil::HTTP_STATUS_CODE_MESSAGES
-
-## [2.28.6] - 2018-08-20
-
-### Fixed
-
-- mode issue in FormUtil::getWidgetFromAttributes()
-
-## [2.28.5] - 2018-08-16
-
-#### Changed
-
-- use `translator.default` service instead of `translator` service due changes in contao 4.5
-
-## [2.28.4] - 2018-08-14
-
-#### Fixed
-
-- Contao 4.5 compability in MessageChoice
-- some deprecation warnings
-
-#### Update
-
-- small code enhancements
-
-## [2.28.3] - 2018-08-14
-
-#### Fixed
-
-- missing parameter for template util service
-
-## [2.28.2] - 2018-08-14
-
-#### Fixed
-
-- namespace in `RoutingUtil`
-
-## [2.28.1] - 2018-08-14
-
-#### Fixed
-
-- error when null as parameter in TemplateUtil::isTemplatePartEmpty
-
-## [2.28.0] - 2018-08-13
-
-#### Added
-
-- TemplateUtil::isTemplatePartEmpty
-
-#### Changed
-
-- update some documentation comments
-- small code enhancements
-
-
 
 [@qzminski]: https://github.com/qzminski
+[#65]: https://github.com/heimrichhannot/contao-utils-bundle/pull/65
 [#64]: https://github.com/heimrichhannot/contao-utils-bundle/pull/64
 [#63]: https://github.com/heimrichhannot/contao-utils-bundle/pull/63
 [#62]: https://github.com/heimrichhannot/contao-utils-bundle/pull/62
