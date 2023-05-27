@@ -8,27 +8,16 @@
 
 namespace HeimrichHannot\UtilsBundle\Twig;
 
-use Contao\Controller;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
-use HeimrichHannot\UtilsBundle\String\AnonymizerUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class StringExtension extends AbstractExtension
 {
-    /**
-     * @var AnonymizerUtil
-     */
-    private $anonymizerUtil;
-    /**
-     * @var ContaoFrameworkInterface
-     */
-    private $framework;
-
-    public function __construct(AnonymizerUtil $anonymizerUtil, ContaoFrameworkInterface $framework)
+    public function __construct(
+        protected Utils $utils,
+    )
     {
-        $this->anonymizerUtil = $anonymizerUtil;
-        $this->framework = $framework;
     }
 
     /**
@@ -41,30 +30,42 @@ class StringExtension extends AbstractExtension
         return [
             new TwigFilter('autolink', [$this, 'autolink']),
             new TwigFilter('anonymize_email', [$this, 'anonymizeEmail']),
-            new TwigFilter('replace_inserttag', [$this, 'replaceInsertTag']),
         ];
     }
 
+    /**
+     * Automatically link urls with given text.
+     *
+     * Options:
+     * - blank (boolean): add target="_blank" attribute
+     * - limit (int): The maximum possible replacements in each subject string. Defaults to -1 (no limit).
+     */
     public function autolink(string $text, array $options = []): string
     {
-        return preg_replace_callback('@(?P<url>(?:http(s)?://)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#\[\]\@!$&\'()*+,;=]+)@i', function ($matches) use ($options) {
+        $options = array_merge([
+            'blank' => false,
+            'limit' => -1,
+        ], $options);
+
+        $replacement = function ($matches) use ($options) {
             if (!isset($matches['url'])) {
                 return '';
             }
 
-            return '<a'.(isset($options['blank']) && $options['blank'] ? ' target=" _blank"' : '').' href="'.$matches['url'].'">'.$matches['url'].'</a>';
-        }, $text, $options['limit'] ?? -1);
+            return sprintf(
+                '<a%s href="%s">%s</a>',
+                ($options['blank'] ? ' target=" _blank"' : ''),
+                $matches['url'],
+                $matches['url'],
+            );
+        };
+
+        $pattern = '@(?P<url>(?:http(s)?://)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#\[\]\@!$&\'()*+,;=]+)@i';
+        return preg_replace_callback($pattern, $replacement, $text, $options['limit']);
     }
 
     public function anonymizeEmail(string $text): string
     {
-        return $this->anonymizerUtil->anonymizeEmail($text);
-    }
-
-    public function replaceInsertTag(string $text, bool $cache = true)
-    {
-        $this->framework->initialize();
-
-        return $this->framework->getAdapter(Controller::class)->replaceInsertTags($text, $cache);
+        return $this->utils->anonymize()->anonymizeEmail($text);
     }
 }

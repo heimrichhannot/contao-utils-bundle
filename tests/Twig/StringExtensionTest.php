@@ -11,46 +11,37 @@ namespace HeimrichHannot\UtilsBundle\Tests\Twig;
 use Contao\Controller;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\String\AnonymizerUtil;
+use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Twig\StringExtension;
+use HeimrichHannot\UtilsBundle\Util\Data\AnonymizeUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
+use PHPUnit\Framework\MockObject\MockBuilder;
 use Twig\TwigFilter;
 
-class StringExtensionTest extends ContaoTestCase
+class StringExtensionTest extends AbstractUtilsTestCase
 {
-    public function createInstance($parameter = [])
+    public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
-        if (!isset($parameter['framework'])) {
-            $parameter['framework'] = $this->mockContaoFramework();
-        }
-        $anonymizerUtil = new AnonymizerUtil();
-        $instance = new StringExtension($anonymizerUtil, $parameter['framework']);
-
-        return $instance;
+        $utilsMock = $parameters['utils'] ?? $this->createMock(Utils::class);
+        return new StringExtension($utilsMock);
     }
 
     public function testGetFilters()
     {
-        $instance = $this->createInstance();
-        $filters = $instance->getFilters();
-        $this->assertInstanceOf(TwigFilter::class, $filters[0]);
+        $instance = $this->getTestInstance();
+        $this->assertCount(2, $instance->getFilters());
+        $this->assertInstanceOf(TwigFilter::class, $instance->getFilters()[0]);
     }
 
     public function testAnonymizeEmail()
     {
-        $instance = $this->createInstance();
-        $this->assertSame('max.mus*******@example.org', $instance->anonymizeEmail('max.mustermann@example.org'));
-        $this->assertSame('digi****@heimrich-hannot.de', $instance->anonymizeEmail('digitales@heimrich-hannot.de'));
-        $this->assertSame('dasIstKeinE-Mail', $instance->anonymizeEmail('dasIstKeinE-Mail'));
-    }
+        $anonymizeUtil = $this->createMock(AnonymizeUtil::class);
+        $anonymizeUtil->expects($this->once())->method('anonymizeEmail')->willReturn('');
 
-    public function testReplaceInsertTag()
-    {
-        $controller = $this->mockAdapter(['replaceInsertTags']);
-        $controller->expects($this->once())->method('replaceInsertTags')->willReturnArgument(0);
-        $framework = $this->mockContaoFramework([
-           Controller::class => $controller,
-        ]);
-        $framework->expects($this->once())->method('initialize');
-        $instance = $this->createInstance(['framework' => $framework]);
-        $this->assertSame('No inserttag', $instance->replaceInsertTag('No inserttag'));
+        $utils = $this->createMock(Utils::class);
+        $utils->method('anonymize')->willReturn($anonymizeUtil);
+
+        $instance = $this->getTestInstance(['utils' => $utils]);
+        $instance->anonymizeEmail('max.mustermann@example.org');
     }
 }

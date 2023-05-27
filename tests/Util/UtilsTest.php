@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Data\AnonymizeUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
@@ -34,6 +35,9 @@ class UtilsTest extends ContaoTestCase
                 switch ($id) {
                     case AccordionUtil::class:
                         return $this->createMock(AccordionUtil::class);
+
+                    case AnonymizeUtil::class:
+                        return $this->createMock(AnonymizeUtil::class);
 
                     case ArrayUtil::class:
                         return $this->createMock(ArrayUtil::class);
@@ -79,6 +83,10 @@ class UtilsTest extends ContaoTestCase
     public function testAccordion()
     {
         $this->assertInstanceOf(AccordionUtil::class, $this->getTestInstance()->accordion());
+    }
+    public function testAnonymize()
+    {
+        $this->assertInstanceOf(AnonymizeUtil::class, $this->getTestInstance()->anonymize());
     }
 
     public function testArray()

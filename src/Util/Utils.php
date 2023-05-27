@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util;
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Data\AnonymizeUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\File\FileUtil;
 use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
@@ -41,6 +42,11 @@ class Utils extends AbstractServiceSubscriber
     public function accordion(): AccordionUtil
     {
         return $this->locator->get(AccordionUtil::class);
+    }
+
+    public function anonymize(): AnonymizeUtil
+    {
+        return $this->locator->get(AnonymizeUtil::class);
     }
 
     public function array(): ArrayUtil
@@ -107,6 +113,7 @@ class Utils extends AbstractServiceSubscriber
     {
         return [
             AccordionUtil::class,
+            AnonymizeUtil::class,
             ArrayUtil::class,
             ContainerUtil::class,
             DcaUtil::class,
