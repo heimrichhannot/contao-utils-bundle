@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.228.1] - 2023-07-04
+- Fixed: compatibility issue with symfony 3
+
 ## [2.228.0] - 2023-05-22
 - Added: absolute url option to RequestUtil::generateBackendRoute() ([#65])
 
