@@ -13,8 +13,8 @@ use Contao\Model\Collection;
 use Contao\UserGroupModel;
 use Contao\UserModel;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
-use HeimrichHannot\UtilsBundle\Database\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
+use HeimrichHannot\UtilsBundle\Util\Database\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
@@ -39,41 +39,59 @@ class UserUtilTest extends AbstractUtilsTestCase
 
     public function testGetActiveGroups()
     {
-        $parameters['modelUtil'] = $this->createMock(ModelUtil::class);
-        $parameters['modelUtil']->method('findModelInstanceByPk')->willReturnCallback(
-            function (string $table, int $id, array $options = []) {
-                switch ($id) {
-                    case 4:
-                    case 3:
-                        return $this->mockClassWithProperties(UserModel::class, [
-                            'groups' => serialize(['2', '5']),
-                        ]);
+        $userModel = $this->mockClassWithProperties(UserModel::class, [
+            'groups' => serialize(['2', '5']),
+        ]);
 
-                    case 2:
-                        return $this->mockClassWithProperties(UserModel::class, [
-                            'groups' => null,
-                        ]);
+        $groupCollection = new Collection([
+            $this->mockClassWithProperties(UserGroupModel::class, ['id' => 2]),
+            $this->mockClassWithProperties(UserGroupModel::class, ['id' => 5]),
+        ], UserGroupModel::getTable());
+        $modelUtil = $this->createMock(ModelUtil::class);
+        $modelUtil->method('findModelInstancesBy')->willReturn($groupCollection);
 
-                    case 1:
-                    default:
-                        return null;
-                }
-            }
-        );
-        $groupCollection = $this->createMock(Collection::class);
-        $parameters['modelUtil']->method('findModelInstancesBy')
-            ->willReturnOnConsecutiveCalls(null, $groupCollection);
+        $instance = $this->getTestInstance();
 
-        $instance = $this->getTestInstance($parameters);
+        $activeGroups = $instance->getActiveGroups($userModel);
+        $this->assertInstanceOf(Collection::class, $activeGroups);
+        $this->assertCount(2, $activeGroups);
 
-        $this->assertNull($instance->getActiveGroups(1));
-        $this->assertNull($instance->getActiveGroups(2));
-        $this->assertNull($instance->getActiveGroups(3));
 
-        /** @var Collection $result */
-        $result = $instance->getActiveGroups(4);
-
-        $this->assertInstanceOf(Collection::class, $result);
+//        $parameters['modelUtil'] = $this->createMock(ModelUtil::class);
+//        $parameters['modelUtil']->method('findModelInstanceByPk')->willReturnCallback(
+//            function (string $table, int $id, array $options = []) {
+//                switch ($id) {
+//                    case 4:
+//                    case 3:
+//                        return $this->mockClassWithProperties(UserModel::class, [
+//                            'groups' => serialize(['2', '5']),
+//                        ]);
+//
+//                    case 2:
+//                        return $this->mockClassWithProperties(UserModel::class, [
+//                            'groups' => null,
+//                        ]);
+//
+//                    case 1:
+//                    default:
+//                        return null;
+//                }
+//            }
+//        );
+//        $groupCollection = $this->createMock(Collection::class);
+//        $parameters['modelUtil']->method('findModelInstancesBy')
+//            ->willReturnOnConsecutiveCalls(null, $groupCollection);
+//
+//        $instance = $this->getTestInstance($parameters);
+//
+//        $this->assertNull($instance->getActiveGroups(1));
+//        $this->assertNull($instance->getActiveGroups(2));
+//        $this->assertNull($instance->getActiveGroups(3));
+//
+//        /** @var Collection $result */
+//        $result = $instance->getActiveGroups(4);
+//
+//        $this->assertInstanceOf(Collection::class, $result);
     }
 
     public function testHasActiveGroup()

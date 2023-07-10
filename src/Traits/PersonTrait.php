@@ -10,59 +10,43 @@ namespace HeimrichHannot\UtilsBundle\Traits;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Date;
+use Contao\MemberModel;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\StringUtil;
+use Contao\UserModel;
 use HeimrichHannot\UtilsBundle\Database\DatabaseUtil;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 
 /**
  * Trait PersonTrait.
  *
  * @internal This trait is not covered by BC promise and only for internal usage
  *
- * @param ModelUtil $modelUtil
  */
 trait PersonTrait
 {
-    /**
-     * @param int $userId
-     *
-     * Returns all active users userGroups as a Collection of Models or null if user do not belong to any active userGroups
-     */
-    public function getActiveGroups(int $userId): ?Collection
+    protected function loadUsersActiveGroups(MemberModel|UserModel $userModel, ModelUtil $modelUtil, string $table): ?Collection
     {
-        if (null === ($userModel = $this->modelUtil->findModelInstanceByPk(static::TABLE, $userId))) {
-            return null;
-        }
-
         if (empty($groups = StringUtil::deserialize($userModel->groups, true))) {
             return null;
         }
 
-        $columns = [static::TABLE.'_group.id IN('.implode(',', array_map('\intval', $groups)).')'];
+        $groupTable = $table.'_group';
 
-        if ($this->modelUtil instanceof \HeimrichHannot\UtilsBundle\Util\Model\ModelUtil) {
-            /* @var \HeimrichHannot\UtilsBundle\Util\Model\ModelUtil $this->modelUtil */
-            $this->modelUtil->addPublishedCheckToModelArrays(static::TABLE.'_group', $columns, [
-                'publishedField' => 'disable',
-                'invertPublishedField' => true,
-            ]);
-        } else {
-            $this->modelUtil->addPublishedCheckToModelArrays(static::TABLE.'_group', 'disable', 'start', 'stop', $columns, ['invertPublishedField' => true]);
-        }
+        $columns = [$groupTable.'.id IN('.implode(',', array_map('\intval', $groups)).')'];
 
-        return $this->modelUtil->findModelInstancesBy(static::TABLE.'_group', $columns, []);
+        $modelUtil->addPublishedCheckToModelArrays($groupTable, $columns, [
+            'publishedField' => 'disable',
+            'invertPublishedField' => true,
+        ]);
+
+        return $modelUtil->findModelInstancesBy($groupTable, $columns, []);
     }
 
-    /**
-     * @param int $groupId
-     *
-     * Checks given user group is active and given user belongs to this group
-     */
-    public function hasActiveGroup(int $userId, int $groupId): bool
+    protected function loadHasActiveGroup(int $groupId, MemberModel|UserModel $user, ModelUtil $modelUtil, string $table): bool
     {
-        $activeGroups = $this->getActiveGroups($userId);
+        $activeGroups = $this->loadUsersActiveGroups($user, $modelUtil, $table);
 
         if (!$activeGroups) {
             return false;
