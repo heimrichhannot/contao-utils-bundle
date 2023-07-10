@@ -98,6 +98,7 @@ trait PersonTrait
         $values = [];
 
         $columns = ["($table.start='' OR $table.start<='$time') AND ($table.stop='' OR $table.stop>'".($time + 60)."') AND $table.disable=''"];
+        $columns[] = '';
 
         [$columns[], $tmpValues] = $databaseUtil->createWhereForSerializedBlob('groups', $groups);
         $values = array_merge(array_values($values), array_values($tmpValues));
