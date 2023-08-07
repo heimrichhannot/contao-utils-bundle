@@ -120,15 +120,15 @@ class DcaUtilTest extends AbstractUtilsTestCase
             'title',
         ], $fields);
 
-        $this->expectWarning();
+        $this->expectException(\Exception::class);
         $instance->getDcaFields('table', ['allowedInputTypes' => 'checkbox']);
     }
 
-    public function testGetDcaFieldsWithWarning()
+    public function testGetDcaFieldsWithException()
     {
         $instance = $this->getTestInstance();
 
-        $this->expectWarning();
+        $this->expectException(\Exception::class);
         $instance->getDcaFields('table', ['evalConditions' => 'mandatory']);
     }
 }

@@ -141,6 +141,10 @@ class DcaUtil
      * - evalConditions (array): Return only fields with given eval key-value-pairs.
      * - localizeLabels (bool): Return also the field labels (key = field name, value = field label). Default false
      * - skipSorting (bool): Skip sorting fields by field name alphabetical. Default false
+     *
+     * @param array $options {onlyDatabaseFields: bool, allowedInputTypes: array, evalConditions: array, localizeLabels: bool, skipSorting: bool}
+     *
+     * @throws \Exception
      */
     public function getDcaFields(string $table, array $options = []): array
     {
@@ -153,13 +157,11 @@ class DcaUtil
         ], $options);
 
         if (!\is_array($options['allowedInputTypes'])) {
-            $options['allowedInputTypes'] = [];
-            trigger_error('DcaUtil::getDcaFields() option "allowedInputTypes" must be of type array!', \E_USER_WARNING);
+            throw new \Exception('DcaUtil::getDcaFields() option "allowedInputTypes" must be of type array!');
         }
 
         if (!\is_array($options['evalConditions'])) {
-            $options['evalConditions'] = [];
-            trigger_error('DcaUtil::getDcaFields() option "evalConditions" must be of type array!', \E_USER_WARNING);
+            throw new \Exception('DcaUtil::getDcaFields() option "evalConditions" must be of type array!');
         }
 
         $fields = [];
