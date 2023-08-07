@@ -29,7 +29,7 @@ jobs:
 
       - name: Install the dependencies
         id: composer-install
-        run: composer require contao/core-bundle:${{ matrix.contao }} --no-interaction
+        run: composer require contao/core-bundle:${{ matrix.contao }} contao/test-case:${{ matrix.contao }}  --no-interaction
 
       - name: Run the unit tests
         if: steps.composer-install.conclusion == 'success' && steps.composer-install.outcome == 'success'
@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install the dependencies
-        run: composer require contao/core-bundle:4.13.* --no-interaction
+        run: composer require contao/core-bundle:4.13.* contao/test-case:4.13.* --no-interaction
 
       - name: Generate the coverage report
         run: php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml
