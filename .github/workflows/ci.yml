@@ -11,6 +11,9 @@ jobs:
       matrix:
         php: [ 8.0, 8.1, 8.2 ]
         contao: [ 4.13.*, 5.1.* ]
+        exclude:
+          - php: 8.0
+            contao: 5.1.*
 
     steps:
       - name: Setup PHP
