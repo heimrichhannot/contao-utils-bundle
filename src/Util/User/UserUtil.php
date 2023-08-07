@@ -62,7 +62,7 @@ class UserUtil
     public function hasActiveGroup(int|UserModel $user, int $groupId): bool
     {
         if (!($user instanceof UserModel)) {
-            $user = UserModel::findByPk($user);
+            $user = $this->contaoFramework->getAdapter(UserModel::class)->findByPk($user);
         }
 
         if (!$user) {

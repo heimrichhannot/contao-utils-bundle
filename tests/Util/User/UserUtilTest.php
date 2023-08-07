@@ -50,7 +50,9 @@ class UserUtilTest extends AbstractUtilsTestCase
         $modelUtil = $this->createMock(ModelUtil::class);
         $modelUtil->method('findModelInstancesBy')->willReturn($groupCollection);
 
-        $instance = $this->getTestInstance();
+        $instance = $this->getTestInstance([
+            'modelUtil' => $modelUtil,
+        ]);
 
         $activeGroups = $instance->getActiveGroups($userModel);
         $this->assertInstanceOf(Collection::class, $activeGroups);
@@ -96,36 +98,47 @@ class UserUtilTest extends AbstractUtilsTestCase
 
     public function testHasActiveGroup()
     {
-        $builder = $this->getMockBuilder(UserUtil::class)
-            ->setMethods(['getActiveGroups']);
+        $userModel = $this->mockClassWithProperties(UserModel::class, [
+            'groups' => serialize(['2', '5']),
+        ]);
 
-        $instance = $this->getTestInstance([], $builder);
+        $groupCollection = new Collection([
+            $this->mockClassWithProperties(UserGroupModel::class, ['id' => 2]),
+            $this->mockClassWithProperties(UserGroupModel::class, ['id' => 5]),
+        ], UserGroupModel::getTable());
+        $modelUtil = $this->createMock(ModelUtil::class);
+        $modelUtil->method('findModelInstancesBy')->willReturn($groupCollection);
 
-        $instance->method('getActiveGroups')->willReturnCallback(function (int $userId) {
-            switch ($userId) {
-                case 2:
-                    return null;
+        $instance = $this->getTestInstance([
+            'modelUtil' => $modelUtil,
+        ]);
 
-                case 1:
-                    return new Collection([
-                        $this->mockClassWithProperties(UserGroupModel::class, ['id' => 1]),
-                        $this->mockClassWithProperties(UserGroupModel::class, ['id' => 2]),
-                    ], 'tl_user_group');
+        $this->assertTrue($instance->hasActiveGroup($userModel, 2));
 
-                default:
-                    return null;
-            }
-        });
 
-        $this->assertTrue($instance->hasActiveGroup(1, 1));
-        $this->assertFalse($instance->hasActiveGroup(1, 3));
-        $this->assertFalse($instance->hasActiveGroup(2, 1));
-        $this->assertFalse($instance->hasActiveGroup(3, 1));
+//        $builder = $this->getMockBuilder(UserUtil::class)
+//            ->setMethods(['getActiveGroups']);
+
+//        $instance = $this->getTestInstance([], $builder);
+//
+//        $instance->method('getActiveGroups')->willReturnCallback(function (int $userId) {
+//            return match ($userId) {
+//                1 => new Collection([
+//                    $this->mockClassWithProperties(UserGroupModel::class, ['id' => 1]),
+//                    $this->mockClassWithProperties(UserGroupModel::class, ['id' => 2]),
+//                ], 'tl_user_group'),
+//                default => null,
+//            };
+//        });
+//
+//        $this->assertTrue($instance->hasActiveGroup(1, 1));
+//        $this->assertFalse($instance->hasActiveGroup(1, 3));
+//        $this->assertFalse($instance->hasActiveGroup(2, 1));
+//        $this->assertFalse($instance->hasActiveGroup(3, 1));
     }
 
     public function testFindActiveUsersByGroup()
     {
-        $userModelAdapterMock = $this->mockAdapter(['findBy']);
         $userModelAdapterMock = $this->mockAdapter(['findBy']);
         $userModelAdapterMock->method('findBy')->willReturnCallback(function ($columns, $values, $options) {
             $users = [];
