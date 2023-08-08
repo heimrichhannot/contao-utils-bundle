@@ -30,42 +30,26 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class EntityFinderCommand extends Command
 {
     protected static $defaultName = 'huh:utils:entity_finder';
+    protected static $defaultDescription = 'A command to find where an entity is included.';
 
-    /** @var ContaoFramework */
-    private $contaoFramework;
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-    /**
-     * @var Connection
-     */
-    private $connection;
-    /**
-     * @var EntityFinderHelper
-     */
-    private $entityFinderHelper;
-
-    public function __construct(ContaoFramework $contaoFramework, EventDispatcherInterface $eventDispatcher, Connection $connection, EntityFinderHelper $entityFinderHelper)
+    public function __construct(
+        private ContaoFramework $contaoFramework,
+        private EventDispatcherInterface $eventDispatcher,
+        private Connection $connection,
+        private EntityFinderHelper $entityFinderHelper)
     {
         parent::__construct();
-
-        $this->contaoFramework = $contaoFramework;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->connection = $connection;
-        $this->entityFinderHelper = $entityFinderHelper;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('table', InputArgument::REQUIRED, 'The database table')
             ->addArgument('id', InputArgument::REQUIRED, 'The entity id or alias (id is better supported).')
-            ->setDescription('A command to find where an entity is included.')
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->contaoFramework->initialize();
         $io = new SymfonyStyle($input, $output);
