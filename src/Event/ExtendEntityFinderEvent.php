@@ -9,42 +9,21 @@
 namespace HeimrichHannot\UtilsBundle\Event;
 
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
+use Symfony\Contracts\EventDispatcher\Event;
 
-class ExtendEntityFinderEvent extends AbstractEvent
+class ExtendEntityFinderEvent extends Event
 {
-    /** @var string */
-    private $table;
+    private ?string $output = null;
 
-    /** @var int|string */
-    private $id;
-
-    /** @var string|null */
-    private $output = null;
-    /**
-     * @var array
-     */
-    private $parents;
-    /**
-     * @var bool
-     */
-    private $onlyText;
-    /**
-     * @var array
-     */
-    private $inserttags;
-    /**
-     * @var EntityFinderHelper
-     */
-    private $entityFinderHelper;
-
-    public function __construct(string $table, $id, array $parents, array $inserttags, EntityFinderHelper $entityFinderHelper, bool $onlyText = false)
+    public function __construct(
+        private string $table,
+        private int|string $id,
+        private array $parents,
+        private array $inserttags,
+        private EntityFinderHelper $entityFinderHelper,
+        private bool $onlyText = false
+    )
     {
-        $this->table = $table;
-        $this->id = $id;
-        $this->parents = $parents;
-        $this->onlyText = $onlyText;
-        $this->inserttags = $inserttags;
-        $this->entityFinderHelper = $entityFinderHelper;
     }
 
     public function getTable(): string
