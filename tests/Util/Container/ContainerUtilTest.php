@@ -15,6 +15,7 @@ use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
 use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\RequestBundle\HeimrichHannotContaoRequestBundle;
 use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use Psr\Log\LogLevel;
@@ -39,10 +40,6 @@ class ContainerUtilTest extends ContaoTestCase
             });
         }
 
-        if (!isset($parameters['kernelBundles'])) {
-            $parameters['kernelBundles'] = [];
-        }
-
         if (!isset($parameters['kernel'])) {
             $parameters['kernel'] = $this->createMock(KernelInterface::class);
         }
@@ -63,7 +60,6 @@ class ContainerUtilTest extends ContaoTestCase
 
         return new ContainerUtil(
             $parameters['locator'],
-            $parameters['kernelBundles'],
             $parameters['kernel'],
             $parameters['framework'],
             $parameters['scopeMather'],
@@ -325,20 +321,6 @@ class ContainerUtilTest extends ContaoTestCase
         $kernel->method('getEnvironment')->willReturn('prod');
         $instance = $this->getTestInstance(['kernel' => $kernel]);
         $this->assertFalse($instance->isDev());
-    }
-
-    public function testIsBundleActive()
-    {
-        $kernelBundles = [
-            'ContaoCoreBundle' => ContaoCoreBundle::class,
-            'HeimrichHannotUtilsBundle' => HeimrichHannotUtilsBundle::class,
-            'legacyModule' => ContaoModuleBundle::class,
-        ];
-
-        $instance = $this->getTestInstance(['kernelBundles' => $kernelBundles]);
-        $this->assertTrue($instance->isBundleActive(ContaoCoreBundle::class));
-        $this->assertTrue($instance->isBundleActive('legacyModule'));
-        $this->assertFalse($instance->isBundleActive('haste'));
     }
 
     public function testGetBundlePath()

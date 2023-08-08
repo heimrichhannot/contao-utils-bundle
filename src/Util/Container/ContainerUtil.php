@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\Container;
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
@@ -28,21 +29,12 @@ class ContainerUtil extends AbstractServiceSubscriber
 {
     public function __construct(
         private ContainerInterface $locator,
-        private array $kernelBundles,
         private KernelInterface $kernel,
         private ContaoFramework $framework,
         private ScopeMatcher $scopeMatcher,
         private RequestStack $requestStack,
         private Filesystem $filesystem)
     {
-    }
-
-    /**
-     * Checks if some bundle is active. Pass in the class name (e.g. 'HeimrichHannot\FilterBundle\HeimrichHannotContaoFilterBundle' or the legacy Contao 3 name like 'news').
-     */
-    public function isBundleActive(string $bundleName): bool
-    {
-        return \in_array($bundleName, array_merge(array_values($this->kernelBundles), array_keys($this->kernelBundles)));
     }
 
     /**
@@ -159,7 +151,7 @@ class ContainerUtil extends AbstractServiceSubscriber
      */
     public function isMaintenanceModeActive($page = null): bool
     {
-        if (version_compare(VERSION, '4.13', '<')) {
+        if (version_compare(ContaoCoreBundle::getVersion(), '4.13', '<')) {
             return System::getContainer()->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
         }
 
