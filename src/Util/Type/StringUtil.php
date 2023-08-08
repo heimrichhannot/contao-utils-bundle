@@ -8,7 +8,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\Type;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use DOMDocument;
 use DOMNode;
 use DOMText;

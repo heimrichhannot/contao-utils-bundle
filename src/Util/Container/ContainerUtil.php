@@ -9,7 +9,6 @@
 namespace HeimrichHannot\UtilsBundle\Util\Container;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
@@ -27,44 +26,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class ContainerUtil extends AbstractServiceSubscriber
 {
-    /** @var ContaoFramework */
-    protected $framework;
-    /**
-     * @var array
-     */
-    protected $kernelBundles;
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
-    /**
-     * @var ContainerInterface
-     */
-    protected $locator;
-
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
-
-    /**
-     * @var ScopeMatcher
-     */
-    private $scopeMatcher;
-
-    public function __construct(ContainerInterface $locator, array $kernelBundles, KernelInterface $kernel, ContaoFrameworkInterface $framework, ScopeMatcher $scopeMatcher, RequestStack $requestStack, Filesystem $filesystem)
+    public function __construct(
+        private ContainerInterface $locator,
+        private array $kernelBundles,
+        private KernelInterface $kernel,
+        private ContaoFramework $framework,
+        private ScopeMatcher $scopeMatcher,
+        private RequestStack $requestStack,
+        private Filesystem $filesystem)
     {
-        $this->scopeMatcher = $scopeMatcher;
-        $this->kernelBundles = $kernelBundles;
-        $this->framework = $framework;
-        $this->requestStack = $requestStack;
-        $this->kernel = $kernel;
-        $this->locator = $locator;
-        $this->filesystem = $filesystem;
     }
 
     /**

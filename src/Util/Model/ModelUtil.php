@@ -10,21 +10,16 @@ namespace HeimrichHannot\UtilsBundle\Util\Model;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Date;
 use Contao\Model;
 use Contao\Model\Collection;
 
 class ModelUtil
 {
-    /**
-     * @var ContaoFrameworkInterface
-     */
-    protected $framework;
-
-    public function __construct(ContaoFramework $contaoFramework)
+    public function __construct(
+        private ContaoFramework $framework
+    )
     {
-        $this->framework = $contaoFramework;
     }
 
     /**
