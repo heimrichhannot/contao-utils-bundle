@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.228.2] - 2023-08-17
+- Fixed: missing alt text in image twig tag
+
 ## [2.228.1] - 2023-07-04
 - Fixed: compatibility issue with symfony 3
 

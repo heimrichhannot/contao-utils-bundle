@@ -98,7 +98,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
         }
 
         $template = new FrontendTemplate();
-        Controller::addImageToTemplate($template, $data);
+        Controller::addImageToTemplate($template, $data, null, null, $fileModel);
 
         return $template->getData();
 
