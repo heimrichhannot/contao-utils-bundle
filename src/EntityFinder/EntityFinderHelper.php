@@ -8,20 +8,18 @@
 
 namespace HeimrichHannot\UtilsBundle\EntityFinder;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
-use HeimrichHannot\UtilsBundle\Database\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelper
 {
-    /**
-     * @var DatabaseUtil
-     */
-    private $databaseUtil;
-
-    public function __construct(DatabaseUtil $databaseUtil)
+    public function __construct(
+        private Utils $utils,
+        private ContaoFramework $framework,
+    )
     {
-        $this->databaseUtil = $databaseUtil;
     }
 
     /**
@@ -35,10 +33,12 @@ class EntityFinderHelper
      */
     public function findModulesByTypeAndSerializedValue(string $type, string $field, array $values): ?Collection
     {
-        [$columns[], $values] = $this->databaseUtil->createWhereForSerializedBlob(ModuleModel::getTable().'.'.$field, $values);
+        [$columns, $values] = $this->utils->database()->createWhereForSerializedBlob(ModuleModel::getTable().'.'.$field, $values);
+        $columns = [$columns];
+
         $columns[] = ModuleModel::getTable().'.type=?';
         $values[] = $type;
 
-        return ModuleModel::findBy($columns, $values);
+        return $this->framework->getAdapter(ModuleModel::class)->findBy($columns, $values);
     }
 }

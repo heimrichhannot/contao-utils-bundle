@@ -14,7 +14,10 @@ class DatabaseUtil
      * - inline_values: (bool) Inline the values in the sql part instead of using ? ('REGEXP (':"3"')' instead of 'REGEXP (?)'). Return value not change (array still contains the values)
      * - condition_and: (bool) Use AND instead of OR as connective for the conditions
      *
-     * @return array An array containing the where condition and the values.
+     * @return array{
+     *     column: string,
+     *     values: array
+     * } An array containing the where condition and the values.
      */
     public function createWhereForSerializedBlob(string $field, array $values, array $options = []): array
     {
@@ -44,6 +47,6 @@ class DatabaseUtil
             $returnValues[] = $value;
         }
 
-        return ["($where)", $returnValues];
+        return ['column' => "($where)", 'values' => $returnValues];
     }
 }

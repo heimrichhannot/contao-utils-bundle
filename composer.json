@@ -15,6 +15,7 @@
     "soundasleep/html2text": "^1.1",
     "symfony/cache": "^5.4 || ^6.0",
     "symfony/config": "^5.4 || ^6.0",
+    "symfony/event-dispatcher-contracts": "^1.0 || ^2.0 || ^3.0",
     "symfony/filesystem": "^5.4 || ^6.0",
     "symfony/http-foundation": "^5.4 || ^6.0",
     "symfony/http-kernel": "^5.4 || ^6.0",
@@ -24,6 +25,7 @@
     "twig/twig": "^3.0"
   },
   "require-dev": {
+    "contao/core-bundle": "5.1.*",
     "contao/test-case": "^4.0 || ^5.0",
     "contao/manager-plugin": "^2.0",
     "heimrichhannot/contao-test-utilities-bundle": "^0.1",

@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Data\AnonymizeUtil;
+use HeimrichHannot\UtilsBundle\Util\Database\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
@@ -44,6 +45,9 @@ class UtilsTest extends ContaoTestCase
 
                     case ContainerUtil::class:
                         return $this->createMock(ContainerUtil::class);
+
+                    case DatabaseUtil::class:
+                        return $this->createMock(DatabaseUtil::class);
 
                     case DcaUtil::class:
                         return $this->createMock(DcaUtil::class);
@@ -97,6 +101,11 @@ class UtilsTest extends ContaoTestCase
     public function testContainer()
     {
         $this->assertInstanceOf(ContainerUtil::class, $this->getTestInstance()->container());
+    }
+
+    public function testDatabase()
+    {
+        $this->assertInstanceOf(DatabaseUtil::class, $this->getTestInstance()->database());
     }
 
     public function testDca()

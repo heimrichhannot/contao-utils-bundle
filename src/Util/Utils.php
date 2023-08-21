@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Util;
 
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Data\AnonymizeUtil;
+use HeimrichHannot\UtilsBundle\Util\Database\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\File\FileUtil;
 use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
@@ -57,6 +58,11 @@ class Utils extends AbstractServiceSubscriber
     public function container(): ContainerUtil
     {
         return $this->locator->get(ContainerUtil::class);
+    }
+
+    public function database(): DatabaseUtil
+    {
+        return $this->locator->get(DatabaseUtil::class);
     }
 
     public function dca(): DcaUtil
@@ -116,6 +122,7 @@ class Utils extends AbstractServiceSubscriber
             AnonymizeUtil::class,
             ArrayUtil::class,
             ContainerUtil::class,
+            DatabaseUtil::class,
             DcaUtil::class,
             FileUtil::class,
             HtmlUtil::class,
