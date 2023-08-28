@@ -11,7 +11,6 @@
     "contao/core-bundle": "^4.4",
     "doctrine/dbal": "^2.13 || ^3.0",
     "hackzilla/password-generator": "^1.4",
-    "heimrichhannot/contao-request-bundle": "^1.0",
     "psr/log": "^1.0 || ^2.0 || ^3.0",
     "soundasleep/html2text": "^1.1",
     "symfony/cache": "^3.4|^4.4|^5.0",

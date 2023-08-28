@@ -19,6 +19,7 @@ use Contao\System;
 use Contao\Validator;
 use Contao\Widget;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
+use HeimrichHannot\UtilsBundle\Request\RequestCleaner;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -243,7 +244,7 @@ class FormUtil
 
         // foreignKey
         if (isset($data['foreignKey'])) {
-            list($foreignTable, $foreignField) = explode('.', $data['foreignKey']);
+            [$foreignTable, $foreignField] = explode('.', $data['foreignKey']);
 
             if (null !== ($instance = $this->container->get('huh.utils.model')->findModelInstanceByPk($foreignTable, $value))) {
                 $value = $instance->{$foreignField};
@@ -285,7 +286,7 @@ class FormUtil
         }
 
         if (isset($data['eval']['encrypt']) && $data['eval']['encrypt']) {
-            list($encrypted, $iv) = explode('.', $value);
+            [$encrypted, $iv] = explode('.', $value);
 
             $value = $this->container->get('huh.utils.encryption')->decrypt($encrypted, $iv);
         }
@@ -315,6 +316,8 @@ class FormUtil
 
         $preservedTags = isset($data['eval']['allowedTags']) ? $data['eval']['allowedTags'] : Config::get('allowedTags');
 
+        $requestCleaner = new RequestCleaner();
+
         if (
             isset($data['eval'])
             && (
@@ -324,12 +327,12 @@ class FormUtil
             )
         ) {
             // always decode entities if HTML is allowed
-            $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
+            $value = $requestCleaner->cleanHtml($value, true, true, $preservedTags);
         } elseif (\is_array($data['options'] ?? false) || isset($data['options_callback']) || isset($data['foreignKey'])) {
             // options should not be strict cleaned, as they might contain html tags like <strong>
-            $value = $this->container->get('huh.request')->cleanHtml($value, true, true, $preservedTags);
+            $value = $requestCleaner->cleanHtml($value, true, true, $preservedTags);
         } else {
-            $value = $this->container->get('huh.request')->clean($value, $data['eval']['decodeEntities'] ?? false, true);
+            $value = $requestCleaner->clean($value, $data['eval']['decodeEntities'] ?? false, true);
         }
 
         return $value;
