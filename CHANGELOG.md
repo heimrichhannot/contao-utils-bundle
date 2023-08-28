@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.229.0] - 2023-08-28
+- Changed: removed request bundle dependency
+
 ## [2.228.2] - 2023-08-17
 - Fixed: missing alt text in image twig tag
 
