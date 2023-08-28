@@ -15,7 +15,6 @@ use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\RequestBundle\HeimrichHannotContaoRequestBundle;
 use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use Psr\Log\LogLevel;
@@ -339,7 +338,6 @@ class ContainerUtilTest extends ContaoTestCase
         $instance = $this->getTestInstance(['kernelBundles' => $kernelBundles]);
         $this->assertTrue($instance->isBundleActive(ContaoCoreBundle::class));
         $this->assertTrue($instance->isBundleActive('legacyModule'));
-        $this->assertFalse($instance->isBundleActive(HeimrichHannotContaoRequestBundle::class));
         $this->assertFalse($instance->isBundleActive('haste'));
     }
 
