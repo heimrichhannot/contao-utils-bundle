@@ -121,6 +121,46 @@ class ClassUtil
     }
 
     /**
+     * @param $method
+     * @param \ReflectionClass $rc
+     * @return int|null
+     */
+    private static function getMethodNameStartIndex($method, \ReflectionClass $rc): ?int
+    {
+        $len = 3;
+        $prefix = substr($method->name, 0, $len);
+
+        /** vvv Prefixes with length 3. vvv */
+
+        // get{MethodName}()
+        if ('get' === $prefix)
+            return $len;
+
+        // has{MethodName}()
+        if ('has' === $prefix) {
+            $name = ucfirst(substr($method->name, 3, strlen($method->name)));
+            if ($rc->hasMethod("is$name") || $rc->hasMethod("get$name"))
+                return 0;
+            return $len;
+        }
+
+        /** vvv Prefixes with length 2. vvv */
+
+        $len = 2;
+        $prefix = substr($method->name, 0, $len);
+
+        // is{MethodName}()
+        if ('is' === $prefix) {
+            $name = ucfirst(substr($method->name, 2, strlen($method->name)));
+            if ($rc->hasMethod("has$name") || $rc->hasMethod("get$name"))
+                return 0;
+            return  $len;
+        }
+
+        return null;
+    }
+
+    /**
      * Serialize a class object to JSON by iterating over all public getters (get(), is(), ...).
      *
      * @param       $object
@@ -173,19 +213,9 @@ class ClassUtil
 
         // add all public getter Methods
         foreach ($methods as $method) {
-            // get()
-            if (false !== ('get' === substr($method->name, 0, \strlen('get')))) {
-                $start = 3; // highest priority
-            } // is()
-            elseif (false !== ('is' === substr($method->name, 0, \strlen('is')))) {
-                $name = substr($method->name, 2, \strlen($method->name));
-                $start = !$rc->hasMethod('has'.ucfirst($name)) && !$rc->hasMethod('get'.ucfirst($name)) ? 2 : 0;
-            } elseif (false !== ('has' === substr($method->name, 0, \strlen('has')))) {
-                $name = substr($method->name, 3, \strlen($method->name));
-                $start = !$rc->hasMethod('is'.ucfirst($name)) && !$rc->hasMethod('get'.ucfirst($name)) ? 3 : 0;
-            } else {
-                continue;
-            }
+
+            $start = self::getMethodNameStartIndex($method, $rc);
+            if ($start === null) continue;
 
             // skip methods with parameters
             $rm = new \ReflectionMethod($class, $method->name);
