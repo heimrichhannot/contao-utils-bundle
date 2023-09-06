@@ -76,7 +76,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
      */
     public function getImageData($image, $size = null, array $data = []): array
     {
-        $imageData = [];
+        // $imageData = [];
 
         $data['singleSRC'] = $image;
         $size = $data['size'] = \is_array($size) ? $size : StringUtil::deserialize($size);
@@ -86,14 +86,14 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
             unset($data['size']);
         }
 
-//        $this->container->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
+        // $this->container->get('huh.utils.image')->addToTemplateData('image', 'addImage', $imageData, $data);
 
-        if (Validator::isUuid($image)) {
-            $fileModel = FilesModel::findByUuid($image);
+        $fileModel = null;
 
-            if (!$fileModel) {
+        if (Validator::isUuid($image))
+        {
+            if (!$fileModel = FilesModel::findByUuid($image))
                 return [];
-            }
             $data['singleSRC'] = $fileModel->path;
         }
 
@@ -102,6 +102,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
 
         return $template->getData();
 
+        /*
         if (empty($imageData)) {
             return [];
         }
@@ -113,6 +114,7 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
         }
 
         return $result;
+        */
     }
 
     /**
