@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.229.2] - 2023-09-07
+- Fixed: undefined method exception in RequestCleaner
+
 ## [2.229.1] - 2023-09-06
 - Fixed: PHP8 warning fix for `getImageData()` in `Twig\ImageExtension.php`
 - Changed: method collection/reflection, cosmetic improvements in `Classes\ClassUtil.php`

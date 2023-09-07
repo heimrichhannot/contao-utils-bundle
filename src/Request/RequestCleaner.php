@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace HeimrichHannot\UtilsBundle\Request;
 
 use Contao\Input;
@@ -255,5 +261,24 @@ class RequestCleaner
         $varValue = str_replace($arrSearch, $arrReplace, $varValue);
 
         return $varValue;
+    }
+
+    /**
+     * Restore basic entities.
+     *
+     * @param string $buffer         The string with the tags to be replaced
+     * @param bool   $decodeEntities If true, all entities will be decoded
+     *
+     * @return string The string with the original entities
+     */
+    public function restoreBasicEntities(string $buffer, bool $decodeEntities = false): string
+    {
+        $buffer = str_replace(['[&]', '[&amp;]', '[lt]', '[gt]', '[nbsp]', '[-]'], ['&amp;', '&amp;', '&lt;', '&gt;', '&nbsp;', '&shy;'], $buffer);
+
+        if ($decodeEntities) {
+            $buffer = StringUtil::decodeEntities($buffer);
+        }
+
+        return $buffer;
     }
 }
