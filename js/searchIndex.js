@@ -581,6 +581,11 @@ Search.appendIndex(
             "summary": "Returns\u0020all\u0020children\u0020of\u0020a\u0020given\u0020class.",
             "url": "classes/HeimrichHannot-UtilsBundle-Classes-ClassUtil.html#method_getChildClasses"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Classes\\ClassUtil\u003A\u003AgetMethodNameStartIndex\u0028\u0029",
+            "name": "getMethodNameStartIndex",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Classes-ClassUtil.html#method_getMethodNameStartIndex"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Classes\\ClassUtil\u003A\u003AjsonSerialize\u0028\u0029",
             "name": "jsonSerialize",
             "summary": "Serialize\u0020a\u0020class\u0020object\u0020to\u0020JSON\u0020by\u0020iterating\u0020over\u0020all\u0020public\u0020getters\u0020\u0028get\u0028\u0029,\u0020is\u0028\u0029,\u0020...\u0029.",
