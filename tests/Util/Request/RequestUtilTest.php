@@ -21,101 +21,107 @@ class RequestUtilTest extends AbstractUtilsTestCase
 {
     use ModelMockTrait;
 
+    /**
+     * @param array{
+     *     modelUtil?: ModelUtil,
+     *     requestStack?: RequestStack,
+     *     contaoFramework?: ContaoFramework,
+     * } $parameters
+     * @param MockBuilder|null $mockBuilder
+     * @return RequestUtil
+     */
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
         $modelUtil = $parameters['modelUtil'] ?? $this->createMock(ModelUtil::class);
         $requestStack = $parameters['requestStack'] ?? $this->createMock(RequestStack::class);
-        $kernelPackages = $parameters['kernelPackages'] ?? [];
-        $contaoFramework = $parameters['contaoFramework'] ?? $this->mockContaoFramework();
+        $contaoFramework = $parameters['contaoFramework'] ?? $this->mockContaoFramework([
+            PageModel::class => $this->mockAdapter(['findByPk']),
+        ]);
 
-        return new RequestUtil($modelUtil, $requestStack, $kernelPackages, $contaoFramework);
+        return new RequestUtil($modelUtil, $requestStack, $contaoFramework);
     }
 
     public function testGetCurrentPageModel()
     {
         unset($GLOBALS['objPage']);
-
-        $instance = $this->getTestInstance();
-        $this->assertNull($instance->getCurrentPageModel());
-
-        $instance = $this->getTestInstance([
-            'kernelPackages' => ['contao/core-bundle' => '4.4.46'],
-        ]);
-        $this->assertNull($instance->getCurrentPageModel());
-
-        $instance = $this->getTestInstance([
-            'kernelPackages' => ['contao/core-bundle' => '4.8.5'],
-        ]);
-        $this->assertNull($instance->getCurrentPageModel());
-
-        $instance = $this->getTestInstance([
-            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
-        ]);
+        $requestStack = new RequestStack();
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
         $this->assertNull($instance->getCurrentPageModel());
 
         $requestStack = new RequestStack();
         $requestStack->push(new Request());
-        $instance = $this->getTestInstance([
-            'requestStack' => $requestStack,
-            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
-        ]);
-        $this->assertNull($instance->getCurrentPageModel());
-
-        $requestStack = new RequestStack();
-        $request = new Request([], [], ['pageModel' => 5]);
-        $requestStack->push($request);
-
-        $instance = $this->getTestInstance([
-            'requestStack' => $requestStack,
-            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
-        ]);
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
         $this->assertNull($instance->getCurrentPageModel());
 
         $pageModel = $this->mockModelObject(PageModel::class, ['id' => 5]);
         $requestStack = new RequestStack();
         $request = new Request([], [], ['pageModel' => $pageModel]);
         $requestStack->push($request);
-        $instance = $this->getTestInstance([
-            'requestStack' => $requestStack,
-            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
-        ]);
-        $this->assertSame(5, $instance->getCurrentPageModel()->id);
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
+        $this->assertSame($pageModel, $instance->getCurrentPageModel());
 
-        $GLOBALS['objPage'] = $pageModel;
+        $pageModel = $this->mockModelObject(PageModel::class, ['id' => 5]);
         $requestStack = new RequestStack();
-        $request = new Request([], [], ['pageModel' => 5]);
+        $request = new Request([], [], ['pageModel' => $pageModel->id]);
         $requestStack->push($request);
-
-        $instance = $this->getTestInstance([
-            'requestStack' => $requestStack,
-            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
-        ]);
-        $this->assertSame(5, $instance->getCurrentPageModel()->id);
-
-        $instance = $this->getTestInstance([
-            'requestStack' => $requestStack,
-            'kernelPackages' => ['contao/core-bundle' => '4.4.45'],
-        ]);
-        $this->assertSame(5, $instance->getCurrentPageModel()->id);
+        $GLOBALS['objPage'] = $pageModel;
+        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
+        $this->assertSame($pageModel, $instance->getCurrentPageModel());
 
         unset($GLOBALS['objPage']);
-
-        $modelUtil = $this->createMock(ModelUtil::class);
-        $modelUtil->method('findModelInstanceByPk')->willReturn($pageModel);
+        $pageModelAdapter = $this->mockAdapter(['findByPk']);
+        $pageModelAdapter->method('findByPk')->willReturnCallback(function ($id) {
+            return $this->mockModelObject(PageModel::class, ['id' => $id]);
+        });
+        $framework = $this->mockContaoFramework([
+            PageModel::class => $pageModelAdapter,
+        ]);
         $requestStack = new RequestStack();
         $request = new Request([], [], ['pageModel' => 5]);
         $requestStack->push($request);
-
         $instance = $this->getTestInstance([
-            'modelUtil' => $modelUtil,
             'requestStack' => $requestStack,
-            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
+            'contaoFramework' => $framework,
         ]);
         $this->assertSame(5, $instance->getCurrentPageModel()->id);
     }
 
     public function testGetCurrentRootPageModel()
     {
+        $instance = $this->getTestInstance();
+        $this->assertNull($instance->getCurrentRootPageModel());
+
+        $pageModel = $this->mockModelObject(PageModel::class, ['id' => 5, 'rootId' => 3]);
+        $pageModel->expects($this->once())->method('loadDetails');
+        $requestStack = new RequestStack();
+        $request = new Request([], [], ['pageModel' => $pageModel]);
+        $requestStack->push($request);
+        $instance = $this->getTestInstance([
+            'requestStack' => $requestStack,
+        ]);
+        $this->assertNull($instance->getCurrentRootPageModel());
+
+        $pageModel = $this->mockModelObject(PageModel::class, ['id' => 5, 'rootId' => 3]);
+        $pageModelAdapter = $this->mockAdapter(['findByPk']);
+        $pageModelAdapter->method('findByPk')->willReturnCallback(function ($id) {
+            return $this->mockModelObject(PageModel::class, ['id' => $id]);
+        });
+        $framework = $this->mockContaoFramework([
+            PageModel::class => $pageModelAdapter,
+        ]);
+        $requestStack = new RequestStack();
+        $request = new Request([], [], ['pageModel' => $pageModel]);
+        $requestStack->push($request);
+        $instance = $this->getTestInstance([
+            'requestStack' => $requestStack,
+            'contaoFramework' => $framework,
+        ]);
+        $this->assertSame(3, $instance->getCurrentRootPageModel()->id);
+
+
+        return;
+
+
         $modelUtil = $this->createMock(ModelUtil::class);
         $modelUtil->method('findModelInstanceByPk')->willReturn(null);
         $requestUtil = $this->getTestInstance([

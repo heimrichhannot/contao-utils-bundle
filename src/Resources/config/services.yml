@@ -21,8 +21,6 @@ services:
   HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil:
     autowire: true
     autoconfigure: true
-    bind:
-      $kernelBundles: '%kernel.bundles%'
     tags:
       - { name: 'container.service_subscriber', key: 'monolog.logger.contao', id: 'monolog.logger.contao' }
 

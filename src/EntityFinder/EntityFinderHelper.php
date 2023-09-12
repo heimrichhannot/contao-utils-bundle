@@ -33,17 +33,10 @@ class EntityFinderHelper
      */
     public function findModulesByTypeAndSerializedValue(string $type, string $field, array $values): ?Collection
     {
-        $where = $this->utils->database()->createWhereForSerializedBlob(ModuleModel::getTable().'.'.$field, $values);
-
-        var_dump($where);
-
-        ['columns' => $columns, 'values' => $values] = $where;
-
-
-
+        ['columns' => $columns, 'values' => $values] = $this->utils->database()
+            ->createWhereForSerializedBlob(ModuleModel::getTable().'.'.$field, $values);
 
         $columns = [$columns];
-
         $columns[] = ModuleModel::getTable().'.type=?';
         $values[] = $type;
 

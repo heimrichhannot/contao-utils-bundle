@@ -10,33 +10,18 @@ namespace HeimrichHannot\UtilsBundle\Util\Request;
 
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\Model;
 use Contao\PageModel;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestUtil
 {
-    /** @var ModelUtil */
-    protected $modelUtil;
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-    /**
-     * @var array
-     */
-    protected $kernelPackages;
 
-    /** @var ContaoFramework */
-    private $contaoFramework;
-
-    public function __construct(ModelUtil $modelUtil, RequestStack $requestStack, array $kernelPackages, ContaoFramework $contaoFramework)
-    {
-        $this->modelUtil = $modelUtil;
-        $this->requestStack = $requestStack;
-        $this->kernelPackages = $kernelPackages;
-        $this->contaoFramework = $contaoFramework;
+    public function __construct(
+        protected ModelUtil $modelUtil,
+        protected RequestStack $requestStack,
+        private ContaoFramework $contaoFramework
+    ) {
     }
 
     /**
@@ -48,16 +33,6 @@ class RequestUtil
      */
     public function getCurrentPageModel(): ?PageModel
     {
-        $coreVersion = $this->kernelPackages['contao/core-bundle'] ?? '4.4.0';
-        // Contao < 4.9 Fallback
-        if (version_compare($coreVersion, '4.9', '<')) {
-            if (isset($GLOBALS['objPage']) && $GLOBALS['objPage'] instanceof PageModel) {
-                return $GLOBALS['objPage'];
-            }
-
-            return null;
-        }
-
         $request = $this->requestStack->getCurrentRequest();
 
         if (null === $request || !$request->attributes->has('pageModel')) {
@@ -78,7 +53,7 @@ class RequestUtil
             return $GLOBALS['objPage'];
         }
 
-        return $this->modelUtil->findModelInstanceByPk(PageModel::getTable(), (int) $pageModel);
+        return $this->contaoFramework->getAdapter(PageModel::class)->findByPk((int)$pageModel);
     }
 
     /**
@@ -94,7 +69,7 @@ class RequestUtil
 
         $currentPage->loadDetails();
 
-        return $this->modelUtil->findModelInstanceByPk(PageModel::getTable(), $currentPage->rootId);
+        return $this->contaoFramework->getAdapter(PageModel::class)->findByPk($currentPage->rootId);
     }
 
     /**
@@ -102,14 +77,19 @@ class RequestUtil
      * If no base url could be determined, an empty string is returned.
      *
      * Context:
-     * - (PageModel) pageModel: The current page model
-     * - (string) fallback: will be returned if no other base url could be determined
+     * - pageModel: The current page model
+     * - fallback: will be returned if no other base url could be determined
      *
      * Options:
-     * - (bool) throwException: Throw exception if no base url could be determined instead of returning empty string
+     * - throwException: Throw exception if no base url could be determined instead of returning empty string
      *
-     * @param array $context Pass additional context. Available content: pageModel, fallback
-     * @param array $options Pass addition options: Available options: throwException
+     * @param array{
+     *     pageModel?: PageModel,
+     *     fallback?: string
+     * } $context Pass additional context. Available content: pageModel, fallback
+     * @param array{
+     *     throwException?: bool
+     * } $options Pass addition options: Available options: throwException
      */
     public function getBaseUrl(array $context = [], array $options = []): string
     {
