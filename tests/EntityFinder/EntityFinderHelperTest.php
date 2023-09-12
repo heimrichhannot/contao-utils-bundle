@@ -5,6 +5,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\EntityFinder;
 use Contao\ModuleModel;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
+use HeimrichHannot\UtilsBundle\Util\Database\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelperTest extends ContaoTestCase
@@ -17,9 +18,13 @@ class EntityFinderHelperTest extends ContaoTestCase
             ModuleModel::class => $moduleModel,
         ]);
 
+        $databaseUtilMock = $this->createMock(DatabaseUtil::class);
+        $databaseUtilMock->method('createWhereForSerializedBlob')->willReturn(['column' => '', 'values' => []]);
         $utils = $this->createMock(Utils::class);
+        $utils->method('database')->willReturn($databaseUtilMock);
+
         $instance = new EntityFinderHelper($utils, $framework);
 
-        $instance->findModulesByTypeAndSerializedValue('newslist', 'news_archives', [3]);
+        $this->assertNull($instance->findModulesByTypeAndSerializedValue('newslist', 'news_archives', [3]));
     }
 }

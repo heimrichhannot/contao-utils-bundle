@@ -151,10 +151,6 @@ class ContainerUtil extends AbstractServiceSubscriber
      */
     public function isMaintenanceModeActive($page = null): bool
     {
-        if (version_compare(ContaoCoreBundle::getVersion(), '4.13', '<')) {
-            return System::getContainer()->get('lexik_maintenance.driver.factory')->getDriver()->isExists();
-        }
-
         if ($page && $page->maintenanceMode) {
             return true;
         }

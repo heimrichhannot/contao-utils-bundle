@@ -260,25 +260,6 @@ class ContainerUtilTest extends ContaoTestCase
         $this->assertNull($instance->getBundleResourcePath(HeimrichHannotUtilsBundle::class));
     }
 
-    public function skipTestIsMaintenanceModeActive()
-    {
-        $maintenanceDriverMock = $this->mockAdapter(['getDriver', 'isExists']);
-        $maintenanceDriverMock->method('getDriver')->willReturnSelf();
-        $maintenanceDriverMock->method('isExists')->willReturn(false);
-        $locator = $this->createMock(ServiceLocator::class);
-        $locator->method('get')->willReturn($maintenanceDriverMock);
-        $instance = $this->getTestInstance(['locator' => $locator]);
-        $this->assertFalse($instance->isMaintenanceModeActive());
-
-        $maintenanceDriverMock = $this->mockAdapter(['getDriver', 'isExists']);
-        $maintenanceDriverMock->method('getDriver')->willReturnSelf();
-        $maintenanceDriverMock->method('isExists')->willReturn(true);
-        $locator = $this->createMock(ServiceLocator::class);
-        $locator->method('get')->willReturn($maintenanceDriverMock);
-        $instance = $this->getTestInstance(['locator' => $locator]);
-        $this->assertTrue($instance->isMaintenanceModeActive());
-    }
-
     public function testIsFrontendCron()
     {
         $instance = $this->getTestInstance();
