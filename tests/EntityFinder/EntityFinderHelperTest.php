@@ -19,7 +19,7 @@ class EntityFinderHelperTest extends ContaoTestCase
         ]);
 
         $databaseUtilMock = $this->createMock(DatabaseUtil::class);
-        $databaseUtilMock->method('createWhereForSerializedBlob')->willReturn(['column' => '', 'values' => []]);
+        $databaseUtilMock->method('createWhereForSerializedBlob')->willReturn(['columns' => '', 'values' => []]);
         $utils = $this->createMock(Utils::class);
         $utils->method('database')->willReturn($databaseUtilMock);
 

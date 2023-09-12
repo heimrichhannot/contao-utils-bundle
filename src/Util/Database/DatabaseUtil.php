@@ -15,7 +15,7 @@ class DatabaseUtil
      * - condition_and: (bool) Use AND instead of OR as connective for the conditions
      *
      * @return array{
-     *     column: string,
+     *     columns: string,
      *     values: array
      * } An array containing the where condition and the values.
      */
@@ -47,6 +47,6 @@ class DatabaseUtil
             $returnValues[] = $value;
         }
 
-        return ['column' => "($where)", 'values' => $returnValues];
+        return ['columns' => "($where)", 'values' => $returnValues];
     }
 }
