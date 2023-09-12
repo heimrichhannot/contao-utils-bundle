@@ -15,14 +15,10 @@ use Contao\StringUtil;
 
 class DcaUtil
 {
-    /**
-     * @var ContaoFramework
-     */
-    private $contaoFramework;
 
-    public function __construct(ContaoFramework $contaoFramework)
-    {
-        $this->contaoFramework = $contaoFramework;
+    public function __construct(
+        private ContaoFramework $contaoFramework
+    ) {
     }
 
     /**
