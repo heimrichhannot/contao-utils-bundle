@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Request;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\PageModel;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;

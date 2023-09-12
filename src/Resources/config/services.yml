@@ -15,7 +15,6 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $kernelPackages: '%kernel.packages%'
       $projectDir: '%kernel.project_dir%'
 
   HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil:

@@ -25,7 +25,7 @@
     "twig/twig": "^3.0"
   },
   "require-dev": {
-    "contao/core-bundle": "5.1.*",
+    "contao/core-bundle": "4.13.*",
     "contao/test-case": "^4.0 || ^5.0",
     "contao/manager-plugin": "^2.0",
     "heimrichhannot/contao-test-utilities-bundle": "^0.1",

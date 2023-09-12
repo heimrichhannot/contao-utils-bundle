@@ -3,11 +3,11 @@ parameters:
   paths:
     - src/Util
     - tests/Util
-#  universalObjectCratesClasses:
+  universalObjectCratesClasses:
 #    - Contao\LayoutModel
 #    - Contao\Model
 #    - Contao\Template
-#    - PHPUnit\Framework\MockObject\MockObject
+    - PHPUnit\Framework\MockObject\MockObject
 #  ignoreErrors:
 #    - message: '#^Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject\:\:setName\(\)\.$#'
 #      path: tests/EventListener/Contao/ParseTemplateListenerTest.php
