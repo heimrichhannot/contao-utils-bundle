@@ -16,11 +16,11 @@ class ArrayUtil
      * Array is passed as reference.
      *
      * @param array        $array    Array the new entry should inserted to
-     * @param string|array $keys     The key or keys where the new entry should be added before
+     * @param array|string $keys     The key or keys where the new entry should be added before
      * @param string       $newKey   The key of the entry that should be added
      * @param mixed        $newValue The value of the entry that should be added
      */
-    public static function insertBeforeKey(array &$array, $keys, string $newKey, $newValue)
+    public static function insertBeforeKey(array &$array, array|string $keys, string $newKey, mixed $newValue): void
     {
         if (!\is_array($keys) && !\is_string($keys)) {
             throw new \InvalidArgumentException('Parameter $key must be of type array or string.');
@@ -56,9 +56,13 @@ class ArrayUtil
      * @param array  $array   The target array
      * @param string $key     the existing target key in the array
      * @param mixed  $value   the new value to be inserted
-     * @param array  $options Additional options
+     * @param array{
+     *           strict?: bool,
+     *          attachIfKeyNotExist?: bool,
+     *             offset?: int
+     * } $options Additional options
      */
-    public function insertAfterKey(array &$array, string $key, $value, string $newKey = null, array $options = []): void
+    public function insertAfterKey(array &$array, string $key, mixed $value, string $newKey = null, array $options = []): void
     {
         $options = array_merge([
             'strict' => false,
@@ -90,11 +94,9 @@ class ArrayUtil
     /**
      * Removes a value in an array.
      *
-     * @param $value
-     *
      * @return bool Returns true if the value has been found and removed, false in other cases
      */
-    public function removeValue($value, array &$array): bool
+    public function removeValue(mixed $value, array &$array): bool
     {
         if (false !== ($intPosition = array_search($value, $array))) {
             unset($array[$intPosition]);
