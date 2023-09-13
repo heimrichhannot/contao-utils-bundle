@@ -22,10 +22,6 @@ class ArrayUtil
      */
     public static function insertBeforeKey(array &$array, array|string $keys, string $newKey, mixed $newValue): void
     {
-        if (!\is_array($keys) && !\is_string($keys)) {
-            throw new \InvalidArgumentException('Parameter $key must be of type array or string.');
-        }
-
         if (!\is_array($keys)) {
             $keys = [$keys];
         }

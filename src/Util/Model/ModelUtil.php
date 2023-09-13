@@ -123,11 +123,11 @@ class ModelUtil
             return null;
         }
 
-        /** @var Model|Adapter $adapter */
         if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
 
+        /** @var Model|Adapter $adapter */
         return $adapter->findByPk($pk, $options);
     }
 
@@ -135,26 +135,29 @@ class ModelUtil
      * Return a single model instance by table and search criteria.
      *
      * Options:
-     * - skipReplaceInsertTags: (bool) Skip the replacement of inserttags. Default: false
+     * - skipReplaceInsertTags: Skip the replacement of inserttags. Default: false
      *
      * @param array{
      *     skipReplaceInsertTags?: bool
      * } $options
      *
-     * @return mixed
      */
     public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = []): ?Model
     {
+        $options = array_merge([
+            'skipReplaceInsertTags' => false,
+        ], $options);
+
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
-        /* @var Model|Adapter $adapter */
+
         if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
 
-        if (\is_array($values) && (!isset($options['skipReplaceInsertTags']) || !$options['skipReplaceInsertTags'])) {
+        if (\is_array($values) && !$options['skipReplaceInsertTags']) {
             $values = array_map([$this->framework->getAdapter(Controller::class), 'replaceInsertTags'], $values);
         }
 
@@ -162,25 +165,24 @@ class ModelUtil
             $columns = null;
         }
 
+        /* @var Model|Adapter $adapter */
         return $adapter->findOneBy($columns, $values, $options);
     }
 
     /**
      * Returns multiple model instances by given table and ids.
-     *
-     * @return Collection|Model[]|Model|null
      */
-    public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = []): ?Collection
+    public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = []): Collection|Model|null
     {
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
-        /** @var Model|Adapter $adapter */
         if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
 
+        /** @var Model|Adapter $adapter */
         return $adapter->findBy(["$table.id IN(".implode(',', array_map('\intval', $ids)).')'], null, $options);
     }
 

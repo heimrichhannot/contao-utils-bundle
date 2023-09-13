@@ -35,9 +35,6 @@ class ArrayUtilTest extends AbstractUtilsTestCase
         $instance::insertBeforeKey($array, ['f', 'h'], 'd', 'D');
         $this->assertSame(
             ['a' => 'A', 'b' => 'B', 'c' => 'C', 'd' => 'D', 'f' => 'F', 'h' => 'H'], $array);
-
-        $this->expectException(\InvalidArgumentException::class);
-        $instance::insertBeforeKey($array, 3, 'x', 'Y');
     }
 
     public function testInsertAfterKey()
