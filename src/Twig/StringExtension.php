@@ -28,40 +28,8 @@ class StringExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('autolink', [$this, 'autolink']),
             new TwigFilter('anonymize_email', [$this, 'anonymizeEmail']),
         ];
-    }
-
-    /**
-     * Automatically link urls with given text.
-     *
-     * Options:
-     * - blank (boolean): add target="_blank" attribute
-     * - limit (int): The maximum possible replacements in each subject string. Defaults to -1 (no limit).
-     */
-    public function autolink(string $text, array $options = []): string
-    {
-        $options = array_merge([
-            'blank' => false,
-            'limit' => -1,
-        ], $options);
-
-        $replacement = function ($matches) use ($options) {
-            if (!isset($matches['url'])) {
-                return '';
-            }
-
-            return sprintf(
-                '<a%s href="%s">%s</a>',
-                ($options['blank'] ? ' target=" _blank"' : ''),
-                $matches['url'],
-                $matches['url'],
-            );
-        };
-
-        $pattern = '@(?P<url>(?:http(s)?://)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#\[\]\@!$&\'()*+,;=]+)@i';
-        return preg_replace_callback($pattern, $replacement, $text, $options['limit']);
     }
 
     public function anonymizeEmail(string $text): string
