@@ -13,12 +13,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class UrlUtil
 {
-    /** @var RequestStack */
-    private $requestStack;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
-        $this->requestStack = $requestStack;
     }
 
     /**
@@ -50,15 +47,6 @@ class UrlUtil
         $parsedUrl['query'] = !empty($query) ? http_build_query($query) : '';
 
         return $this->buildUrlString($parsedUrl);
-    }
-
-    /**
-     * @deprecated Use removeQueryStringParameterFromUrl() instead
-     * @codeCoverageIgnore
-     */
-    public function removeQueryStringParameterToUrl(string $parameter, string $url = ''): string
-    {
-        return $this->removeQueryStringParameterFromUrl($parameter, $url);
     }
 
     /**
@@ -97,10 +85,12 @@ class UrlUtil
      * Convert an absolute url to a relative url.
      *
      * Options:
-     * - removeLeadingSlash: (boolean) Remove leading slash from path
+     * - removeLeadingSlash: Remove leading slash from path
      *
      * @param string $url     The url that should be made relative
-     * @param array  $options Pass additional options
+     * @param array{
+     *     removeLeadingSlash?: bool
+     * }  $options Pass additional options
      *
      * @throws InvalidUrlException
      */

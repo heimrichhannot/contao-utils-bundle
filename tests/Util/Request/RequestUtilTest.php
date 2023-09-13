@@ -24,7 +24,6 @@ class RequestUtilTest extends AbstractUtilsTestCase
 
     /**
      * @param array{
-     *     modelUtil?: ModelUtil,
      *     requestStack?: RequestStack,
      *     contaoFramework?: ContaoFramework,
      * } $parameters
@@ -33,13 +32,12 @@ class RequestUtilTest extends AbstractUtilsTestCase
      */
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
-        $modelUtil = $parameters['modelUtil'] ?? $this->createMock(ModelUtil::class);
         $requestStack = $parameters['requestStack'] ?? $this->createMock(RequestStack::class);
         $contaoFramework = $parameters['contaoFramework'] ?? $this->mockContaoFramework([
             PageModel::class => $this->mockAdapter(['findByPk']),
         ]);
 
-        return new RequestUtil($modelUtil, $requestStack, $contaoFramework);
+        return new RequestUtil($requestStack, $contaoFramework);
     }
 
     public function testGetCurrentPageModel()
@@ -118,45 +116,6 @@ class RequestUtilTest extends AbstractUtilsTestCase
             'contaoFramework' => $framework,
         ]);
         $this->assertSame(3, $instance->getCurrentRootPageModel()->id);
-
-
-        return;
-
-
-        $modelUtil = $this->createMock(ModelUtil::class);
-        $modelUtil->method('findModelInstanceByPk')->willReturn(null);
-        $requestUtil = $this->getTestInstance([
-            'modelUtil' => $modelUtil,
-        ]);
-        $this->assertNull($requestUtil->getCurrentPageModel());
-
-        $pageModel = $this->mockModelObject(PageModel::class, ['id' => 5, 'rootId' => 3]);
-        $rootPageModel = $this->mockModelObject(PageModel::class, ['id' => 3, 'rootId' => 3]);
-        $modelUtil = $this->createMock(ModelUtil::class);
-        $modelUtil->method('findModelInstanceByPk')->willReturnCallback(function ($table, $id) use ($rootPageModel) {
-            switch ($id) {
-                case 3:
-                    return $rootPageModel;
-            }
-
-            return null;
-        });
-        $requestStack = new RequestStack();
-        $request = new Request([], [], ['pageModel' => $pageModel]);
-        $requestStack->push($request);
-        $requestUtil = $this->getTestInstance([
-            'requestStack' => $requestStack,
-            'kernelPackages' => ['contao/core-bundle' => '4.9.5'],
-            'modelUtil' => $modelUtil,
-        ]);
-
-        $this->assertSame(3, $requestUtil->getCurrentRootPageModel()->id);
-
-        unset($GLOBALS['objPage']);
-        $requestUtil = $this->getTestInstance([
-            'kernelPackages' => ['contao/core-bundle' => '4.4.5'],
-        ]);
-        $this->assertNull($requestUtil->getCurrentPageModel());
     }
 
     public function testGetBaseUrl()

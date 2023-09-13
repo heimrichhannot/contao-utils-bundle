@@ -11,14 +11,12 @@ namespace HeimrichHannot\UtilsBundle\Util\Request;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\PageModel;
-use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestUtil
 {
 
     public function __construct(
-        protected ModelUtil $modelUtil,
         protected RequestStack $requestStack,
         private ContaoFramework $contaoFramework
     ) {
