@@ -35,7 +35,7 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
      */
     public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
     {
-        $loader->load('@HeimrichHannotUtilsBundle/Resources/config/services.yml');
-        $loader->load('@HeimrichHannotUtilsBundle/Resources/config/twig.yml');
+        $loader->load('@HeimrichHannotUtilsBundle/config/services.yml');
+        $loader->load('@HeimrichHannotUtilsBundle/config/twig.yml');
     }
 }
