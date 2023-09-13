@@ -18,60 +18,46 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-class RoutingUtil extends AbstractServiceSubscriber
+class RoutingUtil
 {
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var string
-     */
-    private $csrfTokenName;
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
 
-    public function __construct(ContainerInterface $container, RouterInterface $router, string $csrfTokenName, RequestStack $requestStack)
+    public function __construct(
+        private ContaoCsrfTokenManager $tokenManager,
+        private RouterInterface $router,
+        private string $csrfTokenName,
+        private RequestStack $requestStack
+    )
     {
-        $this->router = $router;
-        $this->container = $container;
-        $this->csrfTokenName = $csrfTokenName;
-        $this->requestStack = $requestStack;
     }
 
     /**
      * Generate a backend route with token and referer.
      *
      * Options:
-     * - absoluteUrl (bool): Return absolute url (default: false)
+     * - absoluteUrl: Return absolute url (default: false)
+     * - route: Route name (default: contao_backend)
      *
      * @param array $params Url-Parameters
+     * @param array{
+     *     absoluteUrl?: bool,
+     *     route?: string
+     * } $options Options
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      *
      * @return string The backend route url
      */
-    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = 'contao_backend', array $options = []): string
+    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, array $options = []): string
     {
-        $options = array_merge(
-            ['absoluteUrl' => false],
-            $options
+        $options = array_merge([
+            'absoluteUrl' => false,
+            'route' => 'contao_backend',
+        ], $options
         );
 
         if ($addToken) {
-            // >= contao 4.6.8 uses contao.csrf.token_manager service to validate token
-            if ($this->container->has(ContaoCsrfTokenManager::class)) {
-                $params['rt'] = $this->container->get(ContaoCsrfTokenManager::class)->getToken($this->csrfTokenName)->getValue();
-            } elseif ($this->container->has(CsrfTokenManagerInterface::class)) {
-                $params['rt'] = $this->container->get(CsrfTokenManagerInterface::class)->getToken($this->csrfTokenName)->getValue();
-            }
+            $params['rt'] = $this->tokenManager->getToken($this->csrfTokenName)->getValue();
         }
 
         if ($addReferer && ($request = $this->requestStack->getCurrentRequest())) {
@@ -79,20 +65,9 @@ class RoutingUtil extends AbstractServiceSubscriber
         }
 
         return $this->router->generate(
-            $route,
+            $options['route'],
             $params,
             $options['absoluteUrl'] ? UrlGeneratorInterface::ABSOLUTE_URL : UrlGeneratorInterface::ABSOLUTE_PATH
         );
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public static function getSubscribedServices()
-    {
-        return [
-            '?'.ContaoCsrfTokenManager::class,
-            '?'.CsrfTokenManagerInterface::class,
-        ];
     }
 }

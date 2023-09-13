@@ -24,12 +24,12 @@ class RoutingUtilTest extends AbstractUtilsTestCase
 {
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
-        $container = $parameters['container'] ?? $this->getContainerWithContaoConfiguration();
         $router = $parameters['router'] ?? $this->createMock(RouterInterface::class);
         $csrfTokenName = $parameters['csrfTokenName'] ?? 'exampleToken';
         $requestStack = $parameters['requestStack'] ?? $this->createMock(RequestStack::class);
+        $csrfTokenManager = $parameters['csrfTokenManager'] ?? $this->createMock(ContaoCsrfTokenManager::class);
 
-        return new RoutingUtil($container, $router, $csrfTokenName, $requestStack);
+        return new RoutingUtil($csrfTokenManager, $router, $csrfTokenName, $requestStack);
     }
 
     public function testGenerateBackendRoute()
@@ -57,9 +57,6 @@ class RoutingUtilTest extends AbstractUtilsTestCase
         $token = $this->createMock(CsrfToken::class);
         $token->method('getValue')->willReturn('foo-bar');
         $tokenManager->method('getToken')->willReturn($token);
-        $container = $this->getContainerWithContaoConfiguration();
-        $container->set(ContaoCsrfTokenManager::class, $tokenManager);
-        $container->set(CsrfTokenManagerInterface::class, $tokenManager);
 
         $requestStack = new RequestStack();
         $request = new Request();
@@ -68,32 +65,21 @@ class RoutingUtilTest extends AbstractUtilsTestCase
 
         $instance = $this->getTestInstance([
             'router' => $router,
-            'container' => $container,
             'requestStack' => $requestStack,
+            'csrfTokenManager' => $tokenManager,
         ]);
 
         $this->assertSame('/contao', $instance->generateBackendRoute([], false, false));
         $this->assertSame('/contao?rt=foo-bar', $instance->generateBackendRoute([], true, false));
         $this->assertSame('/contao?rt=foo-bar&ref=win-amp', $instance->generateBackendRoute([], true, true));
         $this->assertSame('/contao?a=b&rt=foo-bar&ref=win-amp', $instance->generateBackendRoute(['a' => 'b'], true, true));
-
-        $container = new ContainerBuilder();
-        $container->set(CsrfTokenManagerInterface::class, $tokenManager);
-
-        $instance = $this->getTestInstance([
-            'router' => $router,
-            'container' => $container,
-            'requestStack' => $requestStack,
-        ]);
-
-        $this->assertSame(
-            '/contao?rt=foo-bar',
-            $instance->generateBackendRoute([], true, false)
-        );
-
         $this->assertSame(
             'https://example.org/contao',
-            $instance->generateBackendRoute([], false, false, 'contao_backend', ['absoluteUrl' => true])
+            $instance->generateBackendRoute([], false, false, ['absoluteUrl' => true])
+        );
+        $this->assertSame(
+            '/contao_internal',
+            $instance->generateBackendRoute([], false, false, ['route' => 'contao_internal'])
         );
     }
 }
