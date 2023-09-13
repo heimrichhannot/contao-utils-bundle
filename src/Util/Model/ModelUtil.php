@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Util\Model;
 
 use Contao\Controller;
+use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Date;
 use Contao\Model;
@@ -26,18 +27,25 @@ class ModelUtil
      * Adds an published check to your model query.
      *
      * Options:
-     * - publishedField: (string) The name of the published field. Default: "published"
-     * - startField: (string) The name of the start field. Default: "start"
-     * - stopField: (string) The name of the stop field. Default: "stop"
-     * - invertPublishedField: (bool) Set to true, if the published field should be evaluated inverted (for "hidden" or "invisible" fields. Default: false
-     * - invertStartStopFields: (bool) Set to true, if the start and stop fields should be evaluated in an inverted manner. Default: false
-     * - ignoreFePreview: (bool) Set to true, frontend preview should be ignored. Default: false
+     * - publishedField: The name of the published field. Default: "published"
+     * - startField: The name of the start field. Default: "start"
+     * - stopField: The name of the stop field. Default: "stop"
+     * - invertPublishedField: Set to true, if the published field should be evaluated inverted (for "hidden" or "invisible" fields. Default: false
+     * - invertStartStopFields: Set to true, if the start and stop fields should be evaluated in an inverted manner. Default: false
+     * - ignoreFePreview: Set to true, frontend preview should be ignored. Default: false
      *
      * @param string $table   The table name
      * @param array  $columns The columns array
-     * @param array  $options pass additional options
+     * @param array{
+     *     publishedField?: string,
+     *     startField?: string,
+     *     stopField?: string,
+     *     invertPublishedField?: bool,
+     *     invertStartStopFields?: bool,
+     *     ignoreFePreview?: bool
+     * }  $options pass additional options
      */
-    public function addPublishedCheckToModelArrays(string $table, array &$columns, array $options = [])
+    public function addPublishedCheckToModelArrays(string $table, array &$columns, array $options = []): void
     {
         $defaults = [
             'invertPublishedField' => false,
@@ -66,10 +74,13 @@ class ModelUtil
      *
      * @param mixed $columns
      * @param mixed $values
+     * @param array{
+     *     skipReplaceInsertTags?: bool
+     * } $options
      *
      * @return Model[]|Collection|null
      */
-    public function findModelInstancesBy(string $table, $columns, $values, array $options = [])
+    public function findModelInstancesBy(string $table, $columns, $values, array $options = []): Collection|Model|null
     {
         $defaults = [
             'skipReplaceInsertTags' => false,
@@ -108,11 +119,11 @@ class ModelUtil
      */
     public function findModelInstanceByPk(string $table, $pk, array $options = []): ?Model
     {
-        /* @var Model $adapter */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
+        /** @var Model|Adapter $adapter */
         if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
@@ -126,15 +137,19 @@ class ModelUtil
      * Options:
      * - skipReplaceInsertTags: (bool) Skip the replacement of inserttags. Default: false
      *
+     * @param array{
+     *     skipReplaceInsertTags?: bool
+     * } $options
+     *
      * @return mixed
      */
-    public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = [])
+    public function findOneModelInstanceBy(string $table, array $columns, array $values, array $options = []): ?Model
     {
-        /* @var Model $adapter */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
+        /* @var Model|Adapter $adapter */
         if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
@@ -155,13 +170,13 @@ class ModelUtil
      *
      * @return Collection|Model[]|Model|null
      */
-    public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = [])
+    public function findMultipleModelInstancesByIds(string $table, array $ids, array $options = []): ?Collection
     {
-        /* @var Model $adapter */
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
         }
 
+        /** @var Model|Adapter $adapter */
         if (null === ($adapter = $this->framework->getAdapter($modelClass))) {
             return null;
         }
@@ -170,13 +185,9 @@ class ModelUtil
     }
 
     /**
-     * Returns multiple model instances by given table and id or alias.
-     *
-     * @param mixed $idOrAlias
-     *
-     * @return Model|null
+     * Returns model instance by given table and id or alias.
      */
-    public function findModelInstanceByIdOrAlias(string $table, $idOrAlias, array $options = [])
+    public function findModelInstanceByIdOrAlias(string $table, int|string $idOrAlias, array $options = []): ?Model
     {
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;

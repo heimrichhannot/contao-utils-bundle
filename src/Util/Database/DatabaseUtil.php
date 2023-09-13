@@ -8,7 +8,10 @@ class DatabaseUtil
      * Create a where condition for a field that contains a serialized blob.
      *
      * @param string $field      The field the condition should be checked against accordances
-     * @param array  $options    Pass additional options.
+     * @param array{
+     *     condition_and?: bool,
+     *     inline_values?: bool
+     * }  $options    Pass additional options.
      *
      * Options:
      * - inline_values: (bool) Inline the values in the sql part instead of using ? ('REGEXP (':"3"')' instead of 'REGEXP (?)'). Return value not change (array still contains the values)
