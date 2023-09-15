@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.229.4] - 2023-09-15
+- Fixed: missing copyright for image template
+
 ## [2.229.3] - 2023-09-15
 - Fixed: get file model from image path to render caption
 

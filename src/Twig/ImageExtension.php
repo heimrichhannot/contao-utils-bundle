@@ -103,6 +103,12 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
         $template = new FrontendTemplate();
         Controller::addImageToTemplate($template, $data, null, null, $fileModel);
 
+        if (isset($fileModel->copyright) && isset($template->picture)) {
+            $picture = $template->picture;
+            $picture['copyright'] = $fileModel->copyright;
+            $template->picture = $picture;
+        }
+
         return $template->getData();
 
         /*
