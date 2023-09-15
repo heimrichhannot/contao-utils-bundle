@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.229.3] - 2023-09-15
+- Fixed: get file model from image path to render caption
+
 ## [2.229.2] - 2023-09-07
 - Fixed: undefined method exception in RequestCleaner
 

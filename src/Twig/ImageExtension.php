@@ -95,6 +95,9 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
             if (!$fileModel = FilesModel::findByUuid($image))
                 return [];
             $data['singleSRC'] = $fileModel->path;
+
+        } elseif (file_exists($image)) {
+            $fileModel = FilesModel::findByPath($image);
         }
 
         $template = new FrontendTemplate();
