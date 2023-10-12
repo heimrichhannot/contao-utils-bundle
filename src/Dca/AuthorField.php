@@ -7,7 +7,8 @@ class AuthorField
     public const TYPE_USER = 'user';
     public const TYPE_MEMBER = 'member';
 
-    protected static array $tables = [];
+    /** @var array  */
+    protected static $tables = [];
 
     /**
      * Register a dca to have an author field and update logic added.
