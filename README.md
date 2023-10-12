@@ -121,14 +121,14 @@ You can pass additional options to adjust the field:
 # contao/dca/tl_example.php
 use HeimrichHannot\UtilsBundle\Dca\AuthorField;
 
-AuthorField::register('tl_example', [
-    'type' => AuthorField::TYPE_USER, // can be change to TYPE_MEMBER to set a frontend member instead of a backend user
-    'fieldNamePrefix' => '', // custom prefix for the field name
-    'useDefaultLabel' => true, // set to false to disable the default label and set a custom label in your dca translations
-    'exclude' => true, 
-    'search' => true,
-    'filter' => true,
-]);
+AuthorField::register('tl_example')
+    ->setType(AuthorField::TYPE_MEMBER) // can be one of TYPE_USER (default) or TYPE_MEMBER. Use TYPE_MEMBER to set a frontend member instead of a backend user
+    ->setFieldNamePrefix('example') // custom prefix for the field name
+    ->setUseDefaultLabel(false) // set to false to disable the default label and set a custom label in your dca translations
+    ->setExclude(false) // set the dca field exclude option
+    ->setSearch(false) // set the dca field search option
+    ->setFilter(false) // set the dca field filter option
+;
 ```
 
 ## Documentation
