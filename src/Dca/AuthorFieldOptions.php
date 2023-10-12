@@ -4,13 +4,20 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 class AuthorFieldOptions
 {
-    protected string $table;
-    protected string $type = AuthorField::TYPE_USER;
-    protected string $fieldNamePrefix = '';
-    protected bool $useDefaultLabel = true;
-    protected bool $exclude = true;
-    protected bool $search = true;
-    protected bool $filter = true;
+    /** @var string  */
+    protected $table;
+    /** @var string  */
+    protected $type = AuthorField::TYPE_USER;
+    /** @var string  */
+    protected $fieldNamePrefix = '';
+    /** @var bool  */
+    protected $useDefaultLabel = true;
+    /** @var bool  */
+    protected $exclude = true;
+    /** @var bool  */
+    protected $search = true;
+    /** @var bool  */
+    protected $filter = true;
 
     /**
      * @param string $table
