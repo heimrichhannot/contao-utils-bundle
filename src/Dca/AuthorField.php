@@ -11,23 +11,19 @@ class AuthorField
 
     /**
      * Register a dca to have an author field and update logic added.
-     *
-     * @param string $table
-     * @param array{
-     *     type?: string,
-     *     fieldNamePrefix?: string,
-     *     useDefaultLabel?: bool,
-     *     exclude?: bool,
-     *     search?: bool,
-     *     filter?: bool,
-     * } $options
-     * @return void
      */
-    public static function register(string $table, array $options = []): void
+    public static function register(string $table): AuthorFieldOptions
     {
-        static::$tables[$table] = $options;
+        $config = new AuthorFieldOptions($table);
+
+        static::$tables[$table] = $config;
+
+        return $config;
     }
 
+    /**
+     * @return array<AuthorFieldOptions>
+     */
     public static function getRegistrations(): array
     {
         return static::$tables;
