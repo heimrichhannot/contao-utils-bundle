@@ -28,6 +28,8 @@ huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostsc
 
 ## Usage
 
+### Utils
+
 > We're currently in a process moving all services into the Utils namespace and make them all accessible from a new Utils service. 
 
 This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all util-classes and -methods. 
@@ -96,6 +98,37 @@ huh.utils.string
 huh.utils.template
 huh.utils.url
 huh.utils.user                                    
+```
+
+### Common dca fields
+
+The bundle provides some common dca fields that can be used in your dca files.
+
+#### Author field
+
+Add an author field to your dca. It will be initialized with the current backend user. On copy, it will be set to the current user.
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\AuthorField;
+
+AuthorField::register('tl_md_recipient_list');
+```
+
+You can pass additional options to adjust the field:
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\AuthorField;
+
+AuthorField::register('tl_md_recipient_list', [
+    'type' => AuthorField::TYPE_USER, // can be change to TYPE_MEMBER to set a frontend member instead of a backend user
+    'fieldNamePrefix' => '', // custom prefix for the field name
+    'useDefaultLabel' => true, // set to false to disable the default label and set a custom label in your dca translations
+    'exclude' => true, 
+    'search' => true,
+    'filter' => true,
+]);
 ```
 
 ## Documentation

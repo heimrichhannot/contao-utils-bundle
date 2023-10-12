@@ -758,6 +758,9 @@ class DcaUtil
         return $alias;
     }
 
+    /**
+     * @deprecated Use AuthorField::register() instead
+     */
     public function addAuthorFieldAndCallback(string $table, string $fieldPrefix = '')
     {
         $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
