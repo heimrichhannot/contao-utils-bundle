@@ -9,19 +9,21 @@ use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Model;
 use HeimrichHannot\UtilsBundle\Dca\AuthorField;
+use HeimrichHannot\UtilsBundle\Dca\AuthorFieldOptions;
 use Symfony\Component\Security\Core\Security;
 
 class DcaAuthorListener
 {
-    private ContaoFramework $framework;
-    private Security $security;
+    /** @var ContaoFramework  */
+    private $framework;
+    /** @var Security  */
+    private $security;
 
     public function __construct(ContaoFramework $framework, Security $security)
     {
         $this->framework = $framework;
         $this->security = $security;
     }
-
 
     /**
      * @Hook("loadDataContainer")
@@ -32,14 +34,14 @@ class DcaAuthorListener
             return;
         }
 
-        $options = $this->getOptions($table);
+        $options = AuthorField::getRegistrations()[$table];
 
-        $authorFieldName = empty($options['fieldNamePrefix']) ? 'author' : $options['fieldNamePrefix'].'Author';
+        $authorFieldName = $this->getAuthorFieldName($options);
 
         $authorField = [
-            'exclude' => $options['exclude'],
-            'search' => $options['search'],
-            'filter' => $options['filter'],
+            'exclude' => $options->isExclude(),
+            'search' => $options->isSearch(),
+            'filter' => $options->isFilter(),
             'inputType' => 'select',
             'eval' => [
                 'doNotCopy' => true,
@@ -51,20 +53,23 @@ class DcaAuthorListener
             'sql' => "int(10) unsigned NOT NULL default 0",
         ];
 
-        if ($options['useDefaultLabel']) {
+        if ($options->isUseDefaultLabel()) {
             $authorField['label'] = &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['author'];
         }
 
-        if (AuthorField::TYPE_USER === $options['type']) {
-            $authorField['default'] = BackendUser::getInstance()->id;
+        $authorField['default'] = 0;
+        if (AuthorField::TYPE_USER === $options->getType()) {
+            if ($this->security->getUser() instanceof BackendUser) {
+                $authorField['default'] = $this->security->getUser()->id;
+            }
             $authorField['foreignKey'] = 'tl_user.name';
             $authorField['relation'] = ['type'=>'hasOne', 'load'=>'lazy'];
-        } elseif (AuthorField::TYPE_MEMBER === $options['type']) {
-            $authorField['default'] = FrontendUser::getInstance()->id;
+        } elseif (AuthorField::TYPE_MEMBER === $options->getType()) {
+            if ($this->security->getUser() instanceof FrontendUser) {
+                $authorField['default'] = $this->security->getUser()->id;
+            }
             $authorField['foreignKey'] = "tl_member.CONCAT(firstname,' ',lastname)";
             $authorField['relation'] = ['type'=>'hasOne', 'load'=>'lazy'];
-        } else {
-            $authorField['default'] = 0;
         }
 
         $GLOBALS['TL_DCA'][$table]['fields'][$authorFieldName] = $authorField;
@@ -74,38 +79,42 @@ class DcaAuthorListener
 
     public function onConfigCopyCallback(int $insertId, DataContainer $dc): void
     {
-        $options = $this->getOptions($dc->table);
-        $authorFieldName = empty($options['fieldNamePrefix']) ? 'author' : $options['fieldNamePrefix'].'Author';
+        $options = AuthorField::getRegistrations()[$dc->table];
+        $authorFieldName = $this->getAuthorFieldName($options);
 
         /** @var class-string<Model> $modelClass */
         $modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($dc->table);
-        $model = $modelClass::findByPk($insertId);
+        $model = $this->framework->getAdapter($modelClass)->findByPk($insertId);
         if (!$model) {
             return;
         }
 
-        if (AuthorField::TYPE_USER === $options['type']) {
-            $model->{$authorFieldName} = BackendUser::getInstance()->id;
-        } elseif (AuthorField::TYPE_MEMBER === $options['type']) {
-            $model->{$authorFieldName} = FrontendUser::getInstance()->id;
-        } else {
-            $model->{$authorFieldName} = 0;
+        $model->{$authorFieldName} = 0;
+        if (AuthorField::TYPE_USER === $options->getType()) {
+            if ($this->security->getUser() instanceof BackendUser) {
+                $model->{$authorFieldName} = $this->security->getUser()->id;
+            }
+        } elseif (AuthorField::TYPE_MEMBER === $options->getType()) {
+            if ($this->security->getUser() instanceof FrontendUser) {
+                $model->{$authorFieldName} = $this->security->getUser()->id;
+            }
         }
+        $model->save();
     }
 
     /**
-     * @param string $table
-     * @return array|bool[]|string[]
+     * @param AuthorFieldOptions $options
+     * @return string
      */
-    protected function getOptions(string $table): array
+    protected function getAuthorFieldName(AuthorFieldOptions $options): string
     {
-        return array_merge([
-            'type' => AuthorField::TYPE_USER,
-            'fieldNamePrefix' => '',
-            'useDefaultLabel' => true,
-            'exclude' => true,
-            'search' => true,
-            'filter' => true,
-        ], AuthorField::getRegistrations()[$table]);
+        if (!$options->hasFieldNamePrefix()) {
+            return 'author';
+        }
+        if (str_ends_with($options->getFieldNamePrefix(), '_')) {
+            return $options->getFieldNamePrefix() . 'author';
+        } else {
+            return $options->getFieldNamePrefix() . 'Author';
+        }
     }
 }
