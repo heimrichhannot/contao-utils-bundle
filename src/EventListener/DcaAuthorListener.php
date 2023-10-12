@@ -14,8 +14,10 @@ use Symfony\Component\Security\Core\Security;
 
 class DcaAuthorListener
 {
-    private ContaoFramework $framework;
-    private Security $security;
+    /** @var ContaoFramework  */
+    private $framework;
+    /** @var Security  */
+    private $security;
 
     public function __construct(ContaoFramework $framework, Security $security)
     {

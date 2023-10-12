@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.230.0] - 2023-10-12
+- Added: AuthorField class as new mechanic to add author field
+- Deprecated: DcaUtil::addAuthorFieldAndCallback()
+
 ## [2.229.4] - 2023-09-15
 - Fixed: missing copyright for image template
 
