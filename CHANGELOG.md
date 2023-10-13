@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.230.1] - 2023-10-13
+- Fixed: missing image custom properties
+
 ## [2.230.0] - 2023-10-12
 - Added: AuthorField class as new mechanic to add author field
 - Deprecated: DcaUtil::addAuthorFieldAndCallback()
