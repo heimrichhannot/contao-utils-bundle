@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Util\User;
 
+use Contao\MemberModel;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\UserGroupModel;
@@ -48,13 +49,43 @@ class UserUtilTest extends AbstractUtilsTestCase
             $this->mockClassWithProperties(UserGroupModel::class, ['id' => 5]),
         ], UserGroupModel::getTable());
         $modelUtil = $this->createMock(ModelUtil::class);
-        $modelUtil->method('findModelInstancesBy')->willReturn($groupCollection);
+        $modelUtil->method('findModelInstancesBy')
+            ->with(self::callback(function ($parameter) {
+                return 'tl_user_group' === $parameter;
+            }))
+            ->willReturn($groupCollection);
+
+        $framework = $this->mockContaoFramework([
+            Model::class => $this->mockModelAdapter(),
+        ]);
 
         $instance = $this->getTestInstance([
             'modelUtil' => $modelUtil,
+            'contaoFramework' => $framework,
         ]);
 
         $activeGroups = $instance->getActiveGroups($userModel);
+        $this->assertInstanceOf(Collection::class, $activeGroups);
+        $this->assertCount(2, $activeGroups);
+
+        $memberModel = $this->mockClassWithProperties(MemberModel::class, [
+            'groups' => serialize(['2', '5']),
+        ]);
+
+        $modelUtil = $this->createMock(ModelUtil::class);
+        $modelUtil->method('findModelInstancesBy')
+            ->with(self::callback(function ($parameter) {
+                return 'tl_member_group' === $parameter;
+            }))
+            ->willReturn($groupCollection);
+
+        $instance = $this->getTestInstance([
+            'modelUtil' => $modelUtil,
+            'contaoFramework' => $framework,
+        ]);
+
+        $activeGroups = $instance->getActiveGroups($memberModel);
+
         $this->assertInstanceOf(Collection::class, $activeGroups);
         $this->assertCount(2, $activeGroups);
 
@@ -102,6 +133,9 @@ class UserUtilTest extends AbstractUtilsTestCase
             'groups' => serialize(['2', '5']),
         ]);
 
+        $userModelAdapter = $this->mockAdapter(['getTable']);
+        $userModelAdapter->method('getTable')->willReturn('tl_user');
+
         $groupCollection = new Collection([
             $this->mockClassWithProperties(UserGroupModel::class, ['id' => 2]),
             $this->mockClassWithProperties(UserGroupModel::class, ['id' => 5]),
@@ -109,8 +143,13 @@ class UserUtilTest extends AbstractUtilsTestCase
         $modelUtil = $this->createMock(ModelUtil::class);
         $modelUtil->method('findModelInstancesBy')->willReturn($groupCollection);
 
+        $framework = $this->mockContaoFramework([
+            $userModelAdapter::class => $userModelAdapter,
+        ]);
+
         $instance = $this->getTestInstance([
             'modelUtil' => $modelUtil,
+            'contaoFramework' => $framework,
         ]);
 
         $this->assertTrue($instance->hasActiveGroup($userModel, 2));
