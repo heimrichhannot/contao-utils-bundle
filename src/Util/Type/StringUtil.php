@@ -15,12 +15,12 @@ use HeimrichHannot\UtilsBundle\Dom\DOMLettersIterator;
 
 class StringUtil
 {
-    const CAPITAL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const CAPITAL_LETTERS_NONAMBIGUOUS = 'ABCDEFGHJKLMNPQRSTUVWX';
-    const SMALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz';
-    const SMALL_LETTERS_NONAMBIGUOUS = 'abcdefghjkmnpqrstuvwx';
-    const NUMBERS = '0123456789';
-    const NUMBERS_NONAMBIGUOUS = '23456789';
+    private const CAPITAL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    private const CAPITAL_LETTERS_NONAMBIGUOUS = 'ABCDEFGHJKLMNPQRSTUVWX';
+    private const SMALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz';
+    private const SMALL_LETTERS_NONAMBIGUOUS = 'abcdefghjkmnpqrstuvwx';
+    private const NUMBERS = '0123456789';
+    private const NUMBERS_NONAMBIGUOUS = '23456789';
 
     /**
      * Convert a camel case string to a dashed string.
