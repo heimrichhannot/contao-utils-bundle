@@ -29,6 +29,9 @@ class GenerateDataAttributesStringOptions
         return $this->normalizeKeys;
     }
 
+    /**
+     * Array keys are normalized to lowercase dash-cased strings (e.g. Foo Bar_player is transformed to foo-bar-player)
+     */
     public function setNormalizeKeys(bool $normalizeKeys): GenerateDataAttributesStringOptions
     {
         $this->normalizeKeys = $normalizeKeys;

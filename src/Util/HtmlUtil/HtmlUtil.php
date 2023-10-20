@@ -52,12 +52,6 @@ class HtmlUtil
      *
      * Options (additional to Options from HtmlUtl::generateAttributeString()):
      * - normalizeKeys: Array keys are normalized to lowercase dash-cased strings (e.g. Foo Bar_player is transformed to foo-bar-player)
-     *
-     * @param array{
-     *     xhtml?: bool,
-     *     normalizeKeys?: bool,
-     *     array_handling?: string|HtmlUtilArrayHandling
-     * } $options
      */
     public function generateDataAttributesString(array $attributes, GenerateDataAttributesStringOptions $options = new GenerateDataAttributesStringOptions()): string
     {

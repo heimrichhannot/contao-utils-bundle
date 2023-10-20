@@ -52,9 +52,9 @@ class StringUtil
     public function randomChar(bool $includeAmbiguousChars = false, array $options = []): string
     {
         if ($includeAmbiguousChars) {
-            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS.static::NUMBERS;
+            $chars = self::CAPITAL_LETTERS.self::SMALL_LETTERS.self::NUMBERS;
         } else {
-            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS.static::NUMBERS_NONAMBIGUOUS;
+            $chars = self::CAPITAL_LETTERS_NONAMBIGUOUS.self::SMALL_LETTERS_NONAMBIGUOUS.self::NUMBERS_NONAMBIGUOUS;
         }
 
         return $this->random($chars, $options);
@@ -68,9 +68,9 @@ class StringUtil
     public function randomLetter(bool $includeAmbiguousChars = false, array $options = []): string
     {
         if ($includeAmbiguousChars) {
-            $chars = static::CAPITAL_LETTERS.static::SMALL_LETTERS;
+            $chars = self::CAPITAL_LETTERS.self::SMALL_LETTERS;
         } else {
-            $chars = static::CAPITAL_LETTERS_NONAMBIGUOUS.static::SMALL_LETTERS_NONAMBIGUOUS;
+            $chars = self::CAPITAL_LETTERS_NONAMBIGUOUS.self::SMALL_LETTERS_NONAMBIGUOUS;
         }
 
         return $this->random($chars, $options);
@@ -84,9 +84,9 @@ class StringUtil
     public function randomNumber(bool $includeAmbiguousChars = false, array $options = []): string
     {
         if ($includeAmbiguousChars) {
-            $chars = static::NUMBERS;
+            $chars = self::NUMBERS;
         } else {
-            $chars = static::NUMBERS_NONAMBIGUOUS;
+            $chars = self::NUMBERS_NONAMBIGUOUS;
         }
 
         return $this->random($chars, $options);

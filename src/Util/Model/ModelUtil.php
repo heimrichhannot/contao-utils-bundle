@@ -72,8 +72,6 @@ class ModelUtil
      * Options:
      * - skipReplaceInsertTags: (bool) Skip the replacement of inserttags. Default: false
      *
-     * @param mixed $columns
-     * @param mixed $values
      * @param array{
      *     skipReplaceInsertTags?: bool
      * } $options
@@ -111,9 +109,9 @@ class ModelUtil
     /**
      * Find a single model instance for given table by its primary key (id).
      *
-     * @param string $table   The table
-     * @param mixed  $pk      The property value
-     * @param array  $options An optional options array
+     * @param string $table The table
+     * @param int|string $pk The property value
+     * @param array $options An optional options array
      *
      * @return Model|null The model or null if the result is empty
      */
