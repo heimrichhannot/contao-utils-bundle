@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\File;
+namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\FilesModel;

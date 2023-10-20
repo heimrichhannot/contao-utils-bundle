@@ -12,7 +12,7 @@ use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\AnonymizeUtil;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\DcaUtil;
-use HeimrichHannot\UtilsBundle\Util\File\FileUtil;
+use HeimrichHannot\UtilsBundle\Util\FileUtil;
 use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
@@ -22,7 +22,7 @@ use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
-use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
+use HeimrichHannot\UtilsBundle\Util\UserUtil\UserUtil;
 use Psr\Container\ContainerInterface;
 
 class Utils extends AbstractServiceSubscriber

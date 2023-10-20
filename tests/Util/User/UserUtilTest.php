@@ -18,7 +18,7 @@ use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
-use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
+use HeimrichHannot\UtilsBundle\Util\UserUtil\UserUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class UserUtilTest extends AbstractUtilsTestCase

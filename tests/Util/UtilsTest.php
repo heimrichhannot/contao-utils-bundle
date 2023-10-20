@@ -22,7 +22,7 @@ use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
-use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
+use HeimrichHannot\UtilsBundle\Util\UserUtil\UserUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 

@@ -13,20 +13,11 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 
 class AccordionUtil
 {
-    /**
-     * @var ContaoFramework
-     */
-    private $contaoFramework;
+    private array $accordionStartStopCache = [];
+    private array $accordionSingleCache;
 
-    /** @var array */
-    private $accordionStartStopCache = [];
-
-    /** @var array */
-    private $accordionSingleCache;
-
-    public function __construct(ContaoFramework $contaoFramework)
+    public function __construct(private ContaoFramework $contaoFramework)
     {
-        $this->contaoFramework = $contaoFramework;
     }
 
     public function structureAccordionStartStop(array &$data, string $prefix = 'accordion_'): void
