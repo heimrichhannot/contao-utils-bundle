@@ -6,7 +6,7 @@
   "require": {
     "ext-dom": "*",
     "ext-simplexml": "*",
-    "php": "^8.0",
+    "php": "^8.1",
     "ausi/slug-generator": "^1.1",
     "contao/core-bundle": "^4.13 || ^5.0",
     "doctrine/dbal": "^2.13 || ^3.0",

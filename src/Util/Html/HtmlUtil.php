@@ -10,6 +10,12 @@ namespace HeimrichHannot\UtilsBundle\Util\Html;
 
 use function Symfony\Component\String\u;
 
+enum HtmlUtilArrayHandling: string
+{
+    case REDUCE = 'reduce';
+    case ENCODE = 'encode';
+}
+
 class HtmlUtil
 {
     /**
@@ -17,6 +23,10 @@ class HtmlUtil
      *
      * Options:
      * - xhtml: (bool) XHTML format instead of HTML5 format. Default false
+     *
+     * @param array{
+     *     xhtml?: bool
+     * } $options
      */
     public function generateAttributeString(array $attributes, array $options = []): string
     {
@@ -42,17 +52,23 @@ class HtmlUtil
      *
      * Options (additional to Options from HtmlUtl::generateAttributeString()):
      * - normalizeKeys: Array keys are normalized to lowercase dash-cased strings (e.g. Foo Bar_player is transformed to foo-bar-player)
+     *
+     * @param array{
+     *     xhtml?: bool,
+     *     normalizeKeys?: bool,
+     *     array_handling?: string|HtmlUtilArrayHandling
+     * } $options
      */
     public function generateDataAttributesString(array $attributes, array $options = []): string
     {
         $options = array_merge([
             'xhtml' => false,
             'normalizeKeys' => true,
-            'array_handling' => 'reduce',
+            'array_handling' => HtmlUtilArrayHandling::REDUCE,
         ], $options);
 
         if (!\in_array($options['array_handling'], ['reduce', 'encode'])) {
-            $options['array_handling'] = 'reduce';
+            $options['array_handling'] = HtmlUtilArrayHandling::REDUCE;
         }
 
         $dataAttributes = [];

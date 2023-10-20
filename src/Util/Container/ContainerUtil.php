@@ -14,6 +14,7 @@ use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
+use Contao\PageModel;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Util\AbstractServiceSubscriber;
 use Psr\Container\ContainerInterface;
@@ -149,7 +150,7 @@ class ContainerUtil extends AbstractServiceSubscriber
     /**
      * Return if currently in maintenance mode.
      */
-    public function isMaintenanceModeActive($page = null): bool
+    public function isMaintenanceModeActive(PageModel $page = null): bool
     {
         if ($page && $page->maintenanceMode) {
             return true;

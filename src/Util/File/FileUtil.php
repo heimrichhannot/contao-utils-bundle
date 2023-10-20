@@ -26,6 +26,10 @@ class FileUtil
      * - checkIfExist: (bool) Enable check if the the file exist. Default true
      * - absolutePath: (bool) Return absolute path instead of relative path.
      *
+     * @param array{
+     *     checkIfExist?: bool,
+     *     absolutePath?: bool
+     * } $options Pass additional options.
      * @return string|null Return the path of the file, or null if not exists
      */
     public function getPathFromUuid(string $uuid, array $options = []): ?string

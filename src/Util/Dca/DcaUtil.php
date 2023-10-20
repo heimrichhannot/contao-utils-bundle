@@ -25,7 +25,11 @@ class DcaUtil
      * Return all fields of a palette including its subpalettes as array.
      *
      * Options:
-     * * skip_subpalettes (bool): Don't add subpalette fields to result.
+     * * skip_subpalettes (bool): Don't add subpalette fields to result. Default false
+     *
+     * @param array{
+     *     skip_subpalettes?: bool
+     * } $options
      */
     public function getPaletteFields(string $table, string $palette, array $options = []): array
     {
@@ -138,7 +142,13 @@ class DcaUtil
      * - localizeLabels (bool): Return also the field labels (key = field name, value = field label). Default false
      * - skipSorting (bool): Skip sorting fields by field name alphabetical. Default false
      *
-     * @param array $options {onlyDatabaseFields: bool, allowedInputTypes: array, evalConditions: array, localizeLabels: bool, skipSorting: bool}
+     * @param array{
+     *     onlyDatabaseFields?: bool,
+     *     allowedInputTypes?: array,
+     *     evalConditions?: array,
+     *     localizeLabels?: bool,
+     *     skipSorting?: bool
+     * } $options
      *
      * @throws \Exception
      */
