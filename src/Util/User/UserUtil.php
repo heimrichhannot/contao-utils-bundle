@@ -37,14 +37,18 @@ class UserUtil
 
     public function findActiveUsersByGroup(array $groups, string $type = self::TYPE_USER, array $options = []): ?Collection
     {
-        match ($type) {
-            self::TYPE_USER => $table = UserModel::getTable(),
-            self::TYPE_MEMBER => $table = MemberModel::getTable(),
+        $table = match ($type) {
+            self::TYPE_USER => UserModel::getTable(),
+            self::TYPE_MEMBER => MemberModel::getTable(),
             default => throw new \InvalidArgumentException(sprintf('Invalid type "%s" given.', $type)),
         };
 
         /** @var class-string<Model> $modelClass */
         $modelClass = $this->contaoFramework->getAdapter(Model::class)->getClassFromTable($table);
+
+        if (!$modelClass) {
+            return null;
+        }
 
         if (!\is_array($groups) || empty($groups = array_filter($groups, function ($k) {
                 return !empty($k) && is_numeric($k);
@@ -81,8 +85,6 @@ class UserUtil
         } else {
             $groupTable = 'tl_user_group';
         }
-
-//        $groupTable = $user::getTable() .'_group';
 
         $columns = [$groupTable.'.id IN('.implode(',', array_map('\intval', $groups)).')'];
 
