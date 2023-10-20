@@ -40,6 +40,27 @@ class UserUtilTest extends AbstractUtilsTestCase
 
     public function testGetActiveGroups()
     {
+        // Test no user groups
+
+        $userModel = $this->mockClassWithProperties(UserModel::class);
+
+        $framework = $this->mockContaoFramework([
+            Model::class => $this->mockModelAdapter(),
+        ]);
+
+        $instance = $this->getTestInstance([
+            'contaoFramework' => $framework,
+        ]);
+
+        $activeGroups = $instance->getActiveGroups($userModel);
+        self::assertNull($activeGroups);
+
+        $userModel = $this->mockClassWithProperties(UserModel::class, [
+            'groups' => serialize([]),
+        ]);
+
+        self::assertNull($instance->getActiveGroups($userModel));
+
         $userModel = $this->mockClassWithProperties(UserModel::class, [
             'groups' => serialize(['2', '5']),
         ]);
@@ -54,10 +75,6 @@ class UserUtilTest extends AbstractUtilsTestCase
                 return 'tl_user_group' === $parameter;
             }))
             ->willReturn($groupCollection);
-
-        $framework = $this->mockContaoFramework([
-            Model::class => $this->mockModelAdapter(),
-        ]);
 
         $instance = $this->getTestInstance([
             'modelUtil' => $modelUtil,
@@ -129,6 +146,10 @@ class UserUtilTest extends AbstractUtilsTestCase
 
     public function testHasActiveGroup()
     {
+        $userModel = $this->mockClassWithProperties(UserModel::class);
+        $instance = $this->getTestInstance();
+        $this->assertFalse($instance->hasActiveGroup($userModel, 1));
+
         $userModel = $this->mockClassWithProperties(UserModel::class, [
             'groups' => serialize(['2', '5']),
         ]);
@@ -153,6 +174,7 @@ class UserUtilTest extends AbstractUtilsTestCase
         ]);
 
         $this->assertTrue($instance->hasActiveGroup($userModel, 2));
+        $this->assertFalse($instance->hasActiveGroup($userModel, 1));
 
 
 //        $builder = $this->getMockBuilder(UserUtil::class)
