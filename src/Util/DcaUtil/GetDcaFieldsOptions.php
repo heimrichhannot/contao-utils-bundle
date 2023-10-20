@@ -1,6 +1,6 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\Util\Dca;
+namespace HeimrichHannot\UtilsBundle\Util\DcaUtil;
 
 class GetDcaFieldsOptions
 {

@@ -10,8 +10,8 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util\Dca;
 
 use Contao\Controller;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
-use HeimrichHannot\UtilsBundle\Util\Dca\GetDcaFieldsOptions;
+use HeimrichHannot\UtilsBundle\Util\DcaUtil\DcaUtil;
+use HeimrichHannot\UtilsBundle\Util\DcaUtil\GetDcaFieldsOptions;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class DcaUtilTest extends AbstractUtilsTestCase

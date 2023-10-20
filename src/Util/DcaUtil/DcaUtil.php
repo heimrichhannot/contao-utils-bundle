@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\Dca;
+namespace HeimrichHannot\UtilsBundle\Util\DcaUtil;
 
 use Contao\Controller;
 use Contao\CoreBundle\DataContainer\PaletteNotFoundException;
