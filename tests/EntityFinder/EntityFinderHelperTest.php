@@ -5,7 +5,8 @@ namespace HeimrichHannot\UtilsBundle\Tests\EntityFinder;
 use Contao\ModuleModel;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
-use HeimrichHannot\UtilsBundle\Util\Database\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelperTest extends ContaoTestCase
@@ -19,7 +20,9 @@ class EntityFinderHelperTest extends ContaoTestCase
         ]);
 
         $databaseUtilMock = $this->createMock(DatabaseUtil::class);
-        $databaseUtilMock->method('createWhereForSerializedBlob')->willReturn(['columns' => '', 'values' => []]);
+        $databaseUtilMock->method('createWhereForSerializedBlob')->willReturn(
+            new CreateWhereForSerializedBlobResult('field', [])
+        );
         $utils = $this->createMock(Utils::class);
         $utils->method('database')->willReturn($databaseUtilMock);
 

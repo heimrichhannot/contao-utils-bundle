@@ -15,7 +15,8 @@ use Contao\UserGroupModel;
 use Contao\UserModel;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Database\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\User\UserUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
@@ -219,7 +220,7 @@ class UserUtilTest extends AbstractUtilsTestCase
         ]);
         $parameters['databaseUtil'] = $this->createMock(DatabaseUtil::class);
         $parameters['databaseUtil']->method('createWhereForSerializedBlob')->willReturnCallback(function (string $field, array $values) {
-            return [$field, $values];
+            return new CreateWhereForSerializedBlobResult($field, $values);
         });
 
         $instance = $this->getTestInstance($parameters);

@@ -15,7 +15,7 @@ use Contao\Model;
 use Contao\Model\Collection;
 use Contao\StringUtil;
 use Contao\UserModel;
-use HeimrichHannot\UtilsBundle\Util\Database\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 
 class UserUtil
@@ -65,8 +65,9 @@ class UserUtil
         $columns = ["($table.start='' OR $table.start<='$time') AND ($table.stop='' OR $table.stop>'".($time + 60)."') AND $table.disable=''"];
         $columns[] = '';
 
-        [$columns[], $tmpValues] = $this->databaseUtil->createWhereForSerializedBlob('groups', $groups);
-        $values = array_merge(array_values($values), array_values($tmpValues));
+        $blobResult = $this->databaseUtil->createWhereForSerializedBlob('groups', $groups);
+        $columns[] = $blobResult->createOrWhere();
+        $values = array_merge(array_values($values), array_values($blobResult->values));
 
         return $adapter->findBy($columns, $values, $options);
     }
