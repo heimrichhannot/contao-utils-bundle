@@ -59,18 +59,8 @@ class HtmlUtil
      *     array_handling?: string|HtmlUtilArrayHandling
      * } $options
      */
-    public function generateDataAttributesString(array $attributes, array $options = []): string
+    public function generateDataAttributesString(array $attributes, GenerateDataAttributesStringOptions $options = new GenerateDataAttributesStringOptions()): string
     {
-        $options = array_merge([
-            'xhtml' => false,
-            'normalizeKeys' => true,
-            'array_handling' => HtmlUtilArrayHandling::REDUCE,
-        ], $options);
-
-        if (!\in_array($options['array_handling'], ['reduce', 'encode'])) {
-            $options['array_handling'] = HtmlUtilArrayHandling::REDUCE;
-        }
-
         $dataAttributes = [];
 
         foreach ($attributes as $key => $value) {
@@ -79,7 +69,7 @@ class HtmlUtil
             }
 
             if (\is_array($value)) {
-                if ('reduce' === $options['array_handling']) {
+                if ($options->getArrayHandling() === GenerateDataAttributesStringArrayHandling::REDUCE) {
                     $value = implode(' ', array_reduce($value, function ($tokens, $token) {
                         if (\is_string($token)) {
                             $token = trim($token);
@@ -97,12 +87,12 @@ class HtmlUtil
                     if (empty($value)) {
                         continue;
                     }
-                } elseif ('encode' === $options['array_handling']) {
+                } else {
                     $value = htmlspecialchars(json_encode($value), \ENT_QUOTES, 'UTF-8');
                 }
             }
 
-            if ($options['normalizeKeys']) {
+            if ($options->isNormalizeKeys()) {
                 $key = str_replace('_', '-', u($key)->snake());
             }
 
@@ -113,8 +103,8 @@ class HtmlUtil
             $dataAttributes[$key] = $value;
         }
 
-        unset($options['normalizeKeys']);
-
-        return $this->generateAttributeString($dataAttributes, $options);
+        return $this->generateAttributeString($dataAttributes, [
+            'xhtml' => $options->isXhtml()
+        ]);
     }
 }

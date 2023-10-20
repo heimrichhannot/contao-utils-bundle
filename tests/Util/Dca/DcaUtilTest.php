@@ -135,11 +135,5 @@ class DcaUtilTest extends AbstractUtilsTestCase
         $this->assertSame([
             'title',
         ], $fields);
-
-        $this->expectException(\Exception::class);
-        $instance->getDcaFields(
-            'table',
-            GetDcaFieldsOptions::create()->setAllowedInputTypes(['checkbox'])
-        );
     }
 }

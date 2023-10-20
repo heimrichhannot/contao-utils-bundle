@@ -9,6 +9,8 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Html;
 
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
+use HeimrichHannot\UtilsBundle\Util\Html\GenerateDataAttributesStringArrayHandling;
+use HeimrichHannot\UtilsBundle\Util\Html\GenerateDataAttributesStringOptions;
 use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
@@ -51,15 +53,24 @@ class HtmlUtilTest extends AbstractUtilsTestCase
 
         $this->assertSame(
             'data-Foo Bar="1"',
-            $instance->generateDataAttributesString(['Foo Bar' => '1'], ['normalizeKeys' => false])
+            $instance->generateDataAttributesString(
+                ['Foo Bar' => '1'],
+                GenerateDataAttributesStringOptions::create()->setNormalizeKeys(false)
+            )
         );
         $this->assertSame(
             'data-Foo-Bar="1"',
-            $instance->generateDataAttributesString(['Foo-Bar' => '1'], ['normalizeKeys' => false])
+            $instance->generateDataAttributesString(
+                ['Foo-Bar' => '1'],
+                GenerateDataAttributesStringOptions::create()->setNormalizeKeys(false)
+            )
         );
         $this->assertSame(
             'data-FooBar="1"',
-            $instance->generateDataAttributesString(['FooBar' => '1'], ['normalizeKeys' => false])
+            $instance->generateDataAttributesString(
+                ['FooBar' => '1'],
+                GenerateDataAttributesStringOptions::create()->setNormalizeKeys(false)
+            )
         );
 
         $this->assertSame(
@@ -75,25 +86,25 @@ class HtmlUtilTest extends AbstractUtilsTestCase
             'data-foo-bar="Blub"',
             $instance->generateDataAttributesString(['Foo Bar' => ['Blah' => 'Blub']])
         );
-        $this->assertSame(
-            'data-foo-bar="Blub"',
-            $instance->generateDataAttributesString(['Foo Bar' => ['Blah' => 'Blub']], ['array_handling' => 'unsupported'])
-        );
+
         $this->assertSame(
             'data-foo-bar="{&quot;Blah&quot;:&quot;Blub&quot;}"',
-            $instance->generateDataAttributesString(['Foo Bar' => ['Blah' => 'Blub']], ['array_handling' => 'encode'])
+            $instance->generateDataAttributesString(
+                ['Foo Bar' => ['Blah' => 'Blub']],
+                GenerateDataAttributesStringOptions::create()->setArrayHandling(GenerateDataAttributesStringArrayHandling::ENCODE)
+            )
         );
 
         $this->assertSame(
             'data-foo-bar data-animal-type="bird" data-editable data-some-strange-attribute="Totally strange" data-perfectly-prepared="sure" data-class="button attention" data-count="5"',
             $instance->generateDataAttributesString([
-                'data-foo-bar' => true,
-                'Animal type' => 'bird',
-                'editable' => true,
-                'Some Strange Attribute' => 'Totally strange',
+                'data-foo-bar'            => true,
+                'Animal type'             => 'bird',
+                'editable'                => true,
+                'Some Strange Attribute'  => 'Totally strange',
                 'data-perfectly-prepared' => 'sure',
-                'class' => ['button', 'attention'],
-                'Count' => 5,
+                'class'                   => ['button', 'attention'],
+                'Count'                   => 5,
             ])
         );
     }
