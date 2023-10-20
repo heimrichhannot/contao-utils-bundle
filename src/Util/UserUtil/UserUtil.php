@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\User;
+namespace HeimrichHannot\UtilsBundle\Util\UserUtil;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Date;
@@ -17,6 +17,7 @@ use Contao\StringUtil;
 use Contao\UserModel;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\UserUtil\UserType;
 
 class UserUtil
 {
@@ -35,12 +36,11 @@ class UserUtil
     }
 
 
-    public function findActiveUsersByGroup(array $groups, string $type = self::TYPE_USER, array $options = []): ?Collection
+    public function findActiveUsersByGroup(array $groups, UserType $type = UserType::USER, array $options = []): ?Collection
     {
         $table = match ($type) {
-            self::TYPE_USER => UserModel::getTable(),
-            self::TYPE_MEMBER => MemberModel::getTable(),
-            default => throw new \InvalidArgumentException(sprintf('Invalid type "%s" given.', $type)),
+            UserType::USER => UserModel::getTable(),
+            UserType::MEMBER => MemberModel::getTable()
         };
 
         /** @var class-string<Model> $modelClass */
