@@ -134,42 +134,9 @@ class DcaUtil
     /**
      * Return a list of dca fields for given table.
      * Fields can be filtered by given options.
-     *
-     * Options:
-     * - onlyDatabaseFields (bool): Return only fields with sql definition. Default false
-     * - allowedInputTypes (array): Return only fields of given types.
-     * - evalConditions (array): Return only fields with given eval key-value-pairs.
-     * - localizeLabels (bool): Return also the field labels (key = field name, value = field label). Default false
-     * - skipSorting (bool): Skip sorting fields by field name alphabetical. Default false
-     *
-     * @param array{
-     *     onlyDatabaseFields?: bool,
-     *     allowedInputTypes?: array,
-     *     evalConditions?: array,
-     *     localizeLabels?: bool,
-     *     skipSorting?: bool
-     * } $options
-     *
-     * @throws \Exception
      */
-    public function getDcaFields(string $table, array $options = []): array
+    public function getDcaFields(string $table, GetDcaFieldsOptions $options = new GetDcaFieldsOptions()): array
     {
-        $options = array_merge([
-            'onlyDatabaseFields' => false,
-            'allowedInputTypes' => [],
-            'evalConditions' => [],
-            'localizeLabels' => false,
-            'skipSorting' => false,
-        ], $options);
-
-        if (!\is_array($options['allowedInputTypes'])) {
-            throw new \Exception('DcaUtil::getDcaFields() option "allowedInputTypes" must be of type array!');
-        }
-
-        if (!\is_array($options['evalConditions'])) {
-            throw new \Exception('DcaUtil::getDcaFields() option "evalConditions" must be of type array!');
-        }
-
         $fields = [];
 
         $controller = $this->contaoFramework->getAdapter(Controller::class);
@@ -181,35 +148,35 @@ class DcaUtil
         }
 
         foreach ($GLOBALS['TL_DCA'][$table]['fields'] as $name => $data) {
-            if ($options['onlyDatabaseFields']) {
+            if ($options->isOnlyDatabaseFields()) {
                 if (!isset($data['sql'])) {
                     continue;
                 }
             }
 
             // restrict to certain input types
-            if (!empty($options['allowedInputTypes']) && (!isset($data['inputType']) || !\in_array($data['inputType'], $options['allowedInputTypes']))) {
+            if ($options->isOnlyAllowedInputTypes() && (!isset($data['inputType']) || !\in_array($data['inputType'], $options->getAllowedInputTypes()))) {
                 continue;
             }
 
             // restrict to certain dca eval
-            if (!empty($options['evalConditions'])) {
-                foreach ($options['evalConditions'] as $key => $value) {
+            if ($options->isHasEvalConditions()) {
+                foreach ($options->getEvalConditions() as $key => $value) {
                     if (!isset($data['eval'][$key]) || $data['eval'][$key] !== $value) {
                         continue 2;
                     }
                 }
             }
 
-            if (!$options['localizeLabels']) {
+            if (!$options->isLocalizeLabels()) {
                 $fields[] = $name;
             } else {
                 $fields[$name] = $data['label'][0] ?? $name;
             }
         }
 
-        if (!$options['skipSorting']) {
-            if ($options['localizeLabels']) {
+        if (!$options->isSkipSorting()) {
+            if ($options->isLocalizeLabels()) {
                 asort($fields);
             } else {
                 sort($fields);

@@ -1,6 +1,6 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\Util\Data;
+namespace HeimrichHannot\UtilsBundle\Util;
 
 class AnonymizeUtil
 {

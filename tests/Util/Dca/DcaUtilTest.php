@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util\Dca;
 use Contao\Controller;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
+use HeimrichHannot\UtilsBundle\Util\Dca\GetDcaFieldsOptions;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class DcaUtilTest extends AbstractUtilsTestCase
@@ -94,41 +95,51 @@ class DcaUtilTest extends AbstractUtilsTestCase
             'title',
         ], $fields);
 
-        $fields = $instance->getDcaFields('table', ['allowedInputTypes' => ['select']]);
+        $fields = $instance->getDcaFields(
+            'table',
+            GetDcaFieldsOptions::create()->setAllowedInputTypes(['select'])
+        );
         $this->assertSame([], $fields);
 
-        $fields = $instance->getDcaFields('table', ['localizeLabels' => true]);
+        $fields = $instance->getDcaFields(
+            'table',
+            GetDcaFieldsOptions::create()->setLocalizeLabels(true)
+        );
         $this->assertSame([
             'addSubmission' => 'Submission',
             'title' => 'Title',
         ],
             $fields);
 
-        $fields = $instance->getDcaFields('table', ['skipSorting' => true]);
+        $fields = $instance->getDcaFields(
+            'table',
+            GetDcaFieldsOptions::create()->setSkipSorting(true)
+        );
         $this->assertSame([
             'title',
             'addSubmission',
         ], $fields);
 
-        $fields = $instance->getDcaFields('table', ['onlyDatabaseFields' => true]);
+        $fields = $instance->getDcaFields(
+            'table',
+            GetDcaFieldsOptions::create()->setOnlyDatabaseFields(true)
+        );
         $this->assertSame([
             'title',
         ], $fields);
 
-        $fields = $instance->getDcaFields('table', ['evalConditions' => ['mandatory' => true]]);
+        $fields = $instance->getDcaFields(
+            'table',
+            GetDcaFieldsOptions::create()->setEvalConditions(['mandatory' => true])
+        );
         $this->assertSame([
             'title',
         ], $fields);
 
         $this->expectException(\Exception::class);
-        $instance->getDcaFields('table', ['allowedInputTypes' => 'checkbox']);
-    }
-
-    public function testGetDcaFieldsWithException()
-    {
-        $instance = $this->getTestInstance();
-
-        $this->expectException(\Exception::class);
-        $instance->getDcaFields('table', ['evalConditions' => 'mandatory']);
+        $instance->getDcaFields(
+            'table',
+            GetDcaFieldsOptions::create()->setAllowedInputTypes(['checkbox'])
+        );
     }
 }

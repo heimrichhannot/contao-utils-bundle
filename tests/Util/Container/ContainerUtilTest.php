@@ -17,7 +17,7 @@ use Contao\Input;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\RequestBundle\HeimrichHannotContaoRequestBundle;
 use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
-use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
 use Psr\Log\LogLevel;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;

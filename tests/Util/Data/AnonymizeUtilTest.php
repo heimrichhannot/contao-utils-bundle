@@ -3,7 +3,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Data;
 
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Data\AnonymizeUtil;
+use HeimrichHannot\UtilsBundle\Util\AnonymizeUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\TestCase;
 
