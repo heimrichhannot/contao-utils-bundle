@@ -1,6 +1,6 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\Util\Html;
+namespace HeimrichHannot\UtilsBundle\Util\HtmlUtil;
 
 class GenerateDataAttributesStringOptions
 {

@@ -9,9 +9,9 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Html;
 
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Html\GenerateDataAttributesStringArrayHandling;
-use HeimrichHannot\UtilsBundle\Util\Html\GenerateDataAttributesStringOptions;
-use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil\GenerateDataAttributesStringArrayHandling;
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil\GenerateDataAttributesStringOptions;
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil\HtmlUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class HtmlUtilTest extends AbstractUtilsTestCase

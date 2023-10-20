@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\Html;
+namespace HeimrichHannot\UtilsBundle\Util\HtmlUtil;
 
 use function Symfony\Component\String\u;
 

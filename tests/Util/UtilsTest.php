@@ -13,7 +13,7 @@ use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\AnonymizeUtil;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\DcaUtil;
-use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
