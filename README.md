@@ -5,10 +5,18 @@
 ![example branch parameter](https://github.com/heimrichhannot/contao-utils-bundle/actions/workflows/ci.yml/badge.svg?branch=v3)
 [![Coverage Status](https://coveralls.io/repos/github/heimrichhannot/contao-utils-bundle/badge.svg?branch=v3)](https://coveralls.io/github/heimrichhannot/contao-utils-bundle?branch=master)
 
-This bundle offers various utility functionality for the Contao CMS.
+Utils Bundle is a collection of many small helper to solve repeating task. 
+At the center there is a utils service allow access to all util function. 
+In addition, there are DcaField helpers, the Entity finder command and some nice twig filters.
 
+## Features
+* Utils-Service - A service allow access all bundles utils functions. 
+* DcaField registration - An nice api to add typical dca fields to your dca fields without repeating yourself or annoying order restrictions.
+  * AuthorField - Add an author field with automatic filling of the default value and optional frontend member support
+* Entity Finder - A command to search for any contao entities in your database.
+* Twig Filters
 
-## Install 
+## Install
 
 1. Install via composer:
     ```
@@ -16,16 +24,24 @@ This bundle offers various utility functionality for the Contao CMS.
     ```
 1. Update database
 
-### Additional Requirements: 
-
-Add following dependencies to your project composer file, if you want to use one of the following utils:
-
-Util                  | Dependency
-----------------------|-----------
-huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostscript": "^4.1"`
 
 
 ## Usage
+
+### Utils service
+
+### Dca Fields
+
+### Entity Finder
+
+### Twig Filters
+
+
+
+
+# OLD STUFF
+
+
 
 > We're currently in a process moving all services into the Utils namespace and make them all accessible from a new Utils service. 
 
