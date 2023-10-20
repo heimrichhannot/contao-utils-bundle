@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Tests\Util\Container;
+namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\HttpKernel\Bundle\ContaoModuleBundle;
