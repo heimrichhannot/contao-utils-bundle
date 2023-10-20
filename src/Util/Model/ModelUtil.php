@@ -80,7 +80,7 @@ class ModelUtil
      *
      * @return Model[]|Collection|null
      */
-    public function findModelInstancesBy(string $table, $columns, $values, array $options = []): Collection|Model|null
+    public function findModelInstancesBy(string $table, array|string|null $columns, int|string|array|null $values, array $options = []): Collection|Model|null
     {
         $defaults = [
             'skipReplaceInsertTags' => false,
@@ -117,7 +117,7 @@ class ModelUtil
      *
      * @return Model|null The model or null if the result is empty
      */
-    public function findModelInstanceByPk(string $table, $pk, array $options = []): ?Model
+    public function findModelInstanceByPk(string $table, int|string $pk, array $options = []): ?Model
     {
         if (!($modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table))) {
             return null;
