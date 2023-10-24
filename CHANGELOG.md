@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.231.0] - 2023-10-24
+- Added: Utils/ModelUtil::findParentsRecursively()
+- Deprecated: ModelUtil::findParentsRecursively()
+
 ## [2.230.1] - 2023-10-13
 - Fixed: missing image custom properties
 
