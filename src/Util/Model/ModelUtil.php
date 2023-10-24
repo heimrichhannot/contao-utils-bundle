@@ -204,4 +204,31 @@ class ModelUtil
 
         return $adapter->findByIdOrAlias($idOrAlias, $options);
     }
+
+    /**
+     * Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
+     *
+     * @template T of Model
+     * @param T $instance
+     * @param string $parentProperty
+     * @return array<T>
+     */
+    public function findParentsRecursively(Model $instance, string $parentProperty = 'pid'): array
+    {
+        $table = call_user_func([$instance, 'getTable']);
+
+        $parents = [];
+        $model = $this->framework->getAdapter(Model::class);
+        $modelClass = $model->getClassFromTable($table);
+
+        if (!$instance->{$parentProperty}) {
+            return $parents;
+        }
+
+        if (null === ($parentInstance = $this->framework->getAdapter($modelClass)->findByPk($instance->{$parentProperty}))) {
+            return $parents;
+        }
+
+        return array_merge($this->findParentsRecursively($parentInstance, $parentProperty), [$parentInstance]);
+    }
 }

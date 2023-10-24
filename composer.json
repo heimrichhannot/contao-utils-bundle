@@ -15,6 +15,7 @@
     "soundasleep/html2text": "^1.1",
     "symfony/cache": "^3.4|^4.4|^5.0",
     "symfony/config": "^3.4|^4.4|^5.0",
+    "symfony/deprecation-contracts": "^1.0 || ^2.0 || ^3.0",
     "symfony/filesystem": "^3.4|^4.4|^5.0",
     "symfony/http-foundation": "^3.4|^4.4|^5.0",
     "symfony/http-kernel": "^3.4|^4.4|^5.0",

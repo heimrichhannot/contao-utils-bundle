@@ -374,9 +374,13 @@ class ModelUtil
 
     /**
      * Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
+     *
+     * @deprecated Use Utils service instead
      */
     public function findParentsRecursively(string $parentProperty, string $table, Model $instance): array
     {
+        trigger_deprecation('heimrichhannot/contao-utils-bundle', '2.231.0', 'Using %s is deprecated and will no longer work in Utils Bundle version 3. Use the Utils service instead.', __METHOD__);
+
         $parents = [];
 
         if (!$instance->{$parentProperty} || null === ($parentInstance = $this->findModelInstanceByPk($table, $instance->{$parentProperty}))) {
