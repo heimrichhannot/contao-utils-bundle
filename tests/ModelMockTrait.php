@@ -8,16 +8,30 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests;
 
+use Contao\Model;
 use PHPUnit\Framework\MockObject\MockObject;
 
 trait ModelMockTrait
 {
     /**
      * Mocks a class with magic properties.
+     *
+     * @template T of Model
+     *
+     * @param class-string<T> $class
+     *
+     * @return MockObject&T
      */
-    protected function mockModelObject(string $class, array $properties = []): MockObject
+    protected function mockModelObject(string $class, array $properties = [], array $except = []): MockObject
     {
-        $mock = $this->createMock($class);
+        $classMethods = get_class_methods($class);
+
+        if (!$except) {
+            $mock = $this->createMock($class);
+        } else {
+            $mock = $this->createPartialMock($class, array_diff($classMethods, $except));
+        }
+
         $mock
             ->method('__get')
             ->willReturnCallback(

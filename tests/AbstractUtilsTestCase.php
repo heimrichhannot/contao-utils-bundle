@@ -13,6 +13,7 @@ use Contao\Controller;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\Model;
 use Contao\Model\Collection;
+use Contao\PageModel;
 use Contao\TestCase\ContaoTestCase;
 use Contao\UserModel;
 use PHPUnit\Framework\MockObject\MockBuilder;
@@ -34,6 +35,9 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
             switch ($strTable) {
                case 'tl_content':
                    return ContentModel::class;
+
+                case 'tl_page':
+                    return PageModel::class;
 
                case 'tl_user':
                    return UserModel::class;
@@ -164,5 +168,10 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
         });
 
         return $adapter;
+    }
+
+    protected function getFixturesPath(): string
+    {
+        return __DIR__.'/Fixtures';
     }
 }

@@ -10,16 +10,31 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util\Model;
 
 use Contao\ContentModel;
 use Contao\Controller;
+use Contao\CoreBundle\Framework\Adapter;
 use Contao\Model;
+use Contao\PageModel;
+use Contao\System;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use function Clue\StreamFilter\fun;
 
 class ModelUtilTest extends AbstractUtilsTestCase
 {
+    private Adapter|Model|MockObject $modelAdapter;
+
+    protected function setUp(): void
+    {
+        $this->modelAdapter = $this->mockModelAdapter();
+    }
+
+
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
-        $contaoFramework = $parameters['framework'] ?? $this->mockContaoFramework();
+        $contaoFramework = $parameters['framework'] ?? $this->mockContaoFramework([
+            Model::class => $this->modelAdapter,
+        ]);
 
         return new ModelUtil($contaoFramework);
     }
@@ -149,5 +164,83 @@ class ModelUtilTest extends AbstractUtilsTestCase
 
         $this->assertSame(5, $instance->findModelInstanceByIdOrAlias('tl_content', 5)->id);
         $this->assertSame(7, $instance->findModelInstanceByIdOrAlias('tl_content', 'seven')->id);
+    }
+
+    public function testFindParentsRecursively()
+    {
+        System::setContainer($this->getContainerWithContaoConfiguration());
+        System::getContainer()->setParameter('contao.resources_paths', $this->getFixturesPath().'/contao');
+        $pageModel = new PageModel();
+
+        $pageModel1 = (new PageModel())->setRow(['id' => 1, 'pid' => 0]);
+        $pageModel2 = (new PageModel())->setRow(['id' => 2, 'pid' => 1]);
+        $pageModel3 = (new PageModel())->setRow(['id' => 3, 'pid' => 2]);
+
+        $pageModelAdapter = $this->mockAdapter(['findByPk']);
+        $pageModelAdapter->method('findByPk')->willReturnCallback(function ($id) use ($pageModel1, $pageModel2) {
+            return match ($id) {
+                1 => $pageModel1,
+                2 => $pageModel2,
+                default => null
+            };
+        });
+
+        $framework = $this->mockContaoFramework([
+            PageModel::class => $pageModelAdapter,
+            Model::class => $this->modelAdapter,
+        ]);
+
+        $instance = $this->getTestInstance(['framework' => $framework]);
+        static::assertEmpty($instance->findParentsRecursively($pageModel));
+        static::assertEmpty($instance->findParentsRecursively($pageModel1));
+        static::assertCount(1, $instance->findParentsRecursively($pageModel2));
+        static::assertCount(2, $instance->findParentsRecursively($pageModel3));
+
+
+
+        return;
+
+
+
+        $modelAdapter = $this->mModelockAdapter(
+            [
+                'getClassFromTable',
+            ]
+        );
+        $modelAdapter->method('getClassFromTable')->with($this->anything())->willReturnCallback(
+            function ($table) {
+                switch ($table) {
+                    case 'tl_content':
+                        return ContentModel::class;
+
+                    case 'tl_null_class':
+                        return 'Huh\Null\Class\Nullclass';
+
+                    case 'tl_cfg_tag':
+                        return CfgTagModel::class;
+
+                    case 'null':
+                        return null;
+
+                    default:
+                        return null;
+                }
+            }
+        );
+        $contentModelAdapter = $this->mockAdapter(
+            [
+                'findByPk',
+            ]
+        );
+        $contentModelAdapter->method('findByPk')->willReturn($this->getModel(true));
+        $contaoFramework = $this->mockContaoFramework([Model::class => $modelAdapter, ContentModel::class => $contentModelAdapter]);
+
+        $util = $this->getTestInstance(['framework' => $contaoFramework]);
+
+        $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel());
+        $this->assertInstanceOf(MockObject::class, $result[0]);
+
+        $result = $util->findParentsRecursively('id', 'tl_content', $this->getModel(true));
+        $this->assertSame([], $result);
     }
 }
