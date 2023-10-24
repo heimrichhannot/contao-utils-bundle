@@ -22,16 +22,9 @@ trait ModelMockTrait
      *
      * @return MockObject&T
      */
-    protected function mockModelObject(string $class, array $properties = [], array $except = []): MockObject
+    protected function mockModelObject(string $class, array $properties = []): MockObject
     {
-        $classMethods = get_class_methods($class);
-
-        if (!$except) {
-            $mock = $this->createMock($class);
-        } else {
-            $mock = $this->createPartialMock($class, array_diff($classMethods, $except));
-        }
-
+        $mock = $this->createMock($class);
         $mock
             ->method('__get')
             ->willReturnCallback(
