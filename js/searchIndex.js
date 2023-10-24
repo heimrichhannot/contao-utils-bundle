@@ -4896,6 +4896,11 @@ Search.appendIndex(
             "summary": "Returns\u0020multiple\u0020model\u0020instances\u0020by\u0020given\u0020table\u0020and\u0020id\u0020or\u0020alias.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_findModelInstanceByIdOrAlias"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003AfindParentsRecursively\u0028\u0029",
+            "name": "findParentsRecursively",
+            "summary": "Returns\u0020an\u0020array\u0020of\u0020a\u0020model\u0020instance\u0027s\u0020parents\u0020in\u0020ascending\u0020order,\u0020i.e.\u0020the\u0020root\u0020parent\u0020comes\u0020first.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Model-ModelUtil.html#method_findParentsRecursively"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Model\\ModelUtil\u003A\u003A\u0024framework",
             "name": "framework",
             "summary": "",
