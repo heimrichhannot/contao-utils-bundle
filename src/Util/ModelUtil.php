@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\Model;
+namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\Controller;
 use Contao\CoreBundle\Framework\Adapter;
@@ -215,7 +215,7 @@ class ModelUtil
      * Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
      *
      * @template T of Model
-     * @param T $instance
+     * @param Model $instance
      * @param string $parentProperty
      * @return array<T>
      */

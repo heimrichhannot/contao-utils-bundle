@@ -12,7 +12,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\PageModel;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\HttpFoundation\Request;

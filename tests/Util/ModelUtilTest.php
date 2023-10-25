@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Tests\Util\Model;
+namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\ContentModel;
 use Contao\Controller;
@@ -14,8 +14,10 @@ use Contao\CoreBundle\Framework\Adapter;
 use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Tests\Util\Model\CfgTagModel;
+use HeimrichHannot\UtilsBundle\Util\ModelUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use function Clue\StreamFilter\fun;
@@ -170,6 +172,7 @@ class ModelUtilTest extends AbstractUtilsTestCase
     {
         System::setContainer($this->getContainerWithContaoConfiguration());
         System::getContainer()->setParameter('contao.resources_paths', $this->getFixturesPath().'/contao');
+        System::getContainer()->setParameter('database_connection', $this->createMock(Connection::class));
         $pageModel = new PageModel();
 
         $pageModel1 = (new PageModel())->setRow(['id' => 1, 'pid' => 0]);

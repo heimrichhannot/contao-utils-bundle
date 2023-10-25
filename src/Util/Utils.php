@@ -15,7 +15,7 @@ use HeimrichHannot\UtilsBundle\Util\DcaUtil\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\FileUtil;
 use HeimrichHannot\UtilsBundle\Util\HtmlUtil\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
-use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\UrlUtil;
 use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;

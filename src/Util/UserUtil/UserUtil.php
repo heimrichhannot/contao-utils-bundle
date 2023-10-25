@@ -16,7 +16,7 @@ use Contao\Model\Collection;
 use Contao\StringUtil;
 use Contao\UserModel;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
-use HeimrichHannot\UtilsBundle\Util\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\UserUtil\UserType;
 
 class UserUtil
