@@ -18,7 +18,7 @@ services:
       $projectDir: '%kernel.project_dir%'
       $csrfTokenName: '%contao.csrf_token_name%'
 
-  HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil:
+  HeimrichHannot\UtilsBundle\Util\ContainerUtil:
     autowire: true
     autoconfigure: true
     tags:

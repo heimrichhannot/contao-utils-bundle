@@ -8,14 +8,10 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
-use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
-use HeimrichHannot\UtilsBundle\Util\AnonymizeUtil;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\DcaUtil;
-use HeimrichHannot\UtilsBundle\Util\FileUtil;
 use HeimrichHannot\UtilsBundle\Util\HtmlUtil\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
-use HeimrichHannot\UtilsBundle\Util\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\UrlUtil;
 use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
