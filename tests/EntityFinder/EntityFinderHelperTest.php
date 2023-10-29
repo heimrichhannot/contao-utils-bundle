@@ -6,7 +6,7 @@ use Contao\ModuleModel;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult;
-use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelperTest extends ContaoTestCase

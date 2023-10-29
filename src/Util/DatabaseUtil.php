@@ -1,6 +1,8 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
+namespace HeimrichHannot\UtilsBundle\Util;
+
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult;
 
 class DatabaseUtil
 {

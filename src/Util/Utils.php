@@ -8,7 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
-use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\HtmlUtil\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;

@@ -4,7 +4,7 @@ namespace HeimrichHannot\UtilsBundle\tests\Util\DatabaseUtil;
 
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult;
-use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class DatabaseUtilTest extends AbstractUtilsTestCase

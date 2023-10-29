@@ -11,7 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\AnonymizeUtil;
-use HeimrichHannot\UtilsBundle\Util\DatabaseUtil\DatabaseUtil;
+use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\HtmlUtil\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
