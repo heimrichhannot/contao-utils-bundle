@@ -10,7 +10,7 @@ services:
     autoconfigure: true
 
   HeimrichHannot\UtilsBundle\:
-    resource: '../src/{Command,EntityFinder,EventListener,Util}/*'
+    resource: '../src/{Command,EntityFinder,EventListener,Twig,Util}/*'
     exclude: '../src/Util/Utils.php'
     autowire: true
     autoconfigure: true
