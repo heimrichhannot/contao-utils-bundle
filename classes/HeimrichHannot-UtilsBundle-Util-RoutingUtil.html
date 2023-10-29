@@ -86,12 +86,12 @@
                     <ul class="phpdocumentor-breadcrumbs">
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot.html">HeimrichHannot</a></li>
             <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle.html">UtilsBundle</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle-entityfinder.html">EntityFinder</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/heimrichhannot-utilsbundle-util.html">Util</a></li>
     </ul>
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    EntityFinderHelper
+    RoutingUtil
 
     
             <div class="phpdocumentor-element__package">
@@ -105,9 +105,9 @@
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/RoutingUtil.php"><a href="files/src-util-routingutil.html"><abbr title="src/Util/RoutingUtil.php">RoutingUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
@@ -128,32 +128,46 @@
 
 <dl class="phpdocumentor-table-of-contents">
                 <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_framework">$framework</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_csrfTokenName">$csrfTokenName</a>
     <span>
-                &nbsp;: <abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>            </span>
+                &nbsp;: string            </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_utils">$utils</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_requestStack">$requestStack</a>
     <span>
-                &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a>            </span>
+                &nbsp;: <abbr title="\Symfony\Component\HttpFoundation\RequestStack">RequestStack</abbr>            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_router">$router</a>
+    <span>
+                &nbsp;: <abbr title="\Symfony\Component\Routing\RouterInterface">RouterInterface</abbr>            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_tokenManager">$tokenManager</a>
+    <span>
+                &nbsp;: <abbr title="\Contao\CoreBundle\Csrf\ContaoCsrfTokenManager">ContaoCsrfTokenManager</abbr>            </span>
 </dt>
 <dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method___construct">__construct()</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findModulesByTypeAndSerializedValue">findModulesByTypeAndSerializedValue()</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#method_generateBackendRoute">generateBackendRoute()</a>
     <span>
-                        &nbsp;: <abbr title="\Contao\Model\Collection">Collection</abbr>|null    </span>
+                        &nbsp;: string    </span>
 </dt>
-<dd>Search within serialized array fields of the model entity.</dd>
+<dd>Generate a backend route with token and referer.</dd>
 
         </dl>
 
@@ -165,7 +179,7 @@
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="
@@ -174,24 +188,24 @@
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_framework">
-        $framework
-        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_framework" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_csrfTokenName">
+        $csrfTokenName
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_csrfTokenName" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/RoutingUtil.php"><a href="files/src-util-routingutil.html"><abbr title="src/Util/RoutingUtil.php">RoutingUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">20</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr></span>
-    <span class="phpdocumentor-signature__name">$framework</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$csrfTokenName</span>
     </code>
 
         <section class="phpdocumentor-description"></section>
@@ -208,24 +222,92 @@
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_utils">
-        $utils
-        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_utils" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_requestStack">
+        $requestStack
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_requestStack" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/RoutingUtil.php"><a href="files/src-util-routingutil.html"><abbr title="src/Util/RoutingUtil.php">RoutingUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$utils</span>
+        <span class="phpdocumentor-signature__type"><abbr title="\Symfony\Component\HttpFoundation\RequestStack">RequestStack</abbr></span>
+    <span class="phpdocumentor-signature__name">$requestStack</span>
+    </code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_router">
+        $router
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_router" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/RoutingUtil.php"><a href="files/src-util-routingutil.html"><abbr title="src/Util/RoutingUtil.php">RoutingUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">26</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type"><abbr title="\Symfony\Component\Routing\RouterInterface">RouterInterface</abbr></span>
+    <span class="phpdocumentor-signature__name">$router</span>
+    </code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_tokenManager">
+        $tokenManager
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#property_tokenManager" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/RoutingUtil.php"><a href="files/src-util-routingutil.html"><abbr title="src/Util/RoutingUtil.php">RoutingUtil.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">25</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__type"><abbr title="\Contao\CoreBundle\Csrf\ContaoCsrfTokenManager">ContaoCsrfTokenManager</abbr></span>
+    <span class="phpdocumentor-signature__name">$tokenManager</span>
     </code>
 
         <section class="phpdocumentor-description"></section>
@@ -240,7 +322,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
@@ -250,35 +332,51 @@
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/RoutingUtil.php"><a href="files/src-util-routingutil.html"><abbr title="src/Util/RoutingUtil.php">RoutingUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$utils</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$framework</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Csrf\ContaoCsrfTokenManager">ContaoCsrfTokenManager</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$tokenManager</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Routing\RouterInterface">RouterInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$router</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$csrfTokenName</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\HttpFoundation\RequestStack">RequestStack</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$requestStack</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
         <section class="phpdocumentor-description"></section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$utils</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a></span>
+                <span class="phpdocumentor-signature__argument__name">$tokenManager</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Csrf\ContaoCsrfTokenManager">ContaoCsrfTokenManager</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$framework</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr></span>
+                <span class="phpdocumentor-signature__argument__name">$router</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Routing\RouterInterface">RouterInterface</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$csrfTokenName</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$requestStack</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\HttpFoundation\RequestStack">RequestStack</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"></section>
@@ -300,51 +398,63 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_findModulesByTypeAndSerializedValue">
-        findModulesByTypeAndSerializedValue()
-        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findModulesByTypeAndSerializedValue" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_generateBackendRoute">
+        generateBackendRoute()
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#method_generateBackendRoute" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/EntityFinder/EntityFinderHelper.php"><a href="files/src-entityfinder-entityfinderhelper.html"><abbr title="src/EntityFinder/EntityFinderHelper.php">EntityFinderHelper.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/RoutingUtil.php"><a href="files/src-util-routingutil.html"><abbr title="src/Util/RoutingUtil.php">RoutingUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">34</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Search within serialized array fields of the model entity.</p>
+        <p class="phpdocumentor-summary">Generate a backend route with token and referer.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">findModulesByTypeAndSerializedValue</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$type</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$values</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Contao\Model\Collection">Collection</abbr>|null</span></code>
+                <span class="phpdocumentor-signature__name">generateBackendRoute</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$addToken</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$addReferer</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$options</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Options:</p>
+<ul>
+<li>absoluteUrl: Return absolute url (default: false)</li>
+<li>route: Route name (default: contao_backend)</li>
+</ul>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$type</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Module type</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$field</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Field with serialized data</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$values</span>
+                <span class="phpdocumentor-signature__argument__name">$params</span>
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
-                            </dt>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Values to search for in serialized data field</p>
+                    <section class="phpdocumentor-description"><p>Url-Parameters</p>
 </section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$addToken</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">true</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$addReferer</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">true</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$options</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
 
             </dd>
             </dl>
@@ -359,16 +469,26 @@
                     <span class="phpdocumentor-tag__name">throws</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><abbr title="\Exception">Exception</abbr></span>
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Psr\Container\ContainerExceptionInterface">ContainerExceptionInterface</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                            <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\Psr\Container\NotFoundExceptionInterface">NotFoundExceptionInterface</abbr></span>
                                                             
                                              
                                     </dd>
                         </dl>
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><abbr title="\Contao\Model\Collection">Collection</abbr>|null</span>
+    <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-        
+            <section class="phpdocumentor-description"><p>The backend route url</p>
+</section>
+
     
 </article>
             </section>
@@ -449,7 +569,7 @@
 </section>
             </div>
         </div>
-        <a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-RoutingUtil.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
