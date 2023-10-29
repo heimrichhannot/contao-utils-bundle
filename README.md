@@ -3,7 +3,9 @@
 [![](https://img.shields.io/packagist/v/heimrichhannot/contao-utils-bundle.svg)](https://packagist.org/packages/heimrichhannot/contao-utils-bundle)
 [![](https://img.shields.io/packagist/dt/heimrichhannot/contao-utils-bundle.svg)](https://packagist.org/packages/heimrichhannot/contao-utils-bundle)
 ![example branch parameter](https://github.com/heimrichhannot/contao-utils-bundle/actions/workflows/ci.yml/badge.svg?branch=v3)
-[![Coverage Status](https://coveralls.io/repos/github/heimrichhannot/contao-utils-bundle/badge.svg?branch=v3)](https://coveralls.io/github/heimrichhannot/contao-utils-bundle?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/heimrichhannot/contao-utils-bundle/badge.svg?branch=v3)](https://coveralls.io/github/heimrichhannot/contao-utils-bundle?branch=v3)
+
+> Hi, you're looking on a very new version of utils bundle, version 3! If you're looking for version 2, please check the [v2 branch](https://github.com/heimrichhannot/contao-utils-bundle/tree/v2).
 
 Utils Bundle is a collection of many small helper to solve repeating task. 
 At the center there is a utils service allow access to all util function. 
