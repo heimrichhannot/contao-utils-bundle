@@ -7,21 +7,15 @@
     "ext-dom": "*",
     "ext-simplexml": "*",
     "php": "^8.1",
-    "ausi/slug-generator": "^1.1",
     "contao/core-bundle": "^4.13 || ^5.0",
     "doctrine/dbal": "^2.13 || ^3.0",
-    "hackzilla/password-generator": "^1.4",
     "psr/log": "^1.0 || ^2.0 || ^3.0",
-    "soundasleep/html2text": "^1.1",
-    "symfony/cache": "^5.4 || ^6.0",
     "symfony/config": "^5.4 || ^6.0",
     "symfony/event-dispatcher-contracts": "^1.0 || ^2.0 || ^3.0",
     "symfony/filesystem": "^5.4 || ^6.0",
     "symfony/http-foundation": "^5.4 || ^6.0",
     "symfony/http-kernel": "^5.4 || ^6.0",
-    "symfony/monolog-bridge": "^5.4 || ^6.0",
     "symfony/string": "^5.2 || ^6.0",
-    "tijsverkoyen/css-to-inline-styles": "^2.2",
     "twig/twig": "^3.0"
   },
   "require-dev": {
@@ -33,9 +27,6 @@
     "symfony/phpunit-bridge": "^5.4 || ^6.0",
     "phpstan/phpstan": "^1.10",
     "phpstan/phpstan-symfony": "^1.2"
-  },
-  "conflict": {
-    "heimrichhannot/contao-encore-bundle": "<1.5"
   },
   "autoload": {
     "psr-4": {
@@ -56,14 +47,6 @@
     }
   },
   "extra": {
-    "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin",
-    "foxy": true
-  },
-  "suggest": {
-    "mpdf/mpdf": "Required by huh.utils.pdf.writer service in version ^7.0",
-    "setasign/fpdi-tcpdf": "Required by huh.utils.pdf.fpdi-writer service in version ^2.2",
-    "spatie/pdf-to-image": "Optional requirement for huh.utils.pdf.preview in version ^1.8. Please read the docs.",
-    "alchemy/ghostscript": "Optional requirement for huh.utils.pdf.preview in version ^4.1. Please read the docs.",
-    "eluceo/ical": "Optional requirement for IcsUtil in version ^0.16. Please read the docs."
+    "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin"
   }
 }
