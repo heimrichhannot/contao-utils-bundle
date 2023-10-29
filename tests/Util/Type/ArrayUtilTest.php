@@ -9,7 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Type;
 
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
+use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class ArrayUtilTest extends AbstractUtilsTestCase

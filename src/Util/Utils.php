@@ -11,14 +11,14 @@ namespace HeimrichHannot\UtilsBundle\Util;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\HtmlUtil;
-use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
-use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
-use HeimrichHannot\UtilsBundle\Util\Request\UrlUtil;
-use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
-use HeimrichHannot\UtilsBundle\Util\Type\ArrayUtil;
-use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
-use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
-use HeimrichHannot\UtilsBundle\Util\UserUtil\UserUtil;
+use HeimrichHannot\UtilsBundle\Util\LocaleUtil;
+use HeimrichHannot\UtilsBundle\Util\RequestUtil;
+use HeimrichHannot\UtilsBundle\Util\UrlUtil;
+use HeimrichHannot\UtilsBundle\Util\RoutingUtil;
+use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
+use HeimrichHannot\UtilsBundle\Util\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\AccordionUtil;
+use HeimrichHannot\UtilsBundle\Util\UserUtil;
 use Psr\Container\ContainerInterface;
 
 class Utils extends AbstractServiceSubscriber

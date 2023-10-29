@@ -9,7 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Locale;
 
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
+use HeimrichHannot\UtilsBundle\Util\LocaleUtil;
 
 class LocaleUtilTest extends ContaoTestCase
 {

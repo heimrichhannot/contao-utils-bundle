@@ -10,7 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util\Request;
 
 use HeimrichHannot\UtilsBundle\Exception\InvalidUrlException;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Request\UrlUtil;
+use HeimrichHannot\UtilsBundle\Util\UrlUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

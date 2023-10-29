@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\Ui;
+namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\ContentModel;
 use Contao\CoreBundle\Framework\ContaoFramework;

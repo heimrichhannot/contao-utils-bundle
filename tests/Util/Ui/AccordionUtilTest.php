@@ -12,7 +12,7 @@ use Contao\ContentModel;
 use Contao\Model\Collection;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Ui\AccordionUtil;
+use HeimrichHannot\UtilsBundle\Util\AccordionUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
 class AccordionUtilTest extends AbstractUtilsTestCase

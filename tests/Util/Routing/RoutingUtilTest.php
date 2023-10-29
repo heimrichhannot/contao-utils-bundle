@@ -10,7 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util\Routing;
 
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\Routing\RoutingUtil;
+use HeimrichHannot\UtilsBundle\Util\RoutingUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;

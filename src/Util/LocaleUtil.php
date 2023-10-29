@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\Locale;
+namespace HeimrichHannot\UtilsBundle\Util;
 
 class LocaleUtil
 {

@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\Routing;
+namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
 use HeimrichHannot\UtilsBundle\Util\AbstractServiceSubscriber;

@@ -9,7 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Type;
 
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Util\Type\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\StringUtil;
 
 class StringUtilTest extends ContaoTestCase
 {
