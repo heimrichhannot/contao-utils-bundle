@@ -6,15 +6,11 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\HtmlUtil;
+namespace HeimrichHannot\UtilsBundle\Util;
 
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil\GenerateDataAttributesStringArrayHandling;
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil\GenerateDataAttributesStringOptions;
 use function Symfony\Component\String\u;
-
-enum HtmlUtilArrayHandling: string
-{
-    case REDUCE = 'reduce';
-    case ENCODE = 'encode';
-}
 
 class HtmlUtil
 {

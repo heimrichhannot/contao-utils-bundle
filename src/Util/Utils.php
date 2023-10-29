@@ -10,7 +10,7 @@ namespace HeimrichHannot\UtilsBundle\Util;
 
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
-use HeimrichHannot\UtilsBundle\Util\HtmlUtil\HtmlUtil;
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\Locale\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\RequestUtil;
 use HeimrichHannot\UtilsBundle\Util\Request\UrlUtil;
