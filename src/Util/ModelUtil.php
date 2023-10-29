@@ -215,7 +215,7 @@ class ModelUtil
      * Returns an array of a model instance's parents in ascending order, i.e. the root parent comes first.
      *
      * @template T of Model
-     * @param Model $instance
+     * @param T $instance
      * @param string $parentProperty
      * @return array<T>
      */
