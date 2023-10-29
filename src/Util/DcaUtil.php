@@ -6,12 +6,13 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\UtilsBundle\Util\DcaUtil;
+namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\Controller;
 use Contao\CoreBundle\DataContainer\PaletteNotFoundException;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\DcaUtil\GetDcaFieldsOptions;
 
 class DcaUtil
 {
