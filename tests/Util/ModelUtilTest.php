@@ -15,6 +15,8 @@ use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Schema;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Tests\Util\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Util\ModelUtil;
@@ -172,7 +174,16 @@ class ModelUtilTest extends AbstractUtilsTestCase
     {
         System::setContainer($this->getContainerWithContaoConfiguration());
         System::getContainer()->setParameter('contao.resources_paths', $this->getFixturesPath().'/contao');
-        System::getContainer()->setParameter('database_connection', $this->createMock(Connection::class));
+        $connection = $this->createMock(Connection::class);
+        $connection->method('createSchemaManager')->willReturnCallback(function () {
+            $schemaManager =  $this->createMock(AbstractSchemaManager::class);
+            $schema = $this->createMock(Schema::class);
+            $schema->method('getTables')->willReturn([]);
+            $schemaManager->method('createSchema')->willReturn($schema);
+            $schemaManager->method('introspectSchema')->willReturn($schema);
+            return $schemaManager;
+        });
+        System::getContainer()->set('database_connection', $connection);
         $pageModel = new PageModel();
 
         $pageModel1 = (new PageModel())->setRow(['id' => 1, 'pid' => 0]);
