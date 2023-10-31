@@ -16,6 +16,7 @@ The main changes are:
 More specific changes, but not limited to:
 - Changed: bundle class name is now `HeimrichHannotUtilsBundle`
 - Changed: DcaUtil::getDcaFields() array options now throw error if not of type array
+- Changed: RoutingUtil::generateBackendRoute() route argument moved to options array
 - Removed: ContainerUtil::isBundleActive()
 - Removed: UrlUtil::removeQueryStringParameterToUrl()
-- Changed: RoutingUtil::generateBackendRoute() route argument moved to options array
+- Removed: a lot of not used dependencies

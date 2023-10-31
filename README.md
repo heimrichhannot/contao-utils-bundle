@@ -20,13 +20,11 @@ In addition, there are DcaField helpers, the Entity finder command and some nice
 
 ## Install
 
-1. Install via composer:
-    ```
-    composer require heimrichhannot/contao-utils-bundle
-    ```
-1. Update database
+Just install it via composer or contao manager:
 
-
+```
+composer require heimrichhannot/contao-utils-bundle
+```
 
 ## Usage
 
@@ -133,4 +131,3 @@ We try our best to keep this bundle backwards compatible and follow the principl
 Following aspects are not covered by BC promise:
 - Using Utils classes direct instead from Utils service. This is not officially supported and may break your application due internal changes.
 - Classes marked as `@internal` or `@experimental`
-- 
