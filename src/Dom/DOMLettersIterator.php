@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
 
 /*
  * Copyright (c) 2021 Heimrich & Hannot GmbH
@@ -11,7 +11,6 @@ namespace HeimrichHannot\UtilsBundle\Dom;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
-use InvalidArgumentException;
 use Iterator;
 
 /**
@@ -29,6 +28,8 @@ use Iterator;
  *
  * @author porneL http://pornel.net
  * @license Public Domain
+ *
+ * @internal
  */
 final class DOMLettersIterator implements Iterator
 {
@@ -37,26 +38,17 @@ final class DOMLettersIterator implements Iterator
     private $offset;
     private $key;
     private $letters;
-    /**
-     * @var \SplQueue
-     */
-    private $queue;
+    private \SplQueue $queue;
 
     /**
      * expects DOMElement or DOMDocument (see DOMDocument::load and DOMDocument::loadHTML).
-     *
-     * @param DOMDocument|DOMElement $el
      */
-    public function __construct(DOMNode $el)
+    public function __construct(DOMDocument|DOMElement $el)
     {
         if ($el instanceof DOMDocument) {
             $this->start = $el->documentElement;
         } else {
-            if ($el instanceof DOMElement) {
-                $this->start = $el;
-            } else {
-                throw new InvalidArgumentException('Invalid arguments, expected DOMElement or DOMDocument');
-            }
+            $this->start = $el;
         }
         $this->queue = new \SplQueue();
     }
@@ -68,23 +60,21 @@ final class DOMLettersIterator implements Iterator
      *
      * @return DOMElement[]|int[]
      */
-    public function currentTextPosition()
+    public function currentTextPosition(): array
     {
         return [$this->current, $this->offset, $this->queue->bottom()];
     }
 
     /**
      * Returns DOMElement that is currently being iterated or NULL if iterator has finished.
-     *
-     * @return DOMElement
      */
-    public function currentElement()
+    public function currentElement(): ?DOMElement
     {
         return $this->current ? $this->current->parentNode : null;
     }
 
     // Implementation of Iterator interface
-    public function key()
+    public function key(): mixed
     {
         return $this->key;
     }
@@ -141,7 +131,7 @@ final class DOMLettersIterator implements Iterator
         $this->next();
     }
 
-    public function current()
+    public function current(): mixed
     {
         if ($this->current) {
             return $this->letters[$this->offset];
@@ -150,12 +140,12 @@ final class DOMLettersIterator implements Iterator
         return null;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return (bool) $this->current;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->offset = -1;
         $this->letters = [];

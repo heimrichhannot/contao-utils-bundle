@@ -5,7 +5,7 @@
 ![example branch parameter](https://github.com/heimrichhannot/contao-utils-bundle/actions/workflows/ci.yml/badge.svg?branch=v3)
 [![Coverage Status](https://coveralls.io/repos/github/heimrichhannot/contao-utils-bundle/badge.svg?branch=v3)](https://coveralls.io/github/heimrichhannot/contao-utils-bundle?branch=v3)
 
-> Hi, you're looking on a very new version of utils bundle, version 3! If you're looking for version 2, please check the [v2 branch](https://github.com/heimrichhannot/contao-utils-bundle/tree/v2).
+> Hi, you're looking on a very new version of utils bundle, version 3! See [CHANGELOG.md](CHANGELOG.md) for more information! If you're looking for version 2, please check the [v2 branch](https://github.com/heimrichhannot/contao-utils-bundle/tree/v2).
 
 Utils Bundle is a collection of many small helper to solve repeating task. 
 At the center there is a utils service allow access to all util function. 
@@ -123,3 +123,14 @@ Returns an anonymized email address. max.muster@example.org will be max.****@exa
 ```twig
 {{ user.email|anonymize_email }}
 ```
+
+## Notes
+
+### Backwards Compatibility Promise
+
+We try our best to keep this bundle backwards compatible and follow the principle of [semantic versioning](https://semver.org/).
+
+Following aspects are not covered by BC promise:
+- Using Utils classes direct instead from Utils service. This is not officially supported and may break your application due internal changes.
+- Classes marked as `@internal` or `@experimental`
+- 
