@@ -20,7 +20,7 @@ class DcaExtension extends AbstractExtension implements ContainerAwareInterface
     public function getFilters()
     {
         return [
-            new TwigFilter('fieldLabel', [$this, 'fieldLabel']),
+            new TwigFilter('fieldLabel', [$this, 'fieldLabel'], ['deprecated' => true]),
         ];
     }
 

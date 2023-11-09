@@ -39,9 +39,9 @@ class StringExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('autolink', [$this, 'autolink']),
+            new TwigFilter('autolink', [$this, 'autolink'], ['deprecated' => true]),
             new TwigFilter('anonymize_email', [$this, 'anonymizeEmail']),
-            new TwigFilter('replace_inserttag', [$this, 'replaceInsertTag']),
+            new TwigFilter('replace_inserttag', [$this, 'replaceInsertTag'], ['deprecated' => true]),
         ];
     }
 

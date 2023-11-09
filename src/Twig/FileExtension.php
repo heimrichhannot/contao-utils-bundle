@@ -62,10 +62,10 @@ class FileExtension extends AbstractExtension implements ContainerAwareInterface
     public function getFilters()
     {
         return [
-            new TwigFilter('file_data', [$this, 'getFileData']),
-            new TwigFilter('file_path', [$this, 'getFilePath']),
-            new TwigFilter('file_content', [$this, 'getFileContent']),
-            new TwigFilter('bin2uuid', [$this, 'convertBinaryToUuid']),
+            new TwigFilter('file_data', [$this, 'getFileData'], ['deprecated' => true]),
+            new TwigFilter('file_path', [$this, 'getFilePath'], ['deprecated' => true]),
+            new TwigFilter('file_content', [$this, 'getFileContent'], ['deprecated' => true]),
+            new TwigFilter('bin2uuid', [$this, 'convertBinaryToUuid'], ['deprecated' => true]),
         ];
     }
 

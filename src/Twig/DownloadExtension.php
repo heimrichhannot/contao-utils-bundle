@@ -55,11 +55,11 @@ class DownloadExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('download', [$this, 'getDownload']),
-            new TwigFilter('download_link', [$this, 'getDownloadLink']),
-            new TwigFilter('download_path', [$this, 'getDownloadPath']),
-            new TwigFilter('download_data', [$this, 'getDownloadData']),
-            new TwigFilter('download_title', [$this, 'getDownloadTitle']),
+            new TwigFilter('download', [$this, 'getDownload', ['deprecated' => true]]),
+            new TwigFilter('download_link', [$this, 'getDownloadLink'], ['deprecated' => true]),
+            new TwigFilter('download_path', [$this, 'getDownloadPath'], ['deprecated' => true]),
+            new TwigFilter('download_data', [$this, 'getDownloadData'], ['deprecated' => true]),
+            new TwigFilter('download_title', [$this, 'getDownloadTitle'], ['deprecated' => true]),
         ];
     }
 

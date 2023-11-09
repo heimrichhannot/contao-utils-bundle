@@ -30,12 +30,12 @@ class ImageExtension extends AbstractExtension implements ContainerAwareInterfac
     public function getFilters()
     {
         return [
-            new TwigFilter('image', [$this, 'getImage']),
-            new TwigFilter('image_caption', [$this, 'getImageCaption']),
-            new TwigFilter('image_width', [$this, 'getImageWidth']),
-            new TwigFilter('image_data', [$this, 'getImageData']),
-            new TwigFilter('image_gallery', [$this, 'getImageGallery']),
-            new TwigFilter('image_size', [$this, 'getImageSize']),
+            new TwigFilter('image', [$this, 'getImage'], ['deprecated' => true]),
+            new TwigFilter('image_caption', [$this, 'getImageCaption'], ['deprecated' => true]),
+            new TwigFilter('image_width', [$this, 'getImageWidth'], ['deprecated' => true]),
+            new TwigFilter('image_data', [$this, 'getImageData'], ['deprecated' => true]),
+            new TwigFilter('image_gallery', [$this, 'getImageGallery'], ['deprecated' => true]),
+            new TwigFilter('image_size', [$this, 'getImageSize'], ['deprecated' => true]),
         ];
     }
 

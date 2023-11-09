@@ -24,18 +24,18 @@ class TestExtension extends AbstractExtension implements ContainerAwareInterface
     public function getTests()
     {
         return [
-            new TwigTest('numeric', [$this, 'isNumeric']),
-            new TwigTest('float', [$this, 'isFloat']),
-            new TwigTest('string', [$this, 'isString']),
-            new TwigTest('object', [$this, 'isObject']),
-            new TwigTest('array', [$this, 'isArray']),
-            new TwigTest('bool', [$this, 'isBool']),
-            new TwigTest('int', [$this, 'isInt']),
-            new TwigTest('uuid', [$this, 'isUuid']),
-            new TwigTest('binaryUuid', [$this, 'isBinaryUuid']),
-            new TwigTest('stringUuid', [$this, 'isStringUuid']),
-            new TwigTest('url', [$this, 'isUrl']),
-            new TwigTest('email', [$this, 'isEmail']),
+            new TwigTest('numeric', [$this, 'isNumeric'], ['deprecated' => true]),
+            new TwigTest('float', [$this, 'isFloat'], ['deprecated' => true]),
+            new TwigTest('string', [$this, 'isString'], ['deprecated' => true]),
+            new TwigTest('object', [$this, 'isObject'], ['deprecated' => true]),
+            new TwigTest('array', [$this, 'isArray'], ['deprecated' => true]),
+            new TwigTest('bool', [$this, 'isBool'], ['deprecated' => true]),
+            new TwigTest('int', [$this, 'isInt'], ['deprecated' => true]),
+            new TwigTest('uuid', [$this, 'isUuid'], ['deprecated' => true]),
+            new TwigTest('binaryUuid', [$this, 'isBinaryUuid'], ['deprecated' => true]),
+            new TwigTest('stringUuid', [$this, 'isStringUuid'], ['deprecated' => true]),
+            new TwigTest('url', [$this, 'isUrl'], ['deprecated' => true]),
+            new TwigTest('email', [$this, 'isEmail'], ['deprecated' => true]),
         ];
     }
 

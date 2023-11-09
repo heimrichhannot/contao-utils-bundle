@@ -23,7 +23,7 @@ class DateExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('localized_date', [$this, 'getLocalizedDate']),
+            new TwigFilter('localized_date', [$this, 'getLocalizedDate'], ['deprecated' => true]),
         ];
     }
 

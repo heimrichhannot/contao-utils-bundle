@@ -26,7 +26,7 @@ class ArrayExtension extends AbstractExtension implements ContainerAwareInterfac
     public function getFilters()
     {
         return [
-            new TwigFilter('deserialize', [$this, 'deserialize']),
+            new TwigFilter('deserialize', [$this, 'deserialize'], ['deprecated' => true]),
         ];
     }
 
