@@ -53,6 +53,11 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(ContainerUtil::class);
     }
 
+    public function database(): DatabaseUtil
+    {
+        return $this->locator->get(DatabaseUtil::class);
+    }
+
     public function dca(): DcaUtil
     {
         return $this->locator->get(DcaUtil::class);
@@ -109,6 +114,7 @@ class Utils extends AbstractServiceSubscriber
             AccordionUtil::class,
             ArrayUtil::class,
             ContainerUtil::class,
+            DatabaseUtil::class,
             DcaUtil::class,
             FileUtil::class,
             HtmlUtil::class,

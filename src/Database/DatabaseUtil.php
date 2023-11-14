@@ -323,9 +323,13 @@ class DatabaseUtil
      * - inline_values: (bool) Inline the values in the sql part instead of using ? ('REGEXP (':"3"')' instead of 'REGEXP (?)'). Return value not change (still an array with an values index)
      *
      * @return array
+     *
+     * @deprecated Use Utils service instead
      */
     public function createWhereForSerializedBlob(string $field, array $values, string $connective = self::SQL_CONDITION_OR, array $options = [])
     {
+        trigger_deprecation('heimrichhannot/contao-utils-bundle', '2.232.0', 'Using %s is deprecated and will no longer work in Utils Bundle 3.0. Use the Utils service instead.', __METHOD__);
+
         $where = null;
         $returnValues = [];
         $inlineValues = $options['inline_values'] ?? false;
