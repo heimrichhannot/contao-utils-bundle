@@ -2,6 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
+
 ## [3.0.0] - TBD
 This version is a complete reworked version of utils bundle. 
 The goal was to have a non-inversive bundle of useful helpers for contao.
