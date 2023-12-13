@@ -6,8 +6,11 @@ class ClassUtil
 {
     /**
      * Return true if the given class or a parent class implements the given trait
+     * @param object|string $class
+     * @param string $trait
+     * @return bool
      */
-    public function classImplementsTrait(object|string $class, string $trait): bool
+    public function classImplementsTrait($class, string $trait): bool
     {
         do {
             if (in_array($trait, class_uses($class))) {

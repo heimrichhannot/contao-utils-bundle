@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.233.0] - 2023-12-13
+- Added: Utils/ClassUtil
+
 ## [2.232.0] - 2023-11-14
 - Changed: backported Utils/DatabaseUtil from v3 to v2
 - Deprecated: old DatabaseUtil class
