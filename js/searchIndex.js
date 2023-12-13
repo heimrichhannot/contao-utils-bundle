@@ -4671,6 +4671,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-AbstractServiceSubscriber.html"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ClassUtil",
+            "name": "ClassUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-ClassUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ClassUtil\u003A\u003AclassImplementsTrait\u0028\u0029",
+            "name": "classImplementsTrait",
+            "summary": "Return\u0020true\u0020if\u0020the\u0020given\u0020class\u0020or\u0020a\u0020parent\u0020class\u0020implements\u0020the\u0020given\u0020trait",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-ClassUtil.html#method_classImplementsTrait"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Container\\ContainerUtil",
             "name": "ContainerUtil",
             "summary": "",
@@ -5320,6 +5330,11 @@ Search.appendIndex(
             "name": "array",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_array"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Aclass\u0028\u0029",
+            "name": "class",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Utils.html#method_class"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Utils\u003A\u003Acontainer\u0028\u0029",
             "name": "container",
