@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.233.1] - 2023-12-19
+- Fixed: mce issue in FormUtil
+
 ## [2.233.0] - 2023-12-13
 - Added: Utils/ClassUtil
 

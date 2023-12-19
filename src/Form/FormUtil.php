@@ -151,7 +151,7 @@ class FormUtil
                     $formatted .= $mceRowSeparator;
 
                     foreach ($row as $fieldName => $fieldValue) {
-                        if (\in_array($fieldName, $skipMceFields) || (\is_array($mceFields) && !\in_array($fieldName, $mceFields))) {
+                        if (\in_array($fieldName, $skipMceFields) || (!empty($mceFields) && !\in_array($fieldName, $mceFields))) {
                             continue;
                         }
 
