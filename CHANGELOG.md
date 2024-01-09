@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.234.0] - 2024-01-09
+- Added: find*ByInserttag methods to EntityFinderHelper
+- Changed: find articles by inserttags for html modules and content element in EntityFinder command
+
 ## [2.233.1] - 2023-12-19
 - Fixed: mce issue in FormUtil
 

@@ -24,15 +24,10 @@ class EntityFinderHelper
      * @var Utils
      */
     private $utils;
-    /**
-     * @var Connection
-     */
-    private $connection;
 
-    public function __construct(Utils $utils, Connection $connection)
+    public function __construct(Utils $utils)
     {
         $this->utils = $utils;
-        $this->connection = $connection;
     }
 
     /**
