@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 
+
+
 ## [3.0.0] - TBD
 This version is a complete reworked version of utils bundle. 
 The goal was to have a non-inversive bundle of useful helpers for contao.
@@ -12,7 +14,7 @@ The main changes are:
 - All classic util classes and aliases are removed. Only the ones accessible via the `Utils` service are available.
 - All deprecated services and functions are removed.
 - Nearly all twig filters were dropped.
-- No more bundled assets. You install the asset component still as yarn dependency.
+- No more bundled assets. You can install the asset component still as yarn dependency.
 
 More specific changes, but not limited to:
 - Changed: bundle class name is now `HeimrichHannotUtilsBundle`
@@ -21,3 +23,8 @@ More specific changes, but not limited to:
 - Removed: ContainerUtil::isBundleActive()
 - Removed: UrlUtil::removeQueryStringParameterToUrl()
 - Removed: a lot of not used dependencies
+
+## [3.0.0-beta2] - 2024-01-09
+Merge changes from 2.234.0: 
+- Added: find*ByInserttag methods to EntityFinderHelper
+- Changed: find articles by inserttags for html modules and content element in EntityFinder command
