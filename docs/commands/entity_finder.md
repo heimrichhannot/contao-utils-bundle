@@ -32,6 +32,8 @@ A list about where is searched for parent entities (recursive).
 
 **`tl_article` (Article):**
 - page
+- html content element (inserttag insert_article)
+- html frontend module (inserttag insert_article)
 
 **`tl_block_module` (Block Element child)**
 - parent block

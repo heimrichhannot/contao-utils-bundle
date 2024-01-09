@@ -12,7 +12,7 @@ At the center there is a utils service allow access to all util function.
 In addition, there are DcaField helpers, the Entity finder command and some nice twig filters.
 
 ## Features
-* Utils-Service - A service allow access all bundles utils functions. 
+* Utils-Service - A service allow access all bundled utils functions. 
 * DcaField registration - An nice api to add typical dca fields to your dca fields without repeating yourself or annoying order restrictions.
   * AuthorField - Add an author field with automatic filling of the default value and optional frontend member support
 * Entity Finder - A command to search for any contao entities in your database.
