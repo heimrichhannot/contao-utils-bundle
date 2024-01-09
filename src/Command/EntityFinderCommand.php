@@ -170,6 +170,15 @@ class EntityFinderCommand extends Command
                 if ($element) {
                     $parents[] = ['table' => PageModel::getTable(), 'id' => $element->pid];
 
+                    if (!$onlyText) {
+                        foreach ($this->entityFinderHelper->findModulesByInserttag('html', 'html', 'insert_article', $element->id) as $id) {
+                            $parents[] = ['table' => ModuleModel::getTable(), 'id' => $id];
+                        }
+                        foreach ($this->entityFinderHelper->findContentElementByInserttag('html', 'html', 'insert_article', $element->id) as $id) {
+                            $parents[] = ['table' => ContentModel::getTable(), 'id' => $id];
+                        }
+                    }
+
                     return 'Article: '.$element->title.' (ID: '.$element->id.')';
                 }
 
