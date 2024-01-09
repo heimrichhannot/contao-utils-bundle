@@ -9,8 +9,10 @@
 namespace HeimrichHannot\UtilsBundle\EntityFinder;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\Database;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
+use Contao\Validator;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelper
@@ -20,7 +22,6 @@ class EntityFinderHelper
         private ContaoFramework $framework,
     )
     {
-        $this->databaseUtil = $databaseUtil;
     }
 
     /**
