@@ -1866,10 +1866,20 @@ Search.appendIndex(
             "summary": "Search\u0020within\u0020serialized\u0020array\u0020fields\u0020of\u0020the\u0020model\u0020entity.",
             "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findModulesByTypeAndSerializedValue"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003A\u0024databaseUtil",
-            "name": "databaseUtil",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003AfindModulesByInserttag\u0028\u0029",
+            "name": "findModulesByInserttag",
+            "summary": "Find\u0020frontend\u0020modules\u0020by\u0020insert\u0020inserttags\u0020like\u0020insert_module\u0020oder\u0020insert_article.",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findModulesByInserttag"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003AfindContentElementByInserttag\u0028\u0029",
+            "name": "findContentElementByInserttag",
+            "summary": "Find\u0020content\u0020elements\u0020by\u0020insert\u0020inserttags\u0020like\u0020insert_module\u0020oder\u0020insert_article.",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findContentElementByInserttag"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003A\u0024utils",
+            "name": "utils",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_databaseUtil"
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_utils"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\AbstractEvent",
             "name": "AbstractEvent",
