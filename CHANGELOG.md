@@ -3,8 +3,6 @@
 All notable changes to this project will be documented in this file.
 
 
-
-
 ## [3.0.0] - TBD
 This version is a complete reworked version of utils bundle. 
 The goal was to have a non-inversive bundle of useful helpers for contao.
@@ -23,6 +21,10 @@ More specific changes, but not limited to:
 - Removed: ContainerUtil::isBundleActive()
 - Removed: UrlUtil::removeQueryStringParameterToUrl()
 - Removed: a lot of not used dependencies
+
+## [3.0.0-beta3] - 2024-01-10
+Merge changes from 2.234.1:
+- Fixed: missing title in entity finder block_module output
 
 ## [3.0.0-beta2] - 2024-01-09
 Merge changes from 2.234.0: 
