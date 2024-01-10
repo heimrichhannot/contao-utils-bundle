@@ -91,7 +91,7 @@
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    DatabaseUtil
+    AnonymizeUtil
 
     
             <div class="phpdocumentor-element__package">
@@ -105,9 +105,9 @@
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/DatabaseUtil.php"><a href="files/src-util-databaseutil.html"><abbr title="src/Util/DatabaseUtil.php">DatabaseUtil.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/AnonymizeUtil.php"><a href="files/src-util-anonymizeutil.html"><abbr title="src/Util/AnonymizeUtil.php">AnonymizeUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">5</span>
 
     </aside>
 
@@ -128,11 +128,11 @@
 
 <dl class="phpdocumentor-table-of-contents">
                     <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/HeimrichHannot-UtilsBundle-Util-DatabaseUtil.html#method_createWhereForSerializedBlob">createWhereForSerializedBlob()</a>
+    <a href="classes/HeimrichHannot-UtilsBundle-Util-AnonymizeUtil.html#method_anonymizeEmail">anonymizeEmail()</a>
     <span>
-                        &nbsp;: <abbr title="\HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult">CreateWhereForSerializedBlobResult</abbr>    </span>
+                        &nbsp;: string    </span>
 </dt>
-<dd>Create a where condition for a field that contains a serialized blob.</dd>
+<dd>Returns an anonymized email address.</dd>
 
         </dl>
 
@@ -145,7 +145,7 @@
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/HeimrichHannot-UtilsBundle-Util-DatabaseUtil.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/HeimrichHannot-UtilsBundle-Util-AnonymizeUtil.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
@@ -153,42 +153,36 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_createWhereForSerializedBlob">
-        createWhereForSerializedBlob()
-        <a href="classes/HeimrichHannot-UtilsBundle-Util-DatabaseUtil.html#method_createWhereForSerializedBlob" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_anonymizeEmail">
+        anonymizeEmail()
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-AnonymizeUtil.html#method_anonymizeEmail" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/DatabaseUtil.php"><a href="files/src-util-databaseutil.html"><abbr title="src/Util/DatabaseUtil.php">DatabaseUtil.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Util/AnonymizeUtil.php"><a href="files/src-util-anonymizeutil.html"><abbr title="src/Util/AnonymizeUtil.php">AnonymizeUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Create a where condition for a field that contains a serialized blob.</p>
+        <p class="phpdocumentor-summary">Returns an anonymized email address.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">createWhereForSerializedBlob</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$values</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult">CreateWhereForSerializedBlobResult</abbr></span></code>
+                <span class="phpdocumentor-signature__name">anonymizeEmail</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$email</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>If the mail address is not valid (this function only check if the string contains an @), the source string is returned.</p>
+<p>Example:
+max.mustermann@example.org will be max.mus*******@example.org</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$field</span>
+                <span class="phpdocumentor-signature__argument__name">$email</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>A field containing a serialized array.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$values</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The values that should be searched for in the field.</p>
-</section>
+                    <section class="phpdocumentor-description"></section>
 
             </dd>
             </dl>
@@ -196,9 +190,11 @@
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type"><abbr title="\HeimrichHannot\UtilsBundle\Util\DatabaseUtil\CreateWhereForSerializedBlobResult">CreateWhereForSerializedBlobResult</abbr></span>
+    <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
-        
+            <section class="phpdocumentor-description"><p>The anonymized email address</p>
+</section>
+
     
 </article>
             </section>
@@ -279,7 +275,7 @@
 </section>
             </div>
         </div>
-        <a href="classes/HeimrichHannot-UtilsBundle-Util-DatabaseUtil.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-AnonymizeUtil.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
