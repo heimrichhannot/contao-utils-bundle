@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.234.1] - 2024-01-10
+- Fixed: missing title in entity finder block_module output
+
 ## [2.234.0] - 2024-01-09
 - Added: find*ByInserttag methods to EntityFinderHelper
 - Changed: find articles by inserttags for html modules and content element in EntityFinder command
