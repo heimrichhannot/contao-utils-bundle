@@ -87,7 +87,7 @@ class ExtendEntityFinderSubscriber implements EventSubscriberInterface
                     return;
                 }
                 $event->addParent(BlockModel::getTable(), $element->pid);
-                $event->setOutput('Block module: '.$element->id);
+                $event->setOutput('Block module: '.$element->title.' (ID: '.$element->id.')');
 
                 break;
 
