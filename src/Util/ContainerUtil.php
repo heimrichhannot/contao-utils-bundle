@@ -173,7 +173,7 @@ class ContainerUtil extends AbstractServiceSubscriber
                 && $this->framework->getAdapter(Input::class)->cookie('FE_PREVIEW');
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'monolog.logger.contao' => LoggerInterface::class,
