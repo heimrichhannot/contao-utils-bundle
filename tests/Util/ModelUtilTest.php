@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\Util;
 use Contao\ContentModel;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\Adapter;
+use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
@@ -22,7 +23,6 @@ use HeimrichHannot\UtilsBundle\Tests\Util\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Util\ModelUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
-use function Clue\StreamFilter\fun;
 
 class ModelUtilTest extends AbstractUtilsTestCase
 {
@@ -40,7 +40,15 @@ class ModelUtilTest extends AbstractUtilsTestCase
             Model::class => $this->modelAdapter,
         ]);
 
-        return new ModelUtil($contaoFramework);
+        if (!($insertTagParser = $parameters['insertTagParser'] ?? null))
+        {
+            $insertTagParser = $this->createMock(InsertTagParser::class);
+            $insertTagParser->method('replace')->willReturnCallback(function ($tag) {
+                return $tag;
+            });
+        }
+
+        return new ModelUtil($contaoFramework, $insertTagParser);
     }
 
     /**

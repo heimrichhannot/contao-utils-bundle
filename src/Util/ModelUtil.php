@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Util;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\Date;
 use Contao\Model;
 use Contao\Model\Collection;
@@ -18,7 +19,8 @@ use Contao\Model\Collection;
 class ModelUtil
 {
     public function __construct(
-        private ContaoFramework $framework
+        private ContaoFramework $framework,
+        private InsertTagParser $insertTagParser
     )
     {
     }
@@ -95,8 +97,8 @@ class ModelUtil
             return null;
         }
 
-        if (\is_array($values) && true !== $options['skipReplaceInsertTags']) {
-            $values = array_map([$this->framework->getAdapter(Controller::class), 'replaceInsertTags'], $values);
+        if (is_array($values) && !$options['skipReplaceInsertTags']) {
+            $values = array_map(fn($value) => $this->insertTagParser->replace($value), $values);
         }
 
         if (empty($columns)) {
@@ -155,8 +157,8 @@ class ModelUtil
             return null;
         }
 
-        if (\is_array($values) && !$options['skipReplaceInsertTags']) {
-            $values = array_map([$this->framework->getAdapter(Controller::class), 'replaceInsertTags'], $values);
+        if (is_array($values) && !$options['skipReplaceInsertTags']) {
+            $values = array_map(fn($value) => $this->insertTagParser->replace($value), $values);
         }
 
         if (empty($columns)) {

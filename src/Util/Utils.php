@@ -16,7 +16,7 @@ class Utils implements ServiceSubscriberInterface
     /**
      * @var ContainerInterface
      */
-    protected $locator;
+    protected ContainerInterface $locator;
 
     /**
      * Utils constructor.
