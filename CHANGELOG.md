@@ -22,6 +22,10 @@ More specific changes, but not limited to:
 - Removed: UrlUtil::removeQueryStringParameterToUrl()
 - Removed: a lot of not used dependencies
 
+Changes since last beta version:
+- Removed: AbstractServiceSubscriber (**potentially breaking!**)
+- Fixed: compatibility with symfony 6 and contao 5.3
+
 ## [3.0.0-beta3] - 2024-01-10
 Merge changes from 2.234.1:
 - Fixed: missing title in entity finder block_module output
