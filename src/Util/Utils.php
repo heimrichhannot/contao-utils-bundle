@@ -116,7 +116,7 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(UserUtil::class);
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             AccordionUtil::class,
