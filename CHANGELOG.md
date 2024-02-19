@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 
-## [3.0.0] - TBD
+## [3.0.0] - 2024-02-19
 This version is a complete reworked version of utils bundle. 
 The goal was to have a non-inversive bundle of useful helpers for contao.
 This version will no longer add asset to your installation, do not dispatch curious caching events or similar.
@@ -25,6 +25,7 @@ More specific changes, but not limited to:
 Changes since last beta version:
 - Removed: AbstractServiceSubscriber (**potentially breaking!**)
 - Fixed: compatibility with symfony 6 and contao 5.3
+- Fixed: insert tag parsing
 
 ## [3.0.0-beta3] - 2024-01-10
 Merge changes from 2.234.1:
