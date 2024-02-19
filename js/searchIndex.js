@@ -491,11 +491,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Twig-StringExtension.html#property_utils"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\AbstractServiceSubscriber",
-            "name": "AbstractServiceSubscriber",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-AbstractServiceSubscriber.html"
-        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\AccordionUtil",
             "name": "AccordionUtil",
             "summary": "",
@@ -960,6 +955,11 @@ Search.appendIndex(
             "name": "framework",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-ModelUtil.html#property_framework"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ModelUtil\u003A\u003A\u0024insertTagParser",
+            "name": "insertTagParser",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-ModelUtil.html#property_insertTagParser"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\RequestUtil",
             "name": "RequestUtil",
