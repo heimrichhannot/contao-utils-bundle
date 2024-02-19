@@ -8,15 +8,12 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
-use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
 use Contao\PageModel;
-use Contao\System;
-use HeimrichHannot\UtilsBundle\Util\AbstractServiceSubscriber;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -25,8 +22,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-class ContainerUtil extends AbstractServiceSubscriber
+class ContainerUtil implements ServiceSubscriberInterface
 {
     public function __construct(
         private ContainerInterface $locator,
@@ -173,7 +171,7 @@ class ContainerUtil extends AbstractServiceSubscriber
                 && $this->framework->getAdapter(Input::class)->cookie('FE_PREVIEW');
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             'monolog.logger.contao' => LoggerInterface::class,

@@ -8,20 +8,10 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
-use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
-use HeimrichHannot\UtilsBundle\Util\DcaUtil;
-use HeimrichHannot\UtilsBundle\Util\HtmlUtil;
-use HeimrichHannot\UtilsBundle\Util\LocaleUtil;
-use HeimrichHannot\UtilsBundle\Util\RequestUtil;
-use HeimrichHannot\UtilsBundle\Util\UrlUtil;
-use HeimrichHannot\UtilsBundle\Util\RoutingUtil;
-use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
-use HeimrichHannot\UtilsBundle\Util\StringUtil;
-use HeimrichHannot\UtilsBundle\Util\AccordionUtil;
-use HeimrichHannot\UtilsBundle\Util\UserUtil;
 use Psr\Container\ContainerInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-class Utils extends AbstractServiceSubscriber
+class Utils implements ServiceSubscriberInterface
 {
     /**
      * @var ContainerInterface
@@ -116,7 +106,7 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(UserUtil::class);
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             AccordionUtil::class,

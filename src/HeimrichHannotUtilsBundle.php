@@ -8,7 +8,6 @@
 
 namespace HeimrichHannot\UtilsBundle;
 
-use HeimrichHannot\UtilsBundle\DependencyInjection\HeimrichHannotUtilsExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class HeimrichHannotUtilsBundle extends Bundle

@@ -9,18 +9,14 @@
 namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
-use HeimrichHannot\UtilsBundle\Util\AbstractServiceSubscriber;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class RoutingUtil
 {
-
     public function __construct(
         private ContaoCsrfTokenManager $tokenManager,
         private RouterInterface $router,
