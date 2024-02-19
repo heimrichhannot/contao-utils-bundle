@@ -40,7 +40,13 @@ class ModelUtilTest extends AbstractUtilsTestCase
             Model::class => $this->modelAdapter,
         ]);
 
-        $insertTagParser = $parameters['insertTagParser'] ?? $this->createMock(InsertTagParser::class);
+        if (!($insertTagParser = $parameters['insertTagParser'] ?? null))
+        {
+            $insertTagParser = $this->createMock(InsertTagParser::class);
+            $insertTagParser->method('replace')->willReturnCallback(function ($tag) {
+                return $tag;
+            });
+        }
 
         return new ModelUtil($contaoFramework, $insertTagParser);
     }
