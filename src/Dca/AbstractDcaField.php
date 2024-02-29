@@ -11,7 +11,7 @@ abstract class AbstractDcaField
      */
     public static function register(string $table): DcaFieldOptions
     {
-        $config = self::createOptionObject($table);
+        $config = static::createOptionObject($table);
 
         static::$tables[$table] = $config;
 
