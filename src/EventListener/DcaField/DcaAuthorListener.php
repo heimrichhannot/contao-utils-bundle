@@ -1,6 +1,6 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\EventListener;
+namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\Framework\ContaoFramework;

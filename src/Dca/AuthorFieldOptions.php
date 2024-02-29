@@ -2,10 +2,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
-class AuthorFieldOptions
+class AuthorFieldOptions extends DcaFieldOptions
 {
-    /** @var string  */
-    protected $table;
     /** @var string  */
     protected $type = AuthorField::TYPE_USER;
     /** @var string  */
@@ -18,25 +16,6 @@ class AuthorFieldOptions
     protected $search = true;
     /** @var bool  */
     protected $filter = true;
-
-    /**
-     * @param string $table
-     */
-    public function __construct(string $table)
-    {
-        $this->table = $table;
-    }
-
-
-    public function getTable(): string
-    {
-        return $this->table;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
 
     public function setType(string $type): AuthorFieldOptions
     {
