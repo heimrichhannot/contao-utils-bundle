@@ -19,7 +19,10 @@ class DateAddedFieldListenerTest extends TestCase
         $table = 'test_table';
 
         // Mock the global array
-        $GLOBALS['TL_DCA'][$table] = [];
+        $GLOBALS['TL_DCA'][$table] = [
+            'config' => [],
+            'fields' => [],
+        ];
 
         $listener->onLoadDataContainer($table);
 
@@ -47,8 +50,17 @@ class DateAddedFieldListenerTest extends TestCase
             ->getMock();
 
         $dc->id = 1;
+        $dc->method('__get')->willReturnCallback(function ($name) {
+            switch ($name) {
+                case 'table':
+                    return 'test_table';
+                case 'id':
+                    return 1;
+            }
+        });
 
         $model = $this->getMockBuilder(Model::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['save'])
             ->getMock();
 
@@ -71,9 +83,17 @@ class DateAddedFieldListenerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $dc->id = 1;
+        $dc->method('__get')->willReturnCallback(function ($name) {
+            switch ($name) {
+                case 'table':
+                    return 'test_table';
+                case 'id':
+                    return 1;
+            }
+        });
 
         $model = $this->getMockBuilder(Model::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['save'])
             ->getMock();
 
