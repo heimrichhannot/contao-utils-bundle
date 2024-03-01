@@ -102,6 +102,17 @@ AuthorField::register('tl_example')
 ;
 ```
 
+#### Date added field
+
+Add a date added field to your dca. It will set a timestamp on create or copy.
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
+
+DateAddedField::register('tl_example');
+```
+
 
 ### Entity Finder
 
