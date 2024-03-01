@@ -7,7 +7,7 @@ class AuthorField extends AbstractDcaField
     public const TYPE_USER = 'user';
     public const TYPE_MEMBER = 'member';
 
-    protected static $tables = [];
+    protected static array $tables = [];
 
     /**
      * @return array<AuthorFieldConfiguration>
@@ -17,11 +17,7 @@ class AuthorField extends AbstractDcaField
         return parent::getRegistrations();
     }
 
-    /**
-     * @param string $table
-     * @return AuthorFieldConfiguration
-     */
-    protected static function createOptionObject(string $table): DcaFieldConfiguration
+    protected static function createOptionObject(string $table): DcaFieldConfiguration|AuthorFieldConfiguration
     {
         return new AuthorFieldConfiguration($table);
     }

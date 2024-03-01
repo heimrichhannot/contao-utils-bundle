@@ -4,18 +4,12 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 class AuthorFieldConfiguration extends DcaFieldConfiguration
 {
-    /** @var string  */
-    protected $type = AuthorField::TYPE_USER;
-    /** @var string  */
-    protected $fieldNamePrefix = '';
-    /** @var bool  */
-    protected $useDefaultLabel = true;
-    /** @var bool  */
-    protected $exclude = true;
-    /** @var bool  */
-    protected $search = true;
-    /** @var bool  */
-    protected $filter = true;
+    protected string $type = AuthorField::TYPE_USER;
+    protected string $fieldNamePrefix = '';
+    protected bool $useDefaultLabel = true;
+    protected bool $exclude = true;
+    protected bool $search = true;
+    protected bool $filter = true;
 
     public function setType(string $type): AuthorFieldConfiguration
     {

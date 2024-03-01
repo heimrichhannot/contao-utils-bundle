@@ -3,8 +3,8 @@
 namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
 use Contao\BackendUser;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\ServiceAnnotation\Hook;
 use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Model;
@@ -23,9 +23,7 @@ class DcaAuthorListener
         $this->security = $security;
     }
 
-    /**
-     * @Hook("loadDataContainer")
-     */
+    #[AsHook("loadDataContainer")]
     public function onLoadDataContainer(string $table): void
     {
         if (!isset(AuthorField::getRegistrations()[$table])) {

@@ -2,15 +2,13 @@
 
 namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
-use Contao\CoreBundle\ServiceAnnotation\Hook;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
 
 class DateAddedFieldListener extends AbstractDcaFieldListener
 {
-    /**
-     * @Hook("loadDataContainer")
-     */
+    #[AsHook("loadDataContainer")]
     public function onLoadDataContainer(string $table): void
     {
         if (!isset(DateAddedField::getRegistrations()[$table])) {
