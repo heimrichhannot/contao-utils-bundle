@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.235.1] - 2024-03-01
+- Fixed: exception
+
 ## [2.235.0] - 2024-03-01
 - Added: DateAddedField
 - Deprecated: DcaUtil::setDateAdded()
