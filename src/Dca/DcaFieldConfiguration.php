@@ -2,7 +2,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
-class DcaFieldOptions
+class DcaFieldConfiguration
 {
     /**
      * @var string

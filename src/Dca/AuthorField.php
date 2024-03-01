@@ -7,8 +7,10 @@ class AuthorField extends AbstractDcaField
     public const TYPE_USER = 'user';
     public const TYPE_MEMBER = 'member';
 
+    protected static $tables = [];
+
     /**
-     * @return array<AuthorFieldOptions>
+     * @return array<AuthorFieldConfiguration>
      */
     public static function getRegistrations(): array
     {
@@ -17,12 +19,20 @@ class AuthorField extends AbstractDcaField
 
     /**
      * @param string $table
-     * @return AuthorFieldOptions
+     * @return AuthorFieldConfiguration
      */
-    protected static function createOptionObject(string $table): DcaFieldOptions
+    protected static function createOptionObject(string $table): DcaFieldConfiguration
     {
-        return new AuthorFieldOptions($table);
+        return new AuthorFieldConfiguration($table);
     }
 
+    protected static function storeConfig(DcaFieldConfiguration $config): void
+    {
+        static::$tables[$config->getTable()] = $config;
+    }
 
+    protected static function loadConfig(): array
+    {
+        return static::$tables;
+    }
 }

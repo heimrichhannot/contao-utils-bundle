@@ -5,7 +5,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\EventListener\DcaField;
 use Contao\DataContainer;
 use Contao\Model;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
-use HeimrichHannot\UtilsBundle\Dca\DcaFieldOptions;
+use HeimrichHannot\UtilsBundle\Dca\DcaFieldConfiguration;
 use HeimrichHannot\UtilsBundle\EventListener\DcaField\DateAddedFieldListener;
 use PHPUnit\Framework\TestCase;
 
