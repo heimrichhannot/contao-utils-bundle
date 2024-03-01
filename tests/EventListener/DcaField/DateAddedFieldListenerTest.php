@@ -5,6 +5,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\EventListener\DcaField;
 use Contao\DataContainer;
 use Contao\Model;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
+use HeimrichHannot\UtilsBundle\Dca\DcaFieldOptions;
 use HeimrichHannot\UtilsBundle\EventListener\DcaField\DateAddedFieldListener;
 use PHPUnit\Framework\TestCase;
 
@@ -41,6 +42,18 @@ class DateAddedFieldListenerTest extends TestCase
 
     public function testOnLoadCallback()
     {
+        // Without DataContainer
+
+        $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->onlyMethods(['getModelInstance'])
+            ->getMock();
+
+        $listener->expects($this->never())->method('getModelInstance');
+
+        $listener->onLoadCallback();
+
+        // With DataContainer, but no model instance
+
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
             ->onlyMethods(['getModelInstance'])
             ->getMock();
@@ -57,7 +70,16 @@ class DateAddedFieldListenerTest extends TestCase
                 case 'id':
                     return 1;
             }
+            return null;
         });
+
+        $listener->method('getModelInstance')->willReturn(null);
+
+        // Complete run
+
+        $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->onlyMethods(['getModelInstance'])
+            ->getMock();
 
         $model = $this->getMockBuilder(Model::class)
             ->disableOriginalConstructor()
@@ -75,6 +97,49 @@ class DateAddedFieldListenerTest extends TestCase
 
     public function testOnCopyCallback()
     {
+        $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->onlyMethods(['getModelInstance'])
+            ->getMock();
+
+        $dc = $this->getMockBuilder(DataContainer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dc->method('__get')->willReturnCallback(function ($name) {
+            switch ($name) {
+                case 'table':
+                    return 'test_table';
+            }
+            return null;
+        });
+
+        $listener->expects($this->never())->method('getModelInstance');
+
+        $listener->onCopyCallback(1, $dc);
+
+        // Run without model
+
+        $dc = $this->getMockBuilder(DataContainer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dc->method('__get')->willReturnCallback(function ($name) {
+            switch ($name) {
+                case 'table':
+                    return 'test_table';
+                case 'id':
+                    return 1;
+            }
+        });
+
+        $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->onlyMethods(['getModelInstance'])
+            ->getMock();
+
+        $listener->method('getModelInstance')->willReturn(null);
+
+        // Complete run
+
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
             ->onlyMethods(['getModelInstance'])
             ->getMock();

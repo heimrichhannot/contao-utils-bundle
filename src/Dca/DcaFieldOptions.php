@@ -21,9 +21,4 @@ class DcaFieldOptions
     {
         return $this->table;
     }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
 }

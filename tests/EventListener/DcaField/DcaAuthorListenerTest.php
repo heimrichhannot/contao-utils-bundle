@@ -1,6 +1,6 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\Tests\EventListener;
+namespace HeimrichHannot\UtilsBundle\Tests\EventListener\DcaField;
 
 use Contao\DataContainer;
 use Contao\FrontendUser;
@@ -23,7 +23,6 @@ class DcaAuthorListenerTest extends AbstractUtilsTestCase
 
     public function testOnLoadDataContainer()
     {
-
         $testDca = [
             'fields' => []
         ];

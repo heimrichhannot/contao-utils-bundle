@@ -45,7 +45,7 @@ class DateAddedFieldListener extends AbstractDcaFieldListener
 
     public function onCopyCallback(int $insertId, DataContainer $dc): void
     {
-        if (!$dc || !$dc->id) {
+        if (!$dc->id) {
             return;
         }
 
