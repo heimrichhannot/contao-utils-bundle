@@ -4,6 +4,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\EventListener\DcaField;
 
 use Contao\DataContainer;
 use Contao\Model;
+use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
 use HeimrichHannot\UtilsBundle\EventListener\DcaField\DateAddedFieldListener;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +12,8 @@ use Psr\Container\ContainerInterface;
 
 class DateAddedFieldListenerTest extends TestCase
 {
+    use ModelMockTrait;
+
     /**
      * @runInSeparateProcess
      */
@@ -88,10 +91,7 @@ class DateAddedFieldListenerTest extends TestCase
             ->onlyMethods(['getModelInstance'])
             ->getMock();
 
-        $model = $this->getMockBuilder(Model::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['save'])
-            ->getMock();
+        $model = $this->mockModelObject(Model::class);
 
         $model->dateAdded = 0;
 
@@ -169,10 +169,7 @@ class DateAddedFieldListenerTest extends TestCase
             }
         });
 
-        $model = $this->getMockBuilder(Model::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['save'])
-            ->getMock();
+        $model = $this->mockModelObject(Model::class);
 
         $model->dateAdded = 0;
 
