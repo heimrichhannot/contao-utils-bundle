@@ -417,6 +417,8 @@ class DcaUtil
 
     /**
      * Sets the current date as the date added -> usually used on submit.
+     *
+     * @deprecated Use DateAddedField instead
      */
     public function setDateAdded(DataContainer $dc)
     {
@@ -433,6 +435,8 @@ class DcaUtil
      * Sets the current date as the date added -> usually used on copy.
      *
      * @param $insertId
+     *
+     * @deprecated Use DateAddedField instead
      */
     public function setDateAddedOnCopy($insertId, DataContainer $dc)
     {

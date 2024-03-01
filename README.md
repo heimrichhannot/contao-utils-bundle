@@ -131,6 +131,18 @@ AuthorField::register('tl_example')
 ;
 ```
 
+#### Date added field
+
+Add a date added field to your dca. It will be initialized with the current date and time. On copy, it will be set to the current date and time.
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
+
+DateAddedField::register('tl_example');
+```
+
+
 ## Documentation
 
 [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/)

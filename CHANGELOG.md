@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.235.0] - 2024-03-01
+- Added: DateAddedField
+- Deprecated: DcaUtil::setDateAdded()
+- Deprecated: DcaUtil::setDateAddedOnCopy()
+
 ## [2.234.1] - 2024-01-10
 - Fixed: missing title in entity finder block_module output
 
