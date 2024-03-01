@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-
+## [3.1.1] - 2024-03-01
+- Fixed: exception
 
 ## [3.1.0] - 2024-03-01
 - Added: DateAddedField ([#74](https://github.com/heimrichhannot/contao-utils-bundle/pull/74))
