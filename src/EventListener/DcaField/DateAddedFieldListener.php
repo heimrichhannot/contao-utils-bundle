@@ -5,6 +5,8 @@ namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
+use Psr\Container\ContainerInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 class DateAddedFieldListener extends AbstractDcaFieldListener
 {

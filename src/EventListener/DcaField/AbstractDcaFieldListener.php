@@ -9,7 +9,9 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 abstract class AbstractDcaFieldListener implements ServiceSubscriberInterface
 {
-    private ContainerInterface $container;
+    public function __construct(protected ContainerInterface $container)
+    {
+    }
 
     protected function getModelInstance(string $table, int $id): ?Model
     {
@@ -24,11 +26,4 @@ abstract class AbstractDcaFieldListener implements ServiceSubscriberInterface
             'contao.framework' => ContaoFramework::class,
         ];
     }
-
-    public function setContainer(ContainerInterface $container): ?ContainerInterface
-    {
-        $this->container = $container;
-    }
-
-
 }
