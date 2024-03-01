@@ -1,12 +1,12 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\Tests\EventListener;
+namespace HeimrichHannot\UtilsBundle\Tests\EventListener\DcaField;
 
 use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Model;
 use HeimrichHannot\UtilsBundle\Dca\AuthorField;
-use HeimrichHannot\UtilsBundle\EventListener\DcaAuthorListener;
+use HeimrichHannot\UtilsBundle\EventListener\DcaField\DcaAuthorListener;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\Security\Core\Security;
@@ -23,7 +23,6 @@ class DcaAuthorListenerTest extends AbstractUtilsTestCase
 
     public function testOnLoadDataContainer()
     {
-
         $testDca = [
             'fields' => []
         ];

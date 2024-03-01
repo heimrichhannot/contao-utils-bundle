@@ -1,6 +1,6 @@
 <?php
 
-namespace HeimrichHannot\UtilsBundle\EventListener;
+namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\Framework\ContaoFramework;
@@ -9,7 +9,7 @@ use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\Model;
 use HeimrichHannot\UtilsBundle\Dca\AuthorField;
-use HeimrichHannot\UtilsBundle\Dca\AuthorFieldOptions;
+use HeimrichHannot\UtilsBundle\Dca\AuthorFieldConfiguration;
 use Symfony\Component\Security\Core\Security;
 
 class DcaAuthorListener
@@ -103,10 +103,10 @@ class DcaAuthorListener
     }
 
     /**
-     * @param AuthorFieldOptions $options
+     * @param AuthorFieldConfiguration $options
      * @return string
      */
-    protected function getAuthorFieldName(AuthorFieldOptions $options): string
+    protected function getAuthorFieldName(AuthorFieldConfiguration $options): string
     {
         if (!$options->hasFieldNamePrefix()) {
             return 'author';

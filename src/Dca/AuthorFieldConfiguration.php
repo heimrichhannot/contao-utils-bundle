@@ -2,10 +2,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
-class AuthorFieldOptions
+class AuthorFieldConfiguration extends DcaFieldConfiguration
 {
-    /** @var string  */
-    protected $table;
     /** @var string  */
     protected $type = AuthorField::TYPE_USER;
     /** @var string  */
@@ -19,26 +17,7 @@ class AuthorFieldOptions
     /** @var bool  */
     protected $filter = true;
 
-    /**
-     * @param string $table
-     */
-    public function __construct(string $table)
-    {
-        $this->table = $table;
-    }
-
-
-    public function getTable(): string
-    {
-        return $this->table;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): AuthorFieldOptions
+    public function setType(string $type): AuthorFieldConfiguration
     {
         $this->type = $type;
         return $this;
@@ -54,7 +33,7 @@ class AuthorFieldOptions
         return $this->fieldNamePrefix;
     }
 
-    public function setFieldNamePrefix(string $fieldNamePrefix): AuthorFieldOptions
+    public function setFieldNamePrefix(string $fieldNamePrefix): AuthorFieldConfiguration
     {
         $this->fieldNamePrefix = $fieldNamePrefix;
         return $this;
@@ -65,7 +44,7 @@ class AuthorFieldOptions
         return $this->useDefaultLabel;
     }
 
-    public function setUseDefaultLabel(bool $useDefaultLabel): AuthorFieldOptions
+    public function setUseDefaultLabel(bool $useDefaultLabel): AuthorFieldConfiguration
     {
         $this->useDefaultLabel = $useDefaultLabel;
         return $this;
@@ -76,7 +55,7 @@ class AuthorFieldOptions
         return $this->exclude;
     }
 
-    public function setExclude(bool $exclude): AuthorFieldOptions
+    public function setExclude(bool $exclude): AuthorFieldConfiguration
     {
         $this->exclude = $exclude;
         return $this;
@@ -87,7 +66,7 @@ class AuthorFieldOptions
         return $this->search;
     }
 
-    public function setSearch(bool $search): AuthorFieldOptions
+    public function setSearch(bool $search): AuthorFieldConfiguration
     {
         $this->search = $search;
         return $this;
@@ -98,9 +77,14 @@ class AuthorFieldOptions
         return $this->filter;
     }
 
-    public function setFilter(bool $filter): AuthorFieldOptions
+    public function setFilter(bool $filter): AuthorFieldConfiguration
     {
         $this->filter = $filter;
         return $this;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }
