@@ -5,9 +5,9 @@ namespace HeimrichHannot\UtilsBundle\Tests\EventListener\DcaField;
 use Contao\DataContainer;
 use Contao\Model;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
-use HeimrichHannot\UtilsBundle\Dca\DcaFieldConfiguration;
 use HeimrichHannot\UtilsBundle\EventListener\DcaField\DateAddedFieldListener;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 class DateAddedFieldListenerTest extends TestCase
 {
@@ -16,7 +16,9 @@ class DateAddedFieldListenerTest extends TestCase
      */
     public function testOnLoadDataContainer()
     {
-        $listener = new DateAddedFieldListener();
+        $container = $this->createMock(ContainerInterface::class);
+
+        $listener = new DateAddedFieldListener($container);
         $table = 'test_table';
 
         // Mock the global array
@@ -45,6 +47,7 @@ class DateAddedFieldListenerTest extends TestCase
         // Without DataContainer
 
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->setConstructorArgs([$this->createMock(ContainerInterface::class)])
             ->onlyMethods(['getModelInstance'])
             ->getMock();
 
@@ -55,6 +58,7 @@ class DateAddedFieldListenerTest extends TestCase
         // With DataContainer, but no model instance
 
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->setConstructorArgs([$this->createMock(ContainerInterface::class)])
             ->onlyMethods(['getModelInstance'])
             ->getMock();
 
@@ -80,6 +84,7 @@ class DateAddedFieldListenerTest extends TestCase
         // Complete run
 
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->setConstructorArgs([$this->createMock(ContainerInterface::class)])
             ->onlyMethods(['getModelInstance'])
             ->getMock();
 
@@ -100,6 +105,7 @@ class DateAddedFieldListenerTest extends TestCase
     public function testOnCopyCallback()
     {
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->setConstructorArgs([$this->createMock(ContainerInterface::class)])
             ->onlyMethods(['getModelInstance'])
             ->getMock();
 
@@ -135,6 +141,7 @@ class DateAddedFieldListenerTest extends TestCase
         });
 
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->setConstructorArgs([$this->createMock(ContainerInterface::class)])
             ->onlyMethods(['getModelInstance'])
             ->getMock();
 
@@ -145,6 +152,7 @@ class DateAddedFieldListenerTest extends TestCase
         // Complete run
 
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
+            ->setConstructorArgs([$this->createMock(ContainerInterface::class)])
             ->onlyMethods(['getModelInstance'])
             ->getMock();
 
