@@ -75,6 +75,8 @@ class DateAddedFieldListenerTest extends TestCase
 
         $listener->method('getModelInstance')->willReturn(null);
 
+        $listener->onLoadCallback($dc);
+
         // Complete run
 
         $listener = $this->getMockBuilder(DateAddedFieldListener::class)
@@ -137,6 +139,8 @@ class DateAddedFieldListenerTest extends TestCase
             ->getMock();
 
         $listener->method('getModelInstance')->willReturn(null);
+
+        $listener->onCopyCallback(1, $dc);
 
         // Complete run
 
