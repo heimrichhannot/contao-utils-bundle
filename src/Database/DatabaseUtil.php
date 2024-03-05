@@ -361,7 +361,7 @@ class DatabaseUtil
      * Transforms verbose operators to valid MySQL operators (aka junctors).
      * Supports: like, unlike, equal, unequal, lower, greater, lowerequal, greaterequal, in, notin.
      *
-     * @return string|bool The transformed operator or false if not supported
+     * @return string|false The transformed operator or false if not supported
      */
     public function transformVerboseOperator(string $verboseOperator)
     {
@@ -393,13 +393,11 @@ class DatabaseUtil
             case static::OPERATOR_IN:
                 return 'IN';
 
-                break;
-
             case static::OPERATOR_NOT_IN:
                 return 'NOT IN';
 
             case static::OPERATOR_IS_NULL:
-                return 'NOT IN';
+                return 'IS NULL';
 
             case static::OPERATOR_IS_NOT_NULL:
                 return 'IS NOT NULL';
