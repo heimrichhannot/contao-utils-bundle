@@ -9,8 +9,13 @@ services:
     autowire: true
     autoconfigure: true
 
+  HeimrichHannot\UtilsBundle\Facades\Utils:
+    public: true
+    autowire: true
+    autoconfigure: true
+
   HeimrichHannot\UtilsBundle\:
-    resource: '../src/{Command,EntityFinder,EventListener,Twig,Util}/*'
+    resource: '../src/{Command,EntityFinder,EventListener,Facades,Twig,Util}/*'
     exclude: '../src/Util/Utils.php'
     autowire: true
     autoconfigure: true
