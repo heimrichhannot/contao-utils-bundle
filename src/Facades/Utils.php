@@ -57,7 +57,7 @@ class Utils
             if (!static::$root instanceof UtilsClass)
             {
                 throw new RuntimeException(
-                    'Facade root is not an instance of ' . UtilsClass::class . ', but ' . get_class(static::$root)
+                    'Facade root is not an instance of ' . UtilsClass::class
                 );
             }
         }
