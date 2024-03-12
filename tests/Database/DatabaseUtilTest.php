@@ -216,7 +216,7 @@ class DatabaseUtilTest extends TestCaseEnvironment
         $result = $databaseUtil->transformVerboseOperator('notin');
         $this->assertSame('NOT IN', $result);
         $result = $databaseUtil->transformVerboseOperator('isnull');
-        $this->assertSame('NOT IN', $result);
+        $this->assertSame('IS NULL', $result);
         $result = $databaseUtil->transformVerboseOperator('isnotnull');
         $this->assertSame('IS NOT NULL', $result);
         $result = $databaseUtil->transformVerboseOperator('blaa');
