@@ -60,8 +60,8 @@ class FormatterUtil
         string            $field,
         array|string|null $value,
         int               $settings = 0,
-        string            $arrayJoiner = ', ',
         array             $dcaOverride = null,
+        string            $arrayJoiner = ', ',
         ?array            $cachedOptions = null
     ): mixed {
         $value = Str::deserialize($value);
@@ -108,8 +108,8 @@ class FormatterUtil
                 function (string $f, array|string|null $v) use (
                     $dc,
                     $settings,
-                    $arrayJoiner,
                     $dcaOverride,
+                    $arrayJoiner,
                     $cachedOptions
                 ): string {
                     return $this->formatDcaFieldValue(
@@ -117,8 +117,8 @@ class FormatterUtil
                         $f,
                         $v,
                         $settings,
-                        $arrayJoiner,
                         $dcaOverride,
+                        $arrayJoiner,
                         $cachedOptions
                     );
                 }
@@ -135,8 +135,8 @@ class FormatterUtil
                     $dc,
                     $field,
                     $settings,
-                    $arrayJoiner,
                     $dcaOverride,
+                    $arrayJoiner,
                     $cachedOptions
                 ): string {
                     return $this->formatDcaFieldValue(
@@ -144,8 +144,8 @@ class FormatterUtil
                         $field,
                         $v,
                         $settings | self::OPTION_CALL_IS_RECURSIVE,
-                        $arrayJoiner,
                         $dcaOverride,
+                        $arrayJoiner,
                         $cachedOptions
                     );
                 }
