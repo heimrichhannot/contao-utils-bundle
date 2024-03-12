@@ -229,7 +229,7 @@ class FormatterUtil
         return Str::specialchars($value);
     }
 
-    /** @return array<System, Controller> */
+    /** @return array{System, Controller} */
     private function prepareServices(): array
     {
         /** @var System $system */
