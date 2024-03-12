@@ -10,6 +10,7 @@ use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\DataContainer;
 use Contao\Date;
 use Contao\Environment;
+use Contao\Model;
 use Contao\StringUtil as Str;
 use Contao\System;
 use Contao\Validator;
@@ -168,7 +169,7 @@ class FormatterUtil
             }
         }
 
-        if ($inputType === 'cfgTags' && $tagModel = $this->getTagModel())
+        if ($inputType === 'cfgTags' && ($tagModel = $this->getTagModel()))
         {
             $collection = $tagModel->findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
             $value = null;
@@ -242,7 +243,7 @@ class FormatterUtil
         return [$system, $controller];
     }
 
-    private function getTagModel(): ?TagModel
+    private function getTagModel(): ?Model
     {
         if (class_exists(TagModel::class)) {
             return $this->framework->getAdapter(TagModel::class);
