@@ -17,6 +17,7 @@ services:
     bind:
       $projectDir: '%kernel.project_dir%'
       $csrfTokenName: '%contao.csrf_token_name%'
+      $kernelBundles: '%kernel.bundles%'
 
   HeimrichHannot\UtilsBundle\Util\ContainerUtil:
     autowire: true
