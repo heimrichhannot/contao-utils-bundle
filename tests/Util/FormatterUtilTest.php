@@ -2,6 +2,7 @@
 
 namespace Util;
 
+use Contao\Controller;
 use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\DataContainer;
 use Contao\System;
@@ -13,7 +14,10 @@ class FormatterUtilTest extends ContaoTestCase
 {
     public function getInstances(array $parameter = []): FormatterUtil
     {
-        $parameter['framework'] ??= $this->mockContaoFramework();
+        $parameter['framework'] ??= $this->mockContaoFramework([
+            System::class => $this->createMock(System::class),
+            Controller::class => $this->createMock(Controller::class)
+        ]);
         $parameter['insertTagParser'] ??= $this->createMock(InsertTagParser::class);
         $parameter['utils'] ??= $this->createMock(Utils::class);
         $parameter['system'] ??= $this->createMock(System::class);
