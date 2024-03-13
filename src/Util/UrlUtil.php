@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2023 Heimrich & Hannot GmbH
+ * Copyright (c) 2024 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -13,19 +13,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class UrlUtil
 {
-
-    public function __construct(private RequestStack $requestStack)
-    {
-    }
+    public function __construct(private RequestStack $requestStack) {}
 
     /**
-     * Remove a query parameter (GET parameter) from an url.
-     * If no url is given, the method tries to get the current url from the request.
+     * Remove query parameters (GET parameter) from a URL.
+     * You can pass a string or an associative array to $parameter.
+     * If no URL is given, the current request url is used.
      *
-     * @param string $parameter The query parameter name to remove
-     * @param string $url       the url where the query parameter should be removed
+     * @example removeQueryStringParameterFromUrl('foo', 'https://example.com?foo=bar&baz=fuzz') // https://example.com?baz=fuzz
+     * @example removeQueryStringParameterFromUrl(['foo', 'baz'], 'https://example.com?foo=bar&baz=fuzz') // https://example.com
+     *
+     * @param string|array<string> $parameter The query parameter names to remove.
+     * @param string               $url       The URL to rid of the given query parameters.
+     *
+     * @return string The URL without the given query parameters.
      */
-    public function removeQueryStringParameterFromUrl(string $parameter, string $url = ''): string
+    public function removeQueryStringParameterFromUrl(string|array $parameter, string $url = ''): string
     {
         if (empty($url)) {
             $request = $this->requestStack->getCurrentRequest();
@@ -39,9 +42,18 @@ class UrlUtil
         $parsedUrl = parse_url($url);
         $query = [];
 
-        if (isset($parsedUrl['query'])) {
+        if (isset($parsedUrl['query']))
+        {
             parse_str($parsedUrl['query'], $query);
-            unset($query[$parameter]);
+
+            if (is_string($parameter))
+            {
+                unset($query[$parameter]);
+            }
+            else foreach ($parameter as $param)
+            {
+                unset($query[$param]);
+            }
         }
 
         $parsedUrl['query'] = !empty($query) ? http_build_query($query) : '';
@@ -50,10 +62,19 @@ class UrlUtil
     }
 
     /**
-     * Add a query string parameter to an url.
-     * If no url is given, the current request url is used.
+     * Add a query string parameter to a URL.
+     * You can pass a string or an associative array to $parameter.
+     * If no url is given, the current request URL is used.
+     *
+     * @example addQueryStringParameterToUrl('foo=bar', 'https://example.com') // https://example.com?foo=bar
+     * @example addQueryStringParameterToUrl(['foo' => 'bar'], 'https://example.com') // https://example.com?foo=bar
+     *
+     * @param string|array<string, string> $parameter The query parameters to add.
+     * @param string                       $url       The URL to which query parameter should be added.
+     *
+     * @return string The concatenated URL.
      */
-    public function addQueryStringParameterToUrl(string $parameter, string $url = ''): string
+    public function addQueryStringParameterToUrl(string|array $parameter, string $url = ''): string
     {
         if (empty($url)) {
             $request = $this->requestStack->getCurrentRequest();
@@ -72,8 +93,13 @@ class UrlUtil
             parse_str($parsedUrl['query'], $pairs);
         }
 
-        $newPairs = [];
-        parse_str(str_replace('&amp;', '&', $parameter), $newPairs);
+        if (is_string($parameter)) {
+            $newPairs = [];
+            parse_str(str_replace('&amp;', '&', $parameter), $newPairs);
+        } else {
+            $newPairs = $parameter;
+        }
+
         $pairs = array_merge($pairs, $newPairs);
 
         $parsedUrl['query'] = (!empty($pairs) ? http_build_query($pairs) : '');
