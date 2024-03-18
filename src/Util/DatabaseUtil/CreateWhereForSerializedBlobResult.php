@@ -26,7 +26,7 @@ class CreateWhereForSerializedBlobResult
      */
     public function createInlineAndWhere(): string
     {
-        return '('.$this->field.' REGEXP (\''.implode("'\) OR ".$this->field.' REGEXP (\'', $this->getValueList()).'\'))';
+        return '('.$this->field.' REGEXP (\''.implode('\') OR '.$this->field.' REGEXP (\'', $this->getValueList()).'\'))';
     }
 
     /**
@@ -34,7 +34,7 @@ class CreateWhereForSerializedBlobResult
      */
     public function createInlineOrWhere(): string
     {
-        return '('.$this->field.' REGEXP (\''.implode("\') OR ".$this->field.' REGEXP (\'', $this->getValueList()).'\'))';
+        return '('.$this->field.' REGEXP (\''.implode('\') OR '.$this->field.' REGEXP (\'', $this->getValueList()).'\'))';
     }
 
     /**
