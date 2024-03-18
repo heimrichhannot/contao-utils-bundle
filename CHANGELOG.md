@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.235.3] - 2024-03-18
+- Fixed: another issue with CreateWhereForSerializedBlobResult::createInlineOrWhere()
+
 ## [2.235.2] - 2024-03-18
 - Fixed: CreateWhereForSerializedBlobResult::createInlineOrWhere() return invalid query ([#79](https://github.com/heimrichhannot/contao-utils-bundle/pull/79))
 
