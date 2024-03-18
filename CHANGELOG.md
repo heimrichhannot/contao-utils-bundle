@@ -2,9 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## prepare [3.2.0]
+## [3.2.0] - 2024-03-18
 - Changed: `UrlUtil::addQueryStringParameterToUrl()` and `UrlUtil::removeQueryStringParameterToUrl()`
     may now take multiple query parameters as array to add or remove respectively.
+- Fixed: CreateWhereForSerializedBlobResult::createInlineOrWhere() return invalid query ([#79](https://github.com/heimrichhannot/contao-utils-bundle/pull/79))
 - Deprecated: `StringUtil::removeLeadingString()` and `StringUtil::removeTrailingString()`
 
 ## [3.1.1] - 2024-03-01
