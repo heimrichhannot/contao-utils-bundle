@@ -20,8 +20,8 @@ class DatabaseUtilTest extends AbstractUtilsTestCase
         static::assertInstanceOf(CreateWhereForSerializedBlobResult::class, $result);
         static::assertSame('(elements REGEXP (?) OR elements REGEXP (?))', $result->createOrWhere());
         static::assertSame('(elements REGEXP (?) AND elements REGEXP (?))', $result->createAndWhere());
-        static::assertSame('(elements REGEXP (:"texts") OR elements REGEXP (:"headline"))', $result->createInlineOrWhere());
-        static::assertSame('(elements REGEXP (:"texts") AND elements REGEXP (:"headline"))', $result->createInlineAndWhere());
+        static::assertSame('(elements REGEXP (\':"texts"\') OR elements REGEXP (\':"headline"\'))', $result->createInlineOrWhere());
+        static::assertSame('(elements REGEXP (\':"texts"\') AND elements REGEXP (\':"headline"\'))', $result->createInlineAndWhere());
         static::assertCount(2, $result->values);
     }
 
