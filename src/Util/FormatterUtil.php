@@ -42,7 +42,8 @@ class FormatterUtil
      *
      * @param DataContainer $dc The data container whose table to use and options-callback to evaluate.
      * @param string $field The DCA field name.
-     * @param array|string|null $value The value to format. If an array is passed, the values will be evaluated recursively.
+     * @param array|string|null $value The value to format. If an array is passed, the values will be evaluated
+     *     recursively.
      * @param int $settings Additional settings flags.
      * @param string $arrayJoiner The string that joins array values. Default: ', '.
      * @param array|null $dcaOverride Override the DCA field settings. If not set, the DCA field settings will be used.
@@ -102,54 +103,49 @@ class FormatterUtil
 
         if ($inputType === 'multiColumnEditor' && $this->isMultiColumnsActive() && is_array($value))
         {
-            return $this->formatMultiColumnField(
-                $value,
-                $data,
-                function (string $f, array|string|null $v) use (
+            $callback = function (int|string $f, array|string|null $v) use (
+                $dc,
+                $settings,
+                $dcaOverride,
+                $arrayJoiner,
+                $cachedOptions
+            ): string {
+                return $this->formatDcaFieldValue(
                     $dc,
+                    $f,
+                    $v,
                     $settings,
                     $dcaOverride,
                     $arrayJoiner,
                     $cachedOptions
-                ): string {
-                    return $this->formatDcaFieldValue(
-                        $dc,
-                        $f,
-                        $v,
-                        $settings,
-                        $dcaOverride,
-                        $arrayJoiner,
-                        $cachedOptions
-                    );
-                }
-            );
+                );
+            };
+
+            return $this->formatMultiColumnField($value, $data, $callback);
         }
 
         if (is_array($value))
         {
-            return $this->formatArray(
-                $value,
+            $callback = function (array|string|null $v) use (
+                $dc,
+                $field,
                 $settings,
+                $dcaOverride,
                 $arrayJoiner,
-                function (array|string|null $v) use (
+                $cachedOptions
+            ): string {
+                return $this->formatDcaFieldValue(
                     $dc,
                     $field,
-                    $settings,
+                    $v,
+                    $settings | self::OPTION_CALL_IS_RECURSIVE,
                     $dcaOverride,
                     $arrayJoiner,
                     $cachedOptions
-                ): string {
-                    return $this->formatDcaFieldValue(
-                        $dc,
-                        $field,
-                        $v,
-                        $settings | self::OPTION_CALL_IS_RECURSIVE,
-                        $dcaOverride,
-                        $arrayJoiner,
-                        $cachedOptions
-                    );
-                }
-            );
+                );
+            };
+
+            return $this->formatArray($value, $settings, $arrayJoiner, $callback);
         }
 
         if ($inputType === 'explanation' && isset($data['eval']['text']))
@@ -260,6 +256,13 @@ class FormatterUtil
         );
     }
 
+    /**
+     * @param array $values
+     * @param int $settings
+     * @param string $arraySeparator
+     * @param callable(array|string|null $value): string $callback The callback to format each value, possibly recursively.
+     * @return string
+     */
     private function formatArray(array $values, int $settings, string $arraySeparator, callable $callback): string
     {
         foreach ($values as $k => $v)
@@ -291,6 +294,13 @@ class FormatterUtil
         return ($data['value'] ?? '') . $arraySeparator . ($data['unit'] ?? '');
     }
 
+    /**
+     * @param array $values
+     * @param array $data
+     * @param ?callable(int|string $field, array|string|null $value): string $callback
+     *   Callback used to format each field value, possibly recursively.
+     * @return string
+     */
     private function formatMultiColumnField(array $values, array $data, callable $callback = null): string
     {
         $formatted = '';
