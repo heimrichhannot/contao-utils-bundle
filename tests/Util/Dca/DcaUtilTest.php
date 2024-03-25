@@ -136,4 +136,21 @@ class DcaUtilTest extends AbstractUtilsTestCase
             'title',
         ], $fields);
     }
+
+    public function testExecuteCallback()
+    {
+        $instance = $this->getTestInstance();
+
+        $this->assertSame('ham', $instance->executeCallback(function () {
+            return 'ham';
+        }));
+
+        $this->assertSame('spam', $instance->executeCallback(function ($value) {
+            return $value;
+        }, ['spam']));
+
+        $this->assertSame('spam_ham', $instance->executeCallback(
+            [\HeimrichHannot\UtilsBundle\Util\StringUtil::class, 'camelCaseToSnake'], ['spamHam'])
+        );
+    }
 }

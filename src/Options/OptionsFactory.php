@@ -29,6 +29,7 @@ class OptionsFactory
 
     public function del(string $key): static
     {
+        unset($this->$key);
         unset($this->options[$key]);
         return $this;
     }
