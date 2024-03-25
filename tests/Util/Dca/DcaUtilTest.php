@@ -148,10 +148,10 @@ class DcaUtilTest extends AbstractUtilsTestCase
 
         $this->assertSame('spam', $instance->executeCallback(function ($value) {
             return $value;
-        }, ['spam']));
+        }, 'spam'));
 
         $this->assertSame('spam_ham', $instance->executeCallback(
-            [\HeimrichHannot\UtilsBundle\Util\StringUtil::class, 'camelCaseToSnake'], ['spamHam'])
+            [\HeimrichHannot\UtilsBundle\Util\StringUtil::class, 'camelCaseToSnake'], 'spamHam')
         );
 
         $this->assertNull($instance->executeCallback(null));
