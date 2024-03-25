@@ -2,7 +2,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 
-use HeimrichHannot\UtilsBundle\Options\OptionsFactory;
+use HeimrichHannot\UtilsBundle\Options\OptionsManager;
 
 /**
  * @method $this setPreserveEmptyArrayValues(bool $value)
@@ -11,7 +11,7 @@ use HeimrichHannot\UtilsBundle\Options\OptionsFactory;
  * @method $this setCacheOptions(bool $value)
  * @method $this setReplaceInsertTags(bool $value)
  */
-class FormatDcaFieldValueOptions extends OptionsFactory
+class FormatDcaFieldValueOptions extends OptionsManager
 {
     public bool $preserveEmptyArrayValues = false;
     public bool $localize = true;

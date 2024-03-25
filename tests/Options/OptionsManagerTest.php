@@ -3,13 +3,13 @@
 namespace Options;
 
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Options\OptionsFactory;
+use HeimrichHannot\UtilsBundle\Options\OptionsManager;
 
 class OptionsFactoryTest extends ContaoTestCase
 {
     public function testOptionsFactory()
     {
-        $options = new OptionsFactory();
+        $options = new OptionsManager();
         $options->set('foo', 'foo');
         $options->bar = 'bar';
 
@@ -34,7 +34,7 @@ class OptionsFactoryTest extends ContaoTestCase
 
     public function testOptionsFactoryInheritance()
     {
-        $options = new class extends OptionsFactory {
+        $options = new class extends OptionsManager {
             public string $foo = 'foo';
         };
 

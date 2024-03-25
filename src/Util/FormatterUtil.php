@@ -14,7 +14,7 @@ use Contao\Model;
 use Contao\StringUtil as Str;
 use Contao\System;
 use Contao\Validator;
-use HeimrichHannot\UtilsBundle\Options\OptionsFactory;
+use HeimrichHannot\UtilsBundle\Options\OptionsManager;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil\FormatDcaFieldValueOptions;
 
 class FormatterUtil
@@ -45,7 +45,7 @@ class FormatterUtil
         DataContainer     $dc,
         string            $field,
         array|string|null $value,
-        OptionsFactory    $settings = null,
+        OptionsManager    $settings = null,
         array             $dcaOverride = null,
         string            $arrayJoiner = ', ',
         ?array            $cachedOptions = null
@@ -252,7 +252,7 @@ class FormatterUtil
      */
     private function formatArray(
         array          $values,
-        OptionsFactory $settings,
+        OptionsManager $settings,
         string         $arraySeparator,
         callable       $callback
     ): string

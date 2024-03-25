@@ -4,7 +4,7 @@ namespace HeimrichHannot\UtilsBundle\Options;
 
 use BadMethodCallException;
 
-class OptionsFactory
+class OptionsManager
 {
     protected array $options = [];
 
