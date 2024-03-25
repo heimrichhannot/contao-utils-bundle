@@ -17,8 +17,6 @@ use Contao\Validator;
 use HeimrichHannot\UtilsBundle\Options\OptionsFactory;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil\FormatDcaFieldValueOptions;
 
-$cfgt = (new FormatDcaFieldValueOptions())->setPreserveEmptyArrayValues(true);
-
 class FormatterUtil
 {
     public function __construct(
