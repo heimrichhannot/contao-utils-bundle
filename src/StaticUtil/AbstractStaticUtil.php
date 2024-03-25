@@ -4,6 +4,7 @@ namespace HeimrichHannot\UtilsBundle\StaticUtil;
 
 /**
  * @internal
+ * @codeCoverageIgnore
  */
 abstract class AbstractStaticUtil
 {

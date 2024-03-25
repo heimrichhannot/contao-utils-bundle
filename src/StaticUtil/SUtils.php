@@ -2,7 +2,7 @@
 
 namespace HeimrichHannot\UtilsBundle\StaticUtil;
 
-class SUtil
+class SUtils
 {
     protected static array $instances = [];
 
