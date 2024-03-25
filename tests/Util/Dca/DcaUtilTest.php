@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Dca;
 
 use Contao\Controller;
+use Exception;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\GetDcaFieldsOptions;
@@ -152,5 +153,22 @@ class DcaUtilTest extends AbstractUtilsTestCase
         $this->assertSame('spam_ham', $instance->executeCallback(
             [\HeimrichHannot\UtilsBundle\Util\StringUtil::class, 'camelCaseToSnake'], ['spamHam'])
         );
+
+        $this->assertNull($instance->executeCallback(null));
+        $this->assertNull($instance->executeCallback([static::class, 'thisIsNotCallable']));
+        $this->assertNull($instance->executeCallback(['\This\Is\Unheard\Of', 'notCallable']));
+        $this->assertNull($instance->executeCallback(['toFewArguments']));
+
+        try {
+            $instance->executeCallback([static::class, 'thisThrowsAnError']);
+            $this->fail('An exception should have been thrown');
+        } catch (Exception $e) {
+            $this->assertSame('I was thrown on purpose', $e->getMessage());
+        }
+    }
+
+    public function thisThrowsAnError()
+    {
+        throw new Exception('I was thrown on purpose');
     }
 }
