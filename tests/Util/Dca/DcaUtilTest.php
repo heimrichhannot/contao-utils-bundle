@@ -140,24 +140,28 @@ class DcaUtilTest extends AbstractUtilsTestCase
 
     public function testExecuteCallback()
     {
-        $instance = $this->getTestInstance();
+        $controllerAdapter = $this->mockAdapter(['importStatic']);
+        $controllerAdapter->method('importStatic')->willReturn($this);
 
-        $this->assertSame('ham', $instance->executeCallback(function () {
-            return 'ham';
-        }));
+        $contaoFramework = $this->mockContaoFramework([
+            Controller::class => $controllerAdapter,
+        ]);
 
+        $instance = $this->getTestInstance([
+            'contaoFramework' => $contaoFramework,
+        ]);
+
+        $this->assertSame('ham', $instance->executeCallback(function () { return 'ham'; }));
         $this->assertSame('spam', $instance->executeCallback(function ($value) {
             return $value;
         }, 'spam'));
 
-        $this->assertSame('spam_ham', $instance->executeCallback(
-            [\HeimrichHannot\UtilsBundle\Util\StringUtil::class, 'camelCaseToSnake'], 'spamHam')
-        );
+        $this->assertSame('ham', $instance->executeCallback([static::class, 'thisReturnsHam']));
 
         $this->assertNull($instance->executeCallback(null));
+        $this->assertNull($instance->executeCallback(['toFewArguments']));
         $this->assertNull($instance->executeCallback([static::class, 'thisIsNotCallable']));
         $this->assertNull($instance->executeCallback(['\This\Is\Unheard\Of', 'notCallable']));
-        $this->assertNull($instance->executeCallback(['toFewArguments']));
 
         try {
             $instance->executeCallback([static::class, 'thisThrowsAnError']);
@@ -167,8 +171,16 @@ class DcaUtilTest extends AbstractUtilsTestCase
         }
     }
 
-    public function thisThrowsAnError()
+    /**
+     * @throws Exception
+     */
+    public function thisThrowsAnError(): void
     {
         throw new Exception('I was thrown on purpose');
+    }
+
+    public function thisReturnsHam(): string
+    {
+        return 'ham';
     }
 }
