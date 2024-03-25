@@ -64,7 +64,7 @@ class StaticArrayUtil extends AbstractStaticUtil
         $keys = array_keys($array);
         $index = array_search($key, $keys, $options['strict']);
 
-        if (false === $index && false === $options['attachIfKeyNotExist']) {
+        if (false === $index && false === $options['attachMissingKey']) {
             return;
         }
         $pos = false === $index ? \count($array) : $index + 1;
