@@ -14,6 +14,10 @@ use Contao\Model;
 use Contao\StringUtil as Str;
 use Contao\System;
 use Contao\Validator;
+use HeimrichHannot\UtilsBundle\Options\OptionsFactory;
+use HeimrichHannot\UtilsBundle\Util\FormatterUtil\FormatDcaFieldValueOptions;
+
+$cfgt = (new FormatDcaFieldValueOptions())->setPreserveEmptyArrayValues(true);
 
 class FormatterUtil
 {
@@ -24,17 +28,6 @@ class FormatterUtil
         protected array $kernelBundles
     ) {}
 
-    const OPTION_PRESERVE_EMPTY_ARRAY_VALUES = 2^0;
-    const OPTION_SKIP_LOCALIZATION = 2^1;
-    const OPTION_SKIP_DCA_LOADING = 2^2;
-    const OPTION_SKIP_OPTION_CACHING = 2^3;
-    const OPTION_SKIP_REPLACE_INSERT_TAGS = 2^4;
-    /**
-     * @var FormatterUtil::OPTION_CALL_IS_RECURSIVE Whether the current call is recursive.
-     * @internal You should not set this option manually.
-     */
-    const OPTION_CALL_IS_RECURSIVE = 2^5;
-
     /**
      * Makes a DCA field value human-readable.
      *
@@ -44,33 +37,29 @@ class FormatterUtil
      * @param string $field The DCA field name.
      * @param array|string|null $value The value to format. If an array is passed, the values will be evaluated
      *     recursively.
-     * @param int $settings Additional settings flags.
+     * @param ?FormatDcaFieldValueOptions $settings Additional settings flags.
      * @param string $arrayJoiner The string that joins array values. Default: ', '.
      * @param array|null $dcaOverride Override the DCA field settings. If not set, the DCA field settings will be used.
      * @param array|null $cachedOptions The cached options to use. If not set, the options-callback will be evaluated.
      * @return mixed The formatted value.
-     *
-     * @see FormatterUtil::OPTION_PRESERVE_EMPTY_ARRAY_VALUES Preserve empty array values.
-     * @see FormatterUtil::OPTION_SKIP_LOCALIZATION Skip localization.
-     * @see FormatterUtil::OPTION_SKIP_DCA_LOADING Skip DCA loading.
-     * @see FormatterUtil::OPTION_SKIP_OPTION_CACHING Skip option caching.
-     * @see FormatterUtil::OPTION_SKIP_REPLACE_INSERT_TAGS Skip replace insert tags.
      */
     public function formatDcaFieldValue(
         DataContainer     $dc,
         string            $field,
         array|string|null $value,
-        int               $settings = 0,
+        OptionsFactory    $settings = null,
         array             $dcaOverride = null,
         string            $arrayJoiner = ', ',
         ?array            $cachedOptions = null
     ): mixed {
+        $settings ??= new FormatDcaFieldValueOptions();
+
         $value = Str::deserialize($value);
         $table = $dc->table;
 
         [$system, $controller] = $this->prepareServices();
 
-        if (~$settings & self::OPTION_SKIP_DCA_LOADING) {
+        if ($settings->loadDca) {
             $controller->loadDataContainer($table);
             $system->loadLanguageFile($table);
         }
@@ -91,7 +80,7 @@ class FormatterUtil
             return $this->formatInputUnitField($value, $arrayJoiner);
         }
 
-        if ($cachedOptions === null || $settings & self::OPTION_SKIP_OPTION_CACHING)
+        if ($cachedOptions === null || !$settings->cacheOptions)
         {
             $cachedOptions = $data['options'] ?? $this->utils->dca()
                 ->executeCallback($data['options_callback'] ?? null, $dc);
@@ -138,7 +127,7 @@ class FormatterUtil
                     $dc,
                     $field,
                     $v,
-                    $settings | self::OPTION_CALL_IS_RECURSIVE,
+                    $settings,
                     $dcaOverride,
                     $arrayJoiner,
                     $cachedOptions
@@ -202,8 +191,7 @@ class FormatterUtil
             $value = $cachedOptions[$value] ?? $value;
         }
 
-        if (~$settings & self::OPTION_SKIP_LOCALIZATION
-            && ($reference = $data['reference'][$value] ?? null))
+        if ($settings->localize && ($reference = $data['reference'][$value] ?? null))
         {
             $value = is_array($reference)
                 ? $reference[0] ?? $reference[array_key_first($reference)] ?? $value
@@ -217,7 +205,7 @@ class FormatterUtil
             $value = openssl_decrypt($encrypted, 'aes-256-ctr', $key, 0, base64_decode($iv, true));
         }
 
-        if (~$settings & self::OPTION_SKIP_REPLACE_INSERT_TAGS)
+        if ($settings->replaceInsertTags)
         {
             $value = $this->insertTagParser->replace($value);
         }
@@ -258,18 +246,24 @@ class FormatterUtil
 
     /**
      * @param array $values
-     * @param int $settings
+     * @param FormatDcaFieldValueOptions $settings
      * @param string $arraySeparator
-     * @param callable(array|string|null $value): string $callback The callback to format each value, possibly recursively.
+     * @param callable(array|string|null $value): string $callback The callback to format each value, possibly
+     *     recursively.
      * @return string
      */
-    private function formatArray(array $values, int $settings, string $arraySeparator, callable $callback): string
+    private function formatArray(
+        array          $values,
+        OptionsFactory $settings,
+        string         $arraySeparator,
+        callable       $callback
+    ): string
     {
         foreach ($values as $k => $v)
         {
             $result = $callback($v);
 
-            if ($settings & self::OPTION_PRESERVE_EMPTY_ARRAY_VALUES)
+            if ($settings->preserveEmptyArrayValues)
             {
                 $values[$k] = $result;
                 continue;
