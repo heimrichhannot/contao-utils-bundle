@@ -196,7 +196,6 @@ class FormatterUtil
     /**
      * @param array $values
      * @param FormatDcaFieldValueOptions $settings
-     * @param string $arraySeparator
      * @param callable(array|string|null $value): string $callback The callback to format each value, possibly
      *     recursively.
      * @return string

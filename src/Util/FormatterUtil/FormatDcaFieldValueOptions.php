@@ -16,7 +16,7 @@ class FormatDcaFieldValueOptions
 
     public static function create(): FormatDcaFieldValueOptions
     {
-        return new static();
+        return new self();
     }
 
     public function setPreserveEmptyArrayValues(bool $preserveEmptyArrayValues): FormatDcaFieldValueOptions
