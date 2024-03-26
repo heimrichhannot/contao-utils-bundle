@@ -5,6 +5,7 @@ namespace HeimrichHannot\UtilsBundle\Util;
 use Codefog\TagsBundle\Model\TagModel;
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\DataContainer;
@@ -12,8 +13,8 @@ use Contao\Date;
 use Contao\Environment;
 use Contao\Model;
 use Contao\StringUtil as Str;
-use Contao\System;
 use Contao\Validator;
+use Contao\Widget;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil\FormatDcaFieldValueOptions;
 
 class FormatterUtil
@@ -100,8 +101,14 @@ class FormatterUtil
             return $this->formatArray($value, $settings, $callback);
         }
 
-        if ($inputType === 'explanation' && isset($data['eval']['text']))
+        if ($inputType === 'explanation'
+            && (!empty($textCallback = $data['eval']['text_callback'] ?? null)
+                || isset($data['eval']['text'])))
         {
+            if ($textCallback) {
+                $attributes = Widget::getAttributesFromDca($data, $field, $value, $field, $table, $dc);
+                return $this->utils->dca()->executeCallback($textCallback, $attributes);
+            }
             return $data['eval']['text'];
         }
 
@@ -161,13 +168,6 @@ class FormatterUtil
                 : $reference;
         }
 
-        if ($data['eval']['encrypt'] ?? false)
-        {
-            [$encrypted, $iv] = explode('.', $value);
-            $key = System::getContainer()->getParameter('secret');
-            $value = openssl_decrypt($encrypted, 'aes-256-ctr', $key, 0, base64_decode($iv, true));
-        }
-
         if ($settings->replaceInsertTags)
         {
             $value = $this->insertTagParser->replace($value);
@@ -176,7 +176,11 @@ class FormatterUtil
         return Str::specialchars($value);
     }
 
-    private function getTagModel(): ?Model
+    /**
+     * @return Adapter<TagModel>|TagModel|Model|null
+     * @noinspection PhpMixedReturnTypeCanBeReducedInspection
+     */
+    private function getTagModel(): mixed
     {
         if (class_exists(TagModel::class)) {
             return $this->framework->getAdapter(TagModel::class);
