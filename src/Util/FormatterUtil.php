@@ -14,7 +14,6 @@ use Contao\Model;
 use Contao\StringUtil as Str;
 use Contao\System;
 use Contao\Validator;
-use HeimrichHannot\UtilsBundle\Options\OptionsManager;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil\FormatDcaFieldValueOptions;
 
 class FormatterUtil
@@ -29,26 +28,20 @@ class FormatterUtil
     /**
      * Makes a DCA field value human-readable.
      *
-     * {@see https://github.com/heimrichhannot/contao-utils-bundle/blob/ee122d2e267a60aa3200ce0f40d92c22028988e8/src/Form/FormUtil.php#L99 This succeeds `prepareSpecialValueForOutput(...)` from Utils v2.}
+     * This succeeds {@see https://github.com/heimrichhannot/contao-utils-bundle/blob/ee122d2e267a60aa3200ce0f40d92c22028988e8/src/Form/FormUtil.php#L99 `prepareSpecialValueForOutput(...)`} from Utils v2.
      *
      * @param DataContainer $dc The data container whose table to use and options-callback to evaluate.
      * @param string $field The DCA field name.
      * @param array|string|null $value The value to format. If an array is passed, the values will be evaluated
      *     recursively.
-     * @param ?FormatDcaFieldValueOptions $settings Additional settings flags.
-     * @param string $arrayJoiner The string that joins array values. Default: ', '.
-     * @param array|null $dcaOverride Override the DCA field settings. If not set, the DCA field settings will be used.
-     * @param array|null $cachedOptions The cached options to use. If not set, the options-callback will be evaluated.
+     * @param ?FormatDcaFieldValueOptions $settings Additional settings.
      * @return mixed The formatted value.
      */
     public function formatDcaFieldValue(
-        DataContainer     $dc,
-        string            $field,
-        array|string|null $value,
-        OptionsManager    $settings = null,
-        array             $dcaOverride = null,
-        string            $arrayJoiner = ', ',
-        ?array            $cachedOptions = null
+        DataContainer              $dc,
+        string                     $field,
+        array|string|null          $value,
+        FormatDcaFieldValueOptions $settings = null
     ): mixed {
         $settings ??= new FormatDcaFieldValueOptions();
 
@@ -63,8 +56,8 @@ class FormatterUtil
         }
 
         // dca can be overridden from outside
-        $data = is_array($dcaOverride)
-            ? $dcaOverride
+        $data = is_array($settings->dcaOverride)
+            ? $settings->dcaOverride
             : ($GLOBALS['TL_DCA'][$table]['fields'][$field] ?? null);
 
         if (!is_array($data)) {
@@ -75,37 +68,23 @@ class FormatterUtil
 
         if ($inputType === 'inputUnit')
         {
-            return $this->formatInputUnitField($value, $arrayJoiner);
+            return $this->formatInputUnitField($value, $settings->arrayJoiner);
         }
 
-        if ($cachedOptions === null || !$settings->cacheOptions)
+        if ($settings->optionsCache === null || !$settings->cacheOptions)
         {
-            $cachedOptions = $data['options'] ?? $this->utils->dca()
+            $settings->optionsCache = $data['options'] ?? $this->utils->dca()
                 ->executeCallback($data['options_callback'] ?? null, $dc);
         }
 
-        if (!is_array($cachedOptions)) {
-            $cachedOptions = [];
+        if (!is_array($settings->optionsCache)) {
+            $settings->optionsCache = [];
         }
 
         if ($inputType === 'multiColumnEditor' && $this->isMultiColumnsActive() && is_array($value))
         {
-            $callback = function (int|string $f, array|string|null $v) use (
-                $dc,
-                $settings,
-                $dcaOverride,
-                $arrayJoiner,
-                $cachedOptions
-            ): string {
-                return $this->formatDcaFieldValue(
-                    $dc,
-                    $f,
-                    $v,
-                    $settings,
-                    $dcaOverride,
-                    $arrayJoiner,
-                    $cachedOptions
-                );
+            $callback = function (int|string $f, array|string|null $v) use ($dc, $settings): string {
+                return $this->formatDcaFieldValue($dc, $f, $v, $settings);
             };
 
             return $this->formatMultiColumnField($value, $data, $callback);
@@ -113,26 +92,11 @@ class FormatterUtil
 
         if (is_array($value))
         {
-            $callback = function (array|string|null $v) use (
-                $dc,
-                $field,
-                $settings,
-                $dcaOverride,
-                $arrayJoiner,
-                $cachedOptions
-            ): string {
-                return $this->formatDcaFieldValue(
-                    $dc,
-                    $field,
-                    $v,
-                    $settings,
-                    $dcaOverride,
-                    $arrayJoiner,
-                    $cachedOptions
-                );
+            $callback = function (array|string|null $v) use ($dc, $field, $settings): string {
+                return $this->formatDcaFieldValue($dc, $field, $v, $settings);
             };
 
-            return $this->formatArray($value, $settings, $arrayJoiner, $callback);
+            return $this->formatArray($value, $settings, $callback);
         }
 
         if ($inputType === 'explanation' && isset($data['eval']['text']))
@@ -159,7 +123,7 @@ class FormatterUtil
 
             if (null !== $collection) {
                 $result = $collection->fetchEach('name');
-                $value = implode($arrayJoiner, $result);
+                $value = implode($settings->arrayJoiner, $result);
             }
         }
         elseif ($rgxp === 'date')
@@ -184,9 +148,9 @@ class FormatterUtil
         {
             $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
         }
-        elseif (is_array($cachedOptions) && !array_is_list($cachedOptions))
+        elseif (is_array($settings->optionsCache) && !array_is_list($settings->optionsCache))
         {
-            $value = $cachedOptions[$value] ?? $value;
+            $value = $settings->optionsCache[$value] ?? $value;
         }
 
         if ($settings->localize && ($reference = $data['reference'][$value] ?? null))
@@ -251,12 +215,10 @@ class FormatterUtil
      * @return string
      */
     private function formatArray(
-        array          $values,
-        OptionsManager $settings,
-        string         $arraySeparator,
-        callable       $callback
-    ): string
-    {
+        array                      $values,
+        FormatDcaFieldValueOptions $settings,
+        callable                   $callback
+    ): string {
         foreach ($values as $k => $v)
         {
             $result = $callback($v);
@@ -277,7 +239,7 @@ class FormatterUtil
             }
         }
 
-        return implode($arraySeparator, $values);
+        return implode($settings->arrayJoiner, $values);
     }
 
     private function formatInputUnitField(array|string|null $values, string $arraySeparator): string
