@@ -127,6 +127,7 @@ class FormatterUtil
             }
         }
 
+        /** @var Model $tagModel */
         if ($inputType === 'cfgTags' && ($tagModel = $this->getTagModel()))
         {
             $collection = $tagModel->findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
@@ -180,8 +181,9 @@ class FormatterUtil
     }
 
     /**
-     * @return Adapter<TagModel>|TagModel|Model|null
+     * @return Adapter<Model>|Adapter<TagModel>|Model|TagModel|null
      * @noinspection PhpMixedReturnTypeCanBeReducedInspection
+     * @phpstan-ignore-next-line For PHPStan, this method returns an object of an unknown class.
      */
     private function getTagModel(): mixed
     {
