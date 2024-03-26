@@ -127,9 +127,12 @@ class FormatterUtil
             }
         }
 
-        /** @var Model $tagModel */
-        if ($inputType === 'cfgTags' && ($tagModel = $this->getTagModel()))
-        {
+        if ($inputType === 'cfgTags'
+            && (
+                /** @var Model $tagModel */
+                $tagModel = $this->getTagModel()
+            )
+        ) {
             $collection = $tagModel->findBy(['source=?', 'id = ?'], [$data['eval']['tagsManager'], $value]);
             $value = null;
 
