@@ -35,7 +35,6 @@ class StaticArrayUtil extends AbstractStaticUtil
         }
     }
 
-
     /**
      * Insert a value into an existing array by key name.
      *
@@ -67,7 +66,7 @@ class StaticArrayUtil extends AbstractStaticUtil
         if (false === $index && false === $options['attachMissingKey']) {
             return;
         }
-        $pos = false === $index ? \count($array) : $index + 1;
+        $pos = false === $index ? count($array) : $index + 1;
         $pos = $pos + $options['offset'];
 
         if ($newKey) {

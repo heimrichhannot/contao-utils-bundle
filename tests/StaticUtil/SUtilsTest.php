@@ -1,6 +1,6 @@
 <?php
 
-namespace StaticUtil;
+namespace HeimrichHannot\UtilsBundle\Tests\StaticUtil;
 
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\StaticUtil\StaticArrayUtil;
