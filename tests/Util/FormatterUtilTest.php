@@ -12,13 +12,21 @@ use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class FormatterUtilTest extends ContaoTestCase
 {
+    const TAGS_REPLACED = 'tags_replaced';
+
     public function getInstances(array $parameter = []): FormatterUtil
     {
+        $controllerAdapter = $this->mockAdapter(['loadLanguageFile', 'loadDataContainer']);
+        $controllerAdapter->method('loadLanguageFile')->willReturn(null);
+        $controllerAdapter->method('loadDataContainer')->willReturn(null);
+
+        $insertTagParser = $this->createMock(InsertTagParser::class);
+        $insertTagParser->method('replace')->willReturn(static::TAGS_REPLACED);
+
         $parameter['framework'] ??= $this->mockContaoFramework([
-            System::class => $this->createMock(System::class),
-            Controller::class => $this->createMock(Controller::class)
+            Controller::class => $controllerAdapter
         ]);
-        $parameter['insertTagParser'] ??= $this->createMock(InsertTagParser::class);
+        $parameter['insertTagParser'] ??= $insertTagParser;
         $parameter['utils'] ??= $this->createMock(Utils::class);
         $parameter['system'] ??= $this->createMock(System::class);
         $parameter['kernelBundles'] ??= [
@@ -33,7 +41,7 @@ class FormatterUtilTest extends ContaoTestCase
         );
     }
 
-    public function _testFormatDcaFieldValue()
+    public function testFormatDcaFieldValue()
     {
         $formatterUtil = $this->getInstances();
 
@@ -41,23 +49,25 @@ class FormatterUtilTest extends ContaoTestCase
         $dataContainer->table = 'tl_content';
 
         $this->assertEquals(
-            'test',
-            $formatterUtil->formatDcaFieldValue(
-                $dataContainer,
-                'test',
-                'test',
-                dcaOverride: ['inputType' => 'text']
-            )
-        );
-
-        $this->assertEquals(
             'foo-bar',
             $formatterUtil->formatDcaFieldValue(
                 $dataContainer,
                 'test',
                 serialize(['value' => 'foo', 'unit' => 'bar']),
-                dcaOverride: ['inputType' => 'inputUnit'],
-                arrayJoiner: '-'
+                FormatterUtil\FormatDcaFieldValueOptions::create()
+                    ->setDcaOverride(['inputType' => 'inputUnit'])
+                    ->setArrayJoiner('-')
+            )
+        );
+
+        $this->assertEquals(
+            static::TAGS_REPLACED,
+            $formatterUtil->formatDcaFieldValue(
+                $dataContainer,
+                'test',
+                'test',
+                FormatterUtil\FormatDcaFieldValueOptions::create()
+                    ->setDcaOverride(['inputType' => 'text'])
             )
         );
     }

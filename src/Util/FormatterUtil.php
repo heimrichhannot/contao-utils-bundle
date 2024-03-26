@@ -48,11 +48,12 @@ class FormatterUtil
         $value = Str::deserialize($value);
         $table = $dc->table;
 
-        [$system, $controller] = $this->prepareServices();
+        $controller = $this->framework->getAdapter(Controller::class);
+        $controller->loadLanguageFile('default');
 
         if ($settings->loadDca) {
             $controller->loadDataContainer($table);
-            $system->loadLanguageFile($table);
+            $controller->loadLanguageFile($table);
         }
 
         // dca can be overridden from outside
@@ -173,20 +174,6 @@ class FormatterUtil
         }
 
         return Str::specialchars($value);
-    }
-
-    /** @return array{System, Controller} */
-    private function prepareServices(): array
-    {
-        /** @var System $system */
-        $system = $this->framework->getAdapter(System::class);
-
-        /** @var Controller $controller */
-        $controller = $this->framework->getAdapter(Controller::class);
-
-        $system->loadLanguageFile('default');
-
-        return [$system, $controller];
     }
 
     private function getTagModel(): ?Model
