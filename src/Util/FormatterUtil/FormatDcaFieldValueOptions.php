@@ -2,6 +2,9 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 
+/**
+ * @codeCoverageIgnore This is a simple DTO.
+ */
 class FormatDcaFieldValueOptions
 {
     public bool $preserveEmptyArrayValues = false;
