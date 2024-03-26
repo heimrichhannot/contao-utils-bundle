@@ -14,6 +14,7 @@ use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\GetDcaFieldsOptions;
 use PHPUnit\Framework\MockObject\MockBuilder;
+use TypeError;
 
 class DcaUtilTest extends AbstractUtilsTestCase
 {
@@ -141,7 +142,12 @@ class DcaUtilTest extends AbstractUtilsTestCase
     public function testExecuteCallback()
     {
         $controllerAdapter = $this->mockAdapter(['importStatic']);
-        $controllerAdapter->method('importStatic')->willReturn($this);
+        $controllerAdapter->method('importStatic')->willReturnCallback(function($import) {
+            if (!class_exists($import)) {
+                throw new Exception('Class not found');
+            }
+            return $this;
+        });
 
         $contaoFramework = $this->mockContaoFramework([
             Controller::class => $controllerAdapter,
@@ -169,6 +175,11 @@ class DcaUtilTest extends AbstractUtilsTestCase
         } catch (Exception $e) {
             $this->assertSame('I was thrown on purpose', $e->getMessage());
         }
+
+        try {
+            $instance->executeCallback('thisIsNotCallable');
+            $this->fail('An exception should have been thrown');
+        } catch (TypeError) {}
     }
 
     /**
