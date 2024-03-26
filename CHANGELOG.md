@@ -2,8 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## prepare [3.2.x]
-- Changed: `dca()->getDcaFields()` move `GetDcaFieldsOptions` constructor call to method body
+## [3.3.0] - 2024-03-26
+- Changed: `dca()->getDcaFields()` move `GetDcaFieldsOptions` constructor call to method body.
+- Added: Static array and class utils within a new namespace for static utilities.
+    (`StaticUtil\StaticArrayUtil` and `StaticUtil\StaticClassUtil`)
+- Added: `StaticUtil\SUtils` with `::array()` and `::class()` to locate static array- and class-utilities.
+- Added: `dca()->executeCallback(...)` to ease execution of callback-arrays and closures.
+- Added: `FormatterUtil` (`$utils->formatter()`) with `formatter()->formatDcaFieldValue(...)` as a successor to Utils v2's
+    [FormUtil::prepareSpecialValueForOutput()](https://github.com/heimrichhannot/contao-utils-bundle/blob/ee122d2e267a60aa3200ce0f40d92c22028988e8/src/Form/FormUtil.php#L99).
+- Deprecated: `ArrayUtil::insertBeforeKey` in favour of `SUtils::array()->insertBeforeKey`.
+- Deprecated: `ArrayUtil::insertAfterKey` in favour of `SUtils::array()->insertAfterKey`.
+- Deprecated: `ArrayUtil::removeValue` in favour of `SUtils::array()->removeValue`.
+- Deprecated: `ClassUtil::classImplementsTrait` in favour of `SUtils::class()->hasTrait`.
 
 ## [3.2.0] - 2024-03-18
 - Changed: `UrlUtil::addQueryStringParameterToUrl()` and `UrlUtil::removeQueryStringParameterToUrl()`
