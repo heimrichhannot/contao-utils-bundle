@@ -9,19 +9,22 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\AccordionUtil;
 use HeimrichHannot\UtilsBundle\Util\AnonymizeUtil;
+use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
+use HeimrichHannot\UtilsBundle\Util\ClassUtil;
+use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\DatabaseUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
+use HeimrichHannot\UtilsBundle\Util\FileUtil;
+use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 use HeimrichHannot\UtilsBundle\Util\HtmlUtil;
 use HeimrichHannot\UtilsBundle\Util\LocaleUtil;
 use HeimrichHannot\UtilsBundle\Util\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\RequestUtil;
-use HeimrichHannot\UtilsBundle\Util\UrlUtil;
 use HeimrichHannot\UtilsBundle\Util\RoutingUtil;
-use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Util\StringUtil;
-use HeimrichHannot\UtilsBundle\Util\AccordionUtil;
+use HeimrichHannot\UtilsBundle\Util\UrlUtil;
 use HeimrichHannot\UtilsBundle\Util\UserUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -43,6 +46,9 @@ class UtilsTest extends ContaoTestCase
                     case ArrayUtil::class:
                         return $this->createMock(ArrayUtil::class);
 
+                    case ClassUtil::class:
+                        return $this->createMock(ClassUtil::class);
+
                     case ContainerUtil::class:
                         return $this->createMock(ContainerUtil::class);
 
@@ -51,6 +57,12 @@ class UtilsTest extends ContaoTestCase
 
                     case DcaUtil::class:
                         return $this->createMock(DcaUtil::class);
+
+                    case FileUtil::class:
+                        return $this->createMock(FileUtil::class);
+
+                    case FormatterUtil::class:
+                        return $this->createMock(FormatterUtil::class);
 
                     case HtmlUtil::class:
                         return $this->createMock(HtmlUtil::class);
@@ -103,9 +115,24 @@ class UtilsTest extends ContaoTestCase
         $this->assertInstanceOf(ContainerUtil::class, $this->getTestInstance()->container());
     }
 
+    public function testClass()
+    {
+        $this->assertInstanceOf(ClassUtil::class, $this->getTestInstance()->class());
+    }
+
     public function testDatabase()
     {
         $this->assertInstanceOf(DatabaseUtil::class, $this->getTestInstance()->database());
+    }
+
+    public function testFile()
+    {
+        $this->assertInstanceOf(FileUtil::class, $this->getTestInstance()->file());
+    }
+
+    public function testFormatter()
+    {
+        $this->assertInstanceOf(FormatterUtil::class, $this->getTestInstance()->formatter());
     }
 
     public function testDca()

@@ -12,6 +12,8 @@ use Contao\Controller;
 use Contao\CoreBundle\DataContainer\PaletteNotFoundException;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
+use Error;
+use Exception;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\GetDcaFieldsOptions;
 
 class DcaUtil
@@ -189,5 +191,54 @@ class DcaUtil
         }
 
         return $fields;
+    }
+
+    /**
+     * Execute a callback with given arguments.
+     *
+     * @param array|callable|null $callback The callback can be a callable or an array with the first element being
+     *   the class name and the second element being the method name.
+     *
+     * @return mixed|null The retrieved value or null if the callback is not callable or an error occurred.
+     */
+    public function executeCallback(array|callable|null $callback, mixed ...$arguments): mixed
+    {
+        if (!$callback) {
+            return null;
+        }
+
+        if (is_array($callback))
+        {
+            if (!isset($callback[0]) || !isset($callback[1])) {
+                return null;
+            }
+
+            try {
+                /** @var Controller $controller */
+                $controller = $this->contaoFramework->getAdapter(Controller::class);
+                $instance = $controller->importStatic($callback[0]);
+            } catch (Exception) {
+                return null;
+            }
+
+            if (!method_exists($instance, $callback[1])) {
+                return null;
+            }
+
+            $callback = [$instance, $callback[1]];
+        }
+        elseif (!is_callable($callback))
+        {
+            return null;
+        }
+
+        try
+        {
+            return call_user_func_array($callback, $arguments);
+        }
+        catch (Error)
+        {
+            return null;
+        }
     }
 }

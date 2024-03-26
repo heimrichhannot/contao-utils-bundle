@@ -66,6 +66,11 @@ class Utils implements ServiceSubscriberInterface
         return $this->locator->get(FileUtil::class);
     }
 
+    public function formatter(): FormatterUtil
+    {
+        return $this->locator->get(FormatterUtil::class);
+    }
+
     public function html(): HtmlUtil
     {
         return $this->locator->get(HtmlUtil::class);
@@ -117,6 +122,7 @@ class Utils implements ServiceSubscriberInterface
             DatabaseUtil::class,
             DcaUtil::class,
             FileUtil::class,
+            FormatterUtil::class,
             HtmlUtil::class,
             LocaleUtil::class,
             ModelUtil::class,

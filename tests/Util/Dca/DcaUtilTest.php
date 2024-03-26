@@ -9,10 +9,12 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Dca;
 
 use Contao\Controller;
+use Exception;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil\GetDcaFieldsOptions;
 use PHPUnit\Framework\MockObject\MockBuilder;
+use TypeError;
 
 class DcaUtilTest extends AbstractUtilsTestCase
 {
@@ -135,5 +137,61 @@ class DcaUtilTest extends AbstractUtilsTestCase
         $this->assertSame([
             'title',
         ], $fields);
+    }
+
+    public function testExecuteCallback()
+    {
+        $controllerAdapter = $this->mockAdapter(['importStatic']);
+        $controllerAdapter->method('importStatic')->willReturnCallback(function($import) {
+            if (!class_exists($import)) {
+                throw new Exception('Class not found');
+            }
+            return $this;
+        });
+
+        $contaoFramework = $this->mockContaoFramework([
+            Controller::class => $controllerAdapter,
+        ]);
+
+        $instance = $this->getTestInstance([
+            'contaoFramework' => $contaoFramework,
+        ]);
+
+        $this->assertSame('ham', $instance->executeCallback(function () { return 'ham'; }));
+        $this->assertSame('spam', $instance->executeCallback(function ($value) {
+            return $value;
+        }, 'spam'));
+
+        $this->assertSame('ham', $instance->executeCallback([static::class, 'thisReturnsHam']));
+
+        $this->assertNull($instance->executeCallback(null));
+        $this->assertNull($instance->executeCallback(['toFewArguments']));
+        $this->assertNull($instance->executeCallback([static::class, 'thisIsNotCallable']));
+        $this->assertNull($instance->executeCallback(['\This\Is\Unheard\Of', 'notCallable']));
+
+        try {
+            $instance->executeCallback([static::class, 'thisThrowsAnError']);
+            $this->fail('An exception should have been thrown');
+        } catch (Exception $e) {
+            $this->assertSame('I was thrown on purpose', $e->getMessage());
+        }
+
+        try {
+            $instance->executeCallback('thisIsNotCallable');
+            $this->fail('An exception should have been thrown');
+        } catch (TypeError) {}
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function thisThrowsAnError(): void
+    {
+        throw new Exception('I was thrown on purpose');
+    }
+
+    public function thisReturnsHam(): string
+    {
+        return 'ham';
     }
 }
