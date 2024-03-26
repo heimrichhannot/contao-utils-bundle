@@ -70,6 +70,20 @@ class MyClass{
 }
 ```
 
+### Static Utils
+
+Static helper methods that do not need to be injected are provided by the `SUtils` locator.
+
+At this time, the following static helpers are available:
+```php
+use HeimrichHannot\UtilsBundle\StaticUtil\SUtils;
+
+SUtils::array()->insertBeforeKey($array, $keys, $newKey, $newValue);
+SUtils::array()->insertAfterKey($array, $key, $value, $newKey = null, $options = []);
+$foundAndRemoved = SUtils::array()->removeValue($value, $array);
+
+SUtils::class()->hasTrait($class, $trait);
+```
 
 ### Dca Fields
 
