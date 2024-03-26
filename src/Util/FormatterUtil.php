@@ -75,8 +75,11 @@ class FormatterUtil
 
         if ($settings->optionsCache === null || !$settings->cacheOptions)
         {
-            $settings->optionsCache = $data['options'] ?? $this->utils->dca()
-                ->executeCallback($data['options_callback'] ?? null, $dc);
+            $optionsCallback = $data['options_callback'] ?? null;
+            $options = $data['options'] ?? null;
+            $settings->optionsCache = $optionsCallback
+                ? $this->utils->dca()->executeCallback($optionsCallback, $dc) ?? $options
+                : $options;
         }
 
         if (!is_array($settings->optionsCache)) {
