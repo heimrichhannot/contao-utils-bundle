@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Util;
 
+use HeimrichHannot\UtilsBundle\StaticUtil\StaticArrayUtil;
+
 class ArrayUtil
 {
     /**
@@ -19,26 +21,12 @@ class ArrayUtil
      * @param array|string $keys     The key or keys where the new entry should be added before
      * @param string       $newKey   The key of the entry that should be added
      * @param mixed        $newValue The value of the entry that should be added
+     *
+     * @deprecated Use {@see StaticArrayUtil::insertBeforeKey() SUtil::array()->insertBeforeKey(...)} instead.
      */
     public static function insertBeforeKey(array &$array, array|string $keys, string $newKey, mixed $newValue): void
     {
-        if (!\is_array($keys)) {
-            $keys = [$keys];
-        }
-
-        if (array_intersect($keys, array_keys($array))) {
-            $new = [];
-
-            foreach ($array as $k => $value) {
-                if (\in_array($k, $keys)) {
-                    $new[$newKey] = $newValue;
-                }
-                $new[$k] = $value;
-            }
-            $array = $new;
-        } else {
-            $array[$newKey] = $newValue;
-        }
+        StaticArrayUtil::insertBeforeKey($array, $keys, $newKey, $newValue);
     }
 
     /**
@@ -47,59 +35,36 @@ class ArrayUtil
      * Additional options:
      * - (bool) strict: Strict behavior for array search. Default false
      * - (bool) attachIfKeyNotExist: Attach value at the end of the array if key not exist. Default: true
-     * - (int) offset: Add an additional offset
+     * - (int) offset: Add additional offset
      *
      * @param array  $array   The target array
      * @param string $key     the existing target key in the array
      * @param mixed  $value   the new value to be inserted
      * @param array{
-     *           strict?: bool,
-     *          attachIfKeyNotExist?: bool,
-     *             offset?: int
+     *     strict?: bool,
+     *     attachIfKeyNotExist?: bool,
+     *     offset?: int
      * } $options Additional options
+     *
+     * @deprecated Use {@see StaticArrayUtil::insertAfterKey() SUtil::array()->insertAfterKey(...)} instead.
+     *             Beware: The option keys have changed!
      */
     public function insertAfterKey(array &$array, string $key, mixed $value, string $newKey = null, array $options = []): void
     {
-        $options = array_merge([
-            'strict' => false,
-            'attachIfKeyNotExist' => true,
-            'offset' => 0,
-        ], $options);
+        $options['attachMissingKey'] ??= $options['attachIfKeyNotExist'] ?? true;
 
-        $keys = array_keys($array);
-        $index = array_search($key, $keys, $options['strict']);
-
-        if (false === $index && false === $options['attachIfKeyNotExist']) {
-            return;
-        }
-        $pos = false === $index ? \count($array) : $index + 1;
-        $pos = $pos + $options['offset'];
-
-        if ($newKey) {
-            $value = [$newKey => $value];
-        } else {
-            $value = [$value];
-        }
-
-        $array = array_combine(
-            array_merge(\array_slice($keys, 0, $pos), array_keys($value), \array_slice($keys, $pos)),
-            array_merge(\array_slice($array, 0, $pos), $value, \array_slice($array, $pos))
-        );
+        StaticArrayUtil::insertAfterKey($array, $key, $value, $newKey, $options);
     }
 
     /**
-     * Removes a value in an array.
+     * Removes a value from an array.
      *
-     * @return bool Returns true if the value has been found and removed, false in other cases
+     * @return bool True if the value was found and removed, false otherwise.
+     *
+     * @deprecated Use {@see StaticArrayUtil::removeValue() SUtil::array()->removeValue(...)} instead.
      */
     public function removeValue(mixed $value, array &$array): bool
     {
-        if (false !== ($intPosition = array_search($value, $array))) {
-            unset($array[$intPosition]);
-
-            return true;
-        }
-
-        return false;
+        return StaticArrayUtil::removeValue($value, $array);
     }
 }

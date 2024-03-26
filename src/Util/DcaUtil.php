@@ -138,8 +138,12 @@ class DcaUtil
      * Return a list of dca fields for given table.
      * Fields can be filtered by given options.
      */
-    public function getDcaFields(string $table, GetDcaFieldsOptions $options = new GetDcaFieldsOptions()): array
+    public function getDcaFields(string $table, ?GetDcaFieldsOptions $options = null): array
     {
+        if (null === $options) {
+            $options = new GetDcaFieldsOptions();
+        }
+
         $fields = [];
 
         $controller = $this->contaoFramework->getAdapter(Controller::class);

@@ -120,15 +120,15 @@ class StringUtil
     }
 
     /**
-     * Truncates the text of a html string. By default, the last word is kept complete.
+     * Truncates the text of an HTML string. By default, the last word is kept complete.
      *
      * Credits: https://www.pjgalbraith.com/truncating-text-html-with-php/
      *
      * Additional options:
      * - exact: (bool) Cut text exact on character limit instead after the word
      *
-     * @param string $html     The html string that should be truncated
-     * @param int    $limit    Max number of text characters (html tags are not counted)
+     * @param string $html     The HTML string that should be truncated
+     * @param int    $limit    Max number of text characters (HTML tags are not counted)
      * @param string $ellipsis Characters that should be displayed, where the string is truncated
      * @param array  $options  Additional Options
      */
@@ -214,6 +214,8 @@ class StringUtil
      *
      * Options:
      * - trim: (bool) Trim whitespace from the beginning after a leading string is removed. Default true.
+     *
+     * @deprecated Replace with userland code. Will be removed in the next major version.
      */
     public function removeLeadingString(string $string, string $subject, array $options = []): ?string
     {
@@ -234,6 +236,8 @@ class StringUtil
      *
      * Options:
      * - trim: (bool) Trim whitespace from the end after a trailing string is removed. Default true.
+     *
+     * @deprecated Replace with userland code. Will be removed in the next major version.
      */
     public function removeTrailingString(string $string, string $subject, array $options = []): ?string
     {
