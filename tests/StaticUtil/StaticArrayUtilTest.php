@@ -1,22 +1,16 @@
 <?php
 
-/*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
- *
- * @license LGPL-3.0-or-later
- */
+namespace HeimrichHannot\UtilsBundle\Tests\StaticUtil;
 
-namespace HeimrichHannot\UtilsBundle\Tests\Util\Type;
-
-use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
-use HeimrichHannot\UtilsBundle\Util\ArrayUtil;
+use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\UtilsBundle\StaticUtil\StaticArrayUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 
-class ArrayUtilTest extends AbstractUtilsTestCase
+class StaticArrayUtilTest extends ContaoTestCase
 {
-    public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null): ArrayUtil
+    public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null): StaticArrayUtil
     {
-        return new ArrayUtil();
+        return new StaticArrayUtil();
     }
 
     public function testInsertBeforeKey(): void
@@ -50,7 +44,7 @@ class ArrayUtilTest extends AbstractUtilsTestCase
         $this->assertSame(['hello' => 'world', 'foobar' => 'bar'], $target);
 
         $target = ['hello' => 'world'];
-        $arrayUtil->insertAfterKey($target, 'foo', 'bar', null, ['attachIfKeyNotExist' => false]);
+        $arrayUtil->insertAfterKey($target, 'foo', 'bar', null, ['attachMissingKey' => false]);
         $this->assertSame(['hello' => 'world'], $target);
 
         $target = ['hello' => 'world', 'foo' => 'bar', 'heimrich' => 'hannot'];
