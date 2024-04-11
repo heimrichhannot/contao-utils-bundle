@@ -22,12 +22,15 @@ class DateAddedFieldListener extends AbstractDcaFieldListener
         $GLOBALS['TL_DCA'][$table]['config']['onload_callback'][] = [self::class, 'onLoadCallback'];
         $GLOBALS['TL_DCA'][$table]['config']['oncopy_callback'][] = [self::class, 'onCopyCallback'];
 
-        $GLOBALS['TL_DCA'][$table]['fields']['dateAdded'] = [
-            'label'   => &$GLOBALS['TL_LANG']['MSC']['dateAdded'],
-            'sorting' => true,
-            'eval'    => ['rgxp' => 'datim', 'doNotCopy' => true],
-            'sql'     => "int(10) unsigned NOT NULL default '0'",
+        $field = [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['dateAdded'],
+            'eval' => ['rgxp' => 'datim', 'doNotCopy' => true],
+            'sql' => "int(10) unsigned NOT NULL default '0'",
         ];
+
+        $this->applyDefaultFieldAdjustments($field, DateAddedField::getRegistrations()[$table]);
+
+        $GLOBALS['TL_DCA'][$table]['fields']['dateAdded'] = $field;
     }
 
     public function onLoadCallback(DataContainer $dc = null): void

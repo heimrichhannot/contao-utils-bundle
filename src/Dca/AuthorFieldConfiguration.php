@@ -50,39 +50,6 @@ class AuthorFieldConfiguration extends DcaFieldConfiguration
         return $this;
     }
 
-    public function isExclude(): bool
-    {
-        return $this->exclude;
-    }
-
-    public function setExclude(bool $exclude): AuthorFieldConfiguration
-    {
-        $this->exclude = $exclude;
-        return $this;
-    }
-
-    public function isSearch(): bool
-    {
-        return $this->search;
-    }
-
-    public function setSearch(bool $search): AuthorFieldConfiguration
-    {
-        $this->search = $search;
-        return $this;
-    }
-
-    public function isFilter(): bool
-    {
-        return $this->filter;
-    }
-
-    public function setFilter(bool $filter): AuthorFieldConfiguration
-    {
-        $this->filter = $filter;
-        return $this;
-    }
-
     public function getType(): string
     {
         return $this->type;
