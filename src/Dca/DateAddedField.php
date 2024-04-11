@@ -15,4 +15,11 @@ class DateAddedField extends AbstractDcaField
     {
         return static::$tables;
     }
+
+    protected static function createOptionObject(string $table): DcaFieldConfiguration
+    {
+        $options = parent::createOptionObject($table);
+        $options->setSorting(true);
+        return $options;
+    }
 }

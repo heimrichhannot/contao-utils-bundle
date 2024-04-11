@@ -4,25 +4,14 @@ namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\DataContainer;
 use Contao\FrontendUser;
-use Contao\Model;
 use HeimrichHannot\UtilsBundle\Dca\AuthorField;
 use HeimrichHannot\UtilsBundle\Dca\AuthorFieldConfiguration;
 use Symfony\Component\Security\Core\Security;
 
-class DcaAuthorListener
+class DcaAuthorListener extends AbstractDcaFieldListener
 {
-    private ContaoFramework $framework;
-    private Security $security;
-
-    public function __construct(ContaoFramework $framework, Security $security)
-    {
-        $this->framework = $framework;
-        $this->security = $security;
-    }
-
     #[AsHook("loadDataContainer")]
     public function onLoadDataContainer(string $table): void
     {
@@ -31,13 +20,10 @@ class DcaAuthorListener
         }
 
         $options = AuthorField::getRegistrations()[$table];
-
         $authorFieldName = $this->getAuthorFieldName($options);
+        $security = $this->container->get('security.helper');
 
         $authorField = [
-            'exclude' => $options->isExclude(),
-            'search' => $options->isSearch(),
-            'filter' => $options->isFilter(),
             'inputType' => 'select',
             'eval' => [
                 'doNotCopy' => true,
@@ -49,20 +35,22 @@ class DcaAuthorListener
             'sql' => "int(10) unsigned NOT NULL default 0",
         ];
 
+        $this->applyDefaultFieldAdjustments($authorField, $options);
+
         if ($options->isUseDefaultLabel()) {
             $authorField['label'] = &$GLOBALS['TL_LANG']['MSC']['utilsBundle']['author'];
         }
 
         $authorField['default'] = 0;
         if (AuthorField::TYPE_USER === $options->getType()) {
-            if ($this->security->getUser() instanceof BackendUser) {
-                $authorField['default'] = $this->security->getUser()->id;
+            if ($security->getUser() instanceof BackendUser) {
+                $authorField['default'] = $security->getUser()->id;
             }
             $authorField['foreignKey'] = 'tl_user.name';
             $authorField['relation'] = ['type'=>'hasOne', 'load'=>'lazy'];
         } elseif (AuthorField::TYPE_MEMBER === $options->getType()) {
-            if ($this->security->getUser() instanceof FrontendUser) {
-                $authorField['default'] = $this->security->getUser()->id;
+            if ($security->getUser() instanceof FrontendUser) {
+                $authorField['default'] = $security->getUser()->id;
             }
             $authorField['foreignKey'] = "tl_member.CONCAT(firstname,' ',lastname)";
             $authorField['relation'] = ['type'=>'hasOne', 'load'=>'lazy'];
@@ -77,22 +65,21 @@ class DcaAuthorListener
     {
         $options = AuthorField::getRegistrations()[$dc->table];
         $authorFieldName = $this->getAuthorFieldName($options);
+        $security = $this->container->get('security.helper');
 
-        /** @var class-string<Model> $modelClass */
-        $modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($dc->table);
-        $model = $this->framework->getAdapter($modelClass)->findByPk($insertId);
+        $model = $this->getModelInstance($dc->table, $insertId);
         if (!$model) {
             return;
         }
 
         $model->{$authorFieldName} = 0;
         if (AuthorField::TYPE_USER === $options->getType()) {
-            if ($this->security->getUser() instanceof BackendUser) {
-                $model->{$authorFieldName} = $this->security->getUser()->id;
+            if ($security->getUser() instanceof BackendUser) {
+                $model->{$authorFieldName} = $security->getUser()->id;
             }
         } elseif (AuthorField::TYPE_MEMBER === $options->getType()) {
-            if ($this->security->getUser() instanceof FrontendUser) {
-                $model->{$authorFieldName} = $this->security->getUser()->id;
+            if ($security->getUser() instanceof FrontendUser) {
+                $model->{$authorFieldName} = $security->getUser()->id;
             }
         }
         $model->save();
@@ -112,5 +99,12 @@ class DcaAuthorListener
         } else {
             return $options->getFieldNamePrefix() . 'Author';
         }
+    }
+
+    public static function getSubscribedServices(): array
+    {
+        $services = parent::getSubscribedServices();
+        $services['security.helper'] = Security::class;
+        return $services;
     }
 }

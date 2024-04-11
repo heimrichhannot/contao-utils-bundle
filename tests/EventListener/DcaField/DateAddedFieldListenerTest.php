@@ -45,6 +45,67 @@ class DateAddedFieldListenerTest extends TestCase
         $this->assertArrayHasKey('dateAdded', $GLOBALS['TL_DCA'][$table]['fields']);
     }
 
+    public function dateAddedConfig():array
+    {
+        return [
+            [null, false, false, false, false],
+            [1, true, false, false, false],
+            [2, false, true, false, false],
+            [null, false, false, true, false],
+            [null, false, false, false, true],
+        ];
+    }
+
+    /**
+     * @dataProvider dateAddedConfig
+     * @runInSeparateProcess
+     */
+    public function testConfig(?int $flag, bool $sorting, bool $exclude, bool $filter, bool $search)
+    {
+        $container = $this->createMock(ContainerInterface::class);
+
+        $listener = new DateAddedFieldListener($container);
+        $table = 'test_table';
+
+        // Mock the global array
+        $GLOBALS['TL_DCA'][$table] = [
+            'config' => [],
+            'fields' => [],
+        ];
+
+        $config = DateAddedField::register($table);
+        $config->setFlag($flag);
+        $config->setSorting($sorting);
+        $config->setExclude($exclude);
+        $config->setFilter($filter);
+        $config->setSearch($search);
+
+        $listener->onLoadDataContainer($table);
+
+        $this->assertArrayHasKey('dateAdded', $GLOBALS['TL_DCA'][$table]['fields']);
+        $field = $GLOBALS['TL_DCA'][$table]['fields']['dateAdded'];
+        if ($flag) {
+            $this->assertArrayHasKey('flag', $field);
+            $this->assertEquals($flag, $field['flag']);
+        }
+        if ($sorting) {
+            $this->assertArrayHasKey('sorting', $field);
+            $this->assertTrue($field['sorting']);
+        }
+        if ($exclude) {
+            $this->assertArrayHasKey('exclude', $field);
+            $this->assertTrue($field['exclude']);
+        }
+        if ($filter) {
+            $this->assertArrayHasKey('filter', $field);
+            $this->assertTrue($field['filter']);
+        }
+        if ($search) {
+            $this->assertArrayHasKey('search', $field);
+            $this->assertTrue($field['search']);
+        }
+    }
+
     public function testOnLoadCallback()
     {
         // Without DataContainer
