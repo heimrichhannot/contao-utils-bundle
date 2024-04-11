@@ -9,6 +9,7 @@ use HeimrichHannot\UtilsBundle\Dca\AuthorField;
 use HeimrichHannot\UtilsBundle\EventListener\DcaField\DcaAuthorListener;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use PHPUnit\Framework\MockObject\MockBuilder;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Security\Core\Security;
 
 class DcaAuthorListenerTest extends AbstractUtilsTestCase
@@ -18,7 +19,19 @@ class DcaAuthorListenerTest extends AbstractUtilsTestCase
     {
         $framework = $parameters['framework'] ?? $this->mockContaoFramework();
         $security = $parameters['security'] ?? $this->createMock(Security::class);
-        return new DcaAuthorListener($framework, $security);
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->willReturnCallback(function ($key) use ($framework, $security) {
+            switch ($key) {
+                case 'contao.framework':
+                    return $framework;
+                case 'security.helper':
+                    return $security;
+            }
+            return null;
+        });
+
+        return new DcaAuthorListener($container);
     }
 
     public function testOnLoadDataContainer()
