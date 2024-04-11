@@ -111,7 +111,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/DcaField/AbstractDcaFieldListener.php"><a href="files/src-eventlistener-dcafield-abstractdcafieldlistener.html"><abbr title="src/EventListener/DcaField/AbstractDcaFieldListener.php">AbstractDcaFieldListener.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">10</span>
+    <span class="phpdocumentor-element-found-in__line">11</span>
 
     </aside>
 
@@ -164,6 +164,13 @@
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
+    <a href="classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AbstractDcaFieldListener.html#method_applyDefaultFieldAdjustments">applyDefaultFieldAdjustments()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a href="classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AbstractDcaFieldListener.html#method_getModelInstance">getModelInstance()</a>
     <span>
                         &nbsp;: <abbr title="\Contao\Model">Model</abbr>|null    </span>
@@ -198,7 +205,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/DcaField/AbstractDcaFieldListener.php"><a href="files/src-eventlistener-dcafield-abstractdcafieldlistener.html"><abbr title="src/EventListener/DcaField/AbstractDcaFieldListener.php">AbstractDcaFieldListener.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">12</span>
+    <span class="phpdocumentor-element-found-in__line">14</span>
 
     </aside>
 
@@ -209,10 +216,8 @@
     <span class="phpdocumentor-signature__name">$container</span>
     </code>
 
-        <section class="phpdocumentor-description"></section>
-
-        <section class="phpdocumentor-description"></section>
-
+    
+    
     
 
 </article>
@@ -236,7 +241,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/DcaField/AbstractDcaFieldListener.php"><a href="files/src-eventlistener-dcafield-abstractdcafieldlistener.html"><abbr title="src/EventListener/DcaField/AbstractDcaFieldListener.php">AbstractDcaFieldListener.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">12</span>
+    <span class="phpdocumentor-element-found-in__line">16</span>
 
     </aside>
 
@@ -280,7 +285,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/DcaField/AbstractDcaFieldListener.php"><a href="files/src-eventlistener-dcafield-abstractdcafieldlistener.html"><abbr title="src/EventListener/DcaField/AbstractDcaFieldListener.php">AbstractDcaFieldListener.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -306,6 +311,58 @@
             -protected
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_applyDefaultFieldAdjustments">
+        applyDefaultFieldAdjustments()
+        <a href="classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AbstractDcaFieldListener.html#method_applyDefaultFieldAdjustments" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/DcaField/AbstractDcaFieldListener.php"><a href="files/src-eventlistener-dcafield-abstractdcafieldlistener.html"><abbr title="src/EventListener/DcaField/AbstractDcaFieldListener.php">AbstractDcaFieldListener.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">28</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+                <span class="phpdocumentor-signature__name">applyDefaultFieldAdjustments</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$field</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\DcaFieldConfiguration">DcaFieldConfiguration</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$configuration</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$field</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$configuration</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\DcaFieldConfiguration">DcaFieldConfiguration</abbr></a></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -protected
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_getModelInstance">
         getModelInstance()
         <a href="classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AbstractDcaFieldListener.html#method_getModelInstance" class="headerlink"><i class="fas fa-link"></i></a>
@@ -313,7 +370,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/EventListener/DcaField/AbstractDcaFieldListener.php"><a href="files/src-eventlistener-dcafield-abstractdcafieldlistener.html"><abbr title="src/EventListener/DcaField/AbstractDcaFieldListener.php">AbstractDcaFieldListener.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">21</span>
 
     </aside>
 
