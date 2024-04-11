@@ -125,9 +125,11 @@ AuthorField::register('tl_example')
     ->setType(AuthorField::TYPE_MEMBER) // can be one of TYPE_USER (default) or TYPE_MEMBER. Use TYPE_MEMBER to set a frontend member instead of a backend user
     ->setFieldNamePrefix('example') // custom prefix for the field name
     ->setUseDefaultLabel(false) // set to false to disable the default label and set a custom label in your dca translations
-    ->setExclude(false) // set the dca field exclude option
-    ->setSearch(false) // set the dca field search option
-    ->setFilter(false) // set the dca field filter option
+    ->setExclude(true) // set the dca field exclude option
+    ->setSearch(true) // set the dca field search option
+    ->setFilter(true) // set the dca field filter option
+    ->setSorting(false) // set the dca field sorting option
+    ->setFlag(null) // set the dca field flag option
 ;
 ```
 
@@ -139,7 +141,21 @@ Add a date added field to your dca. It will be initialized with the current date
 # contao/dca/tl_example.php
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
 
-DateAddedField::register('tl_example');
+DateAddedField::register('tl_example')
+```
+
+You can pass additional options to adjust the field:
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
+
+DateAddedField::register('tl_example')
+    ->setExclude(false) // set the dca field exclude option
+    ->setSearch(false) // set the dca field search option
+    ->setFilter(false) // set the dca field filter option
+    ->setSorting(true) // set the dca field sorting option
+    ->setFlag(null) // set the dca field flag option
+;
 ```
 
 

@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.236.0] - 2024-04-11
+- Added: more options to DcaFields
+
 ## [2.235.3] - 2024-03-18
 - Fixed: another issue with CreateWhereForSerializedBlobResult::createInlineOrWhere()
 
