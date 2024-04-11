@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.0] - 2024-04-11
+- Added: more options to DcaFields
+
 ## [3.3.0] - 2024-03-26
 - Changed: `dca()->getDcaFields()` move `GetDcaFieldsOptions` constructor call to method body.
 - Added: Static array and class utils within a new namespace for static utilities.
