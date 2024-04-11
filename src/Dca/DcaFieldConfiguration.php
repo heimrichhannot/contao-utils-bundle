@@ -4,26 +4,18 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 class DcaFieldConfiguration
 {
-    /** @var null|int  */
-    private $flag = null;
-
-    /** @var bool  */
-    protected $exclude = false;
-
-    /** @var bool  */
-    protected $search = false;
-
-    /** @var bool  */
-    protected $filter = false;
-
-    /** @var bool  */
-    protected $sorting = false;
+    private ?int $flag = null;
+    protected bool $exclude = false;
+    protected bool $search = false;
+    protected bool $filter = false;
+    protected bool $sorting = false;
 
     /**
      * @param string $table
      */
     public function __construct(private string $table)
     {
+
     }
 
     public function getTable(): string

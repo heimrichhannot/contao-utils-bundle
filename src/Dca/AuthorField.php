@@ -19,7 +19,13 @@ class AuthorField extends AbstractDcaField
 
     protected static function createOptionObject(string $table): DcaFieldConfiguration|AuthorFieldConfiguration
     {
-        return new AuthorFieldConfiguration($table);
+        $options = new AuthorFieldConfiguration($table);
+
+        $options->setExclude(true);
+        $options->setSearch(true);
+        $options->setFilter(true);
+
+        return $options;
     }
 
     protected static function storeConfig(DcaFieldConfiguration $config): void

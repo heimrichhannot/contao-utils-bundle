@@ -7,9 +7,6 @@ class AuthorFieldConfiguration extends DcaFieldConfiguration
     protected string $type = AuthorField::TYPE_USER;
     protected string $fieldNamePrefix = '';
     protected bool $useDefaultLabel = true;
-    protected bool $exclude = true;
-    protected bool $search = true;
-    protected bool $filter = true;
 
     public function setType(string $type): AuthorFieldConfiguration
     {
