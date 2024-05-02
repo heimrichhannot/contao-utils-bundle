@@ -15,6 +15,7 @@ In addition, there are DcaField helpers, the Entity finder command and some nice
 * Utils-Service - A service allow access all bundled utils functions. 
 * DcaField registration - An nice api to add typical dca fields to your dca fields without repeating yourself or annoying order restrictions.
   * AuthorField - Add an author field with automatic filling of the default value and optional frontend member support
+  * DateAddedField - Add a date added field to store the date of entity creation
 * Entity Finder - A command to search for any contao entities in your database.
 * Twig Filters
 
@@ -111,8 +112,9 @@ AuthorField::register('tl_example')
     ->setFieldNamePrefix('example') // custom prefix for the field name
     ->setUseDefaultLabel(false) // set to false to disable the default label and set a custom label in your dca translations
     ->setExclude(false) // set the dca field exclude option
-    ->setSearch(false) // set the dca field search option
     ->setFilter(false) // set the dca field filter option
+    ->setSearch(false) // set the dca field search option
+    ->setSorting(false) // set the dca field sorting option
 ;
 ```
 
@@ -127,6 +129,19 @@ use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
 DateAddedField::register('tl_example');
 ```
 
+You can pass additional options to adjust the field:
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
+
+DateAddedField::register('tl_example')
+    ->setExclude(false) // set the dca field exclude option
+    ->setFilter(false) // set the dca field filter option
+    ->setSearch(false) // set the dca field search option
+    ->setSorting(true) // set the dca field sorting option
+;
+```
 
 ### Entity Finder
 
@@ -139,7 +154,7 @@ The entity finder is a command to search for any contao entities in your databas
 
 This bundle contains currently one twig filter:
 
-### anonymize_email
+#### anonymize_email
 
 Returns an anonymized email address. max.muster@example.org will be max.****@example.org
 
