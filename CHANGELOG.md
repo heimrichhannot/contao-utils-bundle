@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.237.0] - 2024-05-27
+- Added: Backport of static utils (SUtils)
+
 ## [2.236.0] - 2024-04-11
 - Added: more options to DcaFields
 
