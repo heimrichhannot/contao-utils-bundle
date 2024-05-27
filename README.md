@@ -28,7 +28,7 @@ This bundle offers various utility functionality for the Contao CMS.
 
 ### Optional Requirements 
 
-Add following dependencies to your project composer file, if you want to use one of the following utils:
+Add the following dependencies to your project, if you want to use any of these utils:
 
 | Util                                                  | Dependency                                                             |
 |-------------------------------------------------------|------------------------------------------------------------------------|
@@ -37,16 +37,16 @@ Add following dependencies to your project composer file, if you want to use one
 
 ## Usage
 
+This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) for all util classes and methods.
+
 ### Service Locator
 
-This is a backport and essential feature of the `v3` branch. We recommend to refactor your code to use the `Utils`-service locator, and to only use this pattern in new code. 
+This is a backport and essential feature of the `v3` branch. We recommend to refactor existing code to use the `Utils` service locator instead of the individual legacy services, and to only use this pattern in new code. 
 
 > [!NOTE]
-> We're currently in a process to move all services into the Utils namespace and make them all accessible from the new Utils service. 
+> We're currently in a process to move all services into the Utils namespace and make them accessible from the new `Utils` service.
 
-This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) for all util classes and methods. 
-
-The "default" way to access utils is the `Utils`-service
+The "default" way to access utils is the `Utils` service
 
 > [!NOTE]
 > Currently, not all services have been backported to the new service locator and are still only available through service tags.
