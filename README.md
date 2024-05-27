@@ -7,58 +7,77 @@
 
 This bundle offers various utility functionality for the Contao CMS.
 
+> [!NOTE]
+> We are currently maintaining two branches of this bundle.
+> 
+> - The `v3` branch is the current stable version.
+> - The `v2` branch is this legacy version.
+> 
+> The `v3` branch is a major rewrite of the bundle and has maintained little backwards compatibility with the `v2` branch.
+> To aid in migrating to the new version, we are backporting reasonable features from `v3` to `v2`.
+> 
+> We are providing bugfixes and security updates for the `v2` branch for the time being. 
 
-## Install 
+## Install
 
 1. Install via composer:
     ```
-    composer require heimrichhannot/contao-utils-bundle
+    composer require heimrichhannot/contao-utils-bundle:^2.0
     ```
-1. Update database
+2. Update database
 
-### Additional Requirements: 
+### Optional Requirements 
 
 Add following dependencies to your project composer file, if you want to use one of the following utils:
 
-Util                  | Dependency
-----------------------|-----------
-[~~PdfCreator - mPDF~~](docs/utils/pdf/pdfcreator.md)  | `"mpdf/mpdf": "^7.0\|^8.0"`
-huh.utils.pdf.preview | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostscript": "^4.1"`
-
+| Util                                                  | Dependency                                                             |
+|-------------------------------------------------------|------------------------------------------------------------------------|
+| [~~PdfCreator - mPDF~~](docs/utils/pdf/pdfcreator.md) | `"mpdf/mpdf": "^7.0\|^8.0"`                                            |
+| huh.utils.pdf.preview                                 | `"spatie/pdf-to-image": "^1.8"` or/and `"alchemy/ghostscript": "^4.1"` |
 
 ## Usage
 
-### Utils
+### Service Locator
 
-> We're currently in a process moving all services into the Utils namespace and make them all accessible from a new Utils service. 
+This is a backport and essential feature of the `v3` branch. We recommend to refactor your code to use the `Utils`-service locator, and to only use this pattern in new code. 
 
-This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) to see all util-classes and -methods. 
+> [!NOTE]
+> We're currently in a process to move all services into the Utils namespace and make them all accessible from the new Utils service. 
 
-The default way to access the util methods is the `Utils`-service (currently not all services are available there yet). The utils service is best used with dependency injection, but is also available from the service container as public service for usage in legacy code.
+This Bundle is a collection of utils to solve recurring tasks. See the [API Documentation](https://heimrichhannot.github.io/contao-utils-bundle/) for all util classes and methods. 
 
-   ```php
-   use HeimrichHannot\UtilsBundle\Util\Utils;
-   
-   class MyClass{
-       /** @var Utils */
-       protected $utils;
-        
-       public function __construct(Utils $utils) {
-           $this->utils = $utils;
-       }
-       
-       public function someActions(): bool {
-           return $this->utils->string()->startsWith('Lorem ipsum dolor sit amet', 'Lorem');
-       }
-   }
-   ```
+The "default" way to access utils is the `Utils`-service
 
-To access services that are not available through the `Utils`-service, inject or call them directly.
+> [!NOTE]
+> Currently, not all services have been backported to the new service locator and are still only available through service tags.
 
-> Keep in mind that all services are about to be moved to the Utils namespace and will be deprecated (and removed in version 3.0) in the future.
+The utils service is used best with dependency injection, but is also available from the service container as a public service to be used in legacy code.
 
+```php
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
-Available [Service](src/Resources/config/services.yml) (as of version 2.131):
+class MyService {
+    /** @var Utils */
+    protected $utils;
+     
+    public function __construct(Utils $utils) {
+        $this->utils = $utils;
+    }
+    
+    public function someActions(): bool {
+        return $this->utils->string()->startsWith('Lorem ipsum dolor sit amet', 'Lorem');
+    }
+}
+```
+
+To access services that are not available through the `Utils` service, inject or call them directly.
+
+> [!IMPORTANT]
+> Keep in mind that all utils are on the brink of being moved to the `Utils`-service locator and won't be available through service tags in `v3`.
+
+### Index of Available Services
+
+Available [Services](src/Resources/config/services.yml) (as of version 2.131):
 
 ```
 huh.utils.accordion
@@ -165,7 +184,7 @@ DateAddedField::register('tl_example')
 
 ### Utils 
 
-[~~PdfCreator~~](docs/utils/pdf/pdfcreator.md) - ~~High-level API to create pdf files with PHP~~ (PDFCreator was moved into it's [own library](https://github.com/heimrichhannot/pdf-creator))
+~~[PdfCreatorx](docs/utils/pdf/pdfcreator.md) - High-level API to create pdf files with PHP~~ (PDFCreator has moved to its [own library](https://github.com/heimrichhannot/pdf-creator).)
 
 ### Using with Webpack/Encore
 
@@ -185,22 +204,22 @@ static get(url, data, config) {...}
 ``` 
 Both take the following parameters
  
-name | description 
-| --- | --- |
-| url | The url the request will be send to. |
-| data | The data that is used for the request. It has to be passed as JSON. |
+| name   | description                                                                                                   |
+|--------|---------------------------------------------------------------------------------------------------------------|
+| url    | The url the request will be send to.                                                                          |
+| data   | The data that is used for the request. It has to be passed as JSON.                                           |
 | config | An object that can hold the onSuccess-, onError-, beforeSubmit-, afterSubmit-callback and the request headers | 
  
  
 Parameters of config
 
-name | description
-| --- | --- |
-| onSuccess | Is called when the request was successfull. The request is passed as parameter. |
-| onError | Is called when the request had an error. The request is passed as parameter. |
+| name         | description                                                                                   |
+|--------------|-----------------------------------------------------------------------------------------------|
+| onSuccess    | Is called when the request was successful. The request is passed as parameter.                |
+| onError      | Is called when the request had an error. The request is passed as parameter.                  |
 | beforeSubmit | Is called before the request is submitted. The url, data and config are passed as parameters. |
-| afterSubmit | Is called before the request is submitted. The url, data and config are passed as parameters. |
-| headers | The headers will be set when the request is initialized. |
+| afterSubmit  | Is called before the request is submitted. The url, data and config are passed as parameters. |
+| headers      | The headers will be set when the request is initialized.                                      |
  
 The contents of the config parameter are all optional. If you pass an empty config to the ajaxUtil a silent request will be processed.
 The data will be transformed in the fitting format accordion wether you use a POST- or a GET-request.
@@ -210,10 +229,10 @@ To use the shorthands import the utilsBundle into your script. After that just c
 ```
 import "@hundh/contao-utils-bundle";
 
-...
+// ...
 
 utilsBundle.ajax.get(url, data, config);
-# or
+// or
 utilsBundle.ajax.post(url, data, config);
 ```
 
@@ -241,27 +260,26 @@ huh_utils:
 
 These bundle add server twig filters:
 
-Filter            | Parameter | Description
------------------ | --------- | -----------
-autolink          | array options | Create a link if string is an url.
-anonymize_email   | - | Returns an anonymized email address. max.muster@example.org will be max.****@example.org
-deserialize       | bool force_array = false | Deserialize an serialized array (using `\Contao\StringUtil`)
-download          | download = true, data = [], template = "@HeimrichHannotContaoUtils\/download.html.twig" |
-download_data     | data = [] |
-download_link     | data = [] |
-download_path     | data = [] |
-download_title    | data = [] |
-file_data         | data = [], jsonSerializeOptions = []
-file_path         | | 
-image             | size = null, data = [], template = "image.html.twig" |
-image_caption     | | 
-image_data        | size = null, data = [] |
-image_gallery     | template = "image_gallery.html.twig"
-image_size        | |
-image_width       | |
-localized_date    | format = null |
-replace_inserttag | bool cache = true | Replace contao inserttag in twig string.
-
+| Filter            | Parameter                                                                               | Description                                                                              |
+|-------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| autolink          | array options                                                                           | Create a link if string is an url.                                                       |
+| anonymize_email   | -                                                                                       | Returns an anonymized email address. max.muster@example.org will be max.****@example.org |
+| deserialize       | bool force_array = false                                                                | Deserialize an serialized array (using `\Contao\StringUtil`)                             |
+| download          | download = true, data = [], template = "@HeimrichHannotContaoUtils\/download.html.twig" |                                                                                          |
+| download_data     | data = []                                                                               |                                                                                          |
+| download_link     | data = []                                                                               |                                                                                          |
+| download_path     | data = []                                                                               |                                                                                          |
+| download_title    | data = []                                                                               |                                                                                          |
+| file_data         | data = [], jsonSerializeOptions = []                                                    |                                                                                          |
+| file_path         |                                                                                         |                                                                                          |
+| image             | size = null, data = [], template = "image.html.twig"                                    |                                                                                          |
+| image_caption     |                                                                                         |                                                                                          |
+| image_data        | size = null, data = []                                                                  |                                                                                          |
+| image_gallery     | template = "image_gallery.html.twig"                                                    |                                                                                          |
+| image_size        |                                                                                         |                                                                                          |
+| image_width       |                                                                                         |                                                                                          |
+| localized_date    | format = null                                                                           |                                                                                          |
+| replace_inserttag | bool cache = true                                                                       | Replace contao inserttag in twig string.                                                 |
 
 ### Image Extension
 
@@ -292,9 +310,9 @@ Use the download extension to render download elements, get download links, down
 
 ## Insert tags
 
-| Insert tag  | Description  |
-|---|---|
-| {{twig::*}}  | This tag will be replaced with the rendered output of a given twig template, that can be sourced in `bundle/src/Resources/views` or contao root `/templates` directory (replace 1st * with template name e.g. `svg_logo_company` and 2nd * with serialized parameters that should be passed to the template) |
+| Insert tag  | Description                                                                                                                                                                                                                                                                                                  |
+|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| {{twig::*}} | This tag will be replaced with the rendered output of a given twig template, that can be sourced in `bundle/src/Resources/views` or contao root `/templates` directory (replace 1st * with template name e.g. `svg_logo_company` and 2nd * with serialized parameters that should be passed to the template) |
 
 ## Commands
 
