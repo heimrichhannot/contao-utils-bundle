@@ -210,4 +210,50 @@ class DcaUtil
 
         return $fields;
     }
+
+    /**
+     * @param array|callable|null $callback
+     * @param mixed ...$arguments
+     * @return mixed
+     */
+    public function executeCallback($callback, ...$arguments)
+    {
+        if (!$callback) {
+            return null;
+        }
+
+        if (is_array($callback))
+        {
+            if (!isset($callback[0]) || !isset($callback[1])) {
+                return null;
+            }
+
+            try {
+                /** @var Controller $controller */
+                $controller = $this->contaoFramework->getAdapter(Controller::class);
+                $instance = $controller->importStatic($callback[0]);
+            } catch (\Exception $e) {
+                return null;
+            }
+
+            if (!method_exists($instance, $callback[1])) {
+                return null;
+            }
+
+            $callback = [$instance, $callback[1]];
+        }
+        elseif (!is_callable($callback))
+        {
+            return null;
+        }
+
+        try
+        {
+            return call_user_func_array($callback, $arguments);
+        }
+        catch (\Error $e)
+        {
+            return null;
+        }
+    }
 }
