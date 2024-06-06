@@ -5086,6 +5086,11 @@ Search.appendIndex(
             "summary": "Return\u0020a\u0020list\u0020of\u0020dca\u0020fields\u0020for\u0020given\u0020table.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method_getDcaFields"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003AexecuteCallback\u0028\u0029",
+            "name": "executeCallback",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-Dca-DcaUtil.html#method_executeCallback"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Dca\\DcaUtil\u003A\u003A\u0024contaoFramework",
             "name": "contaoFramework",
             "summary": "",
