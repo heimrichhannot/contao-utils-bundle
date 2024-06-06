@@ -14,10 +14,14 @@ class StaticArrayUtil extends AbstractStaticUtil
      * @param string       $newKey   The key of the entry that should be added
      * @param mixed        $newValue The value of the entry that should be added
      */
-    public static function insertBeforeKey(array &$array, array|string $keys, string $newKey, mixed $newValue): void
+    public static function insertBeforeKey(array &$array, $keys, string $newKey, $newValue): void
     {
-        if (!is_array($keys)) {
+        if (is_string($keys)) {
             $keys = [$keys];
+        }
+
+        if (!is_array($keys)) {
+            throw new \InvalidArgumentException('Parameter $keys must be of type array or string.');
         }
 
         if (array_intersect($keys, array_keys($array))) {
@@ -52,7 +56,7 @@ class StaticArrayUtil extends AbstractStaticUtil
      *     offset?: int
      * } $options Additional options
      */
-    public static function insertAfterKey(array &$array, string $key, mixed $value, string $newKey = null, array $options = []): void
+    public static function insertAfterKey(array &$array, string $key, $value, string $newKey = null, array $options = []): void
     {
         $options = array_merge([
             'strict' => false,
@@ -86,7 +90,7 @@ class StaticArrayUtil extends AbstractStaticUtil
      *
      * @return bool Returns true if the value has been found and removed, false in other cases
      */
-    public static function removeValue(mixed $value, array &$array): bool
+    public static function removeValue($value, array &$array): bool
     {
         $position = array_search($value, $array);
 
