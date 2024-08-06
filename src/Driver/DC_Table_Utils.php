@@ -15,6 +15,7 @@ use Contao\Environment;
 use Contao\Model;
 use Contao\RequestToken;
 use Contao\System;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class DC_Table_Utils extends DC_Table
@@ -31,7 +32,7 @@ class DC_Table_Utils extends DC_Table
 
         /** @var SessionInterface $objSession */
         $objSession = System::getContainer()->get('session');
-        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest() ?? new Request();
 
         // Check the request token (see #4007)
         if ($request->query->has('act')) {

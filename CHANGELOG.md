@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.238.1] - 2024-08-06
+- Fixed: possible exception when executing DC_Table_Utils in command context
+
 ## [2.238.0] - 2024-06-06
 - Added: backport of DcaUtil::executeCallback()
 - Fixed: syntax error ([#84](https://github.com/heimrichhannot/contao-utils-bundle/issues/84))
