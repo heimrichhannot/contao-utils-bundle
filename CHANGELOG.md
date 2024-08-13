@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.238.3] - 2024-08-13
+- Fixed: UserUtil::hasAccessToField() logic mishap
+
 ## [2.238.1] - 2024-08-06
 - Fixed: possible exception when executing DC_Table_Utils in command context
 
