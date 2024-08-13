@@ -71,15 +71,20 @@ class UserUtil
         return $adapter->findBy($columns, $values, $options);
     }
 
-    public function hasAccessToField($table, $field)
+    public function hasAccessToField($table, $field): bool
     {
         $user = $this->framework->createInstance(BackendUser::class);
 
-        if (null === ($objUser = $user) || !\is_array($user->alexf)) {
+        if ($user === null) {
             return false;
         }
 
-        return $objUser->isAdmin || \in_array($table.'::'.$field, $user->alexf);
+        if ($user->isAdmin) {
+            return true;
+        }
+
+        return \is_array($user->alexf)
+            && \in_array("$table::$field", $user->alexf);
     }
 
     public function isAdmin(): bool
