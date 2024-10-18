@@ -1,9 +1,4 @@
 services:
-  _instanceof:
-    Symfony\Component\DependencyInjection\ContainerAwareInterface:
-      calls:
-        - ["setContainer", ["@service_container"]]
-
   HeimrichHannot\UtilsBundle\Util\Utils:
     public: true
     autowire: true
