@@ -2,8 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.4.1-DEV] - 2024-10-20
-- Fixed: compatibility issues with symfony 7 and contao 5.4
+## [3.4.1] - 2024-10-20
+- Fixed: compatibility issues with symfony 7 and contao 5.4 ([#85](https://github.com/heimrichhannot/contao-utils-bundle/issues/85))
 
 ## [3.4.0] - 2024-04-11
 - Added: more options to DcaFields
