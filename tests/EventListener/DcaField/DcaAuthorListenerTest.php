@@ -10,6 +10,7 @@ use HeimrichHannot\UtilsBundle\EventListener\DcaField\DcaAuthorListener;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
 
 class DcaAuthorListenerTest extends AbstractUtilsTestCase
@@ -18,14 +19,14 @@ class DcaAuthorListenerTest extends AbstractUtilsTestCase
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
         $framework = $parameters['framework'] ?? $this->mockContaoFramework();
-        $security = $parameters['security'] ?? $this->createMock(Security::class);
+        $security = $parameters['security'] ?? $this->createMock(TokenStorageInterface::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->willReturnCallback(function ($key) use ($framework, $security) {
             switch ($key) {
                 case 'contao.framework':
                     return $framework;
-                case 'security.helper':
+                case 'token_storage':
                     return $security;
             }
             return null;
@@ -81,9 +82,6 @@ class DcaAuthorListenerTest extends AbstractUtilsTestCase
 
         $frontendUser = $this->createMock(FrontendUser::class);
         $this->mockClassWithProperties(FrontendUser::class, ['id' => 1]);
-
-        $security = $this->createMock(Security::class);
-        $security->method('getUser')->willReturn($frontendUser);
 
         $instance = $this->getTestInstance([
             'framework' => $framework

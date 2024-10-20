@@ -23,8 +23,8 @@ class DcaAuthorListener extends AbstractDcaFieldListener
         $authorFieldName = $this->getAuthorFieldName($options);
 
         /** @var TokenStorageInterface $tokenStorage */
-        $tokenStorage = $this->container->get(TokenStorageInterface::class);
-        $user = $tokenStorage->getToken()->getUser();
+        $tokenStorage = $this->container->get('token_storage');
+        $user = $tokenStorage->getToken()?->getUser();
 
         $authorField = [
             'inputType' => 'select',
@@ -68,21 +68,25 @@ class DcaAuthorListener extends AbstractDcaFieldListener
     {
         $options = AuthorField::getRegistrations()[$dc->table];
         $authorFieldName = $this->getAuthorFieldName($options);
-        $security = $this->container->get('security.helper');
 
         $model = $this->getModelInstance($dc->table, $insertId);
         if (!$model) {
             return;
         }
 
+        /** @var TokenStorageInterface $tokenStorage */
+        $tokenStorage = $this->container->get('token_storage');
+        $user = $tokenStorage->getToken()?->getUser();
+
         $model->{$authorFieldName} = 0;
+
         if (AuthorField::TYPE_USER === $options->getType()) {
-            if ($security->getUser() instanceof BackendUser) {
-                $model->{$authorFieldName} = $security->getUser()->id;
+            if ($user instanceof BackendUser) {
+                $model->{$authorFieldName} = $user->id;
             }
         } elseif (AuthorField::TYPE_MEMBER === $options->getType()) {
-            if ($security->getUser() instanceof FrontendUser) {
-                $model->{$authorFieldName} = $security->getUser()->id;
+            if ($user instanceof FrontendUser) {
+                $model->{$authorFieldName} = $user->id;
             }
         }
         $model->save();
@@ -107,7 +111,7 @@ class DcaAuthorListener extends AbstractDcaFieldListener
     public static function getSubscribedServices(): array
     {
         $services = parent::getSubscribedServices();
-        $services[] = TokenStorageInterface::class;
+        $services['token_storage'] = TokenStorageInterface::class;
         return $services;
     }
 }
