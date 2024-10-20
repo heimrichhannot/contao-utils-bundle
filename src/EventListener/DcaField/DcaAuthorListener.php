@@ -8,7 +8,7 @@ use Contao\DataContainer;
 use Contao\FrontendUser;
 use HeimrichHannot\UtilsBundle\Dca\AuthorField;
 use HeimrichHannot\UtilsBundle\Dca\AuthorFieldConfiguration;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class DcaAuthorListener extends AbstractDcaFieldListener
 {
@@ -21,7 +21,10 @@ class DcaAuthorListener extends AbstractDcaFieldListener
 
         $options = AuthorField::getRegistrations()[$table];
         $authorFieldName = $this->getAuthorFieldName($options);
-        $security = $this->container->get('security.helper');
+
+        /** @var TokenStorageInterface $tokenStorage */
+        $tokenStorage = $this->container->get(TokenStorageInterface::class);
+        $user = $tokenStorage->getToken()->getUser();
 
         $authorField = [
             'inputType' => 'select',
@@ -43,14 +46,14 @@ class DcaAuthorListener extends AbstractDcaFieldListener
 
         $authorField['default'] = 0;
         if (AuthorField::TYPE_USER === $options->getType()) {
-            if ($security->getUser() instanceof BackendUser) {
-                $authorField['default'] = $security->getUser()->id;
+            if ($user instanceof BackendUser) {
+                $authorField['default'] = $user->id;
             }
             $authorField['foreignKey'] = 'tl_user.name';
             $authorField['relation'] = ['type'=>'hasOne', 'load'=>'lazy'];
         } elseif (AuthorField::TYPE_MEMBER === $options->getType()) {
-            if ($security->getUser() instanceof FrontendUser) {
-                $authorField['default'] = $security->getUser()->id;
+            if ($user instanceof FrontendUser) {
+                $authorField['default'] = $user->id;
             }
             $authorField['foreignKey'] = "tl_member.CONCAT(firstname,' ',lastname)";
             $authorField['relation'] = ['type'=>'hasOne', 'load'=>'lazy'];
@@ -104,7 +107,7 @@ class DcaAuthorListener extends AbstractDcaFieldListener
     public static function getSubscribedServices(): array
     {
         $services = parent::getSubscribedServices();
-        $services['security.helper'] = Security::class;
+        $services[] = TokenStorageInterface::class;
         return $services;
     }
 }
