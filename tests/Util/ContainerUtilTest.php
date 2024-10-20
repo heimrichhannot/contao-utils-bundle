@@ -8,18 +8,15 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
-use Contao\CoreBundle\ContaoCoreBundle;
-use Contao\CoreBundle\HttpKernel\Bundle\ContaoModuleBundle;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Security\Authentication\Token\TokenChecker;
 use Contao\Input;
 use Contao\TestCase\ContaoTestCase;
-use HeimrichHannot\RequestBundle\HeimrichHannotContaoRequestBundle;
 use HeimrichHannot\UtilsBundle\HeimrichHannotUtilsBundle;
 use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -33,7 +30,7 @@ class ContainerUtilTest extends ContaoTestCase
     public function getTestInstance(array $parameters = [])
     {
         if (!isset($parameters['locator'])) {
-            $parameters['locator'] = $parameters['locator'] = $this->createMock(ServiceLocator::class);
+            $parameters['locator'] = $parameters['locator'] ?? $this->createMock(ServiceLocator::class);
             $parameters['locator']->method('get')->willReturnCallback(function ($id) {
                 switch ($id) {
                 }
@@ -203,14 +200,14 @@ class ContainerUtilTest extends ContaoTestCase
 
     public function testLog()
     {
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->once())->method('log');
         $locator = $this->createMock(ServiceLocator::class);
         $locator->method('get')->willReturn($logger);
         $instance = $this->getTestInstance(['locator' => $locator]);
         $instance->log('Hallo Welt', __METHOD__, ContaoContext::ERROR);
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('log')->willReturnCallback(function ($level, $message, $context = []) {
             $this->assertSame(LogLevel::ERROR, $level);
             $this->assertSame('Hallo Welt', $message);
@@ -222,7 +219,7 @@ class ContainerUtilTest extends ContaoTestCase
         $instance = $this->getTestInstance(['locator' => $locator]);
         $instance->log('Hallo Welt', __METHOD__, ContaoContext::ERROR);
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createMock(LoggerInterface::class);
         $logger->method('log')->willReturnCallback(function ($level, $message, $context = []) {
             $this->assertSame(LogLevel::INFO, $level);
             $this->assertSame('Hallo Welt', $message);

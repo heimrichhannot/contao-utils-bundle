@@ -20,6 +20,7 @@ use Contao\ThemeModel;
 use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,11 +28,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+#[AsCommand(
+    name: 'huh:utils:entity_finder',
+    description: 'A command to find where an entity is included.'
+)]
 class EntityFinderCommand extends Command
 {
-    protected static $defaultName = 'huh:utils:entity_finder';
-    protected static $defaultDescription = 'A command to find where an entity is included.';
-
     public function __construct(
         private ContaoFramework $contaoFramework,
         private EventDispatcherInterface $eventDispatcher,
