@@ -11,7 +11,7 @@ services:
 
   HeimrichHannot\UtilsBundle\:
     resource: '../../{Command,EntityFinder,Util}/*'
-    exclude: '../../Util/Utils.php'
+    exclude: '../../Util/{Utils.php,DatabaseUtil/CreateWhereForSerializedBlobResult.php}'
     autowire: true
     autoconfigure: true
     bind:
