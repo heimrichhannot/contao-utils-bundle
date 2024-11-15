@@ -11,7 +11,7 @@ class PopupWizardLinkOptions
     /** @var string The title of the link */
     public string $title = '';
     /** @var string Override the default css style properties */
-    public string $style = 'padding-left: 5px; padding-top: 2px; display: inline-block;';
+    public string $style = 'display: inline-block;';
     /**  *@var array Additional Link attributes as key value pairs. Will override title and style option. href is not allowed and will be removed from list. */
     public array $attributes = [];
     /** @var string Link icon to show as link text. Overrides default icon. */
