@@ -48,6 +48,11 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(ArrayUtil::class);
     }
 
+    public function backendUi(): BackendUiUtil
+    {
+        return $this->locator->get(BackendUiUtil::class);
+    }
+
     public function class(): ClassUtil
     {
         return $this->locator->get(ClassUtil::class);
@@ -118,6 +123,7 @@ class Utils extends AbstractServiceSubscriber
         return [
             AccordionUtil::class,
             ArrayUtil::class,
+            BackendUiUtil::class,
             ClassUtil::class,
             ContainerUtil::class,
             DatabaseUtil::class,

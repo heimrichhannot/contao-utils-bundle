@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util;
 
 use Contao\TestCase\ContaoTestCase;
+use HeimrichHannot\UtilsBundle\Util\BackendUiUtil;
 use HeimrichHannot\UtilsBundle\Util\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Dca\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\Html\HtmlUtil;
@@ -37,6 +38,9 @@ class UtilsTest extends ContaoTestCase
 
                     case ArrayUtil::class:
                         return $this->createMock(ArrayUtil::class);
+
+                    case BackendUiUtil::class:
+                        return $this->createMock(BackendUiUtil::class);
 
                     case ContainerUtil::class:
                         return $this->createMock(ContainerUtil::class);
@@ -84,6 +88,11 @@ class UtilsTest extends ContaoTestCase
     public function testArray()
     {
         $this->assertInstanceOf(ArrayUtil::class, $this->getTestInstance()->array());
+    }
+
+    public function testBackendUi()
+    {
+        $this->assertInstanceOf(BackendUiUtil::class, $this->getTestInstance()->backendUi());
     }
 
     public function testContainer()

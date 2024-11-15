@@ -17,7 +17,7 @@ class BackendUiUtilTest extends AbstractUtilsTestCase
     {
         $parameters['routingUtil'] = $parameters['routingUtil'] ?? $this->createMock(RoutingUtil::class);
         $parameters['framework'] = $parameters['framework'] ?? $this->createMock(ContaoFramework::class);
-        $parameters['htmlUtil'] = $parameters['htmlUtil'] ?? $this->createMock(HtmlUtil::class);
+        $parameters['htmlUtil'] = $parameters['htmlUtil'] ?? new HtmlUtil();
 
         return new BackendUiUtil($parameters['routingUtil'], $parameters['framework'], $parameters['htmlUtil']);
     }
@@ -31,43 +31,53 @@ class BackendUiUtilTest extends AbstractUtilsTestCase
         $backendUiUtil = $this->getTestInstance(['routingUtil' => $routingUtil]);
 
         $config = new PopupWizardLinkOptions();
-        $config->urlOnly = true;
+        $config->setUrlOnly(true);
 
-        $result = $backendUiUtil->popupWizardLink(['param' => 'value'], $config);
-
-        $this->assertEquals('generated_url', $result);
+        $this->assertEquals(
+            'generated_url',
+            $backendUiUtil->popupWizardLink(['param' => 'value'], $config)
+        );
     }
 
     public function testPopupWizardLinkGeneratesCorrectLink()
     {
         $routingUtil = $this->createMock(RoutingUtil::class);
-        $htmlUtil = $this->createMock(HtmlUtil::class);
 
         $routingUtil->method('generateBackendRoute')->willReturn('generated_url');
-        $htmlUtil->method('generateAttributeString')->willReturn('title="Test Title" style="Test Style" onclick="Test Onclick"');
 
-        $backendUiUtil = $this->getTestInstance(['routingUtil' => $routingUtil, 'htmlUtil' => $htmlUtil]);
+        $backendUiUtil = $this->getTestInstance(['routingUtil' => $routingUtil]);
 
-        $config = new PopupWizardLinkOptions();
-        $config->title = 'Test Title';
-        $config->style = 'Test Style';
-        $config->popupTitle = 'Test Popup Title';
-        $config->width = 800;
-        $config->linkText = 'Test Link Text';
+        $config = (new PopupWizardLinkOptions())
+            ->setTitle('Test Title')
+            ->setStyle('border: 0;')
+            ->setPopupTitle('Test Popup Title')
+            ->setWidth(800)
+            ->setLinkText('Test Link Text');
+        ;
 
-        $result = $backendUiUtil->popupWizardLink(['param' => 'value'], $config);
+        $this->assertStringContainsString(
+            '<a href="generated_url" title="Test Title" style="border: 0;" onclick="Backend.openModalIframe({\'width\':800,\'title\':\'Test Popup Title\',\'url\':this.href});return false">Test Link Text</a>',
+            $backendUiUtil->popupWizardLink(['param' => 'value'], $config)
+        );
 
-        $this->assertStringContainsString('<a href="generated_url" title="Test Title" style="Test Style" onclick="Test Onclick">Test Link Text</a>', $result);
+        $GLOBALS['TL_LANG']['tl_content']['edit'][0] = 'Edit';
+        $config->title = '';
+        $this->assertStringContainsString(
+            '<a href="generated_url" title="Edit" style="border: 0;" onclick="Backend.openModalIframe({\'width\':800,\'title\':\'Test Popup Title\',\'url\':this.href});return false">Test Link Text</a>',
+            $backendUiUtil->popupWizardLink(['param' => 'value'], $config)
+        );
+
+        $config->popupTitle = '';
+        $this->assertStringContainsString(
+            '<a href="generated_url" title="Edit" style="border: 0;" onclick="Backend.openModalIframe({\'width\':800,\'title\':\'Edit\',\'url\':this.href});return false">Test Link Text</a>',
+            $backendUiUtil->popupWizardLink(['param' => 'value'], $config)
+        );
     }
 
     public function testPopupWizardLinkGeneratesLinkWithIcon()
     {
         $routingUtil = $this->createMock(RoutingUtil::class);
-        $framework = $this->createMock(ContaoFramework::class);
-        $htmlUtil = $this->createMock(HtmlUtil::class);
-
         $routingUtil->method('generateBackendRoute')->willReturn('generated_url');
-        $htmlUtil->method('generateAttributeString')->willReturn('title="Test Title" style="Test Style" onclick="Test Onclick"');
 
         $image = $this->mockAdapter(['getHtml']);
         $image->method('getHtml')->willReturn('<img src="alias.svg" alt="Test Title" style="vertical-align:top">');
@@ -81,9 +91,11 @@ class BackendUiUtilTest extends AbstractUtilsTestCase
         $config->linkText = 'Test Link Text';
         $config->icon = 'alias.svg';
 
-        $backendUiUtil = new BackendUiUtil($routingUtil, $framework, $htmlUtil);
-        $result = $backendUiUtil->popupWizardLink(['param' => 'value'], $config);
+        $backendUiUtil = $this->getTestInstance(['routingUtil' => $routingUtil, 'framework' => $framework]);
 
-        $this->assertStringContainsString('<a href="generated_url" title="Test Title" style="Test Style" onclick="Test Onclick"><img src="alias.svg" alt="Test Title" style="vertical-align:top"> Test Link Text</a>', $result);
+        $this->assertStringContainsString(
+            '<a href="generated_url" title="Test Title" style="Test Style" onclick="Backend.openModalIframe({\'width\':800,\'title\':\'Test Popup Title\',\'url\':this.href});return false"><img src="alias.svg" alt="Test Title" style="vertical-align:top"> Test Link Text</a>',
+            $backendUiUtil->popupWizardLink(['param' => 'value'], $config)
+        );
     }
 }

@@ -90,5 +90,21 @@ class PopupWizardLinkOptions
         return $this;
     }
 
+    /**
+     * Set the title of the popup.
+     */
+    public function setPopupTitle(string $string): PopupWizardLinkOptions
+    {
+        $this->popupTitle = $string;
+        return $this;
+    }
 
+    /**
+     * Set the width of the popup.
+     */
+    public function setWidth(int $width): PopupWizardLinkOptions
+    {
+        $this->width = $width;
+        return $this;
+    }
 }
