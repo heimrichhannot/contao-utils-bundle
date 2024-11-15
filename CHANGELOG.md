@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.239.0] - 2024-11-15
+- Added: BackendUiUtil with popupWizardLink method
+- Changed: raised php version requirement to 7.4
+- Changed: raised contao version requirement to 4.9
+
 ## [2.238.3] - 2024-08-13
 - Fixed: UserUtil::hasAccessToField() logic mishap
 
