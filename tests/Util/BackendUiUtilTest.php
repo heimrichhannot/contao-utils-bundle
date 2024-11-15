@@ -19,7 +19,7 @@ class BackendUiUtilTest extends AbstractUtilsTestCase
         $parameters['framework'] = $parameters['framework'] ?? $this->createMock(ContaoFramework::class);
         $parameters['htmlUtil'] = $parameters['htmlUtil'] ?? $this->createMock(HtmlUtil::class);
 
-        return new BackendUiUtil(...$parameters);
+        return new BackendUiUtil($parameters['routingUtil'], $parameters['framework'], $parameters['htmlUtil']);
     }
 
 
