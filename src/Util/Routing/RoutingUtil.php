@@ -88,7 +88,7 @@ class RoutingUtil extends AbstractServiceSubscriber
     /**
      * @codeCoverageIgnore
      */
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             '?'.ContaoCsrfTokenManager::class,
