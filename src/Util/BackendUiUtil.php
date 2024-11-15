@@ -75,7 +75,7 @@ class BackendUiUtil
         if (!empty($options->icon)) {
             /** @var Image $image */
             $image = $this->framework->getAdapter(Image::class);
-            $linkText .= $image->getHtml('alias.svg', $title, 'style="vertical-align:top"');
+            $linkText .= $image->getHtml($options->icon, $title, 'style="vertical-align:top"');
         }
 
         if (!empty($options->linkText)) {
