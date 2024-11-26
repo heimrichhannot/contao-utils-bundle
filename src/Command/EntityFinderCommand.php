@@ -13,13 +13,17 @@ use Contao\ContentModel;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
+use Contao\DC_Table;
+use Contao\FormModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
 use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
+use HeimrichHannot\UtilsBundle\EntityFinder\Finder;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,22 +35,21 @@ class EntityFinderCommand extends Command
 {
     protected static $defaultName = 'huh:utils:entity_finder';
 
-    /** @var ContaoFramework */
-    private $contaoFramework;
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-    /**
-     * @var Connection
-     */
-    private $connection;
-    /**
-     * @var EntityFinderHelper
-     */
-    private $entityFinderHelper;
+    private ContaoFramework $contaoFramework;
+    private EventDispatcherInterface $eventDispatcher;
+    private Connection $connection;
+    private EntityFinderHelper $entityFinderHelper;
+    private Utils $utils;
+    private Finder $finder;
 
-    public function __construct(ContaoFramework $contaoFramework, EventDispatcherInterface $eventDispatcher, Connection $connection, EntityFinderHelper $entityFinderHelper)
+    public function __construct(
+        ContaoFramework $contaoFramework,
+        EventDispatcherInterface $eventDispatcher,
+        Connection $connection,
+        EntityFinderHelper $entityFinderHelper,
+        Utils $utils,
+        Finder $finder
+    )
     {
         parent::__construct();
 
@@ -54,6 +57,8 @@ class EntityFinderCommand extends Command
         $this->eventDispatcher = $eventDispatcher;
         $this->connection = $connection;
         $this->entityFinderHelper = $entityFinderHelper;
+        $this->utils = $utils;
+        $this->finder = $finder;
     }
 
     protected function configure()
@@ -150,6 +155,20 @@ class EntityFinderCommand extends Command
 
     private function findEntity(string $table, $id, array &$parents, bool $onlyText = false): ?string
     {
+        $element = $this->finder->find($table, $id);
+        if ($element) {
+            if ($onlyText) {
+                return $element->getDescription();
+            }
+            if (null === $element->getParents()) {
+                return null;
+            }
+            foreach ($element->getParents()($element->getTable(), $element->getId()) as $parent) {
+                $parents[] = ['table' => $parent['table'], 'id' => $parent['id']];
+            }
+            return null;
+        }
+
         Controller::loadLanguageFile('default');
 
         switch ($table) {
@@ -228,6 +247,35 @@ class EntityFinderCommand extends Command
                 }
 
                 return 'Page not found: ID '.$id;
+
+            default:
+                Controller::loadDataContainer($table);
+                $dca = &$GLOBALS['TL_DCA'][$table];
+                if (!in_array($dca['config']['dataContainer'], ['Table', DC_Table::class])) {
+                    return null;
+                }
+
+                if (isset($dca['config']['ptable'])) {
+                    $model = $this->utils->model()->findModelInstanceByPk($table, $id);
+                    if (!$model) {
+                        return null;
+                    }
+                    $parents[] = ['table' => $dca['config']['ptable'], 'id' => $model->pid];
+
+                    return 'Entity: '.$table.' (ID: '.$id.')';
+                }
+
+                if (isset($dca['config']['dynamicPtable']) && isset($dca['fields']['pid'])) {
+
+                    $model = $this->utils->model()->findModelInstanceByPk($table, $id);
+                    if (!$model) {
+                        return null;
+                    }
+                    /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+                    $parents[] = ['table' => $model->ptable, 'id' => $model->pid];
+
+                    return 'Entity: '.$table.' (ID: '.$id.')';
+                }
         }
 
         return null;
