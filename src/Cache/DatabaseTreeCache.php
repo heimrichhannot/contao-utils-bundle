@@ -8,37 +8,28 @@
 
 namespace HeimrichHannot\UtilsBundle\Cache;
 
+use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\System;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class DatabaseTreeCache
 {
-    /**
-     * Cache tree.
-     *
-     * @var array
-     */
-    protected static $cache = [];
+    protected static array $cache = [];
 
-    /**
-     * @var ContaoFrameworkInterface
-     */
-    protected $framework;
+    protected ContaoFramework $framework;
 
     /**
      * @var Filesystem
      */
-    protected $filesystem;
-
-    /**
-     * @var ModelUtil
-     */
-    protected $modelUtil;
+    protected Filesystem $filesystem;
 
     /**
      * @var Database
@@ -50,32 +41,43 @@ class DatabaseTreeCache
      *
      * @var string
      */
-    protected $cacheDir;
-    /**
-     * @var ContainerUtil
-     */
-    protected $containerUtil;
+    protected string $cacheDir;
     /**
      * @var RequestStack
      */
-    protected $requestStack;
+    protected RequestStack $requestStack;
+    private ParameterBagInterface $parameterBag;
+    private Utils $utils;
 
-    public function __construct(ContaoFrameworkInterface $framework, Filesystem $filesystem, ModelUtil $modelUtil, ContainerUtil $containerUtil, RequestStack $requestStack)
+    public function __construct(
+        ContaoFramework       $framework,
+        Filesystem            $filesystem,
+        RequestStack          $requestStack,
+        ParameterBagInterface $parameterBag,
+        Utils                 $utils
+    )
     {
         $this->framework = $framework;
         $this->filesystem = $filesystem;
-        $this->modelUtil = $modelUtil;
         $this->database = $this->framework->createInstance(Database::class);
-        $this->cacheDir = \Contao\System::getContainer()->getParameter('kernel.cache_dir').'/tree_cache';
-        $this->containerUtil = $containerUtil;
         $this->requestStack = $requestStack;
+        $this->parameterBag = $parameterBag;
+        $this->utils = $utils;
+
+        $this->cacheDir = $this->parameterBag->get('kernel.cache_dir').'/tree_cache';
     }
 
     /**
      * Generate tree cache.
      */
-    public function loadDataContainer($table)
+    public function loadDataContainer($table): void
     {
+        if (!($this->parameterBag->get('huh_utils')['cache']['enable_generate_database_tree_cache'] ?? false)) {
+           return;
+        }
+
+        $this->framework->initialize();
+
         if (!$this->database->tableExists($table)) {
             return;
         }
@@ -84,7 +86,7 @@ class DatabaseTreeCache
             return;
         }
 
-        if ($this->containerUtil->isInstall() || !$this->requestStack->getCurrentRequest()) {
+        if ($this->utils->container()->isInstall() || !$this->requestStack->getCurrentRequest()) {
             return;
         }
 
@@ -103,11 +105,16 @@ class DatabaseTreeCache
     {
         $filename = $table.'_'.$key.'.php';
 
-        if (file_exists($this->cacheDir.'/'.$filename)) {
+        if (file_exists($this->cacheDir . '/' . $filename)) {
             return;
         }
 
-        if (null === ($roots = $this->modelUtil->findModelInstancesBy($table, $config['columns'] ?? [], $config['values'] ?? [], $config['options']))) {
+        if (null === ($roots = $this->utils->model()->findModelInstancesBy(
+                $table,
+                $config['columns'] ?? [],
+                $config['values'] ?? [],
+                $config['options'])
+            )) {
             return;
         }
 
@@ -240,7 +247,7 @@ class DatabaseTreeCache
     public function generateCacheTree(string $table, array $ids = [], string $key = 'id', array $config = [], $return = []): array
     {
         foreach ($ids as $id) {
-            if (null === ($children = $this->modelUtil->findModelInstancesBy($table, [$table.'.pid = ?'], $id, $config['options']))) {
+            if (null === ($children = $this->utils->model()->findModelInstancesBy($table, [$table.'.pid = ?'], $id, $config['options']))) {
                 $return[$id] = [];
 
                 continue;
@@ -268,7 +275,7 @@ class DatabaseTreeCache
 
         foreach ($tables as $table) {
             // trigger loadDataContainer TL_HOOK
-            System::getContainer()->get('huh.utils.dca')->loadDc($table);
+            Controller::loadDataContainer($table);
         }
     }
 
@@ -285,7 +292,7 @@ class DatabaseTreeCache
      */
     public function registerDcaToCacheTree(string $table, array $columns = [], array $values = [], array $options = [], string $key = 'id')
     {
-        System::getContainer()->get('huh.utils.dca')->loadDc($table);
+        Controller::loadDataContainer($table);
 
         if (!isset($GLOBALS['TL_DCA'][$table])) {
             return false;
@@ -317,7 +324,7 @@ class DatabaseTreeCache
     private function isCompleteInstallation($table)
     {
         try {
-            $this->modelUtil->findOneModelInstanceBy($table, [], []);
+            $this->utils->model()->findOneModelInstanceBy($table, [], []);
         } catch (\Exception $e) {
             return false;
         }

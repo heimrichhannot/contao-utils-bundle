@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.239.1] - 2024-12-04
+- Fixed: enable_generate_database_tree_cache option not working
+- Fixed: some deprecation messages
+
 ## [2.239.0] - 2024-11-15
 - Added: BackendUiUtil with popupWizardLink method
 - Changed: raised php version requirement to 7.4

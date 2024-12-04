@@ -12,7 +12,6 @@ services:
   HeimrichHannot\UtilsBundle\Accordion\AccordionUtil: ~
   HeimrichHannot\UtilsBundle\Arrays\ArrayUtil: ~
   HeimrichHannot\UtilsBundle\Cache\DatabaseCacheUtil: ~
-  HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: ~
   HeimrichHannot\UtilsBundle\Cache\FileCache:
     deprecated: "%service_id% will be removed in 3.0. Use FileStorageUtil instead"
   HeimrichHannot\UtilsBundle\Cache\RemoteImageCache: ~
@@ -63,6 +62,10 @@ services:
   huh.utils.container:
     class: HeimrichHannot\UtilsBundle\Container\ContainerUtil
   HeimrichHannot\UtilsBundle\Container\ContainerUtil: "@huh.utils.container"
+
+  huh.utils.cache.database_tree:
+    class: HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache
+  HeimrichHannot\UtilsBundle\Cache\DatabaseTreeCache: "@huh.utils.cache.database_tree"
 
   huh.utils.date:
     class: HeimrichHannot\UtilsBundle\Date\DateUtil
