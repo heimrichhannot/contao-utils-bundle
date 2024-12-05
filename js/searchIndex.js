@@ -411,11 +411,6 @@ Search.appendIndex(
             "summary": "Generates\u0020the\u0020template\u0020mapper\u0020array.",
             "url": "classes/HeimrichHannot-UtilsBundle-Cache-UtilCacheWarmer.html#method_generateTemplateMapper"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Cache\\UtilCacheWarmer\u003A\u003AgenerateDatabaseTreeCache\u0028\u0029",
-            "name": "generateDatabaseTreeCache",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Cache-UtilCacheWarmer.html#method_generateDatabaseTreeCache"
-        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Cache\\UtilCacheWarmer\u003A\u003A\u0024filesystem",
             "name": "filesystem",
             "summary": "",
