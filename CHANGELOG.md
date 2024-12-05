@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.239.2] - 2024-12-05
+- Fixed: do build tree cache on cache warmup
+
 ## [2.239.1] - 2024-12-04
 - Fixed: enable_generate_database_tree_cache option not working
 - Fixed: some deprecation messages
