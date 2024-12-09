@@ -25,6 +25,10 @@ class Finder
                 return $this->form($id);
             case FormFieldModel::getTable():
                 return $this->formField($id);
+            case 'tl_list_config':
+                return $this->listConfig($id);
+            case 'tl_list_config_element':
+                return $this->listConfigElement($id);
         }
 
         return null;
@@ -70,6 +74,43 @@ class Finder
             'Form field ' . $model->name. ' (ID: ' . $model->id . ')',
             function() use ($model): \Iterator {
                 yield ['table' => FormModel::getTable(), 'id' => $model->pid];
+            }
+        );
+    }
+
+    private function listConfig(int $id): ?Element
+    {
+        $model = $this->helper->fetchModelOrData('tl_list_config', $id);
+        if ($model === null) {
+            return null;
+        }
+
+        return new Element(
+            $model->id,
+            $model->getTable(),
+            'List config ' . $model->title. ' (ID: ' . $model->id . ')',
+            function() use ($model): \Iterator {
+                $t = ModuleModel::getTable();
+                foreach (ModuleModel::findBy(["$t.type=?", "$t.listConfig=?"], ['listConfig', $model->id]) as $module) {
+                    yield ['table' => $module::getTable(), 'id' => $module->id];
+                }
+            }
+        );
+    }
+
+    private function listConfigElement(int $id): ?Element
+    {
+        $model = $this->helper->fetchModelOrData('tl_list_config_element', $id);
+        if (null === $model) {
+            return null;
+        }
+
+        return new Element(
+            $model->id,
+            $model->getTable(),
+            'List config element ' . $model->title. ' (ID: ' . $model->id . ')',
+            function() use ($model): \Iterator {
+                yield ['table' => 'tl_list_config', 'id' => $model->pid];
             }
         );
     }

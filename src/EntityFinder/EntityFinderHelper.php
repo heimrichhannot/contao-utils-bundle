@@ -10,6 +10,7 @@ namespace HeimrichHannot\UtilsBundle\EntityFinder;
 
 use Contao\ContentModel;
 use Contao\Database;
+use Contao\Model;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Contao\StringUtil;
@@ -20,14 +21,16 @@ use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelper
 {
-    /**
-     * @var Utils
-     */
-    private $utils;
+    private Utils $utils;
+    private Connection $connection;
 
-    public function __construct(Utils $utils)
+    public function __construct(
+        Utils $utils,
+        Connection $connection
+    )
     {
         $this->utils = $utils;
+        $this->connection = $connection;
     }
 
     /**
@@ -105,5 +108,47 @@ class EntityFinderHelper
             ->execute($type);
 
         return $result->fetchEach('id');
+    }
+
+    /**
+     * @param string $table
+     * @param int|string $idOrAlias
+     * @return object|Model|null
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function fetchModelOrData(string $table, $idOrAlias): ?object
+    {
+        /** @var class-string<Model> $modelClass */
+        $modelClass = Model::getClassFromTable($table);
+
+        if (!$modelClass || !class_exists($modelClass)) {
+            if (!$this->connection->createSchemaManager()->tablesExist([$table])) {
+                return null;
+            }
+            if (is_string($idOrAlias)) {
+                $result = $this->connection->executeQuery("SELECT * FROM $table WHERE alias=?", [$idOrAlias]);
+                if ($result->rowCount() === 0) {
+                    return null;
+                }
+                return (object) $result->fetchAssociative();
+            }
+            if (is_numeric($idOrAlias)) {
+                if ($idOrAlias != (int) $idOrAlias) {
+                    return null;
+                }
+
+                $result = $this->connection->executeQuery("SELECT * FROM $table WHERE id=?", [(int)$idOrAlias]);
+                if ($result->rowCount() === 0) {
+                    return null;
+                }
+                $element = (object) $result->fetchAssociative();
+                $element->getTable = function() use ($table) {
+                    return $table;
+                };
+                return $element;
+            }
+        }
+
+        return $modelClass::findByIdOrAlias($idOrAlias);
     }
 }
