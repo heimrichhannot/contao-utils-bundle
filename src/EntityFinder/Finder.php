@@ -3,35 +3,88 @@
 namespace HeimrichHannot\UtilsBundle\EntityFinder;
 
 use Contao\ContentModel;
+use Contao\Controller;
+use Contao\DC_Table;
 use Contao\FormFieldModel;
 use Contao\FormModel;
 use Contao\ModuleModel;
+use HeimrichHannot\UtilsBundle\Event\EntityFinderFindEvent;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use function Symfony\Component\String\u;
 
+/**
+ * @internal
+ */
 class Finder
 {
     private EntityFinderHelper $helper;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
-        EntityFinderHelper $helper
+        EntityFinderHelper $helper,
+        EventDispatcherInterface $eventDispatcher
     )
     {
         $this->helper = $helper;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function find(string $table, int $id): ?Element
     {
-        switch ($table) {
-            case FormModel::getTable():
-                return $this->form($id);
-            case FormFieldModel::getTable():
-                return $this->formField($id);
-            case 'tl_list_config':
-                return $this->listConfig($id);
-            case 'tl_list_config_element':
-                return $this->listConfigElement($id);
+        if (in_array($table, ['find', 'tl_find', 'fallback', 'tl_fallback'])) {
+            return null;
         }
 
-        return null;
+        $method = u(str_starts_with($table, 'tl_') ? substr($table, 3) : $table)->camel()->toString();
+
+        if (method_exists($this, $method)) {
+            return $this->$method($id);
+        }
+
+        $event = $this->eventDispatcher->dispatch(new EntityFinderFindEvent($table, $id));
+        if ($element = $event->getElement()) {
+            return $element;
+        }
+
+        return $this->fallback($table, $id);
+    }
+
+    private function fallback(string $table, $idOrAlias): ?Element
+    {
+        $model = $this->helper->fetchModelOrData($table, $idOrAlias);
+
+        if (null === $model) {
+            return null;
+        }
+
+        $elementData = [
+            'id' => $model->id,
+            'table' => $table,
+            'description' => null,
+            'parents' => null,
+        ];
+
+        Controller::loadDataContainer($table);
+        $dca = &$GLOBALS['TL_DCA'][$table];
+        if (!in_array($dca['config']['dataContainer'], ['Table', DC_Table::class])) {
+            return new Element(...$elementData);
+        }
+
+        if (isset($dca['config']['ptable'])) {
+            $elementData['parents'] = function() use ($model, $dca): \Iterator {
+                yield ['table' => $dca['config']['ptable'], 'id' => $model->pid];
+            };
+
+            return new Element(...$elementData);
+        }
+
+        if (isset($dca['config']['dynamicPtable']) && isset($dca['fields']['pid'])) {
+            $elementData['parents'] = function() use ($model, $dca): \Iterator {
+                yield ['table' => $model->ptable, 'id' => $model->pid];
+            };
+
+            return new Element(...$elementData);
+        }
     }
 
     private function form(int $id): ?Element

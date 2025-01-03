@@ -14,7 +14,6 @@ use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\DC_Table;
-use Contao\FormModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
@@ -155,20 +154,6 @@ class EntityFinderCommand extends Command
 
     private function findEntity(string $table, $id, array &$parents, bool $onlyText = false): ?string
     {
-        $element = $this->finder->find($table, $id);
-        if ($element) {
-            if ($onlyText) {
-                return $element->getDescription();
-            }
-            if (null === $element->getParents()) {
-                return null;
-            }
-            foreach ($element->getParents()($element->getTable(), $element->getId()) as $parent) {
-                $parents[] = ['table' => $parent['table'], 'id' => $parent['id']];
-            }
-            return null;
-        }
-
         Controller::loadLanguageFile('default');
 
         switch ($table) {
@@ -178,10 +163,10 @@ class EntityFinderCommand extends Command
                 if ($element) {
                     $parents[] = ['table' => $element->ptable, 'id' => $element->pid];
 
-                    return 'Content Element: '.($GLOBALS['TL_LANG']['CTE'][$element->type][0] ?? $element->type).' (ID: '.$element->id.', Type: '.$element->type.')';
+                    return 'Content Element: ' . ($GLOBALS['TL_LANG']['CTE'][$element->type][0] ?? $element->type) . ' (ID: ' . $element->id . ', Type: ' . $element->type . ')';
                 }
 
-                return 'Content Element not found: ID '.$id;
+                return 'Content Element not found: ID ' . $id;
 
             case ArticleModel::getTable():
                 $element = ArticleModel::findByPk($id);
@@ -198,10 +183,10 @@ class EntityFinderCommand extends Command
                         }
                     }
 
-                    return 'Article: '.$element->title.' (ID: '.$element->id.')';
+                    return 'Article: ' . $element->title . ' (ID: ' . $element->id . ')';
                 }
 
-                return 'Article not found: ID '.$id;
+                return 'Article not found: ID ' . $id;
 
             case ModuleModel::getTable():
                 if ($onlyText) {
@@ -214,10 +199,10 @@ class EntityFinderCommand extends Command
                         $this->findFrontendModuleParents($element, $parents, $id);
                     }
 
-                    return 'Frontend module: '.($GLOBALS['TL_LANG']['FMD'][$element->type][0] ?? $element->type).' (ID: '.$element->id.', Type: '.$element->type.')';
+                    return 'Frontend module: ' . ($GLOBALS['TL_LANG']['FMD'][$element->type][0] ?? $element->type) . ' (ID: ' . $element->id . ', Type: ' . $element->type . ')';
                 }
 
-                return 'Frontend module not found: ID '.$id;
+                return 'Frontend module not found: ID ' . $id;
 
             case LayoutModel::getTable():
                 $layout = LayoutModel::findById($id);
@@ -225,57 +210,42 @@ class EntityFinderCommand extends Command
                 if ($layout) {
                     $parents[] = ['table' => ThemeModel::getTable(), 'id' => $layout->pid];
 
-                    return 'Layout: '.html_entity_decode($layout->name).' (ID: '.$layout->id.')';
+                    return 'Layout: ' . html_entity_decode($layout->name) . ' (ID: ' . $layout->id . ')';
                 }
 
-                return 'Layout not found: ID '.$id;
+                return 'Layout not found: ID ' . $id;
 
             case ThemeModel::getTable():
                 $theme = ThemeModel::findByPk($id);
 
                 if ($theme) {
-                    return '<options=bold>Theme: '.$theme->name.'</> (ID: '.$theme->id.')';
+                    return '<options=bold>Theme: ' . $theme->name . '</> (ID: ' . $theme->id . ')';
                 }
 
-                return 'Theme not found: ID '.$id;
+                return 'Theme not found: ID ' . $id;
 
             case PageModel::getTable():
                 $page = PageModel::findByPk($id);
 
                 if ($page) {
-                    return '<options=bold>Page: '.$page->title.'</> (ID: '.$page->id.', Type: '.$page->type.', DNS: '.$page->getFrontendUrl().' )';
+                    return '<options=bold>Page: ' . $page->title . '</> (ID: ' . $page->id . ', Type: ' . $page->type . ', DNS: ' . $page->getFrontendUrl() . ' )';
                 }
 
-                return 'Page not found: ID '.$id;
+                return 'Page not found: ID ' . $id;
+        }
 
-            default:
-                Controller::loadDataContainer($table);
-                $dca = &$GLOBALS['TL_DCA'][$table];
-                if (!in_array($dca['config']['dataContainer'], ['Table', DC_Table::class])) {
-                    return null;
-                }
-
-                if (isset($dca['config']['ptable'])) {
-                    $model = $this->utils->model()->findModelInstanceByPk($table, $id);
-                    if (!$model) {
-                        return null;
-                    }
-                    $parents[] = ['table' => $dca['config']['ptable'], 'id' => $model->pid];
-
-                    return 'Entity: '.$table.' (ID: '.$id.')';
-                }
-
-                if (isset($dca['config']['dynamicPtable']) && isset($dca['fields']['pid'])) {
-
-                    $model = $this->utils->model()->findModelInstanceByPk($table, $id);
-                    if (!$model) {
-                        return null;
-                    }
-                    /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-                    $parents[] = ['table' => $model->ptable, 'id' => $model->pid];
-
-                    return 'Entity: '.$table.' (ID: '.$id.')';
-                }
+        $element = $this->finder->find($table, $id);
+        if ($element) {
+            if ($onlyText) {
+                return $element->getDescription();
+            }
+            if (null === $element->getParents()) {
+                return null;
+            }
+            foreach ($element->getParents()($element->getTable(), $element->getId()) as $parent) {
+                $parents[] = ['table' => $parent['table'], 'id' => $parent['id']];
+            }
+            return null;
         }
 
         return null;
