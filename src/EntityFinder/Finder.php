@@ -4,6 +4,7 @@ namespace HeimrichHannot\UtilsBundle\EntityFinder;
 
 use Contao\ContentModel;
 use Contao\Controller;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\DC_Table;
 use Contao\FormFieldModel;
 use Contao\FormModel;
@@ -19,14 +20,18 @@ class Finder
 {
     private EntityFinderHelper $helper;
     private EventDispatcherInterface $eventDispatcher;
+    private ContaoFramework $framework;
 
     public function __construct(
         EntityFinderHelper $helper,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        ContaoFramework $framework
+
     )
     {
         $this->helper = $helper;
         $this->eventDispatcher = $eventDispatcher;
+        $this->framework = $framework;
     }
 
     public function find(string $table, int $id): ?Element
@@ -64,9 +69,10 @@ class Finder
             'parents' => null,
         ];
 
-        Controller::loadDataContainer($table);
+        $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
+
         $dca = &$GLOBALS['TL_DCA'][$table];
-        if (!in_array($dca['config']['dataContainer'], ['Table', DC_Table::class])) {
+        if (empty($dca['config']['dataContainer']) ||!in_array($dca['config']['dataContainer'], ['Table', DC_Table::class])) {
             return new Element(...$elementData);
         }
 
