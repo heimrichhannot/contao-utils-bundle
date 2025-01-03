@@ -9,7 +9,7 @@ class EntityFinderFindEvent extends Event
 {
     private string $table;
     private int $id;
-    private ?Element $element;
+    private ?Element $element = null;
 
     public function __construct(string $table, int $id)
     {

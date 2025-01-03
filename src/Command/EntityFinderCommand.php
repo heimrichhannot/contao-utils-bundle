@@ -271,19 +271,10 @@ class EntityFinderCommand extends Command
 
     private function runExtendEntityFinderEvent(string $table, $id, array $parents, bool $onlyText = false): ExtendEntityFinderEvent
     {
-        /* @var ExtendEntityFinderEvent $event */
-        if (is_subclass_of($this->eventDispatcher, 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
-            $event = $this->eventDispatcher->dispatch(
-                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText),
-                ExtendEntityFinderEvent::class
-            );
-        } else {
-            /** @noinspection PhpParamsInspection */
-            $event = $this->eventDispatcher->dispatch(
-                ExtendEntityFinderEvent::class,
-                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText)
-            );
-        }
+        $event = $this->eventDispatcher->dispatch(
+            new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText),
+            ExtendEntityFinderEvent::class
+        );
 
         return $event;
     }
