@@ -10,6 +10,9 @@ namespace HeimrichHannot\UtilsBundle\Event;
 
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
 
+/**
+ * @deprecated Use EntityFinderFindEvent instead
+ */
 class ExtendEntityFinderEvent extends AbstractEvent
 {
     /** @var string */

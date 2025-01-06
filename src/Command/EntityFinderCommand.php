@@ -13,13 +13,16 @@ use Contao\ContentModel;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
+use Contao\DC_Table;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\ThemeModel;
 use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
+use HeimrichHannot\UtilsBundle\EntityFinder\Finder;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,22 +34,21 @@ class EntityFinderCommand extends Command
 {
     protected static $defaultName = 'huh:utils:entity_finder';
 
-    /** @var ContaoFramework */
-    private $contaoFramework;
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-    /**
-     * @var Connection
-     */
-    private $connection;
-    /**
-     * @var EntityFinderHelper
-     */
-    private $entityFinderHelper;
+    private ContaoFramework $contaoFramework;
+    private EventDispatcherInterface $eventDispatcher;
+    private Connection $connection;
+    private EntityFinderHelper $entityFinderHelper;
+    private Utils $utils;
+    private Finder $finder;
 
-    public function __construct(ContaoFramework $contaoFramework, EventDispatcherInterface $eventDispatcher, Connection $connection, EntityFinderHelper $entityFinderHelper)
+    public function __construct(
+        ContaoFramework $contaoFramework,
+        EventDispatcherInterface $eventDispatcher,
+        Connection $connection,
+        EntityFinderHelper $entityFinderHelper,
+        Utils $utils,
+        Finder $finder
+    )
     {
         parent::__construct();
 
@@ -54,6 +56,8 @@ class EntityFinderCommand extends Command
         $this->eventDispatcher = $eventDispatcher;
         $this->connection = $connection;
         $this->entityFinderHelper = $entityFinderHelper;
+        $this->utils = $utils;
+        $this->finder = $finder;
     }
 
     protected function configure()
@@ -159,10 +163,10 @@ class EntityFinderCommand extends Command
                 if ($element) {
                     $parents[] = ['table' => $element->ptable, 'id' => $element->pid];
 
-                    return 'Content Element: '.($GLOBALS['TL_LANG']['CTE'][$element->type][0] ?? $element->type).' (ID: '.$element->id.', Type: '.$element->type.')';
+                    return 'Content Element: ' . ($GLOBALS['TL_LANG']['CTE'][$element->type][0] ?? $element->type) . ' (ID: ' . $element->id . ', Type: ' . $element->type . ')';
                 }
 
-                return 'Content Element not found: ID '.$id;
+                return 'Content Element not found: ID ' . $id;
 
             case ArticleModel::getTable():
                 $element = ArticleModel::findByPk($id);
@@ -179,10 +183,10 @@ class EntityFinderCommand extends Command
                         }
                     }
 
-                    return 'Article: '.$element->title.' (ID: '.$element->id.')';
+                    return 'Article: ' . $element->title . ' (ID: ' . $element->id . ')';
                 }
 
-                return 'Article not found: ID '.$id;
+                return 'Article not found: ID ' . $id;
 
             case ModuleModel::getTable():
                 if ($onlyText) {
@@ -195,10 +199,10 @@ class EntityFinderCommand extends Command
                         $this->findFrontendModuleParents($element, $parents, $id);
                     }
 
-                    return 'Frontend module: '.($GLOBALS['TL_LANG']['FMD'][$element->type][0] ?? $element->type).' (ID: '.$element->id.', Type: '.$element->type.')';
+                    return 'Frontend module: ' . ($GLOBALS['TL_LANG']['FMD'][$element->type][0] ?? $element->type) . ' (ID: ' . $element->id . ', Type: ' . $element->type . ')';
                 }
 
-                return 'Frontend module not found: ID '.$id;
+                return 'Frontend module not found: ID ' . $id;
 
             case LayoutModel::getTable():
                 $layout = LayoutModel::findById($id);
@@ -206,28 +210,42 @@ class EntityFinderCommand extends Command
                 if ($layout) {
                     $parents[] = ['table' => ThemeModel::getTable(), 'id' => $layout->pid];
 
-                    return 'Layout: '.html_entity_decode($layout->name).' (ID: '.$layout->id.')';
+                    return 'Layout: ' . html_entity_decode($layout->name) . ' (ID: ' . $layout->id . ')';
                 }
 
-                return 'Layout not found: ID '.$id;
+                return 'Layout not found: ID ' . $id;
 
             case ThemeModel::getTable():
                 $theme = ThemeModel::findByPk($id);
 
                 if ($theme) {
-                    return '<options=bold>Theme: '.$theme->name.'</> (ID: '.$theme->id.')';
+                    return '<options=bold>Theme: ' . $theme->name . '</> (ID: ' . $theme->id . ')';
                 }
 
-                return 'Theme not found: ID '.$id;
+                return 'Theme not found: ID ' . $id;
 
             case PageModel::getTable():
                 $page = PageModel::findByPk($id);
 
                 if ($page) {
-                    return '<options=bold>Page: '.$page->title.'</> (ID: '.$page->id.', Type: '.$page->type.', DNS: '.$page->getFrontendUrl().' )';
+                    return '<options=bold>Page: ' . $page->title . '</> (ID: ' . $page->id . ', Type: ' . $page->type . ', DNS: ' . $page->getFrontendUrl() . ' )';
                 }
 
-                return 'Page not found: ID '.$id;
+                return 'Page not found: ID ' . $id;
+        }
+
+        $element = $this->finder->find($table, $id);
+        if ($element) {
+            if ($onlyText) {
+                return $element->getDescription();
+            }
+            if (null === $element->getParents()) {
+                return null;
+            }
+            foreach ($element->getParents()($element->getTable(), $element->getId()) as $parent) {
+                $parents[] = ['table' => $parent['table'], 'id' => $parent['id']];
+            }
+            return null;
         }
 
         return null;
@@ -253,19 +271,10 @@ class EntityFinderCommand extends Command
 
     private function runExtendEntityFinderEvent(string $table, $id, array $parents, bool $onlyText = false): ExtendEntityFinderEvent
     {
-        /* @var ExtendEntityFinderEvent $event */
-        if (is_subclass_of($this->eventDispatcher, 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
-            $event = $this->eventDispatcher->dispatch(
-                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText),
-                ExtendEntityFinderEvent::class
-            );
-        } else {
-            /** @noinspection PhpParamsInspection */
-            $event = $this->eventDispatcher->dispatch(
-                ExtendEntityFinderEvent::class,
-                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText)
-            );
-        }
+        $event = $this->eventDispatcher->dispatch(
+            new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText),
+            ExtendEntityFinderEvent::class
+        );
 
         return $event;
     }
