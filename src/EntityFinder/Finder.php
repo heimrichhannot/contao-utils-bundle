@@ -72,39 +72,40 @@ class Finder
         $this->framework->getAdapter(Controller::class)->loadDataContainer($table);
 
         $dca = &$GLOBALS['TL_DCA'][$table];
-        if (empty($dca['config']['dataContainer']) ||!in_array($dca['config']['dataContainer'], ['Table', DC_Table::class])) {
-            return new Element(...$elementData);
+
+        if (!empty($model->pid)) {
+            if (isset($dca['config']['ptable'])) {
+                $elementData['parents'] = (function () use ($model, $dca): \Iterator {
+                    yield ['table' => $dca['config']['ptable'], 'id' => $model->pid];
+                })();
+            } elseif (isset($dca['config']['dynamicPtable']) && isset($dca['fields']['pid']) && $model->ptable) {
+                $elementData['parents'] = (function () use ($model, $dca): \Iterator {
+                    yield ['table' => $model->ptable, 'id' => $model->pid];
+                })();
+            }
         }
 
-        if (isset($dca['config']['ptable'])) {
-            $elementData['parents'] = function() use ($model, $dca): \Iterator {
-                yield ['table' => $dca['config']['ptable'], 'id' => $model->pid];
-            };
-
-            return new Element(...$elementData);
-        }
-
-        if (isset($dca['config']['dynamicPtable']) && isset($dca['fields']['pid'])) {
-            $elementData['parents'] = function() use ($model, $dca): \Iterator {
-                yield ['table' => $model->ptable, 'id' => $model->pid];
-            };
-
-            return new Element(...$elementData);
-        }
+        return new Element(
+            $elementData['id'],
+            $elementData['table'],
+            $elementData['description'],
+            $elementData['parents']
+        );
     }
 
     private function form(int $id): ?Element
     {
-        $model = FormModel::findByPk($id);
-        if ($model === null) {
+        $model = $this->helper->fetchModelOrData('tl_form', $id);
+
+        if (null === $model) {
             return null;
         }
 
         return new Element(
             $model->id,
-            $model->getTable(),
+            'tl_form',
             'Form ' . $model->title. ' (ID: ' . $model->id . ')',
-            function() use ($model): \Iterator {
+            (function() use ($model): \Iterator {
                 foreach (ModuleModel::findByForm($model->id) as $model) {
                     yield ['table' => $model::getTable(), 'id' => $model->id];
                 }
@@ -117,23 +118,24 @@ class Finder
                 foreach ($this->helper->findContentElementByInserttag('html', 'html', 'insert_form', $model->id) as $model) {
                     yield ['table' => $model::getTable(), 'id' => $model->id];
                 }
-            }
+            })()
         );
     }
 
     private function formField(int $id): ?Element
     {
-        $model = FormFieldModel::findByPk($id);
-        if ($model === null) {
+        $model = $this->helper->fetchModelOrData('tl_form_field', $id);
+
+        if (null === $model) {
             return null;
         }
         return new Element(
             $model->id,
-            $model->getTable(),
-            'Form field ' . $model->name. ' (ID: ' . $model->id . ')',
-            function() use ($model): \Iterator {
+            'tl_form_field',
+            'Form field ' . $model->name . ' (ID: ' . $model->id . ')',
+            (function () use ($model): \Generator {
                 yield ['table' => FormModel::getTable(), 'id' => $model->pid];
-            }
+            })()
         );
     }
 
@@ -148,12 +150,12 @@ class Finder
             $model->id,
             $model->getTable(),
             'List config ' . $model->title. ' (ID: ' . $model->id . ')',
-            function() use ($model): \Iterator {
+            (function() use ($model): \Iterator {
                 $t = ModuleModel::getTable();
                 foreach (ModuleModel::findBy(["$t.type=?", "$t.listConfig=?"], ['listConfig', $model->id]) as $module) {
                     yield ['table' => $module::getTable(), 'id' => $module->id];
                 }
-            }
+            })()
         );
     }
 
@@ -168,9 +170,9 @@ class Finder
             $model->id,
             $model->getTable(),
             'List config element ' . $model->title. ' (ID: ' . $model->id . ')',
-            function() use ($model): \Iterator {
+            (function() use ($model): \Iterator {
                 yield ['table' => 'tl_list_config', 'id' => $model->pid];
-            }
+            })()
         );
     }
 }

@@ -7,15 +7,15 @@ class Element
     private int $id;
     private string $table;
     private ?string $description;
-    private ?\Closure $parents;
+    private ?iterable $parents;
 
     /**
      * @param int $id
      * @param string $table
      * @param string|null $description
-     * @param \Closure(string $table, int $id):\Iterator|null $parents A closure that returns an iterator of parent elements
+     * @param \Traversable|null $parents A closure that returns an iterator of parent elements
      */
-    public function __construct(int $id, string $table, string $description = null, \Closure $parents = null)
+    public function __construct(int $id, string $table, ?string $description = null, ?iterable $parents = null)
     {
         $this->id = $id;
         $this->table = $table;
@@ -38,10 +38,7 @@ class Element
         return $this->description;
     }
 
-    /**
-     * @return \Closure(string $table, int $id):\Iterator|null
-     */
-    public function getParents(): ?\Closure
+    public function getParents(): ?iterable
     {
         return $this->parents;
     }
