@@ -25,117 +25,64 @@ Arguments:
 
 ## Supported tables (out of the box)
 
-A list about where is searched for parent entities (recursive).
+A list about where is searched for parent entities (recursive). There is a fallback for non supported tables based on parent tables and ids.
 
-**`tl_content` (Content elements)**
-- parent table
-
-**`tl_article` (Article):**
-- page
-
-**`tl_block_module` (Block Element child)**
-- parent block
-
-**`tl_block` (Block)**
-- block frontend module
-
-**`tl_module` (Frontend Modules):**
-- module content element
-- html content element (inserttag insert_module)
-- Layouts
-
-**`tl_layout` (Layout):**
-- Themes
-
-**`tl_news` (News)**
-- news archive (`pid`)
-
-**`tl_news_archive` (News archive)**
-- newslist frontend module
-
-**`tl_theme` (Themes)**
-
-**`tl_page` (Pages)**
+* tl_content
+* tl_article
+* tl_block_module
+* tl_block
+* tl_form
+* tl_form_field
+* tl_module
+* tl_layout
+* tl_list_config
+* tl_list_config_element
+* tl_news
+* tl_news_archive
+* tl_theme
+* tl_page
 
 ## Extend 
 
-You can extends the finder command to support additional entities. 
-Use `ExtendEntityFinderEvent::addParent()` to add parent entites 
-and `ExtendEntityFinderEvent::setOutput()` for a nice output of the current entity.
+You can add support for additional entities by listening to the `EntityFinderFindEvent` event.
 
 ```php
 <?php
 
 namespace App\EventListener;
 
-use Contao\ContentModel;
-use Contao\ModuleModel;
-use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use HeimrichHannot\UtilsBundle\EntityFinder\Element;
+use HeimrichHannot\UtilsBundle\Event\EntityFinderFindEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Vendor\Bundle\NewsCategoryFinder;
+use Vendor\Bundle\NewsCategoryModel;
 
-class ExtendEntityFinderSubscriber implements EventSubscriberInterface
+class EntityFinderFindEventListener
 {
-    public static function getSubscribedEvents()
+    private readonly NNewsCategoryFinder $newsCategoriesFinder;
+
+    #[AsEventListener(EntityFinderFindEvent::class)]
+    public function __invoke(EntityFinderFindEvent $event): void
     {
-        return [
-            ExtendEntityFinderEvent::class => 'onExtendEntityFinderEvent'
-        ];
-    }
-
-    public function onExtendEntityFinderEvent(ExtendEntityFinderEvent $event)
-    {
-        switch ($event->getTable()) {
-            case CustomModel::getTable():
-                $entity = CustomModel::findByPk($event->getId());
-
-                if (!$entity) {
-                    return;
-                }
-                $event->addParent(CustomArchiveModel::getTable(), $entity->pid);
-                
-                $elements = ContentModel::findBy(
-                    ['type=?','customEntity=?'], 
-                    ['custom_entity', $entity->id]
-                );
-                
-                if ($elements) {
-                    foreach ($elements as $element) {
-                        $event->addParent(ContentModel::getTable(), $element->id);
-                    }
-                }
-                
-                $event->setOutput('Custom entity: '.$entity->title.' (ID: '.$entity->id.')');
-
-                break;
-
-            case CustomArchiveModel::getTable():
-                $archive = CustomArchiveModel::findByPk($event->getId());
-
-                if ($archive) {
-                    // has no parents, so no addParent() call is needed
-                    $event->setOutput('Custom entity archive: '.$archive->title.' (ID: '.$archive->id.')');
-                }
-
-                break;
-
-            // you can also extend other tables to add additional search parameters
-            case ModuleModel::getTable():
-                $model = ModuleModel::findByPk($event->getId());
-                
-                $parents = CustomModel::findBy(
-                    ['includeModule=?'], 
-                    [$model->id]
-                );
-                
-                if ($parents) {
-                    foreach ($parents as $element) {
-                        $event->addParent(CustomModel::getTable(), $element->id);
-                    }
-                }
-                
-                break;
+        if (!$event->getTable() === 'tl_news_category' || $event->getElement()) {
+            return;
         }
+
+        $category = NewsCategoryModel::findByPk($event->getId());
+        if (!$category) {
+            return;
+        }
+
+        $event->setElement(new Element(
+            $event->getTable(),
+            $event->getId(),
+            'News Category '.$category->title.' (ID: '.$category->id.')',
+            (function () use ($category): \Generator {
+                foreach ($this->newsCategoriesFinder->findNewsByCategory($category) as $news) {
+                    yield ['table' => 'tl_news', 'id' => $news->id];
+                }
+            })()
+        );
     }
 }
-
 ```
