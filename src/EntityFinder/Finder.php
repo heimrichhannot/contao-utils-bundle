@@ -148,12 +148,13 @@ class Finder
 
         return new Element(
             $model->id,
-            $model->getTable(),
+            'tl_list_config',
             'List config ' . $model->title. ' (ID: ' . $model->id . ')',
             (function() use ($model): \Iterator {
                 $t = ModuleModel::getTable();
-                foreach (ModuleModel::findBy(["$t.type=?", "$t.listConfig=?"], ['listConfig', $model->id]) as $module) {
-                    yield ['table' => $module::getTable(), 'id' => $module->id];
+                $modules = $this->framework->getAdapter(ModuleModel::class)->findBy(["$t.type=?", "$t.listConfig=?"], ['listConfig', $model->id]);
+                foreach ($modules as $module) {
+                    yield ['table' => ModuleModel::getTable(), 'id' => $module->id];
                 }
             })()
         );
@@ -168,7 +169,7 @@ class Finder
 
         return new Element(
             $model->id,
-            $model->getTable(),
+            'tl_list_config_element',
             'List config element ' . $model->title. ' (ID: ' . $model->id . ')',
             (function() use ($model): \Iterator {
                 yield ['table' => 'tl_list_config', 'id' => $model->pid];

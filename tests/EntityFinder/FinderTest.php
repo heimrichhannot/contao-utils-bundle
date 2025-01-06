@@ -4,6 +4,8 @@ namespace HeimrichHannot\UtilsBundle\Tests\EntityFinder;
 
 use Contao\Controller;
 use Contao\DC_Table;
+use Contao\Model\Collection;
+use Contao\ModuleModel;
 use HeimrichHannot\UtilsBundle\EntityFinder\Element;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
 use HeimrichHannot\UtilsBundle\EntityFinder\Finder;
@@ -145,5 +147,61 @@ class FinderTest extends AbstractUtilsTestCase
         $this->assertSame('Form field Field (ID: 2)', $entity->getDescription());
         $this->assertInstanceOf(\Generator::class, $entity->getParents());
         $this->assertSame([['table' => 'tl_form', 'id' => 5]], iterator_to_array($entity->getParents()));
+    }
+
+    public function testFind()
+    {
+        $this->typicalFind('tl_list_config', 3, 'List config', function (Element $entity) {
+            $this->assertSame([['table' => 'tl_module', 'id' => 4]], iterator_to_array($entity->getParents()));
+        });
+        $this->typicalFind('tl_list_config_element', 4, 'List config element', function (Element $entity) {
+            $this->assertSame([['table' => 'tl_list_config', 'id' => 4]], iterator_to_array($entity->getParents()));
+        });
+
+    }
+
+    private function typicalFind(string $table, int $id, string $name = 'Default', ?callable $callback = null)
+    {
+        $moduleModel = $this->mockAdapter(['findBy']);
+        $moduleModel->method('findBy')->willReturnCallback(function ($columns, $values) {
+
+            return new Collection([
+                $this->mockModelObject(ModuleModel::class, [
+                    'id' => 4
+                ])
+            ], 'tl_module');
+        });
+        $framework = $this->mockContaoFramework([
+            ModuleModel::class => $moduleModel,
+        ]);
+
+        $finder = $this->getTestInstance([
+            'framework' => $framework
+        ]);
+        $entity = $finder->find($table, $id);
+        $this->assertNull($entity);
+
+        $element = new \stdClass();
+        $element->id = $id;
+        $element->pid = 4;
+        $element->title = $name;
+        $element->name = $name;
+
+        $helper = $this->createMock(EntityFinderHelper::class);
+        $helper->method('fetchModelOrData')->willReturn($element);
+        $finder = $this->getTestInstance([
+            'helper' => $helper,
+            'framework' => $framework
+        ]);
+
+        $entity = $finder->find($table, $id);
+        $this->assertInstanceOf(Element::class, $entity);
+        $this->assertSame($table, $entity->getTable());
+        $this->assertSame($id, $entity->getId());
+        $this->assertInstanceOf(\Generator::class, $entity->getParents());
+
+        if ($callback) {
+            $callback($entity);
+        }
     }
 }
