@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\Html;
 
+use HeimrichHannot\UtilsBundle\Util\HtmlUtil\GenerateDataAttributesStringOptions;
 use function Symfony\Component\String\u;
 
 class HtmlUtil
@@ -40,16 +41,36 @@ class HtmlUtil
     /**
      * Generates a data-attributes string out of an array.
      *
+     * @param array{
+     *     xhtml?: bool,
+     *     normalizeKeys?: bool,
+     *     array_handling?: 'reduce'|'encode',
+     * }|GenerateDataAttributesStringOptions $options (GenerateDataAttributesStringOptions is only supported from php 8.1)
+     *
      * Options (additional to Options from HtmlUtl::generateAttributeString()):
      * - normalizeKeys: Array keys are normalized to lowercase dash-cased strings (e.g. Foo Bar_player is transformed to foo-bar-player)
      */
-    public function generateDataAttributesString(array $attributes, array $options = []): string
+    public function generateDataAttributesString(array $attributes, $options = []): string
     {
-        $options = array_merge([
-            'xhtml' => false,
-            'normalizeKeys' => true,
-            'array_handling' => 'reduce',
-        ], $options);
+        if ($options instanceof GenerateDataAttributesStringOptions) {
+            if (version_compare(phpversion(), '8.1', '<')) {
+                throw new \InvalidArgumentException('Argument $options must be an array for php versions < 8.1');
+            }
+
+            $options = [
+                'xhtml' => $options->isXhtml(),
+                'normalizeKeys' => $options->isNormalizeKeys(),
+                'array_handling' => $options->getArrayHandling()->value,
+            ];
+        } elseif (is_array($options)) {
+            $options = array_merge([
+                'xhtml' => false,
+                'normalizeKeys' => true,
+                'array_handling' => 'reduce',
+            ], $options);
+        } else {
+            throw new \InvalidArgumentException('Argument $options must be an array or an instance of GenerateDataAttributesStringOptions');
+        }
 
         if (!\in_array($options['array_handling'], ['reduce', 'encode'])) {
             $options['array_handling'] = 'reduce';
