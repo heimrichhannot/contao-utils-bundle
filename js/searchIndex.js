@@ -746,6 +746,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_entityFinderHelper"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003A\u0024utils",
+            "name": "utils",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_utils"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003A\u0024finder",
+            "name": "finder",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_finder"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Comparison\\CompareUtil",
             "name": "CompareUtil",
             "summary": "",
@@ -1961,6 +1971,56 @@ Search.appendIndex(
             "summary": "Create\u0020a\u0020DataContainer\u0020instance\u0020from\u0020given\u0020model\u0020data.",
             "url": "classes/HeimrichHannot-UtilsBundle-Driver-DC-Table-Utils.html#method_createFromModelData"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element",
+            "name": "Element",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetId\u0028\u0029",
+            "name": "getId",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getId"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetTable\u0028\u0029",
+            "name": "getTable",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getTable"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetDescription\u0028\u0029",
+            "name": "getDescription",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getDescription"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetParents\u0028\u0029",
+            "name": "getParents",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getParents"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024id",
+            "name": "id",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_id"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024table",
+            "name": "table",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_table"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_description"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024parents",
+            "name": "parents",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_parents"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper",
             "name": "EntityFinderHelper",
             "summary": "",
@@ -1986,15 +2046,70 @@ Search.appendIndex(
             "summary": "Find\u0020content\u0020elements\u0020by\u0020insert\u0020inserttags\u0020like\u0020insert_module\u0020oder\u0020insert_article.",
             "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findContentElementByInserttag"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003AfetchModelOrData\u0028\u0029",
+            "name": "fetchModelOrData",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_fetchModelOrData"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003A\u0024utils",
             "name": "utils",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_utils"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003A\u0024connection",
+            "name": "connection",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_connection"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\AbstractEvent",
             "name": "AbstractEvent",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Event-AbstractEvent.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent",
+            "name": "EntityFinderFindEvent",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AgetTable\u0028\u0029",
+            "name": "getTable",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_getTable"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AgetId\u0028\u0029",
+            "name": "getId",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_getId"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AsetElement\u0028\u0029",
+            "name": "setElement",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_setElement"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AgetElement\u0028\u0029",
+            "name": "getElement",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_getElement"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A\u0024table",
+            "name": "table",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#property_table"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A\u0024id",
+            "name": "id",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#property_id"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A\u0024element",
+            "name": "element",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#property_element"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\ExtendEntityFinderEvent",
             "name": "ExtendEntityFinderEvent",
@@ -5161,6 +5276,76 @@ Search.appendIndex(
             "summary": "Generates\u0020a\u0020data\u002Dattributes\u0020string\u0020out\u0020of\u0020an\u0020array.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-Html-HtmlUtil.html#method_generateDataAttributesString"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringArrayHandling",
+            "name": "GenerateDataAttributesStringArrayHandling",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringArrayHandling.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringArrayHandling\u003A\u003AREDUCE",
+            "name": "REDUCE",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringArrayHandling.html#enumcase_REDUCE"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringArrayHandling\u003A\u003AENCODE",
+            "name": "ENCODE",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringArrayHandling.html#enumcase_ENCODE"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions",
+            "name": "GenerateDataAttributesStringOptions",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003Acreate\u0028\u0029",
+            "name": "create",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#method_create"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003AisXhtml\u0028\u0029",
+            "name": "isXhtml",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#method_isXhtml"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003AsetXhtml\u0028\u0029",
+            "name": "setXhtml",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#method_setXhtml"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003AisNormalizeKeys\u0028\u0029",
+            "name": "isNormalizeKeys",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#method_isNormalizeKeys"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003AsetNormalizeKeys\u0028\u0029",
+            "name": "setNormalizeKeys",
+            "summary": "Array\u0020keys\u0020are\u0020normalized\u0020to\u0020lowercase\u0020dash\u002Dcased\u0020strings\u0020\u0028e.g.\u0020Foo\u0020Bar_player\u0020is\u0020transformed\u0020to\u0020foo\u002Dbar\u002Dplayer\u0029",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#method_setNormalizeKeys"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003AgetArrayHandling\u0028\u0029",
+            "name": "getArrayHandling",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#method_getArrayHandling"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003AsetArrayHandling\u0028\u0029",
+            "name": "setArrayHandling",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#method_setArrayHandling"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003A\u0024xhtml",
+            "name": "xhtml",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#property_xhtml"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003A\u0024normalizeKeys",
+            "name": "normalizeKeys",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#property_normalizeKeys"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil\\GenerateDataAttributesStringOptions\u003A\u003A\u0024arrayHandling",
+            "name": "arrayHandling",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-HtmlUtil-GenerateDataAttributesStringOptions.html#property_arrayHandling"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale\\LocaleUtil",
             "name": "LocaleUtil",
             "summary": "",
@@ -6035,6 +6220,11 @@ Search.appendIndex(
             "name": "Html",
             "summary": "",
             "url": "namespaces/heimrichhannot-utilsbundle-util-html.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\HtmlUtil",
+            "name": "HtmlUtil",
+            "summary": "",
+            "url": "namespaces/heimrichhannot-utilsbundle-util-htmlutil.html"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\Locale",
             "name": "Locale",
