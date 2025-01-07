@@ -45,7 +45,7 @@ class HtmlUtil
      *     xhtml?: bool,
      *     normalizeKeys?: bool,
      *     array_handling?: 'reduce'|'encode',
-     * }|GenerateDataAttributesStringOptions $attributes (GenerateDataAttributesStringOptions is only supported from php 8.1)
+     * }|GenerateDataAttributesStringOptions $options (GenerateDataAttributesStringOptions is only supported from php 8.1)
      *
      * Options (additional to Options from HtmlUtl::generateAttributeString()):
      * - normalizeKeys: Array keys are normalized to lowercase dash-cased strings (e.g. Foo Bar_player is transformed to foo-bar-player)
