@@ -2,8 +2,10 @@
 
 namespace HeimrichHannot\UtilsBundle\Util\HtmlUtil;
 
-enum GenerateDataAttributesStringArrayHandling: string
-{
-    case REDUCE = 'reduce';
-    case ENCODE = 'encode';
+if (version_compare(phpversion(), '8.1','>=')) {
+    enum GenerateDataAttributesStringArrayHandling: string
+    {
+        case REDUCE = 'reduce';
+        case ENCODE = 'encode';
+    }
 }

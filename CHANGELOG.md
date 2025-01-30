@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.240.1] - 2025-01-30
+- Fixed: php 8.1 only code executed in older versions
+
 ## [2.240.0] - 2025-01-07
 - Changed: enhance entity finder with universal entity support fallback ([#87](https://github.com/heimrichhannot/contao-utils-bundle/pull/87))
 - Changed: backport GenerateDataAttributesStringOptions as options attributes for HtmlUtil::generateDataAttributesString() from v3 ([#91](https://github.com/heimrichhannot/contao-utils-bundle/pull/91))
