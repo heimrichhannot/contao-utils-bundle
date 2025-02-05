@@ -4,25 +4,20 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 class DcaFieldConfiguration
 {
-    /**
-     * @var string
-     */
-    private $table;
 
-    /** @var null|int  */
-    private $flag = null;
+    private string $table;
 
-    /** @var bool  */
-    protected $exclude = false;
+    private ?int $flag = null;
 
-    /** @var bool  */
-    protected $search = false;
+    protected bool $exclude = false;
 
-    /** @var bool  */
-    protected $filter = false;
+    protected bool $search = false;
 
-    /** @var bool  */
-    protected $sorting = false;
+    protected bool $filter = false;
+
+    protected bool $sorting = false;
+
+    protected array $eval = [];
 
     /**
      * @param string $table
@@ -90,5 +85,30 @@ class DcaFieldConfiguration
     {
         $this->filter = $filter;
         return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function setEvalValue(string $key, $value): DcaFieldConfiguration
+    {
+        $this->eval[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed|null
+     */
+    public function getEvalValue(string $key)
+    {
+        return $this->eval[$key] ?? null;
+    }
+
+    public function getEval(): array
+    {
+        return $this->eval;
     }
 }

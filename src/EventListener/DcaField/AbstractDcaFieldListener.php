@@ -10,8 +10,7 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
 abstract class AbstractDcaFieldListener implements ServiceSubscriberInterface
 {
-    /** @var ContainerInterface */
-    protected $container;
+    protected ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -25,7 +24,7 @@ abstract class AbstractDcaFieldListener implements ServiceSubscriberInterface
         return $framework->getAdapter($modelClass)->findByPk($id);
     }
 
-    protected function applyDefaultFieldAdjustments(array &$field, DcaFieldConfiguration $configuration)
+    protected function applyDefaultFieldAdjustments(array &$field, DcaFieldConfiguration $configuration): void
     {
         if ($configuration->isFilter()) {
             $field['filter'] = true;
@@ -45,6 +44,10 @@ abstract class AbstractDcaFieldListener implements ServiceSubscriberInterface
 
         if ($configuration->getFlag() !== null) {
             $field['flag'] = $configuration->getFlag();
+        }
+
+        if (!empty($configuration->getEval())) {
+            $field['eval'] = \array_merge($field['eval'] ?? [], $configuration->getEval());
         }
     }
 
