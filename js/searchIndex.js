@@ -1531,6 +1531,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setFilter"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaFieldConfiguration\u003A\u003AsetEvalValue\u0028\u0029",
+            "name": "setEvalValue",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setEvalValue"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaFieldConfiguration\u003A\u003AgetEvalValue\u0028\u0029",
+            "name": "getEvalValue",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_getEvalValue"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaFieldConfiguration\u003A\u003AgetEval\u0028\u0029",
+            "name": "getEval",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_getEval"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaFieldConfiguration\u003A\u003A\u0024table",
             "name": "table",
             "summary": "",
@@ -1560,6 +1575,11 @@ Search.appendIndex(
             "name": "sorting",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#property_sorting"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaFieldConfiguration\u003A\u003A\u0024eval",
+            "name": "eval",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#property_eval"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\DcaUtil",
             "name": "DcaUtil",
