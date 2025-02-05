@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.241.0] - 2025-02-05
+- Added: backport DCA eval config to DcaFieldConfiguration ([#92](https://github.com/heimrichhannot/contao-utils-bundle/pull/92))
+
 ## [2.240.1] - 2025-01-30
 - Fixed: php 8.1 only code executed in older versions
 
