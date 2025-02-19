@@ -19,6 +19,7 @@ use Contao\PageModel;
 use Contao\ThemeModel;
 use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
+use HeimrichHannot\UtilsBundle\EntityFinder\Finder;
 use HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -38,7 +39,9 @@ class EntityFinderCommand extends Command
         private ContaoFramework $contaoFramework,
         private EventDispatcherInterface $eventDispatcher,
         private Connection $connection,
-        private EntityFinderHelper $entityFinderHelper)
+        private EntityFinderHelper $entityFinderHelper,
+        private readonly Finder $finder,
+    )
     {
         parent::__construct();
     }
@@ -84,7 +87,7 @@ class EntityFinderCommand extends Command
         $parents = [];
 
         $this->findEntity($table, $id, $parents);
-        $event = $this->runExtendEntityFinderEvent($table, $id, $parents);
+        $event = $this->runLegacyExtendEntityFinderEvent($table, $id, $parents);
 
         $this->findInserttags($event);
 
@@ -216,6 +219,20 @@ class EntityFinderCommand extends Command
                 return 'Page not found: ID '.$id;
         }
 
+        $element = $this->finder->find($table, $id);
+        if ($element) {
+            if ($onlyText) {
+                return $element->description;
+            }
+            if (null === $element->parents) {
+                return null;
+            }
+            foreach ($element->getParents()($element->table, $element->id) as $parent) {
+                $parents[] = ['table' => $parent['table'], 'id' => $parent['id']];
+            }
+            return null;
+        }
+
         return null;
     }
 
@@ -228,7 +245,7 @@ class EntityFinderCommand extends Command
         }
 
         /** @var ExtendEntityFinderEvent $event */
-        $event = $this->runExtendEntityFinderEvent($table, $id, [], true);
+        $event = $this->runLegacyExtendEntityFinderEvent($table, $id, [], true);
 
         if ($event->getOutput()) {
             return $event->getOutput();
@@ -237,21 +254,19 @@ class EntityFinderCommand extends Command
         return 'Unsupported entity: '.$table.' (ID: '.$id.')';
     }
 
-    private function runExtendEntityFinderEvent(string $table, $id, array $parents, bool $onlyText = false): ExtendEntityFinderEvent
+    private function runLegacyExtendEntityFinderEvent(string $table, $id, array $parents, bool $onlyText = false): ExtendEntityFinderEvent
     {
-        /* @var ExtendEntityFinderEvent $event */
-        if (is_subclass_of($this->eventDispatcher, 'Symfony\Contracts\EventDispatcher\EventDispatcherInterface')) {
-            $event = $this->eventDispatcher->dispatch(
-                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText),
-                ExtendEntityFinderEvent::class
-            );
-        } else {
-            /** @noinspection PhpParamsInspection */
-            $event = $this->eventDispatcher->dispatch(
-                ExtendEntityFinderEvent::class,
-                new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText)
+
+        if ($this->eventDispatcher->hasListeners(ExtendEntityFinderEvent::class)) {
+            trigger_deprecation(
+                'heimrichhannot/contao-utils-bundle',
+                '3.7',
+                'Using the ExtendEntityFinderEvent is deprecated. Use EntityFinderFindEvent instead.'
             );
         }
+        $event = $this->eventDispatcher->dispatch(
+            new ExtendEntityFinderEvent($table, $id, $parents, [], $this->entityFinderHelper, $onlyText),
+        );
 
         return $event;
     }

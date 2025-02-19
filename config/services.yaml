@@ -6,7 +6,9 @@ services:
 
   HeimrichHannot\UtilsBundle\:
     resource: '../src/{Command,EntityFinder,EventListener,Twig,Util}/*'
-    exclude: '../src/Util/Utils.php'
+    exclude:
+        - '../src/EntityFinder/Element.php'
+        - '../src/Util/Utils.php'
     autowire: true
     autoconfigure: true
     bind:

@@ -11,6 +11,9 @@ namespace HeimrichHannot\UtilsBundle\Event;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
 use Symfony\Contracts\EventDispatcher\Event;
 
+/**
+ * @deprecated Use EntityFinderFindEvent instead
+ */
 class ExtendEntityFinderEvent extends Event
 {
     private ?string $output = null;
