@@ -93,6 +93,9 @@ class Finder
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function block(int $id): ?Element
     {
         if (!class_exists(BlockModel::class)) {
@@ -115,6 +118,9 @@ class Finder
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function blockModule(int $id): ?Element
     {
         if (!class_exists(BlockModuleModel::class)) {
@@ -151,17 +157,17 @@ class Finder
             'tl_form',
             'Form ' . $model->title . ' (ID: ' . $model->id . ')',
             (function () use ($model): \Iterator {
-                foreach (ModuleModel::findByForm($model->id) as $model) {
-                    yield ['table' => $model::getTable(), 'id' => $model->id];
+                foreach (($this->framework->getAdapter(ModuleModel::class)->findByForm($model->id)) ?? [] as $module) {
+                    yield ['table' => 'tl_module', 'id' => $module->id];
                 }
-                foreach (ContentModel::findByForm($model->id) as $model) {
-                    yield ['table' => $model::getTable(), 'id' => $model->id];
+                foreach (($this->framework->getAdapter(ContentModel::class)->findByForm($model->id)) ?? [] as $element) {
+                    yield ['table' => 'tl_content', 'id' => $element->id];
                 }
-                foreach ($this->helper->findModulesByInserttag('html', 'html', 'insert_form', $model->id) as $model) {
-                    yield ['table' => $model::getTable(), 'id' => $model->id];
+                foreach ($this->helper->findModulesByInserttag('html', 'html', 'insert_form', $model->id) as $module) {
+                    yield ['table' => 'tl_module', 'id' => $module->id];
                 }
-                foreach ($this->helper->findContentElementByInserttag('html', 'html', 'insert_form', $model->id) as $model) {
-                    yield ['table' => $model::getTable(), 'id' => $model->id];
+                foreach ($this->helper->findContentElementByInserttag('html', 'html', 'insert_form', $model->id) as $element) {
+                    yield ['table' => ContentModel::getTable(), 'id' => $element->id];
                 }
             })()
         );
@@ -200,7 +206,7 @@ class Finder
 
                 yield ['table' => ThemeModel::getTable(), 'id' => $model->pid];
 
-                foreach (ContentModel::findBy(
+                foreach ($this->framework->getAdapter(ContentModel::class)->findBy(
                     ['tl_content.type=?', 'tl_content.module=?'],
                     ['module', $model->id]
                 ) ?? [] as $contentelement) {
@@ -218,7 +224,7 @@ class Finder
                     yield ['id' => $id, 'table' => ModuleModel::getTable()];
                 }
 
-                if ( class_exists(BlockModuleModel::class) && $blockModules = BlockModuleModel::findByModule($model->id)) {
+                if (class_exists(BlockModuleModel::class) && $blockModules = BlockModuleModel::findByModule($model->id)) {
                     foreach ($blockModules as $blockModule) {
                         yield ['table' => BlockModuleModel::getTable(), 'id' => $blockModule->id];
                     }
@@ -227,6 +233,9 @@ class Finder
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function news(int $id): ?Element
     {
         if (!class_exists(NewsModel::class)) {
@@ -250,6 +259,9 @@ class Finder
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function newsArchive(int $id): ?Element
     {
         if (!class_exists(NewsArchiveModel::class)) {

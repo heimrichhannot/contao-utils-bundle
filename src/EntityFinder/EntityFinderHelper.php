@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\UtilsBundle\EntityFinder;
 
+use Contao\ContentModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Model;
@@ -15,6 +16,7 @@ use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Contao\Validator;
 use Doctrine\DBAL\Connection;
+use HeimrichHannot\MailDrumBundle\Backend\Content;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelper
@@ -85,7 +87,7 @@ class EntityFinderHelper
      * @param string $field The tl_content field
      * @param string $inserttag The inserttag to search for, for example insert_module
      * @param int $id The element id to search for, for example the module id (as used in {{insert_module::1}}, would be 1 in this case)
-     * @return array The found content element ids
+     * @return array<ContentModel> The found content element ids
      * @throws \Exception
      */
     public function findContentElementByInserttag(string $type, string $field, string $inserttag, int $id): array
