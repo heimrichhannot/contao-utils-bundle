@@ -16,7 +16,6 @@ use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Contao\Validator;
 use Doctrine\DBAL\Connection;
-use HeimrichHannot\MailDrumBundle\Backend\Content;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class EntityFinderHelper
@@ -115,7 +114,7 @@ class EntityFinderHelper
     public function fetchModelOrData(string $table, int|string $idOrAlias): ?Model
     {
         /** @var class-string<Model> $modelClass */
-        $modelClass = Model::getClassFromTable($table);
+        $modelClass = $this->framework->getAdapter(Model::class)->getClassFromTable($table);
 
         if (!$modelClass || !class_exists($modelClass)) {
             if (!$this->connection->createSchemaManager()->tablesExist([$table])) {
@@ -141,7 +140,7 @@ class EntityFinderHelper
             }
         }
 
-        return $modelClass::findByIdOrAlias($idOrAlias);
+        return $this->framework->getAdapter($modelClass)->findByIdOrAlias($idOrAlias);
     }
 
     private function anonymousModel(string $table, array $data): Model
@@ -154,6 +153,31 @@ class EntityFinderHelper
             {
                 $this->strTable = $table;
                 $this->setRow($data);
+            }
+
+            public function __set($strKey, $varValue)
+            {
+                if (isset($this->arrData[$strKey]) && $this->arrData[$strKey] === $varValue)
+                {
+                    return;
+                }
+
+                $this->arrData[$strKey] = $varValue;
+            }
+
+            public function setRow(array $arrData)
+            {
+                foreach ($arrData as $k => $v)
+                {
+                    if (static::isJoinedField($k))
+                    {
+                        unset($arrData[$k]);
+                    }
+                }
+
+                $this->arrData = $arrData;
+
+                return $this;
             }
         };
     }

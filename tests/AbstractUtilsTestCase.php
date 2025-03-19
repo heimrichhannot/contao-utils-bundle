@@ -174,4 +174,44 @@ abstract class AbstractUtilsTestCase extends ContaoTestCase
     {
         return __DIR__.'/Fixtures';
     }
+
+    protected function createModelDummyInstance(string $table, array $data = []): Model
+    {
+        return new class($table, $data) extends Model {
+
+            protected static $strTable;
+            protected $blnPreventSaving = true;
+
+            public function __construct(string $table, array $data = [])
+            {
+                $this->strTable = $table;
+                $this->setRow($data);
+            }
+
+            public function __set($strKey, $varValue)
+            {
+                if (isset($this->arrData[$strKey]) && $this->arrData[$strKey] === $varValue)
+                {
+                    return;
+                }
+
+                $this->arrData[$strKey] = $varValue;
+            }
+
+            public function setRow(array $arrData)
+            {
+                foreach ($arrData as $k => $v)
+                {
+                    if (static::isJoinedField($k))
+                    {
+                        unset($arrData[$k]);
+                    }
+                }
+
+                $this->arrData = $arrData;
+
+                return $this;
+            }
+        };
+    }
 }
