@@ -41,15 +41,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_createText"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003ArunExtendEntityFinderEvent\u0028\u0029",
-            "name": "runExtendEntityFinderEvent",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003ArunLegacyExtendEntityFinderEvent\u0028\u0029",
+            "name": "runLegacyExtendEntityFinderEvent",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runExtendEntityFinderEvent"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003AfindFrontendModuleParents\u0028\u0029",
-            "name": "findFrontendModuleParents",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findFrontendModuleParents"
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runLegacyExtendEntityFinderEvent"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003AfindInserttags\u0028\u0029",
             "name": "findInserttags",
@@ -75,6 +70,11 @@ Search.appendIndex(
             "name": "entityFinderHelper",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_entityFinderHelper"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Command\\EntityFinderCommand\u003A\u003A\u0024finder",
+            "name": "finder",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_finder"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin",
             "name": "Plugin",
@@ -356,6 +356,56 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#property_table"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element",
+            "name": "Element",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetId\u0028\u0029",
+            "name": "getId",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getId"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetTable\u0028\u0029",
+            "name": "getTable",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getTable"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetDescription\u0028\u0029",
+            "name": "getDescription",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getDescription"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003AgetParents\u0028\u0029",
+            "name": "getParents",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#method_getParents"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024id",
+            "name": "id",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_id"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024table",
+            "name": "table",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_table"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024description",
+            "name": "description",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_description"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\Element\u003A\u003A\u0024parents",
+            "name": "parents",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-Element.html#property_parents"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper",
             "name": "EntityFinderHelper",
             "summary": "",
@@ -381,6 +431,16 @@ Search.appendIndex(
             "summary": "Find\u0020content\u0020elements\u0020by\u0020insert\u0020inserttags\u0020like\u0020insert_module\u0020oder\u0020insert_article.",
             "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_findContentElementByInserttag"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003AfetchModelOrData\u0028\u0029",
+            "name": "fetchModelOrData",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_fetchModelOrData"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003AanonymousModel\u0028\u0029",
+            "name": "anonymousModel",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#method_anonymousModel"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003A\u0024utils",
             "name": "utils",
             "summary": "",
@@ -390,6 +450,56 @@ Search.appendIndex(
             "name": "framework",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_framework"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EntityFinder\\EntityFinderHelper\u003A\u003A\u0024connection",
+            "name": "connection",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html#property_connection"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent",
+            "name": "EntityFinderFindEvent",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method___construct"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AgetTable\u0028\u0029",
+            "name": "getTable",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_getTable"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AgetId\u0028\u0029",
+            "name": "getId",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_getId"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AsetElement\u0028\u0029",
+            "name": "setElement",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_setElement"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003AgetElement\u0028\u0029",
+            "name": "getElement",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#method_getElement"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A\u0024element",
+            "name": "element",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#property_element"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A\u0024table",
+            "name": "table",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#property_table"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\EntityFinderFindEvent\u003A\u003A\u0024id",
+            "name": "id",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Event-EntityFinderFindEvent.html#property_id"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Event\\ExtendEntityFinderEvent",
             "name": "ExtendEntityFinderEvent",
@@ -570,31 +680,6 @@ Search.appendIndex(
             "name": "getSubscribedServices",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-DcaAuthorListener.html#method_getSubscribedServices"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\ExtendEntityFinderSubscriber",
-            "name": "ExtendEntityFinderSubscriber",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\ExtendEntityFinderSubscriber\u003A\u003AgetSubscribedEvents\u0028\u0029",
-            "name": "getSubscribedEvents",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_getSubscribedEvents"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\ExtendEntityFinderSubscriber\u003A\u003AonExtendEntityFinderEvent\u0028\u0029",
-            "name": "onExtendEntityFinderEvent",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_onExtendEntityFinderEvent"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\ExtendEntityFinderSubscriber\u003A\u003AfindNewsEntity\u0028\u0029",
-            "name": "findNewsEntity",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_findNewsEntity"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\ExtendEntityFinderSubscriber\u003A\u003AfindBlockElements\u0028\u0029",
-            "name": "findBlockElements",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-ExtendEntityFinderSubscriber.html#method_findBlockElements"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Exception\\InvalidUrlException",
             "name": "InvalidUrlException",
