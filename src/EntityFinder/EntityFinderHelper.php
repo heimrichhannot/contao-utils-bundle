@@ -108,10 +108,9 @@ class EntityFinderHelper
     }
 
     /**
-     * @return object|Model|null
      * @throws \Doctrine\DBAL\Exception
      */
-    public function fetchModelOrData(string $table, int|string $idOrAlias): ?object
+    public function fetchModelOrData(string $table, int|string $idOrAlias): ?Model
     {
         /** @var class-string<Model> $modelClass */
         $modelClass = Model::getClassFromTable($table);
@@ -125,7 +124,7 @@ class EntityFinderHelper
                 if ($result->rowCount() === 0) {
                     return null;
                 }
-                return (object) $result->fetchAssociative();
+                return $this->anonymousModel($table, $result->fetchAssociative());
             }
             if (is_numeric($idOrAlias)) {
                 if ($idOrAlias != (int) $idOrAlias) {
@@ -136,14 +135,24 @@ class EntityFinderHelper
                 if ($result->rowCount() === 0) {
                     return null;
                 }
-                $element = (object) $result->fetchAssociative();
-                $element->getTable = function() use ($table) {
-                    return $table;
-                };
-                return $element;
+                return $this->anonymousModel($table, $result->fetchAssociative());
             }
         }
 
         return $modelClass::findByIdOrAlias($idOrAlias);
+    }
+
+    private function anonymousModel(string $table, array $data): Model
+    {
+        return new class($table, $data) extends Model {
+
+            protected $blnPreventSaving = true;
+
+            public function __construct(string $table, array $data = [])
+            {
+                $this->strTable = $table;
+                $this->setRow($data);
+            }
+        };
     }
 }

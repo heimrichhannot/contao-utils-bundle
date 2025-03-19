@@ -206,7 +206,7 @@ class EntityFinderCommand extends Command
             if (null === $element->parents) {
                 return null;
             }
-            foreach ($element->getParents()($element->table, $element->id) as $parent) {
+            foreach ($element->getParents() as $parent) {
                 $parents[] = ['table' => $parent['table'], 'id' => $parent['id']];
             }
             return null;

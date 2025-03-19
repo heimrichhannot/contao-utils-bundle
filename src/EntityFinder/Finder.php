@@ -132,6 +132,7 @@ class Finder
             BlockModuleModel::getTable(),
             'Block module ' . $model->title . ' (ID: ' . $model->id . ')',
             (function () use ($model): \Iterator {
+                /* @phpstan-ignore class.notFound */
                 yield ['table' => BlockModel::getTable(), 'id' => $model->pid];
             })()
         );
@@ -213,16 +214,11 @@ class Finder
                     yield ['id' => $row['id'], 'table' => LayoutModel::getTable()];
                 }
 
-                $result = $this->connection->executeQuery(
-                    "SELECT id FROM tl_module
-                    WHERE type='html'
-                    AND html REGEXP '\{\{insert_module::".(int) $model->id."(::[^\}]+)?\}\}'"
-                );
-                foreach ($result->fetchAssociative() as $row) {
-                    yield ['id' => $row['id'], 'table' => ModuleModel::getTable()];
+                foreach ($this->helper->findModulesByInserttag('html', 'html', 'insert_module', $model->id) as $id) {
+                    yield ['id' => $id, 'table' => ModuleModel::getTable()];
                 }
 
-                if ($blockModules = BlockModuleModel::findByModule($model->id)) {
+                if ( class_exists(BlockModuleModel::class) && $blockModules = BlockModuleModel::findByModule($model->id)) {
                     foreach ($blockModules as $blockModule) {
                         yield ['table' => BlockModuleModel::getTable(), 'id' => $blockModule->id];
                     }
@@ -248,6 +244,7 @@ class Finder
             NewsModel::getTable(),
             'News ' . $model->headline . ' (ID: ' . $model->id . ')',
             (function () use ($model): \Generator {
+                /* @phpstan-ignore class.notFound */
                 yield ['table' => NewsArchiveModel::getTable(), 'id' => $model->pid];
             })()
         );

@@ -8,7 +8,7 @@ parameters:
     - Contao\Model
 #    - Contao\Template
     - PHPUnit\Framework\MockObject\MockObject
-#  ignoreErrors:
+  ignoreErrors:
 #    - message: '#^Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject\:\:setName\(\)\.$#'
 #      path: tests/EventListener/Contao/ParseTemplateListenerTest.php
 #    - message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:getChildNodeDefinitions\(\)\.$#'
