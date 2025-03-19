@@ -4,8 +4,11 @@ namespace HeimrichHannot\UtilsBundle\Tests\EntityFinder;
 
 use Contao\Controller;
 use Contao\DC_Table;
+use Contao\Model;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
+use Doctrine\DBAL\Connection;
+use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
 use HeimrichHannot\UtilsBundle\EntityFinder\Element;
 use HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper;
 use HeimrichHannot\UtilsBundle\EntityFinder\Finder;
@@ -15,6 +18,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class FinderTest extends AbstractUtilsTestCase
 {
+    use ModelMockTrait;
 
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
     {
@@ -28,7 +32,8 @@ class FinderTest extends AbstractUtilsTestCase
         return new Finder(
             $parameters['helper'] ?? $this->createMock(EntityFinderHelper::class),
             $parameters['eventDispatcher'] ?? $eventDispatcher,
-            $parameters['framework'] ?? $contaoFramework
+            $parameters['framework'] ?? $contaoFramework,
+            $parameters['connection'] ?? $this->createMock(Connection::class),
         );
     }
 
@@ -41,9 +46,10 @@ class FinderTest extends AbstractUtilsTestCase
 
     public function testFindFallback()
     {
-        $element = new \stdClass();
-        $element->id = 1;
-        $element->pid = 3;
+        $element = $this->mockModelObject(Model::class, [
+            'id' => 1,
+            'pid' => 3,
+        ]);
 
         $helper = $this->createMock(EntityFinderHelper::class);
         $helper->method('fetchModelOrData')->willReturn($element);
@@ -84,10 +90,11 @@ class FinderTest extends AbstractUtilsTestCase
             ]
         ];
 
-        $element = new \stdClass();
-        $element->id = 1;
-        $element->pid = 4;
-        $element->ptable = 'tl_other_parent';
+        $element = $this->mockModelObject(Model::class, [
+            'id' => 1,
+            'pid' => 4,
+            'ptable' => 'tl_other_parent',
+        ]);
 
         $helper = $this->createMock(EntityFinderHelper::class);
         $helper->method('fetchModelOrData')->willReturn($element);
@@ -108,10 +115,11 @@ class FinderTest extends AbstractUtilsTestCase
         $entity = $finder->find('tl_form', 1);
         $this->assertNull($entity);
 
-        $element = new \stdClass();
-        $element->id = 1;
-        $element->pid = 4;
-        $element->title = 'Test';
+        $element = $this->mockModelObject(Model::class, [
+            'id' => 1,
+            'pid' => 4,
+            'title' => 'Test',
+        ]);
 
         $helper = $this->createMock(EntityFinderHelper::class);
         $helper->method('fetchModelOrData')->willReturn($element);
@@ -131,10 +139,11 @@ class FinderTest extends AbstractUtilsTestCase
         $entity = $finder->find('tl_form_field', 1);
         $this->assertNull($entity);
 
-        $element = new \stdClass();
-        $element->id = 2;
-        $element->pid = 5;
-        $element->name = 'Field';
+        $element = $this->mockModelObject(Model::class, [
+            'id' => 2,
+            'pid' => 5,
+            'name' => 'Field',
+        ]);
 
         $helper = $this->createMock(EntityFinderHelper::class);
         $helper->method('fetchModelOrData')->willReturn($element);
@@ -182,11 +191,12 @@ class FinderTest extends AbstractUtilsTestCase
         $entity = $finder->find($table, $id);
         $this->assertNull($entity);
 
-        $element = new \stdClass();
-        $element->id = $id;
-        $element->pid = 4;
-        $element->title = $name;
-        $element->name = $name;
+        $element = $this->mockModelObject(Model::class, [
+            'id' => $id,
+            'pid' => 4,
+            'title' => $name,
+            'name' => $name,
+        ]);
 
         $helper = $this->createMock(EntityFinderHelper::class);
         $helper->method('fetchModelOrData')->willReturn($element);
