@@ -61,13 +61,8 @@ class EntityFinderCommand extends Command
 
         $io->title('Find entity');
 
-        if ($input->hasArgument('table') && $input->getArgument('table')) {
-            $table = $input->getArgument('table');
-        }
-
-        if ($input->hasArgument('id') && $input->getArgument('id')) {
-            $id = $input->getArgument('id');
-        }
+        $table = $input->getArgument('table');
+        $id = $input->getArgument('id');
 
         $result = $this->loop($table, $id);
         $this->output($io, [$result]);
@@ -173,22 +168,6 @@ class EntityFinderCommand extends Command
 
                 return 'Article not found: ID '.$id;
 
-            case ModuleModel::getTable():
-                if ($onlyText) {
-                    Controller::loadLanguageFile('modules');
-                }
-                $element = ModuleModel::findByIdOrAlias($id);
-
-                if ($element) {
-                    if (!$onlyText) {
-                        $this->findFrontendModuleParents($element, $parents, $id);
-                    }
-
-                    return 'Frontend module: '.($GLOBALS['TL_LANG']['FMD'][$element->type][0] ?? $element->type).' (ID: '.$element->id.', Type: '.$element->type.')';
-                }
-
-                return 'Frontend module not found: ID '.$id;
-
             case LayoutModel::getTable():
                 $layout = LayoutModel::findById($id);
 
@@ -269,37 +248,6 @@ class EntityFinderCommand extends Command
         );
 
         return $event;
-    }
-
-    private function findFrontendModuleParents(ModuleModel $module, array &$parents): void
-    {
-        $contentelements = ContentModel::findBy(['tl_content.type=?', 'tl_content.module=?'], ['module', $module->id]);
-
-        if ($contentelements) {
-            foreach ($contentelements as $contentelement) {
-                $parents[] = ['table' => ContentModel::getTable(), 'id' => $contentelement->id];
-            }
-        }
-
-        $result = Database::getInstance()
-            ->prepare("SELECT id FROM tl_layout WHERE modules LIKE '%:\"".(string) ((int) $module->id)."\"%'")
-            ->execute();
-
-        foreach ($result->fetchEach('id') as $layoutId) {
-            $parents[] = ['table' => LayoutModel::getTable(), 'id' => $layoutId];
-        }
-
-        $result = Database::getInstance()
-            ->prepare("SELECT id FROM tl_module
-                        WHERE type='html'
-                        AND (
-                            html LIKE '%{{insert_module::".$module->id."}}%'
-                            OR html LIKE '%{{insert_module::".$module->id."::%')")
-            ->execute();
-
-        foreach ($result->fetchEach('id') as $moduleId) {
-            $parents[] = ['table' => ModuleModel::getTable(), 'id' => $moduleId];
-        }
     }
 
     private function findInserttags(ExtendEntityFinderEvent $event): void
