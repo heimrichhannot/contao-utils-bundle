@@ -986,6 +986,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-ContainerUtil.html#property_filesystem"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ContainerUtil\u003A\u003A\u0024tokenChecker",
+            "name": "tokenChecker",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-ContainerUtil.html#property_tokenChecker"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\DatabaseUtil\\CreateWhereForSerializedBlobResult",
             "name": "CreateWhereForSerializedBlobResult",
             "summary": "",
@@ -1485,6 +1490,11 @@ Search.appendIndex(
             "name": "insertTagParser",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-ModelUtil.html#property_insertTagParser"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\ModelUtil\u003A\u003A\u0024tokenChecker",
+            "name": "tokenChecker",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-ModelUtil.html#property_tokenChecker"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\RequestUtil",
             "name": "RequestUtil",
