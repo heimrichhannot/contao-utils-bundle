@@ -119,7 +119,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/UrlUtil.php"><a href="files/src-util-urlutil.html"><abbr title="src/Util/UrlUtil.php">UrlUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">15</span>
 
     </aside>
 
@@ -194,7 +194,7 @@
 <dd>Remove query parameters (GET parameter) from a URL.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_buildUrlString">buildUrlString()</a>
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_getUrlOrDefault">getUrlOrDefault()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
@@ -229,7 +229,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/UrlUtil.php"><a href="files/src-util-urlutil.html"><abbr title="src/Util/UrlUtil.php">UrlUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 
     </aside>
 
@@ -270,7 +270,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/UrlUtil.php"><a href="files/src-util-urlutil.html"><abbr title="src/Util/UrlUtil.php">UrlUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 
     </aside>
 
@@ -314,7 +314,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/UrlUtil.php"><a href="files/src-util-urlutil.html"><abbr title="src/Util/UrlUtil.php">UrlUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">74</span>
 
     </aside>
 
@@ -322,7 +322,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">addQueryStringParameterToUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameter</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">addQueryStringParameterToUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameter</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -344,10 +344,11 @@ If no url is given, the current request URL is used.</p>
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$url</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span>            </dt>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The URL to which query parameter should be added.</p>
+                    <section class="phpdocumentor-description"><p>The URL to which the query parameter(s) should be added.
+If null, the current request URL is used.</p>
 </section>
 
             </dd>
@@ -406,7 +407,7 @@ If no url is given, the current request URL is used.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/UrlUtil.php"><a href="files/src-util-urlutil.html"><abbr title="src/Util/UrlUtil.php">UrlUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 
     </aside>
 
@@ -486,7 +487,7 @@ If no url is given, the current request URL is used.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/UrlUtil.php"><a href="files/src-util-urlutil.html"><abbr title="src/Util/UrlUtil.php">UrlUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">34</span>
 
     </aside>
 
@@ -494,7 +495,7 @@ If no url is given, the current request URL is used.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">removeQueryStringParameterFromUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameter</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">removeQueryStringParameterFromUrl</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameter</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -517,7 +518,7 @@ If no URL is given, the current request url is used.</p>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$url</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span>            </dt>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The URL to rid of the given query parameters.</p>
 </section>
@@ -537,7 +538,8 @@ If no URL is given, the current request url is used.</p>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
-                                                 <section class="phpdocumentor-description"><p>removeQueryStringParameterFromUrl('foo', 'https://example.com?foo=bar&amp;baz=fuzz') // https://example.com?baz=fuzz</p>
+                                                 <section class="phpdocumentor-description"><p>removeQueryStringParameterFromUrl('foo', 'https://example.com?foo=bar&amp;baz=fuzz') //
+https://example.com?baz=fuzz</p>
 </section>
 
                                     </dd>
@@ -546,7 +548,8 @@ If no URL is given, the current request url is used.</p>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
-                                                 <section class="phpdocumentor-description"><p>removeQueryStringParameterFromUrl(['foo', 'baz'], 'https://example.com?foo=bar&amp;baz=fuzz') // https://example.com</p>
+                                                 <section class="phpdocumentor-description"><p>removeQueryStringParameterFromUrl(['foo', 'baz'], 'https://example.com?foo=bar&amp;baz=fuzz') //
+https://example.com</p>
 </section>
 
                                     </dd>
@@ -570,22 +573,22 @@ If no URL is given, the current request url is used.</p>
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_buildUrlString">
-        buildUrlString()
-        <a href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_buildUrlString" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_getUrlOrDefault">
+        getUrlOrDefault()
+        <a href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_getUrlOrDefault" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Util/UrlUtil.php"><a href="files/src-util-urlutil.html"><abbr title="src/Util/UrlUtil.php">UrlUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">145</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">buildUrlString</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parsedUrl</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">getUrlOrDefault</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -594,9 +597,9 @@ If no URL is given, the current request url is used.</p>
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$parsedUrl</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
-                            </dt>
+                <span class="phpdocumentor-signature__argument__name">$url</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
             </dd>
@@ -736,7 +739,7 @@ If no URL is given, the current request url is used.</p>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_addQueryStringParameterToUrl">addQueryStringParameterToUrl()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_makeUrlRelative">makeUrlRelative()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_removeQueryStringParameterFromUrl">removeQueryStringParameterFromUrl()</a></li>
-                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_buildUrlString">buildUrlString()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_getUrlOrDefault">getUrlOrDefault()</a></li>
                                     </ul>
             </li>
                     </ul>

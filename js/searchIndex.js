@@ -731,6 +731,16 @@ Search.appendIndex(
             "summary": "Check\u0020if\u0020a\u0020class\u0020or\u0020any\u0020of\u0020its\u0020parents\u0020implements\u0020a\u0020trait.",
             "url": "classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticClassUtil.html#method_hasTrait"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\StaticUtil\\StaticUrlUtil",
+            "name": "StaticUrlUtil",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticUrlUtil.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\StaticUtil\\StaticUrlUtil\u003A\u003AunparseUrl\u0028\u0029",
+            "name": "unparseUrl",
+            "summary": "This\u0020method\u0020is\u0020the\u0020reverse\u0020of\u0020\u007B\u0040see\u0020\\parse_url\u0020\u0060parse_url\u0028...\u0029\u0060\u007D\u0020and\u0020is\u0020used\u0020to\u0020build\u0020a\u0020URL\u0020from\u0020its\u0020components.",
+            "url": "classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticUrlUtil.html#method_unparseUrl"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\StaticUtil\\SUtils",
             "name": "SUtils",
             "summary": "",
@@ -745,6 +755,11 @@ Search.appendIndex(
             "name": "class",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-StaticUtil-SUtils.html#method_class"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\StaticUtil\\SUtils\u003A\u003Aurl\u0028\u0029",
+            "name": "url",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-StaticUtil-SUtils.html#method_url"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\StaticUtil\\SUtils\u003A\u003AgetInstance\u0028\u0029",
             "name": "getInstance",
@@ -1791,10 +1806,10 @@ Search.appendIndex(
             "summary": "Convert\u0020an\u0020absolute\u0020url\u0020to\u0020a\u0020relative\u0020url.",
             "url": "classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_makeUrlRelative"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\UrlUtil\u003A\u003AbuildUrlString\u0028\u0029",
-            "name": "buildUrlString",
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\UrlUtil\u003A\u003AgetUrlOrDefault\u0028\u0029",
+            "name": "getUrlOrDefault",
             "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_buildUrlString"
+            "url": "classes/HeimrichHannot-UtilsBundle-Util-UrlUtil.html#method_getUrlOrDefault"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Util\\UrlUtil\u003A\u003A\u0024requestStack",
             "name": "requestStack",
