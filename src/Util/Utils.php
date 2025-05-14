@@ -127,6 +127,7 @@ class Utils extends AbstractServiceSubscriber
     {
         return [
             AccordionUtil::class,
+            AnonymizeUtil::class,
             ArrayUtil::class,
             BackendUiUtil::class,
             ClassUtil::class,
