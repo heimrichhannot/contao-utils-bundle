@@ -50,5 +50,10 @@
   },
   "extra": {
     "contao-manager-plugin": "HeimrichHannot\\UtilsBundle\\ContaoManager\\Plugin"
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/koertho/contao-rector"
+    }]
 }
