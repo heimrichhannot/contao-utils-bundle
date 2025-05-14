@@ -43,6 +43,11 @@ class Utils extends AbstractServiceSubscriber
         return $this->locator->get(AccordionUtil::class);
     }
 
+    public function anonymize(): AnonymizeUtil
+    {
+        return $this->locator->get(AnonymizeUtil::class);
+    }
+
     public function array(): ArrayUtil
     {
         return $this->locator->get(ArrayUtil::class);
