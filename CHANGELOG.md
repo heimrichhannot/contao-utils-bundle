@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.242.1] - 2025-05-14
+- Fixed: ServiceNotFoundException
+
 ## [2.242.0] - 2025-05-14
 - Added: backport of AnonymizeUtil ([#96](https://github.com/heimrichhannot/contao-utils-bundle/pull/96))
 
