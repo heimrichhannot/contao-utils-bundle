@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.243.0] - 2025-05-20
+- Added: StaticArrayUtils::filterByPrefixes
+- 
+
 ## [2.242.1] - 2025-05-14
 - Fixed: ServiceNotFoundException
 

@@ -11,6 +11,7 @@ namespace HeimrichHannot\UtilsBundle\Arrays;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
 use Contao\Validator;
+use HeimrichHannot\UtilsBundle\StaticUtil\SUtils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ArrayUtil
@@ -36,24 +37,19 @@ class ArrayUtil
      * @param array $prefixes
      *
      * @return array the filtered array or $arrData if $prefix is empty
+     *
+     * @deprecated Use StaticUtils instead
      */
     public function filterByPrefixes(array $data = [], $prefixes = [])
     {
-        $extract = [];
+        trigger_deprecation(
+            'heimrichhannot/contao-utils-bundle',
+            '2.243.0',
+            'The "%s" method is deprecated and will be removed in the next major version. Use SUtils::array::filterByPrefixes() instead.',
+            __METHOD__
+        );
 
-        if (!\is_array($prefixes) || empty($prefixes)) {
-            return $data;
-        }
-
-        foreach ($data as $key => $value) {
-            foreach ($prefixes as $prefix) {
-                if ($this->container->get('huh.utils.string')->startsWith($key, $prefix)) {
-                    $extract[$key] = $value;
-                }
-            }
-        }
-
-        return $extract;
+        return SUtils::array()::filterByPrefixes($data, $prefixes);
     }
 
     /**
