@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.8.0] - 2025-05-20
+Added: StaticArrayUtils::filterByPrefixes
+
 ## [3.7.1] - 2025-03-20
 - Changed: enhance code quality by using rector
 - Fixed: removed usage of deprecated constants

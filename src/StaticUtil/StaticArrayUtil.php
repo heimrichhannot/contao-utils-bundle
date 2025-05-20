@@ -97,4 +97,31 @@ class StaticArrayUtil extends AbstractStaticUtil
 
         return false;
     }
-}
+
+    /**
+     * Filter an Array by given prefixes.
+     *
+     * @param string[] $data
+     * @param string[] $prefixes
+     *
+     * @return string[] the filtered array or $arrData if $prefix is empty
+     */
+    public static function filterByPrefixes(array $data = [], array $prefixes = []): array
+    {
+        $extract = [];
+
+        if (empty($prefixes)) {
+            return $data;
+        }
+
+        foreach ($data as $key => $value) {
+            foreach ($prefixes as $prefix) {
+                if (str_starts_with($key, $prefix)) {
+                    $extract[$key] = $value;
+                    break;
+                }
+            }
+        }
+
+        return $extract;
+    }}
