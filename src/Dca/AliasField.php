@@ -24,7 +24,6 @@ class AliasField extends AbstractDcaField
     public static function getField(): array
     {
         return [
-            'label' => &$GLOBALS['TL_LANG']['MSC']['alias'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
