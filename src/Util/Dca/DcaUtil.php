@@ -12,6 +12,7 @@ use Contao\Controller;
 use Contao\CoreBundle\DataContainer\PaletteNotFoundException;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
+use HeimrichHannot\UtilsBundle\Util\DcaUtil\GetDcaFieldsOptions;
 
 class DcaUtil
 {
@@ -135,6 +136,8 @@ class DcaUtil
      * Return a list of dca fields for given table.
      * Fields can be filtered by given options.
      *
+     *
+     *
      * Options:
      * - onlyDatabaseFields (bool): Return only fields with sql definition. Default false
      * - allowedInputTypes (array): Return only fields of given types.
@@ -142,15 +145,21 @@ class DcaUtil
      * - localizeLabels (bool): Return also the field labels (key = field name, value = field label). Default false
      * - skipSorting (bool): Skip sorting fields by field name alphabetical. Default false
      */
-    public function getDcaFields(string $table, array $options = []): array
+    public function getDcaFields(string $table, $options = []): array
     {
-        $options = array_merge([
-            'onlyDatabaseFields' => false,
-            'allowedInputTypes' => [],
-            'evalConditions' => [],
-            'localizeLabels' => false,
-            'skipSorting' => false,
-        ], $options);
+        if ($options instanceof GetDcaFieldsOptions) {
+            $options = $options->toArray();
+        } elseif (\is_array($options)) {
+            $options = array_merge([
+                'onlyDatabaseFields' => false,
+                'allowedInputTypes' => [],
+                'evalConditions' => [],
+                'localizeLabels' => false,
+                'skipSorting' => false,
+            ], $options);
+        } else {
+            throw new \InvalidArgumentException("Options must be an array or an instance of GetDcaFieldsOptions");
+        }
 
         if (!\is_array($options['allowedInputTypes'])) {
             $options['allowedInputTypes'] = [];
