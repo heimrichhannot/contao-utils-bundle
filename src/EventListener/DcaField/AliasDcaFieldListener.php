@@ -7,7 +7,6 @@ use Contao\CoreBundle\ServiceAnnotation\Hook;
 use Contao\CoreBundle\Slug\Slug;
 use Contao\Database;
 use Contao\DataContainer;
-use Contao\Validator;
 use HeimrichHannot\UtilsBundle\Dca\AliasField;
 use HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration;
 
@@ -35,7 +34,7 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
         $GLOBALS['TL_DCA'][$table]['fields'][$registration->fieldName] = $field;
     }
 
-    public function onFieldsAliasSaveCallback(mixed $value, DataContainer $dc): mixed
+    public function onFieldsAliasSaveCallback($value, DataContainer $dc)
     {
         $framework = $this->container->get('contao.framework');
         $aliasExists = static function (string $alias) use ($dc, $framework): bool {

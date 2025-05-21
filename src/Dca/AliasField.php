@@ -2,9 +2,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
-use HeimrichHannot\UtilsBundle\EventListener\DcaField\AliasDcaFieldListener;
-use Symfony\Component\Routing\Alias;
-
 class AliasField extends AbstractDcaField
 {
     private static $tables = [];
