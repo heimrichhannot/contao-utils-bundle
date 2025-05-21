@@ -2,7 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.243.0] - 2025-05-20
+## [2.244.0] - 2025-05-21
+- Added: allow instance of GetDcaFieldsOptions to be passed to DcaUtil::getDcaFields()
+
+## [2.243.0] - 2025-05-21
 - Added: StaticArrayUtils::filterByPrefixes ([#99](https://github.com/heimrichhannot/contao-utils-bundle/pull/99))
 - Added: AliasField ([#101](https://github.com/heimrichhannot/contao-utils-bundle/pull/101))
 
