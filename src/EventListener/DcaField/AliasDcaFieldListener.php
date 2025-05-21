@@ -2,10 +2,12 @@
 
 namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\ServiceAnnotation\Hook;
 use Contao\CoreBundle\Slug\Slug;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\Validator;
 use HeimrichHannot\UtilsBundle\Dca\AliasField;
 use HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration;
 
@@ -35,16 +37,17 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
 
     public function onFieldsAliasSaveCallback(mixed $value, DataContainer $dc): mixed
     {
-        $aliasExists = static function (string $alias) use ($dc): bool {
-            return Database::getInstance()
-                    ->prepare("SELECT $dc->table FROM tl_article WHERE alias=? AND id!=?")
+        $framework = $this->container->get('contao.framework');
+        $aliasExists = static function (string $alias) use ($dc, $framework): bool {
+            return $framework->createInstance(Database::class)
+                    ->prepare("SELECT id FROM $dc->table WHERE alias=? AND id!=?")
                     ->execute($alias, $dc->id)
                     ->numRows > 0;
         };
 
         // Generate an alias if there is none
         if (!$value) {
-            $value = $this->container->get(Slug::class)->generate(
+            $value = $this->container->get('contao.slug')->generate(
                 (string)$dc->activeRecord->title,
                 (int)$dc->activeRecord->pid,
                 $aliasExists
@@ -63,6 +66,7 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
         return array_merge(
             [
                 'contao.slug' => Slug::class,
+                'contao.framework' => ContaoFramework::class,
             ],
             parent::getSubscribedServices()
         );
