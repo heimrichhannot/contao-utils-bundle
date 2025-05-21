@@ -189,7 +189,12 @@ class DatabaseUtil
 
         $query = '';
         $duplicateKey = '';
-        $startQuery = sprintf('INSERT %s INTO %s (%s) VALUES ', self::ON_DUPLICATE_KEY_IGNORE === $onDuplicateKey ? 'IGNORE' : '', $table, implode(',', $fields));
+        $startQuery = sprintf(
+            'INSERT %s INTO %s (%s) VALUES ',
+            self::ON_DUPLICATE_KEY_IGNORE === $onDuplicateKey ? 'IGNORE' : '',
+            $table,
+            implode(',', $fields)
+        );
 
         if (self::ON_DUPLICATE_KEY_UPDATE === $onDuplicateKey) {
             $duplicateKey = ' ON DUPLICATE KEY UPDATE '.implode(
