@@ -177,6 +177,32 @@ DateAddedField::register('tl_example')
 ;
 ```
 
+#### Alias field
+
+Add an alias field to your dca. Set the alias if the alias field is empty on save and check for duplicates.
+
+```php
+use HeimrichHannot\UtilsBundle\Dca\AliasField;
+
+AliasField::register('tl_example');
+```
+
+You can pass additional options to adjust the field:
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\AliasField;
+
+AliasField::register('tl_example')
+    AliasField::register('tl_md_newsletter')
+    ->setAliasExistCallback([NewsletterCallbackListener::class, 'checkAliasExist']) // set a custom alias exist callback
+    ->setExclude(false) // set the dca field exclude option
+    ->setSearch(false) // set the dca field search option
+    ->setFilter(false) // set the dca field filter option
+    ->setSorting(true) // set the dca field sorting option
+    ->setFlag(null) // set the dca field flag option
+;
+```
+
 
 ## Documentation
 

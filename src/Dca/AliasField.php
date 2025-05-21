@@ -6,14 +6,23 @@ class AliasField extends AbstractDcaField
 {
     private static $tables = [];
 
+    /**
+     * @return AliasFieldConfiguration
+     */
+    public static function register(string $table): DcaFieldConfiguration
+    {
+        return parent::register($table);
+    }
+
+
     protected static function storeConfig(DcaFieldConfiguration $config): void
     {
-        static::$tables[$config->getTable()] = $config;
+        self::$tables[$config->getTable()] = $config;
     }
 
     protected static function loadConfig(): array
     {
-        return static::$tables;
+        return self::$tables;
     }
 
     protected static function createOptionObject(string $table): DcaFieldConfiguration
@@ -27,7 +36,13 @@ class AliasField extends AbstractDcaField
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => ['rgxp' => 'alias', 'unique' => true, 'maxlength' => 128, 'tl_class' => 'w50'],
+            'eval' => [
+                'rgxp' => 'alias',
+                'unique' => true,
+                'maxlength' => 128,
+                'tl_class' => 'w50',
+                'doNotCopy'=>true,
+            ],
             'save_callback' => [],
             'sql' => "varchar(255) BINARY NOT NULL default ''",
         ];

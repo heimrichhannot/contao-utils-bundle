@@ -3,8 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [2.243.0] - 2025-05-20
-- Added: StaticArrayUtils::filterByPrefixes
-- 
+- Added: StaticArrayUtils::filterByPrefixes ([#99](https://github.com/heimrichhannot/contao-utils-bundle/pull/99))
+- Added: AliasField ([#101](https://github.com/heimrichhannot/contao-utils-bundle/pull/101))
 
 ## [2.242.1] - 2025-05-14
 - Fixed: ServiceNotFoundException
