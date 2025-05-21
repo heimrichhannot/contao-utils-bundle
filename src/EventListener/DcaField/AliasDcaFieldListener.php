@@ -2,8 +2,8 @@
 
 namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\ServiceAnnotation\Hook;
 use Contao\CoreBundle\Slug\Slug;
 use Contao\Database;
 use Contao\DataContainer;
@@ -12,9 +12,7 @@ use HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration;
 
 class AliasDcaFieldListener extends AbstractDcaFieldListener
 {
-    /**
-     * @Hook("loadDataContainer")
-     */
+    #[AsHook('loadDataContainer')]
     public function onLoadDataContainer(string $table): void
     {
         if (!isset(AliasField::getRegistrations()[$table])) {
@@ -37,21 +35,21 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
     public function onFieldsAliasSaveCallback($value, DataContainer $dc)
     {
         $framework = $this->container->get('contao.framework');
-        $aliasExists = static function (string $alias) use ($dc, $framework): bool {
-            return $framework->createInstance(Database::class)
-                    ->prepare("SELECT id FROM $dc->table WHERE alias=? AND id!=?")
-                    ->execute($alias, $dc->id)
-                    ->numRows > 0;
-        };
+        $aliasExists = (static fn(string $alias): bool => $framework->createInstance(Database::class)
+                ->prepare("SELECT id FROM $dc->table WHERE alias=? AND id!=?")
+                ->execute($alias, $dc->id)
+                ->numRows > 0);
 
         // Generate an alias if there is none
         if (!$value) {
             $value = $this->container->get('contao.slug')->generate(
+                /** @phpstan-ignore property.notFound */
                 (string)$dc->activeRecord->title,
+                /** @phpstan-ignore property.notFound */
                 (int)$dc->activeRecord->pid,
                 $aliasExists
             );
-        } elseif (preg_match('/^[1-9]\d*$/', $value)) {
+        } elseif (preg_match('/^[1-9]\d*$/', (string) $value)) {
             throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasNumeric'], $value));
         } elseif ($aliasExists($value)) {
             throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $value));

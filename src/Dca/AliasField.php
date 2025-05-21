@@ -8,12 +8,12 @@ class AliasField extends AbstractDcaField
 
     protected static function storeConfig(DcaFieldConfiguration $config): void
     {
-        static::$tables[$config->getTable()] = $config;
+        self::$tables[$config->getTable()] = $config;
     }
 
     protected static function loadConfig(): array
     {
-        return static::$tables;
+        return self::$tables;
     }
 
     protected static function createOptionObject(string $table): DcaFieldConfiguration
