@@ -50,16 +50,47 @@ class RoutingUtil extends AbstractServiceSubscriber
      *
      * Options:
      * - absoluteUrl (bool): Return absolute url (default: false)
+     * - route (string): Override the default backend route (default: contao_backend)
      *
      * @param array $params Url-Parameters
-     *
+     * @param bool $addToken
+     * @param bool $addReferer
+     * @param array{
+     *     route: string,
+     *     absoluteUrl: bool,
+     * }|string $options
+     * @return string The backend route url
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     *
-     * @return string The backend route url
      */
-    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, string $route = 'contao_backend', array $options = []): string
+    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, $options = []): string
     {
+        if (is_string($options)) {
+            trigger_deprecation(
+                'heimrichhannot/contao-utils-bundle',
+                '2.244.0',
+                'Passing a string as fourth parameter is deprecated. Use an array with the key "route" instead.'
+            );
+            $options = ['route' => $options];
+        } elseif (!is_array($options)) {
+            throw new \InvalidArgumentException('Fourth parameter must be a string or an array.');
+        }
+
+        // support legacy method signature
+        if (func_num_args() > 4) {
+            trigger_deprecation(
+                'heimrichhannot/contao-utils-bundle',
+                '2.244.0',
+                'Passing more than four parameters is deprecated. Use an array as fourth parameter with the key "route" instead.'
+            );
+            $oldOptions = func_get_arg(4);
+            if (is_array($oldOptions)) {
+                $options = array_merge($options, $oldOptions);
+            } else {
+                throw new \InvalidArgumentException('Fifth parameter must be an array.');
+            }
+        }
+
         $options = array_merge(
             ['absoluteUrl' => false],
             $options
@@ -79,7 +110,7 @@ class RoutingUtil extends AbstractServiceSubscriber
         }
 
         return $this->router->generate(
-            $route,
+            $options['route'] ?? 'contao_backend',
             $params,
             $options['absoluteUrl'] ? UrlGeneratorInterface::ABSOLUTE_URL : UrlGeneratorInterface::ABSOLUTE_PATH
         );
