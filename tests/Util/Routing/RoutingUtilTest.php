@@ -95,5 +95,44 @@ class RoutingUtilTest extends AbstractUtilsTestCase
             'https://example.org/contao',
             $instance->generateBackendRoute([], false, false, 'contao_backend', ['absoluteUrl' => true])
         );
+
+
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->willReturnArgument(0);
+
+        $instance = $this->getTestInstance([
+            'router' => $router,
+            'container' => $container,
+        ]);
+
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, ['route' => 'test123']);
+        $this->assertSame('test123', $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, 'test123');
+        $this->assertSame('test123', $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, [], 'test123');
+        $this->assertSame('test123', $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, ['route' => 'test123'], 'test456');
+        $this->assertSame('test123', $result);
+
+        $router = $this->createMock(RouterInterface::class);
+        $router->method('generate')->willReturnArgument(2);
+
+        $instance = $this->getTestInstance([
+            'router' => $router,
+            'container' => $container,
+        ]);
+
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, ['route' => 'test123', 'absoluteUrl' => true]);
+        $this->assertSame((string)UrlGeneratorInterface::ABSOLUTE_URL, $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, 'test123');
+        $this->assertSame((string)UrlGeneratorInterface::ABSOLUTE_PATH, $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, ['absoluteUrl' => true], 'test123');
+        $this->assertSame((string)UrlGeneratorInterface::ABSOLUTE_URL, $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, ['route' => 'test123', 'absoluteUrl' => true], 'test456');
+        $this->assertSame((string)UrlGeneratorInterface::ABSOLUTE_URL, $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, ['route' => 'test123', 'absoluteUrl' => true], ['absoluteUrl' => false]);
+        $this->assertSame((string)UrlGeneratorInterface::ABSOLUTE_URL, $result);
+        $result = $instance->generateBackendRoute(['a' => 'b'], true, true, ['route' => 'test123'], ['absoluteUrl' => true]);
+        $this->assertSame((string)UrlGeneratorInterface::ABSOLUTE_URL, $result);
     }
 }

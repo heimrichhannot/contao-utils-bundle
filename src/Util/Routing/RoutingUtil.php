@@ -63,7 +63,7 @@ class RoutingUtil extends AbstractServiceSubscriber
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, $options = []): string
+    public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, $options = [], $route = []): string
     {
         if (is_string($options)) {
             trigger_deprecation(
@@ -76,18 +76,20 @@ class RoutingUtil extends AbstractServiceSubscriber
             throw new \InvalidArgumentException('Fourth parameter must be a string or an array.');
         }
 
-        // support legacy method signature
-        if (func_num_args() > 4) {
+        if (!empty($route)) {
             trigger_deprecation(
                 'heimrichhannot/contao-utils-bundle',
                 '2.244.0',
-                'Passing more than four parameters is deprecated. Use an array as fourth parameter with the key "route" instead.'
+                'Passing more than four parameters or the route parameter is deprecated. Use an array as fourth parameter \'options\' with the key "route" instead.'
             );
-            $oldOptions = func_get_arg(4);
-            if (is_array($oldOptions)) {
-                $options = array_merge($options, $oldOptions);
+            if (is_string($route)) {
+                if (!isset($options['route'])) {
+                    $options['route'] = $route;
+                }
+            } elseif (is_array($route)) {
+                $options = array_merge($route, $options);
             } else {
-                throw new \InvalidArgumentException('Fifth parameter must be an array.');
+                throw new \InvalidArgumentException('Parameter route must be a string or an array.');
             }
         }
 
