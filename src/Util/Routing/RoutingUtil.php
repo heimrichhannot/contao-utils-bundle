@@ -56,8 +56,8 @@ class RoutingUtil extends AbstractServiceSubscriber
      * @param bool $addToken
      * @param bool $addReferer
      * @param array{
-     *     route: string,
-     *     absoluteUrl: bool,
+     *     route?: string,
+     *     absoluteUrl?: bool,
      * }|string $options
      * @return string The backend route url
      * @throws ContainerExceptionInterface

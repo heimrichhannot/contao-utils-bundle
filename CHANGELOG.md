@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.244.1] - 2025-06-17
+- Fixed: possible breaking change in 1b0fe4b
+
 ## [2.244.0] - 2025-05-21
 - Added: allow instance of GetDcaFieldsOptions to be passed to DcaUtil::getDcaFields()
 
