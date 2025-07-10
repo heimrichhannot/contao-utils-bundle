@@ -157,13 +157,6 @@
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_filterByPrefixes">filterByPrefixes()</a>
-    <span>
-                                &nbsp;: array&lt;string|int, string&gt;    </span>
-</dt>
-<dd>Filter an Array by given prefixes.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_insertAfterKey">insertAfterKey()</a>
     <span>
                                 &nbsp;: void    </span>
@@ -204,66 +197,6 @@
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_filterByPrefixes">
-        filterByPrefixes()
-        <a href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_filterByPrefixes" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/StaticUtil/StaticArrayUtil.php"><a href="files/src-staticutil-staticarrayutil.html"><abbr title="src/StaticUtil/StaticArrayUtil.php">StaticArrayUtil.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">113</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Filter an Array by given prefixes.</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">filterByPrefixes</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$data</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$prefixes</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$data</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$prefixes</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, string&gt;</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">[]</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, string&gt;</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>the filtered array or $arrData if $prefix is empty</p>
-</section>
-
-            </section>
-
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                    -static                    "
->
     <h4 class="phpdocumentor-element__name" id="method_insertAfterKey">
         insertAfterKey()
         <a href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_insertAfterKey" class="headerlink"><i class="fas fa-link"></i></a>
@@ -272,7 +205,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/StaticUtil/StaticArrayUtil.php"><a href="files/src-staticutil-staticarrayutil.html"><abbr title="src/StaticUtil/StaticArrayUtil.php">StaticArrayUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">59</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -287,9 +220,9 @@
     
         <section class="phpdocumentor-description"><p>Additional options:</p>
 <ul>
-<li>(bool) strict: Strict behavior for array search. Default false</li>
-<li>(bool) attachMissingKey: Attach value to the end of the array if the key does not exist. Default: true</li>
-<li>(int) offset: Add additional offset.</li>
+<li>strict (bool):           Strict behavior for array search. (default: false)</li>
+<li>attachMissingKey (bool): Attach value to the end of the array if the key does not exist. (default: true)</li>
+<li>offset (int):            Add additional offset. (default: 0)</li>
 </ul>
 </section>
 
@@ -384,7 +317,7 @@ Array is passed as reference.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Array the new entry should inserted to</p>
+                    <section class="phpdocumentor-description"><p>The Array to modify</p>
 </section>
 
             </dd>
@@ -393,7 +326,7 @@ Array is passed as reference.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The key or keys where the new entry should be added before</p>
+                    <section class="phpdocumentor-description"><p>The key or keys before which the new entry should be added</p>
 </section>
 
             </dd>
@@ -402,7 +335,7 @@ Array is passed as reference.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The key of the entry that should be added</p>
+                    <section class="phpdocumentor-description"><p>The key of the entry added</p>
 </section>
 
             </dd>
@@ -411,7 +344,7 @@ Array is passed as reference.</p>
                 : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The value of the entry that should be added</p>
+                    <section class="phpdocumentor-description"><p>The value of the entry added</p>
 </section>
 
             </dd>
@@ -437,7 +370,7 @@ Array is passed as reference.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/StaticUtil/StaticArrayUtil.php"><a href="files/src-staticutil-staticarrayutil.html"><abbr title="src/StaticUtil/StaticArrayUtil.php">StaticArrayUtil.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">93</span>
+    <span class="phpdocumentor-element-found-in__line">89</span>
 
     </aside>
 
@@ -477,7 +410,7 @@ Array is passed as reference.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Returns true if the value has been found and removed, false in other cases</p>
+                <section class="phpdocumentor-description"><p>Returns true if the value has been found and removed, false otherwise.</p>
 </section>
 
             </section>
@@ -596,7 +529,6 @@ Array is passed as reference.</p>
                         <li class="phpdocumentor-on-this-page-section__title">Methods</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_filterByPrefixes">filterByPrefixes()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_insertAfterKey">insertAfterKey()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_insertBeforeKey">insertBeforeKey()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_removeValue">removeValue()</a></li>
