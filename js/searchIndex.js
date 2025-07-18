@@ -761,6 +761,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-DcaAuthorListener.html#method_getSubscribedServices"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\DcaAuthorListener\u003A\u003AcreateAuthorField\u0028\u0029",
+            "name": "createAuthorField",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-DcaAuthorListener.html#method_createAuthorField"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Exception\\InvalidUrlException",
             "name": "InvalidUrlException",
             "summary": "",
