@@ -121,6 +121,66 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-AbstractDcaField.html#method_createOptionObject"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasField",
+            "name": "AliasField",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasField.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasField\u003A\u003Aregister\u0028\u0029",
+            "name": "register",
+            "summary": "Register\u0020a\u0020dca\u0020to\u0020have\u0020an\u0020author\u0020field\u0020and\u0020update\u0020logic\u0020added.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasField.html#method_register"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasField\u003A\u003AstoreConfig\u0028\u0029",
+            "name": "storeConfig",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasField.html#method_storeConfig"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasField\u003A\u003AloadConfig\u0028\u0029",
+            "name": "loadConfig",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasField.html#method_loadConfig"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasField\u003A\u003AcreateOptionObject\u0028\u0029",
+            "name": "createOptionObject",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasField.html#method_createOptionObject"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasField\u003A\u003AgetField\u0028\u0029",
+            "name": "getField",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasField.html#method_getField"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasField\u003A\u003A\u0024tables",
+            "name": "tables",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasField.html#property_tables"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration",
+            "name": "AliasFieldConfiguration",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003AsetAliasExistCallback\u0028\u0029",
+            "name": "setAliasExistCallback",
+            "summary": "Override\u0020the\u0020default\u0020alias\u0020exist\u0020function.\u0020Provide\u0020as\u0020\u005BClass,\u0020\u0027method\u0027\u005D.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setAliasExistCallback"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003AsetFieldName\u0028\u0029",
+            "name": "setFieldName",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setFieldName"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003A\u0024aliasExistCallback",
+            "name": "aliasExistCallback",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_aliasExistCallback"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003A\u0024fieldName",
+            "name": "fieldName",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_fieldName"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AuthorField",
             "name": "AuthorField",
             "summary": "",
@@ -636,6 +696,26 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AbstractDcaFieldListener.html#property_container"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\AliasDcaFieldListener",
+            "name": "AliasDcaFieldListener",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AliasDcaFieldListener.html"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\AliasDcaFieldListener\u003A\u003AonLoadDataContainer\u0028\u0029",
+            "name": "onLoadDataContainer",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AliasDcaFieldListener.html#method_onLoadDataContainer"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\AliasDcaFieldListener\u003A\u003AonFieldsAliasSaveCallback\u0028\u0029",
+            "name": "onFieldsAliasSaveCallback",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AliasDcaFieldListener.html#method_onFieldsAliasSaveCallback"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\AliasDcaFieldListener\u003A\u003AgetSubscribedServices\u0028\u0029",
+            "name": "getSubscribedServices",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-AliasDcaFieldListener.html#method_getSubscribedServices"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\DateAddedFieldListener",
             "name": "DateAddedFieldListener",
             "summary": "",
@@ -720,6 +800,11 @@ Search.appendIndex(
             "name": "removeValue",
             "summary": "Removes\u0020a\u0020value\u0020from\u0020an\u0020array.",
             "url": "classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_removeValue"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\StaticUtil\\StaticArrayUtil\u003A\u003AfilterByPrefixes\u0028\u0029",
+            "name": "filterByPrefixes",
+            "summary": "Filter\u0020an\u0020Array\u0020by\u0020given\u0020prefixes.",
+            "url": "classes/HeimrichHannot-UtilsBundle-StaticUtil-StaticArrayUtil.html#method_filterByPrefixes"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\StaticUtil\\StaticClassUtil",
             "name": "StaticClassUtil",
