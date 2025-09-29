@@ -3,6 +3,7 @@
 namespace HeimrichHannot\UtilsBundle\Dca;
 
 /**
+ * @method static array<AliasFieldConfiguration> getRegistrations()
  * @method static AliasFieldConfiguration register(string $table)
  */
 class AliasField extends AbstractDcaField
