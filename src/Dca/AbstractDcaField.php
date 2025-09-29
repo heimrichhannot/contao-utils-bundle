@@ -4,6 +4,10 @@ namespace HeimrichHannot\UtilsBundle\Dca;
 
 abstract class AbstractDcaField
 {
+    abstract protected static function storeConfig(DcaFieldConfiguration $config): void;
+
+    abstract protected static function loadConfig(): array;
+
     /**
      * Register a dca to have an author field and update logic added.
      */
@@ -13,10 +17,6 @@ abstract class AbstractDcaField
         static::storeConfig($config);
         return $config;
     }
-
-    abstract protected static function storeConfig(DcaFieldConfiguration $config): void;
-
-    abstract protected static function loadConfig(): array;
 
     /**
      * @return array<DcaFieldConfiguration>
