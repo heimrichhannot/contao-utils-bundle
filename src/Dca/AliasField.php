@@ -2,18 +2,13 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
+/**
+ * @method static array<AliasFieldConfiguration> getRegistrations()
+ * @method static AliasFieldConfiguration register(string $table)
+ */
 class AliasField extends AbstractDcaField
 {
-    private static $tables = [];
-
-    /**
-     * @return AliasFieldConfiguration
-     */
-    public static function register(string $table): DcaFieldConfiguration
-    {
-        return parent::register($table);
-    }
-
+    private static array $tables = [];
 
     protected static function storeConfig(DcaFieldConfiguration $config): void
     {

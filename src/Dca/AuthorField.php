@@ -2,20 +2,16 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
+/**
+ * @method static array<AuthorFieldConfiguration> getRegistrations()
+ * @method static AuthorFieldConfiguration register(string $table)
+ */
 class AuthorField extends AbstractDcaField
 {
     public const TYPE_USER = 'user';
     public const TYPE_MEMBER = 'member';
 
-    protected static $tables = [];
-
-    /**
-     * @return array<AuthorFieldConfiguration>
-     */
-    public static function getRegistrations(): array
-    {
-        return parent::getRegistrations();
-    }
+    protected static array $tables = [];
 
     /**
      * @param string $table
