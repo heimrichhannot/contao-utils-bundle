@@ -746,6 +746,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-DcaAuthorListener.html#method_onLoadDataContainer"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\DcaAuthorListener\u003A\u003AonConfigCreateCallback\u0028\u0029",
+            "name": "onConfigCreateCallback",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-DcaAuthorListener.html#method_onConfigCreateCallback"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\DcaAuthorListener\u003A\u003AonConfigCopyCallback\u0028\u0029",
             "name": "onConfigCopyCallback",
             "summary": "",
@@ -765,6 +770,11 @@ Search.appendIndex(
             "name": "createAuthorField",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-DcaAuthorListener.html#method_createAuthorField"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\EventListener\\DcaField\\DcaAuthorListener\u003A\u003AsetAuthor\u0028\u0029",
+            "name": "setAuthor",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-EventListener-DcaField-DcaAuthorListener.html#method_setAuthor"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Exception\\InvalidUrlException",
             "name": "InvalidUrlException",
