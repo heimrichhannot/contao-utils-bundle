@@ -57,7 +57,7 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
             $titleField = $fieldConfiguration?->titleField ?? 'title';
 
             $value = $this->container->get('contao.slug')->generate(
-                (string)$row[$titleField],
+                (string)$row[$titleField] ?? '',
                 (int)$row['pid'],
                 $aliasExists
             );

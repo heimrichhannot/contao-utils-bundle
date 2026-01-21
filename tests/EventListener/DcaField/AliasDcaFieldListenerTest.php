@@ -180,6 +180,7 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
                 $this->table = $row['table'];
                 $this->strTable = $row['table'];
                 $this->id = $row['id'];
+                $this->intId = $row['id'];
                 $this->activeRecord = new class ($row) {
 
                     public function __construct(private array $row) {}
