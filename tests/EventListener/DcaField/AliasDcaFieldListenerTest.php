@@ -2,6 +2,7 @@
 
 namespace EventListener\DcaField;
 
+use Ausi\SlugGenerator\SlugGenerator;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Slug\Slug;
 use Contao\Database;
@@ -41,12 +42,64 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             $GLOBALS['TL_DCA']['tl_test']['fields']['alias']['save_callback'][0]
         );
 
-        AliasField::register('tl_test')->setAliasExistCallback(null);
+        AliasField::register('tl_test')->setGenerateAliasCallback(null);
         $instance->onLoadDataContainer('tl_test');
         $this->assertArrayHasKey('fields', $GLOBALS['TL_DCA']['tl_test']);
         $this->assertArrayHasKey('alias', $GLOBALS['TL_DCA']['tl_test']['fields']);
         $this->assertEmpty(
             $GLOBALS['TL_DCA']['tl_test']['fields']['alias']['save_callback']
+        );
+    }
+
+    public function testCustomTitleField()
+    {
+        $slug = $this->createMock(Slug::class);
+        $slug->expects($this->once())
+            ->method('generate')
+            ->willReturnCallback(function ($value) {
+                return (new SlugGenerator())->generate($value);
+            });
+
+        $framework = $this->createMock(ContaoFramework::class);
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->willReturnCallback(function (string $id) use ($slug, $framework) {
+            switch ($id) {
+                case 'contao.slug':
+                case Slug::class:
+                    return $slug;
+                case 'contao.framework':
+                    return $framework;
+                default:
+                    throw new \InvalidArgumentException("Unknown service: $id");
+            }
+        });
+
+        $listener = $this->getTestInstance([
+            'container' => $container,
+        ]);
+
+        AliasField::register('tl_test')
+            ->setTitleField('name');
+        $this->assertSame(
+            'test-name', $listener->onFieldsAliasSaveCallback(
+            '',
+            $this->createDataContainerMock(['table' => 'tl_test', 'id' => 1, 'name' => 'Test Name', 'pid' => 1])
+        )
+        );
+    }
+
+    public function testCustomFieldName()
+    {
+        $instance = $this->getTestInstance();
+        AliasField::register('tl_test')
+            ->setFieldName('customAlias');
+        $instance->onLoadDataContainer('tl_test');
+        $this->assertArrayHasKey('fields', $GLOBALS['TL_DCA']['tl_test']);
+        $this->assertArrayHasKey('customAlias', $GLOBALS['TL_DCA']['tl_test']['fields']);
+        $this->assertSame(
+            [AliasDcaFieldListener::class, 'onFieldsAliasSaveCallback'],
+            $GLOBALS['TL_DCA']['tl_test']['fields']['customAlias']['save_callback'][0]
         );
     }
 
@@ -76,50 +129,7 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             'container' => $container,
         ]);
 
-        $dc = new class () extends DataContainer
-        {
-            public int $id;
-            public string $table;
-            public object $activeRecord;
-
-            public function __construct()
-            {
-            }
-
-            public function __get($strKey)
-            {
-                if (isset($this->{$strKey})) {
-                    return $this->{$strKey};
-                }
-
-                return parent::__get($strKey);
-            }
-
-            public function __set($strKey, $varValue)
-            {
-                if (isset($this->{$strKey})) {
-                    $this->{$strKey} = $varValue;
-                } else {
-                    parent::__set($strKey, $varValue);
-                }
-            }
-
-            public function getPalette()
-            {
-                // TODO: Implement getPalette() method.
-            }
-
-            protected function save($varValue)
-            {
-                // TODO: Implement save() method.
-            }
-        };
-
-//        $dc = $this->createMock(DataContainer::class);
-        $dc->activeRecord = (object)['title' => 'Test', 'pid' => 1];
-        $dc->table = 'tl_article';
-        $dc->id = 1;
-
+        $dc = $this->createDataContainerMock(['table' => 'tl_article', 'id' => 1, 'title' => 'Test', 'pid' => 1]);
         $result = $listener->onFieldsAliasSaveCallback('', $dc);
         $this->assertEquals('generated-alias', $result);
     }
@@ -146,16 +156,11 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
         });
 
 
-
         $listener = $this->getTestInstance([
             'container' => $container,
         ]);
 
-        $dc = $this->createMock(DataContainer::class);
-        $dc->activeRecord = (object)['title' => 'Test', 'pid' => 1];
-        $dc->table = 'tl_article';
-        $dc->id = 1;
-
+        $dc = $this->createDataContainerMock(['table' => 'tl_article', 'id' => 1, 'title' => 'Test', 'pid' => 1]);
         $GLOBALS['TL_LANG']['ERR']['aliasNumeric'] = 'Alias darf nicht numerisch sein: %s';
 
         $listener->onFieldsAliasSaveCallback('123', $dc);
@@ -197,14 +202,77 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             'container' => $container,
         ]);
 
-        $dc = $this->createMock(DataContainer::class);
-        $dc->activeRecord = (object)['title' => 'Test', 'pid' => 1];
-        $dc->table = 'tl_article';
-        $dc->id = 1;
-
+        $dc = $this->createDataContainerMock(['table' => 'tl_article', 'id' => 1, 'title' => 'Test', 'pid' => 1]);
         $GLOBALS['TL_LANG']['ERR']['aliasExists'] = 'Alias existiert bereits: %s';
 
         $listener->onFieldsAliasSaveCallback('existing-alias', $dc);
+    }
+
+    private function createDataContainerMock(array $row): DataContainer
+    {
+        return new class ($row) extends DataContainer {
+            public int $id;
+            public string $table;
+            public object $activeRecord;
+
+            public function __construct(array $row)
+            {
+                $this->table = $row['table'];
+                $this->strTable = $row['table'];
+                $this->id = $row['id'];
+                $this->intId = $row['id'];
+                $this->activeRecord = new class ($row) {
+
+                    public function __construct(private array $row) {}
+
+                    public function row(): array
+                    {
+                        return $this->row;
+                    }
+                };
+
+                if (method_exists($this, 'setCurrentRecordCache')) {
+                    static::setCurrentRecordCache($this->id, $this->table, $row);
+                }
+            }
+
+            public function __get($strKey)
+            {
+                if (isset($this->{$strKey})) {
+                    return $this->{$strKey};
+                }
+
+                return parent::__get($strKey);
+            }
+
+            public function __set($strKey, $varValue)
+            {
+                if (isset($this->{$strKey})) {
+                    $this->{$strKey} = $varValue;
+                } else {
+                    parent::__set($strKey, $varValue);
+                }
+            }
+
+            public function getPalette()
+            {
+                // TODO: Implement getPalette() method.
+            }
+
+            protected function save($varValue)
+            {
+                // TODO: Implement save() method.
+            }
+
+            protected static function preloadCurrentRecords(array $ids, string $table): void {}
+
+            protected function denyAccessUnlessGranted($attribute, $subject): void
+            {
+                return;
+            }
+
+
+        };
     }
 
 }

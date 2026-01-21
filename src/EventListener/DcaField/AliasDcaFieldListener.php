@@ -23,8 +23,8 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
         $registration = AliasField::getRegistrations()[$table];
 
         $field = AliasField::getField();
-        if (is_array($registration->aliasExistCallback)) {
-            $field['save_callback'][] = $registration->aliasExistCallback;
+        if (is_array($registration->generateAliasCallback)) {
+            $field['save_callback'][] = $registration->generateAliasCallback;
         }
 
         $this->applyDefaultFieldAdjustments($field, $registration);
@@ -40,16 +40,29 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
                 ->execute($alias, $dc->id)
                 ->numRows > 0);
 
+        if (method_exists($dc, 'getCurrentRecord')) {
+            $row = $dc->getCurrentRecord();
+        } else {
+            /**
+             * Contao 4 fallback
+             * @todo Remove when contao 5 only
+             * @phpstan-ignore property.notFound
+             */
+            $row = $dc->activeRecord?->row() ?? [];
+        }
+
         // Generate an alias if there is none
         if (!$value) {
+            /** @var ?AliasFieldConfiguration $fieldConfiguration */
+            $fieldConfiguration = AliasField::getRegistrations()[$dc->table] ?? null;
+            $titleField = $fieldConfiguration?->titleField ?? 'title';
+
             $value = $this->container->get('contao.slug')->generate(
-                /** @phpstan-ignore property.notFound */
-                (string)$dc->activeRecord->title,
-                /** @phpstan-ignore property.notFound */
-                (int)$dc->activeRecord->pid,
+                (string)$row[$titleField] ?? '',
+                (int)$row['pid'],
                 $aliasExists
             );
-        } elseif (preg_match('/^[1-9]\d*$/', (string) $value)) {
+        } elseif (preg_match('/^[1-9]\d*$/', (string)$value)) {
             throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasNumeric'], $value));
         } elseif ($aliasExists($value)) {
             throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $value));

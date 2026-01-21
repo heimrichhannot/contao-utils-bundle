@@ -255,7 +255,6 @@ class Finder
             NewsModel::getTable(),
             'News ' . $model->headline . ' (ID: ' . $model->id . ')',
             (function () use ($model): \Generator {
-                /* @phpstan-ignore class.notFound */
                 yield ['table' => NewsArchiveModel::getTable(), 'id' => $model->pid];
             })()
         );
