@@ -44,7 +44,11 @@ class AliasFieldConfiguration extends DcaFieldConfiguration
      *
      * @param array<string, string> $aliasExistCallback
      */
-    public function setGenerateAliasCallback(?array $aliasExistCallback): AliasFieldConfiguration {}
+    public function setGenerateAliasCallback(?array $aliasExistCallback): AliasFieldConfiguration
+    {
+        $this->generateAliasCallback = $aliasExistCallback;
+        return $this;
+    }
 
     public function setFieldName(string $fieldName): AliasFieldConfiguration
     {

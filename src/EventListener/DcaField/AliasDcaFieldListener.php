@@ -46,14 +46,15 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
             /**
              * Contao 4 fallback
              * @todo Remove when contao 5 only
-             * @phpstan-ignore property.notFound
              */
             $row = $dc->activeRecord->row();
         }
 
         // Generate an alias if there is none
         if (!$value) {
-            $titleField = AliasField::getRegistrations()[$dc->table]?->titleField ?? 'title';
+            /** @var ?AliasFieldConfiguration $fieldConfiguration */
+            $fieldConfiguration = AliasField::getRegistrations()[$dc->table];
+            $titleField = $fieldConfiguration?->titleField ?? 'title';
 
             $value = $this->container->get('contao.slug')->generate(
                 (string)$row[$titleField],
