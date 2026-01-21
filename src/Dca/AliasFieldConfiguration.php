@@ -28,8 +28,6 @@ class AliasFieldConfiguration extends DcaFieldConfiguration
     public ?array $generateAliasCallback = [AliasDcaFieldListener::class, 'onFieldsAliasSaveCallback'];
 
     /**
-     * Override the default alias exist function. Provide as [Class, 'method'].
-     *
      * @param array<string, string> $aliasExistCallback
      * @deprecated Deprecated since version 3.10. Use setGenerateAliasCallback instead.
      */
@@ -40,13 +38,13 @@ class AliasFieldConfiguration extends DcaFieldConfiguration
     }
 
     /**
-     * Override the default alias exist function. Provide as [Class, 'method'].
+     * Override the default alias generation function. Provide as [Class, 'method'].
      *
-     * @param array<string, string> $aliasExistCallback
+     * @param array<string, string> $callback
      */
-    public function setGenerateAliasCallback(?array $aliasExistCallback): AliasFieldConfiguration
+    public function setGenerateAliasCallback(?array $callback): AliasFieldConfiguration
     {
-        $this->generateAliasCallback = $aliasExistCallback;
+        $this->generateAliasCallback = $callback;
         return $this;
     }
 
@@ -56,6 +54,9 @@ class AliasFieldConfiguration extends DcaFieldConfiguration
         return $this;
     }
 
+    /**
+     * Set the field name from which the alias should be generated.
+     */
     public function setTitleField(string $titleField): AliasFieldConfiguration
     {
         $this->titleField = $titleField;

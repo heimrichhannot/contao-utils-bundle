@@ -48,7 +48,7 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
              * @todo Remove when contao 5 only
              * @phpstan-ignore property.notFound
              */
-            $row = $dc->activeRecord->row();
+            $row = $dc->activeRecord?->row() ?? [];
         }
 
         // Generate an alias if there is none

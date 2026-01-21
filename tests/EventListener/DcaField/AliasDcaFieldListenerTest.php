@@ -2,6 +2,7 @@
 
 namespace EventListener\DcaField;
 
+use Ausi\SlugGenerator\SlugGenerator;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Slug\Slug;
 use Contao\Database;
@@ -41,12 +42,50 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             $GLOBALS['TL_DCA']['tl_test']['fields']['alias']['save_callback'][0]
         );
 
-        AliasField::register('tl_test')->setAliasExistCallback(null);
+        AliasField::register('tl_test')->setGenerateAliasCallback(null);
         $instance->onLoadDataContainer('tl_test');
         $this->assertArrayHasKey('fields', $GLOBALS['TL_DCA']['tl_test']);
         $this->assertArrayHasKey('alias', $GLOBALS['TL_DCA']['tl_test']['fields']);
         $this->assertEmpty(
             $GLOBALS['TL_DCA']['tl_test']['fields']['alias']['save_callback']
+        );
+    }
+
+    public function testCustomTitleField()
+    {
+        $slug = $this->createMock(Slug::class);
+        $slug->expects($this->once())
+            ->method('generate')
+            ->willReturnCallback(function ($value) {
+                return (new SlugGenerator())->generate($value);
+            });
+
+        $framework = $this->createMock(ContaoFramework::class);
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->willReturnCallback(function (string $id) use ($slug, $framework) {
+            switch ($id) {
+                case 'contao.slug':
+                case Slug::class:
+                    return $slug;
+                case 'contao.framework':
+                    return $framework;
+                default:
+                    throw new \InvalidArgumentException("Unknown service: $id");
+            }
+        });
+
+        $listener = $this->getTestInstance([
+            'container' => $container,
+        ]);
+
+        AliasField::register('tl_test')
+            ->setTitleField('name');
+        $this->assertSame(
+            'test-name', $listener->onFieldsAliasSaveCallback(
+            '',
+            $this->createDataContainerMock(['table' => 'tl_test', 'id' => 1, 'name' => 'Test Name', 'pid' => 1])
+        )
         );
     }
 
@@ -155,19 +194,6 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
         $listener->onFieldsAliasSaveCallback('existing-alias', $dc);
     }
 
-    private function createActiveRecord(array $row)
-    {
-        return new class ($row) {
-
-            public function __construct(private array $row) {}
-
-            public function row(): array
-            {
-                return $this->row;
-            }
-        };
-    }
-
     private function createDataContainerMock(array $row): DataContainer
     {
         return new class ($row) extends DataContainer {
@@ -224,9 +250,7 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
                 // TODO: Implement save() method.
             }
 
-            protected static function preloadCurrentRecords(array $ids, string $table): void
-            {
-            }
+            protected static function preloadCurrentRecords(array $ids, string $table): void {}
 
             protected function denyAccessUnlessGranted($attribute, $subject): void
             {
