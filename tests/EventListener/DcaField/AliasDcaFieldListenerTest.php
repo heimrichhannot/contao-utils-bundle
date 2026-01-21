@@ -76,50 +76,7 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             'container' => $container,
         ]);
 
-        $dc = new class () extends DataContainer
-        {
-            public int $id;
-            public string $table;
-            public object $activeRecord;
-
-            public function __construct()
-            {
-            }
-
-            public function __get($strKey)
-            {
-                if (isset($this->{$strKey})) {
-                    return $this->{$strKey};
-                }
-
-                return parent::__get($strKey);
-            }
-
-            public function __set($strKey, $varValue)
-            {
-                if (isset($this->{$strKey})) {
-                    $this->{$strKey} = $varValue;
-                } else {
-                    parent::__set($strKey, $varValue);
-                }
-            }
-
-            public function getPalette()
-            {
-                // TODO: Implement getPalette() method.
-            }
-
-            protected function save($varValue)
-            {
-                // TODO: Implement save() method.
-            }
-        };
-
-//        $dc = $this->createMock(DataContainer::class);
-        $dc->activeRecord = (object)['title' => 'Test', 'pid' => 1];
-        $dc->table = 'tl_article';
-        $dc->id = 1;
-
+        $dc = $this->createDataContainerMock(['table' => 'tl_article', 'id' => 1, 'title' => 'Test', 'pid' => 1]);
         $result = $listener->onFieldsAliasSaveCallback('', $dc);
         $this->assertEquals('generated-alias', $result);
     }
@@ -146,16 +103,11 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
         });
 
 
-
         $listener = $this->getTestInstance([
             'container' => $container,
         ]);
 
-        $dc = $this->createMock(DataContainer::class);
-        $dc->activeRecord = (object)['title' => 'Test', 'pid' => 1];
-        $dc->table = 'tl_article';
-        $dc->id = 1;
-
+        $dc = $this->createDataContainerMock(['table' => 'tl_article', 'id' => 1, 'title' => 'Test', 'pid' => 1]);
         $GLOBALS['TL_LANG']['ERR']['aliasNumeric'] = 'Alias darf nicht numerisch sein: %s';
 
         $listener->onFieldsAliasSaveCallback('123', $dc);
@@ -197,14 +149,75 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             'container' => $container,
         ]);
 
-        $dc = $this->createMock(DataContainer::class);
-        $dc->activeRecord = (object)['title' => 'Test', 'pid' => 1];
-        $dc->table = 'tl_article';
-        $dc->id = 1;
-
+        $dc = $this->createDataContainerMock(['table' => 'tl_article', 'id' => 1, 'title' => 'Test', 'pid' => 1]);
         $GLOBALS['TL_LANG']['ERR']['aliasExists'] = 'Alias existiert bereits: %s';
 
         $listener->onFieldsAliasSaveCallback('existing-alias', $dc);
+    }
+
+    private function createActiveRecord(array $row)
+    {
+        return new class ($row) {
+
+            public function __construct(private array $row) {}
+
+            public function row(): array
+            {
+                return $this->row;
+            }
+        };
+    }
+
+    private function createDataContainerMock(array $row): DataContainer
+    {
+        return new class ($row) extends DataContainer {
+            public int $id;
+            public string $table;
+            public object $activeRecord;
+
+            public function __construct(array $row)
+            {
+                $this->table = $row['table'];
+                $this->id = $row['id'];
+                $this->activeRecord = new class ($row) {
+
+                    public function __construct(private array $row) {}
+
+                    public function row(): array
+                    {
+                        return $this->row;
+                    }
+                };
+            }
+
+            public function __get($strKey)
+            {
+                if (isset($this->{$strKey})) {
+                    return $this->{$strKey};
+                }
+
+                return parent::__get($strKey);
+            }
+
+            public function __set($strKey, $varValue)
+            {
+                if (isset($this->{$strKey})) {
+                    $this->{$strKey} = $varValue;
+                } else {
+                    parent::__set($strKey, $varValue);
+                }
+            }
+
+            public function getPalette()
+            {
+                // TODO: Implement getPalette() method.
+            }
+
+            protected function save($varValue)
+            {
+                // TODO: Implement save() method.
+            }
+        };
     }
 
 }

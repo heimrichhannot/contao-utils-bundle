@@ -53,7 +53,7 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
         // Generate an alias if there is none
         if (!$value) {
             /** @var ?AliasFieldConfiguration $fieldConfiguration */
-            $fieldConfiguration = AliasField::getRegistrations()[$dc->table];
+            $fieldConfiguration = AliasField::getRegistrations()[$dc->table] ?? null;
             $titleField = $fieldConfiguration?->titleField ?? 'title';
 
             $value = $this->container->get('contao.slug')->generate(
