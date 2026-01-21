@@ -196,7 +196,7 @@ class ModelUtilTest extends AbstractUtilsTestCase
             $schemaManager =  $this->createMock(AbstractSchemaManager::class);
             $schema = $this->createMock(Schema::class);
             $schema->method('getTables')->willReturn([]);
-            $schemaManager->method('createSchema')->willReturn($schema);
+//            $schemaManager->method('createSchema')->willReturn($schema);
             $schemaManager->method('introspectSchema')->willReturn($schema);
             return $schemaManager;
         });
