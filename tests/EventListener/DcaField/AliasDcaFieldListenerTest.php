@@ -178,6 +178,7 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             public function __construct(array $row)
             {
                 $this->table = $row['table'];
+                $this->strTable = $row['table'];
                 $this->id = $row['id'];
                 $this->activeRecord = new class ($row) {
 
@@ -188,6 +189,10 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
                         return $this->row;
                     }
                 };
+
+                if (method_exists($this, 'setCurrentRecordCache')) {
+                    static::setCurrentRecordCache($this->id, $this->table, $row);
+                }
             }
 
             public function __get($strKey)
@@ -217,6 +222,17 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
             {
                 // TODO: Implement save() method.
             }
+
+            protected static function preloadCurrentRecords(array $ids, string $table): void
+            {
+            }
+
+            protected function denyAccessUnlessGranted($attribute, $subject): void
+            {
+                return;
+            }
+
+
         };
     }
 
