@@ -30,6 +30,7 @@ class AliasFieldConfiguration extends DcaFieldConfiguration
     /**
      * @param array<string, string> $aliasExistCallback
      * @deprecated Deprecated since version 3.10. Use setGenerateAliasCallback instead.
+     * @codeCoverageIgnore 
      */
     public function setAliasExistCallback(?array $aliasExistCallback): AliasFieldConfiguration
     {

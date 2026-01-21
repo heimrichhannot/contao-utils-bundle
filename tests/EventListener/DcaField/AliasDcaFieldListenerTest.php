@@ -89,6 +89,20 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
         );
     }
 
+    public function testCustomFieldName()
+    {
+        $instance = $this->getTestInstance();
+        AliasField::register('tl_test')
+            ->setFieldName('customAlias');
+        $instance->onLoadDataContainer('tl_test');
+        $this->assertArrayHasKey('fields', $GLOBALS['TL_DCA']['tl_test']);
+        $this->assertArrayHasKey('customAlias', $GLOBALS['TL_DCA']['tl_test']['fields']);
+        $this->assertSame(
+            [AliasDcaFieldListener::class, 'onFieldsAliasSaveCallback'],
+            $GLOBALS['TL_DCA']['tl_test']['fields']['customAlias']['save_callback'][0]
+        );
+    }
+
     public function testOnFieldsAliasSaveCallbackGeneratesAliasIfEmpty()
     {
         $slug = $this->createMock(Slug::class);
