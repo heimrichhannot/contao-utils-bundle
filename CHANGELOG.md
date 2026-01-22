@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.10.0] - 2026-01-22
+- Added: Option to adjust the field where the alias is generated from (instead of overriding the complete method) ([#106](https://github.com/heimrichhannot/contao-utils-bundle/pull/106))
+- Added: AliasFieldConfiguration::setGenerateAliasCallback() ([#106](https://github.com/heimrichhannot/contao-utils-bundle/pull/106))
+- Changed: allow symfony 7 ([#106](https://github.com/heimrichhannot/contao-utils-bundle/pull/106))
+- Changed: drop doctrine 2 support ([#106](https://github.com/heimrichhannot/contao-utils-bundle/pull/106))
+- Deprecated: AliasFieldConfiguration::setAliasExistCallback() since the name is incorrect. Use `setGenerateAliasCallback` instead ([#106](https://github.com/heimrichhannot/contao-utils-bundle/pull/106))
+
 ## [3.9.5] - 2025-12-11
 - Fixed: exception in entity finder with pages that need item
 
