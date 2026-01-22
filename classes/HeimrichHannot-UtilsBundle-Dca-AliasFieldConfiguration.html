@@ -155,18 +155,6 @@
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_aliasExistCallback">$aliasExistCallback</a>
-    <span>
-                        &nbsp;: array&lt;string|int, mixed&gt;|null            </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_fieldName">$fieldName</a>
-    <span>
-                        &nbsp;: string            </span>
-</dt>
-
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#property_eval">$eval</a>
     <span>
@@ -272,11 +260,10 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setAliasExistCallback">setAliasExistCallback()</a>
+    <a class="-deprecated" href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setAliasExistCallback">setAliasExistCallback()</a>
     <span>
                                 &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a>    </span>
 </dt>
-<dd>Override the default alias exist function. Provide as [Class, &#039;method&#039;].</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setEvalValue">setEvalValue()</a>
@@ -309,6 +296,13 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setGenerateAliasCallback">setGenerateAliasCallback()</a>
+    <span>
+                                &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a>    </span>
+</dt>
+<dd>Override the default alias generation function. Provide as [Class, &#039;method&#039;].</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setSearch">setSearch()</a>
     <span>
                                 &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\DcaFieldConfiguration">DcaFieldConfiguration</abbr></a>    </span>
@@ -319,6 +313,13 @@
     <span>
                                 &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\DcaFieldConfiguration">DcaFieldConfiguration</abbr></a>    </span>
 </dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setTitleField">setTitleField()</a>
+    <span>
+                                &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a>    </span>
+</dt>
+<dd>Set the field name from which the alias should be generated.</dd>
 
     </dl>
 
@@ -333,78 +334,6 @@
             <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_aliasExistCallback">
-        $aliasExistCallback
-        <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_aliasExistCallback" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/AliasFieldConfiguration.php"><a href="files/src-dca-aliasfieldconfiguration.html"><abbr title="src/Dca/AliasFieldConfiguration.php">AliasFieldConfiguration.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">9</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;|null</span>
-    <span class="phpdocumentor-signature__name">$aliasExistCallback</span>
-     = <span class="phpdocumentor-signature__default-value">[\HeimrichHannot\UtilsBundle\EventListener\DcaField\AliasDcaFieldListener::class, &#039;onFieldsAliasSaveCallback&#039;]</span></code>
-
-    
-    
-    
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_fieldName">
-        $fieldName
-        <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_fieldName" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/AliasFieldConfiguration.php"><a href="files/src-dca-aliasfieldconfiguration.html"><abbr title="src/Dca/AliasFieldConfiguration.php">AliasFieldConfiguration.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">11</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$fieldName</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;alias&#039;</span></code>
-
-    
-    
-    
-
-    
-
-</article>
                     <article
         class="
             phpdocumentor-element
@@ -1023,7 +952,7 @@
         class="phpdocumentor-element
             -method
             -public
-                                                        "
+            -deprecated                                            "
 >
     <h4 class="phpdocumentor-element__name" id="method_setAliasExistCallback">
         setAliasExistCallback()
@@ -1033,17 +962,23 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/AliasFieldConfiguration.php"><a href="files/src-dca-aliasfieldconfiguration.html"><abbr title="src/Dca/AliasFieldConfiguration.php">AliasFieldConfiguration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Override the default alias exist function. Provide as [Class, &#039;method&#039;].</p>
-
-    <code class="phpdocumentor-code phpdocumentor-signature ">
+    
+    <code class="phpdocumentor-code phpdocumentor-signature -deprecated">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">setAliasExistCallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$aliasExistCallback</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
+        </div>
+                <div class="phpdocumentor-admonition">
+        <svg class="phpdocumentor-admonition__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <article>
+                <p>Deprecated since version 3.10. Use setGenerateAliasCallback instead.</p>
+
+            </article>
         </div>
     
     
@@ -1059,6 +994,20 @@
             </dl>
 
     
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setAliasExistCallback#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">codeCoverageIgnore</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                             
+                                    </dd>
+                                            </dl>
 
     
 
@@ -1185,7 +1134,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/AliasFieldConfiguration.php"><a href="files/src-dca-aliasfieldconfiguration.html"><abbr title="src/Dca/AliasFieldConfiguration.php">AliasFieldConfiguration.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -1321,6 +1270,55 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_setGenerateAliasCallback">
+        setGenerateAliasCallback()
+        <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setGenerateAliasCallback" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/AliasFieldConfiguration.php"><a href="files/src-dca-aliasfieldconfiguration.html"><abbr title="src/Dca/AliasFieldConfiguration.php">AliasFieldConfiguration.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">46</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Override the default alias generation function. Provide as [Class, &#039;method&#039;].</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setGenerateAliasCallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$callback</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$callback</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_setSearch">
         setSearch()
         <a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setSearch" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1408,6 +1406,55 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\DcaFieldConfiguration">DcaFieldConfiguration</abbr></a></span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setTitleField">
+        setTitleField()
+        <a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setTitleField" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Dca/AliasFieldConfiguration.php"><a href="files/src-dca-aliasfieldconfiguration.html"><abbr title="src/Dca/AliasFieldConfiguration.php">AliasFieldConfiguration.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">61</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Set the field name from which the alias should be generated.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setTitleField</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$titleField</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a></span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$titleField</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html"><abbr title="\HeimrichHannot\UtilsBundle\Dca\AliasFieldConfiguration">AliasFieldConfiguration</abbr></a></span>
             </section>
 
 </article>
@@ -1524,8 +1571,6 @@
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_aliasExistCallback">$aliasExistCallback</a></li>
-                                                    <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_fieldName">$fieldName</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#property_eval">$eval</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#property_exclude">$exclude</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#property_filter">$filter</a></li>
@@ -1548,14 +1593,16 @@
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_isFilter">isFilter()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_isSearch">isSearch()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_isSorting">isSorting()</a></li>
-                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setAliasExistCallback">setAliasExistCallback()</a></li>
+                                            <li class="-deprecated"><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setAliasExistCallback">setAliasExistCallback()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setEvalValue">setEvalValue()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setExclude">setExclude()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setFieldName">setFieldName()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setFilter">setFilter()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setFlag">setFlag()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setGenerateAliasCallback">setGenerateAliasCallback()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setSearch">setSearch()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-DcaFieldConfiguration.html#method_setSorting">setSorting()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setTitleField">setTitleField()</a></li>
                                     </ul>
             </li>
                     </ul>

@@ -163,23 +163,23 @@ Search.appendIndex(
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003AsetAliasExistCallback\u0028\u0029",
             "name": "setAliasExistCallback",
-            "summary": "Override\u0020the\u0020default\u0020alias\u0020exist\u0020function.\u0020Provide\u0020as\u0020\u005BClass,\u0020\u0027method\u0027\u005D.",
+            "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setAliasExistCallback"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003AsetGenerateAliasCallback\u0028\u0029",
+            "name": "setGenerateAliasCallback",
+            "summary": "Override\u0020the\u0020default\u0020alias\u0020generation\u0020function.\u0020Provide\u0020as\u0020\u005BClass,\u0020\u0027method\u0027\u005D.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setGenerateAliasCallback"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003AsetFieldName\u0028\u0029",
             "name": "setFieldName",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setFieldName"
         },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003A\u0024aliasExistCallback",
-            "name": "aliasExistCallback",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_aliasExistCallback"
-        },                {
-            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003A\u0024fieldName",
-            "name": "fieldName",
-            "summary": "",
-            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#property_fieldName"
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AliasFieldConfiguration\u003A\u003AsetTitleField\u0028\u0029",
+            "name": "setTitleField",
+            "summary": "Set\u0020the\u0020field\u0020name\u0020from\u0020which\u0020the\u0020alias\u0020should\u0020be\u0020generated.",
+            "url": "classes/HeimrichHannot-UtilsBundle-Dca-AliasFieldConfiguration.html#method_setTitleField"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\Dca\\AuthorField",
             "name": "AuthorField",
