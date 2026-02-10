@@ -168,9 +168,12 @@ class FormatterUtil
                 : $reference;
         }
 
-        if ($settings->replaceInsertTags)
-        {
-            $value = $this->insertTagParser->replace($value);
+        if (is_int($value) || null === $value) {
+            return $value;
+        }
+
+        if ($settings->replaceInsertTags) {
+            $value = $this->insertTagParser->replace((string)$value);
         }
 
         return Str::specialchars($value);

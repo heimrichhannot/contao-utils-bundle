@@ -12,7 +12,7 @@ class Element
         public readonly int     $id,
         public readonly string  $table,
         public readonly ?string $description = null,
-        public readonly ?iterable $parents = null
+        public readonly iterable|null $parents = null
     )
     {
     }

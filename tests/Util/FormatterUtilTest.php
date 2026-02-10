@@ -70,5 +70,16 @@ class FormatterUtilTest extends ContaoTestCase
                     ->setDcaOverride(['inputType' => 'text'])
             )
         );
+
+        $this->assertEquals(
+            '',
+            $formatterUtil->formatDcaFieldValue(
+                $dataContainer,
+                'message',
+                null,
+                FormatterUtil\FormatDcaFieldValueOptions::create()
+                    ->setDcaOverride(['inputType' => 'textarea'])
+            )
+        );
     }
 }

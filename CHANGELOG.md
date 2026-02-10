@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.10.1] - 2026-02-10
+- Fixed: exception in FormatterUtil when value is null
+
 ## [3.10.0] - 2026-01-22
 - Added: Option to adjust the field where the alias is generated from (instead of overriding the complete method) ([#106](https://github.com/heimrichhannot/contao-utils-bundle/pull/106))
 - Added: AliasFieldConfiguration::setGenerateAliasCallback() ([#106](https://github.com/heimrichhannot/contao-utils-bundle/pull/106))
