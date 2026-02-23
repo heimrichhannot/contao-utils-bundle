@@ -23,4 +23,5 @@ docs/build
 
 # PHPUnit
 .phpunit.result.cache
+.phpunit.cache/
 /var

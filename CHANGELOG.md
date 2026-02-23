@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.244.2] - 2026-02-23
+- Fixed: bool calculation in FormUtil::prepareSpecialValueForOutput
+
 ## [2.244.1] - 2025-06-17
 - Fixed: possible breaking change in 1b0fe4b
 

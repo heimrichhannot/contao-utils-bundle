@@ -21,6 +21,7 @@ use Contao\Widget;
 use HeimrichHannot\UtilsBundle\Model\CfgTagModel;
 use HeimrichHannot\UtilsBundle\Request\RequestCleaner;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use function Symfony\Component\String\b;
 
 /**
  * Class FormUtil.
@@ -48,13 +49,13 @@ class FormUtil
     /**
      * Get a new widget instance based on given attributes from a Data Container array.
      *
-     * @param string             $name   The field name in the form
-     * @param array              $data   The field configuration array
-     * @param mixed              $value  The field value
-     * @param string             $dbName The field name in the database
-     * @param string             $table  The table name in the database
-     * @param DataContainer|null $dc     An optional DataContainer object
-     * @param string             $mode   The contao mode, use FE or BE to get proper widget/form type
+     * @param string $name The field name in the form
+     * @param array $data The field configuration array
+     * @param mixed $value The field value
+     * @param string $dbName The field name in the database
+     * @param string $table The table name in the database
+     * @param DataContainer|null $dc An optional DataContainer object
+     * @param string $mode The contao mode, use FE or BE to get proper widget/form type
      *
      * @return Widget|null The new widget based on given attributes
      */
@@ -160,15 +161,15 @@ class FormUtil
                         $label = '';
 
                         if (!$skipMceFieldLabels) {
-                            $label = ($dca['label'][0] ?: $fieldName).': ';
+                            $label = ($dca['label'][0] ?: $fieldName) . ': ';
 
                             if ($skipMceFieldLabelFormatting) {
-                                $label = $fieldName.': ';
+                                $label = $fieldName . ': ';
                             }
                         }
 
                         // indent new line
-                        $formatted .= $mceFieldSeparator.$label.$this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
+                        $formatted .= $mceFieldSeparator . $label . $this->prepareSpecialValueForOutput($fieldName, $fieldValue, $dc, array_merge($config, [
                                 '_dcaOverride' => $dca,
                             ]));
                     }
@@ -193,7 +194,7 @@ class FormUtil
                 $data['unit'] = '';
             }
 
-            return $data['value'].$arraySeparator.$data['unit'];
+            return $data['value'] . $arraySeparator . $data['unit'];
         }
 
         // Recursively apply logic to array
@@ -271,11 +272,11 @@ class FormUtil
             $value = Date::parse(Config::get('datimFormat'), $value);
         } elseif (Validator::isBinaryUuid($value)) {
             $strPath = $this->container->get('huh.utils.file')->getPathFromUuid($value);
-            $value = $strPath ? Environment::get('url').'/'.$strPath : StringUtil::binToUuid($value);
+            $value = $strPath ? Environment::get('url') . '/' . $strPath : StringUtil::binToUuid($value);
         } // Replace boolean checkbox value with "yes" and "no"
         else {
             if ((isset($data['eval']['isBoolean']) && $data['eval']['isBoolean']) || ('checkbox' == $inputType && !($data['eval']['multiple'] ?? false))) {
-                $value = ('' != $value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
+                $value = $this->evaluateBoolean($value) ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
             } elseif (\is_array($options) && array_is_assoc($options)) {
                 $value = isset($options[$value]) ? $options[$value] : $value;
             }
@@ -341,12 +342,12 @@ class FormUtil
     /**
      * Get an instance of Widget by passing fieldname and dca data.
      *
-     * @param string     $fieldName     The field name
-     * @param array      $dca           The DCA
+     * @param string $fieldName The field name
+     * @param array $dca The DCA
      * @param array|null $value
-     * @param string     $dbField       The database field name
-     * @param string     $table         The table
-     * @param null       $dataContainer object The data container
+     * @param string $dbField The database field name
+     * @param string $table The table
+     * @param null $dataContainer object The data container
      *
      * @return Widget|null
      */
@@ -383,7 +384,7 @@ class FormUtil
                     continue;
                 }
 
-                $result[$prefix.$rawValuePrefix.$field] = $value;
+                $result[$prefix . $rawValuePrefix . $field] = $value;
             }
         }
 
@@ -398,12 +399,23 @@ class FormUtil
                     continue;
                 }
 
-                $result[$prefix.$formattedValuePrefix.$field] = $this->prepareSpecialValueForOutput(
+                $result[$prefix . $formattedValuePrefix . $field] = $this->prepareSpecialValueForOutput(
                     $field, $value, $dc, $formatOptions
                 );
             }
         }
 
         return $result;
+    }
+
+    public function evaluateBoolean(mixed $value): bool
+    {
+        if (is_int($value)) {
+            return $value > 0;
+        }
+        if (is_string($value)) {
+            return !empty($value);
+        }
+        return (bool)$value;
     }
 }
