@@ -4,6 +4,7 @@ namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\DataContainer;
+use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
 
 class DateAddedFieldListener extends AbstractDcaFieldListener
@@ -41,7 +42,11 @@ class DateAddedFieldListener extends AbstractDcaFieldListener
         }
 
         $model->dateAdded = time();
-        $model->save();
+        try {
+            $model->save();
+        } catch (\RuntimeException) {
+            $this->container->get(Connection::class)->update($model::getTable(), ['dateAdded' => $model->dateAdded], ['id' => $model->id]);
+        }
     }
 
     public function onCopyCallback(int $insertId, DataContainer $dc): void
@@ -58,4 +63,13 @@ class DateAddedFieldListener extends AbstractDcaFieldListener
         $model->dateAdded = time();
         $model->save();
     }
+
+    public static function getSubscribedServices(): array
+    {
+        $services = parent::getSubscribedServices();
+        $services[] = Connection::class;
+        return $services;
+    }
+
+
 }

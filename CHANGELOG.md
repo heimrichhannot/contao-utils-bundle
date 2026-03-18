@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.10.2] - 2026-03-18
+- Fixed: [DateAddedField] catch exception when model is readonly and fallback to database
+
 ## [3.10.1] - 2026-02-10
 - Fixed: exception in FormatterUtil when value is null
 
