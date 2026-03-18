@@ -122,7 +122,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
@@ -132,6 +132,23 @@
 
 
 
+    <section class="phpdocumentor-attributes">
+        <h5 class="phpdocumentor-elements__header" id="attributes">
+            Attributes <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#attributes" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h5>
+                    <dl class="phpdocumentor-argument-list">
+    <dt class="phpdocumentor-argument-list__entry">
+        #[<abbr title="\Symfony\Component\Console\Attribute\AsCommand">AsCommand</abbr>]
+    </dt>
+        <dd class="phpdocumentor-argument-list__entry">
+        $name: &#039;huh:utils:entity_finder&#039;
+    </dd>
+        <dd class="phpdocumentor-argument-list__entry">
+        $description: &#039;A command to find where an entity is included.&#039;
+    </dd>
+    </dl>
+            </section>
 
 
 
@@ -155,12 +172,6 @@
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_defaultName">$defaultName</a>
-    <span>
-                        &nbsp;: mixed            </span>
-</dt>
-
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_connection">$connection</a>
     <span>
@@ -191,12 +202,6 @@
                         &nbsp;: <abbr title="\HeimrichHannot\UtilsBundle\EntityFinder\Finder">Finder</abbr>            </span>
 </dt>
 
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_utils">$utils</a>
-    <span>
-                        &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a>            </span>
-</dt>
-
     </dl>
 
 <h4 id="toc-methods">
@@ -214,13 +219,13 @@
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_configure">configure()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: void    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -protected">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_execute">execute()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: int    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
@@ -233,12 +238,6 @@
     <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findEntity">findEntity()</a>
     <span>
                                 &nbsp;: string|null    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findFrontendModuleParents">findFrontendModuleParents()</a>
-    <span>
-                                &nbsp;: void    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
@@ -260,7 +259,7 @@
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
-    <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runExtendEntityFinderEvent">runExtendEntityFinderEvent()</a>
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runLegacyExtendEntityFinderEvent">runLegacyExtendEntityFinderEvent()</a>
     <span>
                                 &nbsp;: <a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a>    </span>
 </dt>
@@ -282,56 +281,20 @@
         class="
             phpdocumentor-element
             -property
-            -protected
-            -static                                            "
->
-    <h4 class="phpdocumentor-element__name" id="property_defaultName">
-        $defaultName
-        <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_defaultName" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">35</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-    <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">$defaultName</span>
-     = <span class="phpdocumentor-signature__default-value">&#039;huh:utils:entity_finder&#039;</span></code>
-
-    
-    
-    
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
             -private
-                                                        "
+                                                -read-only        "
 >
     <h4 class="phpdocumentor-element__name" id="property_connection">
         $connection
         <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_connection" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
@@ -355,19 +318,19 @@
             phpdocumentor-element
             -property
             -private
-                                                        "
+                                                -read-only        "
 >
     <h4 class="phpdocumentor-element__name" id="property_contaoFramework">
         $contaoFramework
         <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_contaoFramework" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">38</span>
 
     </aside>
 
@@ -391,19 +354,19 @@
             phpdocumentor-element
             -property
             -private
-                                                        "
+                                                -read-only        "
 >
     <h4 class="phpdocumentor-element__name" id="property_entityFinderHelper">
         $entityFinderHelper
         <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_entityFinderHelper" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">40</span>
+    <span class="phpdocumentor-element-found-in__line">41</span>
 
     </aside>
 
@@ -427,19 +390,19 @@
             phpdocumentor-element
             -property
             -private
-                                                        "
+                                                -read-only        "
 >
     <h4 class="phpdocumentor-element__name" id="property_eventDispatcher">
         $eventDispatcher
         <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_eventDispatcher" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">38</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -463,14 +426,14 @@
             phpdocumentor-element
             -property
             -private
-                                                        "
+                                                -read-only        "
 >
     <h4 class="phpdocumentor-element__name" id="property_finder">
         $finder
         <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_finder" class="headerlink"><i class="fas fa-link"></i></a>
 
         <span class="phpdocumentor-element__modifiers">
-                                </span>
+                        <small class="phpdocumentor-element__modifier">read-only</small>        </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
@@ -485,42 +448,6 @@
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type"><abbr title="\HeimrichHannot\UtilsBundle\EntityFinder\Finder">Finder</abbr></span>
     <span class="phpdocumentor-signature__name">$finder</span>
-    </code>
-
-    
-    
-    
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -private
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_utils">
-        $utils
-        <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_utils" class="headerlink"><i class="fas fa-link"></i></a>
-
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">41</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-        <span class="phpdocumentor-signature__type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a></span>
-    <span class="phpdocumentor-signature__name">$utils</span>
     </code>
 
     
@@ -552,14 +479,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$contaoFramework</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\EventDispatcher\EventDispatcherInterface">EventDispatcherInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventDispatcher</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Doctrine\DBAL\Connection">Connection</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html"><abbr title="\HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper">EntityFinderHelper</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$entityFinderHelper</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$utils</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\HeimrichHannot\UtilsBundle\EntityFinder\Finder">Finder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$finder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\CoreBundle\Framework\ContaoFramework">ContaoFramework</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$contaoFramework</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\EventDispatcher\EventDispatcherInterface">EventDispatcherInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventDispatcher</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Doctrine\DBAL\Connection">Connection</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$connection</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-EntityFinder-EntityFinderHelper.html"><abbr title="\HeimrichHannot\UtilsBundle\EntityFinder\EntityFinderHelper">EntityFinderHelper</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$entityFinderHelper</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\HeimrichHannot\UtilsBundle\EntityFinder\Finder">Finder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$finder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -596,13 +523,6 @@
                 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$utils</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-Util-Utils.html"><abbr title="\HeimrichHannot\UtilsBundle\Util\Utils">Utils</abbr></a></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$finder</span>
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\HeimrichHannot\UtilsBundle\EntityFinder\Finder">Finder</abbr></span>
                             </dt>
@@ -631,14 +551,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">63</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">configure</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">configure</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -665,14 +585,14 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">72</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-                    <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">execute</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Input\InputInterface">InputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$input</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Symfony\Component\Console\Output\OutputInterface">OutputInterface</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$output</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -700,7 +620,11 @@
 
     
 
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -716,7 +640,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">254</span>
+    <span class="phpdocumentor-element-found-in__line">208</span>
 
     </aside>
 
@@ -771,7 +695,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 
     </aside>
 
@@ -832,57 +756,6 @@
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_findFrontendModuleParents">
-        findFrontendModuleParents()
-        <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findFrontendModuleParents" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">282</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">findFrontendModuleParents</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\ModuleModel">ModuleModel</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$module</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$parents</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    <div class="phpdocumentor-label-line">
-        </div>
-    
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$module</span>
-                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Contao\ModuleModel">ModuleModel</abbr></span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$parents</span>
-                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-    
-
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -private
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_findInserttags">
         findInserttags()
         <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findInserttags" class="headerlink"><i class="fas fa-link"></i></a>
@@ -891,7 +764,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">313</span>
+    <span class="phpdocumentor-element-found-in__line">243</span>
 
     </aside>
 
@@ -935,7 +808,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">94</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 
     </aside>
 
@@ -990,7 +863,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">127</span>
+    <span class="phpdocumentor-element-found-in__line">106</span>
 
     </aside>
 
@@ -1047,22 +920,22 @@
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_runExtendEntityFinderEvent">
-        runExtendEntityFinderEvent()
-        <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runExtendEntityFinderEvent" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_runLegacyExtendEntityFinderEvent">
+        runLegacyExtendEntityFinderEvent()
+        <a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runLegacyExtendEntityFinderEvent" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Command/EntityFinderCommand.php"><a href="files/src-command-entityfindercommand.html"><abbr title="src/Command/EntityFinderCommand.php">EntityFinderCommand.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">272</span>
+    <span class="phpdocumentor-element-found-in__line">226</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">runExtendEntityFinderEvent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parents</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$onlyText</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a></span></code>
+                    <span class="phpdocumentor-signature__name">runLegacyExtendEntityFinderEvent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parents</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$onlyText</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><a href="classes/HeimrichHannot-UtilsBundle-Event-ExtendEntityFinderEvent.html"><abbr title="\HeimrichHannot\UtilsBundle\Event\ExtendEntityFinderEvent">ExtendEntityFinderEvent</abbr></a></span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -1223,13 +1096,11 @@
                             <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_defaultName">$defaultName</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_connection">$connection</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_contaoFramework">$contaoFramework</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_entityFinderHelper">$entityFinderHelper</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_eventDispatcher">$eventDispatcher</a></li>
                                                     <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_finder">$finder</a></li>
-                                                    <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#property_utils">$utils</a></li>
                                             </ul>
                 </li>
             
@@ -1241,11 +1112,10 @@
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_execute">execute()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_createText">createText()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findEntity">findEntity()</a></li>
-                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findFrontendModuleParents">findFrontendModuleParents()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_findInserttags">findInserttags()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_loop">loop()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_output">output()</a></li>
-                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runExtendEntityFinderEvent">runExtendEntityFinderEvent()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-Command-EntityFinderCommand.html#method_runLegacyExtendEntityFinderEvent">runLegacyExtendEntityFinderEvent()</a></li>
                                     </ul>
             </li>
                     </ul>
