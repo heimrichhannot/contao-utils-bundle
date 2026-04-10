@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.11.0] - 2026-04-10
+- Changed: allow doctrine 4
+
 ## [3.10.2] - 2026-03-18
 - Fixed: [DateAddedField] catch exception when model is readonly and fallback to database
 
