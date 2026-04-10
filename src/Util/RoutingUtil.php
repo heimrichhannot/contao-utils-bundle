@@ -9,8 +9,6 @@
 namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\CoreBundle\Csrf\ContaoCsrfTokenManager;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
