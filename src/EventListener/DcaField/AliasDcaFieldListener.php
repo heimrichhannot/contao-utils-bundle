@@ -46,7 +46,6 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
             /**
              * Contao 4 fallback
              * @todo Remove when contao 5 only
-             * @phpstan-ignore property.notFound
              */
             $row = $dc->activeRecord?->row() ?? [];
         }

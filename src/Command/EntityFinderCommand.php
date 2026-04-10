@@ -242,11 +242,11 @@ class EntityFinderCommand extends Command
 
     private function findInserttags(ExtendEntityFinderEvent $event): void
     {
-        $stmt = $this->connection->prepare(
-            "SELECT id FROM tl_module WHERE type='html' AND html LIKE ?");
-
         foreach ($event->getInserttags() as $inserttag) {
-            $result = $stmt->executeQuery(['%'.$inserttag.'%']);
+            $result = $this->connection->executeQuery(
+                "SELECT id FROM tl_module WHERE type='html' AND html LIKE ?",
+                ['%'.$inserttag.'%']
+            );
 
             foreach ($result->fetchAllAssociative() as $row) {
                 $event->addParent(ModuleModel::getTable(), $row['id']);

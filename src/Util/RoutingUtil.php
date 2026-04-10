@@ -39,9 +39,6 @@ class RoutingUtil
      *     route?: string
      * } $options Options
      *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     *
      * @return string The backend route url
      */
     public function generateBackendRoute(array $params = [], bool $addToken = true, bool $addReferer = true, array $options = []): string
