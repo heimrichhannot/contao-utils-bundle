@@ -59,7 +59,7 @@ use Vendor\Bundle\NewsCategoryModel;
 
 class EntityFinderFindEventListener
 {
-    private readonly NNewsCategoryFinder $newsCategoriesFinder;
+    private readonly NewsCategoryFinder $newsCategoriesFinder;
 
     #[AsEventListener(EntityFinderFindEvent::class)]
     public function __invoke(EntityFinderFindEvent $event): void

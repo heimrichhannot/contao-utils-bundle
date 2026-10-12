@@ -45,7 +45,10 @@ class Finder
         $method = u(str_starts_with($table, 'tl_') ? substr($table, 3) : $table)->camel()->toString();
 
         if (method_exists($this, $method)) {
-            return $this->$method($id);
+            $result = $this->$method($id);
+            if (null !== $result) {
+                return $result;
+            }
         }
 
         $event = $this->eventDispatcher->dispatch(new EntityFinderFindEvent($table, $id));
@@ -203,7 +206,7 @@ class Finder
         return new Element(
             $model->id,
             ModuleModel::getTable(),
-            'Module ' . $model->type . ' (ID: ' . $model->id . ')',
+            'Module: ' . $model->type . ' (ID: ' . $model->id . ')',
             (function () use ($model): \Generator {
 
                 yield ['table' => ThemeModel::getTable(), 'id' => $model->pid];
