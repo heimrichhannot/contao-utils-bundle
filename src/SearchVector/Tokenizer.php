@@ -14,7 +14,9 @@ class Tokenizer
     /**
      * Tokenize free text into normalized, optionally stemmed words, preserving their order.
      *
-     * Example: `Tokenizer::tokenize('Freie Strecke', 'de', new GermanStemmer()) === ['frei', 'streck']`
+     * Words are lowercased, stemmed and then stripped of accents, as stemmers rely on accents (e.g. German umlauts).
+     *
+     * Example: `Tokenizer::tokenize('Häuser in München', 'de', new SnowballStemmer()) === ['haus', 'in', 'munch']`
      *
      * @param string $locale The language of the text, passed to the stemmer
      *
@@ -29,11 +31,13 @@ class Tokenizer
         $tokens = [];
 
         foreach ($words as $word) {
-            $token = \trim(static::normalize($word), '-');
+            $token = \trim(\mb_strtolower($word, 'UTF-8'), '-');
 
             if ($token !== '' && $stemmer) {
                 $token = $stemmer->stem($token, $locale);
             }
+
+            $token = static::normalize($token);
 
             if ($token !== '') {
                 $tokens[] = $token;
@@ -49,8 +53,8 @@ class Tokenizer
      * Commas separate phrases (OR), the words of a phrase are combined with AND. A phrase wrapped in double quotes
      * stays a single term, so its word order matters.
      *
-     * Example: `Tokenizer::parseQuery('weihnachten bahn, "bei Nacht"', 'de', new GermanStemmer())`
-     * returns `[['weihnacht', 'bah'], ['bei nach']]`.
+     * Example: `Tokenizer::parseQuery('weihnachten bahn, "bei Nacht"', 'de', new SnowballStemmer())`
+     * returns `[['weihnacht', 'bahn'], ['bei nacht']]`.
      *
      * @param string $locale The language of the query, passed to the stemmer
      *

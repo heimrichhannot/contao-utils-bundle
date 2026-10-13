@@ -10,7 +10,7 @@ use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorFieldConfiguration;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorQuery;
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\GermanStemmer;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,9 +36,15 @@ class SearchVectorQueryTest extends ContaoTestCase
         ?callable $configure = null,
         ?RequestStack $requestStack = null,
     ): SearchVectorQuery {
+        $stemmerId = match (true) {
+            null === $stemmer => null,
+            $stemmer instanceof SnowballStemmer => SnowballStemmer::class,
+            default => 'test.stemmer',
+        };
+
         $configuration = SearchVectorField::register('tl_example')
             ->setFieldName($fieldName)
-            ->setStemmer($stemmer ? 'test.stemmer' : null);
+            ->setStemmer($stemmerId);
 
         if ($configure) {
             $configure($configuration);
@@ -49,7 +55,7 @@ class SearchVectorQueryTest extends ContaoTestCase
 
         $resolver = new SearchVectorConfigurationResolver(
             $this->mockContaoFramework([Controller::class => $controller]),
-            new ServiceLocator($stemmer ? ['test.stemmer' => static fn (): StemmerInterface => $stemmer] : []),
+            new ServiceLocator($stemmerId ? [$stemmerId => static fn (): StemmerInterface => $stemmer] : []),
             $requestStack ?? new RequestStack(),
             'de'
         );
@@ -73,7 +79,7 @@ class SearchVectorQueryTest extends ContaoTestCase
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->assertTrue($this->createQuery(new GermanStemmer())->apply($qb, 'tl_example', 'Weihnachten'));
+        $this->assertTrue($this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'Weihnachten'));
 
         $this->assertSame(
             'SELECT * FROM tl_example WHERE "tl_example"."searchVector" LIKE :dcValue1',
@@ -86,43 +92,43 @@ class SearchVectorQueryTest extends ContaoTestCase
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(new GermanStemmer())->apply($qb, 'tl_example', 'weihnachten bahn');
+        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'weihnachten bahn');
 
         $this->assertSame(
             'SELECT * FROM tl_example WHERE ("tl_example"."searchVector" LIKE :dcValue1) AND ("tl_example"."searchVector" LIKE :dcValue2)',
             $qb->getSQL()
         );
-        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bah%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bahn%'], $qb->getParameters());
     }
 
     public function testApplyCommaPhrasesAreCombinedWithOr(): void
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(new GermanStemmer())->apply($qb, 'tl_example', 'weihnachten bahn, kind');
+        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'weihnachten bahn, kind');
 
         $this->assertSame(
             'SELECT * FROM tl_example WHERE (("tl_example"."searchVector" LIKE :dcValue1) AND ("tl_example"."searchVector" LIKE :dcValue2)) OR ("tl_example"."searchVector" LIKE :dcValue3)',
             $qb->getSQL()
         );
-        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bah%', 'dcValue3' => '%kind%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bahn%', 'dcValue3' => '%kind%'], $qb->getParameters());
     }
 
     public function testApplyQuotedPhraseIsSingleTerm(): void
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(new GermanStemmer())->apply($qb, 'tl_example', '"bei Nacht"');
+        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', '"bei Nacht"');
 
         $this->assertSame('SELECT * FROM tl_example WHERE "tl_example"."searchVector" LIKE :dcValue1', $qb->getSQL());
-        $this->assertSame(['dcValue1' => '%bei nach%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%bei nacht%'], $qb->getParameters());
     }
 
     public function testApplyUsesDefaultLocaleOfResolver(): void
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(new GermanStemmer())->apply($qb, 'tl_example', 'Schulen');
+        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'Schulen');
 
         $this->assertSame(['dcValue1' => '%schul%'], $qb->getParameters());
     }
@@ -131,7 +137,7 @@ class SearchVectorQueryTest extends ContaoTestCase
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(new GermanStemmer(), 'searchVector', static fn (SearchVectorFieldConfiguration $c) => $c->setLanguage('en'))
+        $this->createQuery(new SnowballStemmer(), 'searchVector', static fn (SearchVectorFieldConfiguration $c) => $c->setLanguage('en'))
             ->apply($qb, 'tl_example', 'Schulen');
 
         $this->assertSame(['dcValue1' => '%schulen%'], $qb->getParameters());
@@ -139,7 +145,7 @@ class SearchVectorQueryTest extends ContaoTestCase
 
     public function testApplyWithExplicitLocaleDisablesGermanStemming(): void
     {
-        $query = $this->createQuery(new GermanStemmer());
+        $query = $this->createQuery(new SnowballStemmer());
 
         $german = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
         $query->apply($german, 'tl_example', 'Weihnachten Bahn, "bei Nacht"', null, 'de_CH');
@@ -147,7 +153,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $english = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
         $query->apply($english, 'tl_example', 'Weihnachten Bahn, "bei Nacht"', null, 'en');
 
-        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bah%', 'dcValue3' => '%bei nach%'], $german->getParameters());
+        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bahn%', 'dcValue3' => '%bei nacht%'], $german->getParameters());
         $this->assertSame(['dcValue1' => '%weihnachten%', 'dcValue2' => '%bahn%', 'dcValue3' => '%bei nacht%'], $english->getParameters());
     }
 
@@ -159,7 +165,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $requestStack->push($request);
 
         $query = $this->createQuery(
-            new GermanStemmer(),
+            new SnowballStemmer(),
             'searchVector',
             static fn (SearchVectorFieldConfiguration $c) => $c->setLanguageField('language')->setLanguage('de'),
             $requestStack
@@ -183,7 +189,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $requestStack->push($request);
 
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
-        $this->createQuery(new GermanStemmer(), 'searchVector', null, $requestStack)->apply($qb, 'tl_example', 'Schulen');
+        $this->createQuery(new SnowballStemmer(), 'searchVector', null, $requestStack)->apply($qb, 'tl_example', 'Schulen');
 
         $this->assertSame(['dcValue1' => '%schul%'], $qb->getParameters());
     }
@@ -248,7 +254,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example')->where('published = 1');
         $sql = $qb->getSQL();
 
-        $this->assertFalse($this->createQuery(new GermanStemmer())->apply($qb, 'tl_example', $search));
+        $this->assertFalse($this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', $search));
 
         $this->assertSame($sql, $qb->getSQL());
         $this->assertSame([], $qb->getParameters());
@@ -264,16 +270,16 @@ class SearchVectorQueryTest extends ContaoTestCase
     public function testApplyFindsMatchingRows(): void
     {
         $this->createTable([
-            1 => '| waldbah bei zwiesel | sommer | triebwag |',
-            2 => '| weihnacht markt | dresd |',
+            1 => '| waldbahn bei zwiesel | somm | triebwag |',
+            2 => '| weihnachtsmarkt | dresd |',
             3 => '| niederbayern-oberpfalz | liefer nach munch |',
             4 => '',
         ]);
-        $query = $this->createQuery(new GermanStemmer());
+        $query = $this->createQuery(new SnowballStemmer());
 
         // single word, matched as substring of a compound
         $this->assertSame([1], $this->search($query, 'Waldbahn'));
-        $this->assertSame([1], $this->search($query, 'bah'));
+        $this->assertSame([1], $this->search($query, 'bahn'));
         $this->assertSame([3], $this->search($query, 'Oberpfalz'));
         // inflection and umlaut
         $this->assertSame([3], $this->search($query, 'Lieferung München'));
@@ -304,18 +310,18 @@ class SearchVectorQueryTest extends ContaoTestCase
 
     public function testCreateModelCriteria(): void
     {
-        [$columns, $values] = $this->createQuery(new GermanStemmer())->createModelCriteria('tl_example', 'weihnachten bahn, "bei Nacht"');
+        [$columns, $values] = $this->createQuery(new SnowballStemmer())->createModelCriteria('tl_example', 'weihnachten bahn, "bei Nacht"');
 
         $this->assertSame(
             ['(("tl_example"."searchVector" LIKE ? AND "tl_example"."searchVector" LIKE ?) OR ("tl_example"."searchVector" LIKE ?))'],
             $columns
         );
-        $this->assertSame(['%weihnacht%', '%bah%', '%bei nach%'], $values);
+        $this->assertSame(['%weihnacht%', '%bahn%', '%bei nacht%'], $values);
     }
 
     public function testCreateModelCriteriaWithExplicitLocale(): void
     {
-        $query = $this->createQuery(new GermanStemmer());
+        $query = $this->createQuery(new SnowballStemmer());
 
         $this->assertSame(['%schul%'], $query->createModelCriteria('tl_example', 'Schulen')[1]);
         $this->assertSame(['%schul%'], $query->createModelCriteria('tl_example', 'Schulen', 'de')[1]);
@@ -341,7 +347,7 @@ class SearchVectorQueryTest extends ContaoTestCase
 
     public function testCreateModelCriteriaWithEmptySearch(): void
     {
-        $this->assertSame([[], []], $this->createQuery(new GermanStemmer())->createModelCriteria('tl_example', ' , "" '));
+        $this->assertSame([[], []], $this->createQuery(new SnowballStemmer())->createModelCriteria('tl_example', ' , "" '));
     }
 
     private function createTable(array $vectors): void

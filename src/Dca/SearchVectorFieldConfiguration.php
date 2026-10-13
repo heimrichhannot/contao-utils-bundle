@@ -2,8 +2,6 @@
 
 namespace HeimrichHannot\UtilsBundle\Dca;
 
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\GermanStemmer;
-
 class SearchVectorFieldConfiguration extends DcaFieldConfiguration
 {
     /**
@@ -11,7 +9,7 @@ class SearchVectorFieldConfiguration extends DcaFieldConfiguration
      */
     protected array $fields = [];
     protected string $fieldName = 'searchVector';
-    protected ?string $stemmer = GermanStemmer::class;
+    protected ?string $stemmer = null;
     protected ?string $language = null;
     protected ?string $languageField = null;
 
@@ -47,8 +45,8 @@ class SearchVectorFieldConfiguration extends DcaFieldConfiguration
     }
 
     /**
-     * The service id of a StemmerInterface implementation (usually its class name), or null to disable stemming.
-     * Rebuild the search vectors after changing the stemmer.
+     * The service id of a StemmerInterface implementation (usually its class name), e.g. SnowballStemmer::class.
+     * Stemming is disabled by default. Rebuild the search vectors after changing the stemmer.
      */
     public function setStemmer(?string $stemmer): SearchVectorFieldConfiguration
     {

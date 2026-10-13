@@ -5,7 +5,6 @@ namespace HeimrichHannot\UtilsBundle\Tests\Dca;
 use HeimrichHannot\UtilsBundle\Dca\DateAddedField;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorFieldConfiguration;
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\GermanStemmer;
 use PHPUnit\Framework\TestCase;
 
 class SearchVectorFieldTest extends TestCase
@@ -17,7 +16,7 @@ class SearchVectorFieldTest extends TestCase
         $this->assertInstanceOf(SearchVectorFieldConfiguration::class, $config);
         $this->assertSame('tl_search_vector_defaults', $config->getTable());
         $this->assertSame('searchVector', $config->getFieldName());
-        $this->assertSame(GermanStemmer::class, $config->getStemmer());
+        $this->assertNull($config->getStemmer());
         $this->assertTrue($config->isExclude());
         $this->assertSame([], $config->getFields());
         $this->assertNull($config->getLanguage());

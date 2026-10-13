@@ -13,7 +13,7 @@ use HeimrichHannot\UtilsBundle\Event\BuildSearchVectorEvent;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorDataContainer;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\GermanStemmer;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
@@ -86,7 +86,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
             ],
         ];
 
-        SearchVectorField::register(self::TABLE)->setFields(['title', 'text', 'category', 'seasons', 'notInRow']);
+        SearchVectorField::register(self::TABLE)->setStemmer(SnowballStemmer::class)->setFields(['title', 'text', 'category', 'seasons', 'notInRow']);
     }
 
     protected function tearDown(): void
@@ -108,7 +108,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         // Text and HTML are flattened, insert tags removed, option values replaced by their labels and every array
         // value is a separate section
-        $this->assertSame('| waldbah bei zwiesel | fahr im somm mehr | triebwag | fruhling | schon winterzei |', $vector);
+        $this->assertSame('| waldbahn bei zwiesel | fahrt im somm mehr | triebwag | fruhling | schon winterzeit |', $vector);
     }
 
     public function testBuildVectorWithoutStemmer(): void
@@ -144,7 +144,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         });
 
         $this->assertSame(
-            '| waldbah | bayerisch wald |',
+            '| waldbahn | bayer wald |',
             $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'title' => 'Waldbahn'])
         );
     }
@@ -161,8 +161,8 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame(self::CATEGORY_LABELS['en'], $GLOBALS['TL_LANG'][self::TABLE]['category']);
         $this->assertSame('en', $this->translator->getLocale());
 
-        // English is not stemmed by the German stemmer
-        $this->assertSame('| trains | railcar |', $indexer->buildVector(self::TABLE, ['id' => 2, 'language' => 'en', 'title' => 'Trains', 'category' => 'railcar']));
+        // English records are stemmed with the English rules
+        $this->assertSame('| train | railcar |', $indexer->buildVector(self::TABLE, ['id' => 2, 'language' => 'en', 'title' => 'Trains', 'category' => 'railcar']));
 
         // An empty language field falls back to the configured language, then to the default locale
         $this->assertSame('| triebwag |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'railcar']));
@@ -181,7 +181,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $vector = $this->createIndexer($dcaUtil)->buildVector(self::TABLE, ['id' => 1, 'seasons' => \serialize(['winter'])]);
 
-        $this->assertSame('| schne |', $vector);
+        $this->assertSame('| schnee |', $vector);
         $this->assertSame('en', $this->translator->getLocale());
     }
 
@@ -208,7 +208,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $indexer = $this->createIndexer();
 
         $this->assertTrue($indexer->index(self::TABLE, 1));
-        $this->assertSame('| waldbah | linienbuss |', $this->fetchVector(1));
+        $this->assertSame('| waldbahn | linienbuss |', $this->fetchVector(1));
         $this->assertNull($this->fetchVector(2));
 
         $this->assertFalse($indexer->index(self::TABLE, 1), 'An unchanged vector is not written again');
@@ -276,7 +276,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
             $this->connection,
             new SearchVectorConfigurationResolver(
                 $framework,
-                new ServiceLocator([GermanStemmer::class => static fn () => new GermanStemmer()]),
+                new ServiceLocator([SnowballStemmer::class => static fn () => new SnowballStemmer()]),
                 new RequestStack(),
                 'de'
             ),

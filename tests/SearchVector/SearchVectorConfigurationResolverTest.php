@@ -6,7 +6,7 @@ use Contao\Controller;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\GermanStemmer;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -60,9 +60,9 @@ class SearchVectorConfigurationResolverTest extends ContaoTestCase
 
     public function testGetStemmerReturnsRegisteredService(): void
     {
-        $stemmer = new GermanStemmer();
-        $configuration = SearchVectorField::register('tl_resolver_stemmer');
-        $resolver = $this->createResolver(null, [GermanStemmer::class => static fn (): GermanStemmer => $stemmer]);
+        $stemmer = new SnowballStemmer();
+        $configuration = SearchVectorField::register('tl_resolver_stemmer')->setStemmer(SnowballStemmer::class);
+        $resolver = $this->createResolver(null, [SnowballStemmer::class => static fn (): SnowballStemmer => $stemmer]);
 
         $this->assertSame($stemmer, $resolver->getStemmer($configuration));
     }

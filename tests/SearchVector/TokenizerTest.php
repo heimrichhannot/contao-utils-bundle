@@ -2,7 +2,7 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\SearchVector;
 
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\GermanStemmer;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
 use HeimrichHannot\UtilsBundle\SearchVector\Tokenizer;
 use PHPUnit\Framework\TestCase;
@@ -36,19 +36,20 @@ class TokenizerTest extends TestCase
 
     public function testTokenizeWithStemmer(): void
     {
-        $stemmer = new GermanStemmer();
+        $stemmer = new SnowballStemmer();
 
-        $this->assertSame(['frei', 'streck'], Tokenizer::tokenize('Freie Strecke', 'de', $stemmer));
+        $this->assertSame(['freie', 'streck'], Tokenizer::tokenize('Freie Strecke', 'de', $stemmer));
         $this->assertSame(['munch'], Tokenizer::tokenize('München', 'de', $stemmer));
-        $this->assertSame(['weihnacht', 'bah'], Tokenizer::tokenize('Weihnachten Bahn', 'de', $stemmer));
+        $this->assertSame(['haus', 'in', 'munch'], Tokenizer::tokenize('Häuser in München', 'de', $stemmer));
+        $this->assertSame(['weihnacht', 'bahn'], Tokenizer::tokenize('Weihnachten Bahn', 'de', $stemmer));
     }
 
     public function testTokenizeStemsHyphenCompoundAsWhole(): void
     {
-        $this->assertSame(['niederbayern-oberpfalz'], Tokenizer::tokenize('Niederbayern-Oberpfalz', 'de', new GermanStemmer()));
+        $this->assertSame(['niederbayern-oberpfalz'], Tokenizer::tokenize('Niederbayern-Oberpfalz', 'de', new SnowballStemmer()));
     }
 
-    public function testTokenizePassesNormalizedWordToStemmer(): void
+    public function testTokenizePassesLowercasedWordWithAccentsToStemmer(): void
     {
         $stemmer = new class implements StemmerInterface {
             public array $received = [];
@@ -61,9 +62,24 @@ class TokenizerTest extends TestCase
             }
         };
 
-        Tokenizer::tokenize('Größe -Ärger- Über', 'de', $stemmer);
+        $tokens = Tokenizer::tokenize('Größe -Ärger- Über', 'de', $stemmer);
 
-        $this->assertSame(['grosse', 'arger', 'uber'], $stemmer->received);
+        $this->assertSame(['grosse', 'arger', 'uber'], $tokens);
+
+        // Stemmers rely on umlauts, so accents are only folded after stemming
+        $this->assertSame(['größe', 'ärger', 'über'], $stemmer->received);
+    }
+
+    public function testTokenizeFoldsAccentsOfStem(): void
+    {
+        $stemmer = new class implements StemmerInterface {
+            public function stem(string $word, string $locale): string
+            {
+                return 'häuser' === $word ? 'haüs' : $word;
+            }
+        };
+
+        $this->assertSame(['haus'], Tokenizer::tokenize('Häuser', 'de', $stemmer));
     }
 
     public function testTokenizePassesLocaleToStemmer(): void
@@ -86,7 +102,7 @@ class TokenizerTest extends TestCase
 
     public function testLocaleSelectsStemming(): void
     {
-        $stemmer = new GermanStemmer();
+        $stemmer = new SnowballStemmer();
 
         $this->assertSame(['schul'], Tokenizer::tokenize('Schulen', 'de', $stemmer));
         $this->assertSame(['schulen'], Tokenizer::tokenize('Schulen', 'en', $stemmer));
@@ -118,7 +134,7 @@ class TokenizerTest extends TestCase
      */
     public function testParseQuery(string $query, array $expected, bool $stemmed = false): void
     {
-        $this->assertSame($expected, Tokenizer::parseQuery($query, 'de', $stemmed ? new GermanStemmer() : null));
+        $this->assertSame($expected, Tokenizer::parseQuery($query, 'de', $stemmed ? new SnowballStemmer() : null));
     }
 
     public static function parseQueryProvider(): \Generator
@@ -141,20 +157,21 @@ class TokenizerTest extends TestCase
         yield 'backslash quote escape' => ['"say \"hi\" there", x', [['say hi there'], ['x']]];
         yield 'escaped quote does not close, comma stays inside' => ['"say \"hi, there\" now", other', [['say hi there now'], ['other']]];
         yield 'unclosed quote is plain words' => ['"unclosed, phrase', [['unclosed', 'phrase']]];
-        yield 'quoted phrase stemmed' => ['"bei Nacht"', [['bei nach']], true];
-        yield 'stemmed words' => ['weihnachten bahn, kind', [['weihnacht', 'bah'], ['kind']], true];
+        yield 'quoted phrase stemmed' => ['"bei Nacht"', [['bei nacht']], true];
+        yield 'stemmed words' => ['weihnachten bahn, kind', [['weihnacht', 'bahn'], ['kind']], true];
+        yield 'umlauts stemmed and folded' => ['Häuser, München', [['haus'], ['munch']], true];
         yield 'duplicates after stemming removed' => ['schule schulen', [['schul']], true];
     }
 
     public function testParseQueryDocumentationExample(): void
     {
         $this->assertSame(
-            [['weihnacht', 'bah'], ['kind'], ['dresd']],
-            Tokenizer::parseQuery('weihnachten bahn, kind, dresden', 'de', new GermanStemmer())
+            [['weihnacht', 'bahn'], ['kind'], ['dresd']],
+            Tokenizer::parseQuery('weihnachten bahn, kind, dresden', 'de', new SnowballStemmer())
         );
         $this->assertSame(
-            [['weihnacht', 'bah'], ['bei nach']],
-            Tokenizer::parseQuery('weihnachten bahn, "bei Nacht"', 'de', new GermanStemmer())
+            [['weihnacht', 'bahn'], ['bei nacht']],
+            Tokenizer::parseQuery('weihnachten bahn, "bei Nacht"', 'de', new SnowballStemmer())
         );
     }
 
@@ -163,7 +180,7 @@ class TokenizerTest extends TestCase
      */
     public function testQueryTermIsFoundInIndexedTokens(string $indexed, string $query): void
     {
-        $stemmer = new GermanStemmer();
+        $stemmer = new SnowballStemmer();
         $vector = '| ' . \implode(' ', Tokenizer::tokenize($indexed, 'de', $stemmer)) . ' |';
 
         $phrases = Tokenizer::parseQuery($query, 'de', $stemmer);
@@ -180,7 +197,7 @@ class TokenizerTest extends TestCase
     public static function roundTripProvider(): \Generator
     {
         yield 'different inflection and umlaut' => ['Lieferungen nach München', 'Lieferung münchen'];
-        yield 'umlaut written out' => ['Lieferungen nach München', 'muenchen'];
+        yield 'umlaut reversed' => ['Lieferungen nach Munchen', 'München'];
         yield 'plural vs singular' => ['Schulen und Kirchen', 'Schule Kirche'];
         yield 'compound part' => ['Niederbayern-Oberpfalz', 'niederbayern-oberpfalz'];
         yield 'quoted phrase' => ['Fahrt bei Nacht', '"bei Nacht"'];
@@ -189,7 +206,7 @@ class TokenizerTest extends TestCase
 
     public function testQuotedPhraseDoesNotMatchWrongWordOrder(): void
     {
-        $stemmer = new GermanStemmer();
+        $stemmer = new SnowballStemmer();
         $vector = '| ' . \implode(' ', Tokenizer::tokenize('Fahrt bei Nacht', 'de', $stemmer)) . ' |';
 
         $this->assertStringNotContainsString(Tokenizer::parseQuery('"Nacht bei"', 'de', $stemmer)[0][0], $vector);

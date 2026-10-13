@@ -16,7 +16,7 @@ In addition, there are DcaField helpers, the Entity finder command and some nice
 * DcaField registration - An nice api to add typical dca fields to your dca fields without repeating yourself or annoying order restrictions.
   * AuthorField - Add an author field with automatic filling of the default value and optional frontend member support
   * DateAddedField - Add a date added field to store the date of entity creation
-  * SearchVectorField - Add a field that makes entities searchable by inflected words, option labels and related records
+  * SearchVectorField - Add a field that makes entities searchable by option labels, related records and, with a stemmer, inflected words
 * Entity Finder - A command to search for any contao entities in your database.
 * Twig Filters
 
@@ -172,9 +172,9 @@ AliasField::register('tl_example')
 
 #### Search vector field
 
-Add a field that holds the values of other fields as normalized, stemmed words, so records can be searched by
-everything a visitor might type: inflected words, option labels instead of option keys, the titles of related records
-and so on.
+Add a field that holds the values of other fields as normalized words, so records can be searched by everything a
+visitor might type: option labels instead of option keys, the titles of related records, words without accents and,
+with a stemmer, inflected words.
 
 ```php
 # contao/dca/tl_example.php
@@ -198,7 +198,7 @@ use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 SearchVectorField::register('tl_example')
     ->setFields(['title', 'teaser'])
     ->setFieldName('searchVector') // the field name (default: searchVector)
-    ->setStemmer(GermanStemmer::class) // the stemmer service (default: GermanStemmer), pass null to disable stemming
+    ->setStemmer(SnowballStemmer::class) // the stemmer service (default: null, no stemming)
     ->setLanguage('de') // the language of the records (default: the default locale of the application)
     ->setLanguageField('language') // the field holding the language of a record, for tables with records in different languages
 ;
@@ -206,7 +206,7 @@ SearchVectorField::register('tl_example')
 
 Option labels are resolved and words are stemmed in the language of the record, never in the language of the user who
 saves it. The language is taken from the language field, then from `setLanguage()`, then from the default locale
-(`kernel.default_locale`). The German stemmer leaves words of other languages unchanged.
+(`kernel.default_locale`).
 
 Search with the `SearchVectorQuery` service, either on a Doctrine query builder or with Contao model criteria:
 
@@ -272,8 +272,34 @@ class AddTagsToSearchVectorListener
 }
 ```
 
+##### Stemming
+
+Stemming reduces words to their stem, so "Häuser" also finds "Haus". It is disabled by default. We recommend
+[wamania/php-stemmer](https://github.com/wamania/php-stemmer), a native PHP implementation of the
+[Snowball](https://snowballstem.org/) stemmers for Catalan, Danish, Dutch, English, Finnish, French, German, Italian,
+Norwegian, Portuguese, Romanian, Russian, Spanish and Swedish. The bundle ships a ready-made stemmer for it:
+
+```bash
+composer require wamania/php-stemmer
+```
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
+
+SearchVectorField::register('tl_example')
+    ->setFields(['title', 'teaser'])
+    ->setStemmer(SnowballStemmer::class)
+;
+```
+
+Each word is stemmed with the rules of the record language, words of unsupported languages stay unchanged. Rebuild the
+search vectors after enabling or changing the stemmer.
+
 To use another stemmer, implement `HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface` as an
-autoconfigured service and pass its service id to `setStemmer()`. The stemmer gets the language of each word and should
+autoconfigured service and pass its service id to `setStemmer()`. The stemmer gets each word lowercased with its accents
+and the language of the word, and should
 return words of languages it does not support unchanged.
 
 ### Entity Finder

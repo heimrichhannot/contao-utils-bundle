@@ -30,7 +30,11 @@
     "phpstan/phpstan": "^1.10 || ^2.0",
     "phpstan/phpstan-symfony": "^1.2 || ^2.0",
     "rector/rector": "^1.2 || ^2.3.3",
-    "contao/contao-rector": "dev-main"
+    "contao/contao-rector": "dev-main",
+    "wamania/php-stemmer": "^4.0"
+  },
+  "suggest": {
+    "wamania/php-stemmer": "Enables stemming in the search vector field with SnowballStemmer (^4.0)"
   },
   "autoload": {
     "psr-4": {
