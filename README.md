@@ -199,6 +199,8 @@ You can pass additional options to adjust the field:
 ```php
 # contao/dca/tl_example.php
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 
 SearchVectorField::register('tl_example')
     ->setFields(['title', 'teaser'])

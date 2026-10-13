@@ -5,7 +5,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\SearchVector;
 use Contao\Controller;
 use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\CoreBundle\Framework\Adapter;
-use Contao\CoreBundle\Translation\LegacyLocaleSwitcher;
+use Contao\CoreBundle\Util\LocaleUtil;
 use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
@@ -40,6 +40,7 @@ use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 use Symfony\Component\Messenger\Transport\Sender\SendersLocator;
 use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Component\Translation\Translator;
+use Symfony\Contracts\Translation\LocaleAwareInterface;
 
 class SearchVectorIndexerTest extends ContaoTestCase
 {
@@ -91,14 +92,21 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $this->eventDispatcher = new EventDispatcher();
         $this->translator = new Translator('en');
-        $localeAwareServices = [$this->translator];
+        // Since Contao 5.6.3, $GLOBALS['TL_LANGUAGE'] follows the locale switcher. Stands in for Contao's internal
+        // legacy locale switcher, which is deprecated and scheduled for removal.
+        $legacyLanguage = new class() implements LocaleAwareInterface {
+            public function setLocale(string $locale): void
+            {
+                $GLOBALS['TL_LANGUAGE'] = LocaleUtil::formatAsLanguageTag($locale);
+            }
 
-        // Since Contao 5.6.3, $GLOBALS['TL_LANGUAGE'] follows the locale switcher like in the Contao container
-        if (\class_exists(LegacyLocaleSwitcher::class)) {
-            $localeAwareServices[] = new LegacyLocaleSwitcher($this->mockContaoFramework(), $this->translator);
-        }
+            public function getLocale(): string
+            {
+                return LocaleUtil::formatAsLocale($GLOBALS['TL_LANGUAGE'] ?? 'en');
+            }
+        };
 
-        $this->localeSwitcher = new LocaleSwitcher('en', $localeAwareServices);
+        $this->localeSwitcher = new LocaleSwitcher('en', [$this->translator, $legacyLanguage]);
 
         // The current user works in English and has loaded the language files of two tables
         $GLOBALS['TL_LANGUAGE'] = 'en';

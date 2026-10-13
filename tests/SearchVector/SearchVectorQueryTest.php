@@ -85,7 +85,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $this->assertTrue($this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'Führungen'));
 
         $this->assertSame(
-            'SELECT * FROM tl_example WHERE "tl_example"."searchVector" LIKE :dcValue1',
+            'SELECT * FROM tl_example WHERE "tl_example"."searchVector" LIKE :dcValue1 ESCAPE \'!\'',
             $qb->getSQL()
         );
         $this->assertSame(['dcValue1' => '%fuhrung%'], $qb->getParameters());
@@ -98,7 +98,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'führungen museum');
 
         $this->assertSame(
-            'SELECT * FROM tl_example WHERE ("tl_example"."searchVector" LIKE :dcValue1) AND ("tl_example"."searchVector" LIKE :dcValue2)',
+            'SELECT * FROM tl_example WHERE ("tl_example"."searchVector" LIKE :dcValue1 ESCAPE \'!\') AND ("tl_example"."searchVector" LIKE :dcValue2 ESCAPE \'!\')',
             $qb->getSQL()
         );
         $this->assertSame(['dcValue1' => '%fuhrung%', 'dcValue2' => '%museum%'], $qb->getParameters());
@@ -111,7 +111,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'führungen museum, kind');
 
         $this->assertSame(
-            'SELECT * FROM tl_example WHERE (("tl_example"."searchVector" LIKE :dcValue1) AND ("tl_example"."searchVector" LIKE :dcValue2)) OR ("tl_example"."searchVector" LIKE :dcValue3)',
+            'SELECT * FROM tl_example WHERE (("tl_example"."searchVector" LIKE :dcValue1 ESCAPE \'!\') AND ("tl_example"."searchVector" LIKE :dcValue2 ESCAPE \'!\')) OR ("tl_example"."searchVector" LIKE :dcValue3 ESCAPE \'!\')',
             $qb->getSQL()
         );
         $this->assertSame(['dcValue1' => '%fuhrung%', 'dcValue2' => '%museum%', 'dcValue3' => '%kind%'], $qb->getParameters());
@@ -123,7 +123,7 @@ class SearchVectorQueryTest extends ContaoTestCase
 
         $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', '"bei Nacht"');
 
-        $this->assertSame('SELECT * FROM tl_example WHERE "tl_example"."searchVector" LIKE :dcValue1', $qb->getSQL());
+        $this->assertSame('SELECT * FROM tl_example WHERE "tl_example"."searchVector" LIKE :dcValue1 ESCAPE \'!\'', $qb->getSQL());
         $this->assertSame(['dcValue1' => '%bei nacht%'], $qb->getParameters());
     }
 
@@ -203,7 +203,7 @@ class SearchVectorQueryTest extends ContaoTestCase
 
         $this->createQuery(null, 'myVector')->apply($qb, 'tl_example', 'Museum', 'e');
 
-        $this->assertSame('SELECT * FROM tl_example e WHERE "e"."myVector" LIKE :dcValue1', $qb->getSQL());
+        $this->assertSame('SELECT * FROM tl_example e WHERE "e"."myVector" LIKE :dcValue1 ESCAPE \'!\'', $qb->getSQL());
         $this->assertSame(['dcValue1' => '%museum%'], $qb->getParameters());
     }
 
@@ -223,7 +223,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $this->createQuery(null)->apply($qb, 'tl_example', 'museum');
 
         $this->assertSame(
-            'SELECT * FROM tl_example WHERE (published = 1) AND ("tl_example"."searchVector" LIKE :dcValue1)',
+            'SELECT * FROM tl_example WHERE (published = 1) AND ("tl_example"."searchVector" LIKE :dcValue1 ESCAPE \'!\')',
             $qb->getSQL()
         );
     }
@@ -231,12 +231,29 @@ class SearchVectorQueryTest extends ContaoTestCase
     public function testApplyEscapesLikeWildcards(): void
     {
         // The tokenizer strips wildcards, so a stemmer has to produce them
-        $stemmer = $this->createStemmerStub(['foo' => '50%_off\\x']);
+        $stemmer = $this->createStemmerStub(['foo' => '50%_off\\x!y']);
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
         $this->assertTrue($this->createQuery($stemmer)->apply($qb, 'tl_example', 'foo'));
 
-        $this->assertSame(['dcValue1' => '%50\\%\\_off\\\\x%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%50!%!_off\\x!!y%'], $qb->getParameters());
+    }
+
+    public function testEscapedWildcardsMatchLiterally(): void
+    {
+        $this->createTable([
+            1 => '| 50%_off!y |',
+            2 => '| 50x-off!y |',
+            3 => '| 50%_offy |',
+        ]);
+
+        // The tokenizer strips wildcards, so a stemmer has to produce them
+        $query = $this->createQuery($this->createStemmerStub(['foo' => '50%_off!y']));
+
+        $this->assertSame([1], $this->search($query, 'foo'));
+
+        [$columns, $values] = $query->createModelCriteria('tl_example', 'foo');
+        $this->assertSame([1], \array_map('intval', $this->connection->fetchFirstColumn('SELECT id FROM tl_example WHERE ' . \implode(' AND ', $columns), $values)));
     }
 
     public function testApplyUserInputCannotInjectSql(): void
@@ -373,7 +390,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         [$columns, $values] = $this->createQuery(new SnowballStemmer())->createModelCriteria('tl_example', 'führungen museum, "bei Nacht"');
 
         $this->assertSame(
-            ['(("tl_example"."searchVector" LIKE ? AND "tl_example"."searchVector" LIKE ?) OR ("tl_example"."searchVector" LIKE ?))'],
+            ['(("tl_example"."searchVector" LIKE ? ESCAPE \'!\' AND "tl_example"."searchVector" LIKE ? ESCAPE \'!\') OR ("tl_example"."searchVector" LIKE ? ESCAPE \'!\'))'],
             $columns
         );
         $this->assertSame(['%fuhrung%', '%museum%', '%bei nacht%'], $values);
@@ -392,7 +409,7 @@ class SearchVectorQueryTest extends ContaoTestCase
     {
         [$columns, $values] = $this->createQuery(null)->createModelCriteria('tl_example', 'Museum');
 
-        $this->assertSame(['(("tl_example"."searchVector" LIKE ?))'], $columns);
+        $this->assertSame(['(("tl_example"."searchVector" LIKE ? ESCAPE \'!\'))'], $columns);
         $this->assertSame(['%museum%'], $values);
     }
 
@@ -402,7 +419,7 @@ class SearchVectorQueryTest extends ContaoTestCase
 
         [, $values] = $this->createQuery($stemmer)->createModelCriteria('tl_example', 'foo');
 
-        $this->assertSame(['%a\\%b\\_c%'], $values);
+        $this->assertSame(['%a!%b!_c%'], $values);
     }
 
     public function testCreateModelCriteriaWithEmptySearch(): void

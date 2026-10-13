@@ -17,6 +17,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class SearchVectorQuery
 {
+    /**
+     * Escape character of the LIKE patterns. Unlike a backslash, it needs no escaping in SQL string literals and is not
+     * a default escape character anywhere, so the explicit ESCAPE clause works the same on MySQL, SQLite and PostgreSQL.
+     */
+    private const LIKE_ESCAPE = '!';
+
     public function __construct(
         private readonly Connection $connection,
         private readonly SearchVectorConfigurationResolver $configurationResolver,
@@ -45,7 +51,11 @@ class SearchVectorQuery
             $conditions = [];
 
             foreach ($terms as $term) {
-                $conditions[] = $expr->like($column, $queryBuilder->createNamedParameter('%' . $this->escapeLike($term) . '%'));
+                $conditions[] = $expr->like(
+                    $column,
+                    $queryBuilder->createNamedParameter('%' . $this->escapeLike($term) . '%'),
+                    $this->connection->quote(self::LIKE_ESCAPE)
+                );
             }
 
             $alternatives[] = $expr->and(...$conditions);
@@ -76,7 +86,7 @@ class SearchVectorQuery
             $conditions = [];
 
             foreach ($terms as $term) {
-                $conditions[] = $column . ' LIKE ?';
+                $conditions[] = $column . ' LIKE ? ESCAPE ' . $this->connection->quote(self::LIKE_ESCAPE);
                 $values[] = '%' . $this->escapeLike($term) . '%';
             }
 
@@ -106,8 +116,13 @@ class SearchVectorQuery
         return [$this->connection->quoteIdentifier(($alias ?? $table) . '.' . $configuration->getFieldName()), $phrases];
     }
 
+    /**
+     * Escapes the LIKE wildcards in a term, which custom normalizers or stemmers might produce.
+     */
     private function escapeLike(string $term): string
     {
-        return \addcslashes($term, '%_\\');
+        $escape = self::LIKE_ESCAPE;
+
+        return \strtr($term, [$escape => $escape . $escape, '%' => $escape . '%', '_' => $escape . '_']);
     }
 }

@@ -16,7 +16,8 @@ class BuildSearchVectorEvent extends Event
      * @param array<string, mixed> $row    The raw database row
      * @param list<string>         $values The formatted, not yet tokenized values. Each value stays a separate
      *                                     section of the vector, so a quoted phrase never matches across two values.
-     * @param string               $locale The language of the record, the values are resolved and stemmed in
+     * @param string               $locale The language of the record. The values have been resolved in this language,
+     *                                     and the values of the vector are normalized and stemmed in it as well.
      */
     public function __construct(
         public readonly string $table,
