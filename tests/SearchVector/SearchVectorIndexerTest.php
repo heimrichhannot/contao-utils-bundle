@@ -5,6 +5,7 @@ namespace HeimrichHannot\UtilsBundle\Tests\SearchVector;
 use Contao\Controller;
 use Contao\CoreBundle\Config\ResourceFinder;
 use Contao\CoreBundle\Framework\Adapter;
+use Contao\CoreBundle\Translation\LegacyLocaleSwitcher;
 use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
@@ -22,11 +23,11 @@ use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Psr\Log\LoggerInterface;
-use Contao\CoreBundle\Asset\ContaoContext;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Component\Translation\Translator;
 
 class SearchVectorIndexerTest extends ContaoTestCase
@@ -51,6 +52,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
     private Connection $connection;
     private EventDispatcher $eventDispatcher;
     private Translator $translator;
+    private LocaleSwitcher $localeSwitcher;
     private array $previousLanguageCaches = [];
 
     protected function setUp(): void
@@ -61,12 +63,6 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $container = $this->getContainerWithContaoConfiguration();
         $container->set('database_connection', $this->connection);
-
-        // Needed by the Contao 4.13 backend constructor
-        $assetsContext = $this->createMock(ContaoContext::class);
-        $assetsContext->method('getStaticUrl')->willReturn('');
-        $container->set('contao.assets.assets_context', $assetsContext);
-        $container->set('contao.assets.files_context', $assetsContext);
 
         $container->setParameter('kernel.project_dir', self::FIXTURES);
         $container->setParameter('kernel.cache_dir', self::FIXTURES . '/var/cache');
@@ -84,6 +80,14 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $this->eventDispatcher = new EventDispatcher();
         $this->translator = new Translator('en');
+        $localeAwareServices = [$this->translator];
+
+        // Since Contao 5.6.3, $GLOBALS['TL_LANGUAGE'] follows the locale switcher like in the Contao container
+        if (\class_exists(LegacyLocaleSwitcher::class)) {
+            $localeAwareServices[] = new LegacyLocaleSwitcher($this->mockContaoFramework(), $this->translator);
+        }
+
+        $this->localeSwitcher = new LocaleSwitcher('en', $localeAwareServices);
 
         // The current user works in English and has loaded the language files of two tables
         $GLOBALS['TL_LANGUAGE'] = 'en';
@@ -231,8 +235,9 @@ class SearchVectorIndexerTest extends ContaoTestCase
     public function testTableTranslationsAreLoadedWhenTheLanguageIsUnchanged(): void
     {
         // A German user in the frontend or on the command line, the table translations are not loaded yet
+        // Set the way Contao 5.3 (translator, $GLOBALS['TL_LANGUAGE']) and Contao 5.6.3+ (locale switcher) do it
         $GLOBALS['TL_LANGUAGE'] = 'de';
-        $this->translator->setLocale('de');
+        $this->localeSwitcher->setLocale('de');
         $GLOBALS['TL_LANG'][self::TABLE]['category'] = null;
         (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, []);
 
@@ -330,7 +335,8 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $this->assertSame(self::TABLE, $dc->table);
         $this->assertSame(5, $dc->id);
-        $this->assertSame('Waldbahn', $dc->activeRecord->title);
+        // Reading $dc->activeRecord is deprecated, check what callbacks that still use it would get
+        $this->assertSame('Waldbahn', (new \ReflectionProperty(SearchVectorDataContainer::class, 'objActiveRecord'))->getValue($dc)->title);
         $this->assertSame($row, $dc->getCurrentRecord());
         $this->assertSame($row, $dc->getCurrentRecord(5, self::TABLE));
     }
@@ -361,7 +367,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
             new FormatterUtil($languageFramework, $insertTagParser, $utils, []),
             $this->eventDispatcher,
             $logger ?? new NullLogger(),
-            new SearchVectorLanguageSwitcher($languageFramework, $this->translator),
+            new SearchVectorLanguageSwitcher($languageFramework, $this->translator, $this->localeSwitcher),
         );
     }
 

@@ -23,7 +23,7 @@ class SearchVectorDataContainer extends DataContainer
 
         $this->strTable = $table;
         $this->intId = (int) ($row['id'] ?? 0);
-        // Contao 4.13 callbacks read the record from $dc->activeRecord
+        // For callbacks that still read the deprecated $dc->activeRecord
         $this->objActiveRecord = (object) $row;
     }
 
@@ -33,9 +33,7 @@ class SearchVectorDataContainer extends DataContainer
             return $this->row;
         }
 
-        // Contao 4.13 has no getCurrentRecord()
-        /** @phpstan-ignore-next-line Contao 5 only */
-        return \method_exists(DataContainer::class, 'getCurrentRecord') ? parent::getCurrentRecord($id, $table) : null;
+        return parent::getCurrentRecord($id, $table);
     }
 
     public function getPalette(): string

@@ -9,9 +9,6 @@ parameters:
 #    - Contao\Template
     - PHPUnit\Framework\MockObject\MockObject
   ignoreErrors:
-    # Symfony >= 6.1 only, the dev dependencies install Symfony 5.4
-    - message: '#Symfony\\Component\\Translation\\LocaleSwitcher#'
-      path: src/SearchVector/SearchVectorLanguageSwitcher.php
 #    - message: '#^Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject\:\:setName\(\)\.$#'
 #      path: tests/EventListener/Contao/ParseTemplateListenerTest.php
 #    - message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:getChildNodeDefinitions\(\)\.$#'

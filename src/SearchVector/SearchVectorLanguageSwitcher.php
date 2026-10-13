@@ -14,10 +14,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Runs code in the language of a record, independent of the language of the current user.
  *
  * Since Contao 5.6.3 the locale is switched with the Symfony locale switcher, as Contao itself does. It also updates
- * the translator and the legacy $GLOBALS['TL_LANGUAGE']. Older versions set the translator and $GLOBALS['TL_LANGUAGE']
- * directly, so the locale switcher does not know the language of the user there (Contao 5.3 to 5.6.2) or does not
- * exist at all (Symfony 5.4, Contao 4.13). In these versions the translator and $GLOBALS['TL_LANGUAGE'] are switched
- * directly as well.
+ * the translator and the legacy $GLOBALS['TL_LANGUAGE']. Contao 5.3 to 5.6.2 set the translator and
+ * $GLOBALS['TL_LANGUAGE'] directly, so the locale switcher does not know the language of the user there. In these
+ * versions the translator and $GLOBALS['TL_LANGUAGE'] are switched directly as well.
  *
  * All loaded language files are reloaded in the language of the record and afterwards in the previous language, as
  * labels can come from the language files of any table. Language files loaded by the callback are restored as well,
@@ -32,14 +31,17 @@ class SearchVectorLanguageSwitcher
      */
     private const LOCALE_SWITCHER_SINCE = '5.6.3';
 
-    private readonly ?LocaleSwitcher $localeSwitcher;
+    private readonly bool $contaoUsesLocaleSwitcher;
 
     public function __construct(
         private readonly ContaoFramework $framework,
         private readonly TranslatorInterface $translator,
-        ?LocaleSwitcher $localeSwitcher = null,
+        private readonly LocaleSwitcher $localeSwitcher,
     ) {
-        $this->localeSwitcher = self::contaoUsesLocaleSwitcher() ? $localeSwitcher : null;
+        // Null if the core bundle is replaced, e.g. by the contao/contao monorepo
+        $version = InstalledVersions::getVersion('contao/core-bundle');
+
+        $this->contaoUsesLocaleSwitcher = null === $version || \str_starts_with($version, 'dev-') || \version_compare($version, self::LOCALE_SWITCHER_SINCE, '>=');
     }
 
     /**
@@ -72,17 +74,9 @@ class SearchVectorLanguageSwitcher
         }
     }
 
-    private static function contaoUsesLocaleSwitcher(): bool
-    {
-        // Null if the core bundle is replaced, e.g. by the contao/contao monorepo
-        $version = InstalledVersions::getVersion('contao/core-bundle');
-
-        return null === $version || \str_starts_with($version, 'dev-') || \version_compare($version, self::LOCALE_SWITCHER_SINCE, '>=');
-    }
-
     private function getCurrentLocale(): string
     {
-        if ($this->localeSwitcher) {
+        if ($this->contaoUsesLocaleSwitcher) {
             return LocaleUtil::formatAsLocale($this->localeSwitcher->getLocale());
         }
 
@@ -95,7 +89,7 @@ class SearchVectorLanguageSwitcher
      */
     private function switchLocale(string $locale, callable $callback): mixed
     {
-        if ($this->localeSwitcher) {
+        if ($this->contaoUsesLocaleSwitcher) {
             return $this->localeSwitcher->runWithLocale($locale, $callback);
         }
 
