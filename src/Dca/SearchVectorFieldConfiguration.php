@@ -13,6 +13,7 @@ class SearchVectorFieldConfiguration extends DcaFieldConfiguration
     protected ?string $normalizer = null;
     protected ?string $language = null;
     protected ?string $languageField = null;
+    protected bool $async = true;
 
     /**
      * The fields whose values are written to the search vector. Values are resolved like in the backend
@@ -105,5 +106,21 @@ class SearchVectorFieldConfiguration extends DcaFieldConfiguration
     public function getLanguageField(): ?string
     {
         return $this->languageField;
+    }
+
+    /**
+     * Whether the search vector is rebuilt asynchronously after a record was saved, copied or restored in the backend.
+     * The message is sent to the contao_prio_normal messenger transport and the vector is usually up to date a few
+     * seconds later. Without that transport, the vector is rebuilt right away. Enabled by default.
+     */
+    public function setAsync(bool $async): SearchVectorFieldConfiguration
+    {
+        $this->async = $async;
+        return $this;
+    }
+
+    public function isAsync(): bool
+    {
+        return $this->async;
     }
 }

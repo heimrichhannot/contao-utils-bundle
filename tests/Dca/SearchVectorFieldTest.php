@@ -22,6 +22,15 @@ class SearchVectorFieldTest extends TestCase
         $this->assertNull($config->getNormalizer());
         $this->assertNull($config->getLanguage());
         $this->assertNull($config->getLanguageField());
+        $this->assertTrue($config->isAsync());
+    }
+
+    public function testAsyncCanBeDisabled(): void
+    {
+        $config = SearchVectorField::register('tl_search_vector_async');
+
+        $this->assertSame($config, $config->setAsync(false));
+        $this->assertFalse($config->isAsync());
     }
 
     public function testSetters(): void

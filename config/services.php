@@ -7,6 +7,7 @@ use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
 
 return static function (ContainerConfigurator $container): void {
@@ -23,13 +24,15 @@ return static function (ContainerConfigurator $container): void {
             '../src/EntityFinder/Element.php',
             '../src/Util/Utils.php',
             '../src/SearchVector/SearchVectorDataContainer.php',
+            '../src/SearchVector/Messenger/RebuildSearchVectorMessage.php',
         ])
         ->bind('$projectDir', param('kernel.project_dir'))
         ->bind('$csrfTokenName', param('contao.csrf_token_name'))
         ->bind('$kernelBundles', param('kernel.bundles'))
         ->bind('$defaultLocale', param('kernel.default_locale'))
         ->bind('$searchVectorStemmers', tagged_locator(StemmerInterface::TAG))
-        ->bind('$searchVectorNormalizers', tagged_locator(NormalizerInterface::TAG));
+        ->bind('$searchVectorNormalizers', tagged_locator(NormalizerInterface::TAG))
+        ->bind('$messengerTransports', service('messenger.receiver_locator')->nullOnInvalid());
 
     $services->set(ContainerUtil::class)
         ->tag('container.service_subscriber', ['key' => 'monolog.logger.contao', 'id' => 'monolog.logger.contao']);

@@ -64,13 +64,17 @@ class SearchVectorFieldListenerTest extends TestCase
         $this->assertArrayNotHasKey('exclude', $GLOBALS['TL_DCA'][$table]['fields']['app_searchVector']);
     }
 
-    public function testCallbacksIndexTheRecord(): void
+    public function testCallbacksIndexTheRecordRightAwayIfNotAsync(): void
     {
+        SearchVectorField::register('tl_listener_sync')->setAsync(false);
+        SearchVectorField::register('tl_listener_sync_other')->setAsync(false);
+
         $dc = $this->createMock(DataContainer::class);
-        $dc->method('__get')->willReturnMap([['id', 3], ['table', 'tl_example']]);
+        $dc->method('__get')->willReturnMap([['id', 3], ['table', 'tl_listener_sync']]);
 
         $calls = [];
         $indexer = $this->createMock(SearchVectorIndexer::class);
+        $indexer->expects($this->never())->method('queue');
         $indexer->expects($this->exactly(3))->method('index')->willReturnCallback(
             static function (string $table, int $id, ?DataContainer $dc = null) use (&$calls): bool {
                 $calls[] = [$table, $id, $dc];
@@ -85,9 +89,36 @@ class SearchVectorFieldListenerTest extends TestCase
         $listener = new SearchVectorFieldListener($container);
         $listener->onSubmitCallback($dc);
         $listener->onCopyCallback(7, $dc);
-        $listener->onRestoreVersionCallback('tl_other', '12', 4, []);
+        $listener->onRestoreVersionCallback('tl_listener_sync_other', '12', 4, []);
 
-        $this->assertSame([['tl_example', 3, $dc], ['tl_example', 7, null], ['tl_other', 12, null]], $calls);
+        $this->assertSame([['tl_listener_sync', 3, $dc], ['tl_listener_sync', 7, null], ['tl_listener_sync_other', 12, null]], $calls);
+    }
+
+    public function testCallbacksQueueTheRecordByDefault(): void
+    {
+        SearchVectorField::register('tl_listener_async');
+
+        $dc = $this->createMock(DataContainer::class);
+        $dc->method('__get')->willReturnMap([['id', 3], ['table', 'tl_listener_async']]);
+
+        $calls = [];
+        $indexer = $this->createMock(SearchVectorIndexer::class);
+        $indexer->expects($this->never())->method('index');
+        $indexer->expects($this->exactly(3))->method('queue')->willReturnCallback(
+            static function (string $table, int $id) use (&$calls): void {
+                $calls[] = [$table, $id];
+            }
+        );
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->with(SearchVectorIndexer::class)->willReturn($indexer);
+
+        $listener = new SearchVectorFieldListener($container);
+        $listener->onSubmitCallback($dc);
+        $listener->onCopyCallback(7, $dc);
+        $listener->onRestoreVersionCallback('tl_listener_async', '12', 4, []);
+
+        $this->assertSame([['tl_listener_async', 3], ['tl_listener_async', 7], ['tl_listener_async', 12]], $calls);
     }
 
     public function testSubmitWithoutIdIsIgnored(): void

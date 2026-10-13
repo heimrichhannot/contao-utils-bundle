@@ -189,6 +189,11 @@ Field values are resolved like in the backend: options and references become the
 the related record, HTML is reduced to text and insert tags are removed. The vector is rebuilt when a record is saved,
 copied or restored from a version in the backend.
 
+The rebuild runs asynchronously, so saving in the backend does not wait for it. A message is sent to the
+`contao_prio_normal` messenger transport of the Contao Managed Edition and processed by a messenger worker, or by
+Contao's web worker at the end of the request if no worker is running. The vector is usually up to date a few seconds
+later. Without that transport, or with `setAsync(false)`, the vector is rebuilt right away.
+
 You can pass additional options to adjust the field:
 
 ```php
@@ -202,6 +207,7 @@ SearchVectorField::register('tl_example')
     ->setNormalizer(GermanNormalizer::class) // the normalizer service (default: null, no normalization)
     ->setLanguage('de') // the language of the records (default: the default locale of the application)
     ->setLanguageField('language') // the field holding the language of a record, for tables with records in different languages
+    ->setAsync(false) // rebuild the vector right away when saving in the backend (default: true, asynchronously)
 ;
 ```
 
@@ -252,7 +258,11 @@ Records saved outside the backend (frontend forms, imports, …) need to be inde
 ```php
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
 
+// right away
 $searchVectorIndexer->index('tl_example', $id);
+
+// asynchronously like in the backend, right away if the messenger transport is not available
+$searchVectorIndexer->queue('tl_example', $id);
 ```
 
 Values not stored in a column of the record, for example tags or other relations kept in a separate table, can be

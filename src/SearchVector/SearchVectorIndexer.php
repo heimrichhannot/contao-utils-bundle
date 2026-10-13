@@ -6,9 +6,13 @@ use Contao\DataContainer;
 use Contao\StringUtil;
 use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\Event\BuildSearchVectorEvent;
+use HeimrichHannot\UtilsBundle\SearchVector\Messenger\RebuildSearchVectorMessage;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil\FormatDcaFieldValueOptions;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\TransportNamesStamp;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -23,6 +27,11 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 class SearchVectorIndexer
 {
+    /**
+     * The messenger transport of asynchronous rebuilds, configured by the Contao Managed Edition.
+     */
+    public const TRANSPORT = 'contao_prio_normal';
+
     private const VALUE_SEPARATOR = ' | ';
 
     /**
@@ -37,7 +46,38 @@ class SearchVectorIndexer
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LoggerInterface $logger,
         private readonly SearchVectorLanguageSwitcher $languageSwitcher,
+        private readonly ?MessageBusInterface $messageBus = null,
+        private readonly ?ContainerInterface $messengerTransports = null,
     ) {}
+
+    /**
+     * Rebuilds the search vector of a single record asynchronously.
+     *
+     * Sends a message to the contao_prio_normal transport, which a messenger worker or, without a running worker,
+     * Contao's web worker at the end of the request processes. Rebuilds the vector right away if the transport is not
+     * available.
+     *
+     * @throws \InvalidArgumentException if the table has no search vector field
+     */
+    public function queue(string $table, int $id): void
+    {
+        // Fail early instead of in the worker
+        $this->configurationResolver->getConfiguration($table);
+
+        if ($id < 1) {
+            return;
+        }
+
+        if (!$this->messageBus || !$this->messengerTransports?->has(self::TRANSPORT)) {
+            $this->index($table, $id);
+
+            return;
+        }
+
+        // A stamp instead of routing configuration, as the Contao routing interfaces are deprecated since Contao 5.6
+        // and the #[AsMessage] attribute needs Symfony 7.2
+        $this->messageBus->dispatch(new RebuildSearchVectorMessage($table, $id), [new TransportNamesStamp([self::TRANSPORT])]);
+    }
 
     /**
      * Rebuilds the search vector of a single record.

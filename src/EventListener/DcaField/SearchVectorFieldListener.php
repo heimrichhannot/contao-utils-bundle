@@ -35,18 +35,29 @@ class SearchVectorFieldListener extends AbstractDcaFieldListener
     public function onSubmitCallback(DataContainer $dc): void
     {
         if ($dc->id) {
-            $this->container->get(SearchVectorIndexer::class)->index($dc->table, (int) $dc->id, $dc);
+            $this->rebuild($dc->table, (int) $dc->id, $dc);
         }
     }
 
     public function onCopyCallback(int|string $insertId, DataContainer $dc): void
     {
-        $this->container->get(SearchVectorIndexer::class)->index($dc->table, (int) $insertId);
+        $this->rebuild($dc->table, (int) $insertId);
     }
 
     public function onRestoreVersionCallback(string $table, int|string $id, int|string $version, array $data): void
     {
-        $this->container->get(SearchVectorIndexer::class)->index($table, (int) $id);
+        $this->rebuild($table, (int) $id);
+    }
+
+    private function rebuild(string $table, int $id, ?DataContainer $dc = null): void
+    {
+        $indexer = $this->container->get(SearchVectorIndexer::class);
+
+        if ((SearchVectorField::getRegistrations()[$table] ?? null)?->isAsync()) {
+            $indexer->queue($table, $id);
+        } else {
+            $indexer->index($table, $id, $dc);
+        }
     }
 
     public static function getSubscribedServices(): array

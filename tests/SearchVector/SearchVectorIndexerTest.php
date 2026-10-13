@@ -15,6 +15,8 @@ use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\Event\BuildSearchVectorEvent;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorDataContainer;
+use HeimrichHannot\UtilsBundle\SearchVector\Messenger\RebuildSearchVectorMessage;
+use HeimrichHannot\UtilsBundle\SearchVector\Messenger\RebuildSearchVectorMessageHandler;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorLanguageSwitcher;
 use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
@@ -27,6 +29,15 @@ use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Messenger\Handler\HandlersLocator;
+use Symfony\Component\Messenger\MessageBus;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
+use Symfony\Component\Messenger\Middleware\SendMessageMiddleware;
+use Symfony\Component\Messenger\Stamp\ReceivedStamp;
+use Symfony\Component\Messenger\Stamp\TransportNamesStamp;
+use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
+use Symfony\Component\Messenger\Transport\Sender\SendersLocator;
 use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Component\Translation\Translator;
 
@@ -303,6 +314,62 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame('| oberpfalz | linienbuss |', $this->fetchVector(1));
     }
 
+    public function testQueueSendsMessageThatAWorkerHandles(): void
+    {
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Waldbahn']);
+
+        // A messenger setup like Contao's, with the transport of the Contao Managed Edition
+        $transport = new InMemoryTransport();
+        $transports = new ServiceLocator([SearchVectorIndexer::TRANSPORT => static fn () => $transport]);
+        $handlers = [];
+        $bus = new MessageBus([
+            new SendMessageMiddleware(new SendersLocator([], $transports)),
+            new HandleMessageMiddleware(new HandlersLocator([RebuildSearchVectorMessage::class => [static function (RebuildSearchVectorMessage $message) use (&$handlers): void {
+                $handlers[0]($message);
+            }]])),
+        ]);
+        $indexer = $this->createIndexer(messageBus: $bus, messengerTransports: $transports);
+        $handlers[0] = new RebuildSearchVectorMessageHandler($indexer);
+
+        $indexer->queue(self::TABLE, 1);
+
+        $this->assertNull($this->fetchVector(1), 'The vector is not built before a worker handles the message');
+        $this->assertCount(1, $sent = $transport->getSent());
+        $this->assertEquals(new RebuildSearchVectorMessage(self::TABLE, 1), $sent[0]->getMessage());
+        $this->assertSame([SearchVectorIndexer::TRANSPORT], $sent[0]->last(TransportNamesStamp::class)->getTransportNames());
+
+        // The worker receives the message from the transport
+        $bus->dispatch($sent[0]->with(new ReceivedStamp(SearchVectorIndexer::TRANSPORT)));
+
+        $this->assertSame('| waldbahn |', $this->fetchVector(1));
+    }
+
+    public function testQueueIndexesRightAwayWithoutTransport(): void
+    {
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Waldbahn']);
+
+        $bus = $this->createMock(MessageBusInterface::class);
+        $bus->expects($this->never())->method('dispatch');
+
+        $this->createIndexer(messageBus: $bus, messengerTransports: new ServiceLocator([]))->queue(self::TABLE, 1);
+        $this->assertSame('| waldbahn |', $this->fetchVector(1));
+
+        $this->connection->update(self::TABLE, ['title' => 'Oberpfalz'], ['id' => 1]);
+        $this->createIndexer()->queue(self::TABLE, 1);
+        $this->assertSame('| oberpfalz |', $this->fetchVector(1), 'Without message bus');
+    }
+
+    public function testQueueFailsEarlyForUnregisteredTable(): void
+    {
+        $bus = $this->createMock(MessageBusInterface::class);
+        $bus->expects($this->never())->method('dispatch');
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->createIndexer(messageBus: $bus, messengerTransports: new ServiceLocator([SearchVectorIndexer::TRANSPORT => static fn () => new InMemoryTransport()]))
+            ->queue('tl_unknown', 1);
+    }
+
     public function testIndexAll(): void
     {
         $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Waldbahn']);
@@ -341,8 +408,12 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame($row, $dc->getCurrentRecord(5, self::TABLE));
     }
 
-    private function createIndexer(?DcaUtil $dcaUtil = null, ?LoggerInterface $logger = null): SearchVectorIndexer
-    {
+    private function createIndexer(
+        ?DcaUtil $dcaUtil = null,
+        ?LoggerInterface $logger = null,
+        ?MessageBusInterface $messageBus = null,
+        ?ServiceLocator $messengerTransports = null,
+    ): SearchVectorIndexer {
         // There are no DCA files, the DCA is set up in setUp()
         $framework = $this->mockContaoFramework([Controller::class => $this->mockAdapter(['loadDataContainer'])]);
 
@@ -368,6 +439,8 @@ class SearchVectorIndexerTest extends ContaoTestCase
             $this->eventDispatcher,
             $logger ?? new NullLogger(),
             new SearchVectorLanguageSwitcher($languageFramework, $this->translator, $this->localeSwitcher),
+            $messageBus,
+            $messengerTransports,
         );
     }
 
