@@ -9,15 +9,19 @@
 namespace HeimrichHannot\UtilsBundle\Util;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Routing\ContentUrlGenerator;
 use Contao\PageModel;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Exception\ExceptionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RequestUtil
 {
 
     public function __construct(
         protected RequestStack $requestStack,
-        private readonly ContaoFramework $contaoFramework
+        private readonly ContaoFramework $contaoFramework,
+        private readonly ContentUrlGenerator $urlGenerator,
     ) {
     }
 
@@ -105,9 +109,16 @@ class RequestUtil
         }
 
         if ($page) {
-            $url = parse_url(($page->useSSL ? 'https://' : 'http://').$page->getAbsoluteUrl());
+            try {
+                $url = parse_url($this->urlGenerator->generate($page, [], UrlGeneratorInterface::ABSOLUTE_URL));
+            } catch (ExceptionInterface) {
+                $url = false;
+            }
 
-            return $url['scheme'].'://'.$url['host'];
+            // Redirect targets like mailto: have no host
+            if (isset($url['scheme'], $url['host'])) {
+                return $url['scheme'].'://'.$url['host'];
+            }
         }
 
         if (isset($context['fallback']) && \is_string($context['fallback'])) {

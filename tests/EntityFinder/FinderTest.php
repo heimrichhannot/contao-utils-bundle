@@ -5,10 +5,12 @@ namespace HeimrichHannot\UtilsBundle\Tests\EntityFinder;
 use Contao\ContentModel;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Routing\ContentUrlGenerator;
 use Contao\DC_Table;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\ModuleModel;
+use Contao\PageModel;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
@@ -18,6 +20,7 @@ use HeimrichHannot\UtilsBundle\EntityFinder\Finder;
 use HeimrichHannot\UtilsBundle\Event\EntityFinderFindEvent;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
 use PHPUnit\Framework\MockObject\MockBuilder;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class FinderTest extends AbstractUtilsTestCase
@@ -29,7 +32,8 @@ class FinderTest extends AbstractUtilsTestCase
      *     helper?: EntityFinderHelper,
      *     eventDispatcher?: EventDispatcherInterface,
      *     framework?: ContaoFramework,
-     *     connection?: Connection
+     *     connection?: Connection,
+     *     urlGenerator?: ContentUrlGenerator,
      * } $parameters
      */
     public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null)
@@ -51,6 +55,7 @@ class FinderTest extends AbstractUtilsTestCase
             $parameters['eventDispatcher'] ?? $eventDispatcher,
             $parameters['framework'] ?? $contaoFramework,
             $parameters['connection'] ?? $connection,
+            $parameters['urlGenerator'] ?? $this->createMock(ContentUrlGenerator::class),
         );
     }
 
@@ -271,6 +276,54 @@ class FinderTest extends AbstractUtilsTestCase
         $this->assertSame('tl_theme', $parents[0]['table']);
         $this->assertSame(2, $parents[0]['id']);
 
+    }
+
+    public function testFindPage()
+    {
+        $page = $this->mockModelObject(PageModel::class, [
+            'id' => 4,
+            'pid' => 1,
+            'title' => 'News',
+            'type' => 'regular',
+            'alias' => 'news',
+            'domain' => 'example.org',
+            'rootUseSSL' => true,
+        ]);
+        $helper = $this->createMock(EntityFinderHelper::class);
+        $helper->method('fetchModelOrData')->willReturn($page);
+
+        $urlGenerator = $this->createMock(ContentUrlGenerator::class);
+        $urlGenerator->method('generate')->with($page)->willReturn('/de/news.html');
+
+        $element = $this->getTestInstance(['helper' => $helper, 'urlGenerator' => $urlGenerator])->find('tl_page', 4);
+        $this->assertSame('tl_page', $element->table);
+        $this->assertSame(4, $element->id);
+        $this->assertStringContainsString('DNS: /de/news.html', $element->description);
+        $this->assertSame([['table' => 'tl_page', 'id' => 1]], iterator_to_array($element->getParents()));
+
+        $urlGenerator = $this->createMock(ContentUrlGenerator::class);
+        $urlGenerator->method('generate')->willThrowException(new RouteNotFoundException());
+
+        $element = $this->getTestInstance(['helper' => $helper, 'urlGenerator' => $urlGenerator])->find('tl_page', 4);
+        $this->assertStringContainsString('DNS: https://example.org/news', $element->description);
+    }
+
+    public function testFindPageWithContaoRouting()
+    {
+        $page = $this->mockPageModel(['id' => 4, 'pid' => 1, 'title' => 'News', 'alias' => 'news']);
+        $helper = $this->createMock(EntityFinderHelper::class);
+        $helper->method('fetchModelOrData')->willReturn($page);
+
+        $element = $this->getTestInstance(['helper' => $helper, 'urlGenerator' => $this->createContentUrlGenerator()])->find('tl_page', 4);
+        $this->assertStringContainsString('DNS: https://example.org/news.html', $element->description);
+
+        // A forward page without target cannot be routed
+        $forward = $this->mockPageModel(['id' => 7, 'pid' => 1, 'title' => 'Weiter', 'type' => 'forward', 'alias' => 'weiter', 'jumpTo' => 0]);
+        $helper = $this->createMock(EntityFinderHelper::class);
+        $helper->method('fetchModelOrData')->willReturn($forward);
+
+        $element = $this->getTestInstance(['helper' => $helper, 'urlGenerator' => $this->createContentUrlGenerator()])->find('tl_page', 7);
+        $this->assertStringContainsString('DNS: https://example.org/weiter', $element->description);
     }
 
     public function testFind()

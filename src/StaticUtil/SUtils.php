@@ -28,9 +28,7 @@ final class SUtils
      */
     protected static function getInstance(string $class)
     {
-        if (!isset(SUtils::$instances[$class])) {
-            SUtils::$instances[$class] = new $class;
-        }
+        SUtils::$instances[$class] ??= new $class;
 
         return SUtils::$instances[$class];
     }

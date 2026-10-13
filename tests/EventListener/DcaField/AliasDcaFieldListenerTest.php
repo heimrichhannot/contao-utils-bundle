@@ -213,7 +213,6 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
         return new class ($row) extends DataContainer {
             public int $id;
             public string $table;
-            public object $activeRecord;
 
             public function __construct(array $row)
             {
@@ -221,19 +220,8 @@ class AliasDcaFieldListenerTest extends AbstractUtilsTestCase
                 $this->strTable = $row['table'];
                 $this->id = $row['id'];
                 $this->intId = $row['id'];
-                $this->activeRecord = new class ($row) {
 
-                    public function __construct(private array $row) {}
-
-                    public function row(): array
-                    {
-                        return $this->row;
-                    }
-                };
-
-                if (method_exists($this, 'setCurrentRecordCache')) {
-                    static::setCurrentRecordCache($this->id, $this->table, $row);
-                }
+                static::setCurrentRecordCache($this->id, $this->table, $row);
             }
 
             public function __get($strKey)

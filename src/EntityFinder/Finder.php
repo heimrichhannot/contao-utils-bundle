@@ -5,6 +5,7 @@ namespace HeimrichHannot\UtilsBundle\EntityFinder;
 use Contao\ContentModel;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Routing\ContentUrlGenerator;
 use Contao\FormModel;
 use Contao\LayoutModel;
 use Contao\ModuleModel;
@@ -16,7 +17,7 @@ use Doctrine\DBAL\Connection;
 use HeimrichHannot\Blocks\BlockModel;
 use HeimrichHannot\Blocks\BlockModuleModel;
 use HeimrichHannot\UtilsBundle\Event\EntityFinderFindEvent;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Routing\Exception\ExceptionInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use function Symfony\Component\String\u;
 
@@ -31,7 +32,7 @@ class Finder
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly ContaoFramework          $framework,
         private readonly Connection $connection,
-
+        private readonly ContentUrlGenerator $urlGenerator,
     )
     {
     }
@@ -343,10 +344,11 @@ class Finder
             return null;
         }
 
+        $model->loadDetails();
+
         try {
-            $path = $model->getFrontendUrl();
-        } catch (InvalidParameterException) {
-            $model->loadDetails();
+            $path = $this->urlGenerator->generate($model);
+        } catch (ExceptionInterface) {
             $path = ($model->rootUseSSL ? 'https' : 'http') . '://' . $model->domain . '/' . $model->alias;
         }
 

@@ -39,13 +39,9 @@ class BackendUiUtil
             $title = StringUtil::specialchars($options->title);
         }
 
-        if (!isset($attributes['title'])) {
-            $attributes['title'] = $title;
-        }
+        $attributes['title'] ??= $title;
 
-        if (!isset($attributes['style'])) {
-            $attributes['style'] = $options->style;
-        }
+        $attributes['style'] ??= $options->style;
 
         // onclick
         if (empty($attributes['onclick'])) {
