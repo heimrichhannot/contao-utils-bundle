@@ -26,7 +26,7 @@ class SnowballStemmerTest extends TestCase
 
     public static function stemProvider(): \Generator
     {
-        yield 'de plural -en' => ['weihnachten', 'de', 'weihnacht'];
+        yield 'de plural -en' => ['führungen', 'de', 'fuhrung'];
         yield 'de plural -n' => ['schulen', 'de', 'schul'];
         yield 'de singular -e' => ['schule', 'de', 'schul'];
         yield 'de -ungen' => ['lieferungen', 'de', 'liefer'];

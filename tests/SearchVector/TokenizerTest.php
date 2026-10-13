@@ -21,8 +21,8 @@ class TokenizerTest extends TestCase
 
     public static function tokenizeProvider(): \Generator
     {
-        yield 'lowercase and order' => ['Freie Strecke', ['freie', 'strecke']];
-        yield 'hyphen compound kept' => ['Niederbayern-Oberpfalz', ['niederbayern-oberpfalz']];
+        yield 'lowercase and order' => ['Freie Führungen', ['freie', 'fuhrungen']];
+        yield 'hyphen compound kept' => ['Baden-Württemberg', ['baden-wurttemberg']];
         yield 'umlauts and sharp s' => ['Über Äpfel Öl Maß Straße', ['uber', 'apfel', 'ol', 'mass', 'strasse']];
         yield 'uppercase umlauts' => ['ÄÖÜ', ['aou']];
         yield 'accents' => ['Café', ['cafe']];
@@ -33,22 +33,22 @@ class TokenizerTest extends TestCase
         yield 'hyphen only' => ['- -- ---', []];
         yield 'empty' => ['', []];
         yield 'only punctuation and whitespace' => [" ,;.\n\t", []];
-        yield 'duplicates are kept' => ['bahn bahn', ['bahn', 'bahn']];
+        yield 'duplicates are kept' => ['museum museum', ['museum', 'museum']];
     }
 
     public function testTokenizeWithStemmer(): void
     {
         $stemmer = new SnowballStemmer();
 
-        $this->assertSame(['freie', 'streck'], Tokenizer::tokenize('Freie Strecke', 'de', $stemmer));
+        $this->assertSame(['freie', 'fuhrung'], Tokenizer::tokenize('Freie Führungen', 'de', $stemmer));
         $this->assertSame(['munch'], Tokenizer::tokenize('München', 'de', $stemmer));
         $this->assertSame(['haus', 'in', 'munch'], Tokenizer::tokenize('Häuser in München', 'de', $stemmer));
-        $this->assertSame(['weihnacht', 'bahn'], Tokenizer::tokenize('Weihnachten Bahn', 'de', $stemmer));
+        $this->assertSame(['fuhrung', 'museum'], Tokenizer::tokenize('Führungen Museum', 'de', $stemmer));
     }
 
     public function testTokenizeStemsHyphenCompoundAsWhole(): void
     {
-        $this->assertSame(['niederbayern-oberpfalz'], Tokenizer::tokenize('Niederbayern-Oberpfalz', 'de', new SnowballStemmer()));
+        $this->assertSame(['baden-wurttemberg'], Tokenizer::tokenize('Baden-Württemberg', 'de', new SnowballStemmer()));
     }
 
     public function testTokenizePassesLowercasedWordWithAccentsToStemmer(): void
@@ -203,7 +203,7 @@ class TokenizerTest extends TestCase
 
         $this->assertSame(['schul'], Tokenizer::tokenize('Schulen', 'de', $stemmer));
         $this->assertSame(['schulen'], Tokenizer::tokenize('Schulen', 'en', $stemmer));
-        $this->assertSame([['schulen', 'bahn']], Tokenizer::parseQuery('Schulen Bahn', 'en', $stemmer));
+        $this->assertSame([['schulen', 'museum']], Tokenizer::parseQuery('Schulen Museum', 'en', $stemmer));
     }
 
     public function testTokenizeDropsWordsThatStemToEmptyString(): void
@@ -257,9 +257,9 @@ class TokenizerTest extends TestCase
 
     public static function parseQueryProvider(): \Generator
     {
-        yield 'single word' => ['Bahn', [['bahn']]];
-        yield 'words are one phrase (AND)' => ['weihnachten bahn', [['weihnachten', 'bahn']]];
-        yield 'comma separates phrases (OR)' => ['kind, dresden', [['kind'], ['dresden']]];
+        yield 'single word' => ['Museum', [['museum']]];
+        yield 'words are one phrase (AND)' => ['führungen museum', [['fuhrungen', 'museum']]];
+        yield 'comma separates phrases (OR)' => ['kind, köln', [['kind'], ['koln']]];
         yield 'quoted phrase is one term' => ['"bei Nacht"', [['bei nacht']]];
         yield 'quoted phrase is normalized' => ['"Bei  Über-Nacht!"', [['bei uber-nacht']]];
         yield 'comma inside quotes does not split' => ['"a, b", c', [['a b'], ['c']]];
@@ -275,15 +275,15 @@ class TokenizerTest extends TestCase
         yield 'backslash quote escape' => ['"say \"hi\" there", x', [['say hi there'], ['x']]];
         yield 'escaped quote does not close, comma stays inside' => ['"say \"hi, there\" now", other', [['say hi there now'], ['other']]];
         yield 'unclosed quote is plain words' => ['"unclosed, phrase', [['unclosed', 'phrase']]];
-        yield 'unclosed quote after words is plain words' => ['dresden "bei Nacht', [['dresden', 'bei', 'nacht']]];
-        yield 'word and quoted phrase (AND)' => ['dresden "bei Nacht"', [['dresden', 'bei nacht']]];
-        yield 'quoted phrase and word (AND)' => ['"bei Nacht" dresden', [['bei nacht', 'dresden']]];
+        yield 'unclosed quote after words is plain words' => ['köln "bei Nacht', [['koln', 'bei', 'nacht']]];
+        yield 'word and quoted phrase (AND)' => ['köln "bei Nacht"', [['koln', 'bei nacht']]];
+        yield 'quoted phrase and word (AND)' => ['"bei Nacht" köln', [['bei nacht', 'koln']]];
         yield 'two quoted phrases (AND)' => ['"bei Nacht" "im Winter"', [['bei nacht', 'im winter']]];
-        yield 'quoted phrase and words in second alternative' => ['kind, dresden "bei Nacht" winter', [['kind'], ['dresden', 'bei nacht', 'winter']]];
+        yield 'quoted phrase and words in second alternative' => ['kind, köln "bei Nacht" winter', [['kind'], ['koln', 'bei nacht', 'winter']]];
         yield 'comma inside quotes mixed with word' => ['"a, b" c', [['a b', 'c']]];
         yield 'quoted single word equals word' => ['haus "haus"', [['haus']]];
         yield 'quoted phrase stemmed' => ['"bei Nacht"', [['bei nacht']], true];
-        yield 'stemmed words' => ['weihnachten bahn, kind', [['weihnacht', 'bahn'], ['kind']], true];
+        yield 'stemmed words' => ['führungen museum, kind', [['fuhrung', 'museum'], ['kind']], true];
         yield 'umlauts stemmed and folded' => ['Häuser, München', [['haus'], ['munch']], true];
         yield 'duplicates after stemming removed' => ['schule schulen', [['schul']], true];
     }
@@ -291,12 +291,12 @@ class TokenizerTest extends TestCase
     public function testParseQueryDocumentationExample(): void
     {
         $this->assertSame(
-            [['weihnacht', 'bahn'], ['kind'], ['dresd']],
-            Tokenizer::parseQuery('weihnachten bahn, kind, dresden', 'de', new SnowballStemmer())
+            [['fuhrung', 'museum'], ['kind'], ['koln']],
+            Tokenizer::parseQuery('führungen museum, kind, köln', 'de', new SnowballStemmer())
         );
         $this->assertSame(
-            [['weihnacht', 'bahn'], ['dresd', 'bei nacht']],
-            Tokenizer::parseQuery('weihnachten bahn, dresden "bei Nacht"', 'de', new SnowballStemmer())
+            [['fuhrung', 'museum'], ['koln', 'bei nacht']],
+            Tokenizer::parseQuery('führungen museum, köln "bei Nacht"', 'de', new SnowballStemmer())
         );
     }
 
@@ -324,9 +324,9 @@ class TokenizerTest extends TestCase
         yield 'different inflection and umlaut' => ['Lieferungen nach München', 'Lieferung münchen'];
         yield 'umlaut reversed' => ['Lieferungen nach Munchen', 'München'];
         yield 'plural vs singular' => ['Schulen und Kirchen', 'Schule Kirche'];
-        yield 'compound part' => ['Niederbayern-Oberpfalz', 'niederbayern-oberpfalz'];
+        yield 'compound part' => ['Baden-Württemberg', 'baden-württemberg'];
         yield 'quoted phrase' => ['Fahrt bei Nacht', '"bei Nacht"'];
-        yield 'case' => ['WEIHNACHTEN', 'weihnachten'];
+        yield 'case' => ['STADTFÜHRUNGEN', 'stadtführungen'];
     }
 
     public function testQuotedPhraseDoesNotMatchWrongWordOrder(): void

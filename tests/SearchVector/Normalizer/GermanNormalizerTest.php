@@ -29,7 +29,7 @@ class GermanNormalizerTest extends TestCase
         yield 'haeuser' => ['haeuser', 'häuser'];
         yield 'aerzte' => ['aerzte', 'ärzte'];
         yield 'uebel' => ['uebel', 'übel'];
-        yield 'compound' => ['niederbayern-oeffingen', 'niederbayern-öffingen'];
+        yield 'compound' => ['baden-oeffingen', 'baden-öffingen'];
 
         // ue after a vowel or q is no umlaut
         yield 'feuer' => ['feuer', 'feuer'];

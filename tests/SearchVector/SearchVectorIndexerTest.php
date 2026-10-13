@@ -51,8 +51,8 @@ class SearchVectorIndexerTest extends ContaoTestCase
     private const FIXTURES = __DIR__ . '/../Fixtures/search-vector';
 
     private const CATEGORY_LABELS = [
-        'de' => ['railcar' => 'Triebwagen', 'bus' => 'Linienbusse'],
-        'en' => ['railcar' => 'Railcar', 'bus' => 'Buses'],
+        'de' => ['guided_tour' => 'Stadtführung', 'museum' => 'Museen'],
+        'en' => ['guided_tour' => 'City tour', 'museum' => 'Museums'],
     ];
 
     /**
@@ -112,7 +112,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
                 'text' => ['inputType' => 'textarea', 'eval' => ['rte' => 'tinyMCE']],
                 'category' => [
                     'inputType' => 'select',
-                    'options' => ['railcar', 'bus'],
+                    'options' => ['guided_tour', 'museum'],
                     'reference' => &$GLOBALS['TL_LANG'][self::TABLE]['category'],
                 ],
                 'seasons' => [
@@ -146,15 +146,15 @@ class SearchVectorIndexerTest extends ContaoTestCase
     {
         $vector = $this->createIndexer()->buildVector(self::TABLE, [
             'id' => 1,
-            'title' => 'Waldbahn bei Zwiesel',
-            'text' => '<p>Fahrt&nbsp;im <strong>Sommer</strong>.</p><p>Mehr:{{link::12}}</p>',
-            'category' => 'railcar',
+            'title' => 'Stadtmuseum am Rathaus',
+            'text' => '<p>Führung&nbsp;im <strong>Sommer</strong>.</p><p>Mehr:{{link::12}}</p>',
+            'category' => 'guided_tour',
             'seasons' => \serialize(['spring', 'winter']),
         ]);
 
         // Text and HTML are flattened, insert tags removed, option values replaced by their labels and every array
         // value is a separate section
-        $this->assertSame('| waldbahn bei zwiesel | fahrt im somm mehr | triebwag | fruhling | schon winterzeit |', $vector);
+        $this->assertSame('| stadtmuseum am rathaus | fuhrung im somm mehr | stadtfuhr | fruhling | schon winterzeit |', $vector);
     }
 
     public function testBuildVectorWithoutStemmer(): void
@@ -164,17 +164,17 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $vector = $this->createIndexer()->buildVector(self::TABLE, [
             'id' => 1,
             'title' => 'Größere Brücken',
-            'category' => 'bus',
+            'category' => 'museum',
         ]);
 
-        $this->assertSame('| grossere brucken | linienbusse |', $vector);
+        $this->assertSame('| grossere brucken | museen |', $vector);
     }
 
     public function testBuildVectorRemovesDuplicatesAndReturnsEmptyStringWithoutContent(): void
     {
         $indexer = $this->createIndexer();
 
-        $this->assertSame('| triebwag |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Triebwagen', 'category' => 'railcar']));
+        $this->assertSame('| stadtfuhr |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Stadtführung', 'category' => 'guided_tour']));
         $this->assertSame('', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => '<p> </p>', 'text' => '']));
     }
 
@@ -195,15 +195,15 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->eventDispatcher->addListener(BuildSearchVectorEvent::class, function (BuildSearchVectorEvent $event): void {
             $this->assertSame(self::TABLE, $event->table);
             $this->assertSame(1, $event->row['id']);
-            $this->assertSame(['Waldbahn'], $event->getValues());
+            $this->assertSame(['Stadtmuseum'], $event->getValues());
             $this->assertSame('de', $event->locale);
 
-            $event->addValue('Bayerischer Wald');
+            $event->addValue('Historische Altstadt');
         });
 
         $this->assertSame(
-            '| waldbahn | bayer wald |',
-            $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'title' => 'Waldbahn'])
+            '| stadtmuseum | histor altstadt |',
+            $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum'])
         );
     }
 
@@ -212,7 +212,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         SearchVectorField::getRegistrations()[self::TABLE]->setLanguageField('language');
         $indexer = $this->createIndexer();
 
-        $this->assertSame('| triebwag |', $indexer->buildVector(self::TABLE, ['id' => 1, 'language' => 'de', 'category' => 'railcar']));
+        $this->assertSame('| stadtfuhr |', $indexer->buildVector(self::TABLE, ['id' => 1, 'language' => 'de', 'category' => 'guided_tour']));
 
         // The language of the user is restored
         $this->assertSame('en', $GLOBALS['TL_LANGUAGE']);
@@ -220,12 +220,12 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame('en', $this->translator->getLocale());
 
         // English records are stemmed with the English rules
-        $this->assertSame('| train | railcar |', $indexer->buildVector(self::TABLE, ['id' => 2, 'language' => 'en', 'title' => 'Trains', 'category' => 'railcar']));
+        $this->assertSame('| tour | citi tour |', $indexer->buildVector(self::TABLE, ['id' => 2, 'language' => 'en', 'title' => 'Tours', 'category' => 'guided_tour']));
 
         // An empty language field falls back to the configured language, then to the default locale
-        $this->assertSame('| triebwag |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'railcar']));
+        $this->assertSame('| stadtfuhr |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
         SearchVectorField::getRegistrations()[self::TABLE]->setLanguage('en');
-        $this->assertSame('| railcar |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'railcar']));
+        $this->assertSame('| citi tour |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
     }
 
     public function testOptionsCallbacksRunInTheRecordLanguage(): void
@@ -252,7 +252,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $GLOBALS['TL_LANG'][self::TABLE]['category'] = null;
         (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, []);
 
-        $this->assertSame('| triebwag |', $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'category' => 'railcar']));
+        $this->assertSame('| stadtfuhr |', $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'category' => 'guided_tour']));
     }
 
     public function testReferencesToLanguageFilesOfOtherTablesUseTheRecordLanguage(): void
@@ -290,33 +290,33 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->once())->method('warning')->with($this->stringContains('category'));
 
-        $vector = $this->createIndexer($dcaUtil, $logger)->buildVector(self::TABLE, ['id' => 1, 'category' => 'railcar']);
+        $vector = $this->createIndexer($dcaUtil, $logger)->buildVector(self::TABLE, ['id' => 1, 'category' => 'guided_tour']);
 
-        $this->assertSame('| railcar |', $vector);
+        $this->assertSame('| guided tour |', $vector);
     }
 
     public function testIndexWritesOnlyChangedVectors(): void
     {
-        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Waldbahn', 'category' => 'bus']);
-        $this->connection->insert(self::TABLE, ['id' => 2, 'title' => 'Triebwagen']);
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum', 'category' => 'museum']);
+        $this->connection->insert(self::TABLE, ['id' => 2, 'title' => 'Stadtführung']);
 
         $indexer = $this->createIndexer();
 
         $this->assertTrue($indexer->index(self::TABLE, 1));
-        $this->assertSame('| waldbahn | linienbuss |', $this->fetchVector(1));
+        $this->assertSame('| stadtmuseum | muse |', $this->fetchVector(1));
         $this->assertNull($this->fetchVector(2));
 
         $this->assertFalse($indexer->index(self::TABLE, 1), 'An unchanged vector is not written again');
         $this->assertFalse($indexer->index(self::TABLE, 99), 'A missing record is ignored');
 
-        $this->connection->update(self::TABLE, ['title' => 'Oberpfalz'], ['id' => 1]);
+        $this->connection->update(self::TABLE, ['title' => 'Rathaus'], ['id' => 1]);
         $this->assertTrue($indexer->index(self::TABLE, 1));
-        $this->assertSame('| oberpfalz | linienbuss |', $this->fetchVector(1));
+        $this->assertSame('| rathaus | muse |', $this->fetchVector(1));
     }
 
     public function testQueueSendsMessageThatAWorkerHandles(): void
     {
-        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Waldbahn']);
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum']);
 
         // A messenger setup like Contao's, with the transport of the Contao Managed Edition
         $transport = new InMemoryTransport();
@@ -341,22 +341,22 @@ class SearchVectorIndexerTest extends ContaoTestCase
         // The worker receives the message from the transport
         $bus->dispatch($sent[0]->with(new ReceivedStamp(SearchVectorIndexer::TRANSPORT)));
 
-        $this->assertSame('| waldbahn |', $this->fetchVector(1));
+        $this->assertSame('| stadtmuseum |', $this->fetchVector(1));
     }
 
     public function testQueueIndexesRightAwayWithoutTransport(): void
     {
-        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Waldbahn']);
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum']);
 
         $bus = $this->createMock(MessageBusInterface::class);
         $bus->expects($this->never())->method('dispatch');
 
         $this->createIndexer(messageBus: $bus, messengerTransports: new ServiceLocator([]))->queue(self::TABLE, 1);
-        $this->assertSame('| waldbahn |', $this->fetchVector(1));
+        $this->assertSame('| stadtmuseum |', $this->fetchVector(1));
 
-        $this->connection->update(self::TABLE, ['title' => 'Oberpfalz'], ['id' => 1]);
+        $this->connection->update(self::TABLE, ['title' => 'Rathaus'], ['id' => 1]);
         $this->createIndexer()->queue(self::TABLE, 1);
-        $this->assertSame('| oberpfalz |', $this->fetchVector(1), 'Without message bus');
+        $this->assertSame('| rathaus |', $this->fetchVector(1), 'Without message bus');
     }
 
     public function testQueueFailsEarlyForUnregisteredTable(): void
@@ -372,8 +372,8 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
     public function testIndexAll(): void
     {
-        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Waldbahn']);
-        $this->connection->insert(self::TABLE, ['id' => 2, 'title' => 'Triebwagen']);
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum']);
+        $this->connection->insert(self::TABLE, ['id' => 2, 'title' => 'Stadtführung']);
 
         $indexer = $this->createIndexer();
         $indexer->index(self::TABLE, 1);
@@ -385,7 +385,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $this->assertSame(1, $changed);
         $this->assertSame([1 => false, 2 => true], $progress);
-        $this->assertSame('| triebwag |', $this->fetchVector(2));
+        $this->assertSame('| stadtfuhr |', $this->fetchVector(2));
     }
 
     public function testUnregisteredTable(): void
@@ -397,13 +397,13 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
     public function testDataContainerProvidesRecord(): void
     {
-        $row = ['id' => '5', 'title' => 'Waldbahn'];
+        $row = ['id' => '5', 'title' => 'Stadtmuseum'];
         $dc = new SearchVectorDataContainer(self::TABLE, $row);
 
         $this->assertSame(self::TABLE, $dc->table);
         $this->assertSame(5, $dc->id);
         // Reading $dc->activeRecord is deprecated, check what callbacks that still use it would get
-        $this->assertSame('Waldbahn', (new \ReflectionProperty(SearchVectorDataContainer::class, 'objActiveRecord'))->getValue($dc)->title);
+        $this->assertSame('Stadtmuseum', (new \ReflectionProperty(SearchVectorDataContainer::class, 'objActiveRecord'))->getValue($dc)->title);
         $this->assertSame($row, $dc->getCurrentRecord());
         $this->assertSame($row, $dc->getCurrentRecord(5, self::TABLE));
     }

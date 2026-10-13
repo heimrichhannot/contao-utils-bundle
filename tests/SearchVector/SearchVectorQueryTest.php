@@ -82,39 +82,39 @@ class SearchVectorQueryTest extends ContaoTestCase
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->assertTrue($this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'Weihnachten'));
+        $this->assertTrue($this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'Führungen'));
 
         $this->assertSame(
             'SELECT * FROM tl_example WHERE "tl_example"."searchVector" LIKE :dcValue1',
             $qb->getSQL()
         );
-        $this->assertSame(['dcValue1' => '%weihnacht%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%fuhrung%'], $qb->getParameters());
     }
 
     public function testApplyMultipleWordsAreCombinedWithAnd(): void
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'weihnachten bahn');
+        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'führungen museum');
 
         $this->assertSame(
             'SELECT * FROM tl_example WHERE ("tl_example"."searchVector" LIKE :dcValue1) AND ("tl_example"."searchVector" LIKE :dcValue2)',
             $qb->getSQL()
         );
-        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bahn%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%fuhrung%', 'dcValue2' => '%museum%'], $qb->getParameters());
     }
 
     public function testApplyCommaPhrasesAreCombinedWithOr(): void
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'weihnachten bahn, kind');
+        $this->createQuery(new SnowballStemmer())->apply($qb, 'tl_example', 'führungen museum, kind');
 
         $this->assertSame(
             'SELECT * FROM tl_example WHERE (("tl_example"."searchVector" LIKE :dcValue1) AND ("tl_example"."searchVector" LIKE :dcValue2)) OR ("tl_example"."searchVector" LIKE :dcValue3)',
             $qb->getSQL()
         );
-        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bahn%', 'dcValue3' => '%kind%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%fuhrung%', 'dcValue2' => '%museum%', 'dcValue3' => '%kind%'], $qb->getParameters());
     }
 
     public function testApplyQuotedPhraseIsSingleTerm(): void
@@ -151,13 +151,13 @@ class SearchVectorQueryTest extends ContaoTestCase
         $query = $this->createQuery(new SnowballStemmer());
 
         $german = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
-        $query->apply($german, 'tl_example', 'Weihnachten Bahn, "bei Nacht"', null, 'de_CH');
+        $query->apply($german, 'tl_example', 'Führungen Museum, "bei Nacht"', null, 'de_CH');
 
         $english = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
-        $query->apply($english, 'tl_example', 'Weihnachten Bahn, "bei Nacht"', null, 'en');
+        $query->apply($english, 'tl_example', 'Führungen Museum, "bei Nacht"', null, 'en');
 
-        $this->assertSame(['dcValue1' => '%weihnacht%', 'dcValue2' => '%bahn%', 'dcValue3' => '%bei nacht%'], $german->getParameters());
-        $this->assertSame(['dcValue1' => '%weihnachten%', 'dcValue2' => '%bahn%', 'dcValue3' => '%bei nacht%'], $english->getParameters());
+        $this->assertSame(['dcValue1' => '%fuhrung%', 'dcValue2' => '%museum%', 'dcValue3' => '%bei nacht%'], $german->getParameters());
+        $this->assertSame(['dcValue1' => '%fuhrungen%', 'dcValue2' => '%museum%', 'dcValue3' => '%bei nacht%'], $english->getParameters());
     }
 
     public function testApplyUsesRequestLocaleForTablesWithLanguageField(): void
@@ -201,26 +201,26 @@ class SearchVectorQueryTest extends ContaoTestCase
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example', 'e');
 
-        $this->createQuery(null, 'myVector')->apply($qb, 'tl_example', 'Bahn', 'e');
+        $this->createQuery(null, 'myVector')->apply($qb, 'tl_example', 'Museum', 'e');
 
         $this->assertSame('SELECT * FROM tl_example e WHERE "e"."myVector" LIKE :dcValue1', $qb->getSQL());
-        $this->assertSame(['dcValue1' => '%bahn%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%museum%'], $qb->getParameters());
     }
 
     public function testApplyWithoutStemmer(): void
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
 
-        $this->createQuery(null)->apply($qb, 'tl_example', 'Weihnachten');
+        $this->createQuery(null)->apply($qb, 'tl_example', 'Führungen');
 
-        $this->assertSame(['dcValue1' => '%weihnachten%'], $qb->getParameters());
+        $this->assertSame(['dcValue1' => '%fuhrungen%'], $qb->getParameters());
     }
 
     public function testApplyKeepsExistingConditions(): void
     {
         $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example')->where('published = 1');
 
-        $this->createQuery(null)->apply($qb, 'tl_example', 'bahn');
+        $this->createQuery(null)->apply($qb, 'tl_example', 'museum');
 
         $this->assertSame(
             'SELECT * FROM tl_example WHERE (published = 1) AND ("tl_example"."searchVector" LIKE :dcValue1)',
@@ -273,34 +273,34 @@ class SearchVectorQueryTest extends ContaoTestCase
     public function testApplyFindsMatchingRows(): void
     {
         $this->createTable([
-            1 => '| waldbahn bei zwiesel | somm | triebwag |',
-            2 => '| weihnachtsmarkt | dresd |',
-            3 => '| niederbayern-oberpfalz | liefer nach munch |',
+            1 => '| stadtmuseum am rathaus | somm | stadtfuhr |',
+            2 => '| stadtrundgang | koln |',
+            3 => '| baden-wurttemberg | liefer nach munch |',
             4 => '',
         ]);
         $query = $this->createQuery(new SnowballStemmer());
 
         // single word, matched as substring of a compound
-        $this->assertSame([1], $this->search($query, 'Waldbahn'));
-        $this->assertSame([1], $this->search($query, 'bahn'));
-        $this->assertSame([3], $this->search($query, 'Oberpfalz'));
+        $this->assertSame([1], $this->search($query, 'Stadtmuseum'));
+        $this->assertSame([1], $this->search($query, 'museum'));
+        $this->assertSame([3], $this->search($query, 'Württemberg'));
         // inflection and umlaut
         $this->assertSame([3], $this->search($query, 'Lieferung München'));
         // AND
-        $this->assertSame([1], $this->search($query, 'sommer triebwagen'));
-        $this->assertSame([], $this->search($query, 'sommer weihnachten'));
+        $this->assertSame([1], $this->search($query, 'sommer stadtführungen'));
+        $this->assertSame([], $this->search($query, 'sommer rundgänge'));
         // OR
-        $this->assertSame([1, 2], $this->search($query, 'sommer, weihnachten'));
-        $this->assertSame([1, 2, 3], $this->search($query, 'sommer, dresden, oberpfalz'));
+        $this->assertSame([1, 2], $this->search($query, 'sommer, rundgänge'));
+        $this->assertSame([1, 2, 3], $this->search($query, 'sommer, köln, württemberg'));
         // phrase
-        $this->assertSame([1], $this->search($query, '"bei Zwiesel"'));
-        $this->assertSame([], $this->search($query, '"Zwiesel bei"'));
+        $this->assertSame([1], $this->search($query, '"am Rathaus"'));
+        $this->assertSame([], $this->search($query, '"Rathaus am"'));
         // word and phrase
-        $this->assertSame([1], $this->search($query, 'sommer "bei Zwiesel"'));
-        $this->assertSame([], $this->search($query, 'weihnachten "bei Zwiesel"'));
-        $this->assertSame([1, 2], $this->search($query, 'dresden, sommer "bei Zwiesel"'));
+        $this->assertSame([1], $this->search($query, 'sommer "am Rathaus"'));
+        $this->assertSame([], $this->search($query, 'rundgänge "am Rathaus"'));
+        $this->assertSame([1, 2], $this->search($query, 'köln, sommer "am Rathaus"'));
         // pipe separator keeps a phrase from matching across values
-        $this->assertSame([], $this->search($query, '"zwiesel sommer"'));
+        $this->assertSame([], $this->search($query, '"rathaus sommer"'));
         // no match
         $this->assertSame([], $this->search($query, 'hamburg'));
     }
@@ -370,13 +370,13 @@ class SearchVectorQueryTest extends ContaoTestCase
 
     public function testCreateModelCriteria(): void
     {
-        [$columns, $values] = $this->createQuery(new SnowballStemmer())->createModelCriteria('tl_example', 'weihnachten bahn, "bei Nacht"');
+        [$columns, $values] = $this->createQuery(new SnowballStemmer())->createModelCriteria('tl_example', 'führungen museum, "bei Nacht"');
 
         $this->assertSame(
             ['(("tl_example"."searchVector" LIKE ? AND "tl_example"."searchVector" LIKE ?) OR ("tl_example"."searchVector" LIKE ?))'],
             $columns
         );
-        $this->assertSame(['%weihnacht%', '%bahn%', '%bei nacht%'], $values);
+        $this->assertSame(['%fuhrung%', '%museum%', '%bei nacht%'], $values);
     }
 
     public function testCreateModelCriteriaWithExplicitLocale(): void
@@ -390,10 +390,10 @@ class SearchVectorQueryTest extends ContaoTestCase
 
     public function testCreateModelCriteriaSingleWord(): void
     {
-        [$columns, $values] = $this->createQuery(null)->createModelCriteria('tl_example', 'Bahn');
+        [$columns, $values] = $this->createQuery(null)->createModelCriteria('tl_example', 'Museum');
 
         $this->assertSame(['(("tl_example"."searchVector" LIKE ?))'], $columns);
-        $this->assertSame(['%bahn%'], $values);
+        $this->assertSame(['%museum%'], $values);
     }
 
     public function testCreateModelCriteriaEscapesLikeWildcards(): void
