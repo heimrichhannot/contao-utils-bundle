@@ -25,7 +25,7 @@ class Tokenizer
     public static function tokenize(string $text, string $locale, ?StemmerInterface $stemmer = null): array
     {
         // Split on anything that cannot be part of a word, but keep hyphens so compounds such as
-        // "Niederbayern-Oberpfalz" stay a single token.
+        // "Baden-Württemberg" stay a single token.
         $words = \preg_split('/[^\p{L}\p{Nd}-]+/u', $text, -1, \PREG_SPLIT_NO_EMPTY) ?: [];
 
         $tokens = [];
@@ -53,8 +53,8 @@ class Tokenizer
      * Commas separate phrases (OR), the terms of a phrase are combined with AND. Words wrapped in double quotes stay a
      * single term, so their order matters. Quoted and unquoted words can be mixed, an unclosed quote is ignored.
      *
-     * Example: `Tokenizer::parseQuery('weihnachten bahn, dresden "bei Nacht"', 'de', new SnowballStemmer())`
-     * returns `[['weihnacht', 'bahn'], ['dresd', 'bei nacht']]`.
+     * Example: `Tokenizer::parseQuery('Altstadt Führungen, Museum "am Abend"', 'de', new SnowballStemmer())`
+     * returns `[['altstadt', 'fuhrung'], ['museum', 'am abend']]`.
      *
      * @param string $locale The language of the query, passed to the stemmer
      *

@@ -10,7 +10,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  * Query syntax: commas separate alternatives (OR), the words of one alternative must all match (AND), words wrapped
  * in double quotes must match as a phrase. Words match as substrings of the stored stems, so compounds are found by
- * their parts ("Oberpfalz" finds "Niederbayern-Oberpfalz").
+ * their parts ("Württemberg" finds "Baden-Württemberg").
  *
  * The search is stemmed in the language the records were indexed in. For tables with a language field it defaults to
  * the language of the current request, pass $locale to search in another language.

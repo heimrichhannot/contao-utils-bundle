@@ -235,8 +235,8 @@ The search is stemmed in the language of the records. For tables with a language
 the current request, so pass the locale if you search records of another language.
 
 Search syntax: commas separate alternatives, all words of one alternative must match, and words wrapped in double
-quotes must match as a phrase. For example `bahn winter, dresden "bei nacht"` finds records containing both "bahn"
-and "winter", or "dresden" together with the phrase "bei nacht". Words also match parts of compound words.
+quotes must match as a phrase. For example `altstadt führung, museum "am abend"` finds records containing both
+"altstadt" and "führung", or "museum" together with the phrase "am abend". Words also match parts of compound words.
 
 Rebuild the vectors of a table after adding the field, after changing the field configuration and whenever something
 outside a record save changes what should be found (renamed options, related records, …):
