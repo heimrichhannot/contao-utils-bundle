@@ -11,19 +11,69 @@ namespace HeimrichHannot\UtilsBundle\Tests;
 use Contao\ContentModel;
 use Contao\Controller;
 use Contao\CoreBundle\Framework\Adapter;
+use Contao\CoreBundle\InsertTag\InsertTagParser;
+use Contao\CoreBundle\Routing\Content\PageResolver;
+use Contao\CoreBundle\Routing\Content\StringResolver;
+use Contao\CoreBundle\Routing\ContentUrlGenerator;
+use Contao\CoreBundle\Routing\Page\PageRegistry;
+use Contao\CoreBundle\Routing\PageUrlGenerator;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\PageModel;
 use Contao\TestCase\ContaoTestCase;
 use Contao\UserModel;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Cmf\Component\Routing\RouteProviderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\UrlHelper;
+use Symfony\Component\Routing\RequestContext;
 
 abstract class AbstractUtilsTestCase extends ContaoTestCase
 {
     use ModelMockTrait;
 
     abstract public function getTestInstance(array $parameters = [], ?MockBuilder $mockBuilder = null);
+
+    /**
+     * A content URL generator with the real Contao page routing and resolvers.
+     * Only the insert tag parser is stubbed and returns its input unchanged.
+     */
+    protected function createContentUrlGenerator(): ContentUrlGenerator
+    {
+        $pageRegistry = new PageRegistry($this->createMock(Connection::class));
+        $insertTagParser = $this->createMock(InsertTagParser::class);
+        $insertTagParser->method('replaceInline')->willReturnArgument(0);
+        $requestStack = new RequestStack();
+        $requestContext = new RequestContext();
+
+        return new ContentUrlGenerator(
+            new PageUrlGenerator($this->createMock(RouteProviderInterface::class), $pageRegistry),
+            $pageRegistry,
+            $this->createMock(EntityManagerInterface::class),
+            [
+                new PageResolver($this->mockContaoFramework([
+                    PageModel::class => $this->mockAdapter(['findById', 'findFirstPublishedRegularByPid']),
+                ])),
+                new StringResolver($insertTagParser, new UrlHelper($requestStack, $requestContext), $requestStack, $requestContext),
+            ],
+        );
+    }
+
+    protected function mockPageModel(array $properties): PageModel
+    {
+        return $this->mockClassWithProperties(PageModel::class, [
+            'type' => 'regular',
+            'domain' => 'example.org',
+            'rootUseSSL' => true,
+            'rootLanguage' => 'de',
+            'urlPrefix' => '',
+            'urlSuffix' => '.html',
+            ...$properties,
+        ]);
+    }
 
     /**
      * @return Adapter|MockObject|Model

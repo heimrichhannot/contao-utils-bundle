@@ -111,9 +111,13 @@ class RequestUtil
         if ($page) {
             try {
                 $url = parse_url($this->urlGenerator->generate($page, [], UrlGeneratorInterface::ABSOLUTE_URL));
-
-                return $url['scheme'].'://'.$url['host'];
             } catch (ExceptionInterface) {
+                $url = false;
+            }
+
+            // Redirect targets like mailto: have no host
+            if (isset($url['scheme'], $url['host'])) {
+                return $url['scheme'].'://'.$url['host'];
             }
         }
 

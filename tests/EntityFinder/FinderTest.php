@@ -308,6 +308,24 @@ class FinderTest extends AbstractUtilsTestCase
         $this->assertStringContainsString('DNS: https://example.org/news', $element->description);
     }
 
+    public function testFindPageWithContaoRouting()
+    {
+        $page = $this->mockPageModel(['id' => 4, 'pid' => 1, 'title' => 'News', 'alias' => 'news']);
+        $helper = $this->createMock(EntityFinderHelper::class);
+        $helper->method('fetchModelOrData')->willReturn($page);
+
+        $element = $this->getTestInstance(['helper' => $helper, 'urlGenerator' => $this->createContentUrlGenerator()])->find('tl_page', 4);
+        $this->assertStringContainsString('DNS: https://example.org/news.html', $element->description);
+
+        // A forward page without target cannot be routed
+        $forward = $this->mockPageModel(['id' => 7, 'pid' => 1, 'title' => 'Weiter', 'type' => 'forward', 'alias' => 'weiter', 'jumpTo' => 0]);
+        $helper = $this->createMock(EntityFinderHelper::class);
+        $helper->method('fetchModelOrData')->willReturn($forward);
+
+        $element = $this->getTestInstance(['helper' => $helper, 'urlGenerator' => $this->createContentUrlGenerator()])->find('tl_page', 7);
+        $this->assertStringContainsString('DNS: https://example.org/weiter', $element->description);
+    }
+
     public function testFind()
     {
         $this->typicalFind('tl_list_config', 3, 'List config', function (Element $entity) {

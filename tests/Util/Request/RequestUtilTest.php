@@ -160,6 +160,23 @@ class RequestUtilTest extends AbstractUtilsTestCase
         $instance->getBaseUrl([], ['throwException' => true]);
     }
 
+    public function testGetBaseUrlWithContaoRouting()
+    {
+        $instance = $this->getTestInstance([
+            'requestStack' => new RequestStack(),
+            'urlGenerator' => $this->createContentUrlGenerator(),
+        ]);
+
+        $page = $this->mockPageModel(['id' => 4, 'alias' => 'news']);
+        $this->assertSame('https://example.org', $instance->getBaseUrl(['pageModel' => $page]));
+
+        $redirect = $this->mockPageModel(['id' => 5, 'type' => 'redirect', 'url' => 'https://heimrich-hannot.de/kontakt']);
+        $this->assertSame('https://heimrich-hannot.de', $instance->getBaseUrl(['pageModel' => $redirect]));
+
+        $mailto = $this->mockPageModel(['id' => 6, 'type' => 'redirect', 'url' => 'mailto:info@example.org']);
+        $this->assertSame('https://fallback.org', $instance->getBaseUrl(['pageModel' => $mailto, 'fallback' => 'https://fallback.org']));
+    }
+
     public function testIsNewVisitor()
     {
         $requestStack = new RequestStack();
