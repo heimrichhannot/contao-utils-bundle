@@ -40,7 +40,7 @@ class SearchVectorRebuildCommand extends Command
         $table = (string) $input->getArgument('table');
 
         try {
-            if ($ids = \array_filter(\array_map('intval', $input->getOption('id')))) {
+            if ($ids = \array_filter(\array_map(intval(...), $input->getOption('id')))) {
                 $processed = \count($ids);
                 $changed = \count(\array_filter(\array_map(fn (int $id): bool => $this->indexer->index($table, $id), $ids)));
             } else {

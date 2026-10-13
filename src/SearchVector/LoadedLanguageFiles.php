@@ -20,6 +20,6 @@ abstract class LoadedLanguageFiles extends System
             return [];
         }
 
-        return \array_map('strval', \array_keys(System::$arrLanguageFiles));
+        return \array_map(strval(...), \array_keys(System::$arrLanguageFiles));
     }
 }

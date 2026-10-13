@@ -155,6 +155,6 @@ class Tokenizer
 
         $parts[] = $buffer;
 
-        return \array_values(\array_filter(\array_map('trim', $parts), static fn (string $part): bool => $part !== ''));
+        return \array_values(\array_filter(\array_map(trim(...), $parts), static fn (string $part): bool => $part !== ''));
     }
 }
