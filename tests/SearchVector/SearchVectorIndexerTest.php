@@ -13,6 +13,7 @@ use HeimrichHannot\UtilsBundle\Event\BuildSearchVectorEvent;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorDataContainer;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
@@ -155,6 +156,18 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $this->assertSame('| triebwag |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Triebwagen', 'category' => 'railcar']));
         $this->assertSame('', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => '<p> </p>', 'text' => '']));
+    }
+
+    public function testNormalizerUnifiesSpellings(): void
+    {
+        $indexer = $this->createIndexer();
+
+        // Without normalizer, a transliterated umlaut leads to another stem
+        $this->assertSame('| muench | munch |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Muenchen', 'text' => 'München']));
+
+        SearchVectorField::getRegistrations()[self::TABLE]->setNormalizer(GermanNormalizer::class);
+        $this->assertSame('| munch |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Muenchen', 'text' => 'München']));
+        $this->assertSame('| feu |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Feuer']));
     }
 
     public function testEventCanAddValues(): void
@@ -323,6 +336,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
             new SearchVectorConfigurationResolver(
                 $framework,
                 new ServiceLocator([SnowballStemmer::class => static fn () => new SnowballStemmer()]),
+                new ServiceLocator([GermanNormalizer::class => static fn () => new GermanNormalizer()]),
                 new RequestStack(),
                 'de'
             ),

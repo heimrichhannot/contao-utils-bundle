@@ -8,10 +8,12 @@ use Contao\TestCase\ContaoTestCase;
 use Doctrine\DBAL\DriverManager;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorFieldConfiguration;
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorQuery;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
+use HeimrichHannot\UtilsBundle\SearchVector\Tokenizer;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -56,6 +58,7 @@ class SearchVectorQueryTest extends ContaoTestCase
         $resolver = new SearchVectorConfigurationResolver(
             $this->mockContaoFramework([Controller::class => $controller]),
             new ServiceLocator($stemmerId ? [$stemmerId => static fn (): StemmerInterface => $stemmer] : []),
+            new ServiceLocator([GermanNormalizer::class => static fn (): GermanNormalizer => new GermanNormalizer()]),
             $requestStack ?? new RequestStack(),
             'de'
         );
@@ -300,6 +303,59 @@ class SearchVectorQueryTest extends ContaoTestCase
         $this->assertSame([], $this->search($query, '"zwiesel sommer"'));
         // no match
         $this->assertSame([], $this->search($query, 'hamburg'));
+    }
+
+    public function testNormalizerUnifiesUmlautSpellings(): void
+    {
+        $normalizer = new GermanNormalizer();
+        $stemmer = new SnowballStemmer();
+
+        // the vector of a record is built the way the indexer does it
+        $this->createTable([
+            1 => '| ' . \implode(' ', Tokenizer::tokenize('Lieferungen nach München', 'de', $stemmer, $normalizer)) . ' |',
+            2 => '| ' . \implode(' ', Tokenizer::tokenize('Feuer und Quelle', 'de', $stemmer, $normalizer)) . ' |',
+        ]);
+        $this->assertSame('| liefer nach munch |', $this->connection->fetchOne('SELECT searchVector FROM tl_example WHERE id = 1'));
+
+        $query = $this->createQuery($stemmer, 'searchVector', static fn (SearchVectorFieldConfiguration $c) => $c->setNormalizer(GermanNormalizer::class));
+
+        foreach (['Muenchen', 'München', 'Munchen', 'MUENCHEN'] as $search) {
+            $this->assertSame([1], $this->search($query, $search), $search);
+        }
+
+        $this->assertSame([1], $this->search($query, '"nach Muenchen"'));
+        $this->assertSame([2], $this->search($query, 'Feuer'));
+        $this->assertSame([], $this->search($query, 'Hamburg'));
+    }
+
+    public function testWithoutNormalizerUmlautSpellingIsNotUnified(): void
+    {
+        $stemmer = new SnowballStemmer();
+        $this->createTable([1 => '| ' . \implode(' ', Tokenizer::tokenize('München', 'de', $stemmer)) . ' |']);
+
+        $query = $this->createQuery($stemmer);
+
+        $this->assertSame([1], $this->search($query, 'München'));
+        $this->assertSame([1], $this->search($query, 'Munchen'));
+        $this->assertSame([], $this->search($query, 'Muenchen'));
+    }
+
+    public function testApplyPassesNormalizerToQueryTerms(): void
+    {
+        $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
+
+        $this->createQuery(null, 'searchVector', static fn (SearchVectorFieldConfiguration $c) => $c->setNormalizer(GermanNormalizer::class))
+            ->apply($qb, 'tl_example', 'Muenchen');
+
+        $this->assertSame(['dcValue1' => '%munchen%'], $qb->getParameters());
+    }
+
+    public function testCreateModelCriteriaPassesNormalizer(): void
+    {
+        $query = $this->createQuery(null, 'searchVector', static fn (SearchVectorFieldConfiguration $c) => $c->setNormalizer(GermanNormalizer::class));
+
+        $this->assertSame(['%munchen%'], $query->createModelCriteria('tl_example', 'Muenchen')[1]);
+        $this->assertSame(['%muenchen%'], $query->createModelCriteria('tl_example', 'Muenchen', 'en')[1]);
     }
 
     public function testApplyWithAliasAndJoinOnRealQuery(): void

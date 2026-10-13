@@ -2,6 +2,8 @@
 
 namespace HeimrichHannot\UtilsBundle\Tests\SearchVector;
 
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
 use HeimrichHannot\UtilsBundle\SearchVector\Tokenizer;
@@ -82,6 +84,101 @@ class TokenizerTest extends TestCase
         $this->assertSame(['haus'], Tokenizer::tokenize('Häuser', 'de', $stemmer));
     }
 
+    public function testNormalizerRunsBeforeStemmer(): void
+    {
+        $calls = [];
+        $normalizer = new class($calls) implements NormalizerInterface {
+            public function __construct(private array &$calls) {}
+
+            public function normalize(string $word, string $locale): string
+            {
+                $this->calls[] = ['normalize', $word, $locale];
+
+                return $word . '-n';
+            }
+        };
+        $stemmer = new class($calls) implements StemmerInterface {
+            public function __construct(private array &$calls) {}
+
+            public function stem(string $word, string $locale): string
+            {
+                $this->calls[] = ['stem', $word, $locale];
+
+                return $word . '-s';
+            }
+        };
+
+        $tokens = Tokenizer::tokenize('Häuser Bäume', 'de_CH', $stemmer, $normalizer);
+
+        $this->assertSame([
+            ['normalize', 'häuser', 'de_CH'],
+            ['stem', 'häuser-n', 'de_CH'],
+            ['normalize', 'bäume', 'de_CH'],
+            ['stem', 'bäume-n', 'de_CH'],
+        ], $calls);
+        $this->assertSame(['hauser-n-s', 'baume-n-s'], $tokens);
+    }
+
+    public function testNormalizerWithoutStemmer(): void
+    {
+        $this->assertSame(
+            ['munchen', 'munchen', 'munchen'],
+            Tokenizer::tokenize('Muenchen München Munchen', 'de', null, new GermanNormalizer())
+        );
+    }
+
+    public function testNormalizerIsSkippedForEmptyTokens(): void
+    {
+        $normalizer = $this->createMock(NormalizerInterface::class);
+        $normalizer->expects($this->never())->method('normalize');
+
+        $this->assertSame([], Tokenizer::tokenize(' - , -- ', 'de', null, $normalizer));
+    }
+
+    public function testNormalizerAndSnowballStemmer(): void
+    {
+        $stemmer = new SnowballStemmer();
+        $normalizer = new GermanNormalizer();
+
+        $this->assertSame(['munch', 'munch', 'munch'], Tokenizer::tokenize('Muenchen München Munchen', 'de', $stemmer, $normalizer));
+        $this->assertSame(['haus', 'haus', 'haus'], Tokenizer::tokenize('Häuser Haeuser Hauser', 'de', $stemmer, $normalizer));
+        $this->assertSame(['feu', 'bau', 'quell'], Tokenizer::tokenize('Feuer Bauer Quelle', 'de', $stemmer, $normalizer));
+    }
+
+    public function testNormalizerIsLanguageSpecific(): void
+    {
+        $this->assertSame(['muenchen'], Tokenizer::tokenize('Muenchen', 'en', null, new GermanNormalizer()));
+    }
+
+    public function testParseQueryPassesNormalizer(): void
+    {
+        $normalizer = new GermanNormalizer();
+
+        $this->assertSame([['munchen'], ['kolner dom']], Tokenizer::parseQuery('Muenchen, "Koelner Dom"', 'de', null, $normalizer));
+        $this->assertSame(
+            [['munch'], ['koln dom']],
+            Tokenizer::parseQuery('Muenchen, "Koelner Dom"', 'de', new SnowballStemmer(), $normalizer)
+        );
+    }
+
+    public function testParseQueryNormalizesQuotedPhrasesWordByWord(): void
+    {
+        $normalizer = new class implements NormalizerInterface {
+            public array $received = [];
+
+            public function normalize(string $word, string $locale): string
+            {
+                $this->received[] = [$word, $locale];
+
+                return $word;
+            }
+        };
+
+        Tokenizer::parseQuery('"Größe Fähre", Über', 'en', null, $normalizer);
+
+        $this->assertSame([['größe', 'en'], ['fähre', 'en'], ['über', 'en']], $normalizer->received);
+    }
+
     public function testTokenizePassesLocaleToStemmer(): void
     {
         $stemmer = $this->createLocaleRecordingStemmer();
@@ -121,12 +218,12 @@ class TokenizerTest extends TestCase
         $this->assertSame(['keep', 'also'], Tokenizer::tokenize('keep drop also', 'de', $stemmer));
     }
 
-    public function testNormalize(): void
+    public function testFoldAccents(): void
     {
-        $this->assertSame('munchen', Tokenizer::normalize(' München '));
-        $this->assertSame('strasse', Tokenizer::normalize('STRAßE'));
-        $this->assertSame('cafe', Tokenizer::normalize('Café'));
-        $this->assertSame('', Tokenizer::normalize(' '));
+        $this->assertSame('munchen', Tokenizer::foldAccents(' München '));
+        $this->assertSame('strasse', Tokenizer::foldAccents('STRAßE'));
+        $this->assertSame('cafe', Tokenizer::foldAccents('Café'));
+        $this->assertSame('', Tokenizer::foldAccents(' '));
     }
 
     /**

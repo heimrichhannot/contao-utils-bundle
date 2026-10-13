@@ -122,6 +122,7 @@ class SearchVectorIndexer
     {
         $configuration = $this->configurationResolver->getConfiguration($table);
         $stemmer = $this->configurationResolver->getStemmer($configuration);
+        $normalizer = $this->configurationResolver->getNormalizer($configuration);
         $locale = $this->configurationResolver->getRecordLocale($configuration, $row);
         $dc ??= new SearchVectorDataContainer($table, $row);
 
@@ -132,7 +133,7 @@ class SearchVectorIndexer
         $parts = [];
 
         foreach ($event->getValues() as $value) {
-            if ($tokens = Tokenizer::tokenize($value, $locale, $stemmer)) {
+            if ($tokens = Tokenizer::tokenize($value, $locale, $stemmer, $normalizer)) {
                 $parts[] = \implode(' ', $tokens);
             }
         }

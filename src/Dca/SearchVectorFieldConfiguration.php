@@ -10,6 +10,7 @@ class SearchVectorFieldConfiguration extends DcaFieldConfiguration
     protected array $fields = [];
     protected string $fieldName = 'searchVector';
     protected ?string $stemmer = null;
+    protected ?string $normalizer = null;
     protected ?string $language = null;
     protected ?string $languageField = null;
 
@@ -57,6 +58,22 @@ class SearchVectorFieldConfiguration extends DcaFieldConfiguration
     public function getStemmer(): ?string
     {
         return $this->stemmer;
+    }
+
+    /**
+     * The service id of a NormalizerInterface implementation (usually its class name), e.g. GermanNormalizer::class.
+     * Normalizers unify different spellings of a word before stemming. Disabled by default. Rebuild the search vectors
+     * after changing the normalizer.
+     */
+    public function setNormalizer(?string $normalizer): SearchVectorFieldConfiguration
+    {
+        $this->normalizer = $normalizer;
+        return $this;
+    }
+
+    public function getNormalizer(): ?string
+    {
+        return $this->normalizer;
     }
 
     /**

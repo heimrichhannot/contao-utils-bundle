@@ -6,6 +6,7 @@ use Contao\Controller;
 use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class SearchVectorConfigurationResolverTest extends ContaoTestCase
 {
-    private function createResolver(?RequestStack $requestStack = null, array $stemmers = []): SearchVectorConfigurationResolver
+    private function createResolver(?RequestStack $requestStack = null, array $stemmers = [], array $normalizers = []): SearchVectorConfigurationResolver
     {
         $controller = $this->mockAdapter(['loadDataContainer']);
         $controller->method('loadDataContainer');
@@ -21,6 +22,7 @@ class SearchVectorConfigurationResolverTest extends ContaoTestCase
         return new SearchVectorConfigurationResolver(
             $this->mockContaoFramework([Controller::class => $controller]),
             new ServiceLocator($stemmers),
+            new ServiceLocator($normalizers),
             $requestStack ?? new RequestStack(),
             'de'
         );
@@ -72,9 +74,46 @@ class SearchVectorConfigurationResolverTest extends ContaoTestCase
         $configuration = SearchVectorField::register('tl_resolver_stemmer_unknown')->setStemmer('App\\UnknownStemmer');
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Search vector stemmer "App\\UnknownStemmer" of table "tl_resolver_stemmer_unknown"');
+        $this->expectExceptionMessage('Search vector service "App\\UnknownStemmer" of table "tl_resolver_stemmer_unknown" is not a registered service implementing');
 
         $this->createResolver()->getStemmer($configuration);
+    }
+
+    public function testGetNormalizerIsNullByDefault(): void
+    {
+        $configuration = SearchVectorField::register('tl_resolver_normalizer_null');
+
+        $this->assertNull($this->createResolver()->getNormalizer($configuration));
+    }
+
+    public function testGetNormalizerReturnsRegisteredService(): void
+    {
+        $normalizer = new GermanNormalizer();
+        $configuration = SearchVectorField::register('tl_resolver_normalizer')->setNormalizer(GermanNormalizer::class);
+        $resolver = $this->createResolver(null, [], [GermanNormalizer::class => static fn (): GermanNormalizer => $normalizer]);
+
+        $this->assertSame($normalizer, $resolver->getNormalizer($configuration));
+    }
+
+    public function testGetNormalizerWithUnknownServiceIdThrows(): void
+    {
+        $configuration = SearchVectorField::register('tl_resolver_normalizer_unknown')->setNormalizer('App\\UnknownNormalizer');
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Search vector service "App\\UnknownNormalizer" of table "tl_resolver_normalizer_unknown" is not a registered service implementing');
+
+        $this->createResolver()->getNormalizer($configuration);
+    }
+
+    public function testNormalizerAndStemmerAreLookedUpSeparately(): void
+    {
+        $configuration = SearchVectorField::register('tl_resolver_separate')->setNormalizer(GermanNormalizer::class);
+        // only registered as stemmer
+        $resolver = $this->createResolver(null, [GermanNormalizer::class => static fn (): GermanNormalizer => new GermanNormalizer()]);
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $resolver->getNormalizer($configuration);
     }
 
     public function testGetRecordLocale(): void

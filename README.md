@@ -199,6 +199,7 @@ SearchVectorField::register('tl_example')
     ->setFields(['title', 'teaser'])
     ->setFieldName('searchVector') // the field name (default: searchVector)
     ->setStemmer(SnowballStemmer::class) // the stemmer service (default: null, no stemming)
+    ->setNormalizer(GermanNormalizer::class) // the normalizer service (default: null, no normalization)
     ->setLanguage('de') // the language of the records (default: the default locale of the application)
     ->setLanguageField('language') // the field holding the language of a record, for tables with records in different languages
 ;
@@ -304,8 +305,33 @@ search vectors after enabling or changing the stemmer.
 
 To use another stemmer, implement `HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface` as an
 autoconfigured service and pass its service id to `setStemmer()`. The stemmer gets each word lowercased with its accents
-and the language of the word, and should
-return words of languages it does not support unchanged.
+and the language of the word, and should return words of languages it does not support unchanged.
+
+##### Normalization
+
+A normalizer unifies different spellings of the same word before stemming. It is disabled by default. The bundle ships
+`GermanNormalizer`, which restores German umlauts written as "ae", "oe" and "ue", so "Muenchen", "München" and
+"Munchen" find each other. It follows the rules of Lucene's `GermanNormalizationFilter`: "ue" after a vowel or "q" is
+kept, so "Feuer", "Bauer" and "Quelle" stay unchanged. Words of other languages stay unchanged as well.
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
+
+SearchVectorField::register('tl_example')
+    ->setFields(['title', 'teaser'])
+    ->setNormalizer(GermanNormalizer::class)
+    ->setStemmer(SnowballStemmer::class)
+;
+```
+
+Normalization works with and without stemming. Rebuild the search vectors after enabling or changing the normalizer.
+
+To use another normalizer, implement `HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface` as an
+autoconfigured service and pass its service id to `setNormalizer()`. Like a stemmer, it gets each word lowercased with
+its accents and the language of the word, and should return words of languages it does not support unchanged.
 
 ### Entity Finder
 

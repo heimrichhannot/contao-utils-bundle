@@ -99,7 +99,8 @@ class SearchVectorQuery
         $phrases = Tokenizer::parseQuery(
             $search,
             $this->configurationResolver->getSearchLocale($configuration, $locale),
-            $this->configurationResolver->getStemmer($configuration)
+            $this->configurationResolver->getStemmer($configuration),
+            $this->configurationResolver->getNormalizer($configuration)
         );
 
         return [$this->connection->quoteIdentifier(($alias ?? $table) . '.' . $configuration->getFieldName()), $phrases];

@@ -1,5 +1,6 @@
 <?php
 
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
 use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
@@ -27,7 +28,8 @@ return static function (ContainerConfigurator $container): void {
         ->bind('$csrfTokenName', param('contao.csrf_token_name'))
         ->bind('$kernelBundles', param('kernel.bundles'))
         ->bind('$defaultLocale', param('kernel.default_locale'))
-        ->bind('$searchVectorStemmers', tagged_locator(StemmerInterface::TAG));
+        ->bind('$searchVectorStemmers', tagged_locator(StemmerInterface::TAG))
+        ->bind('$searchVectorNormalizers', tagged_locator(NormalizerInterface::TAG));
 
     $services->set(ContainerUtil::class)
         ->tag('container.service_subscriber', ['key' => 'monolog.logger.contao', 'id' => 'monolog.logger.contao']);

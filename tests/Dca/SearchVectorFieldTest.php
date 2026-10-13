@@ -19,6 +19,7 @@ class SearchVectorFieldTest extends TestCase
         $this->assertNull($config->getStemmer());
         $this->assertTrue($config->isExclude());
         $this->assertSame([], $config->getFields());
+        $this->assertNull($config->getNormalizer());
         $this->assertNull($config->getLanguage());
         $this->assertNull($config->getLanguageField());
     }
@@ -34,6 +35,11 @@ class SearchVectorFieldTest extends TestCase
         $this->assertSame(['title', 'teaser'], $config->getFields());
         $this->assertSame('myVector', $config->getFieldName());
         $this->assertNull($config->getStemmer());
+
+        $this->assertSame($config, $config->setNormalizer('App\\MyNormalizer'));
+        $this->assertSame('App\\MyNormalizer', $config->getNormalizer());
+        $config->setNormalizer(null);
+        $this->assertNull($config->getNormalizer());
 
         $this->assertSame($config, $config->setLanguage('en'));
         $this->assertSame($config, $config->setLanguageField('language'));

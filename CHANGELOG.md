@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-- Added: search vector field to make records searchable by option labels and related records in the language of each record, with optional stemming via wamania/php-stemmer, including a search helper and a rebuild command
+- Added: search vector field to make records searchable by option labels and related records in the language of each record, with optional stemming via wamania/php-stemmer and optional normalization of spellings like "Muenchen" for "München", including a search helper and a rebuild command
 - Changed: require Contao 5.3 or newer, support for Contao 4.13 has been dropped
 - Changed: require Symfony 6.4 or newer
 - Changed: require PHP 8.2 or newer

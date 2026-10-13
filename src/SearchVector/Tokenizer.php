@@ -2,6 +2,7 @@
 
 namespace HeimrichHannot\UtilsBundle\SearchVector;
 
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
 
 /**
@@ -14,15 +15,16 @@ class Tokenizer
     /**
      * Tokenize free text into normalized, optionally stemmed words, preserving their order.
      *
-     * Words are lowercased, stemmed and then stripped of accents, as stemmers rely on accents (e.g. German umlauts).
+     * Words are lowercased, normalized, stemmed and then stripped of accents, as normalizers and stemmers rely on
+     * accents (e.g. German umlauts).
      *
      * Example: `Tokenizer::tokenize('Häuser in München', 'de', new SnowballStemmer()) === ['haus', 'in', 'munch']`
      *
-     * @param string $locale The language of the text, passed to the stemmer
+     * @param string $locale The language of the text, passed to the normalizer and the stemmer
      *
      * @return list<string>
      */
-    public static function tokenize(string $text, string $locale, ?StemmerInterface $stemmer = null): array
+    public static function tokenize(string $text, string $locale, ?StemmerInterface $stemmer = null, ?NormalizerInterface $normalizer = null): array
     {
         // Split on anything that cannot be part of a word, but keep hyphens so compounds such as
         // "Baden-Württemberg" stay a single token.
@@ -33,11 +35,15 @@ class Tokenizer
         foreach ($words as $word) {
             $token = \trim(\mb_strtolower($word, 'UTF-8'), '-');
 
+            if ($token !== '' && $normalizer) {
+                $token = $normalizer->normalize($token, $locale);
+            }
+
             if ($token !== '' && $stemmer) {
                 $token = $stemmer->stem($token, $locale);
             }
 
-            $token = static::normalize($token);
+            $token = static::foldAccents($token);
 
             if ($token !== '') {
                 $tokens[] = $token;
@@ -56,11 +62,11 @@ class Tokenizer
      * Example: `Tokenizer::parseQuery('Altstadt Führungen, Museum "am Abend"', 'de', new SnowballStemmer())`
      * returns `[['altstadt', 'fuhrung'], ['museum', 'am abend']]`.
      *
-     * @param string $locale The language of the query, passed to the stemmer
+     * @param string $locale The language of the query, passed to the normalizer and the stemmer
      *
      * @return list<list<string>>
      */
-    public static function parseQuery(string $query, string $locale, ?StemmerInterface $stemmer = null): array
+    public static function parseQuery(string $query, string $locale, ?StemmerInterface $stemmer = null, ?NormalizerInterface $normalizer = null): array
     {
         $phrases = [];
 
@@ -72,8 +78,8 @@ class Tokenizer
 
             foreach ($segments as $segment) {
                 if (!\array_key_exists(1, $segment)) {
-                    \array_push($terms, ...static::tokenize($segment[0], $locale, $stemmer));
-                } elseif ($tokens = static::tokenize($segment[1], $locale, $stemmer)) {
+                    \array_push($terms, ...static::tokenize($segment[0], $locale, $stemmer, $normalizer));
+                } elseif ($tokens = static::tokenize($segment[1], $locale, $stemmer, $normalizer)) {
                     $terms[] = \implode(' ', $tokens);
                 }
             }
@@ -89,7 +95,7 @@ class Tokenizer
     /**
      * Lowercases a word and strips accents: ä → a, ß → ss, é → e.
      */
-    public static function normalize(string $word): string
+    public static function foldAccents(string $word): string
     {
         $word = \strtr(\mb_strtolower(\trim($word), 'UTF-8'), ['ä' => 'a', 'ö' => 'o', 'ü' => 'u', 'ß' => 'ss']);
 

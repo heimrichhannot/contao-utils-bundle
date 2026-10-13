@@ -6,12 +6,14 @@ use Contao\Controller;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorFieldConfiguration;
+use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Looks up the search vector registration of a table, the stemmer it uses and the language to index and search in.
+ * Looks up the search vector registration of a table, the stemmer and normalizer it uses and the language to index and
+ * search in.
  *
  * @internal
  */
@@ -20,6 +22,7 @@ class SearchVectorConfigurationResolver
     public function __construct(
         private readonly ContaoFramework $framework,
         private readonly ContainerInterface $searchVectorStemmers,
+        private readonly ContainerInterface $searchVectorNormalizers,
         private readonly RequestStack $requestStack,
         private readonly string $defaultLocale,
     ) {}
@@ -39,20 +42,12 @@ class SearchVectorConfigurationResolver
 
     public function getStemmer(SearchVectorFieldConfiguration $configuration): ?StemmerInterface
     {
-        if (null === $configuration->getStemmer()) {
-            return null;
-        }
+        return $this->getService($this->searchVectorStemmers, $configuration->getStemmer(), StemmerInterface::class, $configuration);
+    }
 
-        if (!$this->searchVectorStemmers->has($configuration->getStemmer())) {
-            throw new \InvalidArgumentException(\sprintf(
-                'Search vector stemmer "%s" of table "%s" is not a registered service implementing %s.',
-                $configuration->getStemmer(),
-                $configuration->getTable(),
-                StemmerInterface::class
-            ));
-        }
-
-        return $this->searchVectorStemmers->get($configuration->getStemmer());
+    public function getNormalizer(SearchVectorFieldConfiguration $configuration): ?NormalizerInterface
+    {
+        return $this->getService($this->searchVectorNormalizers, $configuration->getNormalizer(), NormalizerInterface::class, $configuration);
     }
 
     /**
@@ -83,5 +78,30 @@ class SearchVectorConfigurationResolver
         }
 
         return $locale ?: $configuration->getLanguage() ?: $this->defaultLocale;
+    }
+
+    /**
+     * @template T of object
+     *
+     * @param class-string<T> $interface
+     *
+     * @return T|null
+     */
+    private function getService(ContainerInterface $locator, ?string $id, string $interface, SearchVectorFieldConfiguration $configuration): ?object
+    {
+        if (null === $id) {
+            return null;
+        }
+
+        if (!$locator->has($id)) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Search vector service "%s" of table "%s" is not a registered service implementing %s.',
+                $id,
+                $configuration->getTable(),
+                $interface
+            ));
+        }
+
+        return $locator->get($id);
     }
 }
