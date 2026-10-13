@@ -193,8 +193,11 @@ class SearchVectorIndexer
     }
 
     /**
-     * Runs the callback with the Contao language, the language files of the table and the translator switched to the
-     * given language, and restores the previous language afterwards.
+     * Runs the callback with the Contao language, all loaded language files and the translator switched to the given
+     * language, and restores the previous language afterwards.
+     *
+     * Language files loaded by the callback, e.g. in an options callback, are restored as well, so the current user
+     * never ends up with labels in the language of the record.
      *
      * @template T
      *
@@ -215,11 +218,16 @@ class SearchVectorIndexer
         $translator = $this->translator instanceof LocaleAwareInterface ? $this->translator : null;
         $previousTranslatorLocale = $translator?->getLocale();
 
-        // Language files are loaded in $GLOBALS['TL_LANGUAGE'], the formatter reloads the default one on every call
-        $GLOBALS['TL_LANGUAGE'] = $language;
-        $controller->loadLanguageFile('default');
-        $controller->loadLanguageFile($table);
+        // Language files are loaded in $GLOBALS['TL_LANGUAGE'], the formatter reloads the default one on every call.
+        // Labels are read from the language files of any table, e.g. through a reference to another table.
+        $reloadLanguageFiles = static function () use ($controller, $table): void {
+            foreach (\array_unique([...LoadedLanguageFiles::getNames(), 'default', $table]) as $name) {
+                $controller->loadLanguageFile($name);
+            }
+        };
 
+        $GLOBALS['TL_LANGUAGE'] = $language;
+        $reloadLanguageFiles();
         $translator?->setLocale(LocaleUtil::formatAsLocale($locale));
 
         try {
@@ -233,9 +241,9 @@ class SearchVectorIndexer
                 unset($GLOBALS['TL_LANGUAGE']);
             } else {
                 $GLOBALS['TL_LANGUAGE'] = $previousLanguage;
-                $controller->loadLanguageFile('default');
-                $controller->loadLanguageFile($table);
             }
+
+            $reloadLanguageFiles();
         }
     }
 

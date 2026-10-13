@@ -29,17 +29,33 @@ class SearchVectorIndexerTest extends ContaoTestCase
 {
     private const TABLE = 'tl_search_vector_test';
 
-    /**
-     * Stands in for the language files of the table.
-     */
     private const CATEGORY_LABELS = [
         'de' => ['railcar' => 'Triebwagen', 'bus' => 'Linienbusse'],
         'en' => ['railcar' => 'Railcar', 'bus' => 'Buses'],
     ];
 
+    /**
+     * Stands in for the language files, see loadLanguageFile().
+     */
+    private const LANGUAGE_FILES = [
+        self::TABLE => [
+            'de' => ['category' => self::CATEGORY_LABELS['de']],
+            'en' => ['category' => self::CATEGORY_LABELS['en']],
+        ],
+        'tl_region' => [
+            'de' => ['region' => ['north' => 'Norden', 'south' => 'Süden']],
+            'en' => ['region' => ['north' => 'North', 'south' => 'South']],
+        ],
+        'tl_lazy' => [
+            'de' => ['winter' => 'Schnee'],
+            'en' => ['winter' => 'Snow'],
+        ],
+    ];
+
     private Connection $connection;
     private EventDispatcher $eventDispatcher;
     private Translator $translator;
+    private array $previousLanguageFiles;
 
     protected function setUp(): void
     {
@@ -64,9 +80,12 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->eventDispatcher = new EventDispatcher();
         $this->translator = new Translator('en');
 
-        // The current user works in English
+        // The current user works in English and has loaded the language files of two tables
+        $this->previousLanguageFiles = (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->getValue();
+        (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, []);
         $GLOBALS['TL_LANGUAGE'] = 'en';
-        $GLOBALS['TL_LANG'][self::TABLE]['category'] = self::CATEGORY_LABELS['en'];
+        self::loadLanguageFile(self::TABLE);
+        self::loadLanguageFile('tl_region');
 
         $GLOBALS['TL_DCA'][self::TABLE] = [
             'config' => [],
@@ -83,15 +102,21 @@ class SearchVectorIndexerTest extends ContaoTestCase
                     'options' => ['spring' => 'Frühling', 'winter' => 'Schöne Winterzeit'],
                     'eval' => ['multiple' => true],
                 ],
+                'region' => [
+                    'inputType' => 'select',
+                    'options' => ['north', 'south'],
+                    'reference' => &$GLOBALS['TL_LANG']['tl_region']['region'],
+                ],
             ],
         ];
 
-        SearchVectorField::register(self::TABLE)->setStemmer(SnowballStemmer::class)->setFields(['title', 'text', 'category', 'seasons', 'notInRow']);
+        SearchVectorField::register(self::TABLE)->setStemmer(SnowballStemmer::class)->setFields(['title', 'text', 'category', 'seasons', 'region', 'notInRow']);
     }
 
     protected function tearDown(): void
     {
-        unset($GLOBALS['TL_DCA'][self::TABLE], $GLOBALS['TL_LANG'][self::TABLE], $GLOBALS['TL_LANGUAGE']);
+        unset($GLOBALS['TL_DCA'][self::TABLE], $GLOBALS['TL_LANG'][self::TABLE], $GLOBALS['TL_LANG']['tl_region'], $GLOBALS['TL_LANG']['tl_lazy'], $GLOBALS['TL_LANGUAGE']);
+        (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, $this->previousLanguageFiles);
 
         parent::tearDown();
     }
@@ -185,6 +210,31 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame('en', $this->translator->getLocale());
     }
 
+    public function testReferencesToLanguageFilesOfOtherTablesUseTheRecordLanguage(): void
+    {
+        $vector = $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'region' => 'south']);
+
+        $this->assertSame('| sud |', $vector);
+        $this->assertSame('South', $GLOBALS['TL_LANG']['tl_region']['region']['south'], 'The language of the user is restored');
+    }
+
+    public function testLanguageFilesLoadedWhileIndexingAreRestored(): void
+    {
+        $GLOBALS['TL_DCA'][self::TABLE]['fields']['seasons']['options_callback'] = ['Foo', 'bar'];
+
+        $dcaUtil = $this->createMock(DcaUtil::class);
+        $dcaUtil->method('executeCallback')->willReturnCallback(static function (): array {
+            self::loadLanguageFile('tl_lazy');
+
+            return ['winter' => $GLOBALS['TL_LANG']['tl_lazy']['winter']];
+        });
+
+        $vector = $this->createIndexer($dcaUtil)->buildVector(self::TABLE, ['id' => 1, 'seasons' => \serialize(['winter'])]);
+
+        $this->assertSame('| schnee |', $vector);
+        $this->assertSame('Snow', $GLOBALS['TL_LANG']['tl_lazy']['winter'], 'The language of the user is restored');
+    }
+
     public function testUnresolvableFieldFallsBackToRawValue(): void
     {
         $GLOBALS['TL_DCA'][self::TABLE]['fields']['category']['options_callback'] = ['Foo', 'bar'];
@@ -259,11 +309,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
     private function createIndexer(?DcaUtil $dcaUtil = null, ?LoggerInterface $logger = null): SearchVectorIndexer
     {
         $controller = $this->mockAdapter(['loadDataContainer', 'loadLanguageFile']);
-        $controller->method('loadLanguageFile')->willReturnCallback(static function (string $name): void {
-            if (self::TABLE === $name) {
-                $GLOBALS['TL_LANG'][self::TABLE]['category'] = self::CATEGORY_LABELS[$GLOBALS['TL_LANGUAGE']] ?? self::CATEGORY_LABELS['en'];
-            }
-        });
+        $controller->method('loadLanguageFile')->willReturnCallback(static fn (string $name) => self::loadLanguageFile($name));
         $framework = $this->mockContaoFramework([Controller::class => $controller]);
 
         $utils = $this->createMock(Utils::class);
@@ -286,6 +332,24 @@ class SearchVectorIndexerTest extends ContaoTestCase
             $framework,
             $this->translator,
         );
+    }
+
+    /**
+     * Loads a language file in $GLOBALS['TL_LANGUAGE'] and tracks it as loaded, like System::loadLanguageFile().
+     */
+    private static function loadLanguageFile(string $name): void
+    {
+        $language = $GLOBALS['TL_LANGUAGE'] ?? 'en';
+
+        foreach (self::LANGUAGE_FILES[$name][$language] ?? [] as $key => $labels) {
+            $GLOBALS['TL_LANG'][$name][$key] = $labels;
+        }
+
+        $loaded = new \ReflectionProperty(System::class, 'arrLanguageFiles');
+        $files = $loaded->getValue();
+        unset($files[$name][$language]);
+        $files[$name][$language] = $language;
+        $loaded->setValue(null, $files);
     }
 
     private function fetchVector(int $id): ?string
