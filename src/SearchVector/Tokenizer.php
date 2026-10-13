@@ -26,9 +26,15 @@ class Tokenizer
      */
     public static function tokenize(string $text, string $locale, ?StemmerInterface $stemmer = null, ?NormalizerInterface $normalizer = null): array
     {
+        // Compose decomposed characters ("u" + combining diaeresis → "ü"), so normalizers and stemmers get the same
+        // characters for both spellings
+        if (\class_exists(\Normalizer::class)) {
+            $text = \Normalizer::normalize($text, \Normalizer::FORM_C) ?: $text;
+        }
+
         // Split on anything that cannot be part of a word, but keep hyphens so compounds such as
-        // "Baden-Württemberg" stay a single token.
-        $words = \preg_split('/[^\p{L}\p{Nd}-]+/u', $text, -1, \PREG_SPLIT_NO_EMPTY) ?: [];
+        // "Baden-Württemberg" stay a single token. Combining marks without a composed form belong to their word.
+        $words = \preg_split('/[^\p{L}\p{M}\p{Nd}-]+/u', $text, -1, \PREG_SPLIT_NO_EMPTY) ?: [];
 
         $tokens = [];
 

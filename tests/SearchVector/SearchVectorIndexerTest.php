@@ -3,6 +3,8 @@
 namespace HeimrichHannot\UtilsBundle\Tests\SearchVector;
 
 use Contao\Controller;
+use Contao\CoreBundle\Config\ResourceFinder;
+use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
@@ -13,6 +15,7 @@ use HeimrichHannot\UtilsBundle\Event\BuildSearchVectorEvent;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorDataContainer;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
+use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorLanguageSwitcher;
 use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
@@ -30,33 +33,25 @@ class SearchVectorIndexerTest extends ContaoTestCase
 {
     private const TABLE = 'tl_search_vector_test';
 
+    /**
+     * The language files of the fixtures are loaded with the real Contao loader.
+     */
+    private const FIXTURES = __DIR__ . '/../Fixtures/search-vector';
+
     private const CATEGORY_LABELS = [
         'de' => ['railcar' => 'Triebwagen', 'bus' => 'Linienbusse'],
         'en' => ['railcar' => 'Railcar', 'bus' => 'Buses'],
     ];
 
     /**
-     * Stands in for the language files, see loadLanguageFile().
+     * Static caches of Contao's language loader, reset per test.
      */
-    private const LANGUAGE_FILES = [
-        self::TABLE => [
-            'de' => ['category' => self::CATEGORY_LABELS['de']],
-            'en' => ['category' => self::CATEGORY_LABELS['en']],
-        ],
-        'tl_region' => [
-            'de' => ['region' => ['north' => 'Norden', 'south' => 'Süden']],
-            'en' => ['region' => ['north' => 'North', 'south' => 'South']],
-        ],
-        'tl_lazy' => [
-            'de' => ['winter' => 'Schnee'],
-            'en' => ['winter' => 'Snow'],
-        ],
-    ];
+    private const LANGUAGE_CACHES = ['arrLanguageFiles' => [], 'arrLanguages' => [], 'arrAvailableLanguageFiles' => null];
 
     private Connection $connection;
     private EventDispatcher $eventDispatcher;
     private Translator $translator;
-    private array $previousLanguageFiles;
+    private array $previousLanguageCaches = [];
 
     protected function setUp(): void
     {
@@ -72,7 +67,16 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $assetsContext->method('getStaticUrl')->willReturn('');
         $container->set('contao.assets.assets_context', $assetsContext);
         $container->set('contao.assets.files_context', $assetsContext);
+
+        $container->setParameter('kernel.project_dir', self::FIXTURES);
+        $container->setParameter('kernel.cache_dir', self::FIXTURES . '/var/cache');
+        $container->set('contao.resource_finder', new ResourceFinder([self::FIXTURES . '/contao']));
         System::setContainer($container);
+
+        foreach (self::LANGUAGE_CACHES as $property => $value) {
+            $this->previousLanguageCaches[$property] = (new \ReflectionProperty(System::class, $property))->getValue();
+            (new \ReflectionProperty(System::class, $property))->setValue(null, $value);
+        }
 
         $this->connection->executeStatement(
             'CREATE TABLE ' . self::TABLE . ' (id INTEGER PRIMARY KEY, language TEXT, title TEXT, text TEXT, category TEXT, seasons TEXT, searchVector TEXT NULL)'
@@ -82,11 +86,9 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->translator = new Translator('en');
 
         // The current user works in English and has loaded the language files of two tables
-        $this->previousLanguageFiles = (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->getValue();
-        (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, []);
         $GLOBALS['TL_LANGUAGE'] = 'en';
-        self::loadLanguageFile(self::TABLE);
-        self::loadLanguageFile('tl_region');
+        System::loadLanguageFile(self::TABLE);
+        System::loadLanguageFile('tl_region');
 
         $GLOBALS['TL_DCA'][self::TABLE] = [
             'config' => [],
@@ -117,7 +119,10 @@ class SearchVectorIndexerTest extends ContaoTestCase
     protected function tearDown(): void
     {
         unset($GLOBALS['TL_DCA'][self::TABLE], $GLOBALS['TL_LANG'][self::TABLE], $GLOBALS['TL_LANG']['tl_region'], $GLOBALS['TL_LANG']['tl_lazy'], $GLOBALS['TL_LANGUAGE']);
-        (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, $this->previousLanguageFiles);
+
+        foreach ($this->previousLanguageCaches as $property => $value) {
+            (new \ReflectionProperty(System::class, $property))->setValue(null, $value);
+        }
 
         parent::tearDown();
     }
@@ -223,6 +228,17 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame('en', $this->translator->getLocale());
     }
 
+    public function testTableTranslationsAreLoadedWhenTheLanguageIsUnchanged(): void
+    {
+        // A German user in the frontend or on the command line, the table translations are not loaded yet
+        $GLOBALS['TL_LANGUAGE'] = 'de';
+        $this->translator->setLocale('de');
+        $GLOBALS['TL_LANG'][self::TABLE]['category'] = null;
+        (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, []);
+
+        $this->assertSame('| triebwag |', $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'category' => 'railcar']));
+    }
+
     public function testReferencesToLanguageFilesOfOtherTablesUseTheRecordLanguage(): void
     {
         $vector = $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'region' => 'south']);
@@ -237,7 +253,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $dcaUtil = $this->createMock(DcaUtil::class);
         $dcaUtil->method('executeCallback')->willReturnCallback(static function (): array {
-            self::loadLanguageFile('tl_lazy');
+            System::loadLanguageFile('tl_lazy');
 
             return ['winter' => $GLOBALS['TL_LANG']['tl_lazy']['winter']];
         });
@@ -321,9 +337,11 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
     private function createIndexer(?DcaUtil $dcaUtil = null, ?LoggerInterface $logger = null): SearchVectorIndexer
     {
-        $controller = $this->mockAdapter(['loadDataContainer', 'loadLanguageFile']);
-        $controller->method('loadLanguageFile')->willReturnCallback(static fn (string $name) => self::loadLanguageFile($name));
-        $framework = $this->mockContaoFramework([Controller::class => $controller]);
+        // There are no DCA files, the DCA is set up in setUp()
+        $framework = $this->mockContaoFramework([Controller::class => $this->mockAdapter(['loadDataContainer'])]);
+
+        // Language files are loaded for real
+        $languageFramework = $this->mockContaoFramework([Controller::class => new Adapter(Controller::class)]);
 
         $utils = $this->createMock(Utils::class);
         $utils->method('dca')->willReturn($dcaUtil ?? $this->createMock(DcaUtil::class));
@@ -340,30 +358,11 @@ class SearchVectorIndexerTest extends ContaoTestCase
                 new RequestStack(),
                 'de'
             ),
-            new FormatterUtil($framework, $insertTagParser, $utils, []),
+            new FormatterUtil($languageFramework, $insertTagParser, $utils, []),
             $this->eventDispatcher,
             $logger ?? new NullLogger(),
-            $framework,
-            $this->translator,
+            new SearchVectorLanguageSwitcher($languageFramework, $this->translator),
         );
-    }
-
-    /**
-     * Loads a language file in $GLOBALS['TL_LANGUAGE'] and tracks it as loaded, like System::loadLanguageFile().
-     */
-    private static function loadLanguageFile(string $name): void
-    {
-        $language = $GLOBALS['TL_LANGUAGE'] ?? 'en';
-
-        foreach (self::LANGUAGE_FILES[$name][$language] ?? [] as $key => $labels) {
-            $GLOBALS['TL_LANG'][$name][$key] = $labels;
-        }
-
-        $loaded = new \ReflectionProperty(System::class, 'arrLanguageFiles');
-        $files = $loaded->getValue();
-        unset($files[$name][$language]);
-        $files[$name][$language] = $language;
-        $loaded->setValue(null, $files);
     }
 
     private function fetchVector(int $id): ?string

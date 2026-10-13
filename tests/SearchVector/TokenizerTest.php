@@ -218,6 +218,27 @@ class TokenizerTest extends TestCase
         $this->assertSame(['keep', 'also'], Tokenizer::tokenize('keep drop also', 'de', $stemmer));
     }
 
+    public function testDecomposedCharactersAreComposedBeforeSplitting(): void
+    {
+        // "u" followed by a combining diaeresis instead of the composed "ü"
+        $decomposed = "Mu\u{0308}nchen Ha\u{0308}user";
+        $composed = 'München Häuser';
+
+        $this->assertSame(['munchen', 'hauser'], Tokenizer::tokenize($decomposed, 'de'));
+        $this->assertSame(Tokenizer::tokenize($composed, 'de'), Tokenizer::tokenize($decomposed, 'de'));
+        $this->assertSame(
+            Tokenizer::tokenize($composed, 'de', new SnowballStemmer(), new GermanNormalizer()),
+            Tokenizer::tokenize($decomposed, 'de', new SnowballStemmer(), new GermanNormalizer())
+        );
+        $this->assertSame([['munchen']], Tokenizer::parseQuery("Mu\u{0308}nchen", 'de'));
+    }
+
+    public function testCombiningMarksWithoutComposedFormStayInTheWord(): void
+    {
+        // "q" with a combining dot below has no composed form
+        $this->assertSame(['aqb'], Tokenizer::tokenize("aq\u{0323}b", 'de'));
+    }
+
     public function testFoldAccents(): void
     {
         $this->assertSame('munchen', Tokenizer::foldAccents(' München '));

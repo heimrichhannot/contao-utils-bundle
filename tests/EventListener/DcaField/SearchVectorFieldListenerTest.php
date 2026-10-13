@@ -69,11 +69,14 @@ class SearchVectorFieldListenerTest extends TestCase
         $dc = $this->createMock(DataContainer::class);
         $dc->method('__get')->willReturnMap([['id', 3], ['table', 'tl_example']]);
 
+        $calls = [];
         $indexer = $this->createMock(SearchVectorIndexer::class);
-        $indexer->expects($this->exactly(3))->method('index')->withConsecutive(
-            ['tl_example', 3, $dc],
-            ['tl_example', 7],
-            ['tl_other', 12],
+        $indexer->expects($this->exactly(3))->method('index')->willReturnCallback(
+            static function (string $table, int $id, ?DataContainer $dc = null) use (&$calls): bool {
+                $calls[] = [$table, $id, $dc];
+
+                return true;
+            }
         );
 
         $container = $this->createMock(ContainerInterface::class);
@@ -83,6 +86,8 @@ class SearchVectorFieldListenerTest extends TestCase
         $listener->onSubmitCallback($dc);
         $listener->onCopyCallback(7, $dc);
         $listener->onRestoreVersionCallback('tl_other', '12', 4, []);
+
+        $this->assertSame([['tl_example', 3, $dc], ['tl_example', 7, null], ['tl_other', 12, null]], $calls);
     }
 
     public function testSubmitWithoutIdIsIgnored(): void

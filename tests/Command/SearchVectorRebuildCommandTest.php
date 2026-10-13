@@ -35,13 +35,20 @@ class SearchVectorRebuildCommandTest extends TestCase
 
     public function testRebuildSelectedIdsPassesTableAndIds(): void
     {
+        $calls = [];
         $indexer = $this->createMock(SearchVectorIndexer::class);
-        $indexer->expects($this->exactly(2))->method('index')
-            ->withConsecutive(['tl_example', 5], ['tl_example', 7])
-            ->willReturn(false);
+        $indexer->expects($this->exactly(2))->method('index')->willReturnCallback(
+            static function (string $table, int $id) use (&$calls): bool {
+                $calls[] = [$table, $id];
+
+                return false;
+            }
+        );
 
         $tester = new CommandTester(new SearchVectorRebuildCommand($indexer));
         $tester->execute(['table' => 'tl_example', '--id' => ['5', '7']]);
+
+        $this->assertSame([['tl_example', 5], ['tl_example', 7]], $calls);
 
         $this->assertStringContainsString('2 record(s) in tl_example, 0 changed.', $tester->getDisplay());
     }
