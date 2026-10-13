@@ -1,0 +1,29 @@
+<?php
+
+use HeimrichHannot\UtilsBundle\Util\ContainerUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
+
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services()
+        ->defaults()
+            ->autowire()
+            ->autoconfigure();
+
+    $services->set(Utils::class)
+        ->public();
+
+    $services->load('HeimrichHannot\\UtilsBundle\\', '../src/{Command,EntityFinder,EventListener,Twig,Util}/*')
+        ->exclude([
+            '../src/EntityFinder/Element.php',
+            '../src/Util/Utils.php',
+        ])
+        ->bind('$projectDir', param('kernel.project_dir'))
+        ->bind('$csrfTokenName', param('contao.csrf_token_name'))
+        ->bind('$kernelBundles', param('kernel.bundles'));
+
+    $services->set(ContainerUtil::class)
+        ->tag('container.service_subscriber', ['key' => 'monolog.logger.contao', 'id' => 'monolog.logger.contao']);
+};

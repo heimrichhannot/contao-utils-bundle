@@ -33,7 +33,7 @@ return RectorConfig::configure()
         symfony: true,
     )
     ->withSets([
-        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_82,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
         # Die ContaoLevelSetList nutzt Symfony-Sets, die es in Rector 2 nicht mehr gibt.
         # Die Symfony-Regeln kommen über withComposerBased().
