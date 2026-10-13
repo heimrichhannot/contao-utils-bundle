@@ -157,6 +157,13 @@ class TokenizerTest extends TestCase
         yield 'backslash quote escape' => ['"say \"hi\" there", x', [['say hi there'], ['x']]];
         yield 'escaped quote does not close, comma stays inside' => ['"say \"hi, there\" now", other', [['say hi there now'], ['other']]];
         yield 'unclosed quote is plain words' => ['"unclosed, phrase', [['unclosed', 'phrase']]];
+        yield 'unclosed quote after words is plain words' => ['dresden "bei Nacht', [['dresden', 'bei', 'nacht']]];
+        yield 'word and quoted phrase (AND)' => ['dresden "bei Nacht"', [['dresden', 'bei nacht']]];
+        yield 'quoted phrase and word (AND)' => ['"bei Nacht" dresden', [['bei nacht', 'dresden']]];
+        yield 'two quoted phrases (AND)' => ['"bei Nacht" "im Winter"', [['bei nacht', 'im winter']]];
+        yield 'quoted phrase and words in second alternative' => ['kind, dresden "bei Nacht" winter', [['kind'], ['dresden', 'bei nacht', 'winter']]];
+        yield 'comma inside quotes mixed with word' => ['"a, b" c', [['a b', 'c']]];
+        yield 'quoted single word equals word' => ['haus "haus"', [['haus']]];
         yield 'quoted phrase stemmed' => ['"bei Nacht"', [['bei nacht']], true];
         yield 'stemmed words' => ['weihnachten bahn, kind', [['weihnacht', 'bahn'], ['kind']], true];
         yield 'umlauts stemmed and folded' => ['Häuser, München', [['haus'], ['munch']], true];
@@ -170,8 +177,8 @@ class TokenizerTest extends TestCase
             Tokenizer::parseQuery('weihnachten bahn, kind, dresden', 'de', new SnowballStemmer())
         );
         $this->assertSame(
-            [['weihnacht', 'bahn'], ['bei nacht']],
-            Tokenizer::parseQuery('weihnachten bahn, "bei Nacht"', 'de', new SnowballStemmer())
+            [['weihnacht', 'bahn'], ['dresd', 'bei nacht']],
+            Tokenizer::parseQuery('weihnachten bahn, dresden "bei Nacht"', 'de', new SnowballStemmer())
         );
     }
 

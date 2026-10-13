@@ -61,7 +61,8 @@ class SearchVectorFieldConfiguration extends DcaFieldConfiguration
 
     /**
      * The language of the records, e.g. "de". Used for stemming and for resolving option labels, independent of the
-     * language of the current user. Falls back to the default locale of the application.
+     * language of the current user. Falls back to the default locale of the application (kernel.default_locale),
+     * which is often "en" even on German websites, so set it explicitly for tables with records in one language.
      */
     public function setLanguage(?string $language): SearchVectorFieldConfiguration
     {

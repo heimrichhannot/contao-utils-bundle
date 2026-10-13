@@ -292,6 +292,10 @@ class SearchVectorQueryTest extends ContaoTestCase
         // phrase
         $this->assertSame([1], $this->search($query, '"bei Zwiesel"'));
         $this->assertSame([], $this->search($query, '"Zwiesel bei"'));
+        // word and phrase
+        $this->assertSame([1], $this->search($query, 'sommer "bei Zwiesel"'));
+        $this->assertSame([], $this->search($query, 'weihnachten "bei Zwiesel"'));
+        $this->assertSame([1, 2], $this->search($query, 'dresden, sommer "bei Zwiesel"'));
         // pipe separator keeps a phrase from matching across values
         $this->assertSame([], $this->search($query, '"zwiesel sommer"'));
         // no match

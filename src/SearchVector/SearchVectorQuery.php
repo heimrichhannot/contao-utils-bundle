@@ -8,7 +8,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * Builds search conditions against the search vector of a table.
  *
- * Query syntax: commas separate alternatives (OR), the words of one alternative must all match (AND), a part wrapped
+ * Query syntax: commas separate alternatives (OR), the words of one alternative must all match (AND), words wrapped
  * in double quotes must match as a phrase. Words match as substrings of the stored stems, so compounds are found by
  * their parts ("Oberpfalz" finds "Niederbayern-Oberpfalz").
  *

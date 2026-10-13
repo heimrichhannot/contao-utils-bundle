@@ -208,6 +208,11 @@ Option labels are resolved and words are stemmed in the language of the record, 
 saves it. The language is taken from the language field, then from `setLanguage()`, then from the default locale
 (`kernel.default_locale`).
 
+> [!IMPORTANT]
+> Many Contao installations keep the Symfony default locale `en`, even for German websites. Set the language of the
+> records with `setLanguage()`, otherwise option labels are indexed in English and German words are stemmed with
+> English rules.
+
 Search with the `SearchVectorQuery` service, either on a Doctrine query builder or with Contao model criteria:
 
 ```php
@@ -229,9 +234,9 @@ if ($columns) {
 The search is stemmed in the language of the records. For tables with a language field it defaults to the language of
 the current request, so pass the locale if you search records of another language.
 
-Search syntax: commas separate alternatives, all words of one alternative must match, and an alternative wrapped in
-double quotes must match as a phrase. For example `bahn winter, "bei nacht"` finds records containing both
-"bahn" and "winter", or the phrase "bei nacht". Words also match parts of compound words.
+Search syntax: commas separate alternatives, all words of one alternative must match, and words wrapped in double
+quotes must match as a phrase. For example `bahn winter, dresden "bei nacht"` finds records containing both "bahn"
+and "winter", or "dresden" together with the phrase "bei nacht". Words also match parts of compound words.
 
 Rebuild the vectors of a table after adding the field, after changing the field configuration and whenever something
 outside a record save changes what should be found (renamed options, related records, …):

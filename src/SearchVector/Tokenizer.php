@@ -50,11 +50,11 @@ class Tokenizer
     /**
      * Parses a user search query into phrases of tokens.
      *
-     * Commas separate phrases (OR), the words of a phrase are combined with AND. A phrase wrapped in double quotes
-     * stays a single term, so its word order matters.
+     * Commas separate phrases (OR), the terms of a phrase are combined with AND. Words wrapped in double quotes stay a
+     * single term, so their order matters. Quoted and unquoted words can be mixed, an unclosed quote is ignored.
      *
-     * Example: `Tokenizer::parseQuery('weihnachten bahn, "bei Nacht"', 'de', new SnowballStemmer())`
-     * returns `[['weihnacht', 'bahn'], ['bei nacht']]`.
+     * Example: `Tokenizer::parseQuery('weihnachten bahn, dresden "bei Nacht"', 'de', new SnowballStemmer())`
+     * returns `[['weihnacht', 'bahn'], ['dresd', 'bei nacht']]`.
      *
      * @param string $locale The language of the query, passed to the stemmer
      *
@@ -65,15 +65,21 @@ class Tokenizer
         $phrases = [];
 
         foreach (self::splitPhrases($query) as $phrase) {
-            if (\strlen($phrase) >= 2 && \str_starts_with($phrase, '"') && \str_ends_with($phrase, '"')) {
-                $tokens = static::tokenize(\substr($phrase, 1, -1), $locale, $stemmer);
-                $terms = $tokens ? [\implode(' ', $tokens)] : [];
-            } else {
-                $terms = \array_values(\array_unique(static::tokenize($phrase, $locale, $stemmer)));
+            $terms = [];
+
+            // Either a quoted segment (group 1) or a run of unquoted words
+            \preg_match_all('/"([^"]*)"|[^"]+/', $phrase, $segments, \PREG_SET_ORDER);
+
+            foreach ($segments as $segment) {
+                if (!\array_key_exists(1, $segment)) {
+                    \array_push($terms, ...static::tokenize($segment[0], $locale, $stemmer));
+                } elseif ($tokens = static::tokenize($segment[1], $locale, $stemmer)) {
+                    $terms[] = \implode(' ', $tokens);
+                }
             }
 
             if ($terms) {
-                $phrases[] = $terms;
+                $phrases[] = \array_values(\array_unique($terms));
             }
         }
 
@@ -99,7 +105,8 @@ class Tokenizer
     }
 
     /**
-     * Splits by commas outside of double quotes. Quotes are kept, a quote inside quotes can be escaped as "" or \".
+     * Splits by commas outside of double quotes. Quotes are kept to mark phrases. A quote inside quotes can be escaped
+     * as "" or \" and is replaced by a space, as quotes are not searchable anyway.
      *
      * @return list<string>
      */
@@ -114,7 +121,7 @@ class Tokenizer
             $char = $input[$i];
 
             if ($inQuotes && ($char === '"' || $char === '\\') && ($input[$i + 1] ?? null) === '"') {
-                $buffer .= '"';
+                $buffer .= ' ';
                 ++$i;
                 continue;
             }
