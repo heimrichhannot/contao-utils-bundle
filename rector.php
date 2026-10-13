@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Contao\Rector\Set\ContaoLevelSetList;
 use Contao\Rector\Set\ContaoSetList;
 use Rector\Config\RectorConfig;
 use Rector\Php81\Rector\Array_\ArrayToFirstClassCallableRector;
 use Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
+use Rector\Symfony\Set\SymfonySetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 use Rector\ValueObject\PhpVersion;
 
@@ -34,9 +34,14 @@ return RectorConfig::configure()
     )
     ->withSets([
         LevelSetList::UP_TO_PHP_81,
-        # Erst mit Symfony 6 (Contao 5) nutzen:
-        // SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
-        ContaoLevelSetList::UP_TO_CONTAO_413,
+        SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
+        # Die ContaoLevelSetList nutzt Symfony-Sets, die es in Rector 2 nicht mehr gibt.
+        # Die Symfony-Regeln kommen über withComposerBased().
+        ContaoSetList::CONTAO_49,
+        ContaoSetList::CONTAO_413,
+        ContaoSetList::CONTAO_50,
+        ContaoSetList::CONTAO_51,
+        ContaoSetList::CONTAO_53,
         ContaoSetList::FQCN,
         ContaoSetList::ANNOTATIONS_TO_ATTRIBUTES,
     ])

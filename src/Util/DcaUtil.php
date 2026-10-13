@@ -141,9 +141,7 @@ class DcaUtil
      */
     public function getDcaFields(string $table, ?GetDcaFieldsOptions $options = null): array
     {
-        if (null === $options) {
-            $options = new GetDcaFieldsOptions();
-        }
+        $options ??= new GetDcaFieldsOptions();
 
         $fields = [];
 

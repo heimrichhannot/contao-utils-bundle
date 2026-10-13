@@ -40,15 +40,7 @@ class AliasDcaFieldListener extends AbstractDcaFieldListener
                 ->execute($alias, $dc->id)
                 ->numRows > 0);
 
-        if (method_exists($dc, 'getCurrentRecord')) {
-            $row = $dc->getCurrentRecord();
-        } else {
-            /**
-             * Contao 4 fallback
-             * @todo Remove when contao 5 only
-             */
-            $row = $dc->activeRecord?->row() ?? [];
-        }
+        $row = $dc->getCurrentRecord();
 
         // Generate an alias if there is none
         if (!$value) {

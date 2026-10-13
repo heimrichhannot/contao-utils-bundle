@@ -9,6 +9,7 @@
 namespace HeimrichHannot\UtilsBundle\Tests\Util\Request;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Routing\ContentUrlGenerator;
 use Contao\PageModel;
 use HeimrichHannot\TestUtilitiesBundle\Mock\ModelMockTrait;
 use HeimrichHannot\UtilsBundle\Tests\AbstractUtilsTestCase;
@@ -17,6 +18,8 @@ use HeimrichHannot\UtilsBundle\Util\RequestUtil;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RequestUtilTest extends AbstractUtilsTestCase
 {
@@ -26,6 +29,7 @@ class RequestUtilTest extends AbstractUtilsTestCase
      * @param array{
      *     requestStack?: RequestStack,
      *     contaoFramework?: ContaoFramework,
+     *     urlGenerator?: ContentUrlGenerator,
      * } $parameters
      * @param MockBuilder|null $mockBuilder
      * @return RequestUtil
@@ -37,7 +41,9 @@ class RequestUtilTest extends AbstractUtilsTestCase
             PageModel::class => $this->mockAdapter(['findByPk']),
         ]);
 
-        return new RequestUtil($requestStack, $contaoFramework);
+        $urlGenerator = $parameters['urlGenerator'] ?? $this->createMock(ContentUrlGenerator::class);
+
+        return new RequestUtil($requestStack, $contaoFramework, $urlGenerator);
     }
 
     public function testGetCurrentPageModel()
@@ -135,11 +141,18 @@ class RequestUtilTest extends AbstractUtilsTestCase
         $instance = $this->getTestInstance(['requestStack' => $requestStack]);
         $this->assertSame('http://example.org', $instance->getBaseUrl());
 
-        $requestStack = new RequestStack();
-        $instance = $this->getTestInstance(['requestStack' => $requestStack]);
         $pageModel = $this->mockModelObject(PageModel::class);
-        $pageModel->method('getAbsoluteUrl')->willReturn('example.org/de/news');
-        $this->assertSame('http://example.org', $instance->getBaseUrl(['pageModel' => $pageModel]));
+        $urlGenerator = $this->createMock(ContentUrlGenerator::class);
+        $urlGenerator->method('generate')
+            ->with($pageModel, [], UrlGeneratorInterface::ABSOLUTE_URL)
+            ->willReturn('https://example.org/de/news');
+        $instance = $this->getTestInstance(['requestStack' => new RequestStack(), 'urlGenerator' => $urlGenerator]);
+        $this->assertSame('https://example.org', $instance->getBaseUrl(['pageModel' => $pageModel]));
+
+        $urlGenerator = $this->createMock(ContentUrlGenerator::class);
+        $urlGenerator->method('generate')->willThrowException(new RouteNotFoundException());
+        $instance = $this->getTestInstance(['requestStack' => new RequestStack(), 'urlGenerator' => $urlGenerator]);
+        $this->assertSame('https://heimrich-hannot.com', $instance->getBaseUrl(['pageModel' => $pageModel, 'fallback' => 'https://heimrich-hannot.com']));
 
         $this->assertSame('https://heimrich-hannot.com', $instance->getBaseUrl(['fallback' => 'https://heimrich-hannot.com']));
 
