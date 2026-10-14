@@ -12,6 +12,18 @@ class SearchVectorFieldListener extends AbstractDcaFieldListener
     #[AsHook('loadDataContainer')]
     public function onLoadDataContainer(string $table): void
     {
+        $registrations = SearchVectorField::takePendingRegistrations($table);
+
+        // A later registration would silently replace the earlier one
+        if (\count($registrations) > 1) {
+            throw new \LogicException(\sprintf(
+                'Table "%s" registers %d search vector fields (%s), but only one search vector field per table is supported.',
+                $table,
+                \count($registrations),
+                \implode(', ', \array_map(static fn ($registration): string => $registration->getFieldName(), $registrations))
+            ));
+        }
+
         if (!$configuration = SearchVectorField::getRegistrations()[$table] ?? null) {
             return;
         }

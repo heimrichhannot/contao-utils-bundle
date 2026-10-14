@@ -64,6 +64,41 @@ class SearchVectorFieldListenerTest extends TestCase
         $this->assertArrayNotHasKey('exclude', $GLOBALS['TL_DCA'][$table]['fields']['app_searchVector']);
     }
 
+    public function testSeveralFieldsInOneDcaAreRejected(): void
+    {
+        $listener = new SearchVectorFieldListener($this->createMock(ContainerInterface::class));
+        $GLOBALS['TL_DCA']['tl_listener_twice'] = ['config' => [], 'fields' => []];
+
+        SearchVectorField::register('tl_listener_twice')->setFieldName('searchTitle');
+        SearchVectorField::register('tl_listener_twice')->setFieldName('searchVector');
+
+        try {
+            $this->expectException(\LogicException::class);
+            $this->expectExceptionMessage('Table "tl_listener_twice" registers 2 search vector fields (searchTitle, searchVector), but only one search vector field per table is supported.');
+
+            $listener->onLoadDataContainer('tl_listener_twice');
+        } finally {
+            unset($GLOBALS['TL_DCA']['tl_listener_twice']);
+        }
+    }
+
+    public function testReloadingTheDcaRegistersTheFieldAgain(): void
+    {
+        $listener = new SearchVectorFieldListener($this->createMock(ContainerInterface::class));
+
+        // Loading the DCA twice in one process, e.g. without DCA cache or after a framework reset
+        foreach ([1, 2] as $load) {
+            $GLOBALS['TL_DCA']['tl_listener_reload'] = ['config' => [], 'fields' => []];
+            SearchVectorField::register('tl_listener_reload')->setFieldName('searchVector');
+
+            $listener->onLoadDataContainer('tl_listener_reload');
+
+            $this->assertArrayHasKey('searchVector', $GLOBALS['TL_DCA']['tl_listener_reload']['fields'], 'Load ' . $load);
+        }
+
+        unset($GLOBALS['TL_DCA']['tl_listener_reload']);
+    }
+
     public function testCallbacksIndexTheRecordRightAwayIfNotAsync(): void
     {
         SearchVectorField::register('tl_listener_sync')->setAsync(false);

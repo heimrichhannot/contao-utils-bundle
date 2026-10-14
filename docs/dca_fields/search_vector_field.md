@@ -45,6 +45,9 @@ SearchVectorField::register('tl_example')
 
 Rebuild the vectors after changing the configuration.
 
+Only one search vector field per table is supported. Registering a second one for the same table throws an exception
+when the DCA of the table is loaded.
+
 ## Field values
 
 Field values are resolved like in the backend: options and references become their labels, foreign keys the title of

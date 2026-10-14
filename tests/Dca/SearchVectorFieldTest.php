@@ -25,6 +25,16 @@ class SearchVectorFieldTest extends TestCase
         $this->assertTrue($config->isAsync());
     }
 
+    public function testPendingRegistrationsAreTakenOnce(): void
+    {
+        $first = SearchVectorField::register('tl_search_vector_pending');
+        $second = SearchVectorField::register('tl_search_vector_pending');
+
+        $this->assertSame([$first, $second], SearchVectorField::takePendingRegistrations('tl_search_vector_pending'));
+        $this->assertSame([], SearchVectorField::takePendingRegistrations('tl_search_vector_pending'));
+        $this->assertSame($second, SearchVectorField::getRegistrations()['tl_search_vector_pending']);
+    }
+
     public function testAsyncCanBeDisabled(): void
     {
         $config = SearchVectorField::register('tl_search_vector_async');
