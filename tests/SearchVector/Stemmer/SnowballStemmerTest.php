@@ -5,70 +5,64 @@ namespace HeimrichHannot\UtilsBundle\Tests\SearchVector\Stemmer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
 use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface;
 use PHPUnit\Framework\TestCase;
+use Wamania\Snowball\StemmerFactory;
 
 /**
- * Runs through the real wamania/php-stemmer library.
+ * Tests the adapter against the real library. The stems themselves are the library's business and not pinned here.
  */
 class SnowballStemmerTest extends TestCase
 {
+    private const WORDS = ['führungen', 'häuser', 'schulen', 'running', 'houses', 'maisons', 'chevaux', 'strasse', 'museum'];
+
     public function testImplementsInterface(): void
     {
         $this->assertInstanceOf(StemmerInterface::class, new SnowballStemmer());
     }
 
     /**
-     * @dataProvider stemProvider
+     * @dataProvider localeProvider
      */
-    public function testStem(string $word, string $locale, string $expected): void
+    public function testUsesTheStemmerOfTheLanguageOfTheLocale(string $locale, string $language): void
     {
-        $this->assertSame($expected, (new SnowballStemmer())->stem($word, $locale));
+        $adapter = new SnowballStemmer();
+        $library = StemmerFactory::create($language);
+
+        foreach (self::WORDS as $word) {
+            $this->assertSame($library->stem($word), $adapter->stem($word, $locale), \sprintf('"%s" with locale "%s"', $word, $locale));
+        }
     }
 
-    public static function stemProvider(): \Generator
+    public static function localeProvider(): \Generator
     {
-        yield 'de plural -en' => ['führungen', 'de', 'fuhrung'];
-        yield 'de plural -n' => ['schulen', 'de', 'schul'];
-        yield 'de singular -e' => ['schule', 'de', 'schul'];
-        yield 'de -ungen' => ['lieferungen', 'de', 'liefer'];
-        yield 'de -ung' => ['wanderung', 'de', 'wander'];
-        yield 'de superlative' => ['besten', 'de', 'best'];
-        yield 'de umlaut plural' => ['häuser', 'de', 'haus'];
-        yield 'de umlaut singular' => ['haus', 'de', 'haus'];
-        yield 'de umlaut is folded by the stemmer' => ['bäckerei', 'de', 'backerei'];
-        yield 'de umlaut word' => ['käse', 'de', 'kas'];
-        yield 'de diminutive' => ['mädchen', 'de', 'madch'];
-        yield 'de sharp s' => ['straße', 'de', 'strass'];
-        yield 'de Kirchen' => ['kirchen', 'de', 'kirch'];
-        yield 'de unchanged' => ['wald', 'de', 'wald'];
-        yield 'de empty' => ['', 'de', ''];
-
-        yield 'en -ing' => ['running', 'en', 'run'];
-        yield 'en plural' => ['runs', 'en', 'run'];
-        yield 'en houses' => ['houses', 'en', 'hous'];
-        yield 'en accent is kept' => ['cafés', 'en', 'café'];
-
-        yield 'fr plural -aux' => ['chevaux', 'fr', 'cheval'];
-        yield 'fr plural -s' => ['maisons', 'fr', 'maison'];
-        yield 'fr adjective' => ['nationales', 'fr', 'national'];
+        yield 'de' => ['de', 'de'];
+        yield 'de_DE' => ['de_DE', 'de'];
+        yield 'de_CH' => ['de_CH', 'de'];
+        yield 'de-CH' => ['de-CH', 'de'];
+        yield 'en' => ['en', 'en'];
+        yield 'en_US' => ['en_US', 'en'];
+        yield 'en-GB' => ['en-GB', 'en'];
+        yield 'fr' => ['fr', 'fr'];
+        yield 'nl' => ['nl', 'nl'];
     }
 
-    /**
-     * @dataProvider localeVariantProvider
-     */
-    public function testLocaleVariantsUseTheLanguage(string $locale, string $word, string $expected): void
+    public function testLocaleSelectsTheLanguage(): void
     {
-        $this->assertSame($expected, (new SnowballStemmer())->stem($word, $locale));
+        $adapter = new SnowballStemmer();
+
+        // Different languages are not mixed up, whatever the stems are
+        $this->assertSame(StemmerFactory::create('de')->stem('schulen'), $adapter->stem('schulen', 'de'));
+        $this->assertSame(StemmerFactory::create('en')->stem('schulen'), $adapter->stem('schulen', 'en'));
+        $this->assertSame(StemmerFactory::create('fr')->stem('maisons'), $adapter->stem('maisons', 'fr'));
     }
 
-    public static function localeVariantProvider(): \Generator
+    public function testSameInstanceServesSeveralLanguages(): void
     {
-        yield ['de', 'häuser', 'haus'];
-        yield ['de_DE', 'häuser', 'haus'];
-        yield ['de_CH', 'häuser', 'haus'];
-        yield ['de-CH', 'häuser', 'haus'];
-        yield ['en', 'running', 'run'];
-        yield ['en_US', 'running', 'run'];
-        yield ['en-GB', 'running', 'run'];
+        $adapter = new SnowballStemmer();
+        $german = $adapter->stem('häuser', 'de');
+        $english = $adapter->stem('running', 'en');
+
+        $this->assertSame($german, $adapter->stem('häuser', 'de_CH'));
+        $this->assertSame($english, $adapter->stem('running', 'en_US'));
     }
 
     /**
@@ -77,6 +71,7 @@ class SnowballStemmerTest extends TestCase
     public function testUnsupportedLocaleReturnsWordUnchanged(string $locale): void
     {
         $this->assertSame('häuser', (new SnowballStemmer())->stem('häuser', $locale));
+        $this->assertSame('führungen', (new SnowballStemmer())->stem('führungen', $locale));
     }
 
     public static function unsupportedLocaleProvider(): \Generator
@@ -85,34 +80,5 @@ class SnowballStemmerTest extends TestCase
         yield ['xx_YY'];
         yield ['zh'];
         yield [''];
-    }
-
-    public function testLocaleSelectsLanguage(): void
-    {
-        $stemmer = new SnowballStemmer();
-
-        $this->assertSame('schul', $stemmer->stem('schulen', 'de'));
-        $this->assertSame('schulen', $stemmer->stem('schulen', 'en'));
-    }
-
-    /**
-     * @dataProvider inflectionProvider
-     */
-    public function testInflectionsShareStem(string $locale, string ...$words): void
-    {
-        $stemmer = new SnowballStemmer();
-        $stems = \array_unique(\array_map(static fn (string $word): string => $stemmer->stem($word, $locale), $words));
-
-        $this->assertCount(1, $stems, 'Got different stems: ' . \implode(', ', $stems));
-    }
-
-    public static function inflectionProvider(): \Generator
-    {
-        yield 'Lieferung' => ['de', 'lieferung', 'lieferungen'];
-        yield 'Schule' => ['de', 'schule', 'schulen', 'schulen'];
-        yield 'Kirche' => ['de', 'kirche', 'kirchen'];
-        yield 'Haus' => ['de', 'haus', 'häuser'];
-        yield 'Kind' => ['de', 'kind', 'kinder'];
-        yield 'Run' => ['en', 'run', 'runs', 'running'];
     }
 }

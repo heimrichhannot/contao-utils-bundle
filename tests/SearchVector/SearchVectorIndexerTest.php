@@ -12,7 +12,9 @@ use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\Event\BuildSearchVectorEvent;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
@@ -22,7 +24,7 @@ use HeimrichHannot\UtilsBundle\SearchVector\Messenger\RebuildSearchVectorMessage
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorLanguageSwitcher;
 use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
+use HeimrichHannot\UtilsBundle\Tests\SearchVector\Stemmer\SuffixTestStemmer;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
@@ -73,7 +75,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
     {
         parent::setUp();
 
-        $this->connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
+        $this->connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true], $this->createDbalConfiguration());
 
         $container = $this->getContainerWithContaoConfiguration();
         $container->set('database_connection', $this->connection);
@@ -138,7 +140,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
             ],
         ];
 
-        SearchVectorField::register(self::TABLE)->setStemmer(SnowballStemmer::class)->setFields(['title', 'text', 'category', 'seasons', 'region', 'notInRow']);
+        SearchVectorField::register(self::TABLE)->setStemmer(SuffixTestStemmer::class)->setFields(['title', 'text', 'category', 'seasons', 'region', 'notInRow']);
     }
 
     protected function tearDown(): void
@@ -164,7 +166,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         // Text and HTML are flattened, insert tags removed, option values replaced by their labels and every array
         // value is a separate section
-        $this->assertSame('| stadtmuseum am rathaus | fuhrung im somm mehr | stadtfuhr | fruhling | schon winterzeit |', $vector);
+        $this->assertSame('| stadtmuseum am rathaus | fuhr im somm mehr | stadtfuhr | fruhling | schon winterzeit |', $vector);
     }
 
     public function testBuildVectorWithoutStemmer(): void
@@ -212,7 +214,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         });
 
         $this->assertSame(
-            '| stadtmuseum | histor altstadt |',
+            '| stadtmuseum | historisch altstadt |',
             $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum'])
         );
     }
@@ -229,13 +231,13 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame(self::CATEGORY_LABELS['en'], $GLOBALS['TL_LANG'][self::TABLE]['category']);
         $this->assertSame('en', $this->translator->getLocale());
 
-        // English records are stemmed with the English rules
-        $this->assertSame('| tour | citi tour |', $indexer->buildVector(self::TABLE, ['id' => 2, 'language' => 'en', 'title' => 'Tours', 'category' => 'guided_tour']));
+        // English records are not stemmed with the German rules ("Guide" would lose its "e")
+        $this->assertSame('| guide | city tour |', $indexer->buildVector(self::TABLE, ['id' => 2, 'language' => 'en', 'title' => 'Guide', 'category' => 'guided_tour']));
 
         // An empty language field falls back to the configured language, then to the default locale
         $this->assertSame('| stadtfuhr |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
         SearchVectorField::getRegistrations()[self::TABLE]->setLanguage('en');
-        $this->assertSame('| citi tour |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
+        $this->assertSame('| city tour |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
     }
 
     public function testOptionsCallbacksRunInTheRecordLanguage(): void
@@ -249,7 +251,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $vector = $this->createIndexer($dcaUtil)->buildVector(self::TABLE, ['id' => 1, 'seasons' => \serialize(['winter'])]);
 
-        $this->assertSame('| schnee |', $vector);
+        $this->assertSame('| schne |', $vector);
         $this->assertSame('en', $this->translator->getLocale());
     }
 
@@ -286,7 +288,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $vector = $this->createIndexer($dcaUtil)->buildVector(self::TABLE, ['id' => 1, 'seasons' => \serialize(['winter'])]);
 
-        $this->assertSame('| schnee |', $vector);
+        $this->assertSame('| schne |', $vector);
         $this->assertSame('Snow', $GLOBALS['TL_LANG']['tl_lazy']['winter'], 'The language of the user is restored');
     }
 
@@ -475,7 +477,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
             $this->connection,
             new SearchVectorConfigurationResolver(
                 $framework,
-                new ServiceLocator([SnowballStemmer::class => static fn () => new SnowballStemmer()]),
+                new ServiceLocator([SuffixTestStemmer::class => static fn () => new SuffixTestStemmer()]),
                 new ServiceLocator([GermanNormalizer::class => static fn () => new GermanNormalizer()]),
                 new RequestStack(),
                 'de'
@@ -495,5 +497,14 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $vector = $this->connection->fetchOne('SELECT searchVector FROM ' . self::TABLE . ' WHERE id = ?', [$id]);
 
         return false === $vector ? null : $vector;
+    }
+
+    private function createDbalConfiguration(): Configuration
+    {
+        // Leaving the schema manager factory unset is deprecated
+        $configuration = new Configuration();
+        $configuration->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
+
+        return $configuration;
     }
 }

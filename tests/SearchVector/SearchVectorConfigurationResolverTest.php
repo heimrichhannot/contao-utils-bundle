@@ -7,7 +7,7 @@ use Contao\TestCase\ContaoTestCase;
 use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorConfigurationResolver;
 use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
-use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
+use HeimrichHannot\UtilsBundle\Tests\SearchVector\Stemmer\SuffixTestStemmer;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -62,9 +62,9 @@ class SearchVectorConfigurationResolverTest extends ContaoTestCase
 
     public function testGetStemmerReturnsRegisteredService(): void
     {
-        $stemmer = new SnowballStemmer();
-        $configuration = SearchVectorField::register('tl_resolver_stemmer')->setStemmer(SnowballStemmer::class);
-        $resolver = $this->createResolver(null, [SnowballStemmer::class => static fn (): SnowballStemmer => $stemmer]);
+        $stemmer = new SuffixTestStemmer();
+        $configuration = SearchVectorField::register('tl_resolver_stemmer')->setStemmer(SuffixTestStemmer::class);
+        $resolver = $this->createResolver(null, [SuffixTestStemmer::class => static fn (): SuffixTestStemmer => $stemmer]);
 
         $this->assertSame($stemmer, $resolver->getStemmer($configuration));
     }
@@ -118,11 +118,11 @@ class SearchVectorConfigurationResolverTest extends ContaoTestCase
 
     public function testGetNormalizerWithServiceOfWrongTypeThrows(): void
     {
-        $configuration = SearchVectorField::register('tl_resolver_normalizer_wrong_type')->setNormalizer(SnowballStemmer::class);
-        $resolver = $this->createResolver(null, [], [SnowballStemmer::class => static fn (): SnowballStemmer => new SnowballStemmer()]);
+        $configuration = SearchVectorField::register('tl_resolver_normalizer_wrong_type')->setNormalizer(SuffixTestStemmer::class);
+        $resolver = $this->createResolver(null, [], [SuffixTestStemmer::class => static fn (): SuffixTestStemmer => new SuffixTestStemmer()]);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The search vector normalizer "HeimrichHannot\\UtilsBundle\\SearchVector\\Stemmer\\SnowballStemmer" of table "tl_resolver_normalizer_wrong_type" is not a registered service implementing HeimrichHannot\\UtilsBundle\\SearchVector\\Normalizer\\NormalizerInterface.');
+        $this->expectExceptionMessage('The search vector normalizer "HeimrichHannot\\UtilsBundle\\Tests\\SearchVector\\Stemmer\\SuffixTestStemmer" of table "tl_resolver_normalizer_wrong_type" is not a registered service implementing HeimrichHannot\\UtilsBundle\\SearchVector\\Normalizer\\NormalizerInterface.');
 
         $resolver->getNormalizer($configuration);
     }
