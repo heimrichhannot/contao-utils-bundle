@@ -25,6 +25,8 @@ use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
 use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorLanguageSwitcher;
 use HeimrichHannot\UtilsBundle\SearchVector\Normalizer\GermanNormalizer;
 use HeimrichHannot\UtilsBundle\Tests\SearchVector\Stemmer\SuffixTestStemmer;
+use HeimrichHannot\UtilsBundle\SearchVector\Stemmer\SnowballStemmer;
+use HeimrichHannot\UtilsBundle\SearchVector\Tokenizer;
 use HeimrichHannot\UtilsBundle\Util\DcaUtil;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
@@ -166,7 +168,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         // Text and HTML are flattened, insert tags removed, option values replaced by their labels and every array
         // value is a separate section
-        $this->assertSame('| stadtmuseum am rathaus | fuhr im somm mehr | stadtfuhr | fruhling | schon winterzeit |', $vector);
+        $this->assertSame('| stadtmuseum am rathaus | fuhr im somm mehr | fuhrung im sommer mehr | stadtfuhr | stadtfuhrung | fruhling | schon winterzeit | schone winterzeit |', $vector);
     }
 
     public function testBuildVectorWithoutStemmer(): void
@@ -186,8 +188,26 @@ class SearchVectorIndexerTest extends ContaoTestCase
     {
         $indexer = $this->createIndexer();
 
-        $this->assertSame('| stadtfuhr |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Stadtführung', 'category' => 'guided_tour']));
+        $this->assertSame('| stadtfuhr | stadtfuhrung |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Stadtführung', 'category' => 'guided_tour']));
         $this->assertSame('', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => '<p> </p>', 'text' => '']));
+    }
+
+    public function testCompoundsAreFoundByTheirLastWord(): void
+    {
+        SearchVectorField::getRegistrations()[self::TABLE]->setStemmer(SnowballStemmer::class);
+
+        $vector = $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'title' => 'Imkerhonig vom Bauernhof']);
+
+        // The stem of the compound differs from the stem of its last word ("imkerhon", but "honig")
+        $this->assertSame('| imkerhon vom bauernhof | imkerhonig vom bauernhof |', $vector);
+
+        foreach (['Honig', 'Imkerhonig', '"Imkerhonig vom Bauernhof"'] as $search) {
+            foreach (Tokenizer::parseQuery($search, 'de', new SnowballStemmer()) as $terms) {
+                foreach ($terms as $term) {
+                    $this->assertStringContainsString($term, $vector, $search);
+                }
+            }
+        }
     }
 
     public function testNormalizerUnifiesSpellings(): void
@@ -195,11 +215,11 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $indexer = $this->createIndexer();
 
         // Without normalizer, a transliterated umlaut leads to another stem
-        $this->assertSame('| muench | munch |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Muenchen', 'text' => 'München']));
+        $this->assertSame('| muench | muenchen | munch | munchen |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Muenchen', 'text' => 'München']));
 
         SearchVectorField::getRegistrations()[self::TABLE]->setNormalizer(GermanNormalizer::class);
-        $this->assertSame('| munch |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Muenchen', 'text' => 'München']));
-        $this->assertSame('| feu |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Feuer']));
+        $this->assertSame('| munch | munchen |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Muenchen', 'text' => 'München']));
+        $this->assertSame('| feu | feuer |', $indexer->buildVector(self::TABLE, ['id' => 1, 'title' => 'Feuer']));
     }
 
     public function testEventCanAddValues(): void
@@ -214,7 +234,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         });
 
         $this->assertSame(
-            '| stadtmuseum | historisch altstadt |',
+            '| stadtmuseum | historisch altstadt | historische altstadt |',
             $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum'])
         );
     }
@@ -224,7 +244,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         SearchVectorField::getRegistrations()[self::TABLE]->setLanguageField('language');
         $indexer = $this->createIndexer();
 
-        $this->assertSame('| stadtfuhr |', $indexer->buildVector(self::TABLE, ['id' => 1, 'language' => 'de', 'category' => 'guided_tour']));
+        $this->assertSame('| stadtfuhr | stadtfuhrung |', $indexer->buildVector(self::TABLE, ['id' => 1, 'language' => 'de', 'category' => 'guided_tour']));
 
         // The language of the user is restored
         $this->assertSame('en', $GLOBALS['TL_LANGUAGE']);
@@ -235,7 +255,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $this->assertSame('| guide | city tour |', $indexer->buildVector(self::TABLE, ['id' => 2, 'language' => 'en', 'title' => 'Guide', 'category' => 'guided_tour']));
 
         // An empty language field falls back to the configured language, then to the default locale
-        $this->assertSame('| stadtfuhr |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
+        $this->assertSame('| stadtfuhr | stadtfuhrung |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
         SearchVectorField::getRegistrations()[self::TABLE]->setLanguage('en');
         $this->assertSame('| city tour |', $indexer->buildVector(self::TABLE, ['id' => 3, 'language' => '', 'category' => 'guided_tour']));
     }
@@ -251,7 +271,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $vector = $this->createIndexer($dcaUtil)->buildVector(self::TABLE, ['id' => 1, 'seasons' => \serialize(['winter'])]);
 
-        $this->assertSame('| schne |', $vector);
+        $this->assertSame('| schne | schnee |', $vector);
         $this->assertSame('en', $this->translator->getLocale());
     }
 
@@ -264,14 +284,14 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $GLOBALS['TL_LANG'][self::TABLE]['category'] = null;
         (new \ReflectionProperty(System::class, 'arrLanguageFiles'))->setValue(null, []);
 
-        $this->assertSame('| stadtfuhr |', $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'category' => 'guided_tour']));
+        $this->assertSame('| stadtfuhr | stadtfuhrung |', $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'category' => 'guided_tour']));
     }
 
     public function testReferencesToLanguageFilesOfOtherTablesUseTheRecordLanguage(): void
     {
         $vector = $this->createIndexer()->buildVector(self::TABLE, ['id' => 1, 'region' => 'south']);
 
-        $this->assertSame('| sud |', $vector);
+        $this->assertSame('| sud | suden |', $vector);
         $this->assertSame('South', $GLOBALS['TL_LANG']['tl_region']['region']['south'], 'The language of the user is restored');
     }
 
@@ -288,7 +308,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $vector = $this->createIndexer($dcaUtil)->buildVector(self::TABLE, ['id' => 1, 'seasons' => \serialize(['winter'])]);
 
-        $this->assertSame('| schne |', $vector);
+        $this->assertSame('| schne | schnee |', $vector);
         $this->assertSame('Snow', $GLOBALS['TL_LANG']['tl_lazy']['winter'], 'The language of the user is restored');
     }
 
@@ -315,7 +335,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $indexer = $this->createIndexer();
 
         $this->assertTrue($indexer->index(self::TABLE, 1));
-        $this->assertSame('| stadtmuseum | muse |', $this->fetchVector(1));
+        $this->assertSame('| stadtmuseum | muse | museen |', $this->fetchVector(1));
         $this->assertNull($this->fetchVector(2));
 
         $this->assertFalse($indexer->index(self::TABLE, 1), 'An unchanged vector is not written again');
@@ -323,7 +343,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $this->connection->update(self::TABLE, ['title' => 'Rathaus'], ['id' => 1]);
         $this->assertTrue($indexer->index(self::TABLE, 1));
-        $this->assertSame('| rathaus | muse |', $this->fetchVector(1));
+        $this->assertSame('| rathaus | muse | museen |', $this->fetchVector(1));
     }
 
     public function testQueueSendsMessageThatAWorkerHandles(): void
@@ -431,7 +451,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
 
         $this->assertSame(1, $changed);
         $this->assertSame([1 => false, 2 => true], $progress);
-        $this->assertSame('| stadtfuhr |', $this->fetchVector(2));
+        $this->assertSame('| stadtfuhr | stadtfuhrung |', $this->fetchVector(2));
     }
 
     public function testUnregisteredTable(): void
@@ -477,7 +497,10 @@ class SearchVectorIndexerTest extends ContaoTestCase
             $this->connection,
             new SearchVectorConfigurationResolver(
                 $framework,
-                new ServiceLocator([SuffixTestStemmer::class => static fn () => new SuffixTestStemmer()]),
+                new ServiceLocator([
+                    SuffixTestStemmer::class => static fn () => new SuffixTestStemmer(),
+                    SnowballStemmer::class => static fn () => new SnowballStemmer(),
+                ]),
                 new ServiceLocator([GermanNormalizer::class => static fn () => new GermanNormalizer()]),
                 new RequestStack(),
                 'de'

@@ -23,6 +23,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * Format: the tokens of one value are joined by a space, values are separated by ` | ` and the whole string is
  * wrapped in `| … |`, e.g. `| fuhrung durch die altstadt | sommer | stadtrundgange |` (without stemmer). The space
  * keeps word adjacency for quoted phrase searches, the pipe stops a phrase from matching across two unrelated values.
+ * With a stemmer, each value is followed by its unstemmed words if they differ, e.g. `| imkerhon | imkerhonig |`, so a
+ * compound is also found by its last word if the stemmer cuts the compound differently than the word on its own.
  *
  * Option labels are resolved and words are stemmed in the language of the record (see
  * SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in the language of the current user.
@@ -198,8 +200,16 @@ class SearchVectorIndexer
         $parts = [];
 
         foreach ($event->getValues() as $value) {
-            if ($tokens = Tokenizer::tokenize($value, $locale, $stemmer, $normalizer)) {
-                $parts[] = \implode(' ', $tokens);
+            if (!$tokens = Tokenizer::tokenize($value, $locale, $stemmer, $normalizer)) {
+                continue;
+            }
+
+            $parts[] = \implode(' ', $tokens);
+
+            // A stemmer may cut a compound differently than its last word ("imkerhonig" → "imkerhon", but "honig" →
+            // "honig"), so the unstemmed words are stored as a separate value as well, to find compounds by their parts
+            if ($stemmer) {
+                $parts[] = \implode(' ', Tokenizer::tokenize($value, $locale, null, $normalizer));
             }
         }
 
