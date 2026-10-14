@@ -186,6 +186,10 @@ SearchVectorField::register('tl_example')
 
 Each word is stemmed with the rules of the record language, words of unsupported languages stay unchanged.
 
+A stemmer may cut a compound differently than its last word on its own, e.g. "Imkerhonig" becomes "imkerhon" while
+"Honig" stays "honig". The unstemmed words of each value are therefore stored as well, so "Honig" still finds
+"Imkerhonig". This makes the vector longer, up to twice the length without a stemmer.
+
 To use another stemmer, implement `HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface` as an
 autoconfigured service and pass its service id to `setStemmer()`. The stemmer gets each word lowercased with its accents
 and the language of the word, and should return words of languages it does not support unchanged.
