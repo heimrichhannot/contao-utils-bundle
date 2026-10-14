@@ -14,6 +14,7 @@ In addition, there are DcaField helpers, the Entity finder command and some nice
 ## Features
 * Utils-Service - A service allow access all bundled utils functions. 
 * DcaField registration - An nice api to add typical dca fields to your dca fields without repeating yourself or annoying order restrictions.
+  * AliasField - Add an alias field with duplicate check
   * AuthorField - Add an author field with automatic filling of the default value and optional frontend member support
   * DateAddedField - Add a date added field to store the date of entity creation
   * SearchVectorField - Add a field that makes entities searchable by option labels, related records and, with a stemmer, inflected words
@@ -91,6 +92,32 @@ SUtils::class()->hasTrait($class, $trait);
 
 The bundle provides some common dca fields that can be used in your dca files.
 
+#### Alias field
+
+Add an alias field to your dca. Set the alias if the alias field is empty on save and check for duplicates.
+
+```php
+use HeimrichHannot\UtilsBundle\Dca\AliasField;
+
+AliasField::register('tl_example');
+```
+
+You can pass additional options to adjust the field:
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\AliasField;
+
+AliasField::register('tl_example')
+    AliasField::register('tl_md_newsletter')
+    ->setAliasExistCallback([NewsletterCallbackListener::class, 'checkAliasExist']) // set a custom alias exist callback
+    ->setExclude(false) // set the dca field exclude option
+    ->setSearch(false) // set the dca field search option
+    ->setFilter(false) // set the dca field filter option
+    ->setSorting(true) // set the dca field sorting option
+    ->setFlag(null) // set the dca field flag option
+;
+```
+
 #### Author field
 
 Add an author field to your dca. It will be initialized with the current backend user. On copy, it will be set to the current user.
@@ -141,32 +168,6 @@ DateAddedField::register('tl_example')
     ->setFilter(false) // set the dca field filter option
     ->setSearch(false) // set the dca field search option
     ->setSorting(true) // set the dca field sorting option
-;
-```
-
-#### Alias field
-
-Add an alias field to your dca. Set the alias if the alias field is empty on save and check for duplicates.
-
-```php
-use HeimrichHannot\UtilsBundle\Dca\AliasField;
-
-AliasField::register('tl_example');
-```
-
-You can pass additional options to adjust the field:
-```php
-# contao/dca/tl_example.php
-use HeimrichHannot\UtilsBundle\Dca\AliasField;
-
-AliasField::register('tl_example')
-    AliasField::register('tl_md_newsletter')
-    ->setAliasExistCallback([NewsletterCallbackListener::class, 'checkAliasExist']) // set a custom alias exist callback
-    ->setExclude(false) // set the dca field exclude option
-    ->setSearch(false) // set the dca field search option
-    ->setFilter(false) // set the dca field filter option
-    ->setSorting(true) // set the dca field sorting option
-    ->setFlag(null) // set the dca field flag option
 ;
 ```
 

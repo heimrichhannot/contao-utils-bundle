@@ -2,14 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
-- Added: search vector field to make records searchable by option labels and related records in the language of each record, with optional stemming via wamania/php-stemmer and optional normalization of spellings like "Muenchen" for "München", rebuilt asynchronously after saving in the backend, including a search helper and a rebuild command
-- Changed: require Contao 5.3 or newer, support for Contao 4.13 has been dropped
-- Changed: require Symfony 6.4 or newer
-- Changed: require PHP 8.2 or newer
-- Changed: require Doctrine DBAL 3.8 or newer
-- Fixed: base url determined from a page model contained a wrong host
-- Fixed: entity finder failed for pages without a frontend route
+## [3.12.0] - 2026-10-14
+- Added: search vector field ([#108](https://github.com/heimrichhannot/contao-utils-bundle/pull/108))
+- Changed: require Contao 5.3 or newer, support for Contao 4.13 has been dropped ([#109](https://github.com/heimrichhannot/contao-utils-bundle/pull/109))
+- Changed: require Symfony 6.4 or newer ([#109](https://github.com/heimrichhannot/contao-utils-bundle/pull/109))
+- Changed: require PHP 8.2 or newer ([#109](https://github.com/heimrichhannot/contao-utils-bundle/pull/109))
+- Changed: require Doctrine DBAL 3.8 or newer ([#109](https://github.com/heimrichhannot/contao-utils-bundle/pull/109))
+- Fixed: base url determined from a page model contained a wrong host ([#109](https://github.com/heimrichhannot/contao-utils-bundle/pull/109))
+- Fixed: entity finder failed for pages without a frontend route ([#109](https://github.com/heimrichhannot/contao-utils-bundle/pull/109))
 
 ## [3.11.0] - 2026-04-10
 - Changed: allow doctrine 4
