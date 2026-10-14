@@ -119,7 +119,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -128,7 +128,9 @@
 
     <section class="phpdocumentor-description"><p>Format: the tokens of one value are joined by a space, values are separated by <code class="prettyprint">|</code> and the whole string is
 wrapped in <code class="prettyprint">| … |</code>, e.g. <code class="prettyprint">| fuhrung durch die altstadt | sommer | stadtrundgange |</code> (without stemmer). The space
-keeps word adjacency for quoted phrase searches, the pipe stops a phrase from matching across two unrelated values.</p>
+keeps word adjacency for quoted phrase searches, the pipe stops a phrase from matching across two unrelated values.
+With a stemmer, each value is followed by its unstemmed words if they differ, e.g. <code class="prettyprint">| imkerhon | imkerhonig |</code>, so a
+compound is also found by its last word if the stemmer cuts the compound differently than the word on its own.</p>
 <p>Option labels are resolved and words are stemmed in the language of the record (see
 SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in the language of the current user.</p>
 </section>
@@ -316,7 +318,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -348,7 +350,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -380,7 +382,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -427,7 +429,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">46</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -463,7 +465,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -499,7 +501,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">48</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -535,7 +537,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">49</span>
 
     </aside>
 
@@ -571,7 +573,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">50</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
@@ -607,7 +609,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
@@ -643,7 +645,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
@@ -679,7 +681,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">52</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
@@ -715,7 +717,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">55</span>
 
     </aside>
 
@@ -756,7 +758,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
@@ -856,7 +858,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">186</span>
+    <span class="phpdocumentor-element-found-in__line">188</span>
 
     </aside>
 
@@ -919,7 +921,7 @@ SearchVectorFieldConfiguration::setLanguage() and setLanguageField()), never in 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">97</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 
     </aside>
 
@@ -993,7 +995,7 @@ holding table, id and record is used.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">156</span>
+    <span class="phpdocumentor-element-found-in__line">158</span>
 
     </aside>
 
@@ -1053,7 +1055,7 @@ holding table, id and record is used.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
@@ -1126,7 +1128,7 @@ available.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">221</span>
+    <span class="phpdocumentor-element-found-in__line">231</span>
 
     </aside>
 
@@ -1196,7 +1198,7 @@ available.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorIndexer.php"><a href="files/src-searchvector-searchvectorindexer.html"><abbr title="src/SearchVector/SearchVectorIndexer.php">SearchVectorIndexer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">261</span>
+    <span class="phpdocumentor-element-found-in__line">271</span>
 
     </aside>
 
