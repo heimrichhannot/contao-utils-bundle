@@ -109,6 +109,25 @@ quotes must match as a phrase. For example `altstadt führung, museum "am abend"
 "altstadt" and "führung", or "museum" together with the phrase "am abend". Words also match parts of compound words,
 e.g. "Württemberg" finds "Baden-Württemberg".
 
+### Relevance
+
+The words of an alternative may be found anywhere in a record, so "Dresdner Stollen" also finds a record mentioning
+"Dresdner" in one sentence and "Stollen" in another. Sort by relevance to list the best matches first:
+
+```php
+// Doctrine query builder: call it before adding other sort orders, which then sort records of the same relevance
+$searchVectorQuery->apply($queryBuilder, 'tl_example', $search);
+$searchVectorQuery->orderByRelevance($queryBuilder, 'tl_example', $search);
+$queryBuilder->addOrderBy('title');
+
+// other query abstractions: a numeric SQL expression with named parameters, higher is more relevant
+[$sql, $parameters] = $searchVectorQuery->createRelevance('tl_example', $search, 'e', parameterPrefix: 'relevance');
+```
+
+A word scores 1 if it matches at the start of a word and 1 more if it matches a whole word. If all words of an
+alternative stand next to each other, they score 2 per word on top. So "Dresdner Stollen" lists records with both words
+in a row first, and "Honig" lists "Honig" before "Honigwein" and "Imkerhonig". The scores of alternatives add up.
+
 ## Keeping the vectors up to date
 
 The vector is rebuilt when a record is saved, copied or restored from a version in the backend. The rebuild runs

@@ -490,6 +490,84 @@ class SearchVectorQueryTest extends ContaoTestCase
         )));
     }
 
+    public function testCreateRelevance(): void
+    {
+        [$relevance, $parameters] = $this->createQuery(null)->createRelevance('tl_example', 'dresdner stollen, museum', 'e', parameterPrefix: 'r');
+
+        $like = static fn (int $i, int $points): string => 'CASE WHEN "e"."searchVector" LIKE :r_' . $i . ' ESCAPE \'!\' THEN ' . $points . ' ELSE 0 END';
+
+        $this->assertSame(
+            '(' . \implode(' + ', [$like(0, 1), $like(1, 1), $like(2, 1), $like(3, 1), $like(4, 4), $like(5, 1), $like(6, 1)]) . ')',
+            $relevance
+        );
+        $this->assertSame([
+            'r_0' => '% dresdner%',
+            'r_1' => '% dresdner %',
+            'r_2' => '% stollen%',
+            'r_3' => '% stollen %',
+            'r_4' => '% dresdner stollen%',
+            'r_5' => '% museum%',
+            'r_6' => '% museum %',
+        ], $parameters);
+    }
+
+    public function testCreateRelevanceEscapesLikeWildcards(): void
+    {
+        $stemmer = $this->createStemmerStub(['foo' => 'a%b_c']);
+
+        $this->assertSame(['searchVectorRelevance_0' => '% a!%b!_c%', 'searchVectorRelevance_1' => '% a!%b!_c %'], $this->createQuery($stemmer)->createRelevance('tl_example', 'foo')[1]);
+    }
+
+    /**
+     * @dataProvider emptySearchProvider
+     */
+    public function testRelevanceWithEmptySearch(string $search): void
+    {
+        $query = $this->createQuery(new SuffixTestStemmer());
+        $qb = $this->connection->createQueryBuilder()->select('*')->from('tl_example');
+        $sql = $qb->getSQL();
+
+        $this->assertNull($query->createRelevance('tl_example', $search));
+        $this->assertFalse($query->orderByRelevance($qb, 'tl_example', $search));
+        $this->assertSame($sql, $qb->getSQL());
+    }
+
+    public function testCreateRelevanceRejectsInvalidParameterPrefix(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->createQuery(null)->createRelevance('tl_example', 'museum', parameterPrefix: 'a:b');
+    }
+
+    public function testOrderByRelevanceRanksPhrasesAndWholeWordsFirst(): void
+    {
+        $this->createTable([
+            1 => '| hotel villa | dem dresdner zopfstil | metzger stollenberg |',
+            2 => '| schutzverband dresdner stollen e v |',
+            3 => '| dresdner backhaus | stollen |',
+            4 => '| imkerhonig |',
+            5 => '| honigwein |',
+            6 => '| honig vom hof |',
+        ]);
+        $query = $this->createQuery(null);
+
+        // Both words in a row, then both as whole words, then one only at the start of a word
+        $this->assertSame([2, 3, 1], $this->searchByRelevance($query, 'Dresdner Stollen'));
+
+        // A whole word, then the start of a word, then the middle of a word
+        $this->assertSame([6, 5, 4], $this->searchByRelevance($query, 'Honig'));
+
+        // Alternatives add up, records of the same relevance keep the following sort order
+        $this->assertSame([2, 3, 6, 1, 5, 4], $this->searchByRelevance($query, 'honig, stollen'));
+    }
+
+    public function testOrderByRelevanceWithStemmer(): void
+    {
+        $this->createTable([1 => '| dresdn backhaus | stoll |', 2 => '| dresdn stoll |']);
+
+        $this->assertSame([2, 1], $this->searchByRelevance($this->createQuery(new SuffixTestStemmer()), 'Dresdner Stollen'));
+    }
+
     private function createTable(array $vectors): void
     {
         $this->connection->executeStatement('CREATE TABLE tl_example (id INTEGER PRIMARY KEY, published INTEGER DEFAULT 1, searchVector TEXT)');
@@ -497,6 +575,20 @@ class SearchVectorQueryTest extends ContaoTestCase
         foreach ($vectors as $id => $vector) {
             $this->connection->insert('tl_example', ['id' => $id, 'searchVector' => $vector]);
         }
+    }
+
+    /**
+     * @return list<int>
+     */
+    private function searchByRelevance(SearchVectorQuery $query, string $search): array
+    {
+        $qb = $this->connection->createQueryBuilder()->select('e.id')->from('tl_example', 'e');
+
+        $this->assertTrue($query->apply($qb, 'tl_example', $search, 'e'));
+        $this->assertTrue($query->orderByRelevance($qb, 'tl_example', $search, 'e'));
+        $qb->addOrderBy('e.id');
+
+        return \array_map('intval', $qb->executeQuery()->fetchFirstColumn());
     }
 
     /**
