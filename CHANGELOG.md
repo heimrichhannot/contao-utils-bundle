@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [3.12.1] - 2026-10-14
 - Fixed: with a stemmer, the search vector field did not find compound words by their last word, e.g. "Honig" did not find "Imkerhonig" (rebuild the search vectors after updating) ([#110](https://github.com/heimrichhannot/contao-utils-bundle/pull/110))
 
 ## [3.12.0] - 2026-10-14
