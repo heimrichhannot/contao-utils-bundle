@@ -248,6 +248,32 @@ class TokenizerTest extends TestCase
     }
 
     /**
+     * @dataProvider europeanLettersProvider
+     */
+    public function testFoldAccentsOfEuropeanLetters(string $word, string $expected): void
+    {
+        $this->assertSame($expected, Tokenizer::foldAccents($word));
+    }
+
+    public static function europeanLettersProvider(): \Generator
+    {
+        // Decomposable into base letter and accent
+        yield 'French' => ['crème brûlée', 'creme brulee'];
+        yield 'Spanish' => ['Ñandú', 'nandu'];
+        yield 'Portuguese' => ['São Tomé', 'sao tome'];
+        yield 'Nordic ring' => ['Ålesund', 'alesund'];
+        yield 'Czech' => ['Čeština', 'cestina'];
+
+        // Without decomposition, transliterated
+        yield 'Danish and Norwegian' => ['Ærøskøbing', 'aeroskobing'];
+        yield 'French ligature' => ['Œuvre', 'oeuvre'];
+        yield 'Icelandic' => ['Þórður', 'thordur'];
+        yield 'Polish' => ['Łódź', 'lodz'];
+        yield 'Croatian' => ['Đurđevac', 'durdevac'];
+        yield 'Turkish dotless i' => ['ılık', 'ilik'];
+    }
+
+    /**
      * @dataProvider parseQueryProvider
      */
     public function testParseQuery(string $query, array $expected, bool $stemmed = false): void

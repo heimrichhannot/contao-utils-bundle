@@ -99,11 +99,15 @@ class Tokenizer
     }
 
     /**
-     * Lowercases a word and strips accents: ä → a, ß → ss, é → e.
+     * Lowercases a word and strips accents: ä → a, é → e, ñ → n, å → a. Letters without a decomposition into base letter
+     * and accent are transliterated: ß → ss, æ → ae, ø → o, œ → oe, ð → d, þ → th, ł → l, đ → d, ı → i.
      */
     public static function foldAccents(string $word): string
     {
-        $word = \strtr(\mb_strtolower(\trim($word), 'UTF-8'), ['ä' => 'a', 'ö' => 'o', 'ü' => 'u', 'ß' => 'ss']);
+        $word = \strtr(\mb_strtolower(\trim($word), 'UTF-8'), [
+            'ä' => 'a', 'ö' => 'o', 'ü' => 'u', 'ß' => 'ss',
+            'æ' => 'ae', 'ø' => 'o', 'œ' => 'oe', 'ð' => 'd', 'þ' => 'th', 'ł' => 'l', 'đ' => 'd', 'ı' => 'i',
+        ]);
 
         if (\class_exists(\Normalizer::class)) {
             $decomposed = \Normalizer::normalize($word, \Normalizer::FORM_D);

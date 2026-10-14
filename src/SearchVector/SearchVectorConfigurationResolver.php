@@ -40,14 +40,40 @@ class SearchVectorConfigurationResolver
             ?? throw new \InvalidArgumentException(\sprintf('Table "%s" has no search vector field.', $table));
     }
 
+    /**
+     * @throws \InvalidArgumentException if the configured stemmer is not a registered StemmerInterface service
+     */
     public function getStemmer(SearchVectorFieldConfiguration $configuration): ?StemmerInterface
     {
-        return $this->getService($this->searchVectorStemmers, $configuration->getStemmer(), StemmerInterface::class, $configuration);
+        if (null === $id = $configuration->getStemmer()) {
+            return null;
+        }
+
+        $stemmer = $this->searchVectorStemmers->has($id) ? $this->searchVectorStemmers->get($id) : null;
+
+        if (!$stemmer instanceof StemmerInterface) {
+            throw new \InvalidArgumentException(\sprintf('The search vector stemmer "%s" of table "%s" is not a registered service implementing %s.', $id, $configuration->getTable(), StemmerInterface::class));
+        }
+
+        return $stemmer;
     }
 
+    /**
+     * @throws \InvalidArgumentException if the configured normalizer is not a registered NormalizerInterface service
+     */
     public function getNormalizer(SearchVectorFieldConfiguration $configuration): ?NormalizerInterface
     {
-        return $this->getService($this->searchVectorNormalizers, $configuration->getNormalizer(), NormalizerInterface::class, $configuration);
+        if (null === $id = $configuration->getNormalizer()) {
+            return null;
+        }
+
+        $normalizer = $this->searchVectorNormalizers->has($id) ? $this->searchVectorNormalizers->get($id) : null;
+
+        if (!$normalizer instanceof NormalizerInterface) {
+            throw new \InvalidArgumentException(\sprintf('The search vector normalizer "%s" of table "%s" is not a registered service implementing %s.', $id, $configuration->getTable(), NormalizerInterface::class));
+        }
+
+        return $normalizer;
     }
 
     /**
@@ -78,30 +104,5 @@ class SearchVectorConfigurationResolver
         }
 
         return $locale ?: $configuration->getLanguage() ?: $this->defaultLocale;
-    }
-
-    /**
-     * @template T of object
-     *
-     * @param class-string<T> $interface
-     *
-     * @return T|null
-     */
-    private function getService(ContainerInterface $locator, ?string $id, string $interface, SearchVectorFieldConfiguration $configuration): ?object
-    {
-        if (null === $id) {
-            return null;
-        }
-
-        if (!$locator->has($id)) {
-            throw new \InvalidArgumentException(\sprintf(
-                'Search vector service "%s" of table "%s" is not a registered service implementing %s.',
-                $id,
-                $configuration->getTable(),
-                $interface
-            ));
-        }
-
-        return $locator->get($id);
     }
 }

@@ -74,9 +74,20 @@ class SearchVectorConfigurationResolverTest extends ContaoTestCase
         $configuration = SearchVectorField::register('tl_resolver_stemmer_unknown')->setStemmer('App\\UnknownStemmer');
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Search vector service "App\\UnknownStemmer" of table "tl_resolver_stemmer_unknown" is not a registered service implementing');
+        $this->expectExceptionMessage('The search vector stemmer "App\\UnknownStemmer" of table "tl_resolver_stemmer_unknown" is not a registered service implementing');
 
         $this->createResolver()->getStemmer($configuration);
+    }
+
+    public function testGetStemmerWithServiceOfWrongTypeThrows(): void
+    {
+        $configuration = SearchVectorField::register('tl_resolver_stemmer_wrong_type')->setStemmer('app.not_a_stemmer');
+        $resolver = $this->createResolver(null, ['app.not_a_stemmer' => static fn (): \stdClass => new \stdClass()]);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The search vector stemmer "app.not_a_stemmer" of table "tl_resolver_stemmer_wrong_type" is not a registered service implementing HeimrichHannot\\UtilsBundle\\SearchVector\\Stemmer\\StemmerInterface.');
+
+        $resolver->getStemmer($configuration);
     }
 
     public function testGetNormalizerIsNullByDefault(): void
@@ -100,9 +111,20 @@ class SearchVectorConfigurationResolverTest extends ContaoTestCase
         $configuration = SearchVectorField::register('tl_resolver_normalizer_unknown')->setNormalizer('App\\UnknownNormalizer');
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Search vector service "App\\UnknownNormalizer" of table "tl_resolver_normalizer_unknown" is not a registered service implementing');
+        $this->expectExceptionMessage('The search vector normalizer "App\\UnknownNormalizer" of table "tl_resolver_normalizer_unknown" is not a registered service implementing');
 
         $this->createResolver()->getNormalizer($configuration);
+    }
+
+    public function testGetNormalizerWithServiceOfWrongTypeThrows(): void
+    {
+        $configuration = SearchVectorField::register('tl_resolver_normalizer_wrong_type')->setNormalizer(SnowballStemmer::class);
+        $resolver = $this->createResolver(null, [], [SnowballStemmer::class => static fn (): SnowballStemmer => new SnowballStemmer()]);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The search vector normalizer "HeimrichHannot\\UtilsBundle\\SearchVector\\Stemmer\\SnowballStemmer" of table "tl_resolver_normalizer_wrong_type" is not a registered service implementing HeimrichHannot\\UtilsBundle\\SearchVector\\Normalizer\\NormalizerInterface.');
+
+        $resolver->getNormalizer($configuration);
     }
 
     public function testNormalizerAndStemmerAreLookedUpSeparately(): void
