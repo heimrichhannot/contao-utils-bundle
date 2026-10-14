@@ -413,7 +413,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         $handler = new VirtualFieldsHandler($this->mockContaoFramework([], [DcaExtractor::class => $dcaExtractor]));
 
         $this->assertTrue($this->createIndexer(virtualFieldsHandler: $handler)->index(self::TABLE, 1));
-        $this->assertSame('| museum | fuhrung im somm |', $this->fetchVector(1));
+        $this->assertSame('| museum | fuhr im somm |', $this->fetchVector(1));
     }
 
     public function testIndexAll(): void
