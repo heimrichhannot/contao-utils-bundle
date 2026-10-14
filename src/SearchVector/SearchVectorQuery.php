@@ -79,25 +79,74 @@ class SearchVectorQuery
     {
         [$column, $phrases] = $this->prepare($table, $search, null, $locale);
 
-        $alternatives = [];
+        if (!$phrases) {
+            return [[], []];
+        }
+
         $values = [];
+        $condition = $this->buildCondition($column, $phrases, static function (string $value) use (&$values): string {
+            $values[] = $value;
+
+            return '?';
+        });
+
+        return [[$condition], $values];
+    }
+
+    /**
+     * Creates the search condition as SQL with named parameters, for query abstractions other than the Doctrine
+     * query builder.
+     *
+     * @param string|null $alias           The table alias used in the query, defaults to the table name
+     * @param string|null $locale          The language of the search, see SearchVectorConfigurationResolver::getSearchLocale()
+     * @param string      $parameterPrefix The prefix of the parameter names, use different prefixes to combine several
+     *                                     conditions in one query
+     *
+     * @return array{0: string, 1: array<string, string>}|null The condition and its parameters by name (without
+     *                                                         colon), null if the search contains no searchable words
+     */
+    public function createCondition(string $table, string $search, ?string $alias = null, ?string $locale = null, string $parameterPrefix = 'searchVector'): ?array
+    {
+        if (!\preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $parameterPrefix)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid parameter prefix "%s".', $parameterPrefix));
+        }
+
+        [$column, $phrases] = $this->prepare($table, $search, $alias, $locale);
+
+        if (!$phrases) {
+            return null;
+        }
+
+        $parameters = [];
+        $condition = $this->buildCondition($column, $phrases, static function (string $value) use (&$parameters, $parameterPrefix): string {
+            $name = $parameterPrefix . '_' . \count($parameters);
+            $parameters[$name] = $value;
+
+            return ':' . $name;
+        });
+
+        return [$condition, $parameters];
+    }
+
+    /**
+     * @param list<list<string>>        $phrases
+     * @param callable(string): string $placeholder Receives the LIKE pattern and returns its placeholder
+     */
+    private function buildCondition(string $column, array $phrases, callable $placeholder): string
+    {
+        $alternatives = [];
 
         foreach ($phrases as $terms) {
             $conditions = [];
 
             foreach ($terms as $term) {
-                $conditions[] = $column . ' LIKE ? ESCAPE ' . $this->connection->quote(self::LIKE_ESCAPE);
-                $values[] = '%' . $this->escapeLike($term) . '%';
+                $conditions[] = $column . ' LIKE ' . $placeholder('%' . $this->escapeLike($term) . '%') . ' ESCAPE ' . $this->connection->quote(self::LIKE_ESCAPE);
             }
 
             $alternatives[] = '(' . \implode(' AND ', $conditions) . ')';
         }
 
-        if (!$alternatives) {
-            return [[], []];
-        }
-
-        return [['(' . \implode(' OR ', $alternatives) . ')'], $values];
+        return '(' . \implode(' OR ', $alternatives) . ')';
     }
 
     /**

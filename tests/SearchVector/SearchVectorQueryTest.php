@@ -427,6 +427,67 @@ class SearchVectorQueryTest extends ContaoTestCase
         $this->assertSame([[], []], $this->createQuery(new SnowballStemmer())->createModelCriteria('tl_example', ' , "" '));
     }
 
+    public function testCreateCondition(): void
+    {
+        [$condition, $parameters] = $this->createQuery(new SnowballStemmer())->createCondition('tl_example', 'führungen museum, "bei Nacht"');
+
+        $this->assertSame(
+            '(("tl_example"."searchVector" LIKE :searchVector_0 ESCAPE \'!\' AND "tl_example"."searchVector" LIKE :searchVector_1 ESCAPE \'!\') OR ("tl_example"."searchVector" LIKE :searchVector_2 ESCAPE \'!\'))',
+            $condition
+        );
+        $this->assertSame(['searchVector_0' => '%fuhrung%', 'searchVector_1' => '%museum%', 'searchVector_2' => '%bei nacht%'], $parameters);
+    }
+
+    public function testCreateConditionUsesAliasFieldNameAndPrefix(): void
+    {
+        [$condition, $parameters] = $this->createQuery(null, 'myVector')->createCondition('tl_example', 'Museum', 'e', parameterPrefix: 'sv');
+
+        $this->assertSame('(("e"."myVector" LIKE :sv_0 ESCAPE \'!\'))', $condition);
+        $this->assertSame(['sv_0' => '%museum%'], $parameters);
+    }
+
+    public function testCreateConditionWithExplicitLocale(): void
+    {
+        $query = $this->createQuery(new SnowballStemmer());
+
+        $this->assertSame(['searchVector_0' => '%schul%'], $query->createCondition('tl_example', 'Schulen')[1]);
+        $this->assertSame(['searchVector_0' => '%schulen%'], $query->createCondition('tl_example', 'Schulen', locale: 'en')[1]);
+    }
+
+    public function testCreateConditionEscapesLikeWildcards(): void
+    {
+        $stemmer = $this->createStemmerStub(['foo' => 'a%b_c']);
+
+        $this->assertSame(['searchVector_0' => '%a!%b!_c%'], $this->createQuery($stemmer)->createCondition('tl_example', 'foo')[1]);
+    }
+
+    /**
+     * @dataProvider emptySearchProvider
+     */
+    public function testCreateConditionWithEmptySearch(string $search): void
+    {
+        $this->assertNull($this->createQuery(new SnowballStemmer())->createCondition('tl_example', $search));
+    }
+
+    public function testCreateConditionRejectsInvalidParameterPrefix(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->createQuery(null)->createCondition('tl_example', 'museum', parameterPrefix: 'a:b');
+    }
+
+    public function testCreateConditionFindsMatchingRowsOnRealQuery(): void
+    {
+        $this->createTable([1 => '| stadtmuseum | sommer |', 2 => '| winter | museum |', 3 => '| bei nacht |']);
+
+        [$condition, $parameters] = $this->createQuery(null)->createCondition('tl_example', 'museum winter, "bei nacht"', 'e');
+
+        $this->assertSame([2, 3], \array_map('intval', $this->connection->fetchFirstColumn(
+            'SELECT e.id FROM tl_example e WHERE e.published = 1 AND ' . $condition . ' ORDER BY e.id',
+            $parameters
+        )));
+    }
+
     private function createTable(array $vectors): void
     {
         $this->connection->executeStatement('CREATE TABLE tl_example (id INTEGER PRIMARY KEY, published INTEGER DEFAULT 1, searchVector TEXT)');

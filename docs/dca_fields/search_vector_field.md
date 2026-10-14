@@ -83,8 +83,20 @@ if ($columns) {
 }
 ```
 
-`apply()` returns `false` and `createModelCriteria()` returns empty lists if the search contains no searchable words.
-Check that before querying, empty criteria match every record.
+For other query abstractions, `createCondition()` returns the condition as SQL with named parameters:
+
+```php
+// pass the table alias as third argument if you use one, and a parameter prefix to combine several conditions
+$condition = $searchVectorQuery->createCondition('tl_example', $search, 'e', parameterPrefix: 'search');
+
+if ($condition) {
+    // e.g. '(("e"."searchVector" LIKE :search_0 ESCAPE '!'))' and ['search_0' => '%museum%']
+    [$sql, $parameters] = $condition;
+}
+```
+
+`apply()` returns `false`, `createModelCriteria()` returns empty lists and `createCondition()` returns `null` if the
+search contains no searchable words. Check that before querying, empty criteria match every record.
 
 The search is stemmed in the language of the records. For tables with a language field it defaults to the language of
 the current request, so pass the locale if you search records of another language.
