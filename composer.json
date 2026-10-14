@@ -8,7 +8,7 @@
     "ext-simplexml": "*",
     "php": "^8.2",
     "contao/core-bundle": "^5.3",
-    "doctrine/dbal": "^3.0 || ^4.0",
+    "doctrine/dbal": "^3.8 || ^4.0",
     "psr/log": "^1.0 || ^2.0 || ^3.0",
     "symfony/config": "^6.4 || ^7.0",
     "symfony/dependency-injection": "^6.4 || ^7.0",

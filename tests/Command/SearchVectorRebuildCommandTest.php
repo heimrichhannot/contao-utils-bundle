@@ -53,13 +53,38 @@ class SearchVectorRebuildCommandTest extends TestCase
         $this->assertStringContainsString('2 record(s) in tl_example, 0 changed.', $tester->getDisplay());
     }
 
-    public function testNonNumericIdsAreIgnored(): void
+    /**
+     * @dataProvider invalidIdsProvider
+     */
+    public function testInvalidIdsFailWithoutRebuilding(array $ids, string $reported): void
+    {
+        $indexer = $this->createMock(SearchVectorIndexer::class);
+        $indexer->expects($this->never())->method('index');
+        $indexer->expects($this->never())->method('indexAll');
+
+        $tester = new CommandTester(new SearchVectorRebuildCommand($indexer));
+
+        $this->assertSame(Command::FAILURE, $tester->execute(['table' => 'tl_example', '--id' => $ids]));
+        $this->assertStringContainsString('Invalid record id(s): ' . $reported, $tester->getDisplay());
+    }
+
+    public static function invalidIdsProvider(): \Generator
+    {
+        yield 'text' => [['abc'], 'abc'];
+        yield 'zero' => [['0'], '0'];
+        yield 'negative' => [['-5'], '-5'];
+        yield 'decimal' => [['1.5'], '1.5'];
+        yield 'leading zero' => [['07'], '07'];
+        yield 'mixed with valid ids' => [['4', 'abc', '0'], 'abc, 0'];
+    }
+
+    public function testDuplicateIdsAreRebuiltOnce(): void
     {
         $indexer = $this->createMock(SearchVectorIndexer::class);
         $indexer->expects($this->once())->method('index')->with('tl_example', 4)->willReturn(true);
 
         $tester = new CommandTester(new SearchVectorRebuildCommand($indexer));
-        $tester->execute(['table' => 'tl_example', '--id' => ['abc', '0', '4']]);
+        $tester->execute(['table' => 'tl_example', '--id' => ['4', '4']]);
 
         $this->assertStringContainsString('1 record(s) in tl_example, 1 changed.', $tester->getDisplay());
     }

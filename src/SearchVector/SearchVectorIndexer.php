@@ -2,9 +2,11 @@
 
 namespace HeimrichHannot\UtilsBundle\SearchVector;
 
+use Contao\CoreBundle\DataContainer\VirtualFieldsHandler;
 use Contao\DataContainer;
 use Contao\StringUtil;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception as DbalException;
 use HeimrichHannot\UtilsBundle\Event\BuildSearchVectorEvent;
 use HeimrichHannot\UtilsBundle\SearchVector\Messenger\RebuildSearchVectorMessage;
 use HeimrichHannot\UtilsBundle\Util\FormatterUtil;
@@ -48,6 +50,7 @@ class SearchVectorIndexer
         private readonly SearchVectorLanguageSwitcher $languageSwitcher,
         private readonly ?MessageBusInterface $messageBus = null,
         private readonly ?ContainerInterface $messengerTransports = null,
+        private readonly ?VirtualFieldsHandler $virtualFieldsHandler = null,
     ) {}
 
     /**
@@ -83,6 +86,8 @@ class SearchVectorIndexer
      * Rebuilds the search vector of a single record.
      *
      * The record is read from the database, so this can be called from any save path after the record was written.
+     * The record is locked while its vector is rebuilt, so a concurrent rebuild of the same record waits and then
+     * reads the newer data instead of being overwritten with an outdated vector.
      *
      * @param DataContainer|null $dc The data container passed to options callbacks. If omitted, a minimal one
      *                               holding table, id and record is used.
@@ -93,26 +98,52 @@ class SearchVectorIndexer
     {
         $column = $this->configurationResolver->getConfiguration($table)->getFieldName();
 
-        if ($id < 1 || !$row = $this->connection->fetchAssociative(
-            \sprintf('SELECT * FROM %s WHERE id = ?', $this->connection->quoteIdentifier($table)),
-            [$id]
-        )) {
+        if ($id < 1) {
             return false;
         }
 
-        $vector = $this->buildVector($table, $row, $dc);
+        return $this->connection->transactional(function () use ($table, $id, $column, $dc): bool {
+            $platform = $this->connection->getDatabasePlatform();
 
-        if (($row[$column] ?? null) === $vector) {
-            return false;
-        }
+            $query = $this->connection->createQueryBuilder()
+                ->select('*')
+                ->from($platform->quoteSingleIdentifier($table))
+                ->where('id = :id');
+            $sql = $query->getSQL();
 
-        $this->connection->update(
-            $this->connection->quoteIdentifier($table),
-            [$this->connection->quoteIdentifier($column) => $vector],
-            ['id' => $id]
-        );
+            try {
+                $sql = $query->forUpdate()->getSQL();
+            } catch (DbalException) {
+                // No row locks, e.g. SQLite, which locks the whole database for writes anyway
+            }
 
-        return true;
+            $row = $this->connection->fetchAssociative($sql, ['id' => $id]);
+
+            if (!$row) {
+                return false;
+            }
+
+            $currentVector = $row[$column] ?? null;
+
+            // Values of virtual fields (Contao 5.7+) are stored in a JSON column, not under their field name
+            if ($this->virtualFieldsHandler) {
+                $row = $this->virtualFieldsHandler->expandFields($row, $table);
+            }
+
+            $vector = $this->buildVector($table, $row, $dc);
+
+            if ($currentVector === $vector) {
+                return false;
+            }
+
+            $this->connection->update(
+                $platform->quoteSingleIdentifier($table),
+                [$platform->quoteSingleIdentifier($column) => $vector],
+                ['id' => $id]
+            );
+
+            return true;
+        });
     }
 
     /**
@@ -127,7 +158,7 @@ class SearchVectorIndexer
         $this->configurationResolver->getConfiguration($table);
 
         $ids = $this->connection->fetchFirstColumn(
-            \sprintf('SELECT id FROM %s ORDER BY id', $this->connection->quoteIdentifier($table))
+            \sprintf('SELECT id FROM %s ORDER BY id', $this->connection->getDatabasePlatform()->quoteSingleIdentifier($table))
         );
 
         $changed = 0;

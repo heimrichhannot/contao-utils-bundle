@@ -39,8 +39,17 @@ class SearchVectorRebuildCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $table = (string) $input->getArgument('table');
 
+        $idOption = $input->getOption('id');
+
+        // An explicit selection must never fall back to rebuilding the whole table
+        if ($invalidIds = \array_filter($idOption, static fn (string $id): bool => !\preg_match('/^[1-9]\d*$/', $id))) {
+            $io->error(\sprintf('Invalid record id(s): %s. Pass positive integers to --id.', \implode(', ', $invalidIds)));
+
+            return Command::FAILURE;
+        }
+
         try {
-            if ($ids = \array_filter(\array_map(intval(...), $input->getOption('id')))) {
+            if ($ids = \array_values(\array_unique(\array_map(intval(...), $idOption)))) {
                 $processed = \count($ids);
                 $changed = \count(\array_filter(\array_map(fn (int $id): bool => $this->indexer->index($table, $id), $ids)));
             } else {

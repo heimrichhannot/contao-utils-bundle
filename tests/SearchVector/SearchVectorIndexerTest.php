@@ -4,7 +4,9 @@ namespace HeimrichHannot\UtilsBundle\Tests\SearchVector;
 
 use Contao\Controller;
 use Contao\CoreBundle\Config\ResourceFinder;
+use Contao\CoreBundle\DataContainer\VirtualFieldsHandler;
 use Contao\CoreBundle\Framework\Adapter;
+use Contao\DcaExtractor;
 use Contao\CoreBundle\Util\LocaleUtil;
 use Contao\CoreBundle\InsertTag\InsertTagParser;
 use Contao\System;
@@ -87,7 +89,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         }
 
         $this->connection->executeStatement(
-            'CREATE TABLE ' . self::TABLE . ' (id INTEGER PRIMARY KEY, language TEXT, title TEXT, text TEXT, category TEXT, seasons TEXT, searchVector TEXT NULL)'
+            'CREATE TABLE ' . self::TABLE . ' (id INTEGER PRIMARY KEY, language TEXT, title TEXT, text TEXT, category TEXT, seasons TEXT, jsonData TEXT NULL, searchVector TEXT NULL)'
         );
 
         $this->eventDispatcher = new EventDispatcher();
@@ -378,6 +380,40 @@ class SearchVectorIndexerTest extends ContaoTestCase
             ->queue('tl_unknown', 1);
     }
 
+    public function testIndexRebuildsTheVectorInATransaction(): void
+    {
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Museum']);
+
+        $inTransaction = null;
+        $this->eventDispatcher->addListener(BuildSearchVectorEvent::class, function () use (&$inTransaction): void {
+            $inTransaction = $this->connection->isTransactionActive();
+        });
+
+        $this->assertTrue($this->createIndexer()->index(self::TABLE, 1));
+        $this->assertTrue($inTransaction, 'The record is read, indexed and written in one transaction');
+        $this->assertFalse($this->connection->isTransactionActive());
+    }
+
+    public function testVirtualFieldsAreExpanded(): void
+    {
+        if (!\class_exists(VirtualFieldsHandler::class)) {
+            $this->markTestSkipped('Virtual fields exist since Contao 5.7.');
+        }
+
+        SearchVectorField::getRegistrations()[self::TABLE]->setFields(['title', 'subtitle']);
+        $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Museum', 'jsonData' => '{"subtitle":"Führung im Sommer"}']);
+
+        $dcaExtractor = $this->createMock(DcaExtractor::class);
+        $dcaExtractor->method('getVirtualTargets')->willReturn(['jsonData']);
+        $dcaExtractor->method('getVirtualFields')->willReturn(['subtitle' => 'jsonData']);
+
+        // Contao's own handler, as used by models and DC_Table
+        $handler = new VirtualFieldsHandler($this->mockContaoFramework([], [DcaExtractor::class => $dcaExtractor]));
+
+        $this->assertTrue($this->createIndexer(virtualFieldsHandler: $handler)->index(self::TABLE, 1));
+        $this->assertSame('| museum | fuhrung im somm |', $this->fetchVector(1));
+    }
+
     public function testIndexAll(): void
     {
         $this->connection->insert(self::TABLE, ['id' => 1, 'title' => 'Stadtmuseum']);
@@ -421,6 +457,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
         ?LoggerInterface $logger = null,
         ?MessageBusInterface $messageBus = null,
         ?ServiceLocator $messengerTransports = null,
+        ?object $virtualFieldsHandler = null,
     ): SearchVectorIndexer {
         // There are no DCA files, the DCA is set up in setUp()
         $framework = $this->mockContaoFramework([Controller::class => $this->mockAdapter(['loadDataContainer'])]);
@@ -449,6 +486,7 @@ class SearchVectorIndexerTest extends ContaoTestCase
             new SearchVectorLanguageSwitcher($languageFramework, $this->translator, $this->localeSwitcher),
             $messageBus,
             $messengerTransports,
+            $virtualFieldsHandler,
         );
     }
 

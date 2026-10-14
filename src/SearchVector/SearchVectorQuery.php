@@ -162,7 +162,10 @@ class SearchVectorQuery
             $this->configurationResolver->getNormalizer($configuration)
         );
 
-        return [$this->connection->quoteIdentifier(($alias ?? $table) . '.' . $configuration->getFieldName()), $phrases];
+        $platform = $this->connection->getDatabasePlatform();
+        $column = $platform->quoteSingleIdentifier($alias ?? $table) . '.' . $platform->quoteSingleIdentifier($configuration->getFieldName());
+
+        return [$column, $phrases];
     }
 
     /**
