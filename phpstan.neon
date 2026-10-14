@@ -9,6 +9,10 @@ parameters:
 #    - Contao\Template
     - PHPUnit\Framework\MockObject\MockObject
   ignoreErrors:
+    # Contao 5.7+ only, the class is missing when analysing against Contao 5.3
+    - message: '#Contao\\CoreBundle\\DataContainer\\VirtualFieldsHandler#'
+      path: src/SearchVector/SearchVectorIndexer.php
+      reportUnmatched: false
 #    - message: '#^Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject\:\:setName\(\)\.$#'
 #      path: tests/EventListener/Contao/ParseTemplateListenerTest.php
 #    - message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:getChildNodeDefinitions\(\)\.$#'

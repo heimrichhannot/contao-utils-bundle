@@ -16,6 +16,7 @@ In addition, there are DcaField helpers, the Entity finder command and some nice
 * DcaField registration - An nice api to add typical dca fields to your dca fields without repeating yourself or annoying order restrictions.
   * AuthorField - Add an author field with automatic filling of the default value and optional frontend member support
   * DateAddedField - Add a date added field to store the date of entity creation
+  * SearchVectorField - Add a field that makes entities searchable by option labels, related records and, with a stemmer, inflected words
 * Entity Finder - A command to search for any contao entities in your database.
 * Twig Filters
 
@@ -168,6 +169,31 @@ AliasField::register('tl_example')
     ->setFlag(null) // set the dca field flag option
 ;
 ```
+
+#### Search vector field
+
+Add a field that holds the values of other fields as normalized words, so records can be searched by option labels,
+the titles of related records and, with a stemmer, inflected words. The vector is rebuilt asynchronously when a record
+is saved in the backend.
+
+```php
+# contao/dca/tl_example.php
+use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
+
+SearchVectorField::register('tl_example')
+    ->setFields(['title', 'teaser', 'category']) // the fields to make searchable
+    ->setLanguage('de') // the language of the records
+;
+```
+
+Search with the `SearchVectorQuery` service:
+
+```php
+$searchVectorQuery->apply($queryBuilder, 'tl_example', $search);
+```
+
+**[Search vector field](docs/dca_fields/search_vector_field.md)** covers the configuration, the search syntax,
+rebuilding, stemming and normalization.
 
 ### Entity Finder
 

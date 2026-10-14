@@ -8,6 +8,7 @@ composer.lock
 composer.json~
 composer.phar
 /lib
+AGENTS.local.md
 
 # Node/Yarn/Encore
 node_modules

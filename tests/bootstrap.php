@@ -25,4 +25,7 @@ if (false === ($loader = $include(__DIR__.'/../vendor/autoload.php'))
     exit(1);
 }
 
+// Report Doctrine deprecations like PHP deprecations, so the PHPUnit bridge shows them
+Doctrine\Deprecations\Deprecation::enableWithTriggerError();
+
 return $loader;

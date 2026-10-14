@@ -1,0 +1,82 @@
+<?php
+
+namespace HeimrichHannot\UtilsBundle\EventListener\DcaField;
+
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\DataContainer;
+use HeimrichHannot\UtilsBundle\Dca\SearchVectorField;
+use HeimrichHannot\UtilsBundle\SearchVector\SearchVectorIndexer;
+
+class SearchVectorFieldListener extends AbstractDcaFieldListener
+{
+    #[AsHook('loadDataContainer')]
+    public function onLoadDataContainer(string $table): void
+    {
+        $registrations = SearchVectorField::takePendingRegistrations($table);
+
+        // A later registration would silently replace the earlier one
+        if (\count($registrations) > 1) {
+            throw new \LogicException(\sprintf(
+                'Table "%s" registers %d search vector fields (%s), but only one search vector field per table is supported.',
+                $table,
+                \count($registrations),
+                \implode(', ', \array_map(static fn ($registration): string => $registration->getFieldName(), $registrations))
+            ));
+        }
+
+        if (!$configuration = SearchVectorField::getRegistrations()[$table] ?? null) {
+            return;
+        }
+
+        // Machine-written, so it is part of no palette and hidden from the "show" view and the version diff
+        $field = [
+            'eval' => ['doNotShow' => true],
+            'sql' => ['type' => 'text', 'notnull' => false],
+        ];
+
+        $this->applyDefaultFieldAdjustments($field, $configuration);
+
+        $GLOBALS['TL_DCA'][$table]['fields'][$configuration->getFieldName()] = $field;
+
+        // The table is only known at runtime, so the callbacks cannot be registered with attributes
+        $GLOBALS['TL_DCA'][$table]['config']['onsubmit_callback'][] = [self::class, 'onSubmitCallback'];
+        $GLOBALS['TL_DCA'][$table]['config']['oncopy_callback'][] = [self::class, 'onCopyCallback'];
+        $GLOBALS['TL_DCA'][$table]['config']['onrestore_version_callback'][] = [self::class, 'onRestoreVersionCallback'];
+    }
+
+    public function onSubmitCallback(DataContainer $dc): void
+    {
+        if ($dc->id) {
+            $this->rebuild($dc->table, (int) $dc->id, $dc);
+        }
+    }
+
+    public function onCopyCallback(int|string $insertId, DataContainer $dc): void
+    {
+        $this->rebuild($dc->table, (int) $insertId);
+    }
+
+    public function onRestoreVersionCallback(string $table, int|string $id, int|string $version, array $data): void
+    {
+        $this->rebuild($table, (int) $id);
+    }
+
+    private function rebuild(string $table, int $id, ?DataContainer $dc = null): void
+    {
+        $indexer = $this->container->get(SearchVectorIndexer::class);
+
+        if ((SearchVectorField::getRegistrations()[$table] ?? null)?->isAsync()) {
+            $indexer->queue($table, $id);
+        } else {
+            $indexer->index($table, $id, $dc);
+        }
+    }
+
+    public static function getSubscribedServices(): array
+    {
+        $services = parent::getSubscribedServices();
+        $services[] = SearchVectorIndexer::class;
+
+        return $services;
+    }
+}
