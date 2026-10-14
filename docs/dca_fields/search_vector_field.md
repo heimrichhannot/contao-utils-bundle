@@ -125,8 +125,9 @@ $queryBuilder->addOrderBy('title');
 ```
 
 A word scores 1 if it matches at the start of a word and 1 more if it matches a whole word. If all words of an
-alternative stand next to each other, they score 2 per word on top. So "Dresdner Stollen" lists records with both words
-in a row first, and "Honig" lists "Honig" before "Honigwein" and "Imkerhonig". The scores of alternatives add up.
+alternative stand next to each other in the order of the search, they score 2 per word on top. Words of quoted phrases
+count individually, and repeated words are part of that order. So "Dresdner Stollen" lists records with both words in a
+row first, and "Honig" lists "Honig" before "Honigwein" and "Imkerhonig". The scores of alternatives add up.
 
 ## Keeping the vectors up to date
 

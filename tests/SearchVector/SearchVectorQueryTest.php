@@ -561,6 +561,28 @@ class SearchVectorQueryTest extends ContaoTestCase
         $this->assertSame([2, 3, 6, 1, 5, 4], $this->searchByRelevance($query, 'honig, stollen'));
     }
 
+    public function testOrderByRelevanceKeepsRepeatedWordsInTheSequence(): void
+    {
+        $this->createTable([1 => '| haus an am see |', 2 => '| haus an haus am see |']);
+
+        $this->assertSame([2, 1], $this->searchByRelevance($this->createQuery(null), 'haus an haus am see'));
+    }
+
+    public function testOrderByRelevanceScoresWordsOfQuotedPhrasesIndividually(): void
+    {
+        $this->createTable([1 => '| museum |', 2 => '| dresdner stollen |']);
+
+        // The phrase scores 1 + 1 per word and 2 per word in a row (8), the single word 1 + 1 (2)
+        $this->assertSame([2, 1], $this->searchByRelevance($this->createQuery(null), '"dresdner stollen", museum'));
+
+        [$relevance, $parameters] = $this->createQuery(null)->createRelevance('tl_example', '"dresdner stollen", museum');
+        $this->assertSame(
+            ['% dresdner%', '% dresdner %', '% stollen%', '% stollen %', '% dresdner stollen%', '% museum%', '% museum %'],
+            \array_values($parameters)
+        );
+        $this->assertStringContainsString('THEN 4 ELSE 0 END', $relevance);
+    }
+
     public function testOrderByRelevanceWithStemmer(): void
     {
         $this->createTable([1 => '| dresdn backhaus | stoll |', 2 => '| dresdn stoll |']);

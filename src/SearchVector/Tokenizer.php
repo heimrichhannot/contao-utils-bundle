@@ -76,26 +76,42 @@ class Tokenizer
     {
         $phrases = [];
 
-        foreach (self::splitPhrases($query) as $phrase) {
+        foreach (self::parseAlternatives($query, $locale, $stemmer, $normalizer) as $segments) {
             $terms = [];
 
-            // Either a quoted segment (group 1) or a run of unquoted words
-            \preg_match_all('/"([^"]*)"|[^"]+/', $phrase, $segments, \PREG_SET_ORDER);
-
-            foreach ($segments as $segment) {
-                if (!\array_key_exists(1, $segment)) {
-                    \array_push($terms, ...static::tokenize($segment[0], $locale, $stemmer, $normalizer));
-                } elseif ($tokens = static::tokenize($segment[1], $locale, $stemmer, $normalizer)) {
+            foreach ($segments as [$quoted, $tokens]) {
+                if ($quoted) {
                     $terms[] = \implode(' ', $tokens);
+                } else {
+                    \array_push($terms, ...$tokens);
                 }
             }
 
-            if ($terms) {
-                $phrases[] = \array_values(\array_unique($terms));
-            }
+            $phrases[] = \array_values(\array_unique($terms));
         }
 
         return $phrases;
+    }
+
+    /**
+     * Parses a user search query into the words of each phrase, in the order of the query.
+     *
+     * Unlike parseQuery(), repeated words are kept and quoted phrases are split into their words, e.g. for scoring how
+     * closely a record matches the query. The phrases correspond to the ones of parseQuery().
+     *
+     * Example: `Tokenizer::parseQueryWords('Haus an Haus, "am See"', 'de')` returns
+     * `[['haus', 'an', 'haus'], ['am', 'see']]`.
+     *
+     * @param string $locale The language of the query, passed to the normalizer and the stemmer
+     *
+     * @return list<list<string>>
+     */
+    public static function parseQueryWords(string $query, string $locale, ?StemmerInterface $stemmer = null, ?NormalizerInterface $normalizer = null): array
+    {
+        return \array_map(
+            static fn (array $segments): array => \array_merge(...\array_column($segments, 1)),
+            self::parseAlternatives($query, $locale, $stemmer, $normalizer)
+        );
     }
 
     /**
@@ -118,6 +134,39 @@ class Tokenizer
         }
 
         return $word;
+    }
+
+    /**
+     * Splits a query into its alternatives and each alternative into quoted and unquoted segments of tokens. Segments
+     * and alternatives without tokens are dropped.
+     *
+     * @return list<non-empty-list<array{0: bool, 1: non-empty-list<string>}>> Per alternative the segments as
+     *                                                                         [quoted, tokens]
+     */
+    private static function parseAlternatives(string $query, string $locale, ?StemmerInterface $stemmer, ?NormalizerInterface $normalizer): array
+    {
+        $alternatives = [];
+
+        foreach (self::splitPhrases($query) as $phrase) {
+            $segments = [];
+
+            // Either a quoted segment (group 1) or a run of unquoted words
+            \preg_match_all('/"([^"]*)"|[^"]+/', $phrase, $matches, \PREG_SET_ORDER);
+
+            foreach ($matches as $match) {
+                $quoted = \array_key_exists(1, $match);
+
+                if ($tokens = static::tokenize($quoted ? $match[1] : $match[0], $locale, $stemmer, $normalizer)) {
+                    $segments[] = [$quoted, $tokens];
+                }
+            }
+
+            if ($segments) {
+                $alternatives[] = $segments;
+            }
+        }
+
+        return $alternatives;
     }
 
     /**

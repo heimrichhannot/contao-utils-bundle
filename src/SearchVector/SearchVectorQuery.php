@@ -15,10 +15,10 @@ use Doctrine\DBAL\Query\QueryBuilder;
  * The search is stemmed in the language the records were indexed in. For tables with a language field it defaults to
  * the language of the current request, pass $locale to search in another language.
  *
- * Matches can be sorted by relevance: a term at the start of a word scores 1, a term that is a whole word 1 more, and
- * the words of an alternative standing next to each other score 2 per word on top. So "Dresdner Stollen" ranks
- * records with both words in a row before records with the words in different places, and "Honig" ranks "Honig" before
- * "Imkerhonig".
+ * Matches can be sorted by relevance: a word at the start of a word scores 1, a word that is a whole word 1 more, and
+ * the words of an alternative standing next to each other in the order of the search score 2 per word on top. Words of
+ * quoted phrases count individually. So "Dresdner Stollen" ranks records with both words in a row before records with
+ * the words in different places, and "Honig" ranks "Honig" before "Imkerhonig".
  */
 class SearchVectorQuery
 {
@@ -133,13 +133,13 @@ class SearchVectorQuery
      */
     public function orderByRelevance(QueryBuilder $queryBuilder, string $table, string $search, ?string $alias = null, ?string $locale = null): bool
     {
-        [$column, $phrases] = $this->prepare($table, $search, $alias, $locale);
+        [$column, , $words] = $this->prepare($table, $search, $alias, $locale);
 
-        if (!$phrases) {
+        if (!$words) {
             return false;
         }
 
-        $queryBuilder->addOrderBy($this->buildRelevance($column, $phrases, $queryBuilder->createNamedParameter(...)), 'DESC');
+        $queryBuilder->addOrderBy($this->buildRelevance($column, $words, $queryBuilder->createNamedParameter(...)), 'DESC');
 
         return true;
     }
@@ -159,13 +159,13 @@ class SearchVectorQuery
     public function createRelevance(string $table, string $search, ?string $alias = null, ?string $locale = null, string $parameterPrefix = 'searchVectorRelevance'): ?array
     {
         $placeholder = $this->createNamedPlaceholder($parameterPrefix, $parameters);
-        [$column, $phrases] = $this->prepare($table, $search, $alias, $locale);
+        [$column, , $words] = $this->prepare($table, $search, $alias, $locale);
 
-        if (!$phrases) {
+        if (!$words) {
             return null;
         }
 
-        return [$this->buildRelevance($column, $phrases, $placeholder), $parameters];
+        return [$this->buildRelevance($column, $words, $placeholder), $parameters];
     }
 
     /**
@@ -190,29 +190,32 @@ class SearchVectorQuery
     }
 
     /**
-     * Every word of the vector is preceded and followed by a space, so " term" matches at the start of a word and
-     * " term " a whole word.
+     * Every word of the vector is preceded and followed by a space, so " word" matches at the start of a word and
+     * " word " a whole word.
      *
-     * @param list<list<string>>        $phrases
-     * @param callable(string): string $placeholder Receives the LIKE pattern and returns its placeholder
+     * Scores the words of each alternative, not its filter terms: the words of a quoted phrase count individually, and
+     * repeated words stay in the sequence that must stand in a row.
+     *
+     * @param list<list<string>>        $alternatives The words of each alternative, see Tokenizer::parseQueryWords()
+     * @param callable(string): string $placeholder  Receives the LIKE pattern and returns its placeholder
      */
-    private function buildRelevance(string $column, array $phrases, callable $placeholder): string
+    private function buildRelevance(string $column, array $alternatives, callable $placeholder): string
     {
         $score = fn (string $pattern, int $points): string => 'CASE WHEN ' . $column . ' LIKE ' . $placeholder($pattern)
             . ' ESCAPE ' . $this->connection->quote(self::LIKE_ESCAPE) . ' THEN ' . $points . ' ELSE 0 END';
 
         $scores = [];
 
-        foreach ($phrases as $terms) {
-            $terms = \array_map($this->escapeLike(...), $terms);
+        foreach ($alternatives as $words) {
+            $words = \array_map($this->escapeLike(...), $words);
 
-            foreach ($terms as $term) {
-                $scores[] = $score('% ' . $term . '%', 1);
-                $scores[] = $score('% ' . $term . ' %', 1);
+            foreach (\array_unique($words) as $word) {
+                $scores[] = $score('% ' . $word . '%', 1);
+                $scores[] = $score('% ' . $word . ' %', 1);
             }
 
-            if (\count($terms) > 1) {
-                $scores[] = $score('% ' . \implode(' ', $terms) . '%', 2 * \count($terms));
+            if (\count($words) > 1) {
+                $scores[] = $score('% ' . \implode(' ', $words) . '%', 2 * \count($words));
             }
         }
 
@@ -241,22 +244,23 @@ class SearchVectorQuery
     }
 
     /**
-     * @return array{0: string, 1: list<list<string>>} The quoted column and the parsed search phrases
+     * @return array{0: string, 1: list<list<string>>, 2: list<list<string>>} The quoted column, the parsed search phrases
+     *                                                                      and their words, see Tokenizer::parseQueryWords()
      */
     private function prepare(string $table, string $search, ?string $alias, ?string $locale): array
     {
         $configuration = $this->configurationResolver->getConfiguration($table);
-        $phrases = Tokenizer::parseQuery(
+        $arguments = [
             $search,
             $this->configurationResolver->getSearchLocale($configuration, $locale),
             $this->configurationResolver->getStemmer($configuration),
-            $this->configurationResolver->getNormalizer($configuration)
-        );
+            $this->configurationResolver->getNormalizer($configuration),
+        ];
 
         $platform = $this->connection->getDatabasePlatform();
         $column = $platform->quoteSingleIdentifier($alias ?? $table) . '.' . $platform->quoteSingleIdentifier($configuration->getFieldName());
 
-        return [$column, $phrases];
+        return [$column, Tokenizer::parseQuery(...$arguments), Tokenizer::parseQueryWords(...$arguments)];
     }
 
     /**

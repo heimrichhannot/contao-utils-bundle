@@ -314,6 +314,33 @@ class TokenizerTest extends TestCase
         yield 'duplicates after stemming removed' => ['schule schulen', [['schul']], true];
     }
 
+    /**
+     * @dataProvider parseQueryWordsProvider
+     */
+    public function testParseQueryWords(string $query, array $expected, bool $stemmed = false): void
+    {
+        $this->assertSame($expected, Tokenizer::parseQueryWords($query, 'de', $stemmed ? new SuffixTestStemmer() : null));
+    }
+
+    public static function parseQueryWordsProvider(): \Generator
+    {
+        yield 'documentation example' => ['Haus an Haus, "am See"', [['haus', 'an', 'haus'], ['am', 'see']]];
+        yield 'repeated words kept in order' => ['haus an haus am see', [['haus', 'an', 'haus', 'am', 'see']]];
+        yield 'quoted phrase split into words' => ['"dresdner stollen", museum', [['dresdner', 'stollen'], ['museum']]];
+        yield 'quoted and unquoted words in order' => ['köln "bei Nacht" winter', [['koln', 'bei', 'nacht', 'winter']]];
+        yield 'empty phrases dropped like in parseQuery' => ['foo, , "", "..." , bar', [['foo'], ['bar']]];
+        yield 'empty query' => ['', []];
+        yield 'stemmed words' => ['schule schulen', [['schul', 'schul']], true];
+    }
+
+    /**
+     * @dataProvider parseQueryProvider
+     */
+    public function testParseQueryWordsCorrespondToParseQuery(string $query): void
+    {
+        $this->assertCount(\count(Tokenizer::parseQuery($query, 'de')), Tokenizer::parseQueryWords($query, 'de'));
+    }
+
     public function testParseQueryDocumentationExample(): void
     {
         $this->assertSame(
