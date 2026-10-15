@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [3.13.0] - 2026-10-15
 - Added: sort search vector matches by relevance, so records containing the searched words in a row or as whole words are listed first ([#111](https://github.com/heimrichhannot/contao-utils-bundle/pull/111))
 
 ## [3.12.1] - 2026-10-14
