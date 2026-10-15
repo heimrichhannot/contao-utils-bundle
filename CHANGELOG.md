@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Added: sort search vector matches by relevance, so records containing the searched words in a row or as whole words are listed first ([#111](https://github.com/heimrichhannot/contao-utils-bundle/pull/111))
+
 ## [3.12.1] - 2026-10-14
 - Fixed: with a stemmer, the search vector field did not find compound words by their last word, e.g. "Honig" did not find "Imkerhonig" (rebuild the search vectors after updating) ([#110](https://github.com/heimrichhannot/contao-utils-bundle/pull/110))
 
