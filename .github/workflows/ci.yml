@@ -36,6 +36,7 @@ jobs:
         run: php vendor/bin/phpunit -c phpunit.xml.dist --colors=always
 
   coverage:
+    if: github.ref_type == 'branch'
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
