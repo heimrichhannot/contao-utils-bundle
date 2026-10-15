@@ -133,7 +133,7 @@ class SearchVectorQuery
      */
     public function orderByRelevance(QueryBuilder $queryBuilder, string $table, string $search, ?string $alias = null, ?string $locale = null): bool
     {
-        [$column, , $words] = $this->prepare($table, $search, $alias, $locale);
+        [$column, $words] = $this->prepare($table, $search, $alias, $locale, words: true);
 
         if (!$words) {
             return false;
@@ -159,7 +159,7 @@ class SearchVectorQuery
     public function createRelevance(string $table, string $search, ?string $alias = null, ?string $locale = null, string $parameterPrefix = 'searchVectorRelevance'): ?array
     {
         $placeholder = $this->createNamedPlaceholder($parameterPrefix, $parameters);
-        [$column, , $words] = $this->prepare($table, $search, $alias, $locale);
+        [$column, $words] = $this->prepare($table, $search, $alias, $locale, words: true);
 
         if (!$words) {
             return null;
@@ -244,10 +244,12 @@ class SearchVectorQuery
     }
 
     /**
-     * @return array{0: string, 1: list<list<string>>, 2: list<list<string>>} The quoted column, the parsed search phrases
-     *                                                                      and their words, see Tokenizer::parseQueryWords()
+     * @param bool $words Whether to parse the words of each phrase for the relevance (Tokenizer::parseQueryWords())
+     *                    instead of the filter terms (Tokenizer::parseQuery())
+     *
+     * @return array{0: string, 1: list<list<string>>} The quoted column and the parsed search phrases
      */
-    private function prepare(string $table, string $search, ?string $alias, ?string $locale): array
+    private function prepare(string $table, string $search, ?string $alias, ?string $locale, bool $words = false): array
     {
         $configuration = $this->configurationResolver->getConfiguration($table);
         $arguments = [
@@ -260,7 +262,7 @@ class SearchVectorQuery
         $platform = $this->connection->getDatabasePlatform();
         $column = $platform->quoteSingleIdentifier($alias ?? $table) . '.' . $platform->quoteSingleIdentifier($configuration->getFieldName());
 
-        return [$column, Tokenizer::parseQuery(...$arguments), Tokenizer::parseQueryWords(...$arguments)];
+        return [$column, $words ? Tokenizer::parseQueryWords(...$arguments) : Tokenizer::parseQuery(...$arguments)];
     }
 
     /**
