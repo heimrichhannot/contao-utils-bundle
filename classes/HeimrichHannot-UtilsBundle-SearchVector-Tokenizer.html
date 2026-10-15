@@ -172,11 +172,26 @@ and accent are transliterated: ß → ss, æ → ae, ø → o, œ → oe, ð →
 <dd>Parses a user search query into phrases of tokens.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseQueryWords">parseQueryWords()</a>
+    <span>
+                                &nbsp;: array&lt;int, array&lt;int, string&gt;&gt;    </span>
+</dt>
+<dd>Parses a user search query into the words of each phrase, in the order of the query.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_tokenize">tokenize()</a>
     <span>
                                 &nbsp;: array&lt;int, string&gt;    </span>
 </dt>
 <dd>Tokenize free text into normalized, optionally stemmed words, preserving their order.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseAlternatives">parseAlternatives()</a>
+    <span>
+                                &nbsp;: array&lt;int, array&lt;int, array{0: bool, 1: non-empty-list<string>}&gt;&gt;    </span>
+</dt>
+<dd>Splits a query into its alternatives and each alternative into quoted and unquoted segments of tokens. Segments
+and alternatives without tokens are dropped.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_splitPhrases">splitPhrases()</a>
@@ -214,7 +229,7 @@ as &quot;&quot; or \&quot; and is replaced by a space, as quotes are not searcha
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/Tokenizer.php"><a href="files/src-searchvector-tokenizer.html"><abbr title="src/SearchVector/Tokenizer.php">Tokenizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">105</span>
+    <span class="phpdocumentor-element-found-in__line">121</span>
 
     </aside>
 
@@ -281,6 +296,83 @@ and accent are transliterated: ß → ss, æ → ae, ø → o, œ → oe, ð →
 single term, so their order matters. Quoted and unquoted words can be mixed, an unclosed quote is ignored.</p>
 <p>Example: <code class="prettyprint">Tokenizer::parseQuery('Altstadt Führungen, Museum &quot;am Abend&quot;', 'de', new SnowballStemmer())</code>
 returns <code class="prettyprint">[['altstadt', 'fuhrung'], ['museum', 'am abend']]</code>.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$query</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$locale</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The language of the query, passed to the normalizer and the stemmer</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$stemmer</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Stemmer-StemmerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface">StemmerInterface</abbr></a>|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$normalizer</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Normalizer-NormalizerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface">NormalizerInterface</abbr></a>|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;int, string&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_parseQueryWords">
+        parseQueryWords()
+        <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseQueryWords" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/Tokenizer.php"><a href="files/src-searchvector-tokenizer.html"><abbr title="src/SearchVector/Tokenizer.php">Tokenizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">109</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Parses a user search query into the words of each phrase, in the order of the query.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">parseQueryWords</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Stemmer-StemmerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface">StemmerInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$stemmer</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Normalizer-NormalizerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface">NormalizerInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$normalizer</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;int, string&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Unlike parseQuery(), repeated words are kept and quoted phrases are split into their words, e.g. for scoring how
+closely a record matches the query. The phrases correspond to the ones of parseQuery().</p>
+<p>Example: <code class="prettyprint">Tokenizer::parseQueryWords('Haus an Haus, &quot;am See&quot;', 'de')</code> returns
+<code class="prettyprint">[['haus', 'an', 'haus'], ['am', 'see']]</code>.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -409,6 +501,82 @@ accents (e.g. German umlauts).</p>
             -private
                                     -static                    "
 >
+    <h4 class="phpdocumentor-element__name" id="method_parseAlternatives">
+        parseAlternatives()
+        <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseAlternatives" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/Tokenizer.php"><a href="files/src-searchvector-tokenizer.html"><abbr title="src/SearchVector/Tokenizer.php">Tokenizer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">146</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Splits a query into its alternatives and each alternative into quoted and unquoted segments of tokens. Segments
+and alternatives without tokens are dropped.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">parseAlternatives</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Stemmer-StemmerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface">StemmerInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$stemmer</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Normalizer-NormalizerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface">NormalizerInterface</abbr></a>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$normalizer</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;int, array{0: bool, 1: non-empty-list<string>}&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$query</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$locale</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$stemmer</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Stemmer-StemmerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Stemmer\StemmerInterface">StemmerInterface</abbr></a>|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$normalizer</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Normalizer-NormalizerInterface.html"><abbr title="\HeimrichHannot\UtilsBundle\SearchVector\Normalizer\NormalizerInterface">NormalizerInterface</abbr></a>|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;int, array{0: bool, 1: non-empty-list<string>}&gt;&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Per alternative the segments as
+[quoted, tokens]</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                    -static                    "
+>
     <h4 class="phpdocumentor-element__name" id="method_splitPhrases">
         splitPhrases()
         <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_splitPhrases" class="headerlink"><i class="fas fa-link"></i></a>
@@ -417,7 +585,7 @@ accents (e.g. German umlauts).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/Tokenizer.php"><a href="files/src-searchvector-tokenizer.html"><abbr title="src/SearchVector/Tokenizer.php">Tokenizer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">178</span>
 
     </aside>
 
@@ -568,7 +736,9 @@ as &quot;&quot; or \&quot; and is replaced by a space, as quotes are not searcha
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_foldAccents">foldAccents()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseQuery">parseQuery()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseQueryWords">parseQueryWords()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_tokenize">tokenize()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseAlternatives">parseAlternatives()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_splitPhrases">splitPhrases()</a></li>
                                     </ul>
             </li>

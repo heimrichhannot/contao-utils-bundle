@@ -1261,10 +1261,30 @@ Search.appendIndex(
             "summary": "Creates\u0020the\u0020search\u0020condition\u0020as\u0020SQL\u0020with\u0020named\u0020parameters,\u0020for\u0020query\u0020abstractions\u0020other\u0020than\u0020the\u0020Doctrine\nquery\u0020builder.",
             "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createCondition"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\SearchVectorQuery\u003A\u003AorderByRelevance\u0028\u0029",
+            "name": "orderByRelevance",
+            "summary": "Sorts\u0020the\u0020query\u0020by\u0020relevance\u0020with\u0020addOrderBy\u0028\u0029,\u0020see\u0020the\u0020class\u0020description.\u0020Call\u0020it\u0020before\u0020adding\u0020other\u0020sort\norders,\u0020which\u0020then\u0020sort\u0020records\u0020of\u0020the\u0020same\u0020relevance.\u0020Use\u0020it\u0020together\u0020with\u0020apply\u0028\u0029,\u0020it\u0020does\u0020not\u0020filter.",
+            "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_orderByRelevance"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\SearchVectorQuery\u003A\u003AcreateRelevance\u0028\u0029",
+            "name": "createRelevance",
+            "summary": "Creates\u0020the\u0020relevance\u0020of\u0020the\u0020search\u0020as\u0020SQL\u0020with\u0020named\u0020parameters,\u0020for\u0020query\u0020abstractions\u0020other\u0020than\u0020the\nDoctrine\u0020query\u0020builder.\u0020The\u0020expression\u0020returns\u0020a\u0020number,\u0020higher\u0020is\u0020more\u0020relevant,\u0020see\u0020the\u0020class\u0020description.",
+            "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createRelevance"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\SearchVectorQuery\u003A\u003AbuildCondition\u0028\u0029",
             "name": "buildCondition",
             "summary": "",
             "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_buildCondition"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\SearchVectorQuery\u003A\u003AbuildRelevance\u0028\u0029",
+            "name": "buildRelevance",
+            "summary": "Every\u0020word\u0020of\u0020the\u0020vector\u0020is\u0020preceded\u0020and\u0020followed\u0020by\u0020a\u0020space,\u0020so\u0020\u0022\u0020word\u0022\u0020matches\u0020at\u0020the\u0020start\u0020of\u0020a\u0020word\u0020and\n\u0022\u0020word\u0020\u0022\u0020a\u0020whole\u0020word.",
+            "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_buildRelevance"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\SearchVectorQuery\u003A\u003AcreateNamedPlaceholder\u0028\u0029",
+            "name": "createNamedPlaceholder",
+            "summary": "",
+            "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createNamedPlaceholder"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\SearchVectorQuery\u003A\u003Aprepare\u0028\u0029",
             "name": "prepare",
@@ -1336,10 +1356,20 @@ Search.appendIndex(
             "summary": "Parses\u0020a\u0020user\u0020search\u0020query\u0020into\u0020phrases\u0020of\u0020tokens.",
             "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseQuery"
         },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\Tokenizer\u003A\u003AparseQueryWords\u0028\u0029",
+            "name": "parseQueryWords",
+            "summary": "Parses\u0020a\u0020user\u0020search\u0020query\u0020into\u0020the\u0020words\u0020of\u0020each\u0020phrase,\u0020in\u0020the\u0020order\u0020of\u0020the\u0020query.",
+            "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseQueryWords"
+        },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\Tokenizer\u003A\u003AfoldAccents\u0028\u0029",
             "name": "foldAccents",
             "summary": "Lowercases\u0020a\u0020word\u0020and\u0020strips\u0020accents\u003A\u0020\u00E4\u0020\u2192\u0020a,\u0020\u00E9\u0020\u2192\u0020e,\u0020\u00F1\u0020\u2192\u0020n,\u0020\u00E5\u0020\u2192\u0020a.\u0020Letters\u0020without\u0020a\u0020decomposition\u0020into\u0020base\u0020letter\nand\u0020accent\u0020are\u0020transliterated\u003A\u0020\u00DF\u0020\u2192\u0020ss,\u0020\u00E6\u0020\u2192\u0020ae,\u0020\u00F8\u0020\u2192\u0020o,\u0020\u0153\u0020\u2192\u0020oe,\u0020\u00F0\u0020\u2192\u0020d,\u0020\u00FE\u0020\u2192\u0020th,\u0020\u0142\u0020\u2192\u0020l,\u0020\u0111\u0020\u2192\u0020d,\u0020\u0131\u0020\u2192\u0020i.",
             "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_foldAccents"
+        },                {
+            "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\Tokenizer\u003A\u003AparseAlternatives\u0028\u0029",
+            "name": "parseAlternatives",
+            "summary": "Splits\u0020a\u0020query\u0020into\u0020its\u0020alternatives\u0020and\u0020each\u0020alternative\u0020into\u0020quoted\u0020and\u0020unquoted\u0020segments\u0020of\u0020tokens.\u0020Segments\nand\u0020alternatives\u0020without\u0020tokens\u0020are\u0020dropped.",
+            "url": "classes/HeimrichHannot-UtilsBundle-SearchVector-Tokenizer.html#method_parseAlternatives"
         },                {
             "fqsen": "\\HeimrichHannot\\UtilsBundle\\SearchVector\\Tokenizer\u003A\u003AsplitPhrases\u0028\u0029",
             "name": "splitPhrases",

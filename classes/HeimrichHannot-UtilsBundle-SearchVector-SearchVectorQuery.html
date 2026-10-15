@@ -119,7 +119,7 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">18</span>
+    <span class="phpdocumentor-element-found-in__line">23</span>
 
     </aside>
 
@@ -131,6 +131,10 @@ in double quotes must match as a phrase. Words match as substrings of the stored
 their parts (&quot;Württemberg&quot; finds &quot;Baden-Württemberg&quot;).</p>
 <p>The search is stemmed in the language the records were indexed in. For tables with a language field it defaults to
 the language of the current request, pass $locale to search in another language.</p>
+<p>Matches can be sorted by relevance: a word at the start of a word scores 1, a word that is a whole word 1 more, and
+the words of an alternative standing next to each other in the order of the search score 2 per word on top. Words of
+quoted phrases count individually. So &quot;Dresdner Stollen&quot; ranks records with both words in a row before records with
+the words in different places, and &quot;Honig&quot; ranks &quot;Honig&quot; before &quot;Imkerhonig&quot;.</p>
 </section>
 
 
@@ -222,10 +226,40 @@ query builder.</dd>
 </dt>
 <dd>Creates columns and values for Contao model finders, e.g. `ExampleModel::findBy($columns, $values)`.</dd>
 
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createRelevance">createRelevance()</a>
+    <span>
+                                &nbsp;: array{0: string, 1: array<string,string>}|null    </span>
+</dt>
+<dd>Creates the relevance of the search as SQL with named parameters, for query abstractions other than the
+Doctrine query builder. The expression returns a number, higher is more relevant, see the class description.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_orderByRelevance">orderByRelevance()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Sorts the query by relevance with addOrderBy(), see the class description. Call it before adding other sort
+orders, which then sort records of the same relevance. Use it together with apply(), it does not filter.</dd>
+
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_buildCondition">buildCondition()</a>
     <span>
                                 &nbsp;: string    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_buildRelevance">buildRelevance()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Every word of the vector is preceded and followed by a space, so &quot; word&quot; matches at the start of a word and
+&quot; word &quot; a whole word.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createNamedPlaceholder">createNamedPlaceholder()</a>
+    <span>
+                                &nbsp;: callable(string): string    </span>
 </dt>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
@@ -262,7 +296,7 @@ query builder.</dd>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">24</span>
+    <span class="phpdocumentor-element-found-in__line">29</span>
 
     </aside>
 
@@ -311,7 +345,7 @@ a default escape character anywhere, so the explicit ESCAPE clause works the sam
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -347,7 +381,7 @@ a default escape character anywhere, so the explicit ESCAPE clause works the sam
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">27</span>
+    <span class="phpdocumentor-element-found-in__line">32</span>
 
     </aside>
 
@@ -388,7 +422,7 @@ a default escape character anywhere, so the explicit ESCAPE clause works the sam
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">31</span>
 
     </aside>
 
@@ -439,7 +473,7 @@ a default escape character anywhere, so the explicit ESCAPE clause works the sam
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
@@ -524,7 +558,7 @@ a default escape character anywhere, so the explicit ESCAPE clause works the sam
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
@@ -614,7 +648,7 @@ colon), null if the search contains no searchable words</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">83</span>
 
     </aside>
 
@@ -674,6 +708,182 @@ record.</p>
                     <article
         class="phpdocumentor-element
             -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_createRelevance">
+        createRelevance()
+        <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createRelevance" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">159</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Creates the relevance of the search as SQL with named parameters, for query abstractions other than the
+Doctrine query builder. The expression returns a number, higher is more relevant, see the class description.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">createRelevance</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameterPrefix</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;searchVectorRelevance&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{0: string, 1: array<string,string>}|null</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$table</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$search</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$alias</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The table alias used in the query, defaults to the table name</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$locale</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The language of the search, see SearchVectorConfigurationResolver::getSearchLocale()</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$parameterPrefix</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;searchVectorRelevance&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The prefix of the parameter names, use different prefixes to combine several
+expressions in one query</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{0: string, 1: array<string,string>}|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>The expression and its parameters by name (without
+colon), null if the search contains no searchable words</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_orderByRelevance">
+        orderByRelevance()
+        <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_orderByRelevance" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">134</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Sorts the query by relevance with addOrderBy(), see the class description. Call it before adding other sort
+orders, which then sort records of the same relevance. Use it together with apply(), it does not filter.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">orderByRelevance</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$queryBuilder</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$queryBuilder</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Doctrine\DBAL\Query\QueryBuilder">QueryBuilder</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$table</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$search</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$alias</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The table alias used in the query, defaults to the table name</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$locale</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The language of the search, see SearchVectorConfigurationResolver::getSearchLocale()</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>False if the search contains no searchable words. The query builder is not changed then.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
             -private
                                                         "
 >
@@ -685,7 +895,7 @@ record.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">135</span>
+    <span class="phpdocumentor-element-found-in__line">175</span>
 
     </aside>
 
@@ -741,6 +951,134 @@ record.</p>
             -private
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_buildRelevance">
+        buildRelevance()
+        <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_buildRelevance" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">202</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Every word of the vector is preceded and followed by a space, so &quot; word&quot; matches at the start of a word and
+&quot; word &quot; a whole word.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">buildRelevance</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$column</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;int, array&lt;int, string&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alternatives</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">callable(string): string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$placeholder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Scores the words of each alternative, not its filter terms: the words of a quoted phrase count individually, and
+repeated words stay in the sequence that must stand in a row.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$column</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$alternatives</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;int, array&lt;int, string&gt;&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The words of each alternative, see Tokenizer::parseQueryWords()</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$placeholder</span>
+                : <span class="phpdocumentor-signature__argument__return-type">callable(string): string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Receives the LIKE pattern and returns its placeholder</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_createNamedPlaceholder">
+        createNamedPlaceholder()
+        <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createNamedPlaceholder" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">230</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">private</span>
+                    <span class="phpdocumentor-signature__name">createNamedPlaceholder</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$parameterPrefix</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$parameters</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">callable(string): string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$parameterPrefix</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$parameters</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string, string&gt;|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Receives the parameters by name</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">callable(string): string</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_escapeLike">
         escapeLike()
         <a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_escapeLike" class="headerlink"><i class="fas fa-link"></i></a>
@@ -749,7 +1087,7 @@ record.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">174</span>
+    <span class="phpdocumentor-element-found-in__line">271</span>
 
     </aside>
 
@@ -798,14 +1136,14 @@ record.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/SearchVector/SearchVectorQuery.php"><a href="files/src-searchvector-searchvectorquery.html"><abbr title="src/SearchVector/SearchVectorQuery.php">SearchVectorQuery.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">155</span>
+    <span class="phpdocumentor-element-found-in__line">252</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
-                    <span class="phpdocumentor-signature__name">prepare</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{0: string, 1: list<list<string>>}</span></code>
+                    <span class="phpdocumentor-signature__name">prepare</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$table</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$alias</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$locale</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$words</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{0: string, 1: list<list<string>>}</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
@@ -840,6 +1178,16 @@ record.</p>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
                 
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$words</span>
+                : <span class="phpdocumentor-signature__argument__return-type">bool</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">false</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Whether to parse the words of each phrase for the relevance (Tokenizer::parseQueryWords())
+instead of the filter terms (Tokenizer::parseQuery())</p>
+</section>
+
             </dd>
             </dl>
 
@@ -989,7 +1337,11 @@ record.</p>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_apply">apply()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createCondition">createCondition()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createModelCriteria">createModelCriteria()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createRelevance">createRelevance()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_orderByRelevance">orderByRelevance()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_buildCondition">buildCondition()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_buildRelevance">buildRelevance()</a></li>
+                                            <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_createNamedPlaceholder">createNamedPlaceholder()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_escapeLike">escapeLike()</a></li>
                                             <li class=""><a href="classes/HeimrichHannot-UtilsBundle-SearchVector-SearchVectorQuery.html#method_prepare">prepare()</a></li>
                                     </ul>
