@@ -222,7 +222,7 @@ class Finder
                 $result = $this->connection->executeQuery(
                     "SELECT id FROM tl_layout WHERE modules LIKE '%:\"".((int) $model->id)."\"%'"
                 );
-                foreach ($result->fetchAssociative() as $row) {
+                foreach ($result->fetchAssociative() ?: [] as $row) {
                     yield ['id' => $row['id'], 'table' => LayoutModel::getTable()];
                 }
 
